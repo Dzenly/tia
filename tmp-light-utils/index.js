@@ -1,10 +1,10 @@
 'use strict';
 
 var util = require('util');
-var fileUtils = require('rv-common-utils/fs/file/file');
-var dirUtils = require('rv-common-utils/fs/dir/dir');
-var timer = require('rv-common-utils/perf/timer');
-var dateUtils = require('rv-common-utils/date');
+var fileUtils = require('file-lib');
+var dirUtils = require('dir-utils');
+var timer = require('timer-utils');
+var dateUtils = require('date-ex');
 process.env.FORCE_COLOR = '1';
 var chalk = require('chalk');
 
@@ -45,7 +45,7 @@ exports.eq = function (actVal, expVal, msg, colorFunc) {
 
 exports.eqDays = function (date1, date2, msg) {
     return exports.eq(dateUtils.trunkDateToDay(date1), dateUtils.trunkDateToDay(date2), msg);
-}
+};
 
 exports.eqObjects = function (obj1, obj2, msg) {
     var aProps = Object.getOwnPropertyNames(obj1);
@@ -68,7 +68,7 @@ exports.eqObjects = function (obj1, obj2, msg) {
 
     exports.pass(msg);
     return true;
-}
+};
 
 // Returns value, returned by the func, or undefined (it function throws an error).
 exports.doesThrow = function (func, msg, arrArg) {

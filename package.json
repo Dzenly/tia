@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/Dzenly/tia/issues"
   },
-  "homepage": "https://github.com/Dzenly/tia#readme"
+  "homepage": "https://github.com/Dzenly/tia#readme",
+  "dependencies": {
+    "chalk": "^1.1.1"
+  }
 }
