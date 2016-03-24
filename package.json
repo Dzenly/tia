@@ -1,6 +1,6 @@
 {
   "name": "tia",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Test engine: \"Time is All\"",
   "main": "index.js",
   "scripts": {
