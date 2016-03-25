@@ -1,10 +1,10 @@
 'use strict';
 
 var util = require('util');
-var fileUtils = require('file-lib');
-var dirUtils = require('dir-utils');
-var timer = require('timer-utils');
-var dateUtils = require('date-ex');
+var fileUtils = require('dz-file-utils');
+var dirUtils = require('dz-dir-utils');
+var timer = require('dz-timer-utils');
+var dateUtils = require('dz-date-utils');
 process.env.FORCE_COLOR = '1';
 var chalk = require('chalk');
 
