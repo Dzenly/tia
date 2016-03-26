@@ -1,0 +1,5 @@
+Test for ignorePassAndFailCounters config option
+=================
+In test summary pass and fail counters should be zeroes
+=================
+Pass: 0, Fail: 0

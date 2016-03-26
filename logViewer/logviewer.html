@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<script src="jquery.js"></script>
+	<script src="data.js"></script>
+	<style>
+		li {
+			font-size: x-large;
+		}
+		.time{
+			color: #00005f;
+		}
+		.asprev {
+			color: black;
+		}
+		.changed {
+			color: brown;
+		}
+		.diff {
+			color: red;
+		}
+		.ok {
+			color: green;
+		}
+		.ediff {
+			color: #baba00;
+		}
+		.fail {
+			font-style: italic;
+			color: brown;
+		}
+		.pass{
+			color: black;
+		}
+		.skip {
+			color: gray;
+			text-decoration: line-through;
+		}
+		.chkbox {
+			margin: 1em 1em;
+		}
+		.chkbox input {
+			transform: scale(2);
+			-webkit-transform: scale(2);
+		}
+		.input-container {
+			text-align: center;
+			margin-bottom: 1em;
+		}
+	</style>
+	<title></title>
+	<script>
+		var showDiffsOnly = false;
+		var showTitles = true;
+		var showTimings = true;
+		var showPassed = false;
+
+		function baseName(path) {
+			var ind = path.lastIndexOf('/'); // TODO: Convert all paths to linux style, logs should be the same for both OSs.
+			return path.substring(ind);
+		}
+
+		function wrapSpan(str, cssClass) {
+			return '<span class="' + cssClass + '">' + str + '</span>';
+		}
+
+		function saveInfoStr(ic, curInfo, noLi) {
+
+			var isDir = curInfo.hasOwnProperty('children');
+			if (!noLi) {
+				if (!isDir && curInfo.skipped)
+					ic.html += '<li class="skip">';
+				else
+					ic.html += '<li>';
+			}
+
+			var path, title, diffed, failed, ediffed, skipped, passed, time;
+
+			var titleClass = curInfo.diffed ? 'diff' : curInfo.expDiffed ? 'ediff' : 'ok';
+
+			if (isDir) {
+				diffed = wrapSpan('Dif: ' + curInfo.diffed, curInfo.diffed ? 'diff' : 'ok');
+				ediffed = wrapSpan('EDif: ' + curInfo.expDiffed, curInfo.expDiffed ? 'ediff' : 'ok');
+				skipped = wrapSpan('Skip: ' + curInfo.skipped, curInfo.skipped ? 'skip' : 'ok');
+			} else {
+				diffed = wrapSpan(curInfo.diffed ? 'DIF' : curInfo.expDiffed ? 'EDIF' : 'OK', titleClass);
+				ediffed = '';
+				skipped = curInfo.skipped ? 'SKIP' : '';
+			}
+			path = wrapSpan('"' + baseName(curInfo.path) + '"', titleClass);
+			title = showTitles ? wrapSpan('"' + curInfo.title + '"', titleClass) : '';
+			passed = showPassed ? wrapSpan('Pass: ' + curInfo.passed, 'pass') : '';
+			failed = wrapSpan('Fail: ' + curInfo.failed, curInfo.failed ? 'fail' : 'ok');
+			time = showTimings ? wrapSpan('Time: ' + curInfo.time.toFixed(2) + ' ms', 'time') : '';
+
+			var arr = [path, diffed, failed, ediffed, skipped, passed, time, title];
+
+			ic.html += arr.filter(function(val) {
+				return val;
+			}).join(', '); // join only non-empty strings.
+			if (!noLi)
+				ic.html += '</li>';
+		}
+
+		function saveDir(ic, dirInfo, skipFirstDir) {
+			if (!skipFirstDir)
+				saveInfoStr(ic, dirInfo);
+			ic.html += '<ul>';
+			var len = dirInfo.children.length;
+			for (var i = 0; i < len; i++) {
+				var childInfo = dirInfo.children[i];
+				if (childInfo.diffed || !showDiffsOnly) {
+					if (childInfo.hasOwnProperty('children')) {
+						saveDir(ic, childInfo);
+					} else {
+						saveInfoStr(ic, childInfo);
+					}
+				}
+			}
+			ic.html += '</ul>';
+		}
+
+		function showLog() {
+			var dirInfo = getLogData();
+
+			var innerContent = {
+				html: '<h1> ' + dirInfo.os + ', ' + (dirInfo.suiteLogDiff ? 'CHANGED, ' : 'AS PREV, ')
+			};
+			saveInfoStr(innerContent, dirInfo, true);
+			innerContent.html += '</h1>';
+
+			saveDir(innerContent, dirInfo, true);
+			$('#showarea').html(innerContent.html);
+		}
+
+		function updateState(){
+			showDiffsOnly = $('#diffsonly').prop('checked');
+			showTitles = $('#titles').prop('checked');
+			showTimings = $('#timings').prop('checked');
+			showPassed = $('#passed').prop('checked');
+			showLog();
+		}
+
+		$(function() {
+			showLog();
+			$('#diffsonly').prop('checked', showDiffsOnly);
+			$('#titles').prop('checked', showTitles);
+			$('#timings').prop('checked', showTimings);
+			$('#passed').prop('checked', showPassed);
+			$('.chkbox :checkbox').on('change', updateState);
+		});
+	</script>
+</head>
+<body>
+<div>
+	<h1 class="input-container">
+		<span class="chkbox">Diffs only <input type="checkbox" id="diffsonly"></span>
+		<span class="chkbox">Show titles <input type="checkbox" id="titles"></span>
+		<span class="chkbox">Show timings <input type="checkbox" id="timings"></span>
+		<span class="chkbox">Show passs <input type="checkbox" id="passed"></span>
+	</h1>
+</div>
+
+<div id='showarea'>
+</div>
+
+</body>
+</html>

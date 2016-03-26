@@ -1,0 +1,14 @@
+Test for client exceptions
+=================
+BEGIN: "Init and Login"
+END: "Init and Login"
+No exceptions and console logs:
+Issue client exception ... OK
+One exception and one console log:
+BR.EXC: Exception: Msg: Uncaught ReferenceError: DsgwDwd3 is not defined, Url: http://localhost:1337/app/test/TestHelper.js, Line: 27
+BR.CONSOLE: SEVERE: http://localhost:1337/app/test/TestHelper.js 27:5 Uncaught ReferenceError: DsgwDwd3 is not defined
+No exceptions and console logs:
+Closing the browser .... OK
+Quitting .... OK
+=================
+Pass: 4, Fail: 0

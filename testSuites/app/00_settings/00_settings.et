@@ -1,0 +1,12 @@
+Test for settings tab
+=================
+BEGIN: "Init and Login"
+END: "Init and Login"
+Click on element with itemId: "settings" ... OK
+Waiting for URL: "$(host)/#settings:org_info" ... OK
+Getting URL ... OK
+Current URL: $(host)/#settings:org_info
+Closing the browser .... OK
+Quitting .... OK
+=================
+Pass: 6, Fail: 0

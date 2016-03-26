@@ -1,0 +1,12 @@
+Checking that all global variables are exist and correct.
+=================
+gTE exists...OK
+
+gTE.config exists...OK
+
+gTE.tinfo exists...OK
+
+gTE.tinfo.data exists...OK
+
+=================
+Pass: 4, Fail: 0
