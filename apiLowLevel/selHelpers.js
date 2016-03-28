@@ -3,6 +3,9 @@
 var fs = require('fs');
 var mpath = require('path');
 
+var chromedriver = require('chromedriver');
+process.env.PATH = chromedriver.path + mpath.delimiter + process.env.PATH;
+
 gTE.sel = { // Selenium stuff
 	wdModule: require('selenium-webdriver'),
 	chrome: require('selenium-webdriver/chrome')

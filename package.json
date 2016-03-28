@@ -2,7 +2,9 @@
   "name": "tia",
   "version": "0.1.2",
   "description": "Test engine: \"Time is All\"",
-  "main": "index.js",
+  "bin": {
+    "tia": "bin/tia.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
