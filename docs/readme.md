@@ -65,7 +65,7 @@ $ sencha app build
 $ npm install
 
 Эта команда, помимо прочих модулей, установит chromedriver по такому пути:
-"rvision/test/node_modules/chromedriver/bin/chromedriver"
+"rvision/test/node_modules/chromedriver/lib/chromedriver/chromedriver"
 
 Этот chromedriver используется тестами, для взаимодействия c google chrome.
 Он должен попасть в PATH, например, можно сделать soft link в ~/bin, а ~/bin поместить в PATH.
