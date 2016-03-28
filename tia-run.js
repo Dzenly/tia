@@ -11,7 +11,7 @@ var browsers = [
 
 function usage() {
 	console.log([
-		'\nUsage: node --harmony run.js <suiteRoot> [-b <browser>] [-p <pathToDirOrTest>] [-m] [--stacktolog] [--noxvfb] [-l] [--logerrtoconsole] [--logtoconsole] [--trace <level>] [--forcelogactions]',
+		'\nUsage: node --harmony tia-run.js <suiteRoot> [-b <browser>] [-p <pathToDirOrTest>] [-m] [--stacktolog] [--noxvfb] [-l] [--logerrtoconsole] [--logtoconsole] [--trace <level>] [--forcelogactions]',
 		'\n, where:\n',
 		'    <suiteRoot> - root directory for test suite relative to run.js directory (only relative path allowed for now)\n',
 		'    <browser> - (default: ' + browsers[0] + ') browser to run tests for:',

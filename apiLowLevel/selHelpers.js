@@ -341,21 +341,21 @@ self.getUrl = function(logAction) {
 };
 
 // Url up to colon.
-self.getUrlPrefix = function(print, logAction) {
-	return _actWrapper('Getting URL prefix ... ', logAction, function() {
-		return driver.getCurrentUrl().then(function(url) {
-			var index = url.lastIndexOf(':');
-			var res;
-			if (index == -1)
-				res = url;
-			else
-				res = url.substr(0, index);
-			if (print)
-				gTE.t.print('(' + gTE.textUtils.collapseHost(res) + ') ... ');
-			return res;
-		});
-	});
-};
+// self.getUrlPrefix = function(print, logAction) {
+// 	return _actWrapper('Getting URL prefix ... ', logAction, function() {
+// 		return driver.getCurrentUrl().then(function(url) {
+// 			var index = url.lastIndexOf(':');
+// 			var res;
+// 			if (index == -1)
+// 				res = url;
+// 			else
+// 				res = url.substr(0, index);
+// 			if (print)
+// 				gTE.t.print('(' + gTE.textUtils.collapseHost(res) + ') ... ');
+// 			return res;
+// 		});
+// 	});
+// };
 
 self.initDriver = function(cleanProfile, logAction) {
 	var profileInfo;

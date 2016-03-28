@@ -77,7 +77,7 @@ self.initAndLogin = function *(remember, options) {
 					yield sel.clickById('checkbox');
 				yield sel.clickById('submit');
 				yield sel.waitForTitle('R-Vision', 10000);
-				yield sel.waitForUrlPrefix('$(host)/#review:', 250000);
+				yield sel.waitForUrlPrefix('$(host)/#dashboard', 250000);
 				yield sel.waitForExtAppReady(1000);
 			},
 			'Init and Login',
@@ -90,7 +90,7 @@ self.initAndWaitExtApp = function *(options) {
 				yield sel.initDriver();
 				yield sel.get('$(host)');
 				yield sel.waitForTitle('R-Vision', 10000);
-				yield sel.waitForUrlPrefix('$(host)/#review:', 250000);
+				yield sel.waitForUrlPrefix('$(host)/#dashboard', 250000);
 				yield sel.waitForExtAppReady(1000);
 			},
 			'Init without Login',
