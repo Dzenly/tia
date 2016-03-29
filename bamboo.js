@@ -1,3 +1,6 @@
+// bamboo.js - скрипт для запуска с помощью bamboo. Сам запускает приложение, тестирует, останавливает приложение.
+// (обертка над tia)
+
 process.chdir('..');
 process.env.NODE_ENV = 'autotest22'; // autotest for not 10.8.0.22 run.
 
