@@ -1,8 +1,0 @@
-Exception due to undefined variable
-=================
-EXC: Exception in runner:  TypeError: evalmachine.<anonymous>:3
-var someVar = gTE.undefinedProperty.undefinedSubProperty;
-                                   ^
-Cannot read property 'undefinedSubProperty' of undefined
-=================
-Pass: 0, Fail: 1

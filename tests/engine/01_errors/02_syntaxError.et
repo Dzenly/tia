@@ -1,6 +1,0 @@
-EXC: Exception in runner:  SyntaxError: evalmachine.<anonymous>:4
-function (){
-         ^
-Unexpected token (
-=================
-Pass: 0, Fail: 1
