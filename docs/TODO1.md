@@ -1,3 +1,7 @@
+Добавить в документацию как ставить для запуска тестов
+и как ставить для разработки.
+Сделать документацию по workflow при создании и отладке тестов.
+
 Привести в порядок тестовые логи. Закоммитить.
 
 Растащить TODO на R-Vision и tia части.
@@ -160,5 +164,85 @@ node -e "process.stderr.write('STDERR FROM NODEJS\n');"
 
 
 
+TODO: 
+Поискать возможность в Селениум подключать конкретные скрипты ко всем страницам.
+Можно инжектировать скрипты при каждой загрузке новой страницы, но тогда не будет кэширования
+в браузере.
+Это чтобы серверная часть как можно меньше знала о тестировании.
+В принципе, я могу каждый раз после загрузки страницы делать скрипт, который вставляет элемент <script>,
+будет ли тогда подгружаться скрипт?
+А куда этот скрипт будет ссылаться?
+Может тогда все-таки проще просто в браузер локально засылать скрипт.
+Он там на пару килобайт от силы.
+Так что это будет быстро, типа при каждой загрузке страницы - пару кб лишнего трафика.
+Но это все локально.
+
+Как сделать так, чтобы старые версии тестов работали на старом движке.
+А новые могли на новой версии движка.
+
+Версии движка сделать легко.
+Буду соблюдать semver.
+
+Запускать можно через конкретный JS, все modules тоже будут искаться в конкретном скопе.
 
 
+
+
+
+Debug tests for windows (3h). Slash / backslash issues, cygwin utilities work.
+
+Опция -l аттачить логи, для дифнутых тестов к мейлу.
+Сделать общий обход по дифнутым файлам. И колбэками делать что-то при обходе (dependency injection).
+Называть логи по полному пути до них. Заменять слэш на +. (1.5h)
+TODO: М.б. изображения тоже аттачить по этой опции? Заходишь в мейл, у тебя и логи и изображения встроены.(1h)
+
+Write good help for public functions. (1.5h for current state)
+
+More tests for support of all config parameters.(2h)
+
+Tests for passed, failed, throwed from web driver promises. (3h)
+Tests for error chaining for flow.execute(), say if first of ten functions faled, all queue should fail.
+More tests for async engine.(1.5h)
+
+Some tests for test engine util functions.(3h)
+
+
+### Code review. (? )
+
+* When many function parameters - replace by options object. (3h)
+* Refactor everything to be more OOP (incapsulation, accessors, constructors, signletons, factories). (12h)
+
+----
+
+Temporary Stderr and Stdout redirection, try to overload
+write function for stdout and stderr streams.
+Tests for stderr redirection. (? 3h research)
+Некоторые тесты для движка намеренно пишут несколько строк в stderr
+Если мы в bamboo подсветим stderr в логах, то эти строки могут вносить смуту.
+Можно попробовать сделать так, чтобы на время выполнения теста весь stderr писался в лог теста.
+Пока что это known issue.
+Может это не понадобится в свете использования chalk.
+
+Connect to existing window? To start test from some cusom point.
+
+tests for timeouts for webdriver (seems like sometimes it hanging).
+May be page loading - the special case for which timeouts work differently.(3h (may include some research work)).
+
+tests for timeouts for vm.runInThisContext (2h may have some research)
+
+Take best parts from tape, mocha, jasmine, protractor, etc.
+
+Separate test engine from Selenium and from ExtJS. (? 16h (now it is used Selenium's control flow and selenium promises)).
+I.e. implement abilities to plug Selenium and plug ExtJS modules into the test engine. (? 16h)
+
+selenium-webdriver can work from browser (and not from NodeJS) (2h learn what from this can be useful for us)
+
+If we will support phantomjs:
+PhantomJs does not follow WebDriver standard. It does not cleanup logs after reading.
+We could introduce counter for strings to skip.
+Investigations show that phantom cleans console at URLchanging.
+
+
+Performance issue: Manage Driver timeouts: (? 1.5h research work)
+http://seleniumhq.github.io/selenium/docs/api/javascript/class_webdriver_WebDriver_Timeouts.html
+Not so important, I checked that driver polls the DOM more that 10 times per second.
