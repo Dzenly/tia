@@ -1,8 +1,4 @@
-Добавить в документацию как ставить для запуска тестов
-и как ставить для разработки.
-Сделать документацию по workflow при создании и отладке тестов.
-
-Привести в порядок тестовые логи. Закоммитить.
+Починить профайлы на винде.
 
 Растащить TODO на R-Vision и tia части.
  
@@ -246,3 +242,4 @@ Investigations show that phantom cleans console at URLchanging.
 Performance issue: Manage Driver timeouts: (? 1.5h research work)
 http://seleniumhq.github.io/selenium/docs/api/javascript/class_webdriver_WebDriver_Timeouts.html
 Not so important, I checked that driver polls the DOM more that 10 times per second.
+
