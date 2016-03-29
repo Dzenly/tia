@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 ":" //# comment; exec /usr/bin/env node --harmony "$0" "$@"
 
 //#! /usr/bin/env node --harmony
