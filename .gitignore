@@ -51,7 +51,7 @@ SyncToy*
 *.log.notime.prev
 *.log.json
 
-testSuites/*.log
+tests/*.log
 test/clientSide/
 test/tmpProfiles
 test/*.zip

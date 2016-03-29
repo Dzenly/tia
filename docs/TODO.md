@@ -68,7 +68,7 @@ Support all needed browsers (chrome, firefox, safari, ie (on windows)). (10h ? r
 MIDDLE LEVEL PRIORITY: (in parallel with tests).
 ----------------------------------
 Добавить в bamboo.js возможность гонять по очереди тестовые пакеты, перечисленные в конфиге.
-Т.е. опции для run.js.(3.5h (нужно будет разобраться с модулем для чтения конфигов и каким-нибудь async)).
+Т.е. опции для tia.js.(3.5h (нужно будет разобраться с модулем для чтения конфигов и каким-нибудь async)).
 Добавить в bamboo.js опцию - останавливать ли все тестовые пакеты, если один пакет failed.(1h).
 
 ? Ненадежная проверка, что приложение готово к запуску (2h ? research).
@@ -133,7 +133,7 @@ LOW LEVEL PRIORITY:
 Это позволит избавить от этой работы программиста, а ещё вести статистику чьи коммиты сколько раз сломали
 тесты. (?)
 
-run.js could start Xvfb before tests and stop after tests. Now xvfb is started by bamboo or by hands. (1.5h)
+tia.js could start Xvfb before tests and stop after tests. Now xvfb is started by bamboo or by hands. (1.5h)
 
 Config option - continueAfterFail. (2h) ? (даже не знаю, где бы это могло пригодиться).
 

@@ -1,11 +1,11 @@
 process.chdir('..');
 process.env.NODE_ENV = 'autotest22'; // autotest for not 10.8.0.22 run.
 
-var nodeArgs = ['--harmony', 'run.js'];
+var nodeArgs = ['--harmony', '/bin/tia.js'];
 var procArgs = process.argv.slice(2);
 if (procArgs.length === 0) {
 	// Default arguments.
-	nodeArgs = nodeArgs.concat('testSuites/app', '-m');
+	nodeArgs = nodeArgs.concat('tests/app', '-m');
 } else {
 	// Overrided arguments, probably for debug.
 	nodeArgs = nodeArgs.concat(procArgs);

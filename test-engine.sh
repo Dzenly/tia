@@ -1,3 +1,3 @@
 #!/bin/bash
 
-tia testSuites/engine
+tia tests/engine

@@ -18,7 +18,7 @@ function handleDirConfig(dir, files, prevDirConfig) {
 		config = vm.runInThisContext(code);
 	}
 
-	index = files.indexOf(gTE.engineConfig.suiteConfigName); // Remove suiteConfig.js from list (it already handled).
+	index = files.indexOf(gTE.engineConfig.suiteConfigName); // Remove suite-config.js from list (it already handled).
 	if (index > -1)
 		files.splice(index, 1);
 

@@ -11,9 +11,9 @@ var browsers = [
 
 function usage() {
 	console.log([
-		'\nUsage: node --harmony tia-run.js <suiteRoot> [-b <browser>] [-p <pathToDirOrTest>] [-m] [--stacktolog] [--noxvfb] [-l] [--logerrtoconsole] [--logtoconsole] [--trace <level>] [--forcelogactions]',
+		'\nUsage: tia <suiteRoot> [-b <browser>] [-p <pathToDirOrTest>] [-m] [--stacktolog] [--noxvfb] [-l] [--logerrtoconsole] [--logtoconsole] [--trace <level>] [--forcelogactions]',
 		'\n, where:\n',
-		'    <suiteRoot> - root directory for test suite relative to run.js directory (only relative path allowed for now)\n',
+		'    <suiteRoot> - root directory for test suite relative to tia.js directory (only relative path allowed for now)\n',
 		'    <browser> - (default: ' + browsers[0] + ') browser to run tests for:',
 		'    supported browsers are: chrome, phantomjs, firefox (TODO: ie, safari).\n',
 		'    <pathToDirOrTest> - optional path fragment for tests to run',
@@ -27,8 +27,9 @@ function usage() {
 		'    --logtoconsole print test logs to console.\n',
 		'    --trace <level> enables tracing (1 | 2 | 3 ) (1 - less verbose, 3 - maximum verbosity).\n',
 		'    --forcelogactions forced logs for all actions.\n',
-		'Example:\n',
-		'    node --harmony run.js testSuites/app -b chrome\n',
+		'Examples:\n',
+		'    tia tests/app -b chrome\n',
+		'    node --harmony bin/tia.js tests/app -b chrome\n',
 		'If there is no diffs, 0 is returned and stdout will contain test log,',
 		'otherwise - 1 is returned and stderr will contain test log.\n',
 		'This utility uses external utilities (diff, rm) and webdriver.',
@@ -98,7 +99,7 @@ if (suiteRoot[0] === '/') {
 	process.exit(1);
 }
 
-require('../engine/teInit.js');
+require('../engine/init.js');
 
 gTE.params = {}; // Parameters given in the command line.
 
