@@ -42,7 +42,7 @@ function testRunner(code, file) {
 
 function *handleTest(file, dirConfig) {
 	// Restore the state which could be damaged by previous test and any other initialization.
-	gTE.tinfo.countLlPass = true;
+	gTE.tinfo.isPassCountingEnabled = true;
 	gTE.logger.defLlLogAction = true;
 
 	gTE.config = gTE.configUtils.copyConfig(dirConfig); // Config for current test, can be changed by test.

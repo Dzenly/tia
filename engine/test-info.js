@@ -1,6 +1,6 @@
 var mpath = require('path');
 gTE.tinfo = {
-	countLlPass: true
+	setLlPassCounting: true
 };
 
 var self = gTE.tinfo;
@@ -79,10 +79,10 @@ self.fail = function() {
 
 self.passForce = function() {
 	gTE.tinfo.data.passed++;
-}
+};
 
 self.pass = function() {
-	if (!gTE.tinfo.countLlPass || gTE.config.ignorePassAndFailCounters)
+	if (!gTE.tinfo.isPassCountingEnabled || gTE.config.ignorePassAndFailCounters)
 		return;
 	gTE.tinfo.data.passed++; // From global sandbox.
 };

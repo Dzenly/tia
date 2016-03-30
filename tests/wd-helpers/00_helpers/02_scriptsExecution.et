@@ -1,0 +1,10 @@
+Test for client exceptions
+=================
+Initialization (with default empty profile) ... OK
+Loading a page with URL: "http://google.com" ... OK
+Script execution ... OK
+Result of script execution: 5
+Closing the browser .... OK
+Quitting .... OK
+=================
+Pass: 5, Fail: 0

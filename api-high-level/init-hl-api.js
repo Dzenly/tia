@@ -48,13 +48,13 @@ self.genWraper = function*(gen, msg, options) {
 		gTE.t.println('BEGIN: "' + msg + '"');
 
 	// In case of fail, the state will be restored before next test.
-	var oldLogLl = gTE.t.defaultLlLogAction(opts.logLl);
-	var oldPassLl = gTE.t.countLlPass(opts.passLl);
+	var oldLogLl = gTE.t.setDefaultLlLogAction(opts.logLl);
+	var oldPassLl = gTE.t.setLlPassCounting(opts.passLl);
 
 	yield *gen();
 
-	gTE.t.defaultLlLogAction(oldLogLl);
-	gTE.t.countLlPass(oldPassLl);
+	gTE.t.setDefaultLlLogAction(oldLogLl);
+	gTE.t.setLlPassCounting(oldPassLl);
 
 	if (opts.logHl)
 		gTE.t.println('END: "' + msg + '"');

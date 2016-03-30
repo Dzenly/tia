@@ -1,8 +1,8 @@
 t.setTitle('Checking that all global variables are exist and correct.');
 
-t.check(typeof gTE !== 'undefined', 'gTE exists');
-t.check('config' in gTE, 'gTE.config exists');
-t.check('tinfo' in gTE, 'gTE.tinfo exists');
-t.check('data' in gTE.tinfo, 'gTE.tinfo.data exists');
+t.checkTrue(typeof gTE !== 'undefined', 'gTE exists');
+t.checkTrue('config' in gTE, 'gTE.config exists');
+t.checkTrue('tinfo' in gTE, 'gTE.tinfo exists');
+t.checkTrue('data' in gTE.tinfo, 'gTE.tinfo.data exists');
 
 
