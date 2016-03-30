@@ -2,6 +2,8 @@
 
 var fs = require('fs');
 var mpath = require('path');
+var util = require('util');
+
 
 var chromedriver = require('chromedriver');
 process.env.PATH = chromedriver.path + mpath.delimiter + process.env.PATH;
@@ -362,15 +364,17 @@ self.getUrl = function(logAction) {
 
 self.initDriver = function(cleanProfile, logAction) {
 	var profileInfo;
-	if (gTE.config.profilePath)
-		profileInfo = '(with user defined ' + (cleanProfile ? 'empty' : 'saved') + ' profile)';
-	else
-		profileInfo = '(with default empty profile)';
+	if (gTE.config.profilePath) {
+    profileInfo = '(with user defined ' + (cleanProfile ? 'empty' : 'saved') + ' profile)';
+  } else {
+    profileInfo = '(with default empty profile)';
+  }
 
 	return _actWrapper('Initialization ' + profileInfo + ' ... ', logAction, function() {
 
-		if (cleanProfile)
-			self.cleanProfile(false);
+		if (cleanProfile) {
+      self.cleanProfile(false);
+    }
 
 		var capabilities;
 
@@ -378,6 +382,7 @@ self.initDriver = function(cleanProfile, logAction) {
 
     if (gTE.config.profilePath) {
       profileAbsPath = mpath.resolve(mpath.join(gTE.engineConfig.profileRoot, gTE.config.profilePath));
+      gTE.tracer.trace2('Profile path: ' + profileAbsPath);
     }
 
 		switch (gTE.params.browser) {
@@ -397,22 +402,25 @@ self.initDriver = function(cleanProfile, logAction) {
         var options = new self.firefox.Options();
         var binary = new self.firefox.Binary();
         if (gTE.config.profilePath) {
-          //binary.addArguments('-profile "' + profileAbsPath + '"');
-          options.setProfile(profileAbsPath);
+          // Profile name should be alphanumeric only.
+          // Checked on linux. It does set -profile option.
+          binary.addArguments('-profile "' + profileAbsPath + '"');
+          options.setProfile(profileAbsPath); // Checked on linux. Does NOT set -profile option.
+
+          // http://selenium.googlecode.com/git/docs/api/javascript/module_selenium-webdriver_firefox.html
+          // "The FirefoxDriver will never modify a pre-existing profile; instead it will create a copy for it to modify."
+
         }
-        //options.setBinary(binary);
-
-
-        // options.setProfile()
-        // http://selenium.googlecode.com/git/docs/api/javascript/module_selenium-webdriver_firefox.html
-        // "The FirefoxDriver will never modify a pre-existing profile; instead it will create a copy for it to modify."
+        options.setBinary(binary);
 
         // self.wdModule.Capabilities.firefox();
-				capabilities = options.toCapabilities();
+				capabilities = options.toCapabilities(self.wdModule.Capabilities.firefox());
 				break;
 		}
 
-		var prefs = new self.wdModule.logging.Preferences();
+    gTE.tracer.trace3(util.inspect(capabilities));
+
+    var prefs = new self.wdModule.logging.Preferences();
 		// TODO: this parameter correctly works only for chrome.
 		// phantomjs gets all messages, independent on choosen level.
 		// Mozilla gets no messages.
