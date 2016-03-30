@@ -364,6 +364,13 @@ self.getUrl = function(logAction) {
 
 // var gProfile = null;
 
+/**
+ * Initiates webdriver.
+ * All gui tests should start with this function.
+ *
+ * @param {Boolean} cleanProfile - Is profile cleaning needed.
+ * @param {Boolean} logAction -  enable/disable logging for this action.
+ */
 self.initDriver = function(cleanProfile, logAction) {
 	var profileInfo;
 	if (gTE.config.profilePath) {
@@ -532,38 +539,74 @@ self.sendKeysById = function(id, keys, logAction) {
 	});
 };
 
+/**
+ * Set browser window position.
+ *
+ * @param x
+ * @param y
+ * @param logAction
+ *
+ * @return {Promise}
+ */
 self.setWindowPosition = function(x, y, logAction) {
 	return _actWrapper('Set Window Position: (' + x + ', ' + y + ') ... ', logAction, function() {
 		return driver.manage().window().setPosition(x, y);
 	});
 };
 
-self.setWindowSize = function(w, h, logAction) {
-	return _actWrapper('Set Window Size: (' + w + ', ' + h + ') ... ', logAction, function() {
-		return driver.manage().window().setSize(w, h);
+/**
+ * Sets browser window size.
+ * @param {Number} width
+ * @param {Number} height
+ * @param logAction
+ *
+ * @return {Promise}
+ */
+self.setWindowSize = function(width, height, logAction) {
+	return _actWrapper('Set Window Size: (' + width + ', ' + height + ') ... ', logAction, function() {
+		return driver.manage().window().setSize(width, height);
 	});
 };
 
+/**
+ * Sleeps for specified milliseconds amount.
+ *
+ * @param ms
+ * @param logAction
+ *
+ * @returns {Promise}
+ */
 self.sleep = function(ms, logAction) {
 	return _actWrapper('Sleep ' + ms + ' ms ... ', logAction, function() {
 		return flow.timeout(ms);
 	});
 };
 
-self.waitAppReady = function(timeout, logAction) {
-	return _actWrapper('Waiting for App Ready ... ', logAction, function() {
-		return driver.wait(isExtAppReady, timeout).then(
-				function() {
-					return driver.executeScript("return rvTestHelper.getScreenResolution()").then(function(res) {
-						// Save resolution to emulate maximize.
-						gTE.width = res.width;
-						gTE.height = res.height;
-					});
-				}
-		);
-	});
-};
+// self.waitAppReady = function(timeout, logAction) {
+// 	return _actWrapper('Waiting for App Ready ... ', logAction, function() {
+// 		return driver.wait(isExtAppReady, timeout).then(
+// 				function() {
+// 					return driver.executeScript("return rvTestHelper.getScreenResolution()").then(function(res) {
+// 						// Save resolution to emulate maximize.
+// 						gTE.width = res.width;
+// 						gTE.height = res.height;
+// 					});
+// 				}
+// 		);
+// 	});
+// };
 
+
+/**
+ *  Waits for R-Vision non ExtJs objects to be ready.
+ *  After this, one can start work with R-Vision non-ExtJs application (say, login window).
+ *  TODO: move to separate module, probably private one.
+ *
+ * @param timeout
+ * @param logAction
+ *
+ * @returns {Promise} - waiting result.
+ */
 self.waitForAppReady = function(timeout, logAction) {
 	return _actWrapper('Waiting for Ext App Ready ... ', logAction, function() {
 		return driver.wait(isAppReady, timeout).then(
@@ -578,6 +621,16 @@ self.waitForAppReady = function(timeout, logAction) {
 	});
 };
 
+/**
+ *  Waits for R-Vision ExtJs objects to be ready.
+ *  After this, one can start work with ExtJs application.
+ *  TODO: move to separate module, probably private one.
+ *
+ * @param timeout
+ * @param logAction
+ *
+ * @returns {Promise} - waiting result.
+ */
 self.waitForExtAppReady = function(timeout, logAction) {
 	return _actWrapper('Waiting for Ext App Ready ... ', logAction, function() {
 		return driver.wait(isExtAppReady, timeout).then(
@@ -593,24 +646,76 @@ self.waitForExtAppReady = function(timeout, logAction) {
 	});
 };
 
+
+/**
+ * Waits for element with specified id.
+ *
+ * @param id
+ * @param timeout
+ * @param logAction - enable/disable logging for this action.
+ *
+ * @returns {Promise} - Promise with WebElement (or rejected Promise).
+ */
 self.waitForElementById = function(id, timeout, logAction) {
 	return _actWrapper('Waiting for element by id : "' + id + '" ... ', logAction, function() {
 		return driver.wait(until.elementLocated(by.id(id)), timeout);
 	});
 };
 
+/**
+ * Waits for element with specified CSS class.
+ *
+ * @param className
+ * @param timeout
+ * @param logAction - enable/disable logging for this action.
+ *
+ * @returns {Promise} - Promise with WebElement (or rejected Promise).
+ */
 self.waitForElementByClassName = function(className, timeout, logAction) {
 	return _actWrapper('Waiting for element by class name : "' + className + '" ... ', logAction, function() {
 		return driver.wait(until.elementLocated(by.className(className)), timeout);
 	});
 };
 
+/**
+ * Waits for element with specified CSS selector.
+ *
+ * @param selector
+ * @param timeout
+ * @param logAction - enable/disable logging for this action.
+ *
+ * @returns {Promise} - Promise with WebElement (or rejected Promise).
+ */
+self.waitForElementByCssSelector = function(selector, timeout, logAction) {
+  return _actWrapper('Waiting for element by css selector : "' + selector + '" ... ', logAction, function() {
+    return driver.wait(until.elementLocated(by.css(selector)), timeout);
+  });
+};
+
+
+/**
+ * Waits for specified page title.
+ *
+ * @param title
+ * @param timeout
+ * @param logAction - enable/disable logging for this action.
+ *
+ * @returns {Promise} - Promise resolved to waiting result.
+ */
 self.waitForTitle = function(title, timeout, logAction) {
 	return _actWrapper('Waiting for windows title: "' + title + '" ... ', logAction, function() {
 		return driver.wait(until.titleIs(title), timeout);
 	});
 };
 
+/**
+ * Waits for specified URL.
+ * @param expUrl
+ * @param timeout
+ * @param logAction - enable/disable logging for this action.
+ *
+ * @returns {Promise} - Promise resolved to waiting result.
+ */
 self.waitForUrl = function(expUrl, timeout, logAction) {
 	return _actWrapper('Waiting for URL: "' + expUrl + '" ... ', logAction, function() {
 		return driver.wait(function() {
@@ -621,6 +726,15 @@ self.waitForUrl = function(expUrl, timeout, logAction) {
 	});
 };
 
+/**
+ * Waits for some URL which starts with specified urlPrefix.
+ *
+ * @param urlPrefix
+ * @param timeout
+ * @param logAction - enable/disable logging for this action.
+ *
+ * @returns {Promise} - Promise resolved to waiting result.
+ */
 self.waitForUrlPrefix = function(urlPrefix, timeout, logAction) {
 	return _actWrapper('Waiting for URL prefix: "' + urlPrefix + '" ... ', logAction, function() {
 		return driver.wait(function() {
@@ -630,7 +744,3 @@ self.waitForUrlPrefix = function(urlPrefix, timeout, logAction) {
 		}, timeout);
 	});
 };
-
-
-
-
