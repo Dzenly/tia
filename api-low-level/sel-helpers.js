@@ -461,7 +461,7 @@ self.initDriver = function(cleanProfile, logAction) {
 
 self.issueClientException = function(logAction) {
 	return _actWrapper('Issue client exception ... ', logAction, function() {
-		return driver.executeScript('rvTestHelper.issueException()');
+		return driver.executeScript('setTimeout(function() { DsgwDwd3 += 8;}, 0)');
 	});
 };
 

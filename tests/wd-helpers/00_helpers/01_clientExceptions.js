@@ -1,9 +1,8 @@
 function *test() {
 	t.setTitle('Test for client exceptions');
-	yield *sel.hl.initAndLogin();
+	yield sel.initDriver();
+  yield sel.get('http://google.com');
 	//yield sel.setWindowSize(2560, 1440);
-	//yield sel.initDriver();
-	//yield sel.get('$(host)');
 
 	t.println('No exceptions and console logs:');
 	yield sel.logBrowserExceptions(true);
