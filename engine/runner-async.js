@@ -2,95 +2,95 @@ var fs = require('fs');
 var path = require('path');
 var vm = require('vm');
 
-var logger = gTE.logger;
+var logger = gT.logger;
 
-var flow = gTE.sel.flow;
-var promise = gTE.sel.promise;
+var flow = gT.sel.flow;
+var promise = gT.sel.promise;
 
 function handleDirConfig(dir, files, prevDirConfig) {
-  var index = files.indexOf(gTE.engineConfig.configName);
+  var index = files.indexOf(gT.engineConfig.configName);
   var config;
   if (index < 0) {
     config = {};
   } else {
     files.splice(index, 1);
-    var code = fs.readFileSync(path.join(dir, gTE.engineConfig.configName))
+    var code = fs.readFileSync(path.join(dir, gT.engineConfig.configName))
     config = vm.runInThisContext(code);
   }
 
-  index = files.indexOf(gTE.engineConfig.suiteConfigName); // Remove suite-config.js from list (it already handled).
+  index = files.indexOf(gT.engineConfig.suiteConfigName); // Remove suite-config.js from list (it already handled).
 	if (index > -1) {
 		files.splice(index, 1);
 	}
 
-  return gTE.configUtils.mergeConfigs(prevDirConfig, config);
+  return gT.configUtils.mergeConfigs(prevDirConfig, config);
 }
 
 function testRunner(code, file) {
   var res;
 
-  gTE.tracer.trace0('Starting new test: ' + file);
+  gT.tracer.trace0('Starting new test: ' + file);
 
   try {
     // This timeout for syncronous part only.
-    res = vm.runInThisContext(code, {timeout: gTE.config.timeout});
+    res = vm.runInThisContext(code, {timeout: gT.config.timeout});
   }
   catch (e) {
     logger.exception('Exception in runner: ', e, true);
-    gTE.tinfo.fail();
+    gT.tinfo.fail();
   }
 }
 
 function *handleTest(file, dirConfig) {
   // Restore the state which could be damaged by previous test and any other initialization.
-  gTE.tinfo.isPassCountingEnabled = true;
-  gTE.logger.defLlLogAction = true;
+  gT.tinfo.isPassCountingEnabled = true;
+  gT.logger.defLlLogAction = true;
 
-  gTE.config = gTE.configUtils.copyConfig(dirConfig); // Config for current test, can be changed by test.
+  gT.config = gT.configUtils.copyConfig(dirConfig); // Config for current test, can be changed by test.
   // It is not safe to create such structure in the test and return it from test, because test can be terminated with exception.
 
   //console.log('File: ' + file);
-  if (gTE.params.path && file.lastIndexOf(gTE.params.path) < gTE.params.minPathIndex) {
+  if (gT.params.path && file.lastIndexOf(gT.params.path) < gT.params.minPathIndex) {
     return null;
   }
 
-  gTE.tinfo.data = gTE.tinfo.createTestInfo(false, '', file); // Test should change this title.
-  gTE.tinfo.data.handled = 1;
+  gT.tinfo.data = gT.tinfo.createTestInfo(false, '', file); // Test should change this title.
+  gT.tinfo.data.handled = 1;
 
   if (dirConfig.skip) {
-    gTE.tinfo.data.skipped = 1;
-    return gTE.tinfo.data;
+    gT.tinfo.data.skipped = 1;
+    return gT.tinfo.data;
   }
 
-	if (gTE.config.DISPLAY && !gTE.params.noxvfb) {
-		process.env.DISPLAY = gTE.config.DISPLAY;
+	if (gT.config.DISPLAY && !gT.params.noxvfb) {
+		process.env.DISPLAY = gT.config.DISPLAY;
 	} else {
-		process.env.DISPLAY = gTE.engineConfig.defDisplay;
+		process.env.DISPLAY = gT.engineConfig.defDisplay;
   }
 
-  gTE.fileUtils.createEmptyLog(file);
-  gTE.fileUtils.rmPngs(file);
+  gT.fileUtils.createEmptyLog(file);
+  gT.fileUtils.rmPngs(file);
 
   var code = fs.readFileSync(file);
-  var startTime = gTE.timeUtils.startTimer();
+  var startTime = gT.timeUtils.startTimer();
 
-  yield flow.execute(function () { // gTE.tinfo.data
+  yield flow.execute(function () { // gT.tinfo.data
     testRunner(code, file);
   });
 
   logger.testSummary();
-  gTE.tinfo.data.time = gTE.timeUtils.stopTimer(startTime);
-  gTE.diffUtils.diff(file);
+  gT.tinfo.data.time = gT.timeUtils.stopTimer(startTime);
+  gT.diffUtils.diff(file);
 
-  return gTE.tinfo.data; // Return value to be uniform in handleDir.
+  return gT.tinfo.data; // Return value to be uniform in handleDir.
 }
 
 function *handleDir(dir, prevDirConfig) {
   //console.log('handleDir Dir: ' + dir);
   var files = fs.readdirSync(dir);
   var dirConfig = handleDirConfig(dir, files, prevDirConfig);
-  var dirInfo = gTE.tinfo.createTestInfo(true, dirConfig.sectTitle, dir);
-  var startTime = gTE.timeUtils.startTimer();
+  var dirInfo = gT.tinfo.createTestInfo(true, dirConfig.sectTitle, dir);
+  var startTime = gT.timeUtils.startTimer();
 
   var len = files.length;
   for (var i = 0; i < len; i++) {
@@ -121,7 +121,7 @@ function *handleDir(dir, prevDirConfig) {
     }
   }
 
-  dirInfo.time = gTE.timeUtils.stopTimer(startTime);
+  dirInfo.time = gT.timeUtils.stopTimer(startTime);
   return dirInfo;
 }
 
@@ -130,43 +130,43 @@ function *runAsync(dir) {
   var log = dir + '.log'; // Summary log.
   var noTimeLog = log + '.notime';
   var noTimeLogPrev = noTimeLog + '.prev';
-  gTE.fileUtils.safeUnlink(log);
-  gTE.fileUtils.safeRename(noTimeLog, noTimeLogPrev);
+  gT.fileUtils.safeUnlink(log);
+  gT.fileUtils.safeRename(noTimeLog, noTimeLogPrev);
 
-  var dirInfo = yield* handleDir(dir, gTE.dirConfigDefault);
+  var dirInfo = yield* handleDir(dir, gT.dirConfigDefault);
 
   dirInfo.title = dir;
-  gTE.logger.saveSuiteLog(dirInfo, noTimeLog, true);
+  gT.logger.saveSuiteLog(dirInfo, noTimeLog, true);
 
-  var suiteLogDifRes = Boolean(gTE.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog));
-  var changedDiffs = gTE.changedDiffs ? '(' + gTE.changedDiffs + ' diff(s) changed)' : '';
-  var subj = gTE.os() + ', ' + (suiteLogDifRes ? 'CHANGED' : ('AS PREV ' + changedDiffs)) + ', ' + gTE.logger.saveSuiteLog(dirInfo, log);
+  var suiteLogDifRes = Boolean(gT.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog));
+  var changedDiffs = gT.changedDiffs ? '(' + gT.changedDiffs + ' diff(s) changed)' : '';
+  var subj = gT.os() + ', ' + (suiteLogDifRes ? 'CHANGED' : ('AS PREV ' + changedDiffs)) + ', ' + gT.logger.saveSuiteLog(dirInfo, log);
   dirInfo.suiteLogDiff = suiteLogDifRes;
-  dirInfo.os = gTE.os();
-  gTE.fileUtils.saveJson(dirInfo, log + '.json');
+  dirInfo.os = gT.os();
+  gT.fileUtils.saveJson(dirInfo, log + '.json');
 
-  var arcName = gTE.fileUtils.archiveSuiteDir(dirInfo);
+  var arcName = gT.fileUtils.archiveSuiteDir(dirInfo);
 
-  yield gTE.mailUtils.sendMail(subj, log, arcName);
+  yield gT.mailUtils.sendMail(subj, log, arcName);
   var status = dirInfo.diffed ? 1 : 0;
   console.log(subj);
-  if (gTE.suiteConfig.logToStdErrOut) {
-    gTE.logger.printSuiteLog(dirInfo);
-    //gTE.fileUtils.fileToStdout(log);
+  if (gT.suiteConfig.logToStdErrOut) {
+    gT.logger.printSuiteLog(dirInfo);
+    //gT.fileUtils.fileToStdout(log);
   }
 
-	if (gTE.suiteConfig.removeZipAfterSend) {
-		gTE.fileUtils.safeUnlink(arcName);
+	if (gT.suiteConfig.removeZipAfterSend) {
+		gT.fileUtils.safeUnlink(arcName);
 	}
 
   return status;// Process exit status.
 }
 
 // Returns subject for email.
-gTE.runTestsAsync = function (suiteRoot) {
-  gTE.configUtils.handleSuiteConfig();
+gT.runTestsAsync = function (suiteRoot) {
+  gT.configUtils.handleSuiteConfig();
   try {
-    fs.mkdirSync(gTE.engineConfig.profileRoot);
+    fs.mkdirSync(gT.engineConfig.profileRoot);
   } catch (e) {
   }
 
@@ -177,7 +177,7 @@ gTE.runTestsAsync = function (suiteRoot) {
       process.exitCode = exitStatus;
     },
     function (err) {
-      gTE.tracer.traceErr(gTE.textUtils.excToStr(err));
+      gT.tracer.traceErr(gT.textUtils.excToStr(err));
       process.exitCode = 1;
     }
   );

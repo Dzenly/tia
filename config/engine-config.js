@@ -1,5 +1,5 @@
 // Конфиги для всех test suites. Не перегружаются нигде.
-gTE.engineConfig = {
+gT.engineConfig = {
   configName: 'config.js', // Имя файла для локального конфига.
 
   suiteConfigName: 'suite-config.js', // Имя файла для конфига пакета тестов (test suite), перегружающего настройки по умолчанию.

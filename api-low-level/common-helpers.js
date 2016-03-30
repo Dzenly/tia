@@ -1,15 +1,15 @@
-gTE.t = {};
+gT.t = {};
 
-global.t = gTE.t;
+global.t = gT.t;
 
 var shared = {};
 
-var logger = gTE.logger;
-var self = gTE.t;
+var logger = gT.logger;
+var self = gT.t;
 var ok = 'OK\n';
 var fail = 'FAIL\n';
 
-var tinfo = gTE.tinfo;
+var tinfo = gT.tinfo;
 
 self.saveShared = function (key, value) {
   shared[key] = value;
@@ -130,10 +130,10 @@ self.checkTrue = function (condition, msg) {
   var logStr = msg + '...';
   if (Boolean(condition)) {
     logStr += ok;
-    gTE.tinfo.pass();
+    gT.tinfo.pass();
   } else {
     logStr += fail;
-    gTE.tinfo.fail();
+    gT.tinfo.fail();
   }
   logger.logln(logStr);
 };
@@ -207,8 +207,8 @@ self.checkAny = function (val, expVal, msg) {
  * @returns {boolean} - old pass counting value.
  */
 self.setLlPassCounting = function (enable) {
-  var old = gTE.tinfo.isPassCountingEnabled;
-  gTE.tinfo.isPassCountingEnabled = enable;
+  var old = gT.tinfo.isPassCountingEnabled;
+  gT.tinfo.isPassCountingEnabled = enable;
   return old;
 };
 
@@ -220,7 +220,7 @@ self.setLlPassCounting = function (enable) {
  * @returns {boolean} - old Log Action value.
  */
 self.setDefaultLlLogAction = function (enable) {
-  var old = gTE.logger.defLlLogAction;
-  gTE.logger.defLlLogAction = enable;
+  var old = gT.logger.defLlLogAction;
+  gT.logger.defLlLogAction = enable;
   return old;
 };

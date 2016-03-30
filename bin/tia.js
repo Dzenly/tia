@@ -101,23 +101,23 @@ if (suiteRoot[0] === '/') {
 
 require('../engine/init.js');
 
-gTE.params = {}; // Parameters given in the command line.
+gT.params = {}; // Parameters given in the command line.
 
-gTE.params.suiteRoot = suiteRoot;
-gTE.params.browser = browser;
-gTE.params.path = args['p'];
-gTE.params.minPathIndex = suiteRoot.length + 1; // Minumum index for path search.
-gTE.params.mail = args['m'];
-gTE.params.stackToLog = args['stacktolog'];
-gTE.params.noxvfb = args['noxvfb'];
-gTE.params.logsToMail = args['l'];
-gTE.params.logErrToConsole = args['logerrtoconsole'];
-gTE.params.logToConsole = args['logtoconsole'];
-gTE.params.trace = args['trace'];
-if (gTE.params.trace > 3) {
-	gTE.params.trace = 3;
+gT.params.suiteRoot = suiteRoot;
+gT.params.browser = browser;
+gT.params.path = args['p'];
+gT.params.minPathIndex = suiteRoot.length + 1; // Minumum index for path search.
+gT.params.mail = args['m'];
+gT.params.stackToLog = args['stacktolog'];
+gT.params.noxvfb = args['noxvfb'];
+gT.params.logsToMail = args['l'];
+gT.params.logErrToConsole = args['logerrtoconsole'];
+gT.params.logToConsole = args['logtoconsole'];
+gT.params.trace = args['trace'];
+if (gT.params.trace > 3) {
+	gT.params.trace = 3;
 }
 
-gTE.params.forceLogActions = args['forcelogactions'];
+gT.params.forceLogActions = args['forcelogactions'];
 
-gTE.runTestsAsync(suiteRoot);
+gT.runTestsAsync(suiteRoot);

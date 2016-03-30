@@ -1,8 +1,8 @@
 var path = require('path');
 
-gTE.configUtils = {};
+gT.configUtils = {};
 
-gTE.configUtils.copyConfig = function (config) {
+gT.configUtils.copyConfig = function (config) {
   var result = {};
   for (var prop in config) {
     result[prop] = config[prop];
@@ -17,8 +17,8 @@ gTE.configUtils.copyConfig = function (config) {
  * @param config1
  * @param config2
  */
-gTE.configUtils.mergeConfigs = function (config1, config2) {
-  var result = gTE.configUtils.copyConfig(config1);
+gT.configUtils.mergeConfigs = function (config1, config2) {
+  var result = gT.configUtils.copyConfig(config1);
   for (var prop in config2) {
     result[prop] = config2[prop];
   }
@@ -26,14 +26,14 @@ gTE.configUtils.mergeConfigs = function (config1, config2) {
 };
 
 // Returns merged config for suite.
-gTE.configUtils.handleSuiteConfig = function () {
+gT.configUtils.handleSuiteConfig = function () {
   var curSuiteConfig = {};
-  var configPath = path.join(gTE.params.suiteRoot, gTE.engineConfig.suiteConfigName);
+  var configPath = path.join(gT.params.suiteRoot, gT.engineConfig.suiteConfigName);
   var code;
   try {
     code = fs.readFileSync(configPath);
     curSuiteConfig = vm.runInThisContext(code);
   } catch (e) {
   }
-  gTE.suiteConfig = gTE.configUtils.mergeConfigs(gTE.suiteConfigDefault, curSuiteConfig);
+  gT.suiteConfig = gT.configUtils.mergeConfigs(gT.suiteConfigDefault, curSuiteConfig);
 };

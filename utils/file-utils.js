@@ -3,7 +3,7 @@ var fs = require('fs');
 var path = require('path');
 var child_process = require('child_process');
 
-gTE.fileUtils = {};
+gT.fileUtils = {};
 
 
 // TODO: сделать так, чтобы тесты работали под правами специально заведеного юзера.
@@ -11,11 +11,11 @@ gTE.fileUtils = {};
 // Права на запись у него будут только в его home.
 // Перед тестом (после подключения всех require), юзер процесса будет подменяться (process.setuid(id)).
 // Весь test suite будет копироваться в директорию юзера и работать оттуда.
-//gTE.fileUtilsCheckPath = function(path){
+//gT.fileUtilsCheckPath = function(path){
 //
 //};
 
-gTE.fileUtils.safeUnlink = function (path) {
+gT.fileUtils.safeUnlink = function (path) {
   try {
     fs.unlinkSync(path);
   } catch (e) {
@@ -23,7 +23,7 @@ gTE.fileUtils.safeUnlink = function (path) {
   }
 };
 
-gTE.fileUtils.backupDif = function (path) {
+gT.fileUtils.backupDif = function (path) {
   try {
     fs.renameSync(path, path + '.dif');
   } catch (e) {
@@ -32,15 +32,15 @@ gTE.fileUtils.backupDif = function (path) {
 };
 
 
-gTE.fileUtils.rmPngs = function (jsPath) {
+gT.fileUtils.rmPngs = function (jsPath) {
   try {
-    child_process.execSync('rm ' + gTE.textUtils.changeExt(jsPath, '*.png'), {stdio: [null, null, null]});
+    child_process.execSync('rm ' + gT.textUtils.changeExt(jsPath, '*.png'), {stdio: [null, null, null]});
   } catch (e) {
     // No handling intentionaly.
   }
 };
 
-gTE.fileUtils.rmDir = function (dir, removeSelf) {
+gT.fileUtils.rmDir = function (dir, removeSelf) {
   try {
     var files = fs.readdirSync(dir);
   }
@@ -59,10 +59,10 @@ gTE.fileUtils.rmDir = function (dir, removeSelf) {
 					fs.unlinkSync(filePath);
 				}
 			} catch (e) {
-				gTE.tracer.traceErr(gTE.textUtils.excToStr(e));
+				gT.tracer.traceErr(gT.textUtils.excToStr(e));
 			}
 			if (fdata.isDirectory()) {
-				gTE.fileUtils.rmDir(filePath, true);
+				gT.fileUtils.rmDir(filePath, true);
       }
     }
   }
@@ -71,12 +71,12 @@ gTE.fileUtils.rmDir = function (dir, removeSelf) {
 	}
 };
 
-gTE.fileUtils.emptyDir = function (dir) {
-  gTE.fileUtils.rmDir(dir);
+gT.fileUtils.emptyDir = function (dir) {
+  gT.fileUtils.rmDir(dir);
 };
 
-gTE.fileUtils.safeRename = function (path1, path2) {
-  gTE.fileUtils.safeUnlink(path2);
+gT.fileUtils.safeRename = function (path1, path2) {
+  gT.fileUtils.safeUnlink(path2);
   try {
     fs.renameSync(path1, path2);
   } catch (e) {
@@ -85,24 +85,24 @@ gTE.fileUtils.safeRename = function (path1, path2) {
 };
 
 // Removes file, if exists.
-gTE.fileUtils.createEmptyFileSync = function (path) {
+gT.fileUtils.createEmptyFileSync = function (path) {
   fs.closeSync(fs.openSync(path, 'w'));
 };
 
-gTE.fileUtils.createEmptyLog = function (path) {
-  gTE.logger.logFile = gTE.textUtils.jsToLog(path);
-  gTE.fileUtils.createEmptyFileSync(gTE.logger.logFile);
+gT.fileUtils.createEmptyLog = function (path) {
+  gT.logger.logFile = gT.textUtils.jsToLog(path);
+  gT.fileUtils.createEmptyFileSync(gT.logger.logFile);
 };
 
-gTE.fileUtils.fileToStdout = function (file) {
+gT.fileUtils.fileToStdout = function (file) {
   console.log(fs.readFileSync(file, {encoding: 'ascii'}));
 };
 
-gTE.fileUtils.fileToStderr = function (file) {
+gT.fileUtils.fileToStderr = function (file) {
   console.error(fs.readFileSync(file, {encoding: 'ascii'}));
 };
 
-gTE.fileUtils.saveJson = function (obj, file) {
+gT.fileUtils.saveJson = function (obj, file) {
   fs.writeFileSync(file, JSON.stringify(obj), {encoding: 'ascii'});
 };
 
@@ -118,19 +118,19 @@ function handleDir(dirInfo, arr) {
       handleDir(curInfo, arr);
     } else {
 			if (curInfo.diffed) {
-				arr.push('"' + gTE.textUtils.changeExt(curInfo.path, '') + '"*');
+				arr.push('"' + gT.textUtils.changeExt(curInfo.path, '') + '"*');
 			}
     }
   }
 }
 
-gTE.fileUtils.archiveSuiteDir = function (dirInfo) {
-	if (!gTE.params.mail || !gTE.suiteConfig.attachArchive || !gTE.suiteConfig.mailList) {
+gT.fileUtils.archiveSuiteDir = function (dirInfo) {
+	if (!gT.params.mail || !gT.suiteConfig.attachArchive || !gT.suiteConfig.mailList) {
 		return null;
 	}
   var arcName = new Date().toISOString().slice(0, 19).replace(/:/g, '_') + '.zip';
   //arcName = path.resolve(arcName); // TODO shorten paths in zip?
-  if (!gTE.suiteConfig.attachOnlyDiffs) {
+  if (!gT.suiteConfig.attachOnlyDiffs) {
     child_process.execSync('zip -r ' + arcName + ' ' + dirInfo.path, {stdio: [null, null, null]});// TODO: can throw, is this ok?
     return arcName;
   }
@@ -146,8 +146,8 @@ gTE.fileUtils.archiveSuiteDir = function (dirInfo) {
   try {
     child_process.execSync('zip ' + arcName + ' ' + arr.join(' '), {stdio: [null, null, null]});
   } catch (e) {
-    gTE.tracer.traceErr(e.stderr.toString());
-    gTE.tracer.traceErr(e.stdout.toString());
+    gT.tracer.traceErr(e.stderr.toString());
+    gT.tracer.traceErr(e.stdout.toString());
     throw(new Error('Error with zip'));
   }
 

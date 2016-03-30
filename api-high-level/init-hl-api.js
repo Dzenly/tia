@@ -1,6 +1,6 @@
-gTE.sel.hl = {};
+gT.sel.hl = {};
 
-var self = gTE.sel.hl;
+var self = gT.sel.hl;
 
 // options for all these high level API functions.
 // options.logHl - log this high level action (default: true).
@@ -20,7 +20,7 @@ var defaultOptions = {
  **/
 self.completeOptions = function (options) {
 	if (!options) {
-		return gTE.copyObject(defaultOptions);
+		return gT.copyObject(defaultOptions);
 	}
 
 	if (typeof options.logHl === 'undefined') {
@@ -50,24 +50,24 @@ self.genWraper = function*(gen, msg, options) {
   var opts = self.completeOptions(options);
 
 	if (opts.logHl) {
-		gTE.t.println('BEGIN: "' + msg + '"');
+		gT.t.println('BEGIN: "' + msg + '"');
 	}
 
   // In case of fail, the state will be restored before next test.
-  var oldLogLl = gTE.t.setDefaultLlLogAction(opts.logLl);
-  var oldPassLl = gTE.t.setLlPassCounting(opts.passLl);
+  var oldLogLl = gT.t.setDefaultLlLogAction(opts.logLl);
+  var oldPassLl = gT.t.setLlPassCounting(opts.passLl);
 
   yield *gen();
 
-  gTE.t.setDefaultLlLogAction(oldLogLl);
-  gTE.t.setLlPassCounting(oldPassLl);
+  gT.t.setDefaultLlLogAction(oldLogLl);
+  gT.t.setLlPassCounting(oldPassLl);
 
 	if (opts.logHl) {
-		gTE.t.println('END: "' + msg + '"');
+		gT.t.println('END: "' + msg + '"');
 	}
 
 	if (opts.passHl) {
-		gTE.tinfo.passForce();
+		gT.tinfo.passForce();
 	}
 };
 

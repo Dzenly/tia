@@ -1,12 +1,12 @@
 Checking that all global variables are exist and correct.
 =================
-gTE exists...OK
+gT exists...OK
 
-gTE.config exists...OK
+gT.config exists...OK
 
-gTE.tinfo exists...OK
+gT.tinfo exists...OK
 
-gTE.tinfo.data exists...OK
+gT.tinfo.data exists...OK
 
 =================
 Pass: 4, Fail: 0

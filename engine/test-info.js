@@ -1,9 +1,9 @@
 var mpath = require('path');
-gTE.tinfo = {
+gT.tinfo = {
   setLlPassCounting: true
 };
 
-var self = gTE.tinfo;
+var self = gT.tinfo;
 
 function formLogPart(str, count) {
 	if (!count) {
@@ -55,7 +55,7 @@ self.testInfoToString = function (curInfo, isDir, verbose, noTime, noTitle) {
  */
 self.createTestInfo = function (isDir, title, path) {
   var info = {
-    path: gTE.textUtils.winToUnixSep(path),
+    path: gT.textUtils.winToUnixSep(path),
     title: title,
     handled: 0,
     passed: 0,
@@ -74,19 +74,19 @@ self.createTestInfo = function (isDir, title, path) {
 };
 
 self.fail = function () {
-	if (gTE.config.ignorePassAndFailCounters) {
+	if (gT.config.ignorePassAndFailCounters) {
 		return;
 	}
-  gTE.tinfo.data.failed++; // From global sandbox.
+  gT.tinfo.data.failed++; // From global sandbox.
 };
 
 self.passForce = function () {
-  gTE.tinfo.data.passed++;
+  gT.tinfo.data.passed++;
 };
 
 self.pass = function () {
-	if (!gTE.tinfo.isPassCountingEnabled || gTE.config.ignorePassAndFailCounters) {
+	if (!gT.tinfo.isPassCountingEnabled || gT.config.ignorePassAndFailCounters) {
 		return;
 	}
-  gTE.tinfo.data.passed++; // From global sandbox.
+  gT.tinfo.data.passed++; // From global sandbox.
 };

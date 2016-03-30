@@ -2,9 +2,9 @@ var child_process = require('child_process');
 var path = require('path');
 var fs = require('fs');
 
-gTE.diffUtils = {};
+gT.diffUtils = {};
 
-gTE.changedDiffs = 0;
+gT.changedDiffs = 0;
 
 /**
  * Returns result of running external diff utility, i.e. stdout + stderr.
@@ -15,7 +15,7 @@ gTE.changedDiffs = 0;
  * @param oldFile - basename for file 1
  * @param newFile - basename for file 2
  */
-gTE.diffUtils.getDiff = function (dir, oldFile, newFile) {
+gT.diffUtils.getDiff = function (dir, oldFile, newFile) {
   var diffRes = child_process.spawnSync('diff', [oldFile, newFile], {cwd: dir, encoding: 'ascii'});
   return diffRes.stdout + diffRes.stderr;
 };
@@ -30,33 +30,33 @@ gTE.diffUtils.getDiff = function (dir, oldFile, newFile) {
  *
  * @param jsTest - path to js file, for which just created *.log to be diffed with *.eth.
  */
-gTE.diffUtils.diff = function (jsTest) {
+gT.diffUtils.diff = function (jsTest) {
   var dir = path.dirname(jsTest);
   var base = path.basename(jsTest, '.js');
-  var out = gTE.diffUtils.getDiff(dir, base + '.et', base + '.log');
+  var out = gT.diffUtils.getDiff(dir, base + '.et', base + '.log');
   var diffPath = path.join(dir, base + '.dif');
   var diffed = out ? 1 : 0;
   if (!diffed) {
-    gTE.fileUtils.safeUnlink(diffPath);
-    return; // No gTE.tinfo.data changes. gTE.tinfo.data.diffed and gTE.tinfo.data.expDiffed are zeroes.
+    gT.fileUtils.safeUnlink(diffPath);
+    return; // No gT.tinfo.data changes. gT.tinfo.data.diffed and gT.tinfo.data.expDiffed are zeroes.
   }
 
-  gTE.fileUtils.backupDif(diffPath);
+  gT.fileUtils.backupDif(diffPath);
 
   fs.writeFileSync(diffPath, out, {encoding: 'ascii'});
 
   // Check for expected diff.
-  out = gTE.diffUtils.getDiff(dir, base + '.edif', base + '.dif');
+  out = gT.diffUtils.getDiff(dir, base + '.edif', base + '.dif');
 	if (out) {
-		gTE.tinfo.data.diffed = 1;
-		out = gTE.diffUtils.getDiff(dir, base + '.dif.dif', base + '.dif');
+		gT.tinfo.data.diffed = 1;
+		out = gT.diffUtils.getDiff(dir, base + '.dif.dif', base + '.dif');
 		if (out) {
-			gTE.changedDiffs++;
+			gT.changedDiffs++;
 		}
 	}
 	else {
-		gTE.tinfo.data.expDiffed = 1;
+		gT.tinfo.data.expDiffed = 1;
   }
 
-  gTE.fileUtils.safeUnlink(diffPath + '.dif');
+  gT.fileUtils.safeUnlink(diffPath + '.dif');
 };
