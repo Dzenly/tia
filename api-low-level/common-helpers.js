@@ -41,16 +41,23 @@ self.println = function(msg) {
 	logger.logln(msg);
 };
 
+/**
+ * Prints separator.
+ */
 self.sep = function() {
 	logger.logln('==========');
 };
 
+/**
+ * Prints End of Line.
+ */
 self.eol = function() {
 	logger.log('\n');
 };
 
 /**
  * Fail with optional msg.
+ * @param [msg] - message to print.
  */
 self.fail = function(msg) {
 	if (typeof msg !== 'undefined') logger.log(msg);

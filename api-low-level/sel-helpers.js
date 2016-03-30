@@ -465,6 +465,20 @@ self.issueClientException = function(logAction) {
 	});
 };
 
+/**
+ * Runs specified JavaScript in browser.
+ *
+ * @param {string} scriptStr - JavaScript text to execute.
+ * @param {boolean} [logAction] - is logging needed for this action.
+ *
+ * @returns a promise which will be resolved with script return value.
+ */
+self.executeScript = function(scriptStr, logAction) {
+  return _actWrapper('Script execution ... ', logAction, function() {
+    return driver.executeScript(scriptStr);
+  });
+};
+
 /* Known issue: Xvfb has bad support for maximize, but does support setWindowSize. */
 /* Use this function after waitForAppReady or waitForExtAppReady call to make sure that it works correctly */
 self.maximize = function(logAction) {
