@@ -374,11 +374,13 @@ self.initDriver = function(cleanProfile, logAction) {
 
 		var capabilities;
 
+		var profileAbsPath = mpath.resolve(mpath.join(gTE.engineConfig.profileRoot, gTE.config.profilePath));
+
 		switch (gTE.params.browser) {
 			case 'chrome':
 				var options = new self.chrome.Options();
 				if (gTE.config.profilePath)
-					options.addArguments('--user-data-dir=' + mpath.join(gTE.engineConfig.profileRoot, gTE.config.profilePath));
+					options.addArguments('--user-data-dir=' + profileAbsPath);
 				capabilities = options.toCapabilities(self.wdModule.Capabilities.chrome());
 				break;
 			case 'phantomjs':
