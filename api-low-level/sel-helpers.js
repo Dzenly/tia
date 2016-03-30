@@ -70,7 +70,15 @@ function *_timeoutAndLogOk(logAction, startTime, noConsoleAndExceptions) {
 		yield self.console();
 }
 
-// Function - generator as a parameter.
+/**
+ * Wraps Selenium actions for logging and time measurement purposes.
+ * @param msg - a message to log.
+ * @param logAction - is logging enabled.
+ * @param act - function - generator.
+ * @param noConsoleAndExceptions
+ * @returns {Promise.<TResult>} - Promise will be converted to value or to exception.
+ * @private
+ */
 function _actWrapper(msg, logAction, act, noConsoleAndExceptions) {
 	var startTime;
 	flow.execute(function() {
@@ -150,7 +158,12 @@ self.dummySyntaxError = function(msg) {
 
 };
 
-
+/**
+ * Safely runs generator.
+ * All exceptions are catched and logged.
+ *
+ * @param gen
+ */
 function *safeGen(gen) {
 	try {
 		yield* gen();
@@ -290,6 +303,12 @@ self.deleteCookie = function(name, logAction) {
 	});
 };
 
+/**
+ * Runs function - generator.
+ *
+ * @param gen - function - generator.
+ * @returns {Promise}
+ */
 self.execGen = function(gen) {
 	//return flow.execute(gen); // Unsafe variant.
 	return flow.execute(function() { // Safe variant.
