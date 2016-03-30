@@ -1,3 +1,2 @@
-#!/bin/bash
-
-tia tests/engine
+#!/usr/bin/env bash
+tia tests/tia --noxvfb

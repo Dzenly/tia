@@ -11,81 +11,85 @@ var fail = 'FAIL\n';
 
 var tinfo = gTE.tinfo;
 
-self.saveShared = function(key, value) {
-	shared[key] = value;
+self.saveShared = function (key, value) {
+  shared[key] = value;
 };
 
-self.getShared = function(key) {
-	return shared[key];
+self.getShared = function (key) {
+  return shared[key];
 };
 
-self.deleteShared = function(key) {
-	delete shared[key];
+self.deleteShared = function (key) {
+  delete shared[key];
 };
 
-self.clearShared = function() {
-	shared = {};
+self.clearShared = function () {
+  shared = {};
 };
 
 /**
  * Logs the specifiied msg.
  */
-self.print = function(msg) {
-	logger.log(msg);
+self.print = function (msg) {
+  logger.log(msg);
 };
 
 /**
  * Logs the msg and EOL.
  */
-self.println = function(msg) {
-	logger.logln(msg);
+self.println = function (msg) {
+  logger.logln(msg);
 };
 
 /**
  * Logs separator.
  */
-self.sep = function() {
-	logger.logln('==========');
+self.sep = function () {
+  logger.logln('==========');
 };
 
 /**
  * Logs End of Line.
  */
-self.eol = function() {
-	logger.log('\n');
+self.eol = function () {
+  logger.log('\n');
 };
 
 /**
  * Logs fail with optional msg.
  * @param [msg] - message to print.
  */
-self.fail = function(msg) {
-	if (typeof msg !== 'undefined') logger.log(msg);
-	tinfo.fail();
+self.fail = function (msg) {
+  if (typeof msg !== 'undefined') {
+    logger.log(msg);
+  }
+  tinfo.fail();
 };
 
 /**
  * Logs Pass with optional msg.
  */
-self.pass = function(msg) {
-	if (typeof msg !== 'undefined') logger.log(msg);
-	tinfo.pass();
+self.pass = function (msg) {
+  if (typeof msg !== 'undefined') {
+    logger.log(msg);
+  }
+  tinfo.pass();
 };
 
 /**
  * Sets passes count for current test.
  * Can be used for debug.
  */
-self.setPassed = function(passed) {
-	tinfo.data.passed = passed;
+self.setPassed = function (passed) {
+  tinfo.data.passed = passed;
 };
 
 /**
  * Sets fails count for current test.
  * Can be used for debug.
  */
-self.setFailed = function(failed) {
-	tinfo.data.failed = failed;
+self.setFailed = function (failed) {
+  tinfo.data.failed = failed;
 };
 
 /**
@@ -93,16 +97,16 @@ self.setFailed = function(failed) {
  *
  * @returns {number}
  */
-self.getPassed = function() {
-	return tinfo.data.passed;
+self.getPassed = function () {
+  return tinfo.data.passed;
 };
 
 /**
  * Gets fails count for current test.
  * @returns {number}
  */
-self.getFailed = function() {
-	return tinfo.data.failed;
+self.getFailed = function () {
+  return tinfo.data.failed;
 };
 
 
@@ -110,10 +114,10 @@ self.getFailed = function() {
  * Sets the test title.
  * @param title
  */
-self.setTitle = function(title) {
-	tinfo.data.title = title; // From global sandbox.
-	logger.logln(title);
-	logger.logln('=================');
+self.setTitle = function (title) {
+  tinfo.data.title = title; // From global sandbox.
+  logger.logln(title);
+  logger.logln('=================');
 };
 
 
@@ -122,16 +126,16 @@ self.setTitle = function(title) {
  * @param condition
  * @param msg
  */
-self.checkTrue = function(condition, msg) {
-	var logStr = msg + '...';
-	if (Boolean(condition)) {
-		logStr += ok;
-		gTE.tinfo.pass();
-	}	else {
-		logStr += fail;
-		gTE.tinfo.fail();
-	}
-	logger.logln(logStr);
+self.checkTrue = function (condition, msg) {
+  var logStr = msg + '...';
+  if (Boolean(condition)) {
+    logStr += ok;
+    gTE.tinfo.pass();
+  } else {
+    logStr += fail;
+    gTE.tinfo.fail();
+  }
+  logger.logln(logStr);
 };
 
 /**
@@ -140,20 +144,20 @@ self.checkTrue = function(condition, msg) {
  * @param {} expVal
  * @param msg
  */
-self.checkNumber = function(val, expVal, msg) {
-	logger.logln(msg + ':');
-	logger.log('Check that "' + val + '" is a number and is equal to "' + expVal + '"...');
-	if (typeof val !== 'number') {
-		logger.log(fail);
-		self.fail('\n"' + val + '" is not a number\n');
-		return;
-	}
-	if (val !== expVal) {
-		logger.log(fail);
-		self.fail('\n"' + val + '" != "' + expVal + '"\n');
-		return;
-	}
-	self.pass(ok);
+self.checkNumber = function (val, expVal, msg) {
+  logger.logln(msg + ':');
+  logger.log('Check that "' + val + '" is a number and is equal to "' + expVal + '"...');
+  if (typeof val !== 'number') {
+    logger.log(fail);
+    self.fail('\n"' + val + '" is not a number\n');
+    return;
+  }
+  if (val !== expVal) {
+    logger.log(fail);
+    self.fail('\n"' + val + '" != "' + expVal + '"\n');
+    return;
+  }
+  self.pass(ok);
 };
 
 /**
@@ -162,7 +166,7 @@ self.checkNumber = function(val, expVal, msg) {
  * @param {} expVal
  * @param msg
  */
-self.checkAny = function(val, expVal, msg) {
+self.checkAny = function (val, expVal, msg) {
   logger.logln(msg + ':');
   logger.log('Check that "' + val + '" is equal to "' + expVal + '"...');
   if (val !== expVal) {
@@ -202,10 +206,10 @@ self.checkAny = function(val, expVal, msg) {
  * @param {boolean} enable - new value for pass counting.
  * @returns {boolean} - old pass counting value.
  */
-self.setLlPassCounting = function(enable) {
-	var old = gTE.tinfo.isPassCountingEnabled;
-	gTE.tinfo.isPassCountingEnabled = enable;
-	return old;
+self.setLlPassCounting = function (enable) {
+  var old = gTE.tinfo.isPassCountingEnabled;
+  gTE.tinfo.isPassCountingEnabled = enable;
+  return old;
 };
 
 /**
@@ -215,8 +219,8 @@ self.setLlPassCounting = function(enable) {
  * @param {boolean} enable - new Log Action value.
  * @returns {boolean} - old Log Action value.
  */
-self.setDefaultLlLogAction = function(enable) {
-	var old = gTE.logger.defLlLogAction;
-	gTE.logger.defLlLogAction = enable;
-	return old;
+self.setDefaultLlLogAction = function (enable) {
+  var old = gTE.logger.defLlLogAction;
+  gTE.logger.defLlLogAction = enable;
+  return old;
 };

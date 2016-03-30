@@ -1,15 +1,16 @@
 var mpath = require('path');
 gTE.tinfo = {
-	setLlPassCounting: true
+  setLlPassCounting: true
 };
 
 var self = gTE.tinfo;
 
 function formLogPart(str, count) {
-	if (!count)
+	if (!count) {
 		str = str.toLowerCase();
-	str += ': ' + count;
-	return str;
+	}
+  str += ': ' + count;
+  return str;
 }
 
 /**
@@ -21,30 +22,30 @@ function formLogPart(str, count) {
  * @param noTitle
  * @returns {string}
  */
-self.testInfoToString = function(curInfo, isDir, verbose, noTime, noTitle) {
-	var path, title, diffed, failed, ediffed, skipped, passed, time;
-	if (isDir) {
-		path = '';
-		diffed = formLogPart('Dif', curInfo.diffed);
-		ediffed = formLogPart('EDif', curInfo.expDiffed);
-		skipped = formLogPart('Skip', curInfo.skipped);
-	} else {
-		path = '';
-		diffed = curInfo.diffed ? 'DIF' : curInfo.expDiffed ? 'EDIF' : 'OK';
-		ediffed = '';
-		skipped = curInfo.skipped ? 'SKIP' : '';
-	}
-	path += '"' + mpath.basename(curInfo.path) + '"';
-	title = noTitle ? '' : '"' + curInfo.title + '"';
-	passed = formLogPart('Pass', curInfo.passed);
-	failed = formLogPart('Fail', curInfo.failed);
-	time = noTime ? '' : curInfo.time.toFixed(2) + ' ms';
+self.testInfoToString = function (curInfo, isDir, verbose, noTime, noTitle) {
+  var path, title, diffed, failed, ediffed, skipped, passed, time;
+  if (isDir) {
+    path = '';
+    diffed = formLogPart('Dif', curInfo.diffed);
+    ediffed = formLogPart('EDif', curInfo.expDiffed);
+    skipped = formLogPart('Skip', curInfo.skipped);
+  } else {
+    path = '';
+    diffed = curInfo.diffed ? 'DIF' : curInfo.expDiffed ? 'EDIF' : 'OK';
+    ediffed = '';
+    skipped = curInfo.skipped ? 'SKIP' : '';
+  }
+  path += '"' + mpath.basename(curInfo.path) + '"';
+  title = noTitle ? '' : '"' + curInfo.title + '"';
+  passed = formLogPart('Pass', curInfo.passed);
+  failed = formLogPart('Fail', curInfo.failed);
+  time = noTime ? '' : curInfo.time.toFixed(2) + ' ms';
 
-	var arr = verbose ? [path, diffed, failed, ediffed, skipped, passed, time, title,] : [path, diffed, failed];
+  var arr = verbose ? [path, diffed, failed, ediffed, skipped, passed, time, title,] : [path, diffed, failed];
 
-	return arr.filter(function(val) {
-				return val;
-			}).join(', ') + '\n'; // join only non-empty strings.
+  return arr.filter(function (val) {
+      return val;
+    }).join(', ') + '\n'; // join only non-empty strings.
 };
 
 
@@ -52,37 +53,40 @@ self.testInfoToString = function(curInfo, isDir, verbose, noTime, noTitle) {
  *
  * @param isDir - true - directory, false - file.
  */
-self.createTestInfo = function(isDir, title, path) {
-	var info = {
-		path: gTE.textUtils.winToUnixSep(path),
-		title: title,
-		handled: 0,
-		passed: 0,
-		failed: 0,
-		diffed: 0, // For dir this can be more then 1, for test it can be 0 or 1.
-		expDiffed: 0, // expectedly diffed (e.g. for purpose of testing).
-		time: 0, // Execution time in milliseconds.
-		skipped: 0,
-		screenShotCounter: 0
-		// TODO: To investigate the need for throws count.
-	};
-	if (isDir)
+self.createTestInfo = function (isDir, title, path) {
+  var info = {
+    path: gTE.textUtils.winToUnixSep(path),
+    title: title,
+    handled: 0,
+    passed: 0,
+    failed: 0,
+    diffed: 0, // For dir this can be more then 1, for test it can be 0 or 1.
+    expDiffed: 0, // expectedly diffed (e.g. for purpose of testing).
+    time: 0, // Execution time in milliseconds.
+    skipped: 0,
+    screenShotCounter: 0
+    // TODO: To investigate the need for throws count.
+  };
+	if (isDir) {
 		info.children = [];
-	return info;
+	}
+  return info;
 };
 
-self.fail = function() {
-	if (gTE.config.ignorePassAndFailCounters)
+self.fail = function () {
+	if (gTE.config.ignorePassAndFailCounters) {
 		return;
-	gTE.tinfo.data.failed++; // From global sandbox.
+	}
+  gTE.tinfo.data.failed++; // From global sandbox.
 };
 
-self.passForce = function() {
-	gTE.tinfo.data.passed++;
+self.passForce = function () {
+  gTE.tinfo.data.passed++;
 };
 
-self.pass = function() {
-	if (!gTE.tinfo.isPassCountingEnabled || gTE.config.ignorePassAndFailCounters)
+self.pass = function () {
+	if (!gTE.tinfo.isPassCountingEnabled || gTE.config.ignorePassAndFailCounters) {
 		return;
-	gTE.tinfo.data.passed++; // From global sandbox.
+	}
+  gTE.tinfo.data.passed++; // From global sandbox.
 };
