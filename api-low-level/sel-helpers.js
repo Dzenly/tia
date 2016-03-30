@@ -8,8 +8,8 @@ process.env.PATH = chromedriver.path + mpath.delimiter + process.env.PATH;
 
 gTE.sel = { // Selenium stuff
 	wdModule: require('selenium-webdriver'),
-	chrome: require('selenium-webdriver/chrome')
-	// firefox: require('selenium-webdriver/firefox');
+	chrome: require('selenium-webdriver/chrome'),
+	firefox: require('selenium-webdriver/firefox')
 };
 
 global.sel = gTE.sel;
@@ -374,13 +374,18 @@ self.initDriver = function(cleanProfile, logAction) {
 
 		var capabilities;
 
-		var profileAbsPath = mpath.resolve(mpath.join(gTE.engineConfig.profileRoot, gTE.config.profilePath));
+		var profileAbsPath;
+
+    if (gTE.config.profilePath) {
+      profileAbsPath = mpath.resolve(mpath.join(gTE.engineConfig.profileRoot, gTE.config.profilePath));
+    }
 
 		switch (gTE.params.browser) {
 			case 'chrome':
 				var options = new self.chrome.Options();
-				if (gTE.config.profilePath)
-					options.addArguments('--user-data-dir=' + profileAbsPath);
+				if (gTE.config.profilePath) {
+          options.addArguments('--user-data-dir=' + profileAbsPath);
+        }
 				capabilities = options.toCapabilities(self.wdModule.Capabilities.chrome());
 				break;
 			case 'phantomjs':
@@ -389,7 +394,21 @@ self.initDriver = function(cleanProfile, logAction) {
 				//capabilities.set('phantomjs.binary.path', '/home/alexey/bin/phantomjs'); // Undocumented ability.
 				break;
 			case 'firefox':
-				capabilities = self.wdModule.Capabilities.firefox();
+        var options = new self.firefox.Options();
+        var binary = new self.firefox.Binary();
+        if (gTE.config.profilePath) {
+          //binary.addArguments('-profile "' + profileAbsPath + '"');
+          options.setProfile(profileAbsPath);
+        }
+        //options.setBinary(binary);
+
+
+        // options.setProfile()
+        // http://selenium.googlecode.com/git/docs/api/javascript/module_selenium-webdriver_firefox.html
+        // "The FirefoxDriver will never modify a pre-existing profile; instead it will create a copy for it to modify."
+
+        // self.wdModule.Capabilities.firefox();
+				capabilities = options.toCapabilities();
 				break;
 		}
 
@@ -411,7 +430,8 @@ self.initDriver = function(cleanProfile, logAction) {
 		prefs.setLevel(self.wdModule.logging.Type.BROWSER, reportLevel);
 		capabilities.setLoggingPrefs(prefs);
 
-		driver = self.driver = new self.wdModule.Builder().withCapabilities(capabilities).build();
+		driver = self.driver = new self.wdModule.Builder().forBrowser(gTE.params.browser)
+      .withCapabilities(capabilities).build();
 
 		//return promise.rejected('debug');
 		return promise.fulfilled(true); // in case of fail there will be exception.
