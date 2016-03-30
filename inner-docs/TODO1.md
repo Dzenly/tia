@@ -1,12 +1,3 @@
-Сделать поддержку профайла Firefox на Linux.
-
-Проверить как будет работать chrome на виндовс, после отключения HDD и переустановки.
-
-Может быть попробовать завести на виндах нового пользователя и под ним запустить тесты.
-(чтобы избежать проблем с chrome).
-
-? Починить профайлы браузера на винде.
-
 Переделать на require.
 
 Отделить assertions.
@@ -243,4 +234,17 @@ Investigations show that phantom cleans console at URLchanging.
 Performance issue: Manage Driver timeouts: (? 1.5h research work)
 http://seleniumhq.github.io/selenium/docs/api/javascript/class_webdriver_WebDriver_Timeouts.html
 Not so important, I checked that driver polls the DOM more that 10 times per second.
+
+
+
+============
+
+Сделать поддержку профайла Firefox на Linux.
+
+Проверить как будет работать chrome на виндовс, после отключения HDD и переустановки.
+
+Может быть попробовать завести на виндах нового пользователя и под ним запустить тесты.
+(чтобы избежать проблем с chrome).
+
+? Починить профайлы браузера на винде.
 

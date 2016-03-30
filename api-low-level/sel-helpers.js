@@ -362,6 +362,8 @@ self.getUrl = function(logAction) {
 // 	});
 // };
 
+// var gProfile = null;
+
 self.initDriver = function(cleanProfile, logAction) {
 	var profileInfo;
 	if (gTE.config.profilePath) {
@@ -404,11 +406,22 @@ self.initDriver = function(cleanProfile, logAction) {
         if (gTE.config.profilePath) {
           // Profile name should be alphanumeric only.
           // Checked on linux. It does set -profile option.
-          binary.addArguments('-profile "' + profileAbsPath + '"');
+          //binary.addArguments('-profile "' + profileAbsPath + '"');
           options.setProfile(profileAbsPath); // Checked on linux. Does NOT set -profile option.
 
           // http://selenium.googlecode.com/git/docs/api/javascript/module_selenium-webdriver_firefox.html
           // "The FirefoxDriver will never modify a pre-existing profile; instead it will create a copy for it to modify."
+
+          // http://stackoverflow.com/questions/6787095/how-to-stop-selenium-from-creating-temporary-firefox-profiles-using-web-driver
+          // webdriver.firefox.profile (name of the profile).
+
+          // Also there is info that driver.quit() deletes tmp profile, but driver.close() - does not.
+
+          // profile.setPreference ?
+
+          // browser.sessionstore.resume_from_crash
+
+          // writeToDisk ?
 
         }
         options.setBinary(binary);
