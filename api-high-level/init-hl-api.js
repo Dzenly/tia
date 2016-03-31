@@ -1,7 +1,5 @@
 gT.sel.hl = {};
 
-var self = gT.sel.hl;
-
 // options for all these high level API functions.
 // options.logHl - log this high level action (default: true).
 // options.logLl - log lower level actions (default: false).
@@ -18,7 +16,7 @@ var defaultOptions = {
 /*
  Adds missing options.
  **/
-self.completeOptions = function (options) {
+gT.sel.hl.completeOptions = function (options) {
 	if (!options) {
 		return gT.copyObject(defaultOptions);
 	}
@@ -45,9 +43,9 @@ self.completeOptions = function (options) {
 /// public API functions.
 
 // Can be used as public.
-self.genWraper = function*(gen, msg, options) {
+gT.sel.hl.genWraper = function*(gen, msg, options) {
 
-  var opts = self.completeOptions(options);
+  var opts = gT.sel.hl.completeOptions(options);
 
 	if (opts.logHl) {
 		gT.t.println('BEGIN: "' + msg + '"');
@@ -71,8 +69,8 @@ self.genWraper = function*(gen, msg, options) {
 	}
 };
 
-self.initAndLogin = function *(remember, options) {
-  yield *self.genWraper(
+gT.sel.hl.initAndLogin = function *(remember, options) {
+  yield *gT.sel.hl.genWraper(
     function*() {
       yield sel.initDriver();
       yield sel.deleteCookie('sails.sid');
@@ -93,8 +91,8 @@ self.initAndLogin = function *(remember, options) {
     options);
 };
 
-self.initAndWaitExtApp = function *(options) {
-  yield *self.genWraper(
+gT.sel.hl.initAndWaitExtApp = function *(options) {
+  yield *gT.sel.hl.genWraper(
     function*() {
       yield sel.initDriver();
       yield sel.get('$(host)');

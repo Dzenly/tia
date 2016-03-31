@@ -6,50 +6,48 @@ gT.logger = {
   //firstIndent: '|-'
 };
 
-var self = gT.logger;
-
 // Must be called only before handleDir for root test directory, like engine, app, etc..
-self.setSuiteLog = function (suiteLog) {
-  self.suiteLog = suiteLog;
+gT.logger.setSuiteLog = function (suiteLog) {
+  gT.logger.suiteLog = suiteLog;
 };
 
-self.log = function (msg, noConsole) {
+gT.logger.log = function (msg, noConsole) {
   // We use append here, because there must be maximum strings in the log,
   // even if something will break the test engine.
 	if (gT.params.logToConsole && !noConsole) {
 		console.log('LOG:' + msg);
 	}
-  fs.appendFileSync(self.logFile, msg, {encoding: 'ascii'});
+  fs.appendFileSync(gT.logger.logFile, msg, {encoding: 'ascii'});
 };
 
-self.logln = function (msg) {
+gT.logger.logln = function (msg) {
 	if (gT.params.logToConsole) {
 		console.log('LOG:' + msg);
 	}
-  self.log(msg + '\n', true);
+  gT.logger.log(msg + '\n', true);
 };
 
-self.error = function (msg) {
+gT.logger.error = function (msg) {
   msg = 'ERR: ' + msg;
 	if (gT.params.logErrToConsole) {
 		console.error(msg);
 	}
-  self.log(msg, true);
+  gT.logger.log(msg, true);
 };
 
-self.errorln = function (msg) {
+gT.logger.errorln = function (msg) {
   msg = 'ERR: ' + msg;
 	if (gT.params.logErrToConsole) {
 		console.error(msg);
 	}
-  self.log(msg + '\n', true);
+  gT.logger.log(msg + '\n', true);
 };
 
-self.exception = function (msg, e, noConsole) {
+gT.logger.exception = function (msg, e, noConsole) {
 	if (gT.params.logErrToConsole && !noConsole) {
 		console.error('EXC: ' + msg + ' ' + gT.textUtils.excToStr(e));
 	}
-  self.log('EXC: ' + msg + ' ' + gT.textUtils.excToStr(e, true) + '\n', true);
+  gT.logger.log('EXC: ' + msg + ' ' + gT.textUtils.excToStr(e, true) + '\n', true);
 };
 
 /**
@@ -57,9 +55,9 @@ self.exception = function (msg, e, noConsole) {
  * @param msg - A message to be logged.
  * @param enable - Optional. If true log is enabled, othwerwise log is disabled.
  */
-self.logIfEnabled = function (msg, enable) {
+gT.logger.logIfEnabled = function (msg, enable) {
   if (gT.config.forceLogAction || gT.params.forceLogActions || enable) {
-    self.log(msg);
+    gT.logger.log(msg);
   }
 };
 
@@ -68,17 +66,17 @@ self.logIfEnabled = function (msg, enable) {
  * @param msg - A message to be logged.
  * @param enable - Optional. If false - log is disabled, otherwise - log is enabled.
  */
-self.logIfNotDisabled = function (msg, enable) {
+gT.logger.logIfNotDisabled = function (msg, enable) {
 	if (typeof enable === 'undefined') {
-		enable = self.defLlLogAction;
+		enable = gT.logger.defLlLogAction;
 	}
   if (gT.config.forceLogAction || gT.params.forceLogActions || enable) {
-    self.log(msg);
+    gT.logger.log(msg);
   }
 };
 
 function writeStrToFile(str, diffed) {
-  fs.writeSync(self.fd, str, null, 'ascii');
+  fs.writeSync(gT.logger.fd, str, null, 'ascii');
 }
 
 function writeStrToStdout(str, diffed) {
@@ -96,9 +94,9 @@ function writeToSuiteLog(str, diffed) {
   gT.writeLogStr(str, diffed);
 }
 
-self.testSummary = function () {
-  self.log("=================\n");
-  self.log('Pass: ' + gT.tinfo.data.passed + ', Fail: ' + gT.tinfo.data.failed + '\n');
+gT.logger.testSummary = function () {
+  gT.logger.log("=================\n");
+  gT.logger.log('Pass: ' + gT.tinfo.data.passed + ', Fail: ' + gT.tinfo.data.failed + '\n');
 };
 
 function saveDirInfo(dirInfo, indent, verbose, noTime) {
@@ -106,7 +104,7 @@ function saveDirInfo(dirInfo, indent, verbose, noTime) {
 		return;
 	}
   writeToSuiteLog(indent + gT.tinfo.testInfoToString(dirInfo, true, verbose, noTime), dirInfo.diffed);
-  indent = self.indentation + indent;
+  indent = gT.logger.indentation + indent;
   // If directory is empty there will be empty array.
   // Absense of 'children' property says that it is test and not directory, we should not allow to use this function for not directory.
   var len = dirInfo.children.length;
@@ -138,19 +136,19 @@ function saveSuiteLogPart(verbose, dirInfo, noTime) {
  * @parem noTime
  * @returns {string} - Verbose info for the root test directory.
  */
-self.saveSuiteLog = function (dirInfo, log, noTime) {
+gT.logger.saveSuiteLog = function (dirInfo, log, noTime) {
   gT.writeLogStr = writeStrToFile;
-  self.fd = fs.openSync(log, 'w');
+  gT.logger.fd = fs.openSync(log, 'w');
   saveSuiteLogPart(false, dirInfo, noTime);
-  fs.writeSync(self.fd, '\n', null, 'ascii');
+  fs.writeSync(gT.logger.fd, '\n', null, 'ascii');
   saveSuiteLogPart(true, dirInfo, noTime);
-  fs.closeSync(self.fd);
+  fs.closeSync(gT.logger.fd);
   return gT.tinfo.testInfoToString(dirInfo, true, true, noTime, true);
 };
 
 
 /* Prints expected tests results to stdout and unexpected to stderr */
-self.printSuiteLog = function (dirInfo) {
+gT.logger.printSuiteLog = function (dirInfo) {
   gT.writeLogStr = writeStrToStdout;
   saveDirInfo(dirInfo, '', true, false);
 };

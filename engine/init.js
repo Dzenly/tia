@@ -1,10 +1,13 @@
 // Test engine init.
 // Fills the gT global object, which will be used in all tests and in the test engine.
 
+var path = require('path');
+
+
 global.gT = {}; // Global object for Test Engine.
 
 // Chromedriver needs nodejs.
-process.env.PATH = process.env.PATH + ':' + require('path').dirname(process.execPath);
+process.env.PATH = process.env.PATH + path.delimiter + require('path').dirname(process.execPath);
 
 require('../utils/config-utils');
 require('../config/engine-config.js');

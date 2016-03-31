@@ -3,8 +3,6 @@ gT.tinfo = {
   setLlPassCounting: true
 };
 
-var self = gT.tinfo;
-
 function formLogPart(str, count) {
 	if (!count) {
 		str = str.toLowerCase();
@@ -22,7 +20,7 @@ function formLogPart(str, count) {
  * @param noTitle
  * @returns {string}
  */
-self.testInfoToString = function (curInfo, isDir, verbose, noTime, noTitle) {
+gT.tinfo.testInfoToString = function (curInfo, isDir, verbose, noTime, noTitle) {
   var path, title, diffed, failed, ediffed, skipped, passed, time;
   if (isDir) {
     path = '';
@@ -53,7 +51,7 @@ self.testInfoToString = function (curInfo, isDir, verbose, noTime, noTitle) {
  *
  * @param isDir - true - directory, false - file.
  */
-self.createTestInfo = function (isDir, title, path) {
+gT.tinfo.createTestInfo = function (isDir, title, path) {
   var info = {
     path: gT.textUtils.winToUnixSep(path),
     title: title,
@@ -73,18 +71,18 @@ self.createTestInfo = function (isDir, title, path) {
   return info;
 };
 
-self.fail = function () {
+gT.tinfo.fail = function () {
 	if (gT.config.ignorePassAndFailCounters) {
 		return;
 	}
   gT.tinfo.data.failed++; // From global sandbox.
 };
 
-self.passForce = function () {
+gT.tinfo.passForce = function () {
   gT.tinfo.data.passed++;
 };
 
-self.pass = function () {
+gT.tinfo.pass = function () {
 	if (!gT.tinfo.isPassCountingEnabled || gT.config.ignorePassAndFailCounters) {
 		return;
 	}
