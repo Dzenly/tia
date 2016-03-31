@@ -36,6 +36,9 @@ Key
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_Key.html
 
+После установки tia, в `tia/node_modules/selenium-webdriver/test` директории можно посмотреть примеры тестов на чистом selenium webdriver
+(т.е. не через tia).
+
 Я буду стараться создавать разные обертки в API, чтобы тестерам не нужно было знать об этих объектах.
 Но, пока для написания нетривиальных тестов эти знания могут понадобиться.
 sel объект внутри теста, дает доступ к этим элементам Selenium (т.е. имеет одноименные свойства).
