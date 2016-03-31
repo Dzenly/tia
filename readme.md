@@ -32,6 +32,10 @@ chrome webdriver
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/chrome_exports_Driver.html
 
+Key
+
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_Key.html
+
 Я буду стараться создавать разные обертки в API, чтобы тестерам не нужно было знать об этих объектах.
 Но, пока для написания нетривиальных тестов эти знания могут понадобиться.
 sel объект внутри теста, дает доступ к этим элементам Selenium (т.е. имеет одноименные свойства).
