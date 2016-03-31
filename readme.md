@@ -3,6 +3,57 @@
 
 ----------------------------------
 
+## Selenium WebDriver
+
+GUI часть движка сделана на основе официального JS selenium-webdriver биндинга,
+документация по JS Selenium тут:
+
+http://seleniumhq.github.io/selenium/docs/api/javascript/index.html
+
+Хорошо бы быть в курсе, что такое 
+
+WebElement:
+
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_WebElement.html
+
+Actions:
+
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/actions_exports_ActionSequence.html
+
+By
+
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_By.html
+
+until
+
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/until.html
+
+chrome webdriver
+
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/chrome_exports_Driver.html
+
+Я буду стараться создавать разные обертки в API, чтобы тестерам не нужно было знать об этих объектах.
+Но, пока для написания нетривиальных тестов эти знания могут понадобиться.
+sel объект внутри теста, дает доступ к этим элементам Selenium (т.е. имеет одноименные свойства).
+
+### Ворфлоу тестов с Selenium Webdriver
+
+* Идешь на какой-то URL. (см. sel.get(url) ф-ю).
+* Ждешь какого-то события: появления элемента, появления JS объекта,
+появления нужного title страницы, и т.д. (см. sel.wait* ф-и)
+* Ещё можно искать элемент без ожидания (если точно уверен, что элемент есть, иначе словишь exception).
+  Лучше с ожиданием.
+* Посылаешь в этот элемент всякие события от клавиатуры и мыши (sel.click*, sel.sendKeys*).
+* Считываешь что-то из элемента.
+* Считываешь что-то из JS переменных браузера. (см. sel.executeScript()).
+
+### Замечания об ExtJs
+
+* Для динамически генерируемых id нужно через разные обертки движка (пока их мало),
+ или через sel.executeScript находить id элемента и посылать в него разные действия.
+* Через executeScript можно обращаться к нужным ExtJs объектам и передавать из браузера в тесты
+ какие угодно JS объекты.
+
 ## Термины
 
 ### Тест
@@ -56,6 +107,9 @@ $ npm install -g tia
 
 ## Отладка тестов
 
+
+### Первый способ
+
 Можно установить модуль локально:
 
 $ npm install tia
@@ -64,7 +118,13 @@ $ npm install tia
 
 mode_modules/tia/bin/tia.js
 
-с нужными параметрами. 
+с нужными параметрами.
+ 
+### Второй способ:
+
+Устанавливаете модуль локально, и создаете проект прямо в нем.
+
+Главно помнить, что запускаемый файл это bin/tia.js.
 
 ----------------------------------
 
@@ -181,7 +241,7 @@ tia возвращает 0 если тесты прошли ожидаемо и 
 ## API для создания тестов:
 
 В директориях api-high-level, api-low-level находятся функции, которые выполняют эмуляцию действий пользователя, логирование, и другие действия.
-См. документацию в комментариях к функциям.
+См. документацию (она в формате JSDoc) в комментариях к функциям.
 
 ----------------------------------
 ## FAQ:
