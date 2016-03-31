@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 var path = require('path');
 var vm = require('vm');
@@ -15,7 +17,7 @@ function handleDirConfig(dir, files, prevDirConfig) {
   } else {
     files.splice(index, 1);
     var code = fs.readFileSync(path.join(dir, gT.engineConfig.configName))
-    config = vm.runInThisContext(code);
+    config = vm.runInThisContext(code); // TODO: should I also use 'require' here?
   }
 
   index = files.indexOf(gT.engineConfig.suiteConfigName); // Remove suite-config.js from list (it already handled).
@@ -26,14 +28,18 @@ function handleDirConfig(dir, files, prevDirConfig) {
   return gT.configUtils.mergeConfigs(prevDirConfig, config);
 }
 
-function testRunner(code, file) {
-  var res;
+function testRunner(file) {
+
+  let absFilePath = path.resolve(file);
+
+  let res;
 
   gT.tracer.trace0('Starting new test: ' + file);
 
   try {
-    // This timeout for syncronous part only.
-    res = vm.runInThisContext(code, {timeout: gT.config.timeout});
+    res = require(absFilePath);
+    let resolvedModPath = require.resolve(absFilePath);
+    delete require.cache[resolvedModPath];
   }
   catch (e) {
     logger.exception('Exception in runner: ', e, true);
@@ -71,11 +77,10 @@ function *handleTest(file, dirConfig) {
   gT.fileUtils.createEmptyLog(file);
   gT.fileUtils.rmPngs(file);
 
-  var code = fs.readFileSync(file);
   var startTime = gT.timeUtils.startTimer();
 
   yield flow.execute(function () { // gT.tinfo.data
-    testRunner(code, file);
+    testRunner(file);
   });
 
   logger.testSummary();

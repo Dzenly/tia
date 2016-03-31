@@ -1,3 +1,5 @@
+'use strict';
+
 gT.tracer = {};
 
 var self = gT.tracer;

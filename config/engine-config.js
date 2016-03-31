@@ -1,3 +1,4 @@
+'use strict';
 // Конфиги для всех test suites. Не перегружаются нигде.
 gT.engineConfig = {
   configName: 'config.js', // Имя файла для локального конфига.

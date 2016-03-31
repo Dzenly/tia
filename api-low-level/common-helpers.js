@@ -1,3 +1,5 @@
+'use strict';
+
 gT.t = {};
 
 global.t = gT.t;

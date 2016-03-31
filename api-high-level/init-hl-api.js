@@ -1,3 +1,5 @@
+'use strict';
+
 gT.sel.hl = {};
 
 // options for all these high level API functions.

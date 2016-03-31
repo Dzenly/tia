@@ -1,3 +1,5 @@
+'use strict';
+
 var mpath = require('path');
 gT.tinfo = {
   setLlPassCounting: true

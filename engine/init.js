@@ -1,3 +1,5 @@
+'use strict';
+
 // Test engine init.
 // Fills the gT global object, which will be used in all tests and in the test engine.
 
