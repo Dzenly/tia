@@ -293,6 +293,20 @@ gT.sel.clickById = function (id, logAction) {
   });
 };
 
+/**
+ * Click to element specified by id. msg is logged instead of id.
+ *
+ * @param id
+ * @param msg
+ * @param logAction
+ * @returns {Promise.<TResult>}
+ */
+gT.sel.clickByDynamicId = function (id, msg, logAction) {
+  return _actWrapper('Click on element : "' + msg + '" ... ', logAction, function () {
+    return driver.findElement(by.id(id)).click();
+  });
+};
+
 gT.sel.clickTabId = function (itemId, logAction) {
   return _actWrapper('Click on element with itemId: "' + itemId + '" ... ', logAction, function () {
     return driver.executeScript('return rvTestHelperExt.getTabId("' + itemId + '")').then(function (id) {
