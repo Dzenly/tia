@@ -74,8 +74,9 @@ function handleDirConfig(dir, files, prevDirConfig) {
     config = {};
   } else {
     files.splice(index, 1);
-    var code = fs.readFileSync(path.join(dir, gT.engineConfig.configName));
-    config = vm.runInThisContext(code); // TODO: should I also use 'require' here?
+    config = nodeUtils.requireEx(path.join(dir, gT.engineConfig.configName), true).result;
+    // var code = fs.readFileSync(path.join(dir, gT.engineConfig.configName));
+    // config = vm.runInThisContext(code); // TODO: should I also use 'require' here?
   }
 
   // Remove suite-config.js from list (it is already handled).

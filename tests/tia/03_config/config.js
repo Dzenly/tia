@@ -1,5 +1,3 @@
-var config = {
-  sectTitle: "Config testing",
+module.exports = {
+  sectTitle: 'Config testing'
 };
-
-config;

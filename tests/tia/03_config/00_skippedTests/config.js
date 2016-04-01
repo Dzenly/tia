@@ -1,6 +1,4 @@
-var config = {
-  sectTitle: "Skipped tests",
+module.exports = {
+  sectTitle: 'Skipped tests',
   skip: true
 };
-
-config;

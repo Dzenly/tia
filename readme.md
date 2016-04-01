@@ -146,21 +146,17 @@ mode_modules/tia/bin/tia.js
 Последнее выражение в скрипте должно быть объектом с перегружаемыми опциями конфига.
 
 ```js
-var config = {
+module.exports = {
   sectTitle: "Config testing",
 };
-
-config;
 ```
 
 Конфиг suite-config.js делается так же:
 
 ```js
-var config = {
+module.exports = {
   mailList: "vasya@pupkin.ru",
 };
-
-config;
 ```
 
 ----------------------------------
