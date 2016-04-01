@@ -605,6 +605,22 @@ gT.sel.sendKeysById = function (id, keys, logAction) {
 };
 
 /**
+ * Sends keys to element by dynamically generated id.
+ * Logs msg instead of id.
+ *
+ * @param id
+ * @param keys
+ * @param msg
+ * @param logAction
+ * @returns {Promise.<TResult>}
+ */
+gT.sel.sendKeysByDynamicId = function (id, keys, msg, logAction) {
+  return _actWrapper('Sending keys: "' + keys + '", to element: "' + msg + '" ... ', logAction, function () {
+    return driver.findElement(by.id(id)).sendKeys(keys);
+  });
+};
+
+/**
  * Set browser window position.
  *
  * @param x
