@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-":" //# comment; exec /usr/bin/env node --harmony "$0" "$@"
+':'; //# comment; exec /usr/bin/env node --harmony "$0" "$@"
 
 'use strict';
 
@@ -101,14 +101,14 @@ if (suiteRoot[0] === '/') {
   process.exit(1);
 }
 
-require('../engine/init.js');
+require('../engine/init-global-objects.js');
 
 gT.params = {}; // Parameters given in the command line.
 
 gT.params.suiteRoot = suiteRoot;
 gT.params.browser = browser;
 gT.params.path = args['p'];
-gT.params.minPathIndex = suiteRoot.length + 1; // Minumum index for path search.
+gT.params.minPathSearchIndex = suiteRoot.length + 1; // Minumum index for path search.
 gT.params.mail = args['m'];
 gT.params.stackToLog = args['stacktolog'];
 gT.params.noxvfb = args['noxvfb'];
@@ -117,9 +117,9 @@ gT.params.logErrToConsole = args['logerrtoconsole'];
 gT.params.logToConsole = args['logtoconsole'];
 gT.params.trace = args['trace'];
 if (gT.params.trace > 3) {
-	gT.params.trace = 3;
+  gT.params.trace = 3;
 }
 
 gT.params.forceLogActions = args['forcelogactions'];
 
-gT.runTestsAsync(suiteRoot);
+require('../engine/runner.js')(suiteRoot);

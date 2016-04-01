@@ -1,5 +1,7 @@
 var os = require('os');
 
+/* globals gT: true */
+
 gT.nextScreenShotPath = function () {
   var jsPath = gT.tinfo.data.path;
   var index = (gT.tinfo.data.screenShotCounter++) + '';

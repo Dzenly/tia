@@ -1,5 +1,7 @@
 'use strict';
 
+/* globals gT: true */
+
 var fs = require('fs');
 
 gT.logger = {

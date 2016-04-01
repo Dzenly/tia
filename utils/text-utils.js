@@ -1,3 +1,7 @@
+'use strict';
+
+/* globals gT: true */
+
 gT.textUtils = {};
 
 gT.textUtils.removeSelSid = function (str) {
@@ -11,7 +15,7 @@ gT.textUtils.filterStack = function (strStack) {
     return el.indexOf('node_modules') === -1;
   });
   return newArr.join('\n');
-}
+};
 
 gT.textUtils.excToStr = function (err, noStack) {
   var errStr = err.toString();//(typeof err.message === 'undefined') ? err : err.message;
@@ -41,7 +45,6 @@ gT.textUtils.changeExt = function (jsPath, newExt) {
 gT.textUtils.jsToLog = function (jsPath) {
   return gT.textUtils.changeExt(jsPath, '.log');
 };
-
 
 gT.textUtils.expandHost = function (str) {
   return str.replace('$(host)', gT.config.host);

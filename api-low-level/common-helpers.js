@@ -1,5 +1,7 @@
 'use strict';
 
+/* globals gT: true */
+
 gT.t = {};
 
 global.t = gT.t;

@@ -2,6 +2,8 @@ var child_process = require('child_process');
 var path = require('path');
 var fs = require('fs');
 
+/* globals gT: true */
+
 gT.diffUtils = {};
 
 gT.changedDiffs = 0;

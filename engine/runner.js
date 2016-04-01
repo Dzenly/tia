@@ -1,62 +1,39 @@
 'use strict';
 
+/* globals gT: true */
+
 var fs = require('fs');
 var path = require('path');
 var vm = require('vm');
+var nodeUtils = require('../utils/nodejs-utils');
 
 var logger = gT.logger;
-
 var flow = gT.sel.flow;
 var promise = gT.sel.promise;
 
-function handleDirConfig(dir, files, prevDirConfig) {
-  var index = files.indexOf(gT.engineConfig.configName);
-  var config;
-  if (index < 0) {
-    config = {};
-  } else {
-    files.splice(index, 1);
-    var code = fs.readFileSync(path.join(dir, gT.engineConfig.configName))
-    config = vm.runInThisContext(code); // TODO: should I also use 'require' here?
-  }
-
-  index = files.indexOf(gT.engineConfig.suiteConfigName); // Remove suite-config.js from list (it already handled).
-	if (index > -1) {
-		files.splice(index, 1);
-	}
-
-  return gT.configUtils.mergeConfigs(prevDirConfig, config);
-}
-
-function testRunner(file) {
-
-  let absFilePath = path.resolve(file);
-
-  let res;
+function runTestFile(file) {
 
   gT.tracer.trace0('Starting new test: ' + file);
 
   try {
-    res = require(absFilePath);
-    let resolvedModPath = require.resolve(absFilePath);
-    delete require.cache[resolvedModPath];
-  }
-  catch (e) {
+    nodeUtils.requireEx(file, true);
+  } catch (e) {
     logger.exception('Exception in runner: ', e, true);
     gT.tinfo.fail();
   }
 }
 
-function *handleTest(file, dirConfig) {
+function *handleTestFile(file, dirConfig) {
   // Restore the state which could be damaged by previous test and any other initialization.
   gT.tinfo.isPassCountingEnabled = true;
   gT.logger.defLlLogAction = true;
 
   gT.config = gT.configUtils.copyConfig(dirConfig); // Config for current test, can be changed by test.
-  // It is not safe to create such structure in the test and return it from test, because test can be terminated with exception.
+  // It is not safe to create such structure in the test and return it from test,
+  // because test can be terminated with exception.
 
   //console.log('File: ' + file);
-  if (gT.params.path && file.lastIndexOf(gT.params.path) < gT.params.minPathIndex) {
+  if (gT.params.path && file.lastIndexOf(gT.params.path) < gT.params.minPathSearchIndex) {
     return null;
   }
 
@@ -68,10 +45,10 @@ function *handleTest(file, dirConfig) {
     return gT.tinfo.data;
   }
 
-	if (gT.config.DISPLAY && !gT.params.noxvfb) {
-		process.env.DISPLAY = gT.config.DISPLAY;
-	} else {
-		process.env.DISPLAY = gT.engineConfig.defDisplay;
+  if (gT.config.DISPLAY && !gT.params.noxvfb) {
+    process.env.DISPLAY = gT.config.DISPLAY;
+  } else {
+    process.env.DISPLAY = gT.engineConfig.defDisplay;
   }
 
   gT.fileUtils.createEmptyLog(file);
@@ -80,7 +57,7 @@ function *handleTest(file, dirConfig) {
   var startTime = gT.timeUtils.startTimer();
 
   yield flow.execute(function () { // gT.tinfo.data
-    testRunner(file);
+    runTestFile(file);
   });
 
   logger.testSummary();
@@ -90,7 +67,34 @@ function *handleTest(file, dirConfig) {
   return gT.tinfo.data; // Return value to be uniform in handleDir.
 }
 
-function *handleDir(dir, prevDirConfig) {
+function handleDirConfig(dir, files, prevDirConfig) {
+  var index = files.indexOf(gT.engineConfig.configName);
+  var config;
+  if (index < 0) {
+    config = {};
+  } else {
+    files.splice(index, 1);
+    var code = fs.readFileSync(path.join(dir, gT.engineConfig.configName));
+    config = vm.runInThisContext(code); // TODO: should I also use 'require' here?
+  }
+
+  // Remove suite-config.js from list (it is already handled).
+  index = files.indexOf(gT.engineConfig.suiteConfigName);
+  if (index > -1) {
+    files.splice(index, 1);
+  }
+
+  return gT.configUtils.mergeConfigs(prevDirConfig, config);
+}
+
+/**
+ * Read directory. Create test info. Start Timer.
+ * Goes into subdirs recursively, runs test files, collects info for meta log.
+ *
+ * @param dir
+ * @param prevDirConfig
+ */
+function *handleTestDir(dir, prevDirConfig) {
   //console.log('handleDir Dir: ' + dir);
   var files = fs.readdirSync(dir);
   var dirConfig = handleDirConfig(dir, files, prevDirConfig);
@@ -100,16 +104,17 @@ function *handleDir(dir, prevDirConfig) {
   var len = files.length;
   for (var i = 0; i < len; i++) {
     var file = path.join(dir, files[i]);
+    var stat;
     try {
-      var stat = fs.statSync(file);
+      stat = fs.statSync(file);
     } catch (e) {
       continue; // We remove some files in process.
     }
     var innerCurInfo;
     if (stat.isFile() && path.extname(file) === '.js') {
-      innerCurInfo = yield *handleTest(file, dirConfig);
+      innerCurInfo = yield *handleTestFile(file, dirConfig);
     } else if (stat.isDirectory()) {
-      innerCurInfo = yield *handleDir(file, dirConfig);
+      innerCurInfo = yield *handleTestDir(file, dirConfig);
     } else {
       continue;
     }
@@ -130,7 +135,7 @@ function *handleDir(dir, prevDirConfig) {
   return dirInfo;
 }
 
-function *runAsync(dir) {
+function *runTestSuite(dir) {
   //console.log('runAsync Dir: ' + dir);
   var log = dir + '.log'; // Summary log.
   var noTimeLog = log + '.notime';
@@ -138,7 +143,7 @@ function *runAsync(dir) {
   gT.fileUtils.safeUnlink(log);
   gT.fileUtils.safeRename(noTimeLog, noTimeLogPrev);
 
-  var dirInfo = yield* handleDir(dir, gT.dirConfigDefault);
+  var dirInfo = yield* handleTestDir(dir, gT.dirConfigDefault);
 
   dirInfo.title = dir;
   gT.logger.saveSuiteLog(dirInfo, noTimeLog, true);
@@ -160,15 +165,15 @@ function *runAsync(dir) {
     //gT.fileUtils.fileToStdout(log);
   }
 
-	if (gT.suiteConfig.removeZipAfterSend) {
-		gT.fileUtils.safeUnlink(arcName);
-	}
+  if (gT.suiteConfig.removeZipAfterSend) {
+    gT.fileUtils.safeUnlink(arcName);
+  }
 
   return status;// Process exit status.
 }
 
 // Returns subject for email.
-gT.runTestsAsync = function (suiteRoot) {
+module.exports = function (suiteRoot) {
   gT.configUtils.handleSuiteConfig();
   try {
     fs.mkdirSync(gT.engineConfig.profileRoot);
@@ -176,7 +181,7 @@ gT.runTestsAsync = function (suiteRoot) {
   }
 
   flow.execute(function () {
-    return promise.consume(runAsync, null, suiteRoot);
+    return promise.consume(runTestSuite, null, suiteRoot);
   }).then(
     function (exitStatus) {
       process.exitCode = exitStatus;
@@ -187,6 +192,4 @@ gT.runTestsAsync = function (suiteRoot) {
     }
   );
 };
-
-
 

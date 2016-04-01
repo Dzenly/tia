@@ -5,7 +5,6 @@
 
 var path = require('path');
 
-
 global.gT = {}; // Global object for Test Engine.
 
 // Chromedriver needs nodejs.
@@ -25,6 +24,6 @@ require('./test-info.js');
 require('../utils/diff-utils.js');
 require('../api-low-level/sel-helpers.js');
 require('../utils/mail-utils.js');
-require('./runner-async.js');
 require('../api-low-level/common-helpers.js');
 require('../api-high-level/init-hl-api.js');
+require('./runner.js');

@@ -1,5 +1,7 @@
 var path = require('path');
 
+/* globals gT: true */
+
 gT.configUtils = {};
 
 gT.configUtils.copyConfig = function (config) {

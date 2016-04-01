@@ -1,5 +1,7 @@
 'use strict';
 
+/* globals gT: true */
+
 gT.tracer = {};
 
 var self = gT.tracer;

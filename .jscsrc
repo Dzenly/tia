@@ -2,5 +2,6 @@
   "preset": "yandex",
   "fileExtensions": [".js"],
   "excludeFiles": ["node_modules/**"],
-  "requireSpaceAfterLineComment": false
+  "requireSpaceAfterLineComment": false,
+  "validateIndentation": 2
 }

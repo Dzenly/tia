@@ -3,8 +3,9 @@ var fs = require('fs');
 var path = require('path');
 var child_process = require('child_process');
 
-gT.fileUtils = {};
+/* globals gT: true */
 
+gT.fileUtils = {};
 
 // TODO: сделать так, чтобы тесты работали под правами специально заведеного юзера.
 // У этого юзера будет доступ к тестовой директории только на чтение.
@@ -14,6 +15,21 @@ gT.fileUtils = {};
 //gT.fileUtilsCheckPath = function(path){
 //
 //};
+
+/**
+ * Checks that file or directory absent by statSync, without checking for catch reason (ENOENT or no).
+ *
+ * @param path
+ * @returns {boolean}
+ */
+gT.fileUtils.isAbsent = function (path) {
+  try {
+    fs.statSync(path);
+  } catch (e) {
+    return true;
+  }
+  return false;
+};
 
 gT.fileUtils.safeUnlink = function (path) {
   try {
@@ -31,7 +47,6 @@ gT.fileUtils.backupDif = function (path) {
   }
 };
 
-
 gT.fileUtils.rmPngs = function (jsPath) {
   try {
     child_process.execSync('rm ' + gT.textUtils.changeExt(jsPath, '*.png'), {stdio: [null, null, null]});
@@ -41,34 +56,34 @@ gT.fileUtils.rmPngs = function (jsPath) {
 };
 
 gT.fileUtils.rmDir = function (dir, removeSelf) {
+  var files;
   try {
-    var files = fs.readdirSync(dir);
-  }
-  catch (e) {
+    files = fs.readdirSync(dir);
+  } catch (e) {
     return;
   }
-	if (files.length > 0) {
-		for (var i = 0; i < files.length; i++) {
-			var filePath = path.join(dir, files[i]);
-			var fdata = fs.lstatSync(filePath);
-			try {
-				if (fdata.isSymbolicLink()) {
-					fs.unlinkSync(filePath);
-				}
-				if (fdata.isFile()) {
-					fs.unlinkSync(filePath);
-				}
-			} catch (e) {
-				gT.tracer.traceErr(gT.textUtils.excToStr(e));
-			}
-			if (fdata.isDirectory()) {
-				gT.fileUtils.rmDir(filePath, true);
+  if (files.length > 0) {
+    for (var i = 0; i < files.length; i++) {
+      var filePath = path.join(dir, files[i]);
+      var fdata = fs.lstatSync(filePath);
+      try {
+        if (fdata.isSymbolicLink()) {
+          fs.unlinkSync(filePath);
+        }
+        if (fdata.isFile()) {
+          fs.unlinkSync(filePath);
+        }
+      } catch (e) {
+        gT.tracer.traceErr(gT.textUtils.excToStr(e));
+      }
+      if (fdata.isDirectory()) {
+        gT.fileUtils.rmDir(filePath, true);
       }
     }
   }
-	if (removeSelf) {
-		fs.rmdirSync(dir);
-	}
+  if (removeSelf) {
+    fs.rmdirSync(dir);
+  }
 };
 
 gT.fileUtils.emptyDir = function (dir) {
@@ -106,42 +121,44 @@ gT.fileUtils.saveJson = function (obj, file) {
   fs.writeFileSync(file, JSON.stringify(obj), {encoding: 'ascii'});
 };
 
-function handleDir(dirInfo, arr) {
+function collectArcPaths(dirInfo, arcPaths) {
 
-	if (!dirInfo.diffed) {
-		return;
-	}
+  if (!dirInfo.diffed) {
+    return;
+  }
 
-  // Absense of 'children' property says that it is test and not directory, we should not allow to use this function for not directory.
+  // Absense of 'children' property says that it is test and not directory,
+  // we should not allow to use this function for not directory.
   for (let curInfo of dirInfo.children) {
     if (curInfo.hasOwnProperty('children')) {
-      handleDir(curInfo, arr);
+      collectArcPaths(curInfo, arcPaths);
     } else {
-			if (curInfo.diffed) {
-				arr.push('"' + gT.textUtils.changeExt(curInfo.path, '') + '"*');
-			}
+      if (curInfo.diffed) {
+        arcPaths.push('"' + gT.textUtils.changeExt(curInfo.path, '') + '"*');
+      }
     }
   }
 }
 
 gT.fileUtils.archiveSuiteDir = function (dirInfo) {
-	if (!gT.params.mail || !gT.suiteConfig.attachArchive || !gT.suiteConfig.mailList) {
-		return null;
-	}
+  if (!gT.params.mail || !gT.suiteConfig.attachArchive || !gT.suiteConfig.mailList) {
+    return null;
+  }
   var arcName = new Date().toISOString().slice(0, 19).replace(/:/g, '_') + '.zip';
   //arcName = path.resolve(arcName); // TODO shorten paths in zip?
   if (!gT.suiteConfig.attachOnlyDiffs) {
-    child_process.execSync('zip -r ' + arcName + ' ' + dirInfo.path, {stdio: [null, null, null]});// TODO: can throw, is this ok?
+    // TODO: can throw, is this ok?
+    child_process.execSync('zip -r ' + arcName + ' ' + dirInfo.path, {stdio: [null, null, null]});
     return arcName;
   }
 
   var arr = [];
 
-  handleDir(dirInfo, arr);
+  collectArcPaths(dirInfo, arr);
 
-	if (arr.length === 0) {
-		return null;
-	}
+  if (arr.length === 0) {
+    return null;
+  }
 
   try {
     child_process.execSync('zip ' + arcName + ' ' + arr.join(' '), {stdio: [null, null, null]});

@@ -1,5 +1,8 @@
 'use strict';
 
+/* globals gT: true */
+/* globals sel: true */
+
 gT.sel.hl = {};
 
 // options for all these high level API functions.
@@ -19,25 +22,25 @@ var defaultOptions = {
  Adds missing options.
  **/
 gT.sel.hl.completeOptions = function (options) {
-	if (!options) {
-		return gT.copyObject(defaultOptions);
-	}
+  if (!options) {
+    return gT.copyObject(defaultOptions);
+  }
 
-	if (typeof options.logHl === 'undefined') {
-		options.logHl = true;
-	}
+  if (typeof options.logHl === 'undefined') {
+    options.logHl = true;
+  }
 
-	if (typeof options.logLl === 'undefined') {
-		options.logLl = false;
-	}
+  if (typeof options.logLl === 'undefined') {
+    options.logLl = false;
+  }
 
-	if (typeof options.passHl === 'undefined') {
-		options.passHl = true;
-	}
+  if (typeof options.passHl === 'undefined') {
+    options.passHl = true;
+  }
 
-	if (typeof options.passLl === 'undefined') {
-		options.passLl = false;
-	}
+  if (typeof options.passLl === 'undefined') {
+    options.passLl = false;
+  }
 
   return options;
 };
@@ -45,13 +48,13 @@ gT.sel.hl.completeOptions = function (options) {
 /// public API functions.
 
 // Can be used as public.
-gT.sel.hl.genWraper = function*(gen, msg, options) {
+gT.sel.hl.genWraper = function* (gen, msg, options) {
 
   var opts = gT.sel.hl.completeOptions(options);
 
-	if (opts.logHl) {
-		gT.t.println('BEGIN: "' + msg + '"');
-	}
+  if (opts.logHl) {
+    gT.t.println('BEGIN: "' + msg + '"');
+  }
 
   // In case of fail, the state will be restored before next test.
   var oldLogLl = gT.t.setDefaultLlLogAction(opts.logLl);
@@ -62,18 +65,18 @@ gT.sel.hl.genWraper = function*(gen, msg, options) {
   gT.t.setDefaultLlLogAction(oldLogLl);
   gT.t.setLlPassCounting(oldPassLl);
 
-	if (opts.logHl) {
-		gT.t.println('END: "' + msg + '"');
-	}
+  if (opts.logHl) {
+    gT.t.println('END: "' + msg + '"');
+  }
 
-	if (opts.passHl) {
-		gT.tinfo.passForce();
-	}
+  if (opts.passHl) {
+    gT.tinfo.passForce();
+  }
 };
 
-gT.sel.hl.initAndLogin = function *(remember, options) {
+gT.sel.hl.initAndLogin = function * (remember, options) {
   yield *gT.sel.hl.genWraper(
-    function*() {
+    function* () {
       yield sel.initDriver();
       yield sel.deleteCookie('sails.sid');
       yield sel.get('$(host)');
@@ -81,9 +84,9 @@ gT.sel.hl.initAndLogin = function *(remember, options) {
       yield sel.waitForElementById('username', 2000);
       yield sel.sendKeysById('username', 'admin');
       yield sel.sendKeysById('password', 'admin');
-			if (remember) {
-				yield sel.clickById('checkbox');
-			}
+      if (remember) {
+        yield sel.clickById('checkbox');
+      }
       yield sel.clickById('submit');
       yield sel.waitForTitle('R-Vision', 10000);
       yield sel.waitForUrlPrefix('$(host)/#dashboard', 250000);
@@ -93,9 +96,9 @@ gT.sel.hl.initAndLogin = function *(remember, options) {
     options);
 };
 
-gT.sel.hl.initAndWaitExtApp = function *(options) {
+gT.sel.hl.initAndWaitExtApp = function * (options) {
   yield *gT.sel.hl.genWraper(
-    function*() {
+    function* () {
       yield sel.initDriver();
       yield sel.get('$(host)');
       yield sel.waitForTitle('R-Vision', 10000);

@@ -1,4 +1,6 @@
 {
+  "esversion": 6,
+  "predef": [ "gT", "global.gT", "sel", "t" ],
   "node": true,
   "forin": true,
   "browser": false,

@@ -1,14 +1,16 @@
 'use strict';
 
+/* globals gT: true */
+
 var mpath = require('path');
 gT.tinfo = {
   setLlPassCounting: true
 };
 
 function formLogPart(str, count) {
-	if (!count) {
-		str = str.toLowerCase();
-	}
+  if (!count) {
+    str = str.toLowerCase();
+  }
   str += ': ' + count;
   return str;
 }
@@ -48,35 +50,34 @@ gT.tinfo.testInfoToString = function (curInfo, isDir, verbose, noTime, noTitle) 
     }).join(', ') + '\n'; // join only non-empty strings.
 };
 
-
 /**
  *
  * @param isDir - true - directory, false - file.
  */
 gT.tinfo.createTestInfo = function (isDir, title, path) {
   var info = {
-    path: gT.textUtils.winToUnixSep(path),
+    path: gT.textUtils.winToUnixSep(path), // For uniform logging.
     title: title,
     handled: 0,
     passed: 0,
     failed: 0,
-    diffed: 0, // For dir this can be more then 1, for test it can be 0 or 1.
+    diffed: 0, // For dir this can be > 1, for file it can be 0 or 1.
     expDiffed: 0, // expectedly diffed (e.g. for purpose of testing).
     time: 0, // Execution time in milliseconds.
     skipped: 0,
     screenShotCounter: 0
     // TODO: To investigate the need for throws count.
   };
-	if (isDir) {
-		info.children = [];
-	}
+  if (isDir) {
+    info.children = [];
+  }
   return info;
 };
 
 gT.tinfo.fail = function () {
-	if (gT.config.ignorePassAndFailCounters) {
-		return;
-	}
+  if (gT.config.ignorePassAndFailCounters) {
+    return;
+  }
   gT.tinfo.data.failed++; // From global sandbox.
 };
 
@@ -85,8 +86,8 @@ gT.tinfo.passForce = function () {
 };
 
 gT.tinfo.pass = function () {
-	if (!gT.tinfo.isPassCountingEnabled || gT.config.ignorePassAndFailCounters) {
-		return;
-	}
+  if (!gT.tinfo.isPassCountingEnabled || gT.config.ignorePassAndFailCounters) {
+    return;
+  }
   gT.tinfo.data.passed++; // From global sandbox.
 };

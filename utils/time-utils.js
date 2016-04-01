@@ -1,3 +1,7 @@
+'use strict';
+
+/* globals gT: true */
+
 gT.timeUtils = {};
 
 gT.timeUtils.startTimer = function () {
