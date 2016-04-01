@@ -12,8 +12,8 @@ process.env.PATH = process.env.PATH + path.delimiter + require('path').dirname(p
 
 require('../utils/config-utils');
 require('../config/engine-config.js');
-require('../config/suite-config.js');
-require('../config/dir-config.js');
+require('../config/default-suite-config.js');
+require('../config/default-dir-config.js');
 require('../utils/misc-utils.js');
 require('../utils/file-utils.js');
 require('../utils/text-utils.js');

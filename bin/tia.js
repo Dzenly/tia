@@ -3,7 +3,7 @@
 
 'use strict';
 
-//#! /usr/bin/env node --harmony
+/* globals gT: true */
 
 var browsers = [
   'chrome', // First browser is default.

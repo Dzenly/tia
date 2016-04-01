@@ -1,6 +1,10 @@
-var path = require('path');
+'use strict';
 
 /* globals gT: true */
+
+var path = require('path');
+var fs = require('fs');
+var nodeUtils = require('../utils/nodejs-utils.js');
 
 gT.configUtils = {};
 
@@ -29,13 +33,12 @@ gT.configUtils.mergeConfigs = function (config1, config2) {
 
 // Returns merged config for suite.
 gT.configUtils.handleSuiteConfig = function () {
-  var curSuiteConfig = {};
+  var localSuiteConfig = {};
   var configPath = path.join(gT.params.suiteRoot, gT.engineConfig.suiteConfigName);
-  var code;
   try {
-    code = fs.readFileSync(configPath);
-    curSuiteConfig = vm.runInThisContext(code);
+    localSuiteConfig = nodeUtils.requireEx(configPath, true).result;
   } catch (e) {
+    gT.tracer.trace2('There is no Local Suite Config');
   }
-  gT.suiteConfig = gT.configUtils.mergeConfigs(gT.suiteConfigDefault, curSuiteConfig);
+  gT.suiteConfig = gT.configUtils.mergeConfigs(gT.suiteConfigDefault, localSuiteConfig);
 };

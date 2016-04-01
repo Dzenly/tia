@@ -1,0 +1,10 @@
+Checking config and suite-config work.
+=================
+Dir config check:
+Check that "configDirDummyOption" is equal to "configDirDummyOption"...OK
+Suite config Expected value check:
+Check that "dummyGoodSuitConfigOption" is equal to "dummyGoodSuitConfigOption"...OK
+Suite config Unexpected value check:
+Check that "undefined" is equal to "undefined"...OK
+=================
+Pass: 3, Fail: 0
