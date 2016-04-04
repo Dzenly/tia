@@ -15,7 +15,8 @@ function usage() {
   console.log([
     '\nUsage: tia <testSuiteRoot> [options]',
     '\n, where:',
-    '\n    <testSuiteRoot> - root directory for test suite relative to current working dir (only relative path allowed for now)',
+    '\n    <testSuiteRoot> - root directory for test suite (can be relative to current working dir)',
+    '    Note: browser profile is created in the current working dir.',
     '\n, and [options]:',
     '\n    -b <browser> (default: ' + browsers[0] + ') browser to run tests for.',
     '    Supported browsers are: ' + browsers.join(', ') + '\n',
@@ -72,13 +73,13 @@ var opts = {
 
 var args = require('minimist')(process.argv.slice(2), opts);
 
-if (args._.length == 0 || args['h'] || args['help']) {
+if (args._.length === 0 || args['h'] || args['help']) {
   usage();
   process.exit(0);
 }
 
 var browser = args['b'];
-if (browsers.indexOf(browser) == -1) {
+if (browsers.indexOf(browser) === -1) {
   console.error('Invalid browser: ' + browser);
   console.error('Supported browsers are: ' + browsers.join(', '));
   process.exit(1);
@@ -89,7 +90,7 @@ var suiteRoot = args._[0];
 // TODO: support windows separators also.
 
 // Make sure that there is no trailing separator.
-if (suiteRoot[suiteRoot.length - 1] == '/') {
+if (suiteRoot[suiteRoot.length - 1] === '/') {
   suiteRoot = suiteRoot.slice(0, -1);
 }
 
@@ -131,5 +132,9 @@ if (args['require-modules']) {
     require(reqPath);
   }
 }
+
+// gT.engineConfig.profileRoot
+// TODO: now profile creates in current working directory.
+// Replace it with testSuiteRoot directory ?
 
 require('../engine/runner.js')(suiteRoot);

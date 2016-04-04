@@ -283,7 +283,7 @@ gT.sel.cleanProfile = function (logAction) {
       if (gT.config.profilePath) {
         gT.fileUtils.emptyDir(mpath.join(gT.engineConfig.profileRoot, gT.config.profilePath));
       }
-    })
+    });
   });
 };
 
@@ -415,7 +415,7 @@ gT.sel.getUrl = function (logAction) {
 // 		return driver.getCurrentUrl().then(function(url) {
 // 			var index = url.lastIndexOf(':');
 // 			var res;
-// 			if (index == -1)
+// 			if (index === -1)
 // 				res = url;
 // 			else
 // 				res = url.substr(0, index);

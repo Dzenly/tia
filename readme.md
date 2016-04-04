@@ -1,6 +1,3 @@
-* auto-gen TOC:
-{:toc}
-
 # Time Is All (log driven test engine)
 
 ----------------------------------
