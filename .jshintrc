@@ -1,6 +1,7 @@
 {
   "esversion": 6,
   "predef": [ "gT", "global.gT", "sel", "t" ],
+  "laxcomma": true,
   "node": true,
   "forin": true,
   "browser": false,

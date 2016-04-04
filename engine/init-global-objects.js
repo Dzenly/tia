@@ -26,4 +26,3 @@ require('../api-low-level/sel-helpers.js');
 require('../utils/mail-utils.js');
 require('../api-low-level/common-helpers.js');
 require('../api-high-level/init-hl-api.js');
-require('./runner.js');

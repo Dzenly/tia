@@ -13,15 +13,16 @@ var browsers = [
 
 function usage() {
   console.log([
-    '\nUsage: tia <suiteRoot> [-b <browser>] [-p <pathToDirOrTest>] [-m] [--stacktolog] [--noxvfb] [-l] [--logerrtoconsole] [--logtoconsole] [--trace <level>] [--forcelogactions]',
-    '\n, where:\n',
-    '    <suiteRoot> - root directory for test suite relative to tia.js directory (only relative path allowed for now)\n',
-    '    <browser> - (default: ' + browsers[0] + ') browser to run tests for:',
-    '    supported browsers are: chrome, phantomjs, firefox (TODO: ie, safari).\n',
-    '    <pathToDirOrTest> - optional path fragment for tests to run',
-    '    , any test which file path (relative to <suiteRoot>) contains <pathToDirOrTest> will run.',
-    '    By default tests from all directories (recursively) will run.\n',
-    '    -m enables mail sending.\n',
+    '\nUsage: tia <testSuiteRoot> [options]',
+    '\n, where:',
+    '\n    <testSuiteRoot> - root directory for test suite relative to current working dir (only relative path allowed for now)',
+    '\n, and [options]:',
+    '\n    -b <browser> (default: ' + browsers[0] + ') browser to run tests for.',
+    '    Supported browsers are: ' + browsers.join(', ') + '\n',
+    '    -p <pathToDirOrTest> - pattern for tests to run',
+    '    , any test which file path (relative to <testSuiteRoot>) contains <pathToDirOrTest> substring will run.',
+    '    By default, tests from all directories (recursively) will run.\n',
+    '    -m enables email sending.\n',
     '    --stacktolog print stack trace to test logs.\n',
     '    --noxvfb force visual mode (for debug).\n',
     '    -l (TODO) attach diffed logs to mail.\n',
@@ -29,9 +30,10 @@ function usage() {
     '    --logtoconsole print test logs to console.\n',
     '    --trace <level> enables tracing (1 | 2 | 3 ) (1 - less verbose, 3 - maximum verbosity).\n',
     '    --forcelogactions forced logs for all actions.\n',
+    '    --require-modules <absolute_paths_separated_by_comma>\n',
     'Examples:\n',
-    '    tia tests/app -b chrome\n',
-    '    node --harmony bin/tia.js tests/app -b chrome\n',
+    '    tia my-tests/testSuiteDir --noxvfb\n',
+    '    node --harmony bin/tia.js my-tests/testSuiteDir\n',
     'If there is no diffs, 0 is returned and stdout will contain test log,',
     'otherwise - 1 is returned and stderr will contain test log.\n',
     'This utility uses external utilities (diff, rm) and webdriver.',
@@ -50,7 +52,7 @@ function unknownOption(option) {
 
 var opts = {
   // trace is number, numbers implied by default in minimist.
-  string: ['b', 'p', 'trace'],
+  string: ['b', 'p', 'trace', 'require-modules'],
   boolean: ['h', 'help', 'm', 'stacktolog', 'noxvfb', 'l', 'logerrtoconsole', 'logtoconsole', 'forcelogactions'],
   default: {
     b: browsers[0],
@@ -62,7 +64,8 @@ var opts = {
     logerrtoconsole: false,
     logtoconsole: false,
     trace: 0,
-    forcelogactions: false
+    forcelogactions: false,
+    'require-modules': ''
   },
   unknown: unknownOption
 };
@@ -121,5 +124,12 @@ if (gT.params.trace > 3) {
 }
 
 gT.params.forceLogActions = args['forcelogactions'];
+
+if (args['require-modules']) {
+  let arr = args['require-modules'].split(/\s*,\s*/);
+  for (let reqPath of arr) {
+    require(reqPath);
+  }
+}
 
 require('../engine/runner.js')(suiteRoot);

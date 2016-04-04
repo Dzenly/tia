@@ -3,5 +3,6 @@
   "fileExtensions": [".js"],
   "excludeFiles": ["node_modules/**"],
   "requireSpaceAfterLineComment": false,
-  "validateIndentation": 2
+  "validateIndentation": 2,
+  "requireCommaBeforeLineBreak": false
 }
