@@ -1,3 +1,4 @@
+[TOC]
 
 # Time Is All (log driven test engine)
 

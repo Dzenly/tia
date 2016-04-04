@@ -112,7 +112,6 @@ gT.t.getFailed = function () {
   return tinfo.data.failed;
 };
 
-
 /**
  * Sets the test title.
  * @param title
@@ -122,7 +121,6 @@ gT.t.setTitle = function (title) {
   logger.logln(title);
   logger.logln('=================');
 };
-
 
 /**
  * Checks that specified condition is true.
