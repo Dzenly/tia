@@ -22,7 +22,6 @@ require('./tracer.js');
 require('./logger.js');
 require('./test-info.js');
 require('../utils/diff-utils.js');
-require('../api-low-level/sel-helpers.js');
 require('../utils/mail-utils.js');
-require('../api-low-level/common-helpers.js');
+require('../api');
 require('../api-high-level/init-hl-api.js');

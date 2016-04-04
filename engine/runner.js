@@ -4,12 +4,11 @@
 
 var fs = require('fs');
 var path = require('path');
-var vm = require('vm');
 var nodeUtils = require('../utils/nodejs-utils');
 
 var logger = gT.logger;
-var flow = gT.sel.flow;
-var promise = gT.sel.promise;
+var flow = gT.s.flow;
+var promise = gT.s.promise;
 
 function runTestFile(file) {
 
@@ -18,14 +17,14 @@ function runTestFile(file) {
   try {
     nodeUtils.requireEx(file, true);
   } catch (e) {
-    logger.exception('Exception in runner: ', e, true);
-    gT.tinfo.fail();
+    logger.exception('Exception in runner: ', e, false); // TODO: why I used true here ?
+    gT.tInfo.fail();
   }
 }
 
 function *handleTestFile(file, dirConfig) {
   // Restore the state which could be damaged by previous test and any other initialization.
-  gT.tinfo.isPassCountingEnabled = true;
+  gT.tInfo.isPassCountingEnabled = true;
   gT.logger.defLlLogAction = true;
 
   gT.config = gT.configUtils.copyConfig(dirConfig); // Config for current test, can be changed by test.
@@ -37,12 +36,12 @@ function *handleTestFile(file, dirConfig) {
     return null;
   }
 
-  gT.tinfo.data = gT.tinfo.createTestInfo(false, '', file); // Test should change this title.
-  gT.tinfo.data.handled = 1;
+  gT.tInfo.data = gT.tInfo.createTestInfo(false, '', file); // Test should change this title.
+  gT.tInfo.data.handled = 1;
 
   if (dirConfig.skip) {
-    gT.tinfo.data.skipped = 1;
-    return gT.tinfo.data;
+    gT.tInfo.data.skipped = 1;
+    return gT.tInfo.data;
   }
 
   if (gT.config.DISPLAY && !gT.params.noxvfb) {
@@ -56,15 +55,15 @@ function *handleTestFile(file, dirConfig) {
 
   var startTime = gT.timeUtils.startTimer();
 
-  yield flow.execute(function () { // gT.tinfo.data
+  yield flow.execute(function () { // gT.tInfo.data
     runTestFile(file);
   });
 
   logger.testSummary();
-  gT.tinfo.data.time = gT.timeUtils.stopTimer(startTime);
+  gT.tInfo.data.time = gT.timeUtils.stopTimer(startTime);
   gT.diffUtils.diff(file);
 
-  return gT.tinfo.data; // Return value to be uniform in handleDir.
+  return gT.tInfo.data; // Return value to be uniform in handleDir.
 }
 
 function handleDirConfig(dir, files, prevDirConfig) {
@@ -97,7 +96,7 @@ function *handleTestDir(dir, prevDirConfig) {
   //console.log('handleDir Dir: ' + dir);
   var files = fs.readdirSync(dir);
   var dirConfig = handleDirConfig(dir, files, prevDirConfig);
-  var dirInfo = gT.tinfo.createTestInfo(true, dirConfig.sectTitle, dir);
+  var dirInfo = gT.tInfo.createTestInfo(true, dirConfig.sectTitle, dir);
   var startTime = gT.timeUtils.startTimer();
 
   var len = files.length;
@@ -148,7 +147,7 @@ function *runTestSuite(dir) {
   gT.logger.saveSuiteLog(dirInfo, noTimeLog, true);
 
   var suiteLogDifRes = Boolean(gT.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog));
-  var changedDiffs = gT.changedDiffs ? '(' + gT.changedDiffs + ' diff(s) changed)' : '';
+  var changedDiffs = gT.diffUtils.changedDiffs ? '(' + gT.diffUtils.changedDiffs + ' diff(s) changed)' : '';
   var subj = gT.os() + ', ' + (suiteLogDifRes ? 'CHANGED' : ('AS PREV ' + changedDiffs)) + ', ' + gT.logger.saveSuiteLog(dirInfo, log);
   dirInfo.suiteLogDiff = suiteLogDifRes;
   dirInfo.os = gT.os();

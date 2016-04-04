@@ -1,3 +1,3 @@
 t.setTitle('Exception due to undefined variable');
 
-var someVar = gT.undefinedProperty.undefinedSubProperty;
+var someVar = gT.intendedUndefinedProperty.intendedUndefinedSubProperty;

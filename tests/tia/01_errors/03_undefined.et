@@ -1,5 +1,5 @@
 Exception due to undefined variable
 =================
-EXC: Exception in runner:  TypeError: Cannot read property 'undefinedSubProperty' of undefined
+EXC: Exception in runner:  TypeError: Cannot read property 'intendedUndefinedSubProperty' of undefined
 =================
 Pass: 0, Fail: 1

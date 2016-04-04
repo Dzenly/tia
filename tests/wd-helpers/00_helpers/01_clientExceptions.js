@@ -1,26 +1,26 @@
 function *test() {
 	t.setTitle('Test for client exceptions');
 
-	yield sel.initDriver();
-  yield sel.get('http://google.com');
-	//yield sel.setWindowSize(2560, 1440);
+	yield s.initDriver();
+  yield s.get('http://google.com');
+	//yield s.setWindowSize(2560, 1440);
 
-	t.println('No exceptions and console logs:');
-	yield sel.logBrowserExceptions(true);
-	yield sel.console();
+	l.println('No exceptions and console logs:');
+	yield s.logBrowserExceptions(true);
+	yield s.console();
 
-	yield sel.issueClientException();
+	yield s.issueClientException();
 
-	t.println('One exception and one console log:');
-	yield sel.logBrowserExceptions(true);
-	yield sel.console();
+	l.println('One exception and one console log:');
+	yield s.logBrowserExceptions(true);
+	yield s.console();
 
-	t.println('No exceptions and console logs:');
-	yield sel.logBrowserExceptions(true);
-	yield sel.console();
+	l.println('No exceptions and console logs:');
+	yield s.logBrowserExceptions(true);
+	yield s.console();
 
-	yield sel.close();
-	yield sel.quit();
+	yield s.close();
+	yield s.quit();
 }
 
-sel.execGen(test);
+u.execGen(test);

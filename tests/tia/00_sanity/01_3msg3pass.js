@@ -1,9 +1,9 @@
 t.setTitle('2 messages and 3 passes.');
 
-t.print('Message 1 of 2\n');
-t.print('Message 2 of 2\n');
+l.print('Message 1 of 2\n');
+l.print('Message 2 of 2\n');
 
-t.pass();
-t.pass();
+l.pass();
+l.pass();
 
-t.pass('Pass with message\n');
+l.pass('Pass with message\n');

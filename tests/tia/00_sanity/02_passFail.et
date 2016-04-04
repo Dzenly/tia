@@ -1,18 +1,18 @@
 Check for pass and fail work
 =================
 Here must be 1 failed test:
-Check that "1" is a number and is equal to "1"...OK
+Check that "1" is equal to "1"...OK
 fail with message
 Here must be 2 failed tests:
-Check that "2" is a number and is equal to "2"...OK
+Check that "2" is equal to "2"...OK
 pass with message
 Here must be 4 passed tests:
-Check that "4" is a number and is equal to "4"...OK
+Check that "4" is equal to "4"...OK
 Freshly inited test info, real title, verbose:
 "02_passFail.js", OK, Fail: 2, Pass: 5, 0.00 ms, "Check for pass and fail work"
 After setFailed Here must be 0 failed tests:
-Check that "0" is a number and is equal to "0"...OK
+Check that "0" is equal to "0"...OK
 After setPassed Here must be 1 passed test:
-Check that "1" is a number and is equal to "1"...OK
+Check that "1" is equal to "1"...OK
 =================
 Pass: 2, Fail: 0

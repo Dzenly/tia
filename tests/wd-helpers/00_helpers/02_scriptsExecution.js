@@ -2,14 +2,14 @@
 
 function *test() {
   t.setTitle('Test for client exceptions');
-  yield sel.initDriver();
-  yield sel.get('http://google.com');
+  yield s.initDriver();
+  yield s.get('http://google.com');
 
-  var res = yield sel.executeScript('return 5;');
-  t.println('Result of script execution: ' + res);
+  var res = yield s.executeScript('return 5;');
+  l.println('Result of script execution: ' + res);
 
-  yield sel.close();
-  yield sel.quit();
+  yield s.close();
+  yield s.quit();
 }
 
-sel.execGen(test);
+u.execGen(test);

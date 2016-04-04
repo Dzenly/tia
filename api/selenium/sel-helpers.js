@@ -6,36 +6,30 @@ var fs = require('fs');
 var mpath = require('path');
 var util = require('util');
 
-
 var chromedriver = require('chromedriver');
 process.env.PATH = chromedriver.path + mpath.delimiter + process.env.PATH;
 
-gT.sel = { // Selenium stuff
-  wdModule: require('selenium-webdriver'),
-  chrome: require('selenium-webdriver/chrome'),
-  firefox: require('selenium-webdriver/firefox'),
-};
-
-global.sel = gT.sel;
+gT.s.wdModule = require('selenium-webdriver');
+gT.s.chrome = require('selenium-webdriver/chrome');
+gT.s.firefox = require('selenium-webdriver/firefox');
 
 var config = gT.config;
 
-var promise = gT.sel.wdModule.promise;
+var promise = gT.s.wdModule.promise;
 var flow = promise.controlFlow();
-gT.sel.flow = flow;
-gT.sel.promise = promise;
+gT.s.flow = flow;
+gT.s.promise = promise;
 
-gT.sel.by = gT.sel.wdModule.By;
-gT.sel.until = gT.sel.wdModule.until;
-gT.sel.ActionSequence = sel.wdModule.ActionSequence;
-gT.sel.key = gT.sel.wdModule.Key;
+gT.s.by = gT.s.wdModule.By;
+gT.s.until = gT.s.wdModule.until;
+gT.s.ActionSequence = s.wdModule.ActionSequence;
+gT.s.key = gT.s.wdModule.Key;
 
 var logger = gT.logger;
-var until = gT.sel.until;
-var by = gT.sel.by;
+var until = gT.s.until;
+var by = gT.s.by;
 
 var driver;
-
 
 function _startTimer() {
   if (gT.config.timings) {
@@ -69,11 +63,11 @@ function *_timeoutAndLogOk(logAction, startTime, noConsoleAndExceptions) {
     return;
   }
   if (gT.config.printClExcAfterEachCommand) {
-    yield gT.sel.logBrowserExceptions();
+    yield gT.s.logBrowserExceptions();
   }
 
   if (gT.config.printClConsoleAfterEachCommand) {
-    yield gT.sel.console();
+    yield gT.s.console();
   }
 }
 
@@ -94,26 +88,26 @@ function _actWrapper(msg, logAction, act, noConsoleAndExceptions) {
   });
   return flow.execute(act).then(
     function (val) {
-      flow.execute(function *() {
-        gT.tinfo.pass(); // will be taken from global sandbox.
+      flow.execute(function * () {
+        gT.tInfo.pass(); // will be taken from global sandbox.
         yield *_timeoutAndLogOk(logAction, startTime, noConsoleAndExceptions);
       });
       return val; // This value will be returned from yield.
     },
     function (err) {
-      gT.tinfo.fail();
+      gT.tInfo.fail();
       logger.errorln('Act.Wrapper.FAIL' + _stopTimer(startTime));
       logger.errorln('========== Err Info Begin ==========');
       logger.exception('', err);
-      if (typeof gT.sel.driver !== 'undefined') {
+      if (typeof gT.s.driver !== 'undefined') {
         gT.tracer.trace1('Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.');
-        gT.sel.screenshot();
-        gT.sel.logBrowserExceptions(true);
-        gT.sel.console();
-        gT.sel.quit().then(function () {
+        gT.s.screenshot();
+        gT.s.logBrowserExceptions(true);
+        gT.s.console();
+        gT.s.quit().then(function () {
           logger.errorln('========== Err Info End ==========');
         });
-        delete gT.sel.driver;
+        delete gT.s.driver;
       } else {
         logger.errorln('Info: No selenium driver');
         logger.errorln('========== Err Info End ==========');
@@ -122,7 +116,7 @@ function _actWrapper(msg, logAction, act, noConsoleAndExceptions) {
       // return; // If we will return smth here, it will be returned from yield.
       // It can be used for continue testing after fail. It is quite an exotic situation and logs will be undetermined.
 
-      return gT.sel.promise.rejected('Error in action'); // yield will generate exception with this object.
+      return gT.s.promise.rejected('Error in action'); // yield will generate exception with this object.
       // Unsafe tests will break test engine.
       // Safe tests silently catch this object. See execGen implementation below for safe tests example.
     });
@@ -135,49 +129,35 @@ function _actWrapper(msg, logAction, act, noConsoleAndExceptions) {
 // Dummy functions for tests for test engine.
 // Msg - is just message to identify the place in test.
 
-gT.sel.dummyPromiseFulfilled = function (msg) {
+gT.s.dummyPromiseFulfilled = function (msg) {
   return _actWrapper('Dummy promise fulfilled: "' + msg, logAction, function () {
     return promise.fulfilled('Fulfilled');
   });
 };
 
-gT.sel.dummyPromiseRejected = function (msg) {
+gT.s.dummyPromiseRejected = function (msg) {
   return _actWrapper('Dummy promise rejected: "' + msg, logAction, function () {
     return promise.rejected('Rejected');
   });
 };
 
-gT.sel.dummyPromiseThrowed = function (msg) {
+gT.s.dummyPromiseThrowed = function (msg) {
   return _actWrapper('Dummy promise rejected: "' + msg, logAction, function () {
     return promise.rejected('Rejected');
   });
 };
 
-gT.sel.dummyThrowErr = function (msg) {
+gT.s.dummyThrowErr = function (msg) {
 
 };
 
-gT.sel.dummyThrowStr = function (msg) {
+gT.s.dummyThrowStr = function (msg) {
 
 };
 
-gT.sel.dummySyntaxError = function (msg) {
+gT.s.dummySyntaxError = function (msg) {
 
 };
-
-/**
- * Safely runs generator.
- * All exceptions are catched and logged.
- *
- * @param gen
- */
-function *safeGen(gen) {
-  try {
-    yield* gen();
-  } catch (e) {
-    gT.tracer.traceErr('Safe Generator catched error: ' + gT.textUtils.excToStr(e));
-  }
-}
 
 function isAppReady() {
   return driver.executeScript('return !!window.rvTestHelper');
@@ -202,15 +182,12 @@ function isExtAppReady() {
     });
 }
 
-
 // Public functions:
-
 
 // https://github.com/gempesaw/Selenium-Remote-Driver/wiki/PhantomJS-Headless-Browser-Automation
 // phantomjs --webdriver=4444, OR:
 // java -jar selenium-server-standalone-2.35.0.jar -Dphantomjs.binary.path=/usr/local/bin/phantomjs
 // my $driver =  Selenium::Remote::Driver->new("browser_name" => "phantomjs");
-
 
 // driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
@@ -234,7 +211,7 @@ function isExtAppReady() {
  * @param logAction -  enable/disable logging for this action.
  * @returns {Promise.<TResult>}
  */
-gT.sel.addCookie = function (name, value, logAction) {
+gT.s.addCookie = function (name, value, logAction) {
   return _actWrapper('Add cookie: "' + name + '": "' + value + '" ... ', logAction, function () {
     return driver.manage().addCookie(name, value);
   });
@@ -251,13 +228,12 @@ gT.sel.addCookie = function (name, value, logAction) {
  * @param logAction -  enable/disable logging for this action.
  * @returns {Promise.<TResult>}
  */
-gT.sel.addCookieEx = function (name, value, path, domain, isSecure, expirity, logAction) {
+gT.s.addCookieEx = function (name, value, path, domain, isSecure, expirity, logAction) {
   return _actWrapper('Add cookie ex: "' + name + '": "' + 'a value' + '", "' + path + '", "' + domain + '" ... ',
     logAction, function () {
       return driver.manage().addCookie(name, value, path, domain, isSecure, expirity);
     });
 };
-
 
 /**
  *
@@ -266,7 +242,7 @@ gT.sel.addCookieEx = function (name, value, path, domain, isSecure, expirity, lo
  * @returns {Promise.<TResult>}
  */
 // No log action intentionaly.
-gT.sel.cleanExceptions = function (extAjaxFailures, logAction) {
+gT.s.cleanExceptions = function (extAjaxFailures, logAction) {
   return _actWrapper('Cleaning client exceptions: ... ', logAction, function () {
     return driver.executeScript('return window.rvtReady').then(
       function (res) {
@@ -277,7 +253,7 @@ gT.sel.cleanExceptions = function (extAjaxFailures, logAction) {
   });
 };
 
-gT.sel.cleanProfile = function (logAction) {
+gT.s.cleanProfile = function (logAction) {
   return _actWrapper('Cleaning profile: "' + gT.config.profilePath + '" ... ', logAction, function () {
     return flow.execute(function () {
       if (gT.config.profilePath) {
@@ -287,7 +263,7 @@ gT.sel.cleanProfile = function (logAction) {
   });
 };
 
-gT.sel.clickById = function (id, logAction) {
+gT.s.clickById = function (id, logAction) {
   return _actWrapper('Click on element with id: "' + id + '" ... ', logAction, function () {
     return driver.findElement(by.id(id)).click();
   });
@@ -301,13 +277,13 @@ gT.sel.clickById = function (id, logAction) {
  * @param logAction
  * @returns {Promise.<TResult>}
  */
-gT.sel.clickByDynamicId = function (id, msg, logAction) {
+gT.s.clickByDynamicId = function (id, msg, logAction) {
   return _actWrapper('Click on element : "' + msg + '" ... ', logAction, function () {
     return driver.findElement(by.id(id)).click();
   });
 };
 
-gT.sel.clickTabId = function (itemId, logAction) {
+gT.s.clickTabId = function (itemId, logAction) {
   return _actWrapper('Click on element with itemId: "' + itemId + '" ... ', logAction, function () {
     return driver.executeScript('return rvTestHelperExt.getTabId("' + itemId + '")').then(function (id) {
       gT.tracer.trace3('clickTabId: id of found element: ' + id);
@@ -316,8 +292,8 @@ gT.sel.clickTabId = function (itemId, logAction) {
   });
 };
 
-gT.sel.close = function (logAction) {
-  gT.sel.console();
+gT.s.close = function (logAction) {
+  gT.s.console();
   return _actWrapper('Closing the browser .... ', logAction, function () {
     return driver.close();
   }, true);
@@ -328,9 +304,9 @@ gT.sel.close = function (logAction) {
 //   - does not support adjusting log levels for type "browser".
 //   - does not return proper log level for "browser" messages.
 //   - does not delete logs after retrieval
-gT.sel.console = function () {
+gT.s.console = function () {
   //return _actWrapper('', false, function() {
-  return driver.manage().logs().get(gT.sel.wdModule.logging.Type.BROWSER).then(
+  return driver.manage().logs().get(gT.s.wdModule.logging.Type.BROWSER).then(
     function (entries) {
       gT.tracer.trace1('Begin of console Log');
       for (var entry of entries) {
@@ -342,27 +318,14 @@ gT.sel.console = function () {
   //});
 };
 
-gT.sel.deleteCookie = function (name, logAction) {
+gT.s.deleteCookie = function (name, logAction) {
   return _actWrapper('Delete cookie: "' + name + '" ... ', logAction, function () {
     return driver.manage().deleteCookie(name);
   });
 };
 
-/**
- * Runs function - generator.
- *
- * @param gen - function - generator.
- * @returns {Promise}
- */
-gT.sel.execGen = function (gen) {
-  //return flow.execute(gen); // Unsafe variant.
-  return flow.execute(function () { // Safe variant.
-    return promise.consume(safeGen, null, gen);
-  });
-};
-
 // Custom runner for function - generator.
-//gT.sel.runGen = function (gen) {
+//gT.s.runGen = function (gen) {
 //	var it = safeGen(gen);
 //
 //	function next(ret) {
@@ -381,13 +344,13 @@ gT.sel.execGen = function (gen) {
 //	next();
 //};
 
-gT.sel.fail = function (url, logAction) {
+gT.s.fail = function (url, logAction) {
   return _actWrapper('Intentional fail for debug: ... ', logAction, function () {
     return promise.rejected('Intentional fail');
   });
 };
 
-gT.sel.get = function (url, logAction) {
+gT.s.get = function (url, logAction) {
   return _actWrapper('Loading a page with URL: "' + url + '" ... ', logAction, function () {
     url = gT.textUtils.expandHost(url);
     return driver.get(url);
@@ -395,13 +358,13 @@ gT.sel.get = function (url, logAction) {
 };
 
 // Returns JSON object.
-gT.sel.getCookie = function (name, logAction) {
+gT.s.getCookie = function (name, logAction) {
   return _actWrapper('Get cookie: "' + name + '" ... ', logAction, function () {
     return driver.manage().getCookie(name);
   });
 };
 
-gT.sel.getUrl = function (logAction) {
+gT.s.getUrl = function (logAction) {
   return _actWrapper('Getting URL ... ', logAction, function () {
     return driver.getCurrentUrl().then(function (res) {
       return gT.textUtils.collapseHost(res);
@@ -410,7 +373,7 @@ gT.sel.getUrl = function (logAction) {
 };
 
 // Url up to colon.
-// gT.sel.getUrlPrefix = function(print, logAction) {
+// gT.s.getUrlPrefix = function(print, logAction) {
 // 	return _actWrapper('Getting URL prefix ... ', logAction, function() {
 // 		return driver.getCurrentUrl().then(function(url) {
 // 			var index = url.lastIndexOf(':');
@@ -420,7 +383,7 @@ gT.sel.getUrl = function (logAction) {
 // 			else
 // 				res = url.substr(0, index);
 // 			if (print)
-// 				gT.t.print('(' + gT.textUtils.collapseHost(res) + ') ... ');
+// 				gT.l.print('(' + gT.textUtils.collapseHost(res) + ') ... ');
 // 			return res;
 // 		});
 // 	});
@@ -435,7 +398,7 @@ gT.sel.getUrl = function (logAction) {
  * @param {Boolean} cleanProfile - Is profile cleaning needed.
  * @param {Boolean} logAction -  enable/disable logging for this action.
  */
-gT.sel.initDriver = function (cleanProfile, logAction) {
+gT.s.initDriver = function (cleanProfile, logAction) {
   var profileInfo;
   if (gT.config.profilePath) {
     profileInfo = '(with user defined ' + (cleanProfile ? 'empty' : 'saved') + ' profile)';
@@ -446,7 +409,7 @@ gT.sel.initDriver = function (cleanProfile, logAction) {
   return _actWrapper('Initialization ' + profileInfo + ' ... ', logAction, function () {
 
     if (cleanProfile) {
-      gT.sel.cleanProfile(false);
+      gT.s.cleanProfile(false);
     }
 
     var capabilities;
@@ -460,20 +423,20 @@ gT.sel.initDriver = function (cleanProfile, logAction) {
 
     switch (gT.params.browser) {
       case 'chrome':
-        var options = new gT.sel.chrome.Options();
+        var options = new gT.s.chrome.Options();
         if (gT.config.profilePath) {
           options.addArguments('--user-data-dir=' + profileAbsPath);
         }
-        capabilities = options.toCapabilities(gT.sel.wdModule.Capabilities.chrome());
+        capabilities = options.toCapabilities(gT.s.wdModule.Capabilities.chrome());
         break;
       case 'phantomjs':
-        capabilities = gT.sel.wdModule.Capabilities.phantomjs();
+        capabilities = gT.s.wdModule.Capabilities.phantomjs();
         capabilities.set('phantomjs.cli.args', '--webdriver-loglevel=ERROR'); // Undocumented ability.
         //capabilities.set('phantomjs.binary.path', '/home/alexey/bin/phantomjs'); // Undocumented ability.
         break;
       case 'firefox':
-        var options = new gT.sel.firefox.Options();
-        var binary = new gT.sel.firefox.Binary();
+        var options = new gT.s.firefox.Options();
+        var binary = new gT.s.firefox.Binary();
         if (gT.config.profilePath) {
           // Profile name should be alphanumeric only.
           // Checked on linux. It does set -profile option.
@@ -497,32 +460,32 @@ gT.sel.initDriver = function (cleanProfile, logAction) {
         }
         options.setBinary(binary);
 
-        // gT.sel.wdModule.Capabilities.firefox();
-        capabilities = options.toCapabilities(gT.sel.wdModule.Capabilities.firefox());
+        // gT.s.wdModule.Capabilities.firefox();
+        capabilities = options.toCapabilities(gT.s.wdModule.Capabilities.firefox());
         break;
     }
 
     gT.tracer.trace3(util.inspect(capabilities));
 
-    var prefs = new gT.sel.wdModule.logging.Preferences();
+    var prefs = new gT.s.wdModule.logging.Preferences();
     // TODO: this parameter correctly works only for chrome.
     // phantomjs gets all messages, independent on choosen level.
     // Mozilla gets no messages.
     var reportLevel;
     switch (gT.config.consoleReportLevel) {
       case 'WARNING':
-        reportLevel = gT.sel.wdModule.logging.Level.WARNING;
+        reportLevel = gT.s.wdModule.logging.Level.WARNING;
         break;
       case 'SEVERE':
-        reportLevel = gT.sel.wdModule.logging.Level.SEVERE;
+        reportLevel = gT.s.wdModule.logging.Level.SEVERE;
         break;
       default:
         return promise.rejected('invalid consoleReportLevel value: ' + gT.config.consoleReportLevel);
     }
-    prefs.setLevel(gT.sel.wdModule.logging.Type.BROWSER, reportLevel);
+    prefs.setLevel(gT.s.wdModule.logging.Type.BROWSER, reportLevel);
     capabilities.setLoggingPrefs(prefs);
 
-    driver = gT.sel.driver = new gT.sel.wdModule.Builder().forBrowser(gT.params.browser)
+    driver = gT.s.driver = new gT.s.wdModule.Builder().forBrowser(gT.params.browser)
       .withCapabilities(capabilities).build();
 
     //return promise.rejected('debug');
@@ -530,7 +493,7 @@ gT.sel.initDriver = function (cleanProfile, logAction) {
   });
 };
 
-gT.sel.issueClientException = function (logAction) {
+gT.s.issueClientException = function (logAction) {
   return _actWrapper('Issue client exception ... ', logAction, function () {
     return driver.executeScript('setTimeout(function() { DsgwDwd3 += 8;}, 0)');
   });
@@ -544,7 +507,7 @@ gT.sel.issueClientException = function (logAction) {
  *
  * @returns a promise which will be resolved with script return value.
  */
-gT.sel.executeScript = function (scriptStr, logAction) {
+gT.s.executeScript = function (scriptStr, logAction) {
   return _actWrapper('Script execution ... ', logAction, function () {
     return driver.executeScript(scriptStr);
   });
@@ -552,18 +515,17 @@ gT.sel.executeScript = function (scriptStr, logAction) {
 
 /* Known issue: Xvfb has bad support for maximize, but does support setWindowSize. */
 /* Use this function after waitForAppReady or waitForExtAppReady call to make sure that it works correctly */
-gT.sel.maximize = function (logAction) {
+gT.s.maximize = function (logAction) {
   return _actWrapper('Maximize ... ', logAction, function () {
     if (typeof gT.width !== 'undefined') {
       return driver.manage().window().setSize(gT.width, gT.height);
-    }
-    else {
+    } else {
       return driver.manage().window().maximize();
     }
   });
 };
 
-gT.sel.logBrowserExceptions = function (extAjaxFailures, logAction) {
+gT.s.logBrowserExceptions = function (extAjaxFailures, logAction) {
   return driver.executeScript('return !!window.rvTestHelper').then(
     function (res) {
       gT.tracer.trace1('logBrowserExceptions, rvTestHelper is: ' + res);
@@ -579,26 +541,26 @@ gT.sel.logBrowserExceptions = function (extAjaxFailures, logAction) {
     });
 };
 
-gT.sel.quit = function (logAction) {
+gT.s.quit = function (logAction) {
   return _actWrapper('Quitting .... ', logAction, function () {
     return driver.quit();
   }, true);
 };
 
-gT.sel.screenshot = function (logAction) {
+gT.s.screenshot = function (logAction) {
   return _actWrapper('Screenshot: ', logAction, function () {
     return driver.takeScreenshot().then(function (str) {
-      if (gT.tinfo.data.screenShotCounter > 99) { // TODO: place the constant to config (but code must be changed also) ?
+      if (gT.tInfo.data.screenShotCounter > 99) { // TODO: place the constant to config (but code must be changed also) ?
         return promise.rejected('Too many screenshoots');
       }
       var shotPath = gT.nextScreenShotPath();
-      t.print(shotPath + ' ... ');
-      fs.writeFileSync(shotPath, str.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+      l.print(shotPath + ' ... ');
+      fs.writeFileSync(shotPath, str.replace(/^data:image\/\w+;base64,/, ''), 'base64');
     });
   });
 };
 
-gT.sel.sendKeysById = function (id, keys, logAction) {
+gT.s.sendKeysById = function (id, keys, logAction) {
   return _actWrapper('Sending keys: "' + keys + '", to element with id: "' + id + '" ... ', logAction, function () {
     return driver.findElement(by.id(id)).sendKeys(keys);
   });
@@ -614,7 +576,7 @@ gT.sel.sendKeysById = function (id, keys, logAction) {
  * @param logAction
  * @returns {Promise.<TResult>}
  */
-gT.sel.sendKeysByDynamicId = function (id, keys, msg, logAction) {
+gT.s.sendKeysByDynamicId = function (id, keys, msg, logAction) {
   return _actWrapper('Sending keys: "' + keys + '", to element: "' + msg + '" ... ', logAction, function () {
     return driver.findElement(by.id(id)).sendKeys(keys);
   });
@@ -629,7 +591,7 @@ gT.sel.sendKeysByDynamicId = function (id, keys, msg, logAction) {
  *
  * @return {Promise}
  */
-gT.sel.setWindowPosition = function (x, y, logAction) {
+gT.s.setWindowPosition = function (x, y, logAction) {
   return _actWrapper('Set Window Position: (' + x + ', ' + y + ') ... ', logAction, function () {
     return driver.manage().window().setPosition(x, y);
   });
@@ -643,7 +605,7 @@ gT.sel.setWindowPosition = function (x, y, logAction) {
  *
  * @return {Promise}
  */
-gT.sel.setWindowSize = function (width, height, logAction) {
+gT.s.setWindowSize = function (width, height, logAction) {
   return _actWrapper('Set Window Size: (' + width + ', ' + height + ') ... ', logAction, function () {
     return driver.manage().window().setSize(width, height);
   });
@@ -657,13 +619,13 @@ gT.sel.setWindowSize = function (width, height, logAction) {
  *
  * @returns {Promise}
  */
-gT.sel.sleep = function (ms, logAction) {
+gT.s.sleep = function (ms, logAction) {
   return _actWrapper('Sleep ' + ms + ' ms ... ', logAction, function () {
     return flow.timeout(ms);
   });
 };
 
-// gT.sel.waitAppReady = function(timeout, logAction) {
+// gT.s.waitAppReady = function(timeout, logAction) {
 // 	return _actWrapper('Waiting for App Ready ... ', logAction, function() {
 // 		return driver.wait(isExtAppReady, timeout).then(
 // 				function() {
@@ -677,7 +639,6 @@ gT.sel.sleep = function (ms, logAction) {
 // 	});
 // };
 
-
 /**
  *  Waits for R-Vision non ExtJs objects to be ready.
  *  After this, one can start work with R-Vision non-ExtJs application (say, login window).
@@ -688,11 +649,11 @@ gT.sel.sleep = function (ms, logAction) {
  *
  * @returns {Promise} - waiting result.
  */
-gT.sel.waitForAppReady = function (timeout, logAction) {
+gT.s.waitForAppReady = function (timeout, logAction) {
   return _actWrapper('Waiting for Ext App Ready ... ', logAction, function () {
     return driver.wait(isAppReady, timeout).then(
       function () {
-        return driver.executeScript("return rvTestHelper.getScreenResolution()").then(function (res) {
+        return driver.executeScript('return rvTestHelper.getScreenResolution()').then(function (res) {
           // Save resolution to emulate maximize.
           gT.width = res.width;
           gT.height = res.height;
@@ -712,21 +673,20 @@ gT.sel.waitForAppReady = function (timeout, logAction) {
  *
  * @returns {Promise} - waiting result.
  */
-gT.sel.waitForExtAppReady = function (timeout, logAction) {
+gT.s.waitForExtAppReady = function (timeout, logAction) {
   return _actWrapper('Waiting for Ext App Ready ... ', logAction, function () {
     return driver.wait(isExtAppReady, timeout).then(
       function () {
-        return driver.executeScript("return rvTestHelper.getScreenResolution()").then(function (res) {
+        return driver.executeScript('return rvTestHelper.getScreenResolution()').then(function (res) {
           // Save resolution to emulate maximize.
           gT.width = res.width;
           gT.height = res.height;
-          return gT.sel.sleep(2000, false); // TODO: not very reliable.
+          return gT.s.sleep(2000, false); // TODO: not very reliable.
         });
       }
     );
   });
 };
-
 
 /**
  * Waits for element with specified id.
@@ -737,7 +697,7 @@ gT.sel.waitForExtAppReady = function (timeout, logAction) {
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-gT.sel.waitForElementById = function (id, timeout, logAction) {
+gT.s.waitForElementById = function (id, timeout, logAction) {
   return _actWrapper('Waiting for element by id : "' + id + '" ... ', logAction, function () {
     return driver.wait(until.elementLocated(by.id(id)), timeout);
   });
@@ -752,7 +712,7 @@ gT.sel.waitForElementById = function (id, timeout, logAction) {
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-gT.sel.waitForElementByClassName = function (className, timeout, logAction) {
+gT.s.waitForElementByClassName = function (className, timeout, logAction) {
   return _actWrapper('Waiting for element by class name : "' + className + '" ... ', logAction, function () {
     return driver.wait(until.elementLocated(by.className(className)), timeout);
   });
@@ -767,12 +727,11 @@ gT.sel.waitForElementByClassName = function (className, timeout, logAction) {
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-gT.sel.waitForElementByCssSelector = function (selector, timeout, logAction) {
+gT.s.waitForElementByCssSelector = function (selector, timeout, logAction) {
   return _actWrapper('Waiting for element by css selector : "' + selector + '" ... ', logAction, function () {
     return driver.wait(until.elementLocated(by.css(selector)), timeout);
   });
 };
-
 
 /**
  * Waits for specified page title.
@@ -783,7 +742,7 @@ gT.sel.waitForElementByCssSelector = function (selector, timeout, logAction) {
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-gT.sel.waitForTitle = function (title, timeout, logAction) {
+gT.s.waitForTitle = function (title, timeout, logAction) {
   return _actWrapper('Waiting for windows title: "' + title + '" ... ', logAction, function () {
     return driver.wait(until.titleIs(title), timeout);
   });
@@ -797,7 +756,7 @@ gT.sel.waitForTitle = function (title, timeout, logAction) {
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-gT.sel.waitForUrl = function (expUrl, timeout, logAction) {
+gT.s.waitForUrl = function (expUrl, timeout, logAction) {
   return _actWrapper('Waiting for URL: "' + expUrl + '" ... ', logAction, function () {
     return driver.wait(function () {
       return driver.getCurrentUrl().then(function (actUrl) {
@@ -816,7 +775,7 @@ gT.sel.waitForUrl = function (expUrl, timeout, logAction) {
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-gT.sel.waitForUrlPrefix = function (urlPrefix, timeout, logAction) {
+gT.s.waitForUrlPrefix = function (urlPrefix, timeout, logAction) {
   return _actWrapper('Waiting for URL prefix: "' + urlPrefix + '" ... ', logAction, function () {
     return driver.wait(function () {
       return driver.getCurrentUrl().then(function (actUrl) {

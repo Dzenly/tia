@@ -1,9 +1,8 @@
 'use strict';
 
 /* globals gT: true */
-/* globals sel: true */
 
-gT.sel.hl = {};
+gT.s.hl = {};
 
 // options for all these high level API functions.
 // options.logHl - log this high level action (default: true).
@@ -21,7 +20,7 @@ var defaultOptions = {
 /*
  Adds missing options.
  **/
-gT.sel.hl.completeOptions = function (options) {
+gT.s.hl.completeOptions = function (options) {
   if (!options) {
     return gT.copyObject(defaultOptions);
   }
@@ -48,12 +47,12 @@ gT.sel.hl.completeOptions = function (options) {
 /// public API functions.
 
 // Can be used as public.
-gT.sel.hl.genWraper = function* (gen, msg, options) {
+gT.s.hl.genWraper = function* (gen, msg, options) {
 
-  var opts = gT.sel.hl.completeOptions(options);
+  var opts = gT.s.hl.completeOptions(options);
 
   if (opts.logHl) {
-    gT.t.println('BEGIN: "' + msg + '"');
+    gT.l.println('BEGIN: "' + msg + '"');
   }
 
   // In case of fail, the state will be restored before next test.
@@ -66,44 +65,44 @@ gT.sel.hl.genWraper = function* (gen, msg, options) {
   gT.t.setLlPassCounting(oldPassLl);
 
   if (opts.logHl) {
-    gT.t.println('END: "' + msg + '"');
+    gT.l.println('END: "' + msg + '"');
   }
 
   if (opts.passHl) {
-    gT.tinfo.passForce();
+    gT.tInfo.passForce();
   }
 };
 
-gT.sel.hl.initAndLogin = function * (remember, options) {
-  yield *gT.sel.hl.genWraper(
+gT.s.hl.initAndLogin = function * (remember, options) {
+  yield *gT.s.hl.genWraper(
     function* () {
-      yield sel.initDriver();
-      yield sel.deleteCookie('sails.sid');
-      yield sel.get('$(host)');
-      yield sel.waitForTitle('R-Vision: Sign in', 2000);
-      yield sel.waitForElementById('username', 2000);
-      yield sel.sendKeysById('username', 'admin');
-      yield sel.sendKeysById('password', 'admin');
+      yield s.initDriver();
+      yield s.deleteCookie('sails.sid');
+      yield s.get('$(host)');
+      yield s.waitForTitle('R-Vision: Sign in', 2000);
+      yield s.waitForElementById('username', 2000);
+      yield s.sendKeysById('username', 'admin');
+      yield s.sendKeysById('password', 'admin');
       if (remember) {
-        yield sel.clickById('checkbox');
+        yield s.clickById('checkbox');
       }
-      yield sel.clickById('submit');
-      yield sel.waitForTitle('R-Vision', 10000);
-      yield sel.waitForUrlPrefix('$(host)/#dashboard', 250000);
-      yield sel.waitForExtAppReady(1000);
+      yield s.clickById('submit');
+      yield s.waitForTitle('R-Vision', 10000);
+      yield s.waitForUrlPrefix('$(host)/#dashboard', 250000);
+      yield s.waitForExtAppReady(1000);
     },
     'Init and Login',
     options);
 };
 
-gT.sel.hl.initAndWaitExtApp = function * (options) {
-  yield *gT.sel.hl.genWraper(
+gT.s.hl.initAndWaitExtApp = function * (options) {
+  yield *gT.s.hl.genWraper(
     function* () {
-      yield sel.initDriver();
-      yield sel.get('$(host)');
-      yield sel.waitForTitle('R-Vision', 10000);
-      yield sel.waitForUrlPrefix('$(host)/#dashboard', 250000);
-      yield sel.waitForExtAppReady(1000);
+      yield s.initDriver();
+      yield s.get('$(host)');
+      yield s.waitForTitle('R-Vision', 10000);
+      yield s.waitForUrlPrefix('$(host)/#dashboard', 250000);
+      yield s.waitForExtAppReady(1000);
     },
     'Init without Login',
     options);

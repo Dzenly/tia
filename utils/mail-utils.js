@@ -55,7 +55,7 @@ gT.mailUtils.sendMail = function (subj, attachment, archive) {
 	if (archive) {
 		mailOptions.attachments.push({path: archive, contentType: 'application/zip'});
 	}
-  return gT.sel.promise.checkedNodeCall(
+  return gT.s.promise.checkedNodeCall(
     function (options, callback) { // callback will be provided by checkedNodeCall
       transporter.sendMail(options, function (err, info) {
         if (err) {

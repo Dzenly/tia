@@ -1,3 +1,5 @@
+'use strict';
+
 var child_process = require('child_process');
 var path = require('path');
 var fs = require('fs');
@@ -6,7 +8,7 @@ var fs = require('fs');
 
 gT.diffUtils = {};
 
-gT.changedDiffs = 0;
+gT.diffUtils.changedDiffs = 0;
 
 /**
  * Returns result of running external diff utility, i.e. stdout + stderr.
@@ -40,7 +42,7 @@ gT.diffUtils.diff = function (jsTest) {
   var diffed = out ? 1 : 0;
   if (!diffed) {
     gT.fileUtils.safeUnlink(diffPath);
-    return; // No gT.tinfo.data changes. gT.tinfo.data.diffed and gT.tinfo.data.expDiffed are zeroes.
+    return; // No gT.tInfo.data changes. gT.tInfo.data.diffed and gT.tInfo.data.expDiffed are zeroes.
   }
 
   gT.fileUtils.backupDif(diffPath);
@@ -50,14 +52,14 @@ gT.diffUtils.diff = function (jsTest) {
   // Check for expected diff.
   out = gT.diffUtils.getDiff(dir, base + '.edif', base + '.dif');
 	if (out) {
-		gT.tinfo.data.diffed = 1;
+		gT.tInfo.data.diffed = 1;
 		out = gT.diffUtils.getDiff(dir, base + '.dif.dif', base + '.dif');
 		if (out) {
-			gT.changedDiffs++;
+			gT.diffUtils.changedDiffs++;
 		}
 	}
 	else {
-		gT.tinfo.data.expDiffed = 1;
+		gT.tInfo.data.expDiffed = 1;
   }
 
   gT.fileUtils.safeUnlink(diffPath + '.dif');
