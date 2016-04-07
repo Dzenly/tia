@@ -121,8 +121,6 @@ Connect to existing window? To start test from some hand point.
 tests for timeouts for webdriver (seems like sometimes it hanging).
 May be page loading - the special case for which timeouts work differently.(3h (may include some research work)).
 
-tests for timeouts for vm.runInThisContext (2h may have some research)
-
 How to integrate tests into some cloud system for auto-testing. (? 12h research)
 
 ==================================

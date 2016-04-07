@@ -259,8 +259,6 @@ Connect to existing window? To start test from some cusom point.
 tests for timeouts for webdriver (seems like sometimes it hanging).
 May be page loading - the special case for which timeouts work differently.(3h (may include some research work)).
 
-tests for timeouts for vm.runInThisContext (2h may have some research)
-
 Take best parts from tape, mocha, jasmine, protractor, etc.
 
 Separate test engine from Selenium and from ExtJS. (? 16h (now it is used Selenium's control flow and selenium promises)).
