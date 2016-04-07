@@ -1,7 +1,7 @@
 'use strict';
 
 /* globals gT: true */
-
+/* globals gIn: true */
 
 /**
  * Safely runs generator.
@@ -13,7 +13,7 @@ function *safeGen(gen) {
   try {
     yield* gen();
   } catch (e) {
-    gT.tracer.traceErr('Safe Generator catched error: ' + gT.textUtils.excToStr(e));
+    gIn.tracer.traceErr('Safe Generator catched error: ' + gIn.textUtils.excToStr(e));
   }
 }
 
@@ -26,7 +26,13 @@ function *safeGen(gen) {
  */
 gT.u.execGen = function (gen) {
   //return flow.execute(gen); // Unsafe variant.
-  return gT.s.flow.execute(function () { // Safe variant.
-    return gT.s.promise.consume(safeGen, null, gen);
+  return gT.sOrig.flow.execute(function () { // Safe variant.
+    return gT.sOrig.promise.consume(safeGen, null, gen);
+  });
+};
+
+gT.s.fail = function (url, logAction) {
+  return gIn.wrap('Intentional fail for debug: ... ', logAction, function () {
+    return promise.rejected('Intentional fail');
   });
 };

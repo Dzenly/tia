@@ -1,10 +1,6 @@
 'use strict';
 
-/* globals gT: true */
-
-gT.timeUtils = {};
-
-gT.timeUtils.startTimer = function () {
+exports.startTimer = function () {
   return process.hrtime();
 };
 
@@ -12,7 +8,7 @@ gT.timeUtils.startTimer = function () {
  * returns time interval in milliseconds.
  * @param startTime - the data returned by startTimer.
  */
-gT.timeUtils.stopTimer = function (startTime) {
+exports.stopTimer = function (startTime) {
   var diff = process.hrtime(startTime);
   return diff[0] * 1000 + diff[1] / 1e6;
 };

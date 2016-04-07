@@ -1,26 +1,30 @@
+function issueClientException(logAction) {
+	return s.browser.executeScript('setTimeout(function() { DsgwDwd3 += 8;}, 0)');
+};
+
 function *test() {
 	t.setTitle('Test for client exceptions');
 
-	yield s.initDriver();
-  yield s.get('http://google.com');
-	//yield s.setWindowSize(2560, 1440);
+	yield s.driver.init();
+  yield s.browser.get('http://google.com');
+	// yield s.browser.setWindowSize(2560, 1440);
 
 	l.println('No exceptions and console logs:');
-	yield s.logBrowserExceptions(true);
-	yield s.console();
+	yield s.browser.logBrowserExceptions(true);
+	yield s.browser.logBrowserConsoleContent();
 
-	yield s.issueClientException();
+	yield issueClientException();
 
 	l.println('One exception and one console log:');
-	yield s.logBrowserExceptions(true);
-	yield s.console();
+	yield s.browser.logBrowserExceptions(true);
+	yield s.browser.logBrowserConsoleContent();
 
 	l.println('No exceptions and console logs:');
-	yield s.logBrowserExceptions(true);
-	yield s.console();
+	yield s.browser.logBrowserExceptions(true);
+	yield s.browser.logBrowserConsoleContent();
 
-	yield s.close();
-	yield s.quit();
+	yield s.browser.close();
+	yield s.driver.quit();
 }
 
 u.execGen(test);

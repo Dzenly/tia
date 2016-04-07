@@ -2,14 +2,12 @@
 
 /* globals gT: true */
 
-gT.textUtils = {};
-
-gT.textUtils.removeSelSid = function (str) {
+exports.removeSelSid = function (str) {
   var re = /\?_dc=\d+/g;
   return str.replace(re, '');
 };
 
-gT.textUtils.filterStack = function (strStack) {
+exports.filterStack = function (strStack) {
   var stArr = strStack.split('\n');
   var newArr = stArr.filter(function (el, index, arr) {
     return el.indexOf('node_modules') === -1;
@@ -17,11 +15,11 @@ gT.textUtils.filterStack = function (strStack) {
   return newArr.join('\n');
 };
 
-gT.textUtils.excToStr = function (err, noStack) {
+exports.excToStr = function (err, noStack) {
   var errStr = err.toString();//(typeof err.message === 'undefined') ? err : err.message;
-  if (gT.params.stackToLog || !noStack) {
+  if (gIn.params.stackToLog || !noStack) {
     if (typeof err.stack !== 'undefined') {
-      errStr += '\n' + gT.textUtils.filterStack(err.stack);
+      errStr += '\n' + exports.filterStack(err.stack);
     } else {
       errStr += '\n No stack trace\n';
     }
@@ -29,11 +27,11 @@ gT.textUtils.excToStr = function (err, noStack) {
   return errStr;
 };
 
-gT.textUtils.winToUnixSep = function (path) {
+exports.winToUnixSep = function (path) {
   return path.replace(/\\\\/g, '/');
 };
 
-gT.textUtils.changeExt = function (jsPath, newExt) {
+exports.changeExt = function (jsPath, newExt) {
   return jsPath.substr(0, jsPath.length - 3) + newExt;
 };
 
@@ -42,31 +40,31 @@ gT.textUtils.changeExt = function (jsPath, newExt) {
  * Just replaces two last symbols by 'log' at the end of string.
  * @param jsPath - path to js file.
  */
-gT.textUtils.jsToLog = function (jsPath) {
-  return gT.textUtils.changeExt(jsPath, '.log');
+exports.jsToLog = function (jsPath) {
+  return exports.changeExt(jsPath, '.log');
 };
 
-gT.textUtils.expandHost = function (str) {
-  return str.replace('$(host)', gT.config.host);
+exports.expandHost = function (str) {
+  return str.replace('$(host)', gIn.config.host);
 };
 
-gT.textUtils.collapseHost = function (str) {
-  return str.replace(gT.config.host, '$(host)');
+exports.collapseHost = function (str) {
+  return str.replace(gIn.config.host, '$(host)');
 };
 
 //function escapeRegExp(string) {
 //	return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 //}
 //
-//gT.textUtils.prepareHostRE = function(){
-//	var str = escapeRegExp(gT.config.host);
-//	gT.textUtils.hostRe = new RegExp(str, g);
+//exports.prepareHostRE = function(){
+//	var str = escapeRegExp(gIn.config.host);
+//	exports.hostRe = new RegExp(str, g);
 //};
 
 //// Multi-line version.
-//gT.textUtils.collapseHostML = function(str){
-//	// TODO: optimize, this function should be called only if gT.config.host is changed.
+//exports.collapseHostML = function(str){
+//	// TODO: optimize, this function should be called only if gIn.config.host is changed.
 //	// For now there are not even such use cases.
-//	gT.textUtils.prepareHostRE();
-//	return str.replace(gT.textUtils.hostRe, '$(host)');
+//	exports.prepareHostRE();
+//	return str.replace(exports.hostRe, '$(host)');
 //};

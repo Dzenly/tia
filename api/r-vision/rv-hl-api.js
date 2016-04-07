@@ -2,8 +2,6 @@
 
 /* globals gT: true */
 
-gT.s.hl = {};
-
 // options for all these high level API functions.
 // options.logHl - log this high level action (default: true).
 // options.logLl - log lower level actions (default: false).
@@ -20,9 +18,9 @@ var defaultOptions = {
 /*
  Adds missing options.
  **/
-gT.s.hl.completeOptions = function (options) {
+exports.completeOptions = function (options) {
   if (!options) {
-    return gT.copyObject(defaultOptions);
+    return gIn.miscUtils.copyObject(defaultOptions);
   }
 
   if (typeof options.logHl === 'undefined') {
@@ -47,9 +45,9 @@ gT.s.hl.completeOptions = function (options) {
 /// public API functions.
 
 // Can be used as public.
-gT.s.hl.genWraper = function* (gen, msg, options) {
+exports.genWraper = function* (gen, msg, options) {
 
-  var opts = gT.s.hl.completeOptions(options);
+  var opts = exports.completeOptions(options);
 
   if (opts.logHl) {
     gT.l.println('BEGIN: "' + msg + '"');
@@ -69,16 +67,16 @@ gT.s.hl.genWraper = function* (gen, msg, options) {
   }
 
   if (opts.passHl) {
-    gT.tInfo.passForce();
+    gIn.tInfo.passForce();
   }
 };
 
-gT.s.hl.initAndLogin = function * (remember, options) {
-  yield *gT.s.hl.genWraper(
+exports.initAndLogin = function * (remember, options) {
+  yield *exports.genWraper(
     function* () {
-      yield s.initDriver();
+      yield s.driver.init();
       yield s.deleteCookie('sails.sid');
-      yield s.get('$(host)');
+      yield s.browser.get('$(host)');
       yield s.waitForTitle('R-Vision: Sign in', 2000);
       yield s.waitForElementById('username', 2000);
       yield s.sendKeysById('username', 'admin');
@@ -95,11 +93,11 @@ gT.s.hl.initAndLogin = function * (remember, options) {
     options);
 };
 
-gT.s.hl.initAndWaitExtApp = function * (options) {
-  yield *gT.s.hl.genWraper(
+exports.initAndWaitExtApp = function * (options) {
+  yield *exports.genWraper(
     function* () {
-      yield s.initDriver();
-      yield s.get('$(host)');
+      yield s.driver.init();
+      yield s.browser.get('$(host)');
       yield s.waitForTitle('R-Vision', 10000);
       yield s.waitForUrlPrefix('$(host)/#dashboard', 250000);
       yield s.waitForExtAppReady(1000);

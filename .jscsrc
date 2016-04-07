@@ -4,5 +4,6 @@
   "excludeFiles": ["node_modules/**"],
   "requireSpaceAfterLineComment": false,
   "validateIndentation": 2,
-  "requireCommaBeforeLineBreak": false
+  "requireCommaBeforeLineBreak": false,
+  "disallowYodaConditions": false
 }

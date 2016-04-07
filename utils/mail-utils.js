@@ -1,23 +1,25 @@
+'use strict';
+/* globals gIn: true */
+
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+var conf = require('rc')('mail-settings', {}, 'dummyOption');
 
 /* globals gT: true */
-
-gT.mailUtils = {};
 
 // create reusable transporter object using SMTP transport
 // Some antiviruses can block sending with self signed certificate.
 // If this is your case - uncomment commented strings.
 var transport = smtpTransport({
-  host: 'smtp.yandex.ru',
+  host: conf.smtpHost,
   secure: true,
   //secure : false,
   //port: 25,
   auth: {
-    user: 'build@rvision.pro',
-    pass: 'hhoic565'
-  },
-  //tls: {
+    user: conf.user,
+    pass: conf.password
+  }
+  //, tls: {
   //  rejectUnauthorized: false
   //}
 });
@@ -40,29 +42,30 @@ var mailOptions = {
 
 };
 
-gT.mailUtils.sendMail = function (subj, attachment, archive) {
-  if (!gT.params.mail) {
+exports.send = function (subj, attachment, archive) {
+  if (!gIn.params.mail) {
     console.log('Mail disabled.');
     return;
   }
   if (!gT.suiteConfig.mailList) {
-    gT.tracer.traceErr('Mail list is empty.');
+    gIn.tracer.traceErr('Mail list is empty.');
     return;
   }
   mailOptions.subject = subj;
   mailOptions.to = gT.suiteConfig.mailList;
   mailOptions.attachments = [/*{path: gT.engineConfig.gitPullLog}, */{path: attachment, contentType: 'text/plain'}];
-	if (archive) {
-		mailOptions.attachments.push({path: archive, contentType: 'application/zip'});
-	}
-  return gT.s.promise.checkedNodeCall(
+  if (archive) {
+    mailOptions.attachments.push({path: archive, contentType: 'application/zip'});
+  }
+  return gT.sOrig.promise.checkedNodeCall(
     function (options, callback) { // callback will be provided by checkedNodeCall
       transporter.sendMail(options, function (err, info) {
         if (err) {
-          gT.tracer.traceErr(err);
-        } else {
-          //console.log('SendMail response: ' + info.response);
+          gIn.tracer.traceErr('sendMail ERR: ' + err);
         }
+        /* else {
+         console.log('SendMail response: ' + info.response);
+         }*/
         callback(err, info);
       });
     }

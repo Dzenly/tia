@@ -3,7 +3,7 @@
 
 'use strict';
 
-/* globals gT: true */
+/* globals gIn: true */
 
 var browsers = [
   'chrome', // First browser is default.
@@ -107,24 +107,24 @@ if (suiteRoot[0] === '/') {
 
 require('../engine/init-global-objects.js');
 
-gT.params = {}; // Parameters given in the command line.
+gIn.params = {}; // Parameters given in the command line.
 
-gT.params.suiteRoot = suiteRoot;
-gT.params.browser = browser;
-gT.params.path = args['p'];
-gT.params.minPathSearchIndex = suiteRoot.length + 1; // Minumum index for path search.
-gT.params.mail = args['m'];
-gT.params.stackToLog = args['stacktolog'];
-gT.params.noxvfb = args['noxvfb'];
-gT.params.logsToMail = args['l'];
-gT.params.logErrToConsole = args['logerrtoconsole'];
-gT.params.logToConsole = args['logtoconsole'];
-gT.params.trace = args['trace'];
-if (gT.params.trace > 3) {
-  gT.params.trace = 3;
+gIn.params.suiteRoot = suiteRoot;
+gIn.params.browser = browser;
+gIn.params.path = args['p'];
+gIn.params.minPathSearchIndex = suiteRoot.length + 1; // Minumum index for path search.
+gIn.params.mail = args['m'];
+gIn.params.stackToLog = args['stacktolog'];
+gIn.params.noxvfb = args['noxvfb'];
+gIn.params.logsToMail = args['l'];
+gIn.params.logErrToConsole = args['logerrtoconsole'];
+gIn.params.logToConsole = args['logtoconsole'];
+gIn.params.trace = args['trace'];
+if (gIn.params.trace > 3) {
+  gIn.params.trace = 3;
 }
 
-gT.params.forceLogActions = args['forcelogactions'];
+gIn.params.forceLogActions = args['forcelogactions'];
 
 if (args['require-modules']) {
   let arr = args['require-modules'].split(/\s*,\s*/);

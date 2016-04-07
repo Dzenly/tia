@@ -2,10 +2,8 @@
 
 /* globals gT: true */
 
-var mpath = require('path');
-gT.tInfo = {
-  setLlPassCounting: true
-};
+var mPath = require('path');
+exports.setLlPassCounting = true;
 
 function formLogPart(str, count) {
   if (!count) {
@@ -24,7 +22,7 @@ function formLogPart(str, count) {
  * @param noTitle
  * @returns {string}
  */
-gT.tInfo.testInfoToString = function (curInfo, isDir, verbose, noTime, noTitle) {
+exports.testInfoToString = function (curInfo, isDir, verbose, noTime, noTitle) {
   var path, title, diffed, failed, ediffed, skipped, passed, time;
   if (isDir) {
     path = '';
@@ -37,7 +35,7 @@ gT.tInfo.testInfoToString = function (curInfo, isDir, verbose, noTime, noTitle) 
     ediffed = '';
     skipped = curInfo.skipped ? 'SKIP' : '';
   }
-  path += '"' + mpath.basename(curInfo.path) + '"';
+  path += '"' + mPath.basename(curInfo.path) + '"';
   title = noTitle ? '' : '"' + curInfo.title + '"';
   passed = formLogPart('Pass', curInfo.passed);
   failed = formLogPart('Fail', curInfo.failed);
@@ -54,9 +52,9 @@ gT.tInfo.testInfoToString = function (curInfo, isDir, verbose, noTime, noTitle) 
  *
  * @param isDir - true - directory, false - file.
  */
-gT.tInfo.createTestInfo = function (isDir, title, path) {
+exports.createTestInfo = function (isDir, title, path) {
   var info = {
-    path: gT.textUtils.winToUnixSep(path), // For uniform logging.
+    path: gIn.textUtils.winToUnixSep(path), // For uniform logging.
     title: title,
     handled: 0,
     passed: 0,
@@ -74,20 +72,20 @@ gT.tInfo.createTestInfo = function (isDir, title, path) {
   return info;
 };
 
-gT.tInfo.fail = function () {
-  if (gT.config.ignorePassAndFailCounters) {
+exports.fail = function () {
+  if (gIn.config.ignorePassAndFailCounters) {
     return;
   }
-  gT.tInfo.data.failed++; // From global sandbox.
+  exports.data.failed++; // From global sandbox.
 };
 
-gT.tInfo.passForce = function () {
-  gT.tInfo.data.passed++;
+exports.passForce = function () {
+  exports.data.passed++;
 };
 
-gT.tInfo.pass = function () {
-  if (!gT.tInfo.isPassCountingEnabled || gT.config.ignorePassAndFailCounters) {
+exports.pass = function () {
+  if (!exports.isPassCountingEnabled || gIn.config.ignorePassAndFailCounters) {
     return;
   }
-  gT.tInfo.data.passed++; // From global sandbox.
+  exports.data.passed++; // From global sandbox.
 };

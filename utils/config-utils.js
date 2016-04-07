@@ -6,9 +6,7 @@ var path = require('path');
 var fs = require('fs');
 var nodeUtils = require('../utils/nodejs-utils.js');
 
-gT.configUtils = {};
-
-gT.configUtils.copyConfig = function (config) {
+exports.copyConfig = function (config) {
   var result = {};
   for (var prop in config) {
     result[prop] = config[prop];
@@ -23,8 +21,8 @@ gT.configUtils.copyConfig = function (config) {
  * @param config1
  * @param config2
  */
-gT.configUtils.mergeConfigs = function (config1, config2) {
-  var result = gT.configUtils.copyConfig(config1);
+exports.mergeConfigs = function (config1, config2) {
+  var result = exports.copyConfig(config1);
   for (var prop in config2) {
     result[prop] = config2[prop];
   }
@@ -32,13 +30,13 @@ gT.configUtils.mergeConfigs = function (config1, config2) {
 };
 
 // Returns merged config for suite.
-gT.configUtils.handleSuiteConfig = function () {
+exports.handleSuiteConfig = function () {
   var localSuiteConfig = {};
-  var configPath = path.join(gT.params.suiteRoot, gT.engineConfig.suiteConfigName);
+  var configPath = path.join(gIn.params.suiteRoot, gT.engineConfig.suiteConfigName);
   try {
     localSuiteConfig = nodeUtils.requireEx(configPath, true).result;
   } catch (e) {
-    gT.tracer.trace2('There is no Local Suite Config');
+    gIn.tracer.trace2('There is no Local Suite Config');
   }
-  gT.suiteConfig = gT.configUtils.mergeConfigs(gT.suiteConfigDefault, localSuiteConfig);
+  gT.suiteConfig = exports.mergeConfigs(gT.suiteConfigDefault, localSuiteConfig);
 };

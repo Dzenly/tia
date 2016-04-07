@@ -12,7 +12,7 @@ l.pass('pass with message\n');
 a.equal(ll.getPassed(), 4, 'Here must be 4 passed tests');
 
 l.print('Freshly inited test info, real title, verbose:\n');
-l.print(gT.tInfo.testInfoToString(gT.tInfo.data, false, true, false, false));
+l.print(gIn.tInfo.testInfoToString(gIn.tInfo.data, false, true, false, false));
 
 ll.setFailed(0);
 a.equal(ll.getFailed(), 0, 'After setFailed Here must be 0 failed tests');

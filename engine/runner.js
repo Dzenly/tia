@@ -1,69 +1,76 @@
 'use strict';
 
 /* globals gT: true */
+/* globals gIn: true */
 
 var fs = require('fs');
 var path = require('path');
 var nodeUtils = require('../utils/nodejs-utils');
 
-var logger = gT.logger;
-var flow = gT.s.flow;
-var promise = gT.s.promise;
+var flow = gT.sOrig.flow;
+var promise = gT.sOrig.promise;
+
+function getOs() {
+  var os = require('os');
+  return os.platform() + '_' + os.release();
+}
 
 function runTestFile(file) {
 
-  gT.tracer.trace0('Starting new test: ' + file);
+  gIn.tracer.trace0('Starting new test: ' + file);
 
   try {
     nodeUtils.requireEx(file, true);
   } catch (e) {
-    logger.exception('Exception in runner: ', e, false); // TODO: why I used true here ?
-    gT.tInfo.fail();
+    gIn.logger.exception('Exception in runner: ', e, false); // TODO: why I used true here ?
+
+    gIn.tInfo.fail();
+    // throw e; // TODO: remove it.
   }
 }
 
 function *handleTestFile(file, dirConfig) {
   // Restore the state which could be damaged by previous test and any other initialization.
-  gT.tInfo.isPassCountingEnabled = true;
-  gT.logger.defLlLogAction = true;
+  gIn.tInfo.isPassCountingEnabled = true;
+  gIn.logger.defLlLogAction = true;
 
-  gT.config = gT.configUtils.copyConfig(dirConfig); // Config for current test, can be changed by test.
+  gIn.config = gIn.configUtils.copyConfig(dirConfig); // Config for current test, can be changed by test.
   // It is not safe to create such structure in the test and return it from test,
   // because test can be terminated with exception.
 
   //console.log('File: ' + file);
-  if (gT.params.path && file.lastIndexOf(gT.params.path) < gT.params.minPathSearchIndex) {
+  if (gIn.params.path && file.lastIndexOf(gIn.params.path) < gIn.params.minPathSearchIndex) {
     return null;
   }
 
-  gT.tInfo.data = gT.tInfo.createTestInfo(false, '', file); // Test should change this title.
-  gT.tInfo.data.handled = 1;
+  gIn.tInfo.data = gIn.tInfo.createTestInfo(false, '', file); // Test should change this title.
+  gIn.tInfo.data.handled = 1;
 
   if (dirConfig.skip) {
-    gT.tInfo.data.skipped = 1;
-    return gT.tInfo.data;
+    gIn.tInfo.data.skipped = 1;
+    return gIn.tInfo.data;
   }
 
-  if (gT.config.DISPLAY && !gT.params.noxvfb) {
-    process.env.DISPLAY = gT.config.DISPLAY;
+  if (gIn.config.DISPLAY && !gIn.params.noxvfb) {
+    process.env.DISPLAY = gIn.config.DISPLAY;
   } else {
     process.env.DISPLAY = gT.engineConfig.defDisplay;
   }
 
-  gT.fileUtils.createEmptyLog(file);
-  gT.fileUtils.rmPngs(file);
+  gIn.fileUtils.createEmptyLog(file);
+  gIn.fileUtils.rmPngs(file);
 
   var startTime = gT.timeUtils.startTimer();
 
-  yield flow.execute(function () { // gT.tInfo.data
+  yield flow.execute(function () { // gIn.tInfo.data
     runTestFile(file);
   });
 
-  logger.testSummary();
-  gT.tInfo.data.time = gT.timeUtils.stopTimer(startTime);
-  gT.diffUtils.diff(file);
+  gIn.logger.testSummary();
+  gIn.tInfo.data.time = gT.timeUtils.stopTimer(startTime);
+  gIn.diffUtils.diff(file);
 
-  return gT.tInfo.data; // Return value to be uniform in handleDir.
+  return gIn.tInfo.data; // Return value to be uniform in handleDir.
 }
 
 function handleDirConfig(dir, files, prevDirConfig) {
@@ -82,7 +89,7 @@ function handleDirConfig(dir, files, prevDirConfig) {
     files.splice(index, 1);
   }
 
-  return gT.configUtils.mergeConfigs(prevDirConfig, config);
+  return gIn.configUtils.mergeConfigs(prevDirConfig, config);
 }
 
 /**
@@ -96,7 +103,7 @@ function *handleTestDir(dir, prevDirConfig) {
   //console.log('handleDir Dir: ' + dir);
   var files = fs.readdirSync(dir);
   var dirConfig = handleDirConfig(dir, files, prevDirConfig);
-  var dirInfo = gT.tInfo.createTestInfo(true, dirConfig.sectTitle, dir);
+  var dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectTitle, dir);
   var startTime = gT.timeUtils.startTimer();
 
   var len = files.length;
@@ -138,33 +145,33 @@ function *runTestSuite(dir) {
   var log = dir + '.log'; // Summary log.
   var noTimeLog = log + '.notime';
   var noTimeLogPrev = noTimeLog + '.prev';
-  gT.fileUtils.safeUnlink(log);
-  gT.fileUtils.safeRename(noTimeLog, noTimeLogPrev);
+  gIn.fileUtils.safeUnlink(log);
+  gIn.fileUtils.safeRename(noTimeLog, noTimeLogPrev);
 
   var dirInfo = yield* handleTestDir(dir, gT.dirConfigDefault);
 
   dirInfo.title = dir;
-  gT.logger.saveSuiteLog(dirInfo, noTimeLog, true);
+  gIn.logger.saveSuiteLog(dirInfo, noTimeLog, true);
 
-  var suiteLogDifRes = Boolean(gT.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog));
-  var changedDiffs = gT.diffUtils.changedDiffs ? '(' + gT.diffUtils.changedDiffs + ' diff(s) changed)' : '';
-  var subj = gT.os() + ', ' + (suiteLogDifRes ? 'CHANGED' : ('AS PREV ' + changedDiffs)) + ', ' + gT.logger.saveSuiteLog(dirInfo, log);
+  var suiteLogDifRes = Boolean(gIn.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog));
+  var changedDiffs = gIn.diffUtils.changedDiffs ? '(' + gIn.diffUtils.changedDiffs + ' diff(s) changed)' : '';
+  var subj = getOs() + ', ' + (suiteLogDifRes ? 'CHANGED' : ('AS PREV ' + changedDiffs)) + ', ' + gIn.logger.saveSuiteLog(dirInfo, log);
   dirInfo.suiteLogDiff = suiteLogDifRes;
-  dirInfo.os = gT.os();
-  gT.fileUtils.saveJson(dirInfo, log + '.json');
+  dirInfo.os = getOs();
+  gIn.fileUtils.saveJson(dirInfo, log + '.json');
 
-  var arcName = gT.fileUtils.archiveSuiteDir(dirInfo);
+  var arcName = gIn.fileUtils.archiveSuiteDir(dirInfo);
 
-  yield gT.mailUtils.sendMail(subj, log, arcName);
+  yield gIn.mailUtils.send(subj, log, arcName);
   var status = dirInfo.diffed ? 1 : 0;
   console.log(subj);
   if (gT.suiteConfig.logToStdErrOut) {
-    gT.logger.printSuiteLog(dirInfo);
-    //gT.fileUtils.fileToStdout(log);
+    gIn.logger.printSuiteLog(dirInfo);
+    //gIn.fileUtils.fileToStdout(log);
   }
 
   if (gT.suiteConfig.removeZipAfterSend) {
-    gT.fileUtils.safeUnlink(arcName);
+    gIn.fileUtils.safeUnlink(arcName);
   }
 
   return status;// Process exit status.
@@ -172,7 +179,7 @@ function *runTestSuite(dir) {
 
 // Returns subject for email.
 module.exports = function (suiteRoot) {
-  gT.configUtils.handleSuiteConfig();
+  gIn.configUtils.handleSuiteConfig();
   try {
     fs.mkdirSync(gT.engineConfig.profileRoot);
   } catch (e) {
@@ -185,7 +192,7 @@ module.exports = function (suiteRoot) {
       process.exitCode = exitStatus;
     },
     function (err) {
-      gT.tracer.traceErr(gT.textUtils.excToStr(err));
+      gIn.tracer.traceErr('Runner ERR: ' + gIn.textUtils.excToStr(err));
       process.exitCode = 1;
     }
   );

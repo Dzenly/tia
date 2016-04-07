@@ -1,55 +1,53 @@
 'use strict';
 
-/* globals gT: true */
-
-var logger = gT.logger;
+/* globals gIn: true */
 
 /**
  * Logs the specifiied msg.
  */
-gT.l.print = function (msg) {
-  logger.log(msg);
+exports.print = function (msg) {
+  gIn.logger.log(msg);
 };
 
 /**
  * Logs the msg and EOL.
  */
-gT.l.println = function (msg) {
-  logger.logln(msg);
+exports.println = function (msg) {
+  gIn.logger.logln(msg);
 };
 
 /**
  * Logs separator.
  */
-gT.l.sep = function () {
-  logger.logln('==========');
+exports.sep = function () {
+  gIn.logger.logln('==========');
 };
 
 /**
  * Logs End of Line.
  */
-gT.l.eol = function () {
-  logger.log('\n');
+exports.eol = function () {
+  gIn.logger.log('\n');
 };
 
 /**
  * Logs fail with optional msg.
  * @param [msg] - message to print.
  */
-gT.l.fail = function (msg) {
+exports.fail = function (msg) {
   if (typeof msg !== 'undefined') {
-    logger.log(msg);
+    gIn.logger.log(msg);
   }
-  gT.tInfo.fail();
+  gIn.tInfo.fail();
 };
 
 /**
  * Logs Pass with optional msg.
  */
-gT.l.pass = function (msg) {
+exports.pass = function (msg) {
   if (typeof msg !== 'undefined') {
-    logger.log(msg);
+    gIn.logger.log(msg);
   }
-  gT.tInfo.pass();
+  gIn.tInfo.pass();
 };
 

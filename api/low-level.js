@@ -6,14 +6,13 @@
  Low level utilities for tests.
  */
 
-var tInfo = gT.tInfo;
-var logger = gT.logger;
+var tInfo = gIn.tInfo;
 
 /**
  * Sets passes count for current test.
  * Can be used for debug.
  */
-gT.ll.setPassed = function (passed) {
+exports.setPassed = function (passed) {
   tInfo.data.passed = passed;
 };
 
@@ -21,7 +20,7 @@ gT.ll.setPassed = function (passed) {
  * Sets fails count for current test.
  * Can be used for debug.
  */
-gT.ll.setFailed = function (failed) {
+exports.setFailed = function (failed) {
   tInfo.data.failed = failed;
 };
 
@@ -30,7 +29,7 @@ gT.ll.setFailed = function (failed) {
  *
  * @returns {number}
  */
-gT.ll.getPassed = function () {
+exports.getPassed = function () {
   return tInfo.data.passed;
 };
 
@@ -38,7 +37,7 @@ gT.ll.getPassed = function () {
  * Gets fails count for current test.
  * @returns {number}
  */
-gT.ll.getFailed = function () {
+exports.getFailed = function () {
   return tInfo.data.failed;
 };
 
@@ -49,9 +48,9 @@ gT.ll.getFailed = function () {
  * @param {boolean} enable - new value for pass counting.
  * @returns {boolean} - old pass counting value.
  */
-gT.ll.setLlPassCounting = function (enable) {
-  var old = gT.tInfo.isPassCountingEnabled;
-  gT.tInfo.isPassCountingEnabled = enable;
+exports.setLlPassCounting = function (enable) {
+  var old = gIn.tInfo.isPassCountingEnabled;
+  gIn.tInfo.isPassCountingEnabled = enable;
   return old;
 };
 
@@ -62,8 +61,8 @@ gT.ll.setLlPassCounting = function (enable) {
  * @param {boolean} enable - new Log Action value.
  * @returns {boolean} - old Log Action value.
  */
-gT.ll.setDefaultLlLogAction = function (enable) {
-  var old = gT.logger.defLlLogAction;
-  gT.logger.defLlLogAction = enable;
+exports.setDefaultLlLogAction = function (enable) {
+  var old = gIn.logger.defLlLogAction;
+  gIn.logger.defLlLogAction = enable;
   return old;
 };

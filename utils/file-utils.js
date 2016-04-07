@@ -5,8 +5,6 @@ var child_process = require('child_process');
 
 /* globals gT: true */
 
-gT.fileUtils = {};
-
 // TODO: сделать так, чтобы тесты работали под правами специально заведеного юзера.
 // У этого юзера будет доступ к тестовой директории только на чтение.
 // Права на запись у него будут только в его home.
@@ -22,7 +20,7 @@ gT.fileUtils = {};
  * @param path
  * @returns {boolean}
  */
-gT.fileUtils.isAbsent = function (path) {
+exports.isAbsent = function (path) {
   try {
     fs.statSync(path);
   } catch (e) {
@@ -31,7 +29,7 @@ gT.fileUtils.isAbsent = function (path) {
   return false;
 };
 
-gT.fileUtils.safeUnlink = function (path) {
+exports.safeUnlink = function (path) {
   try {
     fs.unlinkSync(path);
   } catch (e) {
@@ -39,7 +37,7 @@ gT.fileUtils.safeUnlink = function (path) {
   }
 };
 
-gT.fileUtils.backupDif = function (path) {
+exports.backupDif = function (path) {
   try {
     fs.renameSync(path, path + '.dif');
   } catch (e) {
@@ -47,15 +45,15 @@ gT.fileUtils.backupDif = function (path) {
   }
 };
 
-gT.fileUtils.rmPngs = function (jsPath) {
+exports.rmPngs = function (jsPath) {
   try {
-    child_process.execSync('rm ' + gT.textUtils.changeExt(jsPath, '*.png'), {stdio: [null, null, null]});
+    child_process.execSync('rm ' + gIn.textUtils.changeExt(jsPath, '*.png'), {stdio: [null, null, null]});
   } catch (e) {
     // No handling intentionaly.
   }
 };
 
-gT.fileUtils.rmDir = function (dir, removeSelf) {
+exports.rmDir = function (dir, removeSelf) {
   var files;
   try {
     files = fs.readdirSync(dir);
@@ -74,10 +72,10 @@ gT.fileUtils.rmDir = function (dir, removeSelf) {
           fs.unlinkSync(filePath);
         }
       } catch (e) {
-        gT.tracer.traceErr(gT.textUtils.excToStr(e));
+        gIn.tracer.traceErr('rmDir: ' + gIn.textUtils.excToStr(e));
       }
       if (fdata.isDirectory()) {
-        gT.fileUtils.rmDir(filePath, true);
+        exports.rmDir(filePath, true);
       }
     }
   }
@@ -86,12 +84,12 @@ gT.fileUtils.rmDir = function (dir, removeSelf) {
   }
 };
 
-gT.fileUtils.emptyDir = function (dir) {
-  gT.fileUtils.rmDir(dir);
+exports.emptyDir = function (dir) {
+  exports.rmDir(dir);
 };
 
-gT.fileUtils.safeRename = function (path1, path2) {
-  gT.fileUtils.safeUnlink(path2);
+exports.safeRename = function (path1, path2) {
+  exports.safeUnlink(path2);
   try {
     fs.renameSync(path1, path2);
   } catch (e) {
@@ -100,24 +98,24 @@ gT.fileUtils.safeRename = function (path1, path2) {
 };
 
 // Removes file, if exists.
-gT.fileUtils.createEmptyFileSync = function (path) {
+exports.createEmptyFileSync = function (path) {
   fs.closeSync(fs.openSync(path, 'w'));
 };
 
-gT.fileUtils.createEmptyLog = function (path) {
-  gT.logger.logFile = gT.textUtils.jsToLog(path);
-  gT.fileUtils.createEmptyFileSync(gT.logger.logFile);
+exports.createEmptyLog = function (path) {
+  gIn.logger.logFile = gIn.textUtils.jsToLog(path);
+  exports.createEmptyFileSync(gIn.logger.logFile);
 };
 
-gT.fileUtils.fileToStdout = function (file) {
+exports.fileToStdout = function (file) {
   console.log(fs.readFileSync(file, {encoding: 'ascii'}));
 };
 
-gT.fileUtils.fileToStderr = function (file) {
+exports.fileToStderr = function (file) {
   console.error(fs.readFileSync(file, {encoding: 'ascii'}));
 };
 
-gT.fileUtils.saveJson = function (obj, file) {
+exports.saveJson = function (obj, file) {
   fs.writeFileSync(file, JSON.stringify(obj), {encoding: 'ascii'});
 };
 
@@ -134,14 +132,14 @@ function collectArcPaths(dirInfo, arcPaths) {
       collectArcPaths(curInfo, arcPaths);
     } else {
       if (curInfo.diffed) {
-        arcPaths.push('"' + gT.textUtils.changeExt(curInfo.path, '') + '"*');
+        arcPaths.push('"' + gIn.textUtils.changeExt(curInfo.path, '') + '"*');
       }
     }
   }
 }
 
-gT.fileUtils.archiveSuiteDir = function (dirInfo) {
-  if (!gT.params.mail || !gT.suiteConfig.attachArchive || !gT.suiteConfig.mailList) {
+exports.archiveSuiteDir = function (dirInfo) {
+  if (!gIn.params.mail || !gT.suiteConfig.attachArchive || !gT.suiteConfig.mailList) {
     return null;
   }
   var arcName = new Date().toISOString().slice(0, 19).replace(/:/g, '_') + '.zip';
@@ -163,8 +161,8 @@ gT.fileUtils.archiveSuiteDir = function (dirInfo) {
   try {
     child_process.execSync('zip ' + arcName + ' ' + arr.join(' '), {stdio: [null, null, null]});
   } catch (e) {
-    gT.tracer.traceErr(e.stderr.toString());
-    gT.tracer.traceErr(e.stdout.toString());
+    gIn.tracer.traceErr('zip stderr: ' + e.stderr.toString());
+    gIn.tracer.traceErr('zip stdout: ' + e.stdout.toString());
     throw(new Error('Error with zip'));
   }
 

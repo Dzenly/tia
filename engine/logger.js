@@ -8,54 +8,53 @@
 
 var fs = require('fs');
 
-gT.logger = {
-  indentation: '| ',
-  defLlLogAction: true
-  //firstIndent: '|-'
-};
+exports.indentation = '| ';
+exports.defLlLogAction = true;
+//exports.firstIndent = '|-'
+
 
 // Must be called only before handleDir for root test directory, like engine, app, etc..
-gT.logger.setSuiteLog = function (suiteLog) {
-  gT.logger.suiteLog = suiteLog;
+exports.setSuiteLog = function (suiteLog) {
+  exports.suiteLog = suiteLog;
 };
 
-gT.logger.log = function (msg, noConsole) {
+exports.log = function (msg, noConsole) {
   // We use append here, because there must be maximum strings in the log,
   // even if something will break the test engine.
-  if (gT.params.logToConsole && !noConsole) {
+  if (gIn.params.logToConsole && !noConsole) {
     console.log('LOG:' + msg);
   }
-  fs.appendFileSync(gT.logger.logFile, msg, {encoding: 'ascii'});
+  fs.appendFileSync(exports.logFile, msg, {encoding: 'ascii'});
 };
 
-gT.logger.logln = function (msg) {
-  if (gT.params.logToConsole) {
+exports.logln = function (msg) {
+  if (gIn.params.logToConsole) {
     console.log('LOG:' + msg);
   }
-  gT.logger.log(msg + '\n', true);
+  exports.log(msg + '\n', true);
 };
 
-gT.logger.error = function (msg) {
+exports.error = function (msg) {
   msg = 'ERR: ' + msg;
-  if (gT.params.logErrToConsole) {
+  if (gIn.params.logErrToConsole) {
     console.error(msg);
   }
-  gT.logger.log(msg, true);
+  exports.log(msg, true);
 };
 
-gT.logger.errorln = function (msg) {
+exports.errorln = function (msg) {
   msg = 'ERR: ' + msg;
-  if (gT.params.logErrToConsole) {
+  if (gIn.params.logErrToConsole) {
     console.error(msg);
   }
-  gT.logger.log(msg + '\n', true);
+  exports.log(msg + '\n', true);
 };
 
-gT.logger.exception = function (msg, e, noConsole) {
-  if (gT.params.logErrToConsole && !noConsole) {
-    console.error('EXC: ' + msg + ' ' + gT.textUtils.excToStr(e));
+exports.exception = function (msg, e, noConsole) {
+  if (gIn.params.logErrToConsole && !noConsole) {
+    console.error('EXC: ' + msg + ' ' + gIn.textUtils.excToStr(e));
   }
-  gT.logger.log('EXC: ' + msg + ' ' + gT.textUtils.excToStr(e, true) + '\n', true);
+  exports.log('EXC: ' + msg + ' ' + gIn.textUtils.excToStr(e, true) + '\n', true);
 };
 
 /**
@@ -63,9 +62,9 @@ gT.logger.exception = function (msg, e, noConsole) {
  * @param msg - A message to be logged.
  * @param enable - Optional. If true log is enabled, othwerwise log is disabled.
  */
-gT.logger.logIfEnabled = function (msg, enable) {
-  if (gT.config.forceLogAction || gT.params.forceLogActions || enable) {
-    gT.logger.log(msg);
+exports.logIfEnabled = function (msg, enable) {
+  if (gIn.config.forceLogAction || gIn.params.forceLogActions || enable) {
+    exports.log(msg);
   }
 };
 
@@ -74,17 +73,17 @@ gT.logger.logIfEnabled = function (msg, enable) {
  * @param msg - A message to be logged.
  * @param enable - Optional. If false - log is disabled, otherwise - log is enabled.
  */
-gT.logger.logIfNotDisabled = function (msg, enable) {
+exports.logIfNotDisabled = function (msg, enable) {
   if (typeof enable === 'undefined') {
-    enable = gT.logger.defLlLogAction;
+    enable = exports.defLlLogAction;
   }
-  if (gT.config.forceLogAction || gT.params.forceLogActions || enable) {
-    gT.logger.log(msg);
+  if (gIn.config.forceLogAction || gIn.params.forceLogActions || enable) {
+    exports.log(msg);
   }
 };
 
 function writeStrToFile(str, diffed) {
-  fs.writeSync(gT.logger.fd, str, null, 'ascii');
+  fs.writeSync(exports.fd, str, null, 'ascii');
 }
 
 function writeStrToStdout(str, diffed) {
@@ -96,23 +95,23 @@ function writeStrToStdout(str, diffed) {
   }
 }
 
-gT.writeLogStr = writeStrToFile;
+var writeLogStr = writeStrToFile;
 
 function writeToSuiteLog(str, diffed) {
-  gT.writeLogStr(str, diffed);
+  writeLogStr(str, diffed);
 }
 
-gT.logger.testSummary = function () {
-  gT.logger.log('=================\n');
-  gT.logger.log('Pass: ' + gT.tInfo.data.passed + ', Fail: ' + gT.tInfo.data.failed + '\n');
+exports.testSummary = function () {
+  exports.log('=================\n');
+  exports.log('Pass: ' + gIn.tInfo.data.passed + ', Fail: ' + gIn.tInfo.data.failed + '\n');
 };
 
 function saveDirInfo(dirInfo, indent, verbose, noTime) {
   if (!dirInfo.handled && !gT.suiteConfig.emptyDirToSuiteLog) {
     return;
   }
-  writeToSuiteLog(indent + gT.tInfo.testInfoToString(dirInfo, true, verbose, noTime), dirInfo.diffed);
-  indent = gT.logger.indentation + indent;
+  writeToSuiteLog(indent + gIn.tInfo.testInfoToString(dirInfo, true, verbose, noTime), dirInfo.diffed);
+  indent = exports.indentation + indent;
   // If directory is empty there will be empty array.
   // Absense of 'children' property says that it is test and not directory, we should not allow to use this function for not directory.
   var len = dirInfo.children.length;
@@ -122,7 +121,7 @@ function saveDirInfo(dirInfo, indent, verbose, noTime) {
       if (curInfo.hasOwnProperty('children')) {
         saveDirInfo(curInfo, indent, verbose, noTime);
       } else {
-        writeToSuiteLog(indent + gT.tInfo.testInfoToString(curInfo, false, verbose, noTime), curInfo.diffed);
+        writeToSuiteLog(indent + gIn.tInfo.testInfoToString(curInfo, false, verbose, noTime), curInfo.diffed);
       }
     }
   }
@@ -143,18 +142,18 @@ function saveSuiteLogPart(verbose, dirInfo, noTime) {
  * @parem noTime
  * @returns {string} - Verbose info for the root test directory.
  */
-gT.logger.saveSuiteLog = function (dirInfo, log, noTime) {
-  gT.writeLogStr = writeStrToFile;
-  gT.logger.fd = fs.openSync(log, 'w');
+exports.saveSuiteLog = function (dirInfo, log, noTime) {
+  writeLogStr = writeStrToFile;
+  exports.fd = fs.openSync(log, 'w');
   saveSuiteLogPart(false, dirInfo, noTime);
-  fs.writeSync(gT.logger.fd, '\n', null, 'ascii');
+  fs.writeSync(exports.fd, '\n', null, 'ascii');
   saveSuiteLogPart(true, dirInfo, noTime);
-  fs.closeSync(gT.logger.fd);
-  return gT.tInfo.testInfoToString(dirInfo, true, true, noTime, true);
+  fs.closeSync(exports.fd);
+  return gIn.tInfo.testInfoToString(dirInfo, true, true, noTime, true);
 };
 
 /* Prints expected tests results to stdout and unexpected to stderr */
-gT.logger.printSuiteLog = function (dirInfo) {
-  gT.writeLogStr = writeStrToStdout;
+exports.printSuiteLog = function (dirInfo) {
+  writeLogStr = writeStrToStdout;
   saveDirInfo(dirInfo, '', true, false);
 };

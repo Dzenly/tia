@@ -4,23 +4,22 @@
 
 var ok = 'OK\n';
 var fail = 'FAIL\n';
-var logger = gT.logger;
 
 /**
  * Checks that specified condition is true.
  * @param condition
  * @param msg
  */
-gT.a.true = function (condition, msg) {
+exports.true = function (condition, msg) {
   var logStr = msg + '...';
   if (Boolean(condition)) {
     logStr += ok;
-    gT.tInfo.pass();
+    gIn.tInfo.pass();
   } else {
     logStr += fail;
-    gT.tInfo.fail();
+    gIn.tInfo.fail();
   }
-  logger.logln(logStr);
+  gIn.logger.logln(logStr);
 };
 
 /**
@@ -28,16 +27,16 @@ gT.a.true = function (condition, msg) {
  * @param condition
  * @param msg
  */
-gT.a.false = function (condition, msg) {
+exports.false = function (condition, msg) {
   var logStr = msg + '...';
   if (Boolean(condition)) {
     logStr += fail;
-    gT.tInfo.fail();
+    gIn.tInfo.fail();
   } else {
     logStr += ok;
-    gT.tInfo.pass();
+    gIn.tInfo.pass();
   }
-  logger.logln(logStr);
+  gIn.logger.logln(logStr);
 };
 
 /**
@@ -46,15 +45,13 @@ gT.a.false = function (condition, msg) {
  * @param {} expVal
  * @param msg
  */
-gT.a.equal = function (val, expVal, msg) {
-  logger.logln(msg + ':');
-  logger.log('Check that "' + val + '" is equal to "' + expVal + '"...');
+exports.equal = function (val, expVal, msg) {
+  gIn.logger.logln(msg + ':');
+  gIn.logger.log('Check that "' + val + '" is equal to "' + expVal + '"...');
   if (val !== expVal) {
-    logger.log(fail);
+    gIn.logger.log(fail);
     gT.l.fail('\n"' + val + '" != "' + expVal + '"\n');
     return;
   }
   gT.l.pass(ok);
 };
-
-

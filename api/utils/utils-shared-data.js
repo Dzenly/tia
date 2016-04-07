@@ -1,7 +1,5 @@
 'use strict';
 
-/* globals gT: true */
-
 var shared = {};
 
 //  TODO shared data - sd.
@@ -15,7 +13,7 @@ var shared = {};
  * @param {String} key
  * @param {} value
  */
-gT.u.sharedData.save = function (key, value) {
+exports.save = function (key, value) {
   // TODO: move it to some gT.u ? (utils)
   shared[key] = value;
 };
@@ -26,7 +24,7 @@ gT.u.sharedData.save = function (key, value) {
  * @param {String} key
  * @returns {*}
  */
-gT.u.sharedData.load = function (key) {
+exports.load = function (key) {
   return shared[key];
 };
 
@@ -34,13 +32,13 @@ gT.u.sharedData.load = function (key) {
  * Deletes previously shared object.
  * @param key
  */
-gT.u.sharedData.delete = function (key) {
+exports.delete = function (key) {
   delete shared[key];
 };
 
 /**
  * Deletes all shared data.
  */
-gT.u.sharedData.clear = function () {
+exports.clear = function () {
   shared = {};
 };
