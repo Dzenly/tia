@@ -146,6 +146,7 @@ typings install selenium-webdriver --ambient --save
 
 ## Конфигурационные файлы:
 
+### Для движка:
 
 Конфиги приложения находятся в директории "config":
 
@@ -168,6 +169,18 @@ module.exports = {
   mailList: "vasya@pupkin.ru",
 };
 ```
+
+### Для рассылки писем:
+
+Конфигурация для логина, чтобы рассылать письма:
+В корень tia нужно подложить файл 
+`.mail-settingsrc`
+
+Вот пример:
+
+smtpHost=smtp.yandex.ru
+user=asdf@fdas.fd
+password=asdfnbdh
 
 ----------------------------------
 
