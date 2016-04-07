@@ -3,7 +3,7 @@
 function *test() {
   t.setTitle('Test for client exceptions');
   yield s.driver.init();
-  yield s.browser.get('http://google.com');
+  yield s.browser.loadPage('http://google.com');
 
   var res = yield s.browser.executeScript('return 5;');
   l.println('Result of script execution: ' + res);

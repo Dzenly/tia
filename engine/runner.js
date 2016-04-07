@@ -23,9 +23,7 @@ function runTestFile(file) {
     nodeUtils.requireEx(file, true);
   } catch (e) {
     gIn.logger.exception('Exception in runner: ', e, false); // TODO: why I used true here ?
-
     gIn.tInfo.fail();
-    // throw e; // TODO: remove it.
   }
 }
 

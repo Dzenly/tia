@@ -56,11 +56,11 @@ function *pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
     return;
   }
   if (gIn.config.printClExcAfterEachCommand) {
-    yield gT.s.browser.logBrowserExceptions();
+    yield gT.s.browser.logExceptions();
   }
 
   if (gIn.config.printClConsoleAfterEachCommand) {
-    yield gT.s.browser.logBrowserConsoleContent();
+    yield gT.s.browser.logConsoleContent();
   }
 }
 
@@ -100,8 +100,8 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
         gIn.tracer.trace1('Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.');
         gT.s.browser.screenshot();
-        gT.s.browser.logBrowserExceptions(true);
-        gT.s.browser.logBrowserConsoleContent();
+        gT.s.browser.logExceptions(true);
+        gT.s.browser.logConsoleContent();
         gT.s.driver.quit().then(function () {
           gIn.logger.errorln('========== Err Info End ==========');
         });

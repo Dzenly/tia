@@ -76,7 +76,7 @@ exports.initAndLogin = function * (remember, options) {
     function* () {
       yield s.driver.init();
       yield s.deleteCookie('sails.sid');
-      yield s.browser.get('$(host)');
+      yield s.browser.loadPage('$(host)');
       yield s.waitForTitle('R-Vision: Sign in', 2000);
       yield s.waitForElementById('username', 2000);
       yield s.sendKeysById('username', 'admin');
@@ -97,7 +97,7 @@ exports.initAndWaitExtApp = function * (options) {
   yield *exports.genWraper(
     function* () {
       yield s.driver.init();
-      yield s.browser.get('$(host)');
+      yield s.browser.loadPage('$(host)');
       yield s.waitForTitle('R-Vision', 10000);
       yield s.waitForUrlPrefix('$(host)/#dashboard', 250000);
       yield s.waitForExtAppReady(1000);
