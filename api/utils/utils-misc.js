@@ -13,7 +13,7 @@ function *safeGen(gen) {
   try {
     yield* gen();
   } catch (e) {
-    gIn.tracer.traceErr('Safe Generator catched error: ' + gIn.textUtils.excToStr(e));
+    gIn.tracer.traceErr('Safe Generator caught error: ' + gIn.textUtils.excToStr(e));
   }
 }
 

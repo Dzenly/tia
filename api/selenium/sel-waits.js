@@ -8,8 +8,8 @@
 // 				function() {
 // 					return gT.sOrig.driver.executeScript("return rvTestHelper.getScreenResolution()").then(function(res) {
 // 						// Save resolution to emulate maximize.
-// 						gT.browser.width = res.width;
-// 						gT.browser.height = res.height;
+// 						gT.s.browser.width = res.width;
+// 						gT.s.browser.height = res.height;
 // 					});
 // 				}
 // 		);
@@ -27,7 +27,7 @@
  */
 exports.waitForElementById = function (id, timeout, logAction) {
   return gIn.wrap('Waiting for element by id : "' + id + '" ... ', logAction, function () {
-    return gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(by.id(id)), timeout);
+    return gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.id(id)), timeout);
   });
 };
 

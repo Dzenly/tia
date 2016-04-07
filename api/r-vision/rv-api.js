@@ -42,8 +42,8 @@ exports.waitForAppReady = function (timeout, logAction) {
       function () {
         return gT.sOrig.driver.executeScript('return rvTestHelper.getScreenResolution()').then(function (res) {
           // Save resolution to emulate maximize.
-          gT.browser.width = res.width;
-          gT.browser.height = res.height;
+          gT.s.browser.width = res.width;
+          gT.s.browser.height = res.height;
         });
       }
     );
@@ -66,9 +66,9 @@ exports.waitForExtAppReady = function (timeout, logAction) {
       function () {
         return gT.sOrig.driver.executeScript('return rvTestHelper.getScreenResolution()').then(function (res) {
           // Save resolution to emulate maximize.
-          gT.browser.width = res.width;
-          gT.browser.height = res.height;
-          return gT.s.gT.sOrig.driver.sleep(2000, false); // TODO: not very reliable.
+          gT.s.browser.width = res.width;
+          gT.s.browser.height = res.height;
+          return gT.sOrig.driver.sleep(2000, false); // TODO: not very reliable.
         });
       }
     );

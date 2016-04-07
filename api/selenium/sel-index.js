@@ -15,7 +15,7 @@ gT.sOrig.until = gT.sOrig.wdModule.until;
 gT.sOrig.ActionSequence = gT.sOrig.wdModule.ActionSequence;
 gT.sOrig.key = gT.sOrig.wdModule.Key;
 
-// gT.sOrig.driver is set bygT.sOrig.driver.init.
+// gT.sOrig.driver is set by gT.sOrig.driver.init.
 
 // gIn.s = {};
 gT.s.driver = require('./sel-driver.js');

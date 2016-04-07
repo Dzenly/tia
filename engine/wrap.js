@@ -93,7 +93,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
     },
     function (err) {
       gIn.tInfo.fail();
-      gIn.logger.errorln('Act.Wrapper.FAIL' + exports.stopTimer(startTime));
+      gIn.logger.errorln('Act.Wrapper.FAIL' + stopTimer(startTime));
       gIn.logger.errorln('========== Err Info Begin ==========');
       gIn.logger.exception('', err);
       if (typeof gT.sOrig.driver !== 'undefined') {

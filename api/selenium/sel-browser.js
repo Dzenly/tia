@@ -162,8 +162,8 @@ exports.setWindowSize = function (width, height, logAction) {
 /* To correctly work use this function after complete page load */
 exports.maximize = function (logAction) {
   return gIn.wrap('Maximize ... ', logAction, function () {
-    if (typeof gT.browser.width !== 'undefined') {
-      return gT.sOrig.driver.manage().window().setSize(gT.browser.width, gT.browser.height);
+    if (typeof gT.s.browser.width !== 'undefined') {
+      return gT.sOrig.driver.manage().window().setSize(gT.s.browser.width, gT.s.browser.height);
     } else {
       return gT.sOrig.driver.manage().window().maximize();
     }
