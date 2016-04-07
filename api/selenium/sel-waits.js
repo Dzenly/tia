@@ -9,7 +9,7 @@
 // 					return gT.sOrig.driver.executeScript("return rvTestHelper.getScreenResolution()").then(function(res) {
 // 						// Save resolution to emulate maximize.
 // 						gT.browser.width = res.width;
-// 						gT.height = res.height;
+// 						gT.browser.height = res.height;
 // 					});
 // 				}
 // 		);

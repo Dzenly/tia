@@ -43,7 +43,7 @@ exports.waitForAppReady = function (timeout, logAction) {
         return gT.sOrig.driver.executeScript('return rvTestHelper.getScreenResolution()').then(function (res) {
           // Save resolution to emulate maximize.
           gT.browser.width = res.width;
-          gT.height = res.height;
+          gT.browser.height = res.height;
         });
       }
     );
@@ -67,10 +67,25 @@ exports.waitForExtAppReady = function (timeout, logAction) {
         return gT.sOrig.driver.executeScript('return rvTestHelper.getScreenResolution()').then(function (res) {
           // Save resolution to emulate maximize.
           gT.browser.width = res.width;
-          gT.height = res.height;
+          gT.browser.height = res.height;
           return gT.s.gT.sOrig.driver.sleep(2000, false); // TODO: not very reliable.
         });
       }
     );
+  });
+};
+
+/**
+ * Clicks on tab with specified ItemId.
+ * @param itemId
+ * @param logAction
+ * @returns {*}
+ */
+exports.clickTabId = function (itemId, logAction) {
+  return gIn.wrap('Click on element with itemId: "' + itemId + '" ... ', logAction, function () {
+    return gT.sOrig.driver.executeScript('return rvTestHelperExt.getTabId("' + itemId + '")').then(function (id) {
+      gIn.tracer.trace3('clickTabId: id of found element: ' + id);
+      return gT.sOrig.driver.findElement(gT.sOrig.by.id(id)).click();
+    });
   });
 };

@@ -1,6 +1,7 @@
 'use strict';
 
 /* globals gT: true */
+/* globals gIn: true */
 
 // options for all these high level API functions.
 // options.logHl - log this high level action (default: true).
@@ -54,13 +55,13 @@ exports.genWraper = function* (gen, msg, options) {
   }
 
   // In case of fail, the state will be restored before next test.
-  var oldLogLl = gT.t.setDefaultLlLogAction(opts.logLl);
-  var oldPassLl = gT.t.setLlPassCounting(opts.passLl);
+  var oldLogLl = gT.ll.setDefaultLlLogAction(opts.logLl);
+  var oldPassLl = gT.ll.setLlPassCounting(opts.passLl);
 
   yield *gen();
 
-  gT.t.setDefaultLlLogAction(oldLogLl);
-  gT.t.setLlPassCounting(oldPassLl);
+  gT.ll.setDefaultLlLogAction(oldLogLl);
+  gT.ll.setLlPassCounting(oldPassLl);
 
   if (opts.logHl) {
     gT.l.println('END: "' + msg + '"');
@@ -74,20 +75,20 @@ exports.genWraper = function* (gen, msg, options) {
 exports.initAndLogin = function * (remember, options) {
   yield *exports.genWraper(
     function* () {
-      yield s.driver.init();
-      yield s.deleteCookie('sails.sid');
-      yield s.browser.loadPage('$(host)');
-      yield s.waitForTitle('R-Vision: Sign in', 2000);
-      yield s.waitForElementById('username', 2000);
-      yield s.sendKeysById('username', 'admin');
-      yield s.sendKeysById('password', 'admin');
+      yield gT.s.driver.init();
+      yield gT.s.browser.deleteCookie('sails.sid');
+      yield gT.s.browser.loadPage('$(host)');
+      yield gT.s.wait.waitForTitle('R-Vision: Sign in', 2000);
+      yield gT.s.wait.waitForElementById('username', 2000);
+      yield gT.s.ua.sendKeysById('username', 'admin');
+      yield gT.s.ua.sendKeysById('password', 'admin');
       if (remember) {
-        yield s.clickById('checkbox');
+        yield gT.s.ua.clickById('checkbox');
       }
-      yield s.clickById('submit');
-      yield s.waitForTitle('R-Vision', 10000);
-      yield s.waitForUrlPrefix('$(host)/#dashboard', 250000);
-      yield s.waitForExtAppReady(1000);
+      yield gT.s.ua.clickById('submit');
+      yield gT.s.wait.waitForTitle('R-Vision', 10000);
+      yield gT.s.wait.waitForUrlPrefix('$(host)/#dashboard', 250000);
+      yield gT.s.wait.waitForExtAppReady(1000);
     },
     'Init and Login',
     options);
@@ -96,11 +97,11 @@ exports.initAndLogin = function * (remember, options) {
 exports.initAndWaitExtApp = function * (options) {
   yield *exports.genWraper(
     function* () {
-      yield s.driver.init();
-      yield s.browser.loadPage('$(host)');
-      yield s.waitForTitle('R-Vision', 10000);
-      yield s.waitForUrlPrefix('$(host)/#dashboard', 250000);
-      yield s.waitForExtAppReady(1000);
+      yield gT.s.driver.init();
+      yield gT.s.browser.loadPage('$(host)');
+      yield gT.s.wait.waitForTitle('R-Vision', 10000);
+      yield gT.s.wait.waitForUrlPrefix('$(host)/#dashboard', 250000);
+      yield gT.s.wait.waitForExtAppReady(1000);
     },
     'Init without Login',
     options);

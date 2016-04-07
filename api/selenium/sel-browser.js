@@ -159,11 +159,11 @@ exports.setWindowSize = function (width, height, logAction) {
 };
 
 /* Known issue: Xvfb has bad support for maximize, but does support setWindowSize. */
-/* Use this function after waitForAppReady or waitForExtAppReady call to make sure that it works correctly */
+/* To correctly work use this function after complete page load */
 exports.maximize = function (logAction) {
   return gIn.wrap('Maximize ... ', logAction, function () {
     if (typeof gT.browser.width !== 'undefined') {
-      return gT.sOrig.driver.manage().window().setSize(gT.browser.width, gT.height);
+      return gT.sOrig.driver.manage().window().setSize(gT.browser.width, gT.browser.height);
     } else {
       return gT.sOrig.driver.manage().window().maximize();
     }
