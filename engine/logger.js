@@ -1,6 +1,7 @@
 'use strict';
 
 /* globals gT: true */
+/* globals gIn: true */
 
 /*
  Inner utils for logging.
@@ -8,62 +9,96 @@
 
 var fs = require('fs');
 
+var consoleLogPrefix = 'LOG: ';
+var errPrefix = 'ERR: ';
+var excPrefix = 'EXC: ';
+
 exports.indentation = '| ';
 exports.defLlLogAction = true;
 //exports.firstIndent = '|-'
-
 
 // Must be called only before handleDir for root test directory, like engine, app, etc..
 exports.setSuiteLog = function (suiteLog) {
   exports.suiteLog = suiteLog;
 };
 
-exports.log = function (msg, noConsole) {
-  // We use append here, because there must be maximum strings in the log,
-  // even if something will break the test engine.
-  if (gIn.params.logToConsole && !noConsole) {
-    console.log('LOG:' + msg);
-  }
-  fs.appendFileSync(exports.logFile, msg, {encoding: 'ascii'});
-};
+function logToFile(msg) {
+  // , {encoding: 'ascii'}
+  // TODO: check how diff work for unicode.
+  fs.appendFileSync(exports.logFile, msg);
+}
 
-exports.logln = function (msg) {
+function logToConsoleIfEnabled(msg) {
   if (gIn.params.logToConsole) {
-    console.log('LOG:' + msg);
+    console.log(consoleLogPrefix + msg);
   }
-  exports.log(msg + '\n', true);
-};
+}
 
-exports.error = function (msg) {
-  msg = 'ERR: ' + msg;
+function errToConsoleIfEnabled(msg) {
   if (gIn.params.logErrToConsole) {
     console.error(msg);
   }
-  exports.log(msg, true);
+}
+
+/**
+ * Logs to file and writes to console (if console out is enabled).
+ * @param msg
+ * @param noConsole
+ */
+exports.log = function (msg, noConsole) {
+  // We use append here, to don't lost some strings if something will break the test engine.
+  if (!noConsole) {
+    logToConsoleIfEnabled(msg);
+  }
+  logToFile(msg);
+};
+
+exports.logln = function (msg) {
+  logToConsoleIfEnabled(msg);
+  logToFile(msg + '\n');
+};
+
+/**
+ * Report about some error.
+ * @param msg
+ */
+exports.error = function (msg) {
+  msg = 'ERR: ' + msg;
+  errToConsoleIfEnabled(msg);
+  logToFile(msg);
 };
 
 exports.errorln = function (msg) {
   msg = 'ERR: ' + msg;
-  if (gIn.params.logErrToConsole) {
-    console.error(msg);
-  }
-  exports.log(msg + '\n', true);
+  errToConsoleIfEnabled(msg);
+  logToFile(msg + '\n');
 };
 
+/**
+ * Report about some exception.
+ * @param msg
+ * @param e
+ * @param noConsole
+ */
 exports.exception = function (msg, e, noConsole) {
-  if (gIn.params.logErrToConsole && !noConsole) {
-    console.error('EXC: ' + msg + ' ' + gIn.textUtils.excToStr(e));
+  msg = excPrefix + msg;
+  if (!noConsole) {
+    errToConsoleIfEnabled(msg + ' ' + gIn.textUtils.excToStr(e));
   }
-  exports.log('EXC: ' + msg + ' ' + gIn.textUtils.excToStr(e, true) + '\n', true);
+  logToFile(msg + ' ' + gIn.textUtils.excToStr(e, true) + '\n');
 };
 
 /**
  * Logs a message.
  * @param msg - A message to be logged.
- * @param enable - Optional. If true log is enabled, othwerwise log is disabled.
+ * @param {Boolean}[enable]. If true log is enabled, othwerwise log is disabled.
  */
 exports.logIfEnabled = function (msg, enable) {
-  if (gIn.config.forceLogAction || gIn.params.forceLogActions || enable) {
+  let forcedByCmdLine = false;
+  if (!enable && gIn.params.forceLogActions) {
+    forcedByCmdLine = true;
+  }
+  if (gIn.params.forceLogActions || enable) {
     exports.log(msg);
   }
 };
@@ -71,13 +106,18 @@ exports.logIfEnabled = function (msg, enable) {
 /**
  * Logs a message.
  * @param msg - A message to be logged.
- * @param enable - Optional. If false - log is disabled, otherwise - log is enabled.
+ * @param {Boolean} [enable = exports.defLlLogAction] - If false - log is disabled,
+ * otherwise - log is enabled.
  */
 exports.logIfNotDisabled = function (msg, enable) {
   if (typeof enable === 'undefined') {
     enable = exports.defLlLogAction;
   }
-  if (gIn.config.forceLogAction || gIn.params.forceLogActions || enable) {
+  let forcedByCmdLine = false;
+  if (!enable && gIn.params.forceLogActions) {
+    forcedByCmdLine = true;
+  }
+  if (gIn.params.forceLogActions || enable) {
     exports.log(msg);
   }
 };

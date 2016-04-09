@@ -95,7 +95,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
       gIn.tInfo.fail();
       gIn.logger.errorln('Act.Wrapper.FAIL' + stopTimer(startTime));
       gIn.logger.errorln('========== Err Info Begin ==========');
-      gIn.logger.exception('', err);
+      gIn.logger.exception('Exception in wrapper: ', err);
       if (typeof gT.sOrig.driver !== 'undefined') {
         /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
         gIn.tracer.trace1('Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.');

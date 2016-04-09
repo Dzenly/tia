@@ -1,6 +1,7 @@
 'use strict';
 
 /* globals gT: true */
+/* globals gIn: true */
 
 var ok = 'OK\n';
 var fail = 'FAIL\n';
