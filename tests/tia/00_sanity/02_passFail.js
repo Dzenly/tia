@@ -1,21 +1,26 @@
 t.setTitle('Check for pass and fail work');
 
 l.fail();
-a.equal(ll.getFailed(), 1, 'Here must be 1 failed test');
+a.equal(ll.getFailed(), 1, 'Failed tests count');
 
-l.fail('fail with message\n');
-a.equal(ll.getFailed(), 2, 'Here must be 2 failed tests');
+l.fail('Expected fail with message.');
+a.equal(ll.getFailed(), 2, 'Failed tests count');
 
 l.pass();
-l.pass('pass with message\n');
+l.pass('Pass with message\n');
 
-a.equal(ll.getPassed(), 4, 'Here must be 4 passed tests');
+a.equal(ll.getPassed(), 4, 'Passed tests count');
 
-l.print('Freshly inited test info, real title, verbose:\n');
-l.print(gIn.tInfo.testInfoToString(gIn.tInfo.data, false, true, false, false));
+l.println('There will be equal without message');
+a.equal(5, 5);
+
+a.equal(ll.getPassed(), 6, 'Passed tests count');
+
+l.println('Freshly inited test info, real title, verbose:');
+l.println(gIn.tInfo.testInfoToString(gIn.tInfo.data, false, true, false, false));
 
 ll.setFailed(0);
-a.equal(ll.getFailed(), 0, 'After setFailed Here must be 0 failed tests');
+a.equal(ll.getFailed(), 0, 'After setFailed(0), failed tests count');
 
 ll.setPassed(1);
-a.equal(ll.getPassed(), 1, 'After setPassed Here must be 1 passed test');
+a.equal(ll.getPassed(), 1, 'After setPassed(1), passed test count');

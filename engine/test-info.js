@@ -72,7 +72,7 @@ exports.createTestInfo = function (isDir, title, path) {
   return info;
 };
 
-exports.fail = function () {
+exports.addFail = function () {
   if (gIn.config.ignorePassAndFailCounters) {
     return;
   }
@@ -83,7 +83,7 @@ exports.passForce = function () {
   exports.data.passed++;
 };
 
-exports.pass = function () {
+exports.addPass = function () {
   if (!exports.isPassCountingEnabled || gIn.config.ignorePassAndFailCounters) {
     return;
   }

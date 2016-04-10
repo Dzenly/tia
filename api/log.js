@@ -2,6 +2,11 @@
 
 /* globals gIn: true */
 
+var ok = 'OK: ';
+var okLn = ok + '\n';
+var fail = 'FAIL: ';
+var failLn = fail + '\n';
+
 /**
  * Logs the specifiied msg.
  */
@@ -32,22 +37,24 @@ exports.eol = function () {
 
 /**
  * Logs fail with optional msg.
+ * Increases fails count.
  * @param [msg] - message to print.
  */
 exports.fail = function (msg) {
   if (typeof msg !== 'undefined') {
-    gIn.logger.log(msg);
+    gIn.logger.fail(fail + msg + '\n');
   }
-  gIn.tInfo.fail();
+  gIn.tInfo.addFail();
 };
 
 /**
  * Logs Pass with optional msg.
+ * Increases passes count.
  */
 exports.pass = function (msg) {
   if (typeof msg !== 'undefined') {
-    gIn.logger.log(msg);
+    gIn.logger.pass(ok + msg + '\n');
   }
-  gIn.tInfo.pass();
+  gIn.tInfo.addPass();
 };
 

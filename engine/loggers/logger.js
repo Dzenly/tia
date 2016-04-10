@@ -9,18 +9,11 @@
 
 var fs = require('fs');
 
-var consoleLogPrefix = 'LOG: ';
-var errPrefix = 'ERR: ';
-var excPrefix = 'EXC: ';
-
-exports.indentation = '| ';
-exports.defLlLogAction = true;
-//exports.firstIndent = '|-'
-
 // Must be called only before handleDir for root test directory, like engine, app, etc..
-exports.setSuiteLog = function (suiteLog) {
-  exports.suiteLog = suiteLog;
-};
+// TODO: what it is ?
+// exports.setSuiteLog = function (suiteLog) {
+//   exports.suiteLog = suiteLog;
+// };
 
 function logToFile(msg) {
   // , {encoding: 'ascii'}
@@ -28,34 +21,38 @@ function logToFile(msg) {
   fs.appendFileSync(exports.logFile, msg);
 }
 
-function logToConsoleIfEnabled(msg) {
-  if (gIn.params.logToConsole) {
-    console.log(consoleLogPrefix + msg);
-  }
-}
-
-function errToConsoleIfEnabled(msg) {
-  if (gIn.params.logErrToConsole) {
-    console.error(msg);
-  }
+function logToFileLn(msg) {
+  return logToFile(msg + '\n');
 }
 
 /**
- * Logs to file and writes to console (if console out is enabled).
+ * Logs to file and writes to console (if console output is enabled).
  * @param msg
  * @param noConsole
  */
-exports.log = function (msg, noConsole) {
+exports.log = function (msg) {
   // We use append here, to don't lost some strings if something will break the test engine.
-  if (!noConsole) {
-    logToConsoleIfEnabled(msg);
-  }
+  gIn.cLogger.logIfEnabled(msg);
   logToFile(msg);
 };
 
 exports.logln = function (msg) {
-  logToConsoleIfEnabled(msg);
-  logToFile(msg + '\n');
+  exports.log(msg + '\n');
+};
+
+exports.logBold = function (msg) {
+  gIn.cLogger.logBold(msg);
+  logToFile(msg);
+};
+
+exports.fail = function (msg) {
+  gIn.cLogger.failIfEnabled(msg);
+  logToFile(msg);
+};
+
+exports.pass = function (msg) {
+  gIn.cLogger.passIfEnabled(msg);
+  logToFile(msg);
 };
 
 /**
@@ -63,28 +60,23 @@ exports.logln = function (msg) {
  * @param msg
  */
 exports.error = function (msg) {
-  msg = 'ERR: ' + msg;
-  errToConsoleIfEnabled(msg);
+  msg = gIn.loggerCfg.errPrefix + msg;
+  gIn.cLogger.errIfEnabled(msg);
   logToFile(msg);
 };
 
 exports.errorln = function (msg) {
-  msg = 'ERR: ' + msg;
-  errToConsoleIfEnabled(msg);
-  logToFile(msg + '\n');
+  return exports.error(msg + '\n');
 };
 
 /**
  * Report about some exception.
  * @param msg
  * @param e
- * @param noConsole
  */
-exports.exception = function (msg, e, noConsole) {
-  msg = excPrefix + msg;
-  if (!noConsole) {
-    errToConsoleIfEnabled(msg + ' ' + gIn.textUtils.excToStr(e));
-  }
+exports.exception = function (msg, e) {
+  msg = gIn.loggerCfg.excPrefix + msg;
+  gIn.cLogger.errIfEnabled(msg + ' ' + gIn.textUtils.excToStr(e));
   logToFile(msg + ' ' + gIn.textUtils.excToStr(e, true) + '\n');
 };
 
@@ -106,12 +98,12 @@ exports.logIfEnabled = function (msg, enable) {
 /**
  * Logs a message.
  * @param msg - A message to be logged.
- * @param {Boolean} [enable = exports.defLlLogAction] - If false - log is disabled,
+ * @param {Boolean} [enable = gIn.loggerCfg.defLlLogAction] - If false - log is disabled,
  * otherwise - log is enabled.
  */
 exports.logIfNotDisabled = function (msg, enable) {
   if (typeof enable === 'undefined') {
-    enable = exports.defLlLogAction;
+    enable = gIn.loggerCfg.defLlLogAction;
   }
   let forcedByCmdLine = false;
   if (!enable && gIn.params.forceLogActions) {
@@ -128,10 +120,11 @@ function writeStrToFile(str, diffed) {
 
 function writeStrToStdout(str, diffed) {
   str = str.replace(/\s+$/g, '');
+  str += '\n';
   if (diffed) {
-    console.error(str);
+    gIn.cLogger.err(str);
   } else {
-    console.log(str);
+    gIn.cLogger.msg(str);
   }
 }
 
@@ -151,7 +144,7 @@ function saveDirInfo(dirInfo, indent, verbose, noTime) {
     return;
   }
   writeToSuiteLog(indent + gIn.tInfo.testInfoToString(dirInfo, true, verbose, noTime), dirInfo.diffed);
-  indent = exports.indentation + indent;
+  indent = gIn.loggerCfg.indentation + indent;
   // If directory is empty there will be empty array.
   // Absense of 'children' property says that it is test and not directory, we should not allow to use this function for not directory.
   var len = dirInfo.children.length;

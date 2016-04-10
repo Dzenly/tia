@@ -119,7 +119,7 @@ gIn.params.stackToLog = args['stacktolog'];
 gIn.params.noxvfb = args['noxvfb'];
 gIn.params.logsToMail = args['l'];
 gIn.params.logErrToConsole = args['logerrtoconsole'];
-gIn.params.logToConsole = args['logtoconsole'];
+gIn.params.logDupToStdout = args['logtoconsole'];
 gIn.params.trace = args['trace'];
 if (gIn.params.trace > 3) {
   gIn.params.trace = 3;

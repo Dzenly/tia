@@ -1,5 +1,5 @@
-Test throws "SomeErr" string
 =================
+Title: Test throws "SomeErr" string
 EXC: Exception in runner:  SomeErr
 =================
 Pass: 0, Fail: 1

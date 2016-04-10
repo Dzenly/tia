@@ -12,16 +12,18 @@ var tInfo = gIn.tInfo;
  * Sets passes count for current test.
  * Can be used for debug.
  */
-exports.setPassed = function (passed) {
-  tInfo.data.passed = passed;
+exports.setPassed = function (newCount) {
+  gIn.tracer.trace3('Changing passed tests count to ' + newCount);
+  tInfo.data.passed = newCount;
 };
 
 /**
  * Sets fails count for current test.
  * Can be used for debug.
  */
-exports.setFailed = function (failed) {
-  tInfo.data.failed = failed;
+exports.setFailed = function (newCount) {
+  gIn.tracer.trace3('Changing failed tests count to ' + newCount);
+  tInfo.data.failed = newCount;
 };
 
 /**
@@ -62,7 +64,7 @@ exports.setLlPassCounting = function (enable) {
  * @returns {boolean} - old Log Action value.
  */
 exports.setDefaultLlLogAction = function (enable) {
-  var old = gIn.logger.defLlLogAction;
-  gIn.logger.defLlLogAction = enable;
+  var old = gIn.loggerCfg.defLlLogAction;
+  gIn.loggerCfg.defLlLogAction = enable;
   return old;
 };

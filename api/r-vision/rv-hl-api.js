@@ -68,7 +68,7 @@ exports.genWraper = function* (gen, msg, options) {
   }
 
   if (opts.passHl) {
-    gIn.tInfo.passForce();
+    gIn.tInfo.addPassForce();
   }
 };
 

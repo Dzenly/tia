@@ -86,13 +86,13 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
   return flow.execute(act).then(
     function (val) {
       flow.execute(function * () {
-        gIn.tInfo.pass(); // will be taken from global sandbox.
+        gIn.tInfo.addPass(); // will be taken from global sandbox.
         yield *pauseAndLogOk(logAction, startTime, noConsoleAndExceptions);
       });
       return val; // This value will be returned from yield.
     },
     function (err) {
-      gIn.tInfo.fail();
+      gIn.tInfo.addFail();
       gIn.logger.errorln('Act.Wrapper.FAIL' + stopTimer(startTime));
       gIn.logger.errorln('========== Err Info Begin ==========');
       gIn.logger.exception('Exception in wrapper: ', err);

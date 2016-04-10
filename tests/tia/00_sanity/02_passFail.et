@@ -1,18 +1,18 @@
-Check for pass and fail work
 =================
-Here must be 1 failed test:
-Check that "1" is equal to "1"...OK
-fail with message
-Here must be 2 failed tests:
-Check that "2" is equal to "2"...OK
-pass with message
-Here must be 4 passed tests:
-Check that "4" is equal to "4"...OK
+Title: Check for pass and fail work
+OK: Failed tests count: 1
+FAIL: Expected fail with message.
+OK: Failed tests count: 2
+OK: Pass with message
+
+OK: Passed tests count: 4
+There will be equal without message
+OK: Act: "5" = Exp: "5"
+OK: Passed tests count: 6
 Freshly inited test info, real title, verbose:
-"02_passFail.js", OK, Fail: 2, Pass: 5, 0.00 ms, "Check for pass and fail work"
-After setFailed Here must be 0 failed tests:
-Check that "0" is equal to "0"...OK
-After setPassed Here must be 1 passed test:
-Check that "1" is equal to "1"...OK
+"02_passFail.js", OK, Fail: 2, Pass: 7, 0.00 ms, "Check for pass and fail work"
+
+OK: After setFailed(0), failed tests count: 0
+OK: After setPassed(1), passed test count: 1
 =================
 Pass: 2, Fail: 0

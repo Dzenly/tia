@@ -28,7 +28,9 @@ gT.engineConfig = require('../config/engine-config.js');
 gT.suiteConfigDefault = require('../config/default-suite-config.js');
 gT.dirConfigDefault = require('../config/default-dir-config.js');
 
-gIn.logger = require('./logger.js');
+gIn.loggerCfg = require('./loggers/logger-cfg.js');
+gIn.cLogger = require('./loggers/console-logger.js');
+gIn.logger = require('./loggers/logger.js');
 
 gIn.tracer = require('./tracer.js');
 

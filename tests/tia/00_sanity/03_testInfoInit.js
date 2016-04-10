@@ -1,14 +1,14 @@
-l.print('Freshly inited test info, empty title, verbose:\n');
-l.print(gIn.tInfo.testInfoToString(gIn.tInfo.data, false, true, false, false));
+l.println('Freshly inited test info, empty title, verbose:');
+l.println(gIn.tInfo.testInfoToString(gIn.tInfo.data, false, true, false, false));
 
 t.setTitle('Test for testInfo init');
 
-l.print('Freshly inited test info, real title, verbose:\n');
-l.print(gIn.tInfo.testInfoToString(gIn.tInfo.data, false, true, false, false));
+l.println('Freshly inited test info, real title, verbose:');
+l.println(gIn.tInfo.testInfoToString(gIn.tInfo.data, false, true, false, false));
 
 l.eol();
 
-l.print('Freshly inited test info, no time, no title, short:\n');
-l.print(gIn.tInfo.testInfoToString(gIn.tInfo.data, false, false, true, true));
+l.println('Freshly inited test info, no time, no title, short:');
+l.println(gIn.tInfo.testInfoToString(gIn.tInfo.data, false, false, true, true));
 
-l.print('This test does not touch pass and fail counters, so validity determined only with absense of diff\n');
+l.println('This test does not touch pass and fail counters, so validity determined only with absense of diff');

@@ -22,15 +22,16 @@ function runTestFile(file) {
   try {
     nodeUtils.requireEx(file, true);
   } catch (e) {
-    gIn.logger.exception('Exception in runner: ', e, false); // TODO: why I used true here ?
-    gIn.tInfo.fail();
+    // TODO: why did I disable exceptions to console here?
+    gIn.logger.exception('Exception in runner: ', e);
+    gIn.tInfo.addFail();
   }
 }
 
 function *handleTestFile(file, dirConfig) {
   // Restore the state which could be damaged by previous test and any other initialization.
   gIn.tInfo.isPassCountingEnabled = true;
-  gIn.logger.defLlLogAction = true;
+  gIn.loggerCfg.defLlLogAction = true;
 
   gIn.config = gIn.configUtils.copyConfig(dirConfig); // Config for current test, can be changed by test.
   // It is not safe to create such structure in the test and return it from test,
