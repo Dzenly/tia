@@ -17,15 +17,7 @@ TODO:
 Так что это будет быстро, типа при каждой загрузке страницы - пару кб лишнего трафика.
 Но это все локально.
 
-Как сделать так, чтобы старые версии тестов работали на старом движке.
-А новые могли на новой версии движка.
-
-Версии движка сделать легко.
-Буду соблюдать semver.
-
 Запускать можно через конкретный JS, все modules тоже будут искаться в конкретном скопе.
-
-
 
 ----------------------------------
 
@@ -84,10 +76,6 @@ TODO: М.б. изображения тоже аттачить по этой оп
 
 Как в bamboo сделать, логи интерактивными, чтобы можно было коллапсить ненужные блоки.
 Например, блоки с информацией о задании (environment, etc) на страницу.(? research)
-
-Write good help for public functions. (1.5h for current state)
-
-More tests for support of all config parameters.(2h)
 
 Tests for passed, failed, throwed from web driver promises. (3h)
 Tests for error chaining for flow.execute(), say if first of ten functions faled, all queue should fail.

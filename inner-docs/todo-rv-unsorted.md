@@ -19,23 +19,19 @@
 
 ============================
 
+promise.ControlFlow, wait for condition.
 
-// https://github.com/gempesaw/Selenium-Remote-Driver/wiki/PhantomJS-Headless-Browser-Automation
-// phantomjs --webdriver=4444, OR:
-// java -jar selenium-server-standalone-2.35.0.jar -Dphantomjs.binary.path=/usr/local/bin/phantomjs
-// my $driver =  Selenium::Remote::Driver->new("browser_name" => "phantomjs");
+Попробовать применить Selenium IDE.
+Может быть можно быстро записывать действия пользователя.
+Допустим, там будут динамические ID, но м.б. можно писать какие-то хуки для Selenium IDE
+, которые позволят переводить это в ExtJS поиск id.
 
-// gT.sOrig.driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+Кстати, по-возможности можно дать программистам указание использовать id (не ItemId) где только можно.
 
-// TODO: find analog of this (Java):
-//Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-//				.withTimeout(30, SECONDS)
-//				.pollingEvery(5, SECONDS)
-//				.ignoring(NoSuchElementException.class);
 
-//var drvr = new webdriver.Builder()
-//		.forBrowser('firefox')
-//		.usingServer('http://localhost:4444/wd/hub')
-//		.build();
+Сделать некоего робота на bamboo, который обновляет package.json, чтобы он показывал на новейшие версии наших пакетов.
 
-// SELENIUM_REMOTE_URL="http://localhost:4444/wd/hub" node script.js
+Сделать поддержку npm test везде.
+
+Поменять отступы на 2 пробела.
+
