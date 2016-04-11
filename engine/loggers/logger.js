@@ -142,6 +142,7 @@ exports.testSummary = function () {
 };
 
 function saveDirInfo(dirInfo, indent, verbose, noTime) {
+  gIn.tracer.trace3(dirInfo.path + ', dirInfo.handled: ' + dirInfo.handled);
   if (!dirInfo.handled && !gT.suiteConfig.emptyDirToSuiteLog) {
     return;
   }

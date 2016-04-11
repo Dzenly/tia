@@ -43,12 +43,13 @@ function *handleTestFile(file, dirConfig) {
   }
 
   gIn.tInfo.data = gIn.tInfo.createTestInfo(false, '', file); // Test should change this title.
-  gIn.tInfo.data.handled = 1;
 
   if (dirConfig.skip) {
     gIn.tInfo.data.skipped = 1;
     return gIn.tInfo.data;
   }
+
+  gIn.tInfo.data.handled = 1;
 
   if (gIn.config.DISPLAY && !gIn.params.noxvfb) {
     process.env.DISPLAY = gIn.config.DISPLAY;

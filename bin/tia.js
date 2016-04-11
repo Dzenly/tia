@@ -112,7 +112,7 @@ gIn.params = {}; // Parameters given in the command line.
 
 gIn.params.suiteRoot = suiteRoot;
 gIn.params.browser = browser;
-gIn.params.path = args['p'];
+gIn.params.path = args['p']; // TODO: support several paths?
 gIn.params.minPathSearchIndex = suiteRoot.length + 1; // Minumum index for path search.
 gIn.params.mail = args['m'];
 gIn.params.stackToLog = args['stacktolog'];
