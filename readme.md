@@ -177,11 +177,11 @@ module.exports = {
 `.mail-settingsrc`
 
 Вот пример:
-
+```
 smtpHost=smtp.yandex.ru
 user=asdf@fdas.fd
 password=asdfnbdh
-
+```
 ----------------------------------
 
 ## Запуск
