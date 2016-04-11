@@ -1,7 +1,5 @@
 'use strict';
 
-/* globals gT: true */
-
 // TODO: made configs as private (closure) variables and provide accessors ?
 
 // TODO: Сделать возможность просматривать дифы простой командой tia.js diff_number.
