@@ -79,7 +79,7 @@ exports.addFail = function () {
   exports.data.failed++; // From global sandbox.
 };
 
-exports.passForce = function () {
+exports.addPassForce = function () {
   exports.data.passed++;
 };
 
