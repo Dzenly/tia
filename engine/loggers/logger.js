@@ -30,10 +30,12 @@ function logToFileLn(msg) {
  * @param msg
  * @param noConsole
  */
-exports.log = function (msg) {
+exports.log = function (msg, dontWriteToFile) {
   // We use append here, to don't lost some strings if something will break the test engine.
   gIn.cLogger.logIfEnabled(msg);
-  logToFile(msg);
+  if (!dontWriteToFile) {
+    logToFile(msg);
+  }
 };
 
 exports.logln = function (msg) {
@@ -86,12 +88,12 @@ exports.exception = function (msg, e) {
  * @param {Boolean}[enable]. If true log is enabled, othwerwise log is disabled.
  */
 exports.logIfEnabled = function (msg, enable) {
-  let forcedByCmdLine = false;
+  let dontWriteToFile = false;
   if (!enable && gIn.params.forceLogActions) {
-    forcedByCmdLine = true;
+    dontWriteToFile = true;
   }
   if (gIn.params.forceLogActions || enable) {
-    exports.log(msg);
+    exports.log(msg, dontWriteToFile);
   }
 };
 
@@ -105,12 +107,12 @@ exports.logIfNotDisabled = function (msg, enable) {
   if (typeof enable === 'undefined') {
     enable = gIn.loggerCfg.defLlLogAction;
   }
-  let forcedByCmdLine = false;
+  let dontWriteToFile = false;
   if (!enable && gIn.params.forceLogActions) {
-    forcedByCmdLine = true;
+    dontWriteToFile = true;
   }
   if (gIn.params.forceLogActions || enable) {
-    exports.log(msg);
+    exports.log(msg, dontWriteToFile);
   }
 };
 
