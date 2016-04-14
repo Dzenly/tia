@@ -2,20 +2,6 @@
 /* globals gT: true */
 /* globals gIn: true */
 
-// exports.waitAppReady = function(timeout, logAction) {
-// 	return gIn.wrap('Waiting for App Ready ... ', logAction, function() {
-// 		return gT.sOrig.driver.wait(gT.rv.isExtAppReady, timeout).then(
-// 				function() {
-// 					return gT.sOrig.driver.executeScript("return rvTestHelper.getScreenResolution()").then(function(res) {
-// 						// Save resolution to emulate maximize.
-// 						gT.s.browser.width = res.width;
-// 						gT.s.browser.height = res.height;
-// 					});
-// 				}
-// 		);
-// 	});
-// };
-
 /**
  * Waits for element with specified id.
  *

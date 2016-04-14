@@ -1,24 +1,30 @@
-/* Test helper for ExtJs pages */
-// Returns true, if Ext exists.
-var initRvTestHelperExt = function () {
+(function () {
+  'use strict';
 
-    if (typeof Ext === 'undefined' || typeof Ext.onReady === 'undefined' || typeof Ext.Ajax === 'undefined' || typeof Ext.Ajax.on === 'undefined') {
+  window.tiaExtJs = {
+
+    // It if returns true there is not a bad chance that ExtJs application is ready to use.
+    // Deprecated.
+    isExtJsReady: function () {
+      if (typeof Ext === 'undefined' || typeof Ext.onReady === 'undefined' ||
+        typeof Ext.Ajax === 'undefined' || typeof Ext.Ajax.on === 'undefined') {
         return false;
-    }
+      }
+      return true;
+    },
 
-    var RvTestHelperExt = {
     ajaxFailuresArr: [],
 
     // ownerCt vs up - show difference.
 
-    cmpInfo: function (c, indent, parents) {
-        if (!indent) {
-            indent = '';
-        }
-      if (!parents) {
-          parents = '';
+    componentsInfo: function (c, indent, parents) {
+      if (!indent) {
+        indent = '';
       }
-        var parent = c.getItemId();
+      if (!parents) {
+        parents = '';
+      }
+      var parent = c.getItemId();
       console.log('Parents: ' + parents);
       console.log([
         indent + 'Component:',
@@ -34,14 +40,14 @@ var initRvTestHelperExt = function () {
         console.log('Container children:');
         var cnt = c.items.getCount();
         if (cnt) {
-          console.log(indent + "==========================");
+          console.log(indent + '==========================');
           for (var i = 0; i < cnt; i++) {
-            console.log(indent + "==========================");
+            console.log(indent + '==========================');
             console.log(indent + '*|' + 'child ' + i + ' for cmp: ' + parent);
             var child = c.items.get(i);
-            this.cmpInfo(child, indent + '*|', parents + '/' + parent);
+            this.componentsInfo(child, indent + '*|', parents + '/' + parent);
           }
-          console.log(indent + "--------------------------");
+          console.log(indent + '--------------------------');
         }
       }
     },
@@ -61,10 +67,10 @@ var initRvTestHelperExt = function () {
     },
 
     activeAjaxCallsCount: function () {
-        if (!Ext.Ajax.requests) {
-            return 0;
-        }
-        return Ext.Ajax.requests.length;
+      if (!Ext.Ajax.requests) {
+        return 0;
+      }
+      return Ext.Ajax.requests.length;
     },
 
     // If field is omited - all data will be fetched.
@@ -84,13 +90,8 @@ var initRvTestHelperExt = function () {
     },
   };
 
-  //console.log('TestHelperExt loaded');
-
-  window.rvTestHelperExt = RvTestHelperExt;
-  window.cmpInfo = RvTestHelperExt.cmpInfo;
-
   var onAjaxError = function (conn, response, options, eOpts) {
-    rvTestHelperExt.ajaxFailuresArr.push('Ajax Exception: response.status: ' + response.status);
+    tiaExtJs.ajaxFailuresArr.push('Ajax Exception: response.status: ' + response.status);
   };
 
   Ext.onReady(function () {
@@ -100,4 +101,4 @@ var initRvTestHelperExt = function () {
   });
 
   return true;
-};
+})();

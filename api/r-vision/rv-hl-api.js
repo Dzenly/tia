@@ -88,7 +88,11 @@ exports.initAndLogin = function * (remember, options) {
       yield gT.s.ua.clickById('submit');
       yield gT.s.wait.waitForTitle('R-Vision', 10000);
       yield gT.s.wait.waitForUrlPrefix('$(host)/#dashboard', 250000);
-      yield gT.rv.waitForExtAppReady(1000);
+      yield gT.s.wait.waitForElementById('r-main', 2000);
+      yield gT.s.browser.initTiaHelpers();
+      yield gT.e.initTiaExtJsHelpers();
+
+      //yield gT.rv.waitForExtAppReady(1000);
     },
     'Init and Login',
     options);
@@ -101,7 +105,10 @@ exports.initAndWaitExtApp = function * (options) {
       yield gT.s.browser.loadPage('$(host)');
       yield gT.s.wait.waitForTitle('R-Vision', 10000);
       yield gT.s.wait.waitForUrlPrefix('$(host)/#dashboard', 250000);
-      yield gT.rv.waitForExtAppReady(1000);
+      yield gT.s.wait.waitForElementById('r-main', 2000);
+      yield gT.s.browser.initTiaHelpers();
+      yield gT.e.initTiaExtJsHelpers();
+      //yield gT.rv.waitForExtAppReady(1000);
     },
     'Init without Login',
     options);

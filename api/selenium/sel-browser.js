@@ -15,6 +15,23 @@ function nextScreenShotPath() {
 }
 
 /**
+ * Initializes TIA helpers.
+ * Loads and runs the tia-helpers.js script in context of current browser window.
+ * Adds some helpers to window object.
+ *
+ * @param {boolean} [logAction] - is logging needed for this action.
+ *
+ * @returns a promise which will be resolved with script return value.
+ */
+exports.initTiaHelpers = function (logAction) {
+  return gIn.wrap('Initialization of TIA helpers ... ', logAction, function () {
+    var scriptStr = fs.readFileSync(mPath.join(__dirname, 'browser-part/tia-helpers.js'), 'utf8');
+    // gIn.tracer.trace3('initTiaHelpers: script: ' + scriptStr);
+    return gT.sOrig.driver.executeScript(scriptStr);
+  });
+};
+
+/**
  * Loads page with specified URL.
  *
  * @param url
@@ -95,11 +112,11 @@ exports.logConsoleContent = function () {
 };
 
 exports.logExceptions = function (extAjaxFailures, logAction) {
-  return gT.sOrig.driver.executeScript('return !!window.rvTestHelper').then(
+  return gT.sOrig.driver.executeScript('return !!window.tia').then(
     function (res) {
-      gIn.tracer.trace1('logBrowserExceptions, rvTestHelper is: ' + res);
+      gIn.tracer.trace1('logBrowserExceptions, tia is: ' + res);
       if (res) {
-        return gT.sOrig.driver.executeScript('return rvTestHelper.getExceptions(' + extAjaxFailures + ')')
+        return gT.sOrig.driver.executeScript('return tia.getExceptions(' + extAjaxFailures + ')')
           .then(function (arr) {
             for (var str of arr) {
               let logStr = 'BR.EXC: ' + gIn.textUtils.removeSelSid(str);
@@ -123,7 +140,7 @@ exports.cleanExceptions = function (extAjaxFailures, logAction) {
     return gT.sOrig.driver.executeScript('return window.rvtReady').then(
       function (res) {
         if (res) {
-          return gT.sOrig.driver.executeScript('rvTestHelper.cleanExceptions(' + extAjaxFailures + ')');
+          return gT.sOrig.driver.executeScript('tia.cleanExceptions(' + extAjaxFailures + ')');
         }
       });
   });

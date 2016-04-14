@@ -1,7 +1,8 @@
+/* globals window: true, screen: true, DsgwDwd3: true, tia: true, tiaExtJs: true */
 /* Test helper for all pages */
 (function () {
-
-  var RvTestHelper = {
+  'use strict';
+  window.tia = {
 
     exceptionsArr: [],
 
@@ -11,13 +12,15 @@
 
     cleanExceptions: function (cleanExtAjaxFailures) {
       this.exceptionsArr = [];
-      if (cleanExtAjaxFailures && rvTestHelperExt) {
-        rvTestHelperExt.cleanAjaxFailures();
+      if (cleanExtAjaxFailures && tiaExtJs) {
+        tiaExtJs.cleanAjaxFailures();
       }
     },
 
-    getExceptions: function (addExtAjaxFailures) {
-      var tmp = this.exceptionsArr.concat((addExtAjaxFailures && (typeof rvTestHelperExt !== 'undefined')) ? rvTestHelperExt.getAjaxFailures() : []);
+    getExceptions: function (addExtJsAjaxFailures) {
+      var tmp = this.exceptionsArr.concat(
+        (addExtJsAjaxFailures && (typeof tiaExtJs !== 'undefined')) ? tiaExtJs.getAjaxFailures() : []
+      );
       this.cleanExceptions();
       return tmp;
     },
@@ -39,11 +42,9 @@
 
   //console.log('TestHelper loaded');
 
-  window.rvTestHelper = RvTestHelper;
-
   // MDN: When the function returns true, this prevents the firing of the default event handler.
   var onError = function (msg, url, line) {
-    rvTestHelper.exceptionsArr.push('Exception: Msg: ' + msg + ', Url: ' + url + ', Line: ' + line);
+    tia.exceptionsArr.push('Exception: Msg: ' + msg + ', Url: ' + url + ', Line: ' + line);
     //console.log(msg + ' ' + url + ' ' + line);
   };
   window.onerror = onError;

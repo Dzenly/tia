@@ -12,16 +12,6 @@
  Also test writers can see the whole objects structure on one place.
  */
 
-/**
- * ExtJs utils.
- *
- * @type {{}}
- */
-gT.e = {};
-global.e = gT.e;
-
-// TODO: should all hl utils be moved to R-Vision tia-tests?
-
 // ==================================================
 
 /**
