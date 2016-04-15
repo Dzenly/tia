@@ -15,7 +15,7 @@ function nextScreenShotPath() {
 }
 
 exports.executeScriptFromFile = function (fPath, logAction) {
-  return gIn.wrap('Execute script from file ' + fPath +  ' ... ', logAction, function () {
+  return gIn.wrap('Execute script from file ' + fPath + ' ... ', logAction, function () {
     var scriptStr = fs.readFileSync(fPath, 'utf8');
     // gIn.tracer.trace3('initTiaHelpers: script: ' + scriptStr);
     return gT.sOrig.driver.executeScript(scriptStr);
@@ -181,12 +181,32 @@ exports.setWindowSize = function (width, height, logAction) {
   });
 };
 
+/**
+ * Saves screen resolution into inner variables.
+ * @param logAction
+ * @returns {*}
+ */
+exports.getScreenResolution = function (logAction) {
+  return gIn.wrap('Get screen resolution ... ', logAction, function () {
+    return gT.sOrig.driver.executeScript('return tia.getScreenResolution()')
+      .then(function (res) {
+        // Save resolution to emulate maximize.
+        gT.s.browser.screenWidth = res.width;
+        gT.s.browser.screenHeight = res.height;
+        return res;
+      });
+  });
+};
+
+/**
+ * Maximizes browser window.
+ */
 /* Known issue: Xvfb has bad support for maximize, but does support setWindowSize. */
 /* To correctly work use this function after complete page load */
 exports.maximize = function (logAction) {
   return gIn.wrap('Maximize ... ', logAction, function () {
-    if (typeof gT.s.browser.width !== 'undefined') {
-      return gT.sOrig.driver.manage().window().setSize(gT.s.browser.width, gT.s.browser.height);
+    if (typeof gT.s.browser.screenWidth !== 'undefined') {
+      return gT.sOrig.driver.manage().window().setSize(gT.s.browser.screenWidth, gT.s.browser.screenHeight);
     } else {
       return gT.sOrig.driver.manage().window().maximize();
     }
