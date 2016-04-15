@@ -1,1 +1,3 @@
 *.et eol=lf
+*.js eol=lf
+*.edif eol=lf
