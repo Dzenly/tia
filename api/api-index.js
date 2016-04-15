@@ -80,6 +80,4 @@ require('./utils/utils-index.js');
 
 require('./extjs/extjs-index.js');
 
-// ==================================================
-
-require('./r-vision/rv-index.js');
+// ==================================================;
