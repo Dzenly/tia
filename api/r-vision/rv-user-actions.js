@@ -78,14 +78,15 @@
 /**
  * Clicks on tab with specified ItemId.
  * @param itemId
- * @param logAction
+ * @param logAction - enable/disalbe logging for this action.
  * @returns {*}
  */
-exports.clickTabId = function (itemId, logAction) {
-  return gIn.wrap('Click on element with itemId: "' + itemId + '" ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript('return tiaExtJs.getTabId("' + itemId + '")').then(function (id) {
-      gIn.tracer.trace3('clickTabId: id of found element: ' + id);
-      return gT.sOrig.driver.findElement(gT.sOrig.by.id(id)).click();
-    });
+exports.clickMainTabId = function (itemId, logAction) {
+  return gIn.wrap(`Click Main tab with itemId: "${itemId}" ... `, logAction, function () {
+    return gT.sOrig.driver.executeScript(`return tiaExtJs.getTabId('r-main', '${itemId}')`)
+      .then(function (id) {
+        gIn.tracer.trace3('clickMainTabId: id of found element: ' + id);
+        return gT.sOrig.driver.findElement(gT.sOrig.by.id(id)).click();
+      });
   });
 };

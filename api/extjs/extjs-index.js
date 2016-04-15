@@ -37,4 +37,4 @@ gT.e.initTiaExtJsHelpers = function (logAction) {
   });
 };
 
-require('./extjs-user-actions.js');
+gT.e.ua = require('./extjs-user-actions.js');

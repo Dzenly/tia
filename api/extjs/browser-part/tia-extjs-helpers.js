@@ -82,8 +82,8 @@
       return res;
     },
 
-    getTabId: function (tabItemId) {
-      var cmp = Ext.getCmp('r-main').getTabBar().down('#' + tabItemId);
+    getTabId: function (compId, tabItemId) {
+      var cmp = Ext.getCmp(compId).getTabBar().down('#' + tabItemId);
       var res = cmp ? cmp.getId() : null;
       //console.log('getTabId ' + res);
       return res;

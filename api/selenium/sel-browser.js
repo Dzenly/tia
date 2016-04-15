@@ -14,6 +14,14 @@ function nextScreenShotPath() {
   return gIn.textUtils.changeExt(jsPath, '_' + index + '.png');
 }
 
+exports.executeScriptFromFile = function (fPath, logAction) {
+  return gIn.wrap('Execute script from file ' + fPath +  ' ... ', logAction, function () {
+    var scriptStr = fs.readFileSync(fPath, 'utf8');
+    // gIn.tracer.trace3('initTiaHelpers: script: ' + scriptStr);
+    return gT.sOrig.driver.executeScript(scriptStr);
+  });
+};
+
 /**
  * Initializes TIA helpers.
  * Loads and runs the tia-helpers.js script in context of current browser window.
@@ -25,9 +33,7 @@ function nextScreenShotPath() {
  */
 exports.initTiaHelpers = function (logAction) {
   return gIn.wrap('Initialization of TIA helpers ... ', logAction, function () {
-    var scriptStr = fs.readFileSync(mPath.join(__dirname, 'browser-part/tia-helpers.js'), 'utf8');
-    // gIn.tracer.trace3('initTiaHelpers: script: ' + scriptStr);
-    return gT.sOrig.driver.executeScript(scriptStr);
+    return exports.executeScriptFromFile(mPath.join(__dirname, 'browser-part/tia-helpers.js'), false);
   });
 };
 
