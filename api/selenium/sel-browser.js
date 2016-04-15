@@ -292,7 +292,7 @@ exports.cleanProfile = function (logAction) {
   return gIn.wrap('Cleaning profile: "' + gIn.config.profilePath + '" ... ', logAction, function () {
     return gT.sOrig.flow.execute(function () {
       if (gIn.config.profilePath) {
-        gIn.fileUtils.emptyDir(mPath.join(gT.engineConfig.profileRoot, gIn.config.profilePath));
+        gIn.fileUtils.emptyDir(mPath.join(gT.engineConsts.profileRoot, gIn.config.profilePath));
       }
     });
   });

@@ -134,7 +134,7 @@ if (args['require-modules']) {
   }
 }
 
-// gT.engineConfig.profileRoot
+// gT.engineConsts.profileRoot
 // TODO: now profile creates in current working directory.
 // Replace it with testSuiteRoot directory ?
 

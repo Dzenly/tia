@@ -24,7 +24,7 @@ gT.sOrig.flow = gT.sOrig.promise.controlFlow();
 
 gIn.configUtils = require('../utils/config-utils');
 
-gT.engineConfig = require('../config/engine-config.js');
+gT.engineConsts = require('../config/engine-constants.js');
 gT.suiteConfigDefault = require('../config/default-suite-config.js');
 gT.dirConfigDefault = require('../config/default-dir-config.js');
 

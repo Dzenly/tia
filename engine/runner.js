@@ -54,7 +54,7 @@ function *handleTestFile(file, dirConfig) {
   if (gIn.config.DISPLAY && !gIn.params.noxvfb) {
     process.env.DISPLAY = gIn.config.DISPLAY;
   } else {
-    process.env.DISPLAY = gT.engineConfig.defDisplay;
+    process.env.DISPLAY = gT.engineConsts.defDisplay;
   }
 
   gIn.fileUtils.createEmptyLog(file);
@@ -74,17 +74,17 @@ function *handleTestFile(file, dirConfig) {
 }
 
 function handleDirConfig(dir, files, prevDirConfig) {
-  var index = files.indexOf(gT.engineConfig.configName);
+  var index = files.indexOf(gT.engineConsts.configName);
   var config;
   if (index < 0) {
     config = {};
   } else {
     files.splice(index, 1);
-    config = nodeUtils.requireEx(path.join(dir, gT.engineConfig.configName), true).result;
+    config = nodeUtils.requireEx(path.join(dir, gT.engineConsts.configName), true).result;
   }
 
   // Remove suite-config.js from list (it is already handled by the module entry point).
-  index = files.indexOf(gT.engineConfig.suiteConfigName);
+  index = files.indexOf(gT.engineConsts.suiteConfigName);
   if (index > -1) {
     files.splice(index, 1);
   }
@@ -181,7 +181,7 @@ function *runTestSuite(dir) {
 module.exports = function (suiteRoot) {
   gIn.configUtils.handleSuiteConfig();
   try {
-    fs.mkdirSync(gT.engineConfig.profileRoot);
+    fs.mkdirSync(gT.engineConsts.profileRoot);
   } catch (e) {
   }
 

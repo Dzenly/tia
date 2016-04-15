@@ -34,7 +34,7 @@ exports.init = function (cleanProfile, logAction) {
     var profileAbsPath;
 
     if (gIn.config.profilePath) {
-      profileAbsPath = mpath.resolve(mpath.join(gT.engineConfig.profileRoot, gIn.config.profilePath));
+      profileAbsPath = mpath.resolve(mpath.join(gT.engineConsts.profileRoot, gIn.config.profilePath));
       gIn.tracer.trace2('Profile path: ' + profileAbsPath);
     }
 

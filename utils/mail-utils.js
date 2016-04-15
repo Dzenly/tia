@@ -53,7 +53,7 @@ exports.send = function (subj, attachment, archive) {
   }
   mailOptions.subject = subj;
   mailOptions.to = gT.suiteConfig.mailList;
-  mailOptions.attachments = [/*{path: gT.engineConfig.gitPullLog}, */{path: attachment, contentType: 'text/plain'}];
+  mailOptions.attachments = [/*{path: gT.engineConsts.gitPullLog}, */{path: attachment, contentType: 'text/plain'}];
   if (archive) {
     mailOptions.attachments.push({path: archive, contentType: 'application/zip'});
   }
