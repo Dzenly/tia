@@ -165,7 +165,7 @@ function *runTestSuite(dir) {
   yield gIn.mailUtils.send(subj, log, arcName);
   var status = dirInfo.diffed ? 1 : 0;
   console.log(subj);
-  if (gT.suiteConfig.logToStdErrOut) {
+  if (gT.suiteConfig.metaLogToStdout) {
     gIn.logger.printSuiteLog(dirInfo);
     //gIn.fileUtils.fileToStdout(log);
   }

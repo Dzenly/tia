@@ -260,7 +260,8 @@ linux_3.16.0-4-amd64, AS PREV , "testsWdHelpers", Dif: 0, Fail: 0, EDif: 0, Skip
 
 tia возвращает 0 если тесты прошли ожидаемо и 1, если есть неожиданные дифы.
 
-Конфиг опция logToStdErrOut со значением true, приводит к выводу лога в stderr и stdout, см. описание этой опции в config/default-dir-config.js.
+Конфиг опция metaLogToStdout со значением true, приводит к выводу мега - лога в stderr,
+см. описание этой опции в config/default-dir-config.js.
 
 ----------------------------------
 

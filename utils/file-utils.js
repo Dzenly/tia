@@ -139,7 +139,7 @@ function collectArcPaths(dirInfo, arcPaths) {
 }
 
 exports.archiveSuiteDir = function (dirInfo) {
-  if (!gIn.params.mail || !gT.suiteConfig.attachArchive || !gT.suiteConfig.mailList) {
+  if (!gIn.params.mail || !gT.suiteConfig.attachArchiveToMail || !gT.suiteConfig.mailList) {
     return null;
   }
   var arcName = new Date().toISOString().slice(0, 19).replace(/:/g, '_') + '.zip';

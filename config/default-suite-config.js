@@ -7,9 +7,9 @@ module.exports = {
   //mailList: '',
   mailList: 'alexchem@yandex.ru', // Кому рассылать результаты. Список мейлов через запятую.
 
-  logToStdErrOut: true, // Если true, подробный лог с таймингами будет распечатан в stdout (часть лога без дифов) и stderr (часть лога с дифами).
+  metaLogToStdout: true, // Если true, подробный лог с таймингами будет распечатан в stdout.
 
-  attachArchive: true, // Нужно ли аттачить к письму архив тестовой директории.
+  attachArchiveToMail: true, // Нужно ли аттачить к письму архив тестовой директории.
 
   attachOnlyDiffs: true, // Должен ли архив содержать только тесты с дифами.
 

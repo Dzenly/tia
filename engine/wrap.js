@@ -12,7 +12,7 @@ var flow = gT.sOrig.flow;
  * @returns {*|Array}
  */
 function startTimer() {
-  if (gIn.config.timings) {
+  if (gIn.config.enableTimings) {
     return process.hrtime();
   }
 }
@@ -25,7 +25,7 @@ function startTimer() {
  * @private
  */
 function stopTimer(startTime) {
-  if (gIn.config.timings) {
+  if (gIn.config.enableTimings) {
     var diff = process.hrtime(startTime);
     return ' (' + (diff[0] * 1000 + diff[1] / 1e6) + ' ms)';
   }
@@ -36,8 +36,8 @@ function stopTimer(startTime) {
  * Pauses execution flow. Time interval is specified in config.
  */
 function *pause() {
-  if (gIn.config.delay !== 0) {
-    yield flow.timeout(gIn.config.delay);
+  if (gIn.config.actionsDelay !== 0) {
+    yield flow.timeout(gIn.config.actionsDelay);
   }
 }
 
