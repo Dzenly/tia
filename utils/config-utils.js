@@ -1,9 +1,8 @@
 'use strict';
 
-/* globals gT: true */
+/* globals gT: true, gIn: true */
 
 var path = require('path');
-var fs = require('fs');
 var nodeUtils = require('../utils/nodejs-utils.js');
 
 exports.copyConfig = function (config) {
