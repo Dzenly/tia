@@ -157,7 +157,7 @@ typings install selenium-webdriver --ambient --save
 
 ```js
 module.exports = {
-  sectTitle: "Config testing",
+  sectionTitle: "Config testing",
 };
 ```
 
@@ -166,7 +166,7 @@ module.exports = {
 
 ```js
 module.exports = {
-  mailList: "vasya@pupkin.ru",
+  mailRecipientList: "vasya@pupkin.ru",
 };
 ```
 

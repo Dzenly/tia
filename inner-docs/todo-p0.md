@@ -46,6 +46,9 @@ commands:
 * init - создать шаблоны для рутовых конфигов там, куда указывают --cfg-dir TIA_CONFIG_DIR.
 Если их нет - в current working dir.
 Если конфиги уже есть: ругаться, и ничего не делать.
+Копировать:
+* config/default-dir-config.js -> config.js
+* default-suite-config.js -> suite-config.js
 
 Сделать опцию --force-cur-dir, чтобы игнорировать --cfg-dir / TIA_CONFIG_DIR и создавать конфиги в CWD.
 
@@ -178,3 +181,7 @@ WebStorm все-таки плохо поддерживает autocomplete.
 
 Хелп по опциям.
 
+
+// TODO: Сделать возможность просматривать дифы простой командой tia.js diff_number.
+
+Пометить selenium опции. Движок может использоваться и не для GUI.

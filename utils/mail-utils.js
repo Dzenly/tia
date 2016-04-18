@@ -47,12 +47,12 @@ exports.send = function (subj, attachment, archive) {
     console.log('Mail disabled.');
     return;
   }
-  if (!gT.suiteConfig.mailList) {
+  if (!gT.suiteConfig.mailRecipientList) {
     gIn.tracer.traceErr('Mail list is empty.');
     return;
   }
   mailOptions.subject = subj;
-  mailOptions.to = gT.suiteConfig.mailList;
+  mailOptions.to = gT.suiteConfig.mailRecipientList;
   mailOptions.attachments = [/*{path: gT.engineConsts.gitPullLog}, */{path: attachment, contentType: 'text/plain'}];
   if (archive) {
     mailOptions.attachments.push({path: archive, contentType: 'application/zip'});

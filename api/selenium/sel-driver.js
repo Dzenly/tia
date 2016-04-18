@@ -17,7 +17,7 @@ var promise = gT.sOrig.promise;
  */
 exports.init = function (cleanProfile, logAction) {
   var profileInfo;
-  if (gIn.config.profilePath) {
+  if (gIn.config.selProfilePath) {
     profileInfo = '(with user defined ' + (cleanProfile ? 'empty' : 'saved') + ' profile)';
   } else {
     profileInfo = '(with default empty profile)';
@@ -33,8 +33,8 @@ exports.init = function (cleanProfile, logAction) {
 
     var profileAbsPath;
 
-    if (gIn.config.profilePath) {
-      profileAbsPath = mpath.resolve(mpath.join(gT.engineConsts.profileRoot, gIn.config.profilePath));
+    if (gIn.config.selProfilePath) {
+      profileAbsPath = mpath.resolve(mpath.join(gT.engineConsts.profileRoot, gIn.config.selProfilePath));
       gIn.tracer.trace2('Profile path: ' + profileAbsPath);
     }
 
@@ -43,7 +43,7 @@ exports.init = function (cleanProfile, logAction) {
     switch (gIn.params.browser) {
       case 'chrome':
         options = new gT.sOrig.chrome.Options();
-        if (gIn.config.profilePath) {
+        if (gIn.config.selProfilePath) {
           options.addArguments('--user-data-dir=' + profileAbsPath);
         }
         capabilities = options.toCapabilities(gT.sOrig.wdModule.Capabilities.chrome());
@@ -56,7 +56,7 @@ exports.init = function (cleanProfile, logAction) {
       case 'firefox':
         options = new gT.sOrig.firefox.Options();
         var binary = new gT.sOrig.firefox.Binary();
-        if (gIn.config.profilePath) {
+        if (gIn.config.selProfilePath) {
           // Profile name should be alphanumeric only.
           // Checked on linux. It does set -profile option.
           //binary.addArguments('-profile "' + profileAbsPath + '"');
@@ -92,7 +92,7 @@ exports.init = function (cleanProfile, logAction) {
     // phantomjs gets all messages, independent on choosen level.
     // Mozilla gets no messages.
     var reportLevel;
-    switch (gIn.config.consoleReportLevel) {
+    switch (gIn.config.selConsoleReportLevel) {
       case 'WARNING':
         reportLevel = gT.sOrig.wdModule.logging.Level.WARNING;
         break;
@@ -100,7 +100,7 @@ exports.init = function (cleanProfile, logAction) {
         reportLevel = gT.sOrig.wdModule.logging.Level.SEVERE;
         break;
       default:
-        return promise.rejected('invalid consoleReportLevel value: ' + gIn.config.consoleReportLevel);
+        return promise.rejected('invalid selConsoleReportLevel value: ' + gIn.config.selConsoleReportLevel);
     }
     prefs.setLevel(gT.sOrig.wdModule.logging.Type.BROWSER, reportLevel);
     capabilities.setLoggingPrefs(prefs);

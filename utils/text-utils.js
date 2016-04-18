@@ -45,11 +45,11 @@ exports.jsToLog = function (jsPath) {
 };
 
 exports.expandHost = function (str) {
-  return str.replace('$(host)', gIn.config.host);
+  return str.replace('$(host)', gIn.config.selHost);
 };
 
 exports.collapseHost = function (str) {
-  return str.replace(gIn.config.host, '$(host)');
+  return str.replace(gIn.config.selHost, '$(host)');
 };
 
 //function escapeRegExp(string) {
@@ -57,13 +57,13 @@ exports.collapseHost = function (str) {
 //}
 //
 //exports.prepareHostRE = function(){
-//	var str = escapeRegExp(gIn.config.host);
+//	var str = escapeRegExp(gIn.config.selHost);
 //	exports.hostRe = new RegExp(str, g);
 //};
 
 //// Multi-line version.
 //exports.collapseHostML = function(str){
-//	// TODO: optimize, this function should be called only if gIn.config.host is changed.
+//	// TODO: optimize, this function should be called only if gIn.config.selHost is changed.
 //	// For now there are not even such use cases.
 //	exports.prepareHostRE();
 //	return str.replace(exports.hostRe, '$(host)');

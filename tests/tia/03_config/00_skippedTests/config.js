@@ -1,4 +1,4 @@
 module.exports = {
-  sectTitle: 'Skipped tests',
+  sectionTitle: 'Skipped tests',
   skip: true
 };

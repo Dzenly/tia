@@ -1,3 +1,3 @@
 module.exports = {
-  sectTitle: 'Config testing'
+  sectionTitle: 'Config testing'
 };

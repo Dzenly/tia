@@ -289,10 +289,10 @@ exports.getCookie = function (name, logAction) {
  * @returns {Promise.<TResult>}
  */
 exports.cleanProfile = function (logAction) {
-  return gIn.wrap('Cleaning profile: "' + gIn.config.profilePath + '" ... ', logAction, function () {
+  return gIn.wrap('Cleaning profile: "' + gIn.config.selProfilePath + '" ... ', logAction, function () {
     return gT.sOrig.flow.execute(function () {
-      if (gIn.config.profilePath) {
-        gIn.fileUtils.emptyDir(mPath.join(gT.engineConsts.profileRoot, gIn.config.profilePath));
+      if (gIn.config.selProfilePath) {
+        gIn.fileUtils.emptyDir(mPath.join(gT.engineConsts.profileRoot, gIn.config.selProfilePath));
       }
     });
   });

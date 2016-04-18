@@ -36,8 +36,8 @@ function stopTimer(startTime) {
  * Pauses execution flow. Time interval is specified in config.
  */
 function *pause() {
-  if (gIn.config.actionsDelay !== 0) {
-    yield flow.timeout(gIn.config.actionsDelay);
+  if (gIn.config.selActionsDelay !== 0) {
+    yield flow.timeout(gIn.config.selActionsDelay);
   }
 }
 
@@ -55,11 +55,11 @@ function *pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
   if (noConsoleAndExceptions) {
     return;
   }
-  if (gIn.config.printClExcAfterEachCommand) {
+  if (gIn.config.selPrintClExcAfterEachCommand) {
     yield gT.s.browser.logExceptions();
   }
 
-  if (gIn.config.printClConsoleAfterEachCommand) {
+  if (gIn.config.selPrintClConsoleAfterEachCommand) {
     yield gT.s.browser.logConsoleContent();
   }
 }

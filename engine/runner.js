@@ -103,7 +103,7 @@ function *handleTestDir(dir, prevDirConfig) {
   //console.log('handleDir Dir: ' + dir);
   var files = fs.readdirSync(dir);
   var dirConfig = handleDirConfig(dir, files, prevDirConfig);
-  var dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectTitle, dir);
+  var dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
   var startTime = gT.timeUtils.startTimer();
 
   var len = files.length;
