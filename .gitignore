@@ -154,3 +154,5 @@ typings.json
 tmpProfiles
 
 .mail-settingsrc
+
+*.nogit.*

@@ -3,28 +3,30 @@
 
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var conf = require('rc')('mail-settings', {}, 'dummyOption');
 
 /* globals gT: true */
 
 // create reusable transporter object using SMTP transport
 // Some antiviruses can block sending with self signed certificate.
-// If this is your case - uncomment commented strings.
-var transport = smtpTransport({
-  host: conf.smtpHost,
-  secure: true,
-  //secure : false,
-  //port: 25,
-  auth: {
-    user: conf.user,
-    pass: conf.password
-  }
-  //, tls: {
-  //  rejectUnauthorized: false
-  //}
-});
+// If this is your case -
 
-var transporter = nodemailer.createTransport(transport);
+function getSmtpTransporter() {
+  return nodemailer.createTransport(
+    smtpTransport({
+      host: gT.suiteConfig.mailSmtpHost,
+      secure: true,
+      //secure : false,
+      //port: 25,
+      auth: {
+        user: gT.suiteConfig.mailUser,
+        pass: gT.suiteConfig.mailPassword
+      }
+      //, tls: {
+      //  rejectUnauthorized: false
+      //}
+    })
+  );
+}
 
 // All text fields (e-mail addresses, plaintext body, html body) use UTF-8 as the encoding.
 // Attachments are streamed as binary.
@@ -59,7 +61,7 @@ exports.send = function (subj, attachment, archive) {
   }
   return gT.sOrig.promise.checkedNodeCall(
     function (options, callback) { // callback will be provided by checkedNodeCall
-      transporter.sendMail(options, function (err, info) {
+      getSmtpTransporter().sendMail(options, function (err, info) {
         if (err) {
           gIn.tracer.traceErr('sendMail ERR: ' + err);
         }
