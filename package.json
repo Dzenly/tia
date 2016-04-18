@@ -30,7 +30,6 @@
     "minimist": "^1.2.0",
     "nodemailer": "^2.3.0",
     "nodemailer-smtp-transport": "^2.4.1",
-    "rc": "^1.1.6",
     "selenium-webdriver": "^2.53.1"
   }
 }

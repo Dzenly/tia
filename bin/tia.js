@@ -100,12 +100,6 @@ if (suiteRoot.length < 1) {
   process.exit(1);
 }
 
-// if (suiteRoot[0] === '/') {
-//   console.error('Absolute paths are not allowed.');
-//   usage();
-//   process.exit(1);
-// }
-
 require('../engine/init-global-objects.js');
 
 gIn.params = {}; // Parameters given in the command line.
