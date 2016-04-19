@@ -5,6 +5,8 @@ module.exports = {
 
   testsDirEnvVarName: 'TIA_TESTS_DIR',
 
+  requireModulesEnvVarName: 'TIA_REQUIRE_MODULES',
+
   // Имя файла для локального конфига.
   configName: 'config.js',
 

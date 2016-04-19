@@ -69,6 +69,8 @@ function usage() {
       Works only with --log-to-console option
 
       --require-modules <absolute_paths_separated_by_comma>
+      Forces tia to require listed files as Node.js modules.
+      ${gT.engineConsts.requireModulesEnvVarName} environment variable also can be used for this.
       
       -h, --help - Print this help.
 
@@ -156,21 +158,14 @@ if (testsDir[testsDir.length - 1] === '/') {
   testsDir = testsDir.slice(0, -1);
 }
 
-gIn.params = {}; // Parameters given in the command line.
+if (!args.requireModules) {
+  args.requireModules = process.env[gT.engineConsts.requireModulesEnvVarName];
+}
 
 gIn.params = args;
+gIn.params.testsDir = testsDir;
 
-// gIn.params.testsDir = args.testsDir;
-// gIn.params.browser = browser;
-// gIn.params.pattern = args.pattern; // TODO: support several paths?
-// gIn.params.enableMail = args.enableMail;
-// gIn.params.stackToLog = args.stackToLog;
-// gIn.params.forceDefDisplay = args.forceDefDisplay;
-// gIn.params.logsToMail = args.l;
-// gIn.params.logErrToConsole = args.logErrToConsole;
-// gIn.params.logToConsole = args.logToConsole;
-// gIn.params.traceLevel = args.traceLevel;
-// gIn.params.forceLogActions = args.forceLogActions;
+// TODO: support several paths for pattern?
 
 if (gIn.params.traceLevel > 3) {
   gIn.params.traceLevel = 3;
