@@ -14,7 +14,7 @@ module.exports = {
   suiteConfigName: 'suite-config.js',
 
   // Корневая директория, где лежат профайлы. Не перегружается в локальных конфигах.
-  profileRoot: 'profiles',
+  profileRootDir: 'br-profiles',
 
   // Дефолтный дисплей для GUI тестов.
   // Сохраняем состояние в момент старта.

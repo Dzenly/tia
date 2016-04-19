@@ -100,7 +100,7 @@ function handleDirConfig(dir, files, prevDirConfig) {
  * @param prevDirConfig
  */
 function *handleTestDir(dir, prevDirConfig) {
-  //console.log('handleDir Dir: ' + dir);
+  gIn.tracer.trace3('handleDir Dir: ' + dir);
   var files = fs.readdirSync(dir);
   var dirConfig = handleDirConfig(dir, files, prevDirConfig);
   var dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
@@ -119,6 +119,10 @@ function *handleTestDir(dir, prevDirConfig) {
     if (stat.isFile() && path.extname(file) === '.js') {
       innerCurInfo = yield *handleTestFile(file, dirConfig);
     } else if (stat.isDirectory()) {
+      if (files[i] === gT.engineConsts.profileRootDir) {
+        gIn.tracer.trace3('Skipping directory, because it is browser profile');
+        continue;
+      }
       innerCurInfo = yield *handleTestDir(file, dirConfig);
     } else {
       continue;
@@ -181,7 +185,7 @@ function *runTestSuite(dir) {
 module.exports = function (suiteRoot) {
   gIn.configUtils.handleSuiteConfig();
   try {
-    fs.mkdirSync(gT.engineConsts.profileRoot);
+    fs.mkdirSync(gIn.params.profileRootPath);
   } catch (e) {
   }
 

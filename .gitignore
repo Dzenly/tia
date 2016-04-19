@@ -156,3 +156,5 @@ tmpProfiles
 .mail-settingsrc
 
 *.nogit.*
+
+br-profiles/

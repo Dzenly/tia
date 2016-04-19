@@ -165,6 +165,8 @@ if (!args.requireModules) {
 gIn.params = args;
 gIn.params.testsDir = testsDir;
 
+gIn.params.profileRootPath = path.join(path.dirname(testsDir), gT.engineConsts.profileRootDir);
+
 // TODO: support several paths for pattern?
 
 if (gIn.params.traceLevel > 3) {
@@ -172,6 +174,7 @@ if (gIn.params.traceLevel > 3) {
 }
 
 gIn.tracer.trace2('Tests dir: ' + testsDir);
+gIn.tracer.trace2('Browsers profile root: ' + gIn.params.profileRootPath);
 
 gIn.params.minPathSearchIndex = testsDir.length + 1; // Minumum index for path search.
 
@@ -182,7 +185,7 @@ if (args.requireModules) {
   }
 }
 
-// gT.engineConsts.profileRoot
+// gIn.params.profileRootPath
 // TODO: now profile creates in current working directory.
 // Replace it with testSuiteRoot directory ?
 
