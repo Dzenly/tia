@@ -42,7 +42,7 @@ function usage() {
     , where options:
 
       --tests-dir <Tests Root Directory> - root directory for test suite (can be relative to current working dir).
-      Test root directory can be specified using ${gT.engineConsts.testsDirEnvVarName} environment variable.
+      It there is no --tests-dir, tia will check ${gT.engineConsts.testsDirEnvVarName} environment variable.
       If there is no explicit tests directory, current working directory will be used.
       Note: browser profile root is created as sibling to tests directory.
 
@@ -68,10 +68,10 @@ function usage() {
       --force-log-actions forced console logs for all actions. Does not affect file logs.
       Works only with --log-to-console option
 
-      --require-modules <absolute_paths_separated_by_comma>
+      --require-modules <paths_separated_by_comma>
       Forces tia to require listed files as Node.js modules.
       ${gT.engineConsts.requireModulesEnvVarName} environment variable also can be used for this.
-      
+
       --debug-max - equals to --force-def-display --log-to-console --log-err-to-console --force-log-actions --trace-level 3
       Though --trace-level option can be used to set up needed value in spite of --debug-max.
 
