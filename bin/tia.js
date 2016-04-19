@@ -181,7 +181,7 @@ gIn.params.minPathSearchIndex = testsDir.length + 1; // Minumum index for path s
 if (args.requireModules) {
   let arr = args.requireModules.split(/\s*,\s*/);
   for (let reqPath of arr) {
-    require(reqPath);
+    require(path.resolve(reqPath));
   }
 }
 
