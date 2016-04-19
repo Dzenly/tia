@@ -51,6 +51,11 @@ SyncToy*
 *.log.notime.prev
 *.log.json
 
+*.mlog
+*.mlog.notime
+*.mlog.notime.prev
+*.mlog.json
+
 tests/*.log
 test/clientSide/
 test/tmpProfiles

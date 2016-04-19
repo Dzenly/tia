@@ -106,24 +106,23 @@ function *handleTestDir(dir, prevDirConfig) {
   var dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
   var startTime = gT.timeUtils.startTimer();
 
-  var len = files.length;
-  for (var i = 0; i < len; i++) {
-    var file = path.join(dir, files[i]);
+  for (var fileOrDir of files) {
+    var fileOrDirPath = path.join(dir, fileOrDir);
     var stat;
     try {
-      stat = fs.statSync(file);
+      stat = fs.statSync(fileOrDirPath);
     } catch (e) {
       continue; // We remove some files in process.
     }
     var innerCurInfo;
-    if (stat.isFile() && path.extname(file) === '.js') {
-      innerCurInfo = yield *handleTestFile(file, dirConfig);
+    if (stat.isFile() && path.extname(fileOrDirPath) === '.js') {
+      innerCurInfo = yield *handleTestFile(fileOrDirPath, dirConfig);
     } else if (stat.isDirectory()) {
-      if (files[i] === gT.engineConsts.profileRootDir) {
+      if (fileOrDir === gT.engineConsts.profileRootDir) {
         gIn.tracer.trace3('Skipping directory, because it is browser profile');
         continue;
       }
-      innerCurInfo = yield *handleTestDir(file, dirConfig);
+      innerCurInfo = yield *handleTestDir(fileOrDirPath, dirConfig);
     } else {
       continue;
     }
@@ -146,7 +145,7 @@ function *handleTestDir(dir, prevDirConfig) {
 
 function *runTestSuite(dir) {
   //console.log('runAsync Dir: ' + dir);
-  var log = dir + '.log'; // Summary log.
+  var log = dir + '.mlog'; // Summary log.
   var noTimeLog = log + '.notime';
   var noTimeLogPrev = noTimeLog + '.prev';
   gIn.fileUtils.safeUnlink(log);
