@@ -3,7 +3,9 @@
 
 'use strict';
 
-/* globals gIn: true */
+/* globals gIn: true, gT */
+
+require('../engine/init-global-objects.js');
 
 var browsers = [
   'chrome', // First browser is default.
@@ -11,36 +13,73 @@ var browsers = [
   'firefox'
 ];
 
+function dedent(callSite, ...params) {
+
+  function format(str) {
+    return str.replace(/\n    /g, '\n');
+  }
+
+  if (typeof callSite === 'string') {
+    return format(callSite);
+  }
+
+  if (typeof callSite === 'function') {
+    return (...args) => format(callSite(...args));
+  }
+
+  let output = callSite
+    .slice(0, params.length + 1)
+    .map((text, i) => (i === 0 ? '' : params[i - 1]) + text)
+    .join('');
+
+  return format(output);
+}
+
 function usage() {
-  console.log([
-    '\nUsage: tia <testSuiteRoot> [options]',
-    '\n, where:',
-    '\n    <testSuiteRoot> - root directory for test suite (can be relative to current working dir)',
-    '    Note: browser profile is created in the current working dir.',
-    '\n, and [options]:',
-    '\n    -b <browser> (default: ' + browsers[0] + ') browser to run tests for.',
-    '    Supported browsers are: ' + browsers.join(', ') + '\n',
-    '    -p <pathToDirOrTest> - pattern for tests to run',
-    '    , any test which file path (relative to <testSuiteRoot>) contains <pathToDirOrTest> substring will run.',
-    '    By default, tests from all directories (recursively) will run.\n',
-    '    -m enables email sending.\n',
-    '    --stacktolog print stack trace to test logs.\n',
-    '    --noxvfb force visual mode (for debug).\n',
-    '    -l (TODO) attach diffed logs to mail.\n',
-    '    --logerrtoconsole print all errors to console.\n',
-    '    --logtoconsole print test logs to console.\n',
-    '    --trace <level> enables tracing (1 | 2 | 3 ) (1 - less verbose, 3 - maximum verbosity).\n',
-    '    --forcelogactions forced console logs for all actions. Does not affect file logs.\n',
-    '    Works only with --logtoconsole option\n',
-    '    --require-modules <absolute_paths_separated_by_comma>\n',
-    'Examples:\n',
-    '    tia my-tests/testSuiteDir --noxvfb\n',
-    '    node --harmony bin/tia.js my-tests/testSuiteDir\n',
-    'If there is no diffs, 0 is returned and stdout will contain test log,',
-    'otherwise - 1 is returned and stderr will contain test log.\n',
-    'This utility uses external utilities (diff, rm) and webdriver.',
-    'see readme.md for more details.\n'
-  ].join('\n'));
+  console.log(
+    dedent`Usage: tia [options]
+
+    , where options:
+
+      --tests-dir <Tests Root Directory> - root directory for test suite (can be relative to current working dir).
+      Test root directory can be specified using ${gT.engineConsts.testsDirEnvVarName} environment variable.
+      If there is no explicit tests directory, current working directory will be used.
+      Note: browser profile root is created as sibling to tests directory.
+
+      --browser <browser> (default: ${browsers[0]}) browser to run tests for.
+      Supported browsers are: ${browsers.join(', ')}
+
+      --pattern <pattern> - pattern for tests to run.
+      , any test which file path (relative to <testSuiteRoot>) contains <pathToDirOrTest> substring will run.
+      By default, tests from all directories (recursively) will run.
+
+      --enable-mail enables email sending.
+
+      --stack-to-log print stack trace to test logs.
+
+      --force-def-display - force visual mode (i.e. default display).
+
+      --log-err-to-console print all errors to console.
+
+      --log-to-console print test logs to console.
+
+      --trace-level <level> enables tracing (1 | 2 | 3 ) (1 - less verbose, 3 - maximum verbosity).
+
+      --force-log-actions forced console logs for all actions. Does not affect file logs.
+      Works only with --log-to-console option
+
+      --require-modules <absolute_paths_separated_by_comma>
+      
+      -h, --help - Print this help.
+
+    Examples:
+        tia --tests-dir my-tests/testSuiteDir --force-def-display
+        node --harmony bin/tia.js --tests-dir my-tests/testSuiteDir
+    If there is no diffs, 0 is returned, otherwise 1 is returned.
+    
+    This utility uses external utilities (diff, rm) and webdriver.
+    see readme.md for more details.`
+  );
 }
 
 function unknownOption(option) {
@@ -54,75 +93,95 @@ function unknownOption(option) {
 
 var opts = {
   // trace is number, numbers implied by default in minimist.
-  string: ['b', 'p', 'trace', 'require-modules'],
-  boolean: ['h', 'help', 'm', 'stacktolog', 'noxvfb', 'l', 'logerrtoconsole', 'logtoconsole', 'forcelogactions'],
+  string: [
+    'tests-dir',
+    'browser',
+    'pattern',
+    'trace-level',
+    'require-modules'
+  ],
+  boolean: [
+    'h',
+    'help',
+    'enable-mail',
+    'stack-to-log',
+    'force-def-display',
+    // 'logs-to-mail',
+    'log-err-to-console',
+    'log-to-console',
+    'force-log-actions'
+  ],
   default: {
-    b: browsers[0],
-    p: '',
-    m: false,
-    stacktolog: false,
-    noxvfb: false,
+    browser: browsers[0],
     l: false,
-    logerrtoconsole: false,
-    logtoconsole: false,
-    trace: 0,
-    forcelogactions: false,
-    'require-modules': ''
+    'trace-level': 0
   },
   unknown: unknownOption
 };
 
 var args = require('minimist')(process.argv.slice(2), opts);
 
-if (args._.length === 0 || args['h'] || args['help']) {
+const camelcaseKeys = require('camelcase-keys');
+args = camelcaseKeys(args);
+
+if (args['h'] || args['help']) {
   usage();
   process.exit(0);
 }
 
-var browser = args['b'];
+var browser = args.browser;
 if (browsers.indexOf(browser) === -1) {
   console.error('Invalid browser: ' + browser);
   console.error('Supported browsers are: ' + browsers.join(', '));
   process.exit(1);
 }
 
-var suiteRoot = args._[0];
-
 // TODO: support windows separators also.
 
+var path = require('path');
+
+var testsDir = args.testsDir;
+
+if (!testsDir) {
+  testsDir = process.env[gT.engineConsts.testsDirEnvVarName];
+  if (!testsDir) {
+    testsDir = process.cwd();
+  }
+} else {
+  testsDir = path.resolve(testsDir);
+}
+
 // Make sure that there is no trailing separator.
-if (suiteRoot[suiteRoot.length - 1] === '/') {
-  suiteRoot = suiteRoot.slice(0, -1);
+if (testsDir[testsDir.length - 1] === '/') {
+  testsDir = testsDir.slice(0, -1);
 }
-
-if (suiteRoot.length < 1) {
-  usage();
-  process.exit(1);
-}
-
-require('../engine/init-global-objects.js');
 
 gIn.params = {}; // Parameters given in the command line.
 
-gIn.params.suiteRoot = suiteRoot;
-gIn.params.browser = browser;
-gIn.params.path = args['p']; // TODO: support several paths?
-gIn.params.minPathSearchIndex = suiteRoot.length + 1; // Minumum index for path search.
-gIn.params.mail = args['m'];
-gIn.params.stackToLog = args['stacktolog'];
-gIn.params.noxvfb = args['noxvfb'];
-gIn.params.logsToMail = args['l'];
-gIn.params.logErrToConsole = args['logerrtoconsole'];
-gIn.params.logDupToStdout = args['logtoconsole'];
-gIn.params.trace = args['trace'];
-if (gIn.params.trace > 3) {
-  gIn.params.trace = 3;
+gIn.params = args;
+
+// gIn.params.testsDir = args.testsDir;
+// gIn.params.browser = browser;
+// gIn.params.pattern = args.pattern; // TODO: support several paths?
+// gIn.params.enableMail = args.enableMail;
+// gIn.params.stackToLog = args.stackToLog;
+// gIn.params.forceDefDisplay = args.forceDefDisplay;
+// gIn.params.logsToMail = args.l;
+// gIn.params.logErrToConsole = args.logErrToConsole;
+// gIn.params.logToConsole = args.logToConsole;
+// gIn.params.traceLevel = args.traceLevel;
+// gIn.params.forceLogActions = args.forceLogActions;
+
+if (gIn.params.traceLevel > 3) {
+  gIn.params.traceLevel = 3;
 }
 
-gIn.params.forceLogActions = args['forcelogactions'];
+gIn.tracer.trace2('Tests dir: ' + testsDir);
 
-if (args['require-modules']) {
-  let arr = args['require-modules'].split(/\s*,\s*/);
+gIn.params.minPathSearchIndex = testsDir.length + 1; // Minumum index for path search.
+
+if (args.requireModules) {
+  let arr = args.requireModules.split(/\s*,\s*/);
   for (let reqPath of arr) {
     require(reqPath);
   }
@@ -132,4 +191,4 @@ if (args['require-modules']) {
 // TODO: now profile creates in current working directory.
 // Replace it with testSuiteRoot directory ?
 
-require('../engine/runner.js')(suiteRoot);
+require('../engine/runner.js')(testsDir);

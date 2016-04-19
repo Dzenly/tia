@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/Dzenly/tia#readme",
   "dependencies": {
+    "camelcase-keys": "^2.1.0",
     "chalk": "^1.1.1",
     "chromedriver": "^2.21.2",
     "minimist": "^1.2.0",

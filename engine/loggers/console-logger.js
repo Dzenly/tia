@@ -40,7 +40,7 @@ exports.err = function (msg) {
  * @param msg
  */
 exports.logIfEnabled = function (msg) {
-  if (gIn.params.logDupToStdout) {
+  if (gIn.params.logToConsole) {
     exports.msg(gIn.loggerCfg.consoleLogPrefix + msg);
   }
 };
@@ -57,7 +57,7 @@ exports.errIfEnabled = function (msg) {
 };
 
 exports.passIfEnabled = function (msg) {
-  if (gIn.params.logDupToStdout) {
+  if (gIn.params.logToConsole) {
     if (isChalkEnabled) {
       msg = chalk.green(msg);
     }
@@ -66,7 +66,7 @@ exports.passIfEnabled = function (msg) {
 };
 
 exports.failIfEnabled = function (msg) {
-  if (gIn.params.logDupToStdout) {
+  if (gIn.params.logToConsole) {
     if (isChalkEnabled) {
       msg = chalk.red(msg);
     }
@@ -77,7 +77,7 @@ exports.failIfEnabled = function (msg) {
 // =====================================
 
 exports.logBold = function (msg) {
-  if (gIn.params.logDupToStdout) {
+  if (gIn.params.logToConsole) {
     if (isChalkEnabled) {
       msg = chalk.bold(msg);
     }

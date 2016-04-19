@@ -31,7 +31,7 @@ exports.mergeConfigs = function (config1, config2) {
 // Returns merged config for suite.
 exports.handleSuiteConfig = function () {
   var localSuiteConfig = {};
-  var configPath = path.join(gIn.params.suiteRoot, gT.engineConsts.suiteConfigName);
+  var configPath = path.join(gIn.params.testsDir, gT.engineConsts.suiteConfigName);
   try {
     localSuiteConfig = nodeUtils.requireEx(configPath, true).result;
   } catch (e) {

@@ -3,6 +3,8 @@
 // Конфиги для всех test suites. Не перегружаются нигде.
 module.exports = {
 
+  testsDirEnvVarName: 'TIA_TESTS_DIR',
+
   // Имя файла для локального конфига.
   configName: 'config.js',
 
@@ -10,9 +12,10 @@ module.exports = {
   suiteConfigName: 'suite-config.js',
 
   // Корневая директория, где лежат профайлы. Не перегружается в локальных конфигах.
-  profileRoot: 'tmpProfiles',
+  profileRoot: 'profiles',
 
   // Дефолтный дисплей для GUI тестов.
+  // Сохраняем состояние в момент старта.
   defDisplay: process.env.DISPLAY,
 
   // TODO: Имя лога для git pull, этот лог посылается на почту.

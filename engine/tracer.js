@@ -12,19 +12,19 @@ exports.trace0 = function (msg) {
 };
 
 exports.trace1 = function (msg) {
-  if (gIn.params.trace > 0) {
+  if (gIn.params.traceLevel > 0) {
     console.log('TRC1: ' + msg);
   }
 };
 
 exports.trace2 = function (msg) {
-  if (gIn.params.trace > 1) {
+  if (gIn.params.traceLevel > 1) {
     console.log('TRC2: ' + msg);
   }
 };
 
 exports.trace3 = function (msg) {
-  if (gIn.params.trace > 2) {
+  if (gIn.params.traceLevel > 2) {
     console.log('TRC3: ' + msg);
   }
 };

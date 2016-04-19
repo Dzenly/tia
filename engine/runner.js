@@ -38,7 +38,7 @@ function *handleTestFile(file, dirConfig) {
   // because test can be terminated with exception.
 
   //console.log('File: ' + file);
-  if (gIn.params.path && file.lastIndexOf(gIn.params.path) < gIn.params.minPathSearchIndex) {
+  if (gIn.params.pattern && file.lastIndexOf(gIn.params.pattern) < gIn.params.minPathSearchIndex) {
     return null;
   }
 
@@ -51,7 +51,7 @@ function *handleTestFile(file, dirConfig) {
 
   gIn.tInfo.data.handled = 1;
 
-  if (gIn.config.DISPLAY && !gIn.params.noxvfb) {
+  if (gIn.config.DISPLAY && !gIn.params.forceDefDisplay) {
     process.env.DISPLAY = gIn.config.DISPLAY;
   } else {
     process.env.DISPLAY = gT.engineConsts.defDisplay;
