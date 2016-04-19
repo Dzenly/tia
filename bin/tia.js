@@ -63,7 +63,7 @@ function usage() {
 
       --log-to-console print test logs to console.
 
-      --trace-level <level> enables tracing (1 | 2 | 3 ) (1 - less verbose, 3 - maximum verbosity).
+      --trace-level <level> enables tracing (1 | 2 | 3 ) (1 - less verbose, 3 - maximum verbosity, 0 - forbids tracing).
 
       --force-log-actions forced console logs for all actions. Does not affect file logs.
       Works only with --log-to-console option
@@ -72,6 +72,9 @@ function usage() {
       Forces tia to require listed files as Node.js modules.
       ${gT.engineConsts.requireModulesEnvVarName} environment variable also can be used for this.
       
+      --debug-max - equals to --force-def-display --log-to-console --log-err-to-console --force-log-actions --trace-level 3
+      Though --trace-level option can be used to set up needed value in spite of --debug-max.
+
       -h, --help - Print this help.
 
     Examples:
@@ -111,12 +114,13 @@ var opts = {
     // 'logs-to-mail',
     'log-err-to-console',
     'log-to-console',
-    'force-log-actions'
+    'force-log-actions',
+    'debug-max'
   ],
   default: {
     browser: browsers[0],
     l: false,
-    'trace-level': 0
+    'trace-level': -1
   },
   unknown: unknownOption
 };
@@ -129,6 +133,16 @@ args = camelcaseKeys(args);
 if (args['h'] || args['help']) {
   usage();
   process.exit(0);
+}
+
+if (args.debugMax) {
+  args.forceDefDisplay = true;
+  args.logToConsole = true;
+  args.logErrToConsole = true;
+  args.forceLogActions = true;
+  if (args.traceLevel === -1) {
+    args.traceLevel = 3;
+  }
 }
 
 var browser = args.browser;
