@@ -6,34 +6,16 @@
 *) Добавить побольше assertions
 ===========================
 
-
 Может добавить в лог дополнительный verbosity, который подробней пишет, что за assertions применяются.
 Может это на высоком уровне трейсинга включить.
 Может хорошо помогать новичкам въезжать в движок.
 
-PASS/OK/FAIL mix.
-
-Ожидаемые exception нужно превратить в pass строчки логов. И они не должны попадать в консоль. 
-
-Сделать поддержку chalk для ручных прогонов.
-Выводить красочный лог (сейчас работает только для assertions, добавить для успешных actions).
-TIA_NO_COLORS
-Сделать chalk подсветку в хэлпе tia.js.
-
-В тестах задействовать html, лежащие на файловой системе,
-чтобы тесты не требовали сети и не притормаживали.
-Заготовить тестовые html.
-
-? Потом для extjs заготовить тестовые html.
-
-В readme.md написать примеры использования ф-ий в тестах.
-Сослаться на тесты из папки tests.
-
-logViewer (сделать expandable) и вообще додумать концепцию.
+PASS/OK/FAIL mix, сделать однообразным ?
 
 ============
 
 ? Дальнейшее разбиение на модули.
+Может обломаться, из-за того, что я использую очередь и Promises из Selenium-webdriver.
 
 Модуль для движка - tia, 
 он может подключать другие модули.
@@ -58,23 +40,6 @@ tia-rvision
 И средства для подписки / отписки ф-й.
 Ф-я, объект с параметрами, this.
 
-Перевести хэлпы на английский.
-
-Поддержать Windows.
-МОжет быть MacOS  автоматом поддержится.
-
-Везде поправить форматирование кода.
-
--------
-
-Вынести утилитки для работы с
-
-* файлами
-* директориями
-* строками
-
-В отдельные модули и репозитории.
-
 -------
 
 Попробовать указать tests как suiteRoot.
@@ -84,38 +49,9 @@ Fail - не должен быть ожидаемым.
 
 В дополнительных модулях - тесты для этих модулей.
 
-Задействовать разные поля, в соответствие с:
-https://docs.npmjs.com/files/package.json
-документация, тестирование.
-
-Сделать более IDE friendly (проверить, есть ли вообще проблема, по моему WebStorm нормально ищет в global).
-
-unpublish старые версии из npm.
-
-Попробовать пересоздать и github репозиторию тоже.
-
-Может быть, перейти на gitlab и гонять тесты тоже.
-
-Как на github гоняются тесты?
-
-Кнопка для пожертвований.
-
 ==============
 
 Если старые тесты сломаются, то выпустить мажорную версию?
-
-Закомитить утилитку xvfb.
-
-Добавить в доках заметку по xvfb и desktops.
-
-Сделать возможность удаленного запуска.
-Т.е. на каком-то сервере ты настраиваешь, чтобы он:
-
-Подтягивал изменения.
-Стартовал сервер.
-стартовал xvfb.
-
-4.4.1 - в требования?
 
 ================
 
@@ -131,14 +67,9 @@ echo [31merror: [39mSOME COLORED TEXT.
 echo "<b>AAAA</b>"
 node -e "process.stderr.write('STDERR FROM NODEJS\n');"
 
-+Сделать модуль глобальным.
-+Как сделать, чтобы chromedriver не нужно было добавлять в пути.
-
 Отладить текущий модуль.
 Сделать простой тестплан для теста по настройкам.
 Выпустить минорную версию.
-
-
 
 TODO: 
 Поискать возможность в Селениум подключать конкретные скрипты ко всем страницам. (какие-то хуки)
@@ -155,30 +86,11 @@ TODO:
 
 ?? Запускать можно через конкретный JS, все modules тоже будут искаться в конкретном скопе.
 
-
-Debug tests for windows (3h). Slash / backslash issues, cygwin utilities work.
-Вроде, все работает.
-
-Опция -l аттачить логи, для дифнутых тестов к мейлу.
 Сделать общий обход по дифнутым файлам. И колбэками делать что-то при обходе (dependency injection).
-Называть логи по полному пути до них. Заменять слэш на +. (1.5h)
+? Называть логи по полному пути до них. Заменять слэш на +. (1.5h)
 TODO: М.б. изображения тоже аттачить по этой опции? Заходишь в мейл, у тебя и логи и изображения встроены.(1h)
 
-Write good help for public functions. (1.5h for current state)
-
-More tests for support of all config parameters.(2h)
-
-Tests for passed, failed, throwed from web driver promises. (3h)
-Tests for error chaining for flow.execute(), say if first of ten functions faled, all queue should fail.
-More tests for async engine.(1.5h)
-
-Some tests for test engine util functions.(3h)
-
-
 ### Code review. (? )
-
-* When many function parameters - replace by options object. (3h)
-* Refactor everything to be more OOP (incapsulation, accessors, constructors, signletons, factories). (12h)
 
 ----
 
@@ -207,12 +119,6 @@ If we will support phantomjs:
 PhantomJs does not follow WebDriver standard. It does not cleanup logs after reading.
 We could introduce counter for strings to skip.
 Investigations show that phantom cleans console at URLchanging.
-
-
-Performance issue: Manage Driver timeouts: (? 1.5h research work)
-http://seleniumhq.github.io/selenium/docs/api/javascript/class_webdriver_WebDriver_Timeouts.html
-Not so important, I checked that driver polls the DOM more that 10 times per second.
-
 
 
 ============

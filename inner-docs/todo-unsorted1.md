@@ -144,15 +144,3 @@ We could introduce counter for strings to skip.
 Investigations show that phantom cleans console at URLchanging.
 
 Mac OS (if there will be customers).
-
-Performance issue: Manage Driver timeouts: (? 1.5h research work)
-http://seleniumhq.github.io/selenium/docs/api/javascript/class_webdriver_WebDriver_Timeouts.html
-Not so important, I checked that driver polls the DOM more that 10 times per second.
-
-==================================
-ISSUES FREE OF PAYMENT, JUST FOR FUN:
-----------------------------------
-
-==================================
-НЕНУЖНЫЕ ФИЧИ (WON'T FIX ISSUES)
-----------------------------------

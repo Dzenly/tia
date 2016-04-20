@@ -189,6 +189,7 @@ module.exports = {
 ## Переменные окружения.
 
 Обратите внимание на описание переменных TIA_TESTS_DIR, TIA_REQUIRE_MODULES в tia --help.
+TIA_NO_COLORS - True значение отключает примерение ANSI colors.
 
 ----------------------------------
 
@@ -310,6 +311,7 @@ tia возвращает 0 если тесты прошли ожидаемо и 
 * api - API для использования в тестах.
   Поддиректории browser-part содержат скрипты, которые исполняются в браузере.
 * inner-docs - внутренняя документация.
+https://github.com/Dzenly/tia/tree/master/inner-docs
 * engine - внутренние файлы движка.
 * log-viewer - здесь разрабатывается веб-клиент для очень удобной работы с логами.
 * tests - директория с пакетами тестов.
@@ -338,7 +340,8 @@ tia возвращает 0 если тесты прошли ожидаемо и 
 * На Linux сохранение профайла работает для chrome. А для firefox так же, как для Windows.
 
 * Парочка тестов в пакете tia намеренно вызывает exceptions.
-  см. также TODO* файлы в inner-docs директории.
+  см. также TODO* файлы в inner-docs директории:
+  https://github.com/Dzenly/tia/tree/master/inner-docs
 
 * Иногда Selenium глючит, если параллельно с тестами, что-то делать за компом (если не через xvfb).
   Т.е. желательно не менять фокусы ввода элементов и окон, пока работают тесты.
@@ -364,7 +367,8 @@ tia возвращает 0 если тесты прошли ожидаемо и 
 More then 10 years I have been involved in auto-testing.
 So I develop this test engine using all my experience and best practices.
 Also I learn existing test engines and add their best parts to TIA.
-My TODO lists are in 'inner-docs' project directory.
+My TODO lists are in 'inner-docs' project directory:
+https://github.com/Dzenly/tia/tree/master/inner-docs.
 In a few weeks I am planning to translate all docs to English and create github wiki page.
 Here is info about accounts for donation:
 https://github.com/Dzenly/tia/blob/master/donations-info.md

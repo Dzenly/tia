@@ -80,8 +80,8 @@ function usage() {
       -h, --help - Print this help.
 
     Examples:
-        tia --tests-dir my-tests/testSuiteDir --force-def-display
-        node --harmony bin/tia.js --tests-dir my-tests/testSuiteDir
+        tia --tests-dir <path_to_my-tests-dir> --force-def-display
+        node --harmony bin/tia.js --tests-dir <path_to_my-tests-dir> --force-def-display
     If there is no diffs, 0 is returned, otherwise 1 is returned.
     
     This utility uses external utilities (diff, rm) and webdriver.
