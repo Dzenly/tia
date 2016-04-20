@@ -144,7 +144,7 @@ if (args['h'] || args['help']) {
 var path = require('path');
 
 if (args.runSelfTests) {
-  args.testsDir = path.join(__dirname, '..', 'tests');
+  args.testsDir = path.resolve(path.join(__dirname, '..', 'tests'));
 }
 
 if (args.debugMax) {
