@@ -7,6 +7,8 @@
  Inner utils for logging.
  */
 
+var isVerbose;
+
 var fs = require('fs');
 
 // Must be called only before handleDir for root test directory, like engine, app, etc..
@@ -164,7 +166,7 @@ function saveDirInfo(dirInfo, indent, verbose, noTime) {
       } else {
         writeToSuiteLog(indent);
         writeToSuiteLog(gIn.tInfo.testInfoToString(curInfo, false, verbose, noTime), curInfo.diffed);
-        if (curInfo.diffed && gIn.params.diffsToMlog) {
+        if (curInfo.diffed && gIn.params.diffsToMlog && !isVerbose) {
           let difPath = gIn.textUtils.jsToDif(curInfo.path);
           let dif = fs.readFileSync(difPath, 'ascii');
           writeToSuiteLog(indent + '============== DIF ============== \n');
@@ -181,6 +183,7 @@ function saveDirInfo(dirInfo, indent, verbose, noTime) {
 }
 
 function saveSuiteLogPart(verbose, dirInfo, noTime) {
+  isVerbose = verbose;
   var title = verbose ? 'Verbose' : 'Short';
   var decor = '====================';
   writeToSuiteLog(decor + '    ' + title + ' Log BEGIN:    ' + decor + '\n');
@@ -208,5 +211,9 @@ exports.saveSuiteLog = function (dirInfo, log, noTime) {
 /* Prints expected tests results to stdout and unexpected to stderr */
 exports.printSuiteLog = function (dirInfo) {
   writeLogStr = writeStrToStdout;
-  saveDirInfo(dirInfo, '', true, false);
+  saveSuiteLogPart(false, dirInfo, false);
+  writeToSuiteLog('\n');
+  saveSuiteLogPart(true, dirInfo, false);
+  // saveDirInfo(dirInfo, '', false, false);
+  // saveDirInfo(dirInfo, '', true, false);
 };

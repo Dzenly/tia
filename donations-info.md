@@ -1,7 +1,11 @@
 You can send any questions and suggestions to my email:
 alexchem@yandex.ru
 
-### Рубли.
+If you are giving me some donation and don't mind to be in my 'Thanks' list,
+please, provide some details about you (see my email above),
+such as your `[company]` name and web site. 
+
+### (RUB) Рубли.
 
 * Банк получатель:	АО «Тинькофф Банк»
 * Корр. счёт:	30101810900000000974
@@ -12,7 +16,7 @@ alexchem@yandex.ru
 * ИНН:	Укажите ваш ИНН, если его нет, поле оставьте пустым (при строгой необходимости заполнять поле – укажите 7710140679)
 * КПП:	Поле оставьте пустым (при строгой необходимости заполнять поле – укажите 775001001)
 
-### Dollars
+### USD
 
 * Банк-корреспондент (Intermediary):	JPMORGAN CHASE BANK, N.A. NEW YORK, NY US
 * SWIFT банка-корреспондента (Intermediary’s Bank SWIFT):	CHASUS33
@@ -24,7 +28,7 @@ alexchem@yandex.ru
 * Счет получателя (Beneficiary’s Account):	40817810100000259859
 * Назначение платежа (Payment Details):	Own funds transfer under Agreement № 5002992013 Chemakin Aleksey Vitalevich. Without VAT.
 
-### Euro
+### EUR
 
 * Банк-корреспондент (Intermediary):	J.P.MORGAN AG FRANKFURT AM MAIN, DE
 * SWIFT банка-корреспондента (Intermediary’s Bank SWIFT):	CHASDEFX
