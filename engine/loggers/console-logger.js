@@ -63,7 +63,7 @@ exports.logIfEnabled = function (msg) {
  * Prefix should be set in caller.
  */
 exports.errIfEnabled = function (msg) {
-  if (gIn.params.logErrToConsole) {
+  if (gIn.params.errToConsole) {
     return exports.err(msg);
   }
 };

@@ -33,3 +33,5 @@ Debug tests for windows (3h). Slash / backslash issues, cygwin utilities work.
 Опция -l аттачить логи, для дифнутых тестов к мейлу.
 
 * Refactor everything to be more OOP (incapsulation, accessors, constructors, signletons, factories). (12h)
+
+Very low priority. Перехватывать все, что сыпется в stderr.

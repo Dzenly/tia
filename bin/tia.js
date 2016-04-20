@@ -59,7 +59,7 @@ function usage() {
 
       --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).
 
-      --log-err-to-console print all errors to console.
+      --err-to-console print all errors to console.
 
       --log-to-console print test logs to console.
 
@@ -74,7 +74,7 @@ function usage() {
       
       --diffs-to-mlog - forces diffs to be printed to short meta log. 
 
-      --debug-max - equals to --force-def-display --log-to-console --log-err-to-console --force-log-actions --trace-level 3
+      --debug-max - equals to --log-to-console --log-err-to-console --force-log-actions --trace-level 3
       Though --trace-level option can be used to set up needed value in spite of --debug-max.
       
       -h, --help - Print this help.
@@ -140,7 +140,7 @@ if (args['h'] || args['help']) {
 
 if (args.debugMax) {
   args.logToConsole = true;
-  args.logErrToConsole = true;
+  args.errToConsole = true;
   args.forceLogActions = true;
   if (args.traceLevel === -1) {
     args.traceLevel = 3;

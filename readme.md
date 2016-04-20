@@ -113,6 +113,7 @@ JavaScript файл, лежащий где - либо внутри пакета 
 	 $ Xvfb :1 -screen 5 2560x1440x24
 	Убивать можно так:
 	 $ killall Xvfb
+    xvfb directory contains xfvb script and readme.md.
 
 ----------------------------------
 
@@ -318,6 +319,8 @@ https://github.com/Dzenly/tia/tree/master/inner-docs
 *     tia - Тесты для общей части.
 *     wd-helpers - Тесты для web driver части.
 * utils - внутренние утилитные функции, используемые движком.
+* xvfb - utility to run GUI tests so as do not prevent other work with the computer.
+  See xvfb/readme.md for more details.
 
 * Есть следующие форматы файлов:
 *     *.log - лог от теста.

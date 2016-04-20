@@ -1,0 +1,38 @@
+#! /bin/sh
+# /etc/init.d/xvfb
+
+### BEGIN INIT INFO
+# Provides: Xvfb
+# Required-Start: $local_fs $remote_fs
+# Required-Stop:
+# X-Start-Before:
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Virtual Frame Buffer
+### END INIT INFO
+
+XVFB=/usr/bin/Xvfb
+XVFBARGS=":1 -screen 5 2560x1440x24 -ac"
+PIDFILE=/var/run/xvfb.pid
+case "$1" in
+  start)
+    echo -n "Starting Xvfb"
+    start-stop-daemon --start --pidfile $PIDFILE --make-pidfile --background --exec $XVFB -- $XVFBARGS
+    echo "."
+    ;;
+  stop)
+    echo -n "Stopping Xvfb"
+    start-stop-daemon --stop --pidfile $PIDFILE
+    echo "."
+    ;;
+  restart)
+    $0 stop
+    sleep 2
+    $0 start
+    ;;
+  *)
+        echo "Usage: /etc/init.d/xvfb {start|stop|restart}"
+        exit 1
+esac
+
+exit 0

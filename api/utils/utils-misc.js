@@ -13,7 +13,10 @@ function *safeGen(gen) {
   try {
     yield* gen();
   } catch (e) {
-    gIn.tracer.traceErr('Safe Generator caught error: ' + gIn.textUtils.excToStr(e));
+    if (gIn.params.errToConsole) {
+      gIn.tracer.traceErr('Safe Generator caught error: ' + gIn.textUtils.excToStr(e));
+    }
+    gT.l.println('Safe Generator caught error: ' + gIn.textUtils.excToStr(e));
   }
 }
 
@@ -27,8 +30,14 @@ function *safeGen(gen) {
 gT.u.execGen = function (gen) {
   //return flow.execute(gen); // Unsafe variant.
   return gT.sOrig.flow.execute(function () { // Safe variant.
-    return gT.sOrig.promise.consume(safeGen, null, gen);
-  });
+    return gT.sOrig.promise.consume(safeGen, null, gen)
+      .catch(function (err) {
+        gIn.tracer.traceErr('execGen, consume: ' + err);
+      });
+  })
+    .catch(function (err) {
+      gIn.tracer.traceErr('execGen, (flow.execute): ' + err);
+    });
 };
 
 gT.s.fail = function (url, logAction) {

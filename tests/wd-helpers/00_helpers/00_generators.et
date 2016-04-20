@@ -3,5 +3,8 @@ Title: Test for generator runner
 undefined
 undefined
 Success
+Safe Generator caught error: Intentionaly rejected promise
+ No stack trace
+
 =================
 Pass: 0, Fail: 0

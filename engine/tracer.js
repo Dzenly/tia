@@ -8,7 +8,9 @@ exports.traceErr = function (msg) {
 
 // To distinct tracing from common console.log's.
 exports.trace0 = function (msg) {
-  console.log('TRC0: ' + msg);
+  if (gIn.params.traceLevel > -1) {
+    console.log('TRC0: ' + msg);
+  }
 };
 
 exports.trace1 = function (msg) {
