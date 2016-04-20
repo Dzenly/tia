@@ -77,6 +77,8 @@ function usage() {
       --debug-max - equals to --log-to-console --log-err-to-console --force-log-actions --trace-level 3
       Though --trace-level option can be used to set up needed value in spite of --debug-max.
       
+      --run-self-tests - Run tests for the engine (from tia/tests directory).
+      
       -h, --help - Print this help.
 
     Examples:
@@ -118,7 +120,8 @@ var opts = {
     'log-to-console',
     'force-log-actions',
     'diffs-to-mlog',
-    'debug-max'
+    'debug-max',
+    'run-self-tests'
   ],
   default: {
     browser: browsers[0],
@@ -138,6 +141,12 @@ if (args['h'] || args['help']) {
   process.exit(0);
 }
 
+var path = require('path');
+
+if (args.runSelfTests) {
+  args.testsDir = path.join(__dirname, '..', 'tests');
+}
+
 if (args.debugMax) {
   args.logToConsole = true;
   args.errToConsole = true;
@@ -155,8 +164,6 @@ if (browsers.indexOf(browser) === -1) {
 }
 
 // TODO: support windows separators also.
-
-var path = require('path');
 
 var testsDir = args.testsDir;
 
