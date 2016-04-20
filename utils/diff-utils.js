@@ -24,8 +24,8 @@ exports.getDiff = function (dir, oldFile, newFile) {
 };
 
 /**
- * Diffs current log (*.log) and ethalon log (*.eth) files.
- * Takes into account presense of .edif file.
+ * Diffs current log (*.log) and etalon log (*.eth) files.
+ * Takes into account presence of .edif file.
  * If diff is not empty it is placed to (*.diff) file.
  *
  * NOTE: this function requires external diff utility.
@@ -47,12 +47,14 @@ exports.diff = function (jsTest) {
   gIn.fileUtils.backupDif(diffPath);
 
   fs.writeFileSync(diffPath, out, {encoding: 'ascii'});
+  // var oldOut = out;
 
   // Check for expected diff.
   out = exports.getDiff(dir, base + '.edif', base + '.dif');
   if (out) {
+    // gIn.tracer.trace1(`${base} DIFF: \n ${oldOut}`);
     gIn.tInfo.data.diffed = 1;
-    out = exports.getDiff(dir, base + '.dif.dif', base + '.dif');
+    out = exports.getDiff(dir, base + '.dif.old', base + '.dif');
     if (out) {
       exports.changedDiffs++;
     }
@@ -60,5 +62,5 @@ exports.diff = function (jsTest) {
     gIn.tInfo.data.expDiffed = 1;
   }
 
-  gIn.fileUtils.safeUnlink(diffPath + '.dif');
+  gIn.fileUtils.safeUnlink(diffPath + '.old');
 };

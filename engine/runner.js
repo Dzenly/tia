@@ -158,7 +158,7 @@ function *runTestSuite(dir) {
 
   var suiteLogDifRes = Boolean(gIn.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog));
   var changedDiffs = gIn.diffUtils.changedDiffs ? '(' + gIn.diffUtils.changedDiffs + ' diff(s) changed)' : '';
-  var subj = getOs() + ', ' + (suiteLogDifRes ? 'CHANGED' : ('AS PREV ' + changedDiffs)) + ', ' + gIn.logger.saveSuiteLog(dirInfo, log);
+  var subj = getOs() + ', ' + (suiteLogDifRes ? 'CHANGED' : ('AS PREV' + changedDiffs)) + ', ' + gIn.logger.saveSuiteLog(dirInfo, log);
   dirInfo.suiteLogDiff = suiteLogDifRes;
   dirInfo.os = getOs();
   gIn.fileUtils.saveJson(dirInfo, log + '.json');

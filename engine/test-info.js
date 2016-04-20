@@ -41,11 +41,14 @@ exports.testInfoToString = function (curInfo, isDir, verbose, noTime, noTitle) {
   failed = formLogPart('Fail', curInfo.failed);
   time = noTime ? '' : curInfo.time.toFixed(2) + ' ms';
 
-  var arr = verbose ? [path, diffed, failed, ediffed, skipped, passed, time, title,] : [path, diffed, failed];
+  var arr = verbose ? [path, diffed, failed, ediffed, skipped, passed, time, title,] :
+    [path, diffed, failed];
 
-  return arr.filter(function (val) {
+  var res = arr.filter(function (val) {
       return val;
     }).join(', ') + '\n'; // join only non-empty strings.
+  
+  return res;
 };
 
 /**

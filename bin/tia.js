@@ -71,10 +71,12 @@ function usage() {
       --require-modules <paths_separated_by_comma>
       Forces tia to require listed files as Node.js modules.
       ${gT.engineConsts.requireModulesEnvVarName} environment variable also can be used for this.
+      
+      --diffs-to-mlog - forces diffs to be printed to console in meta log. 
 
       --debug-max - equals to --force-def-display --log-to-console --log-err-to-console --force-log-actions --trace-level 3
       Though --trace-level option can be used to set up needed value in spite of --debug-max.
-
+      
       -h, --help - Print this help.
 
     Examples:
@@ -115,6 +117,7 @@ var opts = {
     'log-err-to-console',
     'log-to-console',
     'force-log-actions',
+    'diffs-to-mlog',
     'debug-max'
   ],
   default: {

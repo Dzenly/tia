@@ -78,7 +78,7 @@ exports.errorln = function (msg) {
  */
 exports.exception = function (msg, e) {
   msg = gIn.loggerCfg.excPrefix + msg;
-  gIn.cLogger.errIfEnabled(msg + ' ' + gIn.textUtils.excToStr(e));
+  gIn.cLogger.errIfEnabled(msg + ' ' + gIn.textUtils.excToStr(e) + '\n');
   logToFile(msg + ' ' + gIn.textUtils.excToStr(e, true) + '\n');
 };
 
@@ -116,24 +116,28 @@ exports.logIfNotDisabled = function (msg, enable) {
   }
 };
 
-function writeStrToFile(str, diffed) {
+function writeStrToFile(str, diffed, isDif) {
   fs.writeSync(exports.fd, str, null, 'ascii');
 }
 
-function writeStrToStdout(str, diffed) {
-  str = str.replace(/\s+$/g, '');
-  str += '\n';
+function writeStrToStdout(str, diffed, isDif) {
+  // str = str.replace(/\s+$/g, '');
+  // str += '\n';
   if (diffed) {
     gIn.cLogger.err(str);
   } else {
-    gIn.cLogger.msg(str);
+    if (isDif) {
+      gIn.cLogger.msgDifStr(str);
+    } else {
+      gIn.cLogger.msg(str);
+    }
   }
 }
 
 var writeLogStr = writeStrToFile;
 
-function writeToSuiteLog(str, diffed) {
-  writeLogStr(str, diffed);
+function writeToSuiteLog(str, diffed, isDif) {
+  writeLogStr(str, diffed, isDif);
 }
 
 exports.testSummary = function () {
@@ -146,7 +150,8 @@ function saveDirInfo(dirInfo, indent, verbose, noTime) {
   if (!dirInfo.handled && !gT.suiteConfig.emptyDirToSuiteLog) {
     return;
   }
-  writeToSuiteLog(indent + gIn.tInfo.testInfoToString(dirInfo, true, verbose, noTime), dirInfo.diffed);
+  writeToSuiteLog(indent);
+  writeToSuiteLog(gIn.tInfo.testInfoToString(dirInfo, true, verbose, noTime), dirInfo.diffed);
   indent = gIn.loggerCfg.indentation + indent;
   // If directory is empty there will be empty array.
   // Absense of 'children' property says that it is test and not directory, we should not allow to use this function for not directory.
@@ -157,7 +162,19 @@ function saveDirInfo(dirInfo, indent, verbose, noTime) {
       if (curInfo.hasOwnProperty('children')) {
         saveDirInfo(curInfo, indent, verbose, noTime);
       } else {
-        writeToSuiteLog(indent + gIn.tInfo.testInfoToString(curInfo, false, verbose, noTime), curInfo.diffed);
+        writeToSuiteLog(indent);
+        writeToSuiteLog(gIn.tInfo.testInfoToString(curInfo, false, verbose, noTime), curInfo.diffed);
+        if (curInfo.diffed && gIn.params.diffsToMlog) {
+          let difPath = gIn.textUtils.jsToDif(curInfo.path);
+          let dif = fs.readFileSync(difPath, 'ascii');
+          writeToSuiteLog(indent + '============== DIF ============== \n');
+          let diffStrs = dif.split('\n');
+          for (let str of diffStrs) {
+            writeToSuiteLog(indent);
+            writeToSuiteLog(str + '\n', false, true);
+          }
+          writeToSuiteLog(indent + '========== END OF DIF  ========== \n');
+        }
       }
     }
   }

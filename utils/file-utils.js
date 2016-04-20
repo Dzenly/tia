@@ -39,7 +39,7 @@ exports.safeUnlink = function (path) {
 
 exports.backupDif = function (path) {
   try {
-    fs.renameSync(path, path + '.dif');
+    fs.renameSync(path, path + '.old');
   } catch (e) {
     // No handling intentionaly.
   }

@@ -44,6 +44,10 @@ exports.jsToLog = function (jsPath) {
   return exports.changeExt(jsPath, '.log');
 };
 
+exports.jsToDif = function (jsPath) {
+  return exports.changeExt(jsPath, '.dif');
+};
+
 exports.expandHost = function (str) {
   return str.replace('$(host)', gIn.config.selHost);
 };

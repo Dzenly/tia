@@ -22,6 +22,18 @@ exports.msg = function (msg) {
 };
 
 /**
+ * Writes string from dif to console.
+ * @param msg
+ */
+exports.msgDifStr = function (msg) {
+  if (isChalkEnabled) {
+    msg = chalk.bold(msg);
+    msg = chalk.yellow(msg);
+  }
+  process.stdout.write(msg);
+};
+
+/**
  * Writes msg to stdout using red ANSI color code.
  * @param msg
  */
