@@ -356,3 +356,14 @@ tia возвращает 0 если тесты прошли ожидаемо и 
 
 Движок начинал развиваться в компании "R-Vision" (https://rvision.pro/).
 Спасибо "R-Vision" за начальное спонсирование и разрешение открыть код.
+
+----------------------------------
+
+## Donations
+
+More then 10 years I have been involved in auto-testing.
+So I develop this test engine using all my experience and best practices.
+Also I learn existing test engines and add their best parts to TIA.
+My TODO lists are in 'inner-docs' project directory.
+In a few weeks I am planning to translate all docs to english and create github wiki page.
+Here is info about accounts for donation:
