@@ -53,11 +53,11 @@ function usage() {
       , any test which file path (relative to <testSuiteRoot>) contains <pathToDirOrTest> substring will run.
       By default, tests from all directories (recursively) will run.
 
-      --enable-mail enables email sending.
+      --email enables email sending.
 
       --stack-to-log print stack trace to test logs.
 
-      --force-def-display - force visual mode (i.e. default display).
+      --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).
 
       --log-err-to-console print all errors to console.
 
@@ -80,8 +80,8 @@ function usage() {
       -h, --help - Print this help.
 
     Examples:
-        tia --tests-dir <path_to_my-tests-dir> --force-def-display
-        node --harmony bin/tia.js --tests-dir <path_to_my-tests-dir> --force-def-display
+        tia --tests-dir <path_to_my-tests-dir>
+        node --harmony bin/tia.js --tests-dir <path_to_my-tests-dir>
     If there is no diffs, 0 is returned, otherwise 1 is returned.
     
     This utility uses external utilities (diff, rm) and webdriver.
@@ -110,9 +110,9 @@ var opts = {
   boolean: [
     'h',
     'help',
-    'enable-mail',
+    'email',
     'stack-to-log',
-    'force-def-display',
+    'xvfb',
     // 'logs-to-mail',
     'log-err-to-console',
     'log-to-console',
@@ -139,7 +139,6 @@ if (args['h'] || args['help']) {
 }
 
 if (args.debugMax) {
-  args.forceDefDisplay = true;
   args.logToConsole = true;
   args.logErrToConsole = true;
   args.forceLogActions = true;

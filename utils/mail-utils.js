@@ -45,7 +45,7 @@ var mailOptions = {
 };
 
 exports.send = function (subj, attachment, archive) {
-  if (!gIn.params.enableMail) {
+  if (!gIn.params.email) {
     console.log('Mail disabled.');
     return;
   }

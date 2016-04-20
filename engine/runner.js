@@ -51,7 +51,7 @@ function *handleTestFile(file, dirConfig) {
 
   gIn.tInfo.data.handled = 1;
 
-  if (gIn.config.DISPLAY && !gIn.params.forceDefDisplay) {
+  if (gIn.config.DISPLAY && gIn.params.xvfb) {
     process.env.DISPLAY = gIn.config.DISPLAY;
   } else {
     process.env.DISPLAY = gT.engineConsts.defDisplay;
