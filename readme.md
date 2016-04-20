@@ -367,3 +367,4 @@ Also I learn existing test engines and add their best parts to TIA.
 My TODO lists are in 'inner-docs' project directory.
 In a few weeks I am planning to translate all docs to english and create github wiki page.
 Here is info about accounts for donation:
+https://github.com/Dzenly/tia/blob/master/donations-info.md
