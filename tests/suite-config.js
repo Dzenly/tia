@@ -1,6 +1,6 @@
 'use strict';
 
-var suiteConfig;
+var suiteConfig = {};
 
 try {
   suiteConfig = require('./mail-settings.nogit.json');
