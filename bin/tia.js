@@ -82,7 +82,11 @@ function usage() {
       --def-host <host:port> - sets default host and port.
       E.g. --def-host http://localhost:1338
       This parameter allows to use the '$(host)' string in your tests.
-      See more details in selHost option description in config/default-dir-config.js. 
+      See more details in selHost option description in config/default-dir-config.js.
+       
+      --et-mlog - filepath for etalog meta-log (absolute or relative to parent of tests directory).
+      If exists, - it is used for meta logs comparison and writing info such as
+      ET_MLOG / DIF_MLOG to the head of output.
 
       -h, --help - Print this help.
 
@@ -113,7 +117,8 @@ var opts = {
     'pattern',
     'trace-level',
     'require-modules',
-    'def-host'
+    'def-host',
+    'et-mlog'
   ],
   boolean: [
     'h',
@@ -151,6 +156,7 @@ var path = require('path');
 
 if (args.runSelfTests) {
   args.testsDir = path.resolve(path.join(__dirname, '..', 'tests'));
+  args.etMlog = 'tests.et';
 }
 
 if (args.debugMax) {
@@ -194,7 +200,18 @@ if (!args.requireModules) {
 gIn.params = args;
 gIn.params.testsDir = testsDir;
 
-gIn.params.profileRootPath = path.join(path.dirname(testsDir), gT.engineConsts.profileRootDir);
+gIn.params.testsParentDir = path.dirname(testsDir);
+
+gIn.tracer.trace3('Tests Dir: ' + testsDir);
+gIn.tracer.trace3('Tests Parent Dir: ' + gIn.params.testsParentDir);
+
+gIn.params.profileRootPath = path.join(gIn.params.testsParentDir, gT.engineConsts.profileRootDir);
+
+if (gIn.params.etMlog && !path.isAbsolute(gIn.params.etMlog)) {
+  gIn.params.etMlog = path.join(gIn.params.testsParentDir, gIn.params.etMlog);
+}
+
+gIn.tracer.trace3('Etalog Metalog path: ' + gIn.params.etMlog);
 
 // TODO: support several paths for pattern?
 
@@ -202,7 +219,6 @@ if (gIn.params.traceLevel > 3) {
   gIn.params.traceLevel = 3;
 }
 
-gIn.tracer.trace2('Tests dir: ' + testsDir);
 gIn.tracer.trace2('Browsers profile root: ' + gIn.params.profileRootPath);
 
 gIn.params.minPathSearchIndex = testsDir.length + 1; // Minumum index for path search.

@@ -1,0 +1,37 @@
+====================    Short Log BEGIN:    ====================
+"tests", dif: 0, Fail: 3
+====================    Short Log END.    ====================
+
+====================    Verbose Log BEGIN:    ====================
+"tests", dif: 0, Fail: 3, EDif: 1, Skip: 4, Pass: 24, "/home/alexey/projects/myGithub/node_modules/tia/tests"
+| "tia", dif: 0, Fail: 3, EDif: 1, Skip: 4, Pass: 14, ""
+| | "00_sanity", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 10, ""
+| | | "00_checkForGlobals.js", OK, fail: 0, Pass: 5, "Checking that all global variables are exist and correct."
+| | | "01_3msg3pass.js", OK, fail: 0, Pass: 3, "2 messages and 3 passes."
+| | | "02_passFail.js", OK, fail: 0, Pass: 2, "Check for pass and fail work"
+| | | "03_testInfoInit.js", OK, fail: 0, pass: 0, "Test for testInfo init"
+| | "01_errors", dif: 0, Fail: 3, edif: 0, skip: 0, pass: 0, ""
+| | | "01_stdErr.js", OK, fail: 0, pass: 0, "TODO (LOW PRIORITY): catch messages from stderr"
+| | | "02_syntaxError.js", OK, Fail: 1, pass: 0, ""
+| | | "03_undefined.js", OK, Fail: 1, pass: 0, "Exception due to undefined variable"
+| | | "04_throwStr.js", OK, Fail: 1, pass: 0, "Test throws "SomeErr" string"
+| | "02_expectedDiff", dif: 0, fail: 0, EDif: 1, skip: 0, pass: 0, ""
+| | | "00_expectedDiff.js", EDIF, fail: 0, pass: 0, "Expected diff test"
+| | "03_config", dif: 0, fail: 0, edif: 0, Skip: 4, pass: 0, "Config testing"
+| | | "00_skippedTests", dif: 0, fail: 0, edif: 0, Skip: 4, pass: 0, "Skipped tests"
+| | | | "00_firstSkippedTest.js", OK, fail: 0, SKIP, pass: 0, ""
+| | | | "01_nonSkippedInsideSkipped", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, "Non Skipped tests inside skipped"
+| | | | | "00_nonSkippedInsideSkipped.js", OK, fail: 0, pass: 0, "Non skipped inside skipped"
+| | | | "01_secondSkippedTest.js", OK, fail: 0, SKIP, pass: 0, ""
+| | | "01_ignorePassFail", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, "Ignore pass and fail counters"
+| | | | "00_ignorePassFail.js", OK, fail: 0, pass: 0, "Test for ignorePassAndFailCounters config option"
+| | "05_dirWithEmptyScript", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, ""
+| | | "0_empty.js", OK, fail: 0, pass: 0, ""
+| | "06_suiteConfig", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 4, ""
+| | | "00_suiteConfig.js", OK, fail: 0, Pass: 4, "Checking config and suite-config work."
+| "wd-helpers", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 10, ""
+| | "00_helpers", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 10, ""
+| | | "00_generators.js", OK, fail: 0, pass: 0, "Test for generator runner"
+| | | "01_clientExceptions.js", OK, fail: 0, Pass: 5, "Test for client exceptions"
+| | | "02_scriptsExecution.js", OK, fail: 0, Pass: 5, "Test for client exceptions"
+====================    Verbose Log END.    ====================

@@ -156,18 +156,32 @@ function *runTestSuite(dir) {
   dirInfo.title = dir;
   gIn.logger.saveSuiteLog(dirInfo, noTimeLog, true);
 
-  var suiteLogDifRes = Boolean(gIn.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog));
+  var metaLogDifRes = Boolean(gIn.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog));
+  var etMlogInfo = '';
+  var etMlogInfoCons = '';
+  var metaLogEtDifRes = 'Some Initial Dif';
+  if (gIn.params.etMlog) {
+    metaLogEtDifRes = Boolean(gIn.diffUtils.getDiff('.', gIn.params.etMlog, noTimeLog));
+    gIn.tracer.trace3('metaLogEtDifRes: ' + metaLogEtDifRes);
+    etMlogInfo = metaLogEtDifRes ? 'DIF_MLOG, ' : 'ET_MLOG, ';
+    etMlogInfoCons = metaLogEtDifRes ? gIn.cLogger.chalkWrap('red', 'DIF_MLOG') + ', ' :
+      gIn.cLogger.chalkWrap('green', 'ET_MLOG')  + ', ';
+  }
+
   var changedDiffs = gIn.diffUtils.changedDiffs ? '(' + gIn.diffUtils.changedDiffs + ' diff(s) changed)' : '';
-  var subj = getOs() + ', ' + (suiteLogDifRes ? 'CHANGED' : ('AS PREV' + changedDiffs)) + ', ' + gIn.logger.saveSuiteLog(dirInfo, log);
-  dirInfo.suiteLogDiff = suiteLogDifRes;
+  var emailSubj = getOs() + ', ' + (metaLogDifRes ? 'DIF FROM PREV' : ('AS PREV' + changedDiffs)) + ', ' + gIn.logger.saveSuiteLog(dirInfo, log);
+  var emailSubjCons = etMlogInfoCons + emailSubj;
+  emailSubj = etMlogInfo + emailSubj;
+
+  dirInfo.metaLogDiff = metaLogDifRes;
   dirInfo.os = getOs();
   gIn.fileUtils.saveJson(dirInfo, log + '.json');
 
   var arcName = gIn.fileUtils.archiveSuiteDir(dirInfo);
 
-  yield gIn.mailUtils.send(subj, log, arcName);
+  yield gIn.mailUtils.send(emailSubj, log, arcName);
   var status = dirInfo.diffed ? 1 : 0;
-  console.log(subj);
+  gIn.cLogger.msg('\n' + emailSubjCons + '\n');
   if (gT.suiteConfig.metaLogToStdout) {
     gIn.logger.printSuiteLog(dirInfo);
     //gIn.fileUtils.fileToStdout(log);

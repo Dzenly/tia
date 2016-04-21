@@ -13,8 +13,8 @@ var fs = require('fs');
 
 // Must be called only before handleDir for root test directory, like engine, app, etc..
 // TODO: what it is ?
-// exports.setSuiteLog = function (suiteLog) {
-//   exports.suiteLog = suiteLog;
+// exports.setSuiteLog = function (metaLog) {
+//   exports.metaLog = metaLog;
 // };
 
 function logToFile(msg) {

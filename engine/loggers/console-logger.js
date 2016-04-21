@@ -22,15 +22,30 @@ exports.msg = function (msg) {
 };
 
 /**
+ *
+ * @param chalkProps - string or array.
+ * @param msg
+ * @returns {*}
+ */
+exports.chalkWrap = function (chalkProps, msg) {
+  if (isChalkEnabled) {
+    if (typeof chalkProps === 'string') {
+      msg = chalk[chalkProps](msg);
+    } else {
+      for (let prop of chalkProps) {
+        msg = chalk[prop](msg);
+      }
+    }
+  }
+  return msg;
+};
+
+/**
  * Writes string from dif to console.
  * @param msg
  */
 exports.msgDifStr = function (msg) {
-  if (isChalkEnabled) {
-    msg = chalk.bold(msg);
-    msg = chalk.yellow(msg);
-  }
-  process.stdout.write(msg);
+  process.stdout.write(exports.chalkWrap(['yellow', 'bold'], msg));
 };
 
 /**
