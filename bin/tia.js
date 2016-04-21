@@ -79,6 +79,11 @@ function usage() {
       
       --run-self-tests - Run tests for the engine (from tia/tests directory).
       
+      --def-host <host:port> - sets default host and port.
+      E.g. --def-host http://localhost:1338
+      This parameter allows to use the '$(host)' string in your tests.
+      See more details in selHost option description in config/default-dir-config.js. 
+
       -h, --help - Print this help.
 
     Examples:
@@ -107,7 +112,8 @@ var opts = {
     'browser',
     'pattern',
     'trace-level',
-    'require-modules'
+    'require-modules',
+    'def-host'
   ],
   boolean: [
     'h',
@@ -206,6 +212,10 @@ if (args.requireModules) {
   for (let reqPath of arr) {
     require(path.resolve(reqPath));
   }
+}
+
+if (gIn.params.defHost) {
+  gT.dirConfigDefault.selHost = gIn.params.defHost;
 }
 
 // gIn.params.profileRootPath

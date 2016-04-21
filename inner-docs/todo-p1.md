@@ -41,3 +41,12 @@ http://seleniumhq.github.io/selenium/docs/api/javascript/class_webdriver_WebDriv
 Not so important, I checked that driver polls the DOM more that 10 times per second.
 
 
+Выводить в консоль набор опций, используемых при запуске?
+
+emptyDirToSuiteLog - перетащить в cmd line?
+
+? В конфиге задавать шаблоны, какие `*.js` файлы игнорировать.
+
+? -l (TODO) attach diffed logs to mail.
+
+--ignore-dir-config-skip - насильно гонять все тесты, даже проскипанные.
