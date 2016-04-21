@@ -22,6 +22,7 @@ exports.copyConfig = function (config) {
  */
 exports.mergeConfigs = function (config1, config2) {
   var result = exports.copyConfig(config1);
+  result.sectionTitle = '';
   for (var prop in config2) {
     result[prop] = config2[prop];
   }

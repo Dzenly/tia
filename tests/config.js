@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
-  dummyExpectedRootDirConfigOption: 'dummyExpectedRootDirConfigOption'
+  dummyExpectedRootDirConfigOption: 'dummyExpectedRootDirConfigOption',
+  sectionTitle: 'The whole tests bunch for TIA'
 };
 

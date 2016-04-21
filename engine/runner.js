@@ -153,7 +153,7 @@ function *runTestSuite(dir) {
 
   var dirInfo = yield* handleTestDir(dir, gT.dirConfigDefault);
 
-  dirInfo.title = dir;
+  // dirInfo.title = path.basename(dir);
   gIn.logger.saveSuiteLog(dirInfo, noTimeLog, true);
 
   var metaLogDifRes = Boolean(gIn.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog));
