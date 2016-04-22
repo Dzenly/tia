@@ -4,8 +4,11 @@ This is an engine for `[massive]` regression testing automation.
 The engine supports Web sites testing using Selenium WebDriver and inner API for work with ExtJs elements.
 Non-GUI unit tests are also supported.
 
-The engine is ready to use, but requires adding more wrappers for Selenium actions, ExtJs actions
-more assertions, more compatibility with continues integration systems.
+The engine is ready to use, but requires adding:
+* more wrappers for Selenium actions.
+* more API for ExtJs actions.
+* more assertions.
+* more compatibility with continues integration systems.
 
 To don't blow up versions for now I am not following SEMVER rules.
 I add new functionality and bug fixing as the 'patch' version part,
