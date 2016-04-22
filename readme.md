@@ -1,11 +1,23 @@
 # Time Is All (log driven test engine)
 
+This is an engine for `[massive]` regression testing automation.
+The engine supports Web sites testing using Selenium WebDriver and inner API for work with ExtJs elements.
+Non-GUI unit tests are also supported.
+
+The engine is ready to use, but requires adding more wrappers for Selenium actions, ExtJs actions
+more assertions, more compatibility with continues integration systems.
+
+To don't blow up versions for now I am not following SEMVER rules.
+I add new functionality and bug fixing as the 'patch' version part,
+and changes which break backward compatibility as the 'minor' version part.
+
+After 1.0.0 (it is planned as of June 2016) version I will follow SEMVER strictly.
+
+English documentation is planned as of May 2016.
+
 ----------------------------------
 
-## Selenium WebDriver
-
-Движок пока в стадии разработки (хотя, и работает), и я не поддерживаю обратную совместимость даже для 'minor' и 'patch'
-компонентов версии. С версии 1.0.0 я начну четко следовать semver.
+## Selenium WebDriver notes
 
 GUI часть движка сделана на основе официального JS selenium-webdriver биндинга,
 документация по JS Selenium тут:

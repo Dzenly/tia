@@ -16,7 +16,10 @@
     "log",
     "comparison",
     "test",
-    "engine"
+    "engine",
+    "selenium",
+    "webdriver",
+    "extjs"
   ],
   "author": "Dzenly <alexchem@yandex.ru>",
   "license": "MIT",
