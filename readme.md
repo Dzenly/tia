@@ -11,8 +11,8 @@ The engine is ready to use, but requires adding:
 * more compatibility with continues integration systems.
 
 To don't blow up versions for now I am not following SEMVER rules.
-I add new functionality and bug fixing as the 'patch' version part,
-and changes which break backward compatibility as the 'minor' version part.
+I change the 'patch' version part at adding new functionality and bug fixes,
+and change the 'minor' version part at changes which break backward compatibility.
 
 After 1.0.0 (it is planned as of June 2016) version I will follow SEMVER strictly.
 
@@ -22,12 +22,11 @@ English documentation is planned as of May 2016.
 
 ## Selenium WebDriver notes
 
-GUI часть движка сделана на основе официального JS selenium-webdriver биндинга,
-документация по JS Selenium тут:
+GUI part is created on top of official JS selenium-webdriver binging:
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/index.html
 
-Хорошо бы быть в курсе, что такое 
+It is good to know following Selenium terms: 
 
 WebElement:
 
@@ -53,34 +52,37 @@ Key
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_Key.html
 
-После установки tia, в `tia/node_modules/selenium-webdriver/test` директории можно посмотреть примеры тестов на чистом selenium webdriver
+After install one can find examples of (non tia) selenium tests here:
+`tia/node_modules/selenium-webdriver/test` 
 (т.е. не через tia).
 
-Я буду стараться создавать разные обертки в API, чтобы тестерам не нужно было знать об этих объектах.
-Но, пока для написания нетривиальных тестов эти знания могут понадобиться.
-sOrig объект внутри теста, дает доступ к этим элементам Selenium (т.е. имеет одноименные свойства).
+I create wrappers for Selenium API, but for now for complex tests one needs to know selenium.
+sOrig global object provides Selenium objects (listed above).
 
-### Ворфлоу тестов с Selenium Webdriver
+### Common workflow for tests using Selenium Webdriver
 
-* Идешь на какой-то URL. (см. s.browser.loadPage(url) ф-ю).
-* Ждешь какого-то события: появления элемента, появления JS объекта,
-появления нужного title страницы, и т.д. (см. s.wait* ф-и)
-* Ещё можно искать элемент без ожидания (если точно уверен, что элемент есть, иначе словишь exception).
-  Лучше с ожиданием.
-* Посылаешь в этот элемент всякие события от клавиатуры и мыши (s.click*, s.sendKeys*).
-* Считываешь что-то из элемента.
-* Считываешь что-то из JS переменных браузера. (см. s.browser.executeScript()).
+* Go to some URL. (see s.browser.loadPage(url)).
+* Wait for appearance of some event like HTML element, JS object, title, etc.
+  (see s.wait* functions)
+* If you are assured that element exists you can find element without wait.
+* Send to the found element various events from mouse or keyboard  
+  (s.click*, s.sendKeys*).
+* Read some data from the HTML element.
+* Read some data from JS objects. (s.browser.executeScript()).
+* Check that values are equal to expected ones by various assertions (see 'a' global object).
 
-### Замечания об ExtJs
+### Notes about ExtJs
+
+* This part is still under development, so here are few API functions for now.
 
 * Для динамически генерируемых id нужно через разные обертки движка (пока их мало),
  или через s.browser.executeScript находить id элемента и посылать в него разные действия.
 * Через executeScript можно обращаться к нужным ExtJs объектам и передавать из браузера в тесты
  какие угодно JS объекты.
 
-## Термины
+## Terms
 
-### Тест
+### Test
 
 JavaScript файл, лежащий где - либо внутри пакета тестов.
 Этот файл просто запускается движком тестов.
@@ -91,7 +93,7 @@ JavaScript файл, лежащий где - либо внутри пакета 
 
 Имена config.js, и suite-config.js используются как конфиги, а не как тесты.
 
-### Лог теста.
+### Test log
 
 Текстовый файл, создаваемый движком и API вызовами из исходника теста (см. Тест).
 В нем отражается сценарий выполнения теста, т.е. что происходит и с каким результатом.
@@ -101,13 +103,13 @@ JavaScript файл, лежащий где - либо внутри пакета 
 
 Имя файла для лога теста такое же, как у теста, но расширение '.log', а не '.js'.
 
-### Лог пакета (мета - лог).
+### Metalog (suite log)
 
 Лог со статистической информацией по всем тестам пакета.
 Называется так же, как директория пакета, но добавляется расширение '.mlog'.
 Рассылается на мейл.
 
-### Профайлы браузеров.
+### Browser profiles
 
 Директория br-profiles создается в директории, где лежит директория с тестами
 (см. --tests-dir и TIA_TESTS_DIR) и хранит профайлы браузеров.
@@ -117,30 +119,28 @@ JavaScript файл, лежащий где - либо внутри пакета 
 
 ----------------------------------
 
-## Пререквизиты
+## Prerequisites
 
-
-* diff, rm, zip (на Windows можно установить Cygwin, на Linux есть родные)
-* nodejs (версия должна поддерживать --harmony опцию, т.к. тестовый движок использует ES6 стандарт,
-движок тестируется с версией 4.4.1)
-* Xvfb (если нужно запускать тесты под Linux без GUI).
-	Запускать так:
+* diff, rm, zip utililies (you can use Cygwin on Windows)
+* Node.js (4.x and above) (tia uses ECMA Script 2015 features)
+* Xvfb (if you wish to run tests under Linux without GUI).
+	How to start:
 	 $ Xvfb :1 -screen 5 2560x1440x24
-	Убивать можно так:
+	How to stop:
 	 $ killall Xvfb
     xvfb directory contains xfvb script and readme.md.
 
 ----------------------------------
 
-## Установка
+## Installation
 
 $ npm install -g tia
 
 ----------------------------------
 
-## Отладка тестов
+## Creating / debugging tests
 
-### Первый способ
+### 1-st way
 
 Можно установить модуль локально, так чтобы node_modules директория была сиблингом директории с вашими тестами:
 
@@ -152,7 +152,7 @@ mode_modules/tia/bin/tia.js
 
 с нужными параметрами.
  
-### Второй способ:
+### 2-nd way
 
 Устанавливаете модуль локально, и создаете проект прямо в нем.
 
