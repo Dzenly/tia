@@ -52,9 +52,8 @@ Key
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_Key.html
 
-After install one can find examples of (non tia) selenium tests here:
-`tia/node_modules/selenium-webdriver/test` 
-(т.е. не через tia).
+After install one can find examples of (non TIA) selenium tests here:
+`TIA/node_modules/selenium-webdriver/test` 
 
 I create wrappers for Selenium API, but for now for complex tests one needs to know selenium.
 sOrig global object provides Selenium objects (listed above).
@@ -75,54 +74,76 @@ sOrig global object provides Selenium objects (listed above).
 
 * This part is still under development, so here are few API functions for now.
 
-* Для динамически генерируемых id нужно через разные обертки движка (пока их мало),
- или через s.browser.executeScript находить id элемента и посылать в него разные действия.
-* Через executeScript можно обращаться к нужным ExtJs объектам и передавать из браузера в тесты
- какие угодно JS объекты.
+* For dynamically generated id you need get id of HTML elements using TIA API or s.browser.executeScript,
+and then send user actions to this id.
+
+* Also you can use s.browser.executeScript to access ExtJs objects and return JS objects from browser
+ to your test.
 
 ## Terms
 
+### Test suite
+
+A set of tests located in some directory.
+This directory is specified by --tests-dir cmd line option or by TIA_TESTS_DIR environment variable.
+
 ### Test
 
-JavaScript файл, лежащий где - либо внутри пакета тестов.
-Этот файл просто запускается движком тестов.
-Что делается внутри файла - дело автора теста, никаких ограничений нет.
+JavaScript file, located inside test suite directory.
+This file is executed by TIA and can use all global objects, exposed by TIA (see below).
+Test file should create a test log by TIA API.
 
-Тест, используя API движка, может (и это очень рекомендуется) писать лог о своих действиях
-(см. Лог теста).
+All `*.js` files are considered as tests except config.js and suite-config.js which
+are considered as config files.
 
-Имена config.js, и suite-config.js используются как конфиги, а не как тесты.
+#### Global objects exposed by TIA, which test can use
+
+They are defined in following files:
+* api/api-index.js
+* engine/init-global-objects.js
+* api/selenium/sel-index.js
+* api/extjs/extjs-index.js
+
+You can explore 'gT' global object to find them all.
+You can use 'gIn' global object to extend TIA's API.
+
+Global objects have short aliases (see files above).
 
 ### Test log
 
-Текстовый файл, создаваемый движком и API вызовами из исходника теста (см. Тест).
-В нем отражается сценарий выполнения теста, т.е. что происходит и с каким результатом.
-В идеале, должен быть очень похож на соответствующую секцию тестплана.
-В конце лога движок дописывает статистическую информацию по тесту и если включены соответствующие опции
-конфига - добавляет логи от браузерной консоли.
+This is a text fail (in ASCII encoding) which is created by TIA API calls
+(actions with logging, assertions, etc.) in a test JS file.
+The file reflects the test scenario and should be very similar with the according test plan section.
 
-Имя файла для лога теста такое же, как у теста, но расширение '.log', а не '.js'.
+At the end of the log TIA writes statistics info about the test and adds
+logs from browser console (if such option is enabled).
 
-### Metalog (suite log)
+The log file name is equal to test file name, but the log has the `.log` extension (and not `.js`).
 
-Лог со статистической информацией по всем тестам пакета.
-Называется так же, как директория пакета, но добавляется расширение '.mlog'.
-Рассылается на мейл.
+### Etalon test log
+
+When the test author finished test creating he should check the test log and mark it as
+etalon (reference) log by renaming `.log` to `.et`.
+
+### Meta log (suite log)
+
+This is log with statistics on all tests from the tests directory.
+The name of a meta log consists of the tests directory name and `.mlog` extension.
+The meta log is sent to emails (if --email option is specified and there is a correct email configs).
 
 ### Browser profiles
 
-Директория br-profiles создается в директории, где лежит директория с тестами
-(см. --tests-dir и TIA_TESTS_DIR) и хранит профайлы браузеров.
-По идее, это должна быть временная директория.
+The `br-profiles` directory is created as a sibling to the tests directory.
+(see --tests-dir option or TIA_TESTS_DIR environment variable description) and keeps browser profiles.
 
-См. также selProfilePath опцию в config/default-suite-config.js.
+See also the `selProfilePath` option in the `config/default-suite-config.js`.
 
 ----------------------------------
 
 ## Prerequisites
 
 * diff, rm, zip utililies (you can use Cygwin on Windows)
-* Node.js (4.x and above) (tia uses ECMA Script 2015 features)
+* Node.js (4.x and above) (TIA uses ECMA Script 2015 features)
 * Xvfb (if you wish to run tests under Linux without GUI).
 	How to start:
 	 $ Xvfb :1 -screen 5 2560x1440x24
@@ -134,7 +155,11 @@ JavaScript файл, лежащий где - либо внутри пакета 
 
 ## Installation
 
-$ npm install -g tia
+$ npm install -g TIA
+
+### Self - test after installation
+
+$ tia --run-self-tests
 
 ----------------------------------
 
@@ -144,11 +169,11 @@ $ npm install -g tia
 
 Можно установить модуль локально, так чтобы node_modules директория была сиблингом директории с вашими тестами:
 
-$ npm install tia
+$ npm install TIA
 
 И при отладке запускать
 
-mode_modules/tia/bin/tia.js
+mode_modules/TIA/bin/TIA.js
 
 с нужными параметрами.
  
@@ -156,7 +181,7 @@ mode_modules/tia/bin/tia.js
 
 Устанавливаете модуль локально, и создаете проект прямо в нем.
 
-Главно помнить, что запускаемый файл это bin/tia.js.
+Главно помнить, что запускаемый файл это bin/TIA.js.
 
 ### Использование typings:
 
@@ -204,7 +229,7 @@ module.exports = {
 
 ## Переменные окружения.
 
-Обратите внимание на описание переменных TIA_TESTS_DIR, TIA_REQUIRE_MODULES в tia --help.
+Обратите внимание на описание переменных TIA_TESTS_DIR, TIA_REQUIRE_MODULES в TIA --help.
 TIA_NO_COLORS - True значение отключает примерение ANSI colors.
 
 ----------------------------------
@@ -213,11 +238,11 @@ TIA_NO_COLORS - True значение отключает примерение AN
 
 Вот так можно посмотреть хелп по запуску при глобальной установке:
 
-$ tia --help
+$ TIA --help
 
 при локальной установке:
 
-$ node --harmony bin/tia.js --help
+$ node --harmony bin/TIA.js --help
 
 ----------------------------------
 
@@ -231,7 +256,7 @@ $ node --harmony bin/tia.js --help
 
 ### Как работает движок и какие создаются файлы.
 
-tia в параметрах (помимо прочего) получает директорию с тестами.
+TIA в параметрах (помимо прочего) получает директорию с тестами.
 
 Движок рекурсивно проходит указанную директорию.
 
@@ -285,7 +310,7 @@ tia в параметрах (помимо прочего) получает ди�
 
 ### Статус возврата, stdout, stderr.
 
-tia возвращает 0 если тесты прошли ожидаемо и 1, если есть неожиданные дифы.
+TIA возвращает 0 если тесты прошли ожидаемо и 1, если есть неожиданные дифы.
 
 Конфиг опция metaLogToStdout со значением true, приводит к выводу мега - лога в stderr,
 см. описание этой опции в config/default-dir-config.js.
@@ -309,7 +334,7 @@ tia возвращает 0 если тесты прошли ожидаемо и 
 
 * Как подписаться на RSS обновлений движка:
 
-	https://github.com/Dzenly/tia/releases.atom
+	https://github.com/Dzenly/TIA/releases.atom
 	
 	
 * Если IDE плохо автодополняет 's.' конструкции внутри тестов, попробуйте использовать 'gT.s.',
@@ -324,16 +349,16 @@ tia возвращает 0 если тесты прошли ожидаемо и 
 
 ## Содержимое директории:
 
-* bin/tia.js - утилита для запуска тестов, наберите "node --harmony tia.js --help", для просмотра помощи по утилите.
-При глобальной установке, достаточно набрать "tia --help".
+* bin/TIA.js - утилита для запуска тестов, наберите "node --harmony TIA.js --help", для просмотра помощи по утилите.
+При глобальной установке, достаточно набрать "TIA --help".
 * api - API для использования в тестах.
   Поддиректории browser-part содержат скрипты, которые исполняются в браузере.
 * inner-docs - внутренняя документация.
-https://github.com/Dzenly/tia/tree/master/inner-docs
+https://github.com/Dzenly/TIA/tree/master/inner-docs
 * engine - внутренние файлы движка.
 * log-viewer - здесь разрабатывается веб-клиент для очень удобной работы с логами.
 * tests - директория с пакетами тестов.
-*     tia - Тесты для общей части.
+*     TIA - Тесты для общей части.
 *     wd-helpers - Тесты для web driver части.
 * utils - внутренние утилитные функции, используемые движком.
 * xvfb - utility to run GUI tests so as do not prevent other work with the computer.
@@ -351,7 +376,7 @@ https://github.com/Dzenly/tia/tree/master/inner-docs
 ## Известные фичи и баги:
 
 * Не обращайте внимания на такое сообщение:
-  .../.nvm/versions/node/v4.4.1/bin/tia: line 2: //#: No such file or directory
+  .../.nvm/versions/node/v4.4.1/bin/TIA: line 2: //#: No such file or directory
 
 * На Windows не работает сохранение профайла после выхода из браузеров.
   Т.е. можно юзать кастомные профайлы заранее созданные, но в них ничего не запишется при выходе из браузера.
@@ -362,9 +387,9 @@ https://github.com/Dzenly/tia/tree/master/inner-docs
   
 * На Linux сохранение профайла работает для chrome. А для firefox так же, как для Windows.
 
-* Парочка тестов в пакете tia намеренно вызывает exceptions.
+* Парочка тестов в пакете TIA намеренно вызывает exceptions.
   см. также TODO* файлы в inner-docs директории:
-  https://github.com/Dzenly/tia/tree/master/inner-docs
+  https://github.com/Dzenly/TIA/tree/master/inner-docs
 
 * Иногда Selenium глючит, если параллельно с тестами, что-то делать за компом (если не через xvfb).
   Т.е. желательно не менять фокусы ввода элементов и окон, пока работают тесты.
@@ -391,7 +416,7 @@ More then 10 years I have been involved in auto-testing.
 So I develop this test engine using all my experience and best practices.
 Also I learn existing test engines and add their best parts to TIA.
 My TODO lists are in 'inner-docs' project directory:
-https://github.com/Dzenly/tia/tree/master/inner-docs.
+https://github.com/Dzenly/TIA/tree/master/inner-docs.
 In a few weeks I am planning to translate all docs to English and create a github wiki page.
 Here is an info about my accounts for donations:
-https://github.com/Dzenly/tia/blob/master/donations-info.md
+https://github.com/Dzenly/TIA/blob/master/donations-info.md
