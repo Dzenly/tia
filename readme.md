@@ -272,18 +272,20 @@ numbers, like 00_CheckingSomeStuff.js.
 
 ### How the engine works and how different files are created
 
-TIA does recursively walks the tests directory. 
+TIA does recursively walks the tests directory.
+suite-config.js from the root tests directory is used to setup parameters for the whole test bunch. 
+config.js from any directory is used to setup parameters for the given directory and its subdirectories
+(with exception of sectionTitle parameter).
 
-Файлы config.js в директориях запускаются, и используются для перегрузки конфигов (см. "Конфигурационные файлы").
+Other `*.js` files are executed by TIA and should use TIA API to create logs.
+For each test there should be an etalon log, which is thoroughly checked by the author,
+and is saved as `*.et` file. 
 
-Другие файлы `*.js` запускаются движком, в них должны находиться тесты, выполняющие что угодно (все, что может делать node.js),
-и пишущие логи (`*.log`) (см. Лог Теста), используя API (см. директорию 'api').
+After a test run its current log is compared with its etalon log.
+If there is a difference it is saved as `*.dif` file.
 
-Для каждого теста есть эталонный лог (`*.et`), этот лог создается и тщательно проверяется автором теста.
-
-После прогона теста, его текущий лог сравнивается с эталонным. Если есть разница, она записывается в виде `*.dif` файла.
-
-Есть возможность создавать эталонные дифы (`*.edif`). Если диф равен эталонному, то он в логе пакета не считается дифом.
+There is an ability to create expected diff files (`*.edif`).
+If the current `*.dif` is equal to `*.edif` it is not counted as a diffed one.
 
 ### If there will be some error, the test log will contain:
 
@@ -292,90 +294,90 @@ TIA does recursively walks the tests directory.
 * browser exceptions
 * path to the screenshot made immediately after the error (`*.png` file)
 
-### Помимо локальных файлов для каждого теста, создаются общие логи статистики по всем тестам.
+### Meta logs
 
-Эти логи рассылаются на почту.
-Также на почту отсылается архив с результатами тестов, если соответвующие опции включены в конфиге.
+Logs with statistics info for the whole test bunch.
+These logs are sent to email (if corresponding options is enabled).
 
-#### В заголовке письма используются следующие обозначения:
+#### Email subject has following notations
 
-[ET_MLOG/DIF_MLOG, ]linux_3.16.0-4-amd64, AS PREV , "testsWdHelpers", Dif: 0, Fail: 0, EDif: 0, Skip: 0, Pass: 4, 19203.05 ms
+[ET_MLOG/DIF_MLOG, ]linux_3.16.0-4-amd64, [AS PREV/AS PREV (8 diff(s) changed)/DIF FROM PREV], "testsWdHelpers", Dif: 0, Fail: 0, EDif: 0, Skip: 0, Pass: 4, 19203.05 ms
 
-* ET_MLOG - металог совпадает с эталонным металогом.
-* DIF_MLOG - металог не совпадает с эталонным металогом.
-* linux_3.16.0-4 - Операционная система.
-* amd64 - Платформа.
-* Один из трех вариантов, показывающий отношение текущего прогона к предыдущему:
-	* DIF FROM PREV - означает, что появились дифы в тестах, где дифов не было, или исчезли дифы для тестов, где дифы были.
-	* AS PREV - означает, что при текущем прогоне абсолютно такие же результаты, что и при предыдущем.
-	* AS PREV (8 diff(s) changed). - дифы в тех же тестах, что и раньше, но какие-то дифы изменились.
-* testsWdHelpers - имя корневой директории для тестов.
-* Dif: 0, - ноль тестов имеют неожиданные дифы.
-* Fail: 0, - ноль ошибок во всех тестах.
-* EDif: 0, - ноль ожидаемых дифов.
-* Skip: 0, - ноль тестов проигнорено (из-за skip: true в локальном конфиге)
-* Pass: 4, - 4 команды во всех тестах сообщили о том, что они прошли успешно.
-* 19203.05 ms - тесты шли 19 с копейками секунд.
+* ET_MLOG - the current meta log is equal to the etalon meta log
+* DIF_MLOG - the current meta log is different from the etalon meta log
+* linux_3.16.0-4 - OS.
+* amd64 - Platform.
+* DIF FROM PREV - the current tests run is different from the previous run.
+* AS PREV - the current run is equal to the previous run.
+* AS PREV (8 diff(s) changed). - the current run has diffs in the same tests as in previous run, but diffs are changed.
+* testsWdHelpers - root tests dirname.
+* Dif: 0, - zero tests have diffs.
+* Fail: 0, - zero failed assertions.
+* EDif: 0, - zero expected diffs.
+* Skip: 0, - zero skipped tests (dues ot 'skip: true' in config.js)
+* Pass: 4, - 4 assertions in the whole test bunch passed.
+* 19203.05 ms - tests duration.
 
+#### Meta log notations
 
-#### В логах используются следующие обозначения:
+They are almost the same as for Email subject notations.
+Meta log contains statistics info for each directory.
 
-Обозначения те же, что и выше, только теперь они расписаны для каждой директории и каждого теста.
-Лог состоит из двух частей: короткой (содержащей только подифанные тесты), и длинной (содержащей все тесты).
+Meta log contains from two parts: short (contains diffed tests only) and long (contains all the tests).
 
-### Статус возврата, stdout, stderr.
+### Process exit code and stdout
 
-TIA возвращает 0 если тесты прошли ожидаемо и 1, если есть неожиданные дифы.
+TIA returns 0 if all tests are passed as expected, or 1 if there are unexpected diffs.
 
-Конфиг опция metaLogToStdout со значением true, приводит к выводу мега - лога в stderr,
-см. описание этой опции в config/default-dir-config.js.
+The 'true' value for the suite-config.js option 'metaLogToStdout' prints meta log to stdout
+(see config/default-dir-config.js for more details).
 
-----------------------------------
-
-## API для создания тестов:
-
-В директории api находятся функции, которые выполняют эмуляцию действий пользователя, логирование, и другие действия.
-См. JSDoc документацию в комментариях к функциям.
+See also the `--log-to-console` option description in the `tia --help` output.
 
 ----------------------------------
-## FAQ and lifehacks
 
-* Как запускать тесты на Windows, чтобы они не мешали работать?
+## API for tests creation
 
-  Можно установить desktops и запускать тесты на альтернативном рабочем столе.
-  https://technet.microsoft.com/en-us/library/cc817881.aspx
+The `api` directory contains functions (with JSDoc documentation), which
+perform users action emulation, assertion checking, logging and other actions.
 
-	TODO: давно не тестировал на Windows, не уверен, что сходу всё заработает.
+----------------------------------
+## FAQ and life hacks
 
-* Как подписаться на RSS обновлений движка:
+* xvfb analog for Windows.
 
-	https://github.com/Dzenly/TIA/releases.atom
+See the `desktops` utility for creation alternative desktops. 
+https://technet.microsoft.com/en-us/library/cc817881.aspx
+
+* How to subscribe to updates:
+
+You can use this link in your RSS feed client:
+
+https://github.com/Dzenly/TIA/releases.atom
 	
-	
-* Если IDE плохо автодополняет 's.' конструкции внутри тестов, попробуйте использовать 'gT.s.',
-мой WebStorm 2016.1.1 в этом случае автодополняет нормально.
+* Autocompletion in IDE.
+If your IDE does not automatically suggest autocompletion for short named global objects 's', 't', 'l', etc.,
+you could try 'gT.s', 'gT.t', etc.
+Also you can use break points and explore these global objects.
 
-* Можно исследовать глобальные объекты (например, s) в дебажном режиме,
-  сделав брейк - поинт в тесте (см. объект global, например global.t, global.s и т.д.).
-   
-* Корень проекта содержит .jshintrc, .jscsrc файлы, которые могут сильно ускорить поиск ошибок.
-
+* You can copy `.jshintrc`, `.jscsrc` files from TIA to your project and use them,
+it can speed up your debugging.
+ 
 ----------------------------------
 
 ## Files description
 
-* bin/TIA.js - утилита для запуска тестов, наберите "node --harmony TIA.js --help", для просмотра помощи по утилите.
-При глобальной установке, достаточно набрать "TIA --help".
-* api - API для использования в тестах.
-  Поддиректории browser-part содержат скрипты, которые исполняются в браузере.
-* inner-docs - внутренняя документация.
-https://github.com/Dzenly/TIA/tree/master/inner-docs
-* engine - внутренние файлы движка.
-* log-viewer - здесь разрабатывается веб-клиент для очень удобной работы с логами.
-* tests - директория с пакетами тестов.
-*     TIA - Тесты для общей части.
-*     wd-helpers - Тесты для web driver части.
-* utils - внутренние утилитные функции, используемые движком.
+* bin/tia.js - The main file of TIA.
+* api - API to be used in tests.
+  `browser-part` subdirectories contain scripts to be executed in browsers.
+* inner-docs - my inner documentation, TODOs, current thoughts, design decisions, etc.
+  https://github.com/Dzenly/tia/tree/master/inner-docs
+* engine - the heard of the TIA.
+* log-viewer - Here is the prototype for Web client for logs exploration.
+* tests - self tests for TIA.
+    * tia - tests for non - GUI part.
+    * wd-helpers - web driver tests.
+* utils - inner TIA utilities.
 * xvfb - utility to run GUI tests so as do not prevent other work with the computer.
   See xvfb/readme.md for more details.
 
@@ -391,26 +393,21 @@ https://github.com/Dzenly/TIA/tree/master/inner-docs
 ## Known issues and bugs
 
 * Ignore this message:
-  .../.nvm/versions/node/v4.4.1/bin/TIA: line 2: //#: No such file or directory
+  `.../.nvm/versions/node/v4.4.1/bin/TIA: line 2: //#: No such file or directory`
 
-* На Windows не работает сохранение профайла после выхода из браузеров.
-  Т.е. можно юзать кастомные профайлы заранее созданные, но в них ничего не запишется при выходе из браузера.
-  У Chrome получается битый профайл, а Firefox в сочетании с selenium воспринимает
-  профайл, как шаблон для создания своего временного профайла, опция -profile не работает с selenium :(.
-  Не очень долго разбирался с этим, ибо тесты с сохранением куков и сессий между запусками браузера,
-  пока считаю экзотикой.
-  
-* На Linux сохранение профайла работает для chrome. А для firefox так же, как для Windows.
+* Browser profiles do not save on Windows after browser closing.
+  I.e. you can use predefined profiles, but it will not be updated after selenium tests.
+  Chrome's profile is broken after browser exit, Firefox profile does not
+  save changes to initial profile, it uses initial profile as a template to create some tmp profile.
+  Firefox's `--profile` option does not work with Selenium.
+  For now I did not use tests which preserve cookies and sessions between browser restarts.  
+ 
+* On Linux, browser profiles do correctly save for chrome.
+  Firefox on linux has the same behaviour as for Windows.
 
-* Парочка тестов в пакете TIA намеренно вызывает exceptions.
-  см. также TODO* файлы в inner-docs директории:
-  https://github.com/Dzenly/TIA/tree/master/inner-docs
+* If you will change input focuses during some selenium test work, there can be errors in this test. 
 
-* Иногда Selenium глючит, если параллельно с тестами, что-то делать за компом (если не через xvfb).
-  Т.е. желательно не менять фокусы ввода элементов и окон, пока работают тесты.
-  
-* На Windows иногда глючит ожидание title у страницы. Title уже давно сменился, а Selenium думает, что
-  title старый (проверить, не связано ли это с одновременной работой параллельно с тестами).
+* On Windows selenium sometimes incorrectly returns old page title. 
 
 ----------------------------------
 
