@@ -143,7 +143,10 @@ See also the `selProfilePath` option in the `config/default-suite-config.js`.
 ## Prerequisites
 
 * diff, rm, zip utililies (you can use Cygwin on Windows)
-* Node.js (4.x and above) (TIA uses ECMA Script 2015 features)
+* Node.js 4.x.
+  TIA uses ECMA Script 2015 features, so `bin/tia.js` contains a shebang string to use
+  node --harmony when tia.js is used as an executable file.
+  But if you use it a JavaScript (as parameter for `node`), you must use --harmony Node.js option.
 * Xvfb (if you wish to run tests under Linux without GUI).
 	How to start:
 	 $ Xvfb :1 -screen 5 2560x1440x24
@@ -165,37 +168,29 @@ $ tia --run-self-tests
 
 ## Creating / debugging tests
 
-### 1-st way
-
-Можно установить модуль локально, так чтобы node_modules директория была сиблингом директории с вашими тестами:
-
+$ mkdir my-prj
+$ cd my-prj
+$ npm init
+$ mkdir tests
 $ npm install TIA
 
-И при отладке запускать
+In your debug confiuration you can use
 
-mode_modules/TIA/bin/TIA.js
+node --harmony mode_modules/TIA/bin/TIA.js
 
-с нужными параметрами.
- 
-### 2-nd way
+### Using typings
 
-Устанавливаете модуль локально, и создаете проект прямо в нем.
+There is not TIA DTS for now.
+But there is DTS for selenium-webdriver (it is pretty out of date, but helpful).
 
-Главно помнить, что запускаемый файл это bin/TIA.js.
-
-### Использование typings:
-
-Я пока не делал DTS определения, а вот для selenium-webdriver определения есть (правда на данный момент (2016.04.04)
-версия DTS 2.44, хотя уже есть selenium-webdriver 2.53.1):
-
-npm i -g typings
-typings install selenium-webdriver --ambient --save
+$ npm i -g typings
+$ typings install selenium-webdriver --ambient --save
 
 ----------------------------------
 
-## Конфигурационные файлы:
+## Config files
 
-### Для движка:
+### For engine
 
 Конфиги приложения находятся в директории "config":
 
@@ -219,7 +214,7 @@ module.exports = {
 };
 ```
 
-### Для рассылки писем:
+### For email
 
 Нужно сделать в директории тестов конфиг: suite-config.js.
 В нем нужно задать параметры mail* (см. описание параметров в config/default-suite-config.js).
@@ -227,34 +222,35 @@ module.exports = {
 чтобы не светить креденшлзы.
 Помните, что js файлы (кроме config.js и suite-config.js рассматриваются движком как тесты).
 
-## Переменные окружения.
+## Environment variables
 
 Обратите внимание на описание переменных TIA_TESTS_DIR, TIA_REQUIRE_MODULES в TIA --help.
 TIA_NO_COLORS - True значение отключает примерение ANSI colors.
 
 ----------------------------------
 
-## Запуск
+## Run
 
-Вот так можно посмотреть хелп по запуску при глобальной установке:
+To show help when TIA is installed globally:
 
 $ TIA --help
 
-при локальной установке:
+To show help for local installation:
 
 $ node --harmony bin/TIA.js --help
 
 ----------------------------------
 
-## Порядок выполнения тестов:
+## Order of tests execution
 
-Тесты выполняются по-алфавиту, поэтому, рекомендуется придерживаться названий, типа 00_CheckingSomeStuff.js.
+Tests are executed in the alphabet order, so it is recommended to prefix your folders and tests by
+numbers, like 00_CheckingSomeStuff.js.
 
 ----------------------------------
 
-## Как все работает:
+## How it works
 
-### Как работает движок и какие создаются файлы.
+### How the engine works and how different files are created
 
 TIA в параметрах (помимо прочего) получает директорию с тестами.
 
@@ -271,11 +267,12 @@ TIA в параметрах (помимо прочего) получает ди�
 
 Есть возможность создавать эталонные дифы (`*.edif`). Если диф равен эталонному, то он в логе пакета не считается дифом.
 
-### При ошибках в лог теста пишутся:
- * информация об ошибке
- * консоль браузера
- * эксепшны, возникшие в браузере
- * путь к скриншоту, сделанному после обнаружения ошибки (это `*.png` файл.)
+### If there will be some error, the test log will contain:
+
+* info about the error
+* browser console output
+* browser exceptions
+* path to the screenshot made immediately after the error (`*.png` file)
 
 ### Помимо локальных файлов для каждого теста, создаются общие логи статистики по всем тестам.
 
@@ -323,7 +320,7 @@ TIA возвращает 0 если тесты прошли ожидаемо и 
 См. JSDoc документацию в комментариях к функциям.
 
 ----------------------------------
-## FAQ и хитрости:
+## FAQ and lifehacks
 
 * Как запускать тесты на Windows, чтобы они не мешали работать?
 
@@ -347,7 +344,7 @@ TIA возвращает 0 если тесты прошли ожидаемо и 
 
 ----------------------------------
 
-## Содержимое директории:
+## Files description
 
 * bin/TIA.js - утилита для запуска тестов, наберите "node --harmony TIA.js --help", для просмотра помощи по утилите.
 При глобальной установке, достаточно набрать "TIA --help".
@@ -364,18 +361,18 @@ https://github.com/Dzenly/TIA/tree/master/inner-docs
 * xvfb - utility to run GUI tests so as do not prevent other work with the computer.
   See xvfb/readme.md for more details.
 
-* Есть следующие форматы файлов:
-*     *.log - лог от теста.
-*     *.mlog - мета лог от директории с тестами.
-*     *.mlog.json - мета лог в JSON формате (для последующего использования веб - просмотрщиком логов)
-*     *.mlog.notime - мета лог с вырезанным временем.
-*     *.mlog.notime.prev - предыдущий мета лог с вырезанным временем.
+### File types:
+* `*.log` - test log
+* `*.mlog` - meta log for directory with tests
+* `*.mlog.json` - meta log as JSON (to use with HTML log-viewer (it is in my TODO list for now))
+* `*.mlog.notime` - meta log without time measurements
+* `*.mlog.notime.prev` - previous meta log without time measurements
 
 ----------------------------------
 
-## Известные фичи и баги:
+## Known issues and bugs
 
-* Не обращайте внимания на такое сообщение:
+* Ignore this message:
   .../.nvm/versions/node/v4.4.1/bin/TIA: line 2: //#: No such file or directory
 
 * На Windows не работает сохранение профайла после выхода из браузеров.
@@ -399,14 +396,14 @@ https://github.com/Dzenly/TIA/tree/master/inner-docs
 
 ----------------------------------
 
-## Лицензия: MIT.
+## License: MIT
 
 ----------------------------------
 
-## Благодарности.
+## Words of gratitude 
 
-Движок начинал развиваться в компании "R-Vision" (https://rvision.pro/).
-Спасибо "R-Vision" за начальное спонсирование и разрешение открыть код.
+The engine was started to develop in the "R-Vision" company (https://rvision.pro/).
+Thank you, "R-Vision", for initial sponsorship and for allowance to open the sources. 
 
 ----------------------------------
 

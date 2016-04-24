@@ -176,3 +176,7 @@ WebStorm все-таки плохо поддерживает autocomplete.
 
 Поизучать sencha cmd с целью выжать какую-то производительность.
 А может и параметры, управляющие генерацией всяких id шников.
+
+
+track time interval differences in meta log comparison.
+
