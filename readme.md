@@ -192,12 +192,28 @@ $ typings install selenium-webdriver --ambient --save
 
 ### For engine
 
-Конфиги приложения находятся в директории "config":
+#### suite-config.js
 
-В этих файлах есть комментарии по всем опциям конфигов.
+If the root tests dir contains this file it will override parameters from
+`config/default-suite-config.js` (see this file for parameter details).
 
-Вот так выглядит локальный конфиг для директории (названия опций должны быть точно такими же как в config/default-dir-config.js):
-Последнее выражение в скрипте должно быть объектом с перегружаемыми опциями конфига.
+An example:
+ 
+```js
+ module.exports = {
+   mailRecipientList: "vasya@pupkin.ru",
+ };
+```
+
+#### config.js
+
+If some directory contains this file it will override parameters from
+`config/default-dir-config.js` (see this file for parameter details).
+
+Also config.js from the current directory overrides config.js from parent directory
+(except sectionTitle parameter).
+
+An example:
 
 ```js
 module.exports = {
@@ -205,27 +221,31 @@ module.exports = {
 };
 ```
 
-Конфиг suite-config.js (подхватывается только из директории, указанной как рутовая при запуске)
-делается так же:
-
-```js
-module.exports = {
-  mailRecipientList: "vasya@pupkin.ru",
-};
-```
-
 ### For email
 
-Нужно сделать в директории тестов конфиг: suite-config.js.
-В нем нужно задать параметры mail* (см. описание параметров в config/default-suite-config.js).
-Я лично делаю json файл, который делаю require в suite-config.js, и засовываю этот json в .gitignore,
-чтобы не светить креденшлзы.
-Помните, что js файлы (кроме config.js и suite-config.js рассматриваются движком как тесты).
+It should be defined in `suite-config.js` (see above).
+See `config/default-suite-config.js` for email option descriptions.
+To keep credentials secret you can do smth like that:
+
+```js
+var suiteConfig = {};
+
+try {
+  suiteConfig = require('./mail-settings.nogit.json');
+} catch(e) {
+
+}
+suiteConfig.dummyGoodSuitConfigOption = 'dummyGoodSuitConfigOption';
+
+module.exports = suiteConfig;
+```
+
+Use JSON here because JS files (except config.js, suite-config.js) are runned as test files.
 
 ## Environment variables
 
-Обратите внимание на описание переменных TIA_TESTS_DIR, TIA_REQUIRE_MODULES в TIA --help.
-TIA_NO_COLORS - True значение отключает примерение ANSI colors.
+See TIA_TESTS_DIR and TIA_REQUIRE_MODULES descriptions in tia --help.
+Use TIA_NO_COLORS - to disable ANSI colors.
 
 ----------------------------------
 
@@ -252,9 +272,7 @@ numbers, like 00_CheckingSomeStuff.js.
 
 ### How the engine works and how different files are created
 
-TIA в параметрах (помимо прочего) получает директорию с тестами.
-
-Движок рекурсивно проходит указанную директорию.
+TIA does recursively walks the tests directory. 
 
 Файлы config.js в директориях запускаются, и используются для перегрузки конфигов (см. "Конфигурационные файлы").
 
