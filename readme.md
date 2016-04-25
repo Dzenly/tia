@@ -9,6 +9,7 @@ The engine is ready to use, but requires adding:
 * more API for ExtJs actions.
 * more assertions.
 * more compatibility with continues integration systems.
+* more documentation.
 
 To don't blow up versions for now I am not following SEMVER rules.
 I change the 'patch' version part at adding new functionality and bug fixes,
@@ -16,13 +17,11 @@ and change the 'minor' version part at changes which break backward compatibilit
 
 After 1.0.0 (it is planned as of June 2016) version I will follow SEMVER strictly.
 
-English documentation is planned as of May 2016.
-
 ----------------------------------
 
 ## Selenium WebDriver notes
 
-GUI part is created on top of official JS selenium-webdriver binging:
+GUI part is created on top of official JS selenium-webdriver binding:
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/index.html
 
@@ -225,7 +224,7 @@ module.exports = {
 
 It should be defined in `suite-config.js` (see above).
 See `config/default-suite-config.js` for email option descriptions.
-To keep credentials secret you can do smth like that:
+To keep credentials secret you can have `suite-config.js` like:
 
 ```js
 var suiteConfig = {};
@@ -235,7 +234,9 @@ try {
 } catch(e) {
 
 }
-suiteConfig.dummyGoodSuitConfigOption = 'dummyGoodSuitConfigOption';
+
+suiteConfig.option1 = 'value 1';
+suiteConfig.option2 = 'value 2';
 
 module.exports = suiteConfig;
 ```
