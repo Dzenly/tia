@@ -78,46 +78,59 @@ function *pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
  * @private
  */
 module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
+  gIn.tracer.trace3('Inside wrapper, before start timer,  msg: ' + msg);
   var startTime;
   flow.execute(function () {
     gIn.logger.logIfNotDisabled(msg, logAction);
     startTime = startTimer();
+    gIn.tracer.trace3('Inside wrapper, after start timer, msg: ' + msg);
   });
-  return flow.execute(act).then(
-    function (val) {
-      flow.execute(function * () {
-        gIn.tInfo.addPass(); // will be taken from global sandbox.
-        yield *pauseAndLogOk(logAction, startTime, noConsoleAndExceptions);
-      });
-      return val; // This value will be returned from yield.
-    },
-    function (err) {
-      gIn.tInfo.addFail();
-      gIn.logger.errorln('Act.Wrapper.FAIL' + stopTimer(startTime));
-      gIn.logger.errorln('========== Err Info Begin ==========');
-      gIn.logger.exception('Exception in wrapper: ', err);
-      if (typeof gT.sOrig.driver !== 'undefined') {
-        /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
-        gIn.tracer.trace1('Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.');
-        gT.s.browser.screenshot();
-        gT.s.browser.logExceptions(true);
-        gT.s.browser.logConsoleContent();
-        gT.s.driver.quit().then(function () {
-          gIn.logger.errorln('========== Err Info End ==========');
+  return flow.execute(act)
+    .then(
+      function (val) {
+        gIn.tracer.trace3('Wrapper: after action execute, msg: ' + msg);
+        flow.execute(function *() {
+          gIn.tInfo.addPass(); // will be taken from global sandbox.
+          yield *pauseAndLogOk(logAction, startTime, noConsoleAndExceptions);
         });
-        delete gT.sOrig.driver;
-      } else {
-        //gIn.logger.errorln('Info: No selenium driver');
-        gIn.logger.errorln('========== Err Info End ==========');
-      }
+        return val; // This value will be returned from yield.
+      },
+      function (err) {
+        gIn.tInfo.addFail();
+        gIn.logger.errorln('Act.Wrapper.FAIL' + stopTimer(startTime));
+        gIn.logger.errorln('========== Err Info Begin ==========');
+        gIn.logger.exception('Exception in wrapper: ', err);
+        if (typeof gT.sOrig.driver !== 'undefined') {
+          /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
+          gIn.tracer.trace1('Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.');
+          gT.s.browser.screenshot()
+            .then(function (res) {
+              return gT.s.browser.logExceptions(true);
+            })
+            .then(function (res) {
+              return gT.s.browser.logConsoleContent();
+            })
+            .then(function (res) {
+              return gT.s.driver.quit();
+            })
+            .then(function () {
+              gIn.logger.errorln('========== Err Info End ==========');
+              gIn.tracer.trace2('sOrig.driver deletion');
+              delete gT.sOrig.driver;
+              return promise.rejected('Error in action (sel. driver was existed)'); // yield will generate exception with this object.
+            });
+        } else {
+          //gIn.logger.errorln('Info: No selenium driver');
+          gIn.logger.errorln('========== Err Info End ==========');
+          return promise.rejected('Error in action (sel. driver was absent)'); // yield will generate exception with this object.
+        }
 
-      // return; // If we will return smth here, it will be returned from yield.
-      // It can be used for continue testing after fail. It is quite an exotic situation and logs will be undetermined.
+        // return; // If we will return smth here, it will be returned from yield.
+        // It can be used for continue testing after fail. It is quite an exotic situation and logs will be undetermined.
 
-      return promise.rejected('Error in action'); // yield will generate exception with this object.
-      // Unsafe tests will break test engine.
-      // Safe tests silently catch this object. See execGen implementation below for safe tests example.
-    });
+        // Unsafe tests will break test engine.
+        // Safe tests silently catch this object. See execGen implementation below for safe tests example.
+      });
 
   // In principle we can do so:
   // var result = flow.execute(); result.then(bla bla bla); return result;

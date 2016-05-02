@@ -50,3 +50,11 @@ emptyDirToSuiteLog - перетащить в cmd line?
 ? -l (TODO) attach diffed logs to mail.
 
 --ignore-dir-config-skip - насильно гонять все тесты, даже проскипанные.
+
+Посмотреть как Selenium IDE работает с ExtJs.
+
+? Может быть написать плагин для Selenium IDE, который работает с ExtJs.
+Интересно, можно ли по CSS селектору найти ExtJs объект.
+И типа плагин выдает текст, который работает с tia :)
+
+

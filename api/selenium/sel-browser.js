@@ -214,8 +214,11 @@ exports.maximize = function (logAction) {
 };
 
 exports.screenshot = function (logAction) {
+  gIn.tracer.trace2('Inside screenshot function 1.');
   return gIn.wrap('Screenshot: ', logAction, function () {
+    gIn.tracer.trace2('Inside screenshot function 2.');
     return gT.sOrig.driver.takeScreenshot().then(function (str) {
+      gIn.tracer.trace2('Inside screenshot function 3.');
       if (gIn.tInfo.data.screenShotCounter > 99) {
         // TODO: place the constant to config (but code must be changed also)?
         return gT.sOrig.promise.rejected('Too many screenshoots');
