@@ -44,7 +44,7 @@ function *handleTestFile(file, dirConfig) {
 
   gIn.tInfo.data = gIn.tInfo.createTestInfo(false, '', file); // Test should change this title.
 
-  if (dirConfig.skip) {
+  if (dirConfig.skip && !gIn.params.ignoreSkipFlag) {
     gIn.tInfo.data.skipped = 1;
     return gIn.tInfo.data;
   }

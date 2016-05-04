@@ -14,14 +14,6 @@ function nextScreenShotPath() {
   return gIn.textUtils.changeExt(jsPath, '_' + index + '.png');
 }
 
-exports.executeScriptFromFile = function (fPath, logAction) {
-  return gIn.wrap('Execute script from file ' + fPath + ' ... ', logAction, function () {
-    var scriptStr = fs.readFileSync(fPath, 'utf8');
-    // gIn.tracer.trace3('initTiaHelpers: script: ' + scriptStr);
-    return gT.sOrig.driver.executeScript(scriptStr);
-  });
-};
-
 /**
  * Initializes TIA helpers.
  * Loads and runs the tia-helpers.js script in context of current browser window.
@@ -74,6 +66,42 @@ exports.close = function (logAction) {
  */
 exports.executeScript = function (scriptStr, logAction) {
   return gIn.wrap('Script execution ... ', logAction, function () {
+    return gT.sOrig.driver.executeScript(scriptStr);
+  });
+};
+
+/**
+ * Executes a script from the specified file.
+ * @param fPath
+ * @param logAction
+ * @returns {*}
+ */
+exports.executeScriptFromFile = function (fPath, logAction) {
+  return gIn.wrap('Execute script from file ' + fPath + ' ... ', logAction, function () {
+    var scriptStr = fs.readFileSync(fPath, 'utf8');
+    // gIn.tracer.trace3('initTiaHelpers: script: ' + scriptStr);
+    return gT.sOrig.driver.executeScript(scriptStr);
+  });
+};
+
+/**
+ * Sets function body for "Ctrl/Meta + Alt + LClick" handler.
+ * You can use 'e' object of MouseEvent class.
+ * @param funcBody
+ * @param logAction
+ * @returns {*}
+ */
+exports.setDbgClickHandler = function(funcBody, logAction) {
+  return gIn.wrap('Setup debug hotkey handler ... ', logAction, function () {
+    var scriptStr = `
+    function tiaOnClick(e) {
+      if ((e.ctrlKey || e.metaKey) && e.altKey && e.which === 1) {
+        ${funcBody}
+      }
+    }
+    document.addEventListener('mousedown', tiaOnClick);
+    `;
+    // gIn.tracer.trace3('setDbgHKHandler: script: ' + funcBody);
     return gT.sOrig.driver.executeScript(scriptStr);
   });
 };

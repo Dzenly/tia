@@ -87,6 +87,8 @@ function usage() {
       --et-mlog - filepath for etalog meta-log (absolute or relative to parent of tests directory).
       If exists, - it is used for meta logs comparison and writing info such as
       ET_MLOG / DIF_MLOG to the head of output.
+      
+      --ignore-skip-flag - ignore 'skip' config option in config.js files. 
 
       -h, --help - Print this help.
 
@@ -132,12 +134,14 @@ var opts = {
     'force-log-actions',
     'diffs-to-mlog',
     'debug-max',
-    'run-self-tests'
+    'run-self-tests',
+    'ignore-skip-flag'
   ],
   default: {
     browser: browsers[0],
     l: false,
     'trace-level': -1
+    // , 'ignore-skip-flag': false
   },
   unknown: unknownOption
 };

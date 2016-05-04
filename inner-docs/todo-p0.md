@@ -5,9 +5,14 @@
 Или как-то интерактивно работать с браузером. Немного руками, немного Selenium.
 Переключился на страницу - поисследовал элементы.
 
-Сделать ф-ю, которая регистрирует обработчик для хоткея CTRL + ALT + 1, а может быть 
-для CTRL + ALT + left mouse click?
+Сделать ф-ю, которая регистрирует обработчик для CTRL/CMD + ALT + left mouse click?
 Чтобы показывать какой-то alert или тултип или fixed positioned текст с инфой об элементе.
+
+Как selenium работает с MessageBox ?
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_TargetLocator.html#alert
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_AlertPromise.html
+
+===========
 
 Поналяпать всяких waitAndClick
 Или даже просто добавить во все наши акшны - wait элементов.
@@ -38,6 +43,10 @@
 Подсветить в консольном металоге.
 EDIF
 Fail
+
+Подсветить трейсинг разными цветами.
+3й темный, 2й посветлее. 1й - нормальным цветом.
+А может быть весь трейсинг потемнее.
 
 ==========
 

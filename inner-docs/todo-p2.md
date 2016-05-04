@@ -1,3 +1,8 @@
+Сравнение скриншотов ?
+
+BrowserModProxy?
+Or http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/proxy.html?
+
 -------
 
 Вынести утилитки для работы с
