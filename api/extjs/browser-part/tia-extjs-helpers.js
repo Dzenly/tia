@@ -6,7 +6,7 @@
     // It if returns true there is not a bad chance that ExtJs application is ready to use.
     // Deprecated.
     isExtJsReady: function () {
-      if (typeof Ext === 'undefined' || typeof Ext.onReady === 'undefined' ||
+      if (typeof Ext === 'undefined' || !Ext.isReady || typeof Ext.onReady === 'undefined' ||
         typeof Ext.Ajax === 'undefined' || typeof Ext.Ajax.on === 'undefined') {
         return false;
       }
@@ -88,6 +88,106 @@
       //console.log('getTabId ' + res);
       return res;
     },
+
+    collectCompInfo: function (comp) {
+
+      if (!comp) {
+        return '';
+      }
+
+      // getController?
+
+      var controller = comp.getController();
+      var controllerStr = '';
+      var modelStr = '';
+
+      if (controller) {
+        var refsObj = controller.getReferences();
+        var refsStr = Ext.Object.getKeys(refsObj).join(' ');
+
+        var routesObj = controller.getRoutes();
+        var routesStr = Ext.Object.getKeys(routesObj).join(' ');
+
+        // TODO: getStore ?? или это есть во ViewModel?
+
+        var viewModel = controller.getViewModel();
+        if (viewModel) {
+          modelStr += 'Model clName: ' + viewModel.$className;
+        }
+
+        controllerStr = '----------\ncontroller: ' +
+          '\nclName: ' + controller.$className +
+          '\nid: ' + controller.id +
+          '\nrefs: ' + refsStr +
+          '\nroutes: ' + routesStr +
+          '\n' + modelStr + '\n-------\n';
+
+      }
+
+      var itemId = comp.getItemId();
+      var ref = comp.getReference();
+      var xtypes = comp.getXTypes();
+      var clName = comp.$className;
+      var refHolder = comp.initialConfig.referenceHolder;
+      // var isContainer = comp.isContainer;
+      // var id = comp.getId();
+      // var itemCount;
+      // if (isContainer) {
+      //   itemCount = comp.items.getCount();
+      // }
+
+      var attrsObj = comp.getEl().getAttributes();
+      var attrsStr = '';
+
+      Ext.Object.each(attrsObj, function (key, value) {
+        if (key !== 'style' && key !== 'tabindex') {
+          attrsStr += key + ': ' + value + '\n';
+        }
+      });
+
+      // 'DOM id: ' + id +
+      // '\nDom Class: ' + comp.getEl().getAttribute('class') +
+      // '\nDom name: ' + comp.getEl().getAttribute('name') +
+      // '\nisContainer: ' + isContainer;
+      // '\nitemCount: ' + itemCount;
+
+      var outStr =
+        'ref: ' + ref +
+        '\nrefHolder: ' + refHolder +
+        '\n' + controllerStr +
+        '\nitemId: ' + itemId +
+        '\nxtypes: ' + xtypes +
+        '\nclName: ' + clName +
+        '\nAttrs: \n' + attrsStr;
+
+      outStr += '\n=============\n' + this.collectCompInfo(comp.up());
+      return outStr;
+    },
+
+    // var comp = extDomEl.component; undefined for unknown reason.
+    // viewModel
+    // parent / childs ?
+    // tooltip, label
+
+    // Shows info (alert + console.log) for object under mouse cursor, e - MouseEvent object.
+    showCompInfo: function (e) {
+      var str = Ext.dom.Element.fromPoint(e.clientX, e.clientY);
+      var extDomEl = Ext.dom.Element.get(str);
+      var comp = Ext.Component.fromElement(extDomEl);
+      var outStr = this.collectCompInfo(comp);
+      // var msgBox = Ext.Msg.prompt('', outStr.replace(/\n/g, '<br>'));
+
+      var msgBox = Ext.Msg.show({
+        message: outStr.replace(/\n/g, '<br>'),
+        width: 1100,
+        minWidth: 1100,
+        modal: true
+      });
+
+      // msgBox.setWidth(1000);
+      // msgBox.setHeight(1000);
+      console.log(outStr);
+    }
   };
 
   var onAjaxError = function (conn, response, options, eOpts) {
