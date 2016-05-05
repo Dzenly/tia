@@ -83,3 +83,7 @@ http://www.binaryclips.com/2016/03/selenium-webdriver-in-c-how-to-use.html
 Как-то связано с Remote.
 Люди выкашивают --no-remote из запуска Firefox.
 + unset MOZ_NO_REMOTE
+
+Как selenium работает с MessageBox ?
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_TargetLocator.html#alert
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_AlertPromise.html
