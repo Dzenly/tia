@@ -77,6 +77,7 @@ function *pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
  * @returns {*} - Promise will be resolved to value or to exception.
  * @private
  */
+var errState = false;
 module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
   gIn.tracer.trace3('Inside wrapper, before start timer,  msg: ' + msg);
   var startTime;
@@ -100,7 +101,8 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         gIn.logger.errorln('Act.Wrapper.FAIL' + stopTimer(startTime));
         gIn.logger.errorln('========== Err Info Begin ==========');
         gIn.logger.exception('Exception in wrapper: ', err);
-        if (typeof gT.sOrig.driver !== 'undefined') {
+        if (typeof gT.sOrig.driver !== 'undefined' && !errState) {
+          errState = true;
           /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
           gIn.tracer.trace1('Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.');
           gT.s.browser.screenshot()

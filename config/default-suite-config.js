@@ -20,6 +20,9 @@ module.exports = {
   // Удалять ли zip после отправки.,
   removeZipAfterSend: true,
 
+  // The port for remote chromedriver.
+  remoteChromeDriverPort: 9515,
+
   // Если пользуетесь рассылкой писем - обязательно перегрузить mail* параметры в suite-config.js.
 
   // Кому рассылать результаты. Список мейлов через запятую.

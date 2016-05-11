@@ -76,19 +76,24 @@ function usage() {
 
       --debug-max - equals to --log-to-console --log-err-to-console --force-log-actions --trace-level 3
       Though --trace-level option can be used to set up needed value in spite of --debug-max.
-      
+
       --run-self-tests - Run tests for the engine (from tia/tests directory).
-      
+
       --def-host <host:port> - sets default host and port.
       E.g. --def-host http://localhost:1338
       This parameter allows to use the '$(host)' string in your tests.
       See more details in selHost option description in config/default-dir-config.js.
-       
+
       --et-mlog - filepath for etalog meta-log (absolute or relative to parent of tests directory).
       If exists, - it is used for meta logs comparison and writing info such as
       ET_MLOG / DIF_MLOG to the head of output.
-      
-      --ignore-skip-flag - ignore 'skip' config option in config.js files. 
+
+      --ignore-skip-flag - ignore 'skip' config option in config.js files.
+
+      --use-remote-driver - (for chromedriver only). Makes sure that browser driver is started in a separate process,
+      then, s.driver.init() uses this external driver.
+
+      --stop-remote-driver - (for chromedriver only) shuts down the remote driver.
 
       -h, --help - Print this help.
 
@@ -135,7 +140,9 @@ var opts = {
     'diffs-to-mlog',
     'debug-max',
     'run-self-tests',
-    'ignore-skip-flag'
+    'ignore-skip-flag',
+    'use-remote-driver',
+    'stop-remote-driver'
   ],
   default: {
     browser: browsers[0],

@@ -165,7 +165,7 @@ function *runTestSuite(dir) {
     gIn.tracer.trace3('metaLogEtDifRes: ' + metaLogEtDifRes);
     etMlogInfo = metaLogEtDifRes ? 'DIF_MLOG, ' : 'ET_MLOG, ';
     etMlogInfoCons = metaLogEtDifRes ? gIn.cLogger.chalkWrap('red', 'DIF_MLOG') + ', ' :
-      gIn.cLogger.chalkWrap('green', 'ET_MLOG')  + ', ';
+    gIn.cLogger.chalkWrap('green', 'ET_MLOG') + ', ';
   }
 
   var changedDiffs = gIn.diffUtils.changedDiffs ? '(' + gIn.diffUtils.changedDiffs + ' diff(s) changed)' : '';
@@ -197,21 +197,41 @@ function *runTestSuite(dir) {
 // Returns subject for email.
 module.exports = function (suiteRoot) {
   gIn.configUtils.handleSuiteConfig();
-  try {
-    fs.mkdirSync(gIn.params.profileRootPath);
-  } catch (e) {
+
+  if (gIn.params.stopRemoteDriver) {
+    gIn.remoteDriverUtils.stop();
+    return 'Just removing of remove driver';
   }
 
-  flow.execute(function () {
-    return promise.consume(runTestSuite, null, suiteRoot);
-  }).then(
-    function (exitStatus) {
-      process.exitCode = exitStatus;
-    },
-    function (err) {
-      gIn.tracer.traceErr('Runner ERR: ' + gIn.textUtils.excToStr(err));
-      process.exitCode = 1;
-    }
-  );
+  var result = gT.sOrig.promise.fulfilled(true);
+
+  if (gIn.params.useRemoteDriver) {
+    result = result.then(function () {
+      return gIn.remoteDriverUtils.start();
+    });
+  }
+
+  // Return value is not needed.
+  result
+    .then(function () {
+      try {
+        fs.mkdirSync(gIn.params.profileRootPath);
+      } catch (e) {
+      }
+      return flow.execute(function () {
+        return promise.consume(runTestSuite, null, suiteRoot);
+      }).then(
+        function (exitStatus) {
+          process.exitCode = exitStatus;
+        },
+        function (err) {
+          gIn.tracer.traceErr('Runner ERR: ' + gIn.textUtils.excToStr(err));
+          process.exitCode = 1;
+        }
+      );
+        // .then(function () {
+        //   process.exit();
+        // });
+    });
 };
 

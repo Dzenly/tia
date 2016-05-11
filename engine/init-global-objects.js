@@ -48,6 +48,8 @@ gIn.diffUtils = require('../utils/diff-utils.js');
 
 gIn.mailUtils = require('../utils/mail-utils.js');
 
+gIn.remoteDriverUtils = require('../utils/remote-driver-utils.js');
+
 gIn.wrap = require('./wrap.js');
 
 require('../api/api-index.js');

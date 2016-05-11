@@ -21,5 +21,8 @@ module.exports = {
   defDisplay: process.env.DISPLAY,
 
   // TODO: Имя лога для git pull, этот лог посылается на почту.
-  gitPullLog: 'gitpull.log'
+  gitPullLog: 'gitpull.log',
+
+  // File name for PID for remote chrome driver.
+  remoteChromeDriverPid: 'cd.pid'
 };

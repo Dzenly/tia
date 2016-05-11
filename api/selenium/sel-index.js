@@ -4,8 +4,9 @@
 
 var path = require('path');
 
-var chromedriverPath = require('chromedriver').path;
-process.env.PATH = chromedriverPath + path.delimiter + process.env.PATH;
+var chromeDriverPath = require('chromedriver').path;
+process.env.PATH = chromeDriverPath + path.delimiter + process.env.PATH;
+gIn.chromeDriverPath = chromeDriverPath;
 
 gT.sOrig.chrome = require('selenium-webdriver/chrome');
 gT.sOrig.firefox = require('selenium-webdriver/firefox');
