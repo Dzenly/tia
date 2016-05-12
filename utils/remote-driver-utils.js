@@ -66,7 +66,7 @@ exports.start = function () {
       });
     savePid(child.pid);
     child.unref();
-    gIn.tracer.trace3('Remote driver is starting');
+    gIn.tracer.trace3('Starting remote driver');
     setTimeout(function () {
       resolve(true);
     }, 2000); // TODO: magic constant, to make sure that driver is ready.
@@ -86,7 +86,7 @@ exports.stop = function () {
     gIn.tracer.trace3('No remote driver to stop');
     return;
   }
-  gIn.tracer.trace3('Remote driver is stopping');
+  gIn.tracer.trace3('Stopping remote driver');
   process.kill(pid);
   removePid();
   exports.removeSid();
