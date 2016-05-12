@@ -185,6 +185,19 @@ But there is DTS for selenium-webdriver (it is pretty out of date, but helpful).
 $ npm i -g typings
 $ typings install selenium-webdriver --ambient --save
 
+### Speed up test creation/debugging using connection to the existing browser session 
+
+If you are testing some heavy application and application start requires noticeable time, you can
+use the '--use-remote-driver' option. In this case TIA will use existing browser session for all test runs.
+You can use the `gIn.firstRunWithRemoteDriver` global variable to distinct very first run (when you need some
+browser sessin initialization) from following runs (for which you need just use the existing session). 
+
+Use `tia --help` to see the help for the following things: 
+
+* --use-remote-driver cmd line option.
+* --stop-remote-driver cmd line option.
+* gIn.firstRunWithRemoteDriver global variable.
+
 ----------------------------------
 
 ## Config files

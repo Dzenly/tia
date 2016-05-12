@@ -117,7 +117,7 @@ exports.init = function (cleanProfile, logAction) {
           executor,
           sid);
       } else {
-        gIn.firstRemoteStart = true;
+        gIn.firstRunWithRemoteDriver = true; // TODO: describe somewhere.
         gT.sOrig.driver = new gT.sOrig.wdModule.Builder()
           .forBrowser(gIn.params.browser)
           .withCapabilities(capabilities)

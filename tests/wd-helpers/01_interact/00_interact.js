@@ -4,7 +4,7 @@ function *test() {
   t.setTitle('Test for client interaction with a browser');
   yield s.driver.init();
 
-  if (gIn.firstRemoteStart) {
+  if (gIn.firstRunWithRemoteDriver) {
     yield s.browser.loadPage('http://google.com');
   } else {
     //yield s.browser.loadPage('http://yandex.ru');

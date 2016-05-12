@@ -1,13 +1,8 @@
-cyclic screenshot when error in screenshot.
-taking into account that next tests should have correct screenshots at errors.
-
 =============
 
 Распечатать capabilities сессий. проверить, что на повторном подключении к сессии они остаются.
 
 =============
-
-
 
 =============
 
@@ -23,40 +18,11 @@ So I can track all selenium commands and their parameters.
 =============
 
 ==========
-Все-таки поддержать отладку с постоянно висящей сессией в браузере.
-Т.е. через "remote" chromedriver.
-Разобраться как его запускать с помощью child_process.
-Может быть сделать какое-то API для старта и остановка такого дочернего процесса.
-
-```js
-// First, make sure you have a WebDriver server running. For example, download ChromeDriver,
-// then run chromedriver --port=9515.
-
-// Second, create the driver like this:
-
-var webdriver = require('selenium-webdriver');
-
-var driver = new webdriver.Builder()
-   .withCapabilities(webdriver.Capabilities.chrome())
-   // As an alternative to this method, you may also set the SELENIUM_REMOTE_URL environment variable.
-   .usingServer('http://localhost:9515')
-   .build();
-
-driver.get('http://www.google.com');
-driver.findElement(webdriver.By.name('q')).sendKeys('webdriver');
-driver.findElement(webdriver.By.name('btnG')).click();
-driver.getTitle().then(function(title) {
-   console.log(title);
- });
-
-driver.quit();
-```
 
 Автоматизировать полное создание пути поиска элемента.
 Чтобы первой строкой перед всякой инфой была строка, которую достаточно скопипастить в тест.
 
 Поддержать clipboard для исследования ExtJs приложений.
-
 
 ===========
 

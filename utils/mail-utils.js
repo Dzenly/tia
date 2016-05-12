@@ -46,7 +46,7 @@ var mailOptions = {
 
 exports.send = function (subj, attachment, archive) {
   if (!gIn.params.email) {
-    console.log('Mail disabled.');
+    gIn.tracer.trace0('Mail disabled.');
     return;
   }
   if (!gT.suiteConfig.mailRecipientList) {

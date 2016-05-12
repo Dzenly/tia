@@ -90,8 +90,9 @@ function usage() {
 
       --ignore-skip-flag - ignore 'skip' config option in config.js files.
 
-      --use-remote-driver - (for chromedriver only). Makes sure that browser driver is started in a separate process,
-      then, s.driver.init() uses this external driver.
+      --use-remote-driver - (for chromedriver only). Starts the browser driver (if it is not already started),
+      and forces s.driver.init() to use this external driver.
+      The variable gIn.firstRunWithRemoteDriver is true when the current run is the first run for which remote driver was initialized. 
 
       --stop-remote-driver - (for chromedriver only) shuts down the remote driver.
 
