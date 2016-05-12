@@ -106,60 +106,60 @@ exports.init = function (cleanProfile, logAction) {
     capabilities.setLoggingPrefs(prefs);
 
     if (gIn.params.useRemoteDriver) {
-      // TODO: magic constant.
-      // process.env.SELENIUM_REMOTE_URL = 'http://localhost:' + gT.suiteConfig.remoteChromeDriverPort;
-      gIn.firstRun = 0;
 
-      if (!gIn.firstRun) {
-        var executors = require('selenium-webdriver/executors');
-        var executor = executors.createExecutor('http://localhost:' + gT.suiteConfig.remoteChromeDriverPort);
-        executor.execute1 = executor.execute;
-        executor.execute = function (command, arg2) {
-          console.log('\nCOMMAND: ' + command.getName());
-          console.log('Arg2: ' + arg2);
-          var params = command.getParameters();
-          return executor.execute1(command, arg2)
-            .then(function (res) {
-              return res;
-            })
-            .catch(function (e) {
-              var params1 = params;
-              console.error(e);
-              throw e;
-            });
-        };
-        var chromeDriver = require('selenium-webdriver/chrome');
-        gT.sOrig.driver = chromeDriver.Driver.attachToSession(
+      let sid = gIn.remoteDriverUtils.getSid();
+
+      var remoteDriverConnectionStr = gT.suiteConfig.remoteDriverUrl + ':' + gT.suiteConfig.remoteDriverPort;
+
+      if (sid) {
+        var executor = gT.sOrig.executors.createExecutor(remoteDriverConnectionStr);
+        gT.sOrig.driver = gT.sOrig.wdModule.WebDriver.attachToSession(
           executor,
-          'd76c495f03efa072ebc49c2aec4c8575');
+          sid);
       } else {
+        gIn.firstRemoteStart = true;
         gT.sOrig.driver = new gT.sOrig.wdModule.Builder()
           .forBrowser(gIn.params.browser)
           .withCapabilities(capabilities)
           // As an alternative to this method, you may also set the SELENIUM_REMOTE_URL environment variable.
-          .usingServer('http://localhost:' + gT.suiteConfig.remoteChromeDriverPort)
+          // TODO: magic constant.
+          .usingServer(remoteDriverConnectionStr)
           .build();
+
+        gT.sOrig.driver.getSession()
+          .then(function (res) {
+            let sid = gIn.remoteDriverUtils.saveSid(res.getId());
+            gIn.tracer.trace3('Saved session id: ' + res.getId());
+          })
+          .catch(function (e) {
+            gIn.logger.exception('Error at getSession: ', e);
+          });
       }
 
-      gT.sOrig.driver.getSession()
-        .then(function (res) {
-          //console.log('\nPATH: ' + gIn.chromeDriverPath);
-          console.log('\nSESSION: ' + res);
-          console.log('\nSESSION id: ' + res.getId());
-          return gT.sOrig.driver.getAllWindowHandles();
-        })
-        .then(function (res) {
-          console.log('HANDLES: ' + res + ', found windows count: ' + res.length);
-        })
-        .catch(function (e) {
-          console.log('ERROR: ' + e);
-        });
+      // ==============================
+      // Using undocumented property to trace all selenium commands.
+      // var executorRef = gT.sOrig.driver.executor_;
+      // executorRef.executeOrig = executorRef.execute;
+      // executorRef.execute = function (command) {
+      //   gIn.tracer.trace3('COMMAND: ' + command.getName());
+      //   // TODO: tracing, var params = command.getParameters();
+      //   return executorRef.executeOrig(command)
+      //     .then(function (res) {
+      //       // TODO: tracing, command result.
+      //       return res;
+      //     })
+      //     .catch(function (e) {
+      //       // TODO: tracing, command fail.
+      //       throw e;
+      //     });
+      // };
+      // ==============================
+
+    } else {
+      gT.sOrig.driver = new gT.sOrig.wdModule.Builder().forBrowser(gIn.params.browser)
+        .withCapabilities(capabilities).build();
     }
 
-    // gT.sOrig.driver = new gT.sOrig.wdModule.Builder().forBrowser(gIn.params.browser)
-    //   .withCapabilities(capabilities).build();
-
-    //return promise.rejected('debug');
     return promise.fulfilled(true); // in case of fail there will be exception.
   });
 };

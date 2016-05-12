@@ -20,8 +20,11 @@ module.exports = {
   // Удалять ли zip после отправки.,
   removeZipAfterSend: true,
 
-  // The port for remote chromedriver.
-  remoteChromeDriverPort: 9515,
+  // The URL for remote web driver.
+  remoteDriverUrl: 'http://localhost',
+
+  // The Port for remote web driver.
+  remoteDriverPort: 9515,
 
   // Если пользуетесь рассылкой писем - обязательно перегрузить mail* параметры в suite-config.js.
 

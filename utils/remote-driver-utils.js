@@ -1,5 +1,5 @@
 'use strict';
-/* globals gIn: true */
+/* globals gIn: true, gT */
 
 var fs = require('fs');
 var path = require('path');
@@ -7,6 +7,10 @@ var spawn = require('child_process').spawn;
 
 function getPidPath() {
   return path.join(gIn.params.testsParentDir, gT.engineConsts.remoteChromeDriverPid);
+}
+
+function getSidPath() {
+  return path.join(gIn.params.testsParentDir, gT.engineConsts.remoteChromeDriverSid);
 }
 
 function savePid(pid) {
@@ -25,6 +29,22 @@ function getPid() {
   }
 }
 
+exports.saveSid = function (sid) {
+  fs.writeFileSync(getSidPath(), sid, 'utf8');
+};
+
+exports.removeSid = function () {
+  gIn.fileUtils.safeUnlink(getSidPath());
+};
+
+exports.getSid = function () {
+  try {
+    return fs.readFileSync(getSidPath(), 'utf8');
+  } catch (e) {
+    return null;
+  }
+};
+
 /**
  * starts remote chromedriver
  * @returns {Promise}
@@ -39,7 +59,7 @@ exports.start = function () {
 
     var child = spawn(
       gIn.chromeDriverPath,
-      ['--port=' + gT.suiteConfig.remoteChromeDriverPort],
+      ['--port=' + gT.suiteConfig.remoteDriverPort],
       {
         detached: true
         , stdio: 'ignore'
@@ -48,7 +68,6 @@ exports.start = function () {
     child.unref();
     gIn.tracer.trace3('Remote driver is starting');
     setTimeout(function () {
-      // console.log('child.connected: ' + child.connected);
       resolve(true);
     }, 2000); // TODO: magic constant, to make sure that driver is ready.
     // child.stdout.on('data', (data) => {
@@ -70,4 +89,5 @@ exports.stop = function () {
   gIn.tracer.trace3('Remote driver is stopping');
   process.kill(pid);
   removePid();
+  exports.removeSid();
 };

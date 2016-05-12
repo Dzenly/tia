@@ -24,5 +24,8 @@ module.exports = {
   gitPullLog: 'gitpull.log',
 
   // File name for PID for remote chrome driver.
-  remoteChromeDriverPid: 'cd.pid'
+  remoteChromeDriverPid: 'cd.pid',
+
+  // File name for PID for remote chrome driver.
+  remoteChromeDriverSid: 'cd.sid'
 };

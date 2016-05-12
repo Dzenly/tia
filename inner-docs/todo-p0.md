@@ -1,3 +1,27 @@
+cyclic screenshot when error in screenshot.
+taking into account that next tests should have correct screenshots at errors.
+
+=============
+
+Распечатать capabilities сессий. проверить, что на повторном подключении к сессии они остаются.
+
+=============
+
+
+
+=============
+
+=============
+
+=============
+
+=============
+
+log as overriding Executor.execute function?
+So I can track all selenium commands and their parameters.
+  
+=============
+
 ==========
 Все-таки поддержать отладку с постоянно висящей сессией в браузере.
 Т.е. через "remote" chromedriver.
@@ -206,4 +230,59 @@ WebStorm все-таки плохо поддерживает autocomplete.
 
 
 track time interval differences in meta log comparison.
+In percents and alarm if it exceedes some given value.
+
+=============
+
+Post answers here with link to my tia engine (after adding more meat (assertions, selenium wrappers, extjs stuff)
+to the engine):
+http://stackoverflow.com/questions/8344776/can-selenium-interact-with-an-existing-browser-session
+http://sqa.stackexchange.com/questions/1988/selenium-reuse-existing-browser-session-instead-of-opening-new-windows
+
+=============
+
+Разбивать трейсинг не только по уровню, но и по контексту.
+Т.е. от каких функциональностей он нужен, а от каких - нет.
+--trace-ctx dirWalker, rmDriver, etc.
+gIn.tracer.traceI(msg, ctx);
+if (ctx in traceCtx).
+(indexOf ?).
+Если нет --trace-ctx - трейсить все.
+Отсортированный массив, оптимизированный поиск.
+
+```js
+/**
+ * Performs a binary search on the host array. This method can either be
+ * injected into Array.prototype or called with a specified scope like this:
+ * binaryIndexOf.call(someArray, searchElement);
+ *
+ * @param {*} searchElement The item to search for within the array.
+ * @return {Number} The index of the element which defaults to -1 when not found.
+ */
+function binaryIndexOf(searchElement) {
+    'use strict';
+ 
+    var minIndex = 0;
+    var maxIndex = this.length - 1;
+    var currentIndex;
+    var currentElement;
+ 
+    while (minIndex <= maxIndex) {
+        currentIndex = (minIndex + maxIndex) / 2 | 0;
+        currentElement = this[currentIndex];
+ 
+        if (currentElement < searchElement) {
+            minIndex = currentIndex + 1;
+        }
+        else if (currentElement > searchElement) {
+            maxIndex = currentIndex - 1;
+        }
+        else {
+            return currentIndex;
+        }
+    }
+```
+
+=============
+
 

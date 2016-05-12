@@ -19,6 +19,8 @@ function runTestFile(file) {
 
   gIn.tracer.trace0('Starting new test: ' + file);
 
+  gIn.errFlag = false;
+
   try {
     nodeUtils.requireEx(file, true);
   } catch (e) {
