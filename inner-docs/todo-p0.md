@@ -1,21 +1,9 @@
-=============
+==========
 
-Распечатать capabilities сессий. проверить, что на повторном подключении к сессии они остаются.
+Посылать diff mlog'а по почте.
 
-=============
-
-=============
-
-=============
-
-=============
-
-=============
-
-log as overriding Executor.execute function?
-So I can track all selenium commands and their parameters.
-  
-=============
+Переместить инфу о платформе в конец.
+А вместо неё придумать название.
 
 ==========
 
@@ -252,3 +240,9 @@ function binaryIndexOf(searchElement) {
 =============
 
 
+=============
+
+log as overriding Executor.execute function?
+So I can track all selenium commands and their parameters.
+  
+=============

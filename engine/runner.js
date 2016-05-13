@@ -158,30 +158,32 @@ function *runTestSuite(dir) {
   // dirInfo.title = path.basename(dir);
   gIn.logger.saveSuiteLog(dirInfo, noTimeLog, true);
 
-  var metaLogDifRes = Boolean(gIn.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog));
+  var metaLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog);
+  var metaLogPrevDifResBool = Boolean(metaLogPrevDifRes);
   var etMlogInfo = '';
   var etMlogInfoCons = '';
-  var metaLogEtDifRes = 'Some Initial Dif';
+  // var metaLogEtDifRes = 'Some Initial Dif';
   if (gIn.params.etMlog) {
-    metaLogEtDifRes = Boolean(gIn.diffUtils.getDiff('.', gIn.params.etMlog, noTimeLog));
-    gIn.tracer.trace3('metaLogEtDifRes: ' + metaLogEtDifRes);
-    etMlogInfo = metaLogEtDifRes ? 'DIF_MLOG, ' : 'ET_MLOG, ';
-    etMlogInfoCons = metaLogEtDifRes ? gIn.cLogger.chalkWrap('red', 'DIF_MLOG') + ', ' :
+    let metaLogEtDifRes = gIn.diffUtils.getDiff('.', gIn.params.etMlog, noTimeLog);
+    let metaLogEtDifResBool = Boolean(metaLogEtDifRes);
+    gIn.tracer.trace3('metaLogEtDifRes: ' + metaLogEtDifResBool);
+    etMlogInfo = metaLogEtDifResBool ? 'DIF_MLOG, ' : 'ET_MLOG, ';
+    etMlogInfoCons = metaLogEtDifResBool ? gIn.cLogger.chalkWrap('red', 'DIF_MLOG') + ', ' :
     gIn.cLogger.chalkWrap('green', 'ET_MLOG') + ', ';
   }
 
   var changedDiffs = gIn.diffUtils.changedDiffs ? '(' + gIn.diffUtils.changedDiffs + ' diff(s) changed)' : '';
-  var emailSubj = getOs() + ', ' + (metaLogDifRes ? 'DIF FROM PREV' : ('AS PREV' + changedDiffs)) + ', ' + gIn.logger.saveSuiteLog(dirInfo, log);
+  var emailSubj = getOs() + ', ' + (metaLogPrevDifResBool ? 'DIF FROM PREV' : ('AS PREV' + changedDiffs)) + ', ' + gIn.logger.saveSuiteLog(dirInfo, log);
   var emailSubjCons = etMlogInfoCons + emailSubj;
   emailSubj = etMlogInfo + emailSubj;
 
-  dirInfo.metaLogDiff = metaLogDifRes;
+  dirInfo.metaLogDiff = metaLogPrevDifResBool;
   dirInfo.os = getOs();
   gIn.fileUtils.saveJson(dirInfo, log + '.json');
 
   var arcName = gIn.fileUtils.archiveSuiteDir(dirInfo);
 
-  yield gIn.mailUtils.send(emailSubj, log, arcName);
+  yield gIn.mailUtils.send(emailSubj, [log], [arcName]);
   var status = dirInfo.diffed ? 1 : 0;
   gIn.cLogger.msg('\n' + emailSubjCons + '\n');
   if (gT.suiteConfig.metaLogToStdout) {

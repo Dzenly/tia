@@ -7,6 +7,7 @@ Non-GUI unit tests are also supported.
 The engine is ready to use, but requires adding:
 * more wrappers for Selenium actions.
 * more API for ExtJs actions.
+* more means for exploration of ExtJs applications.
 * more assertions.
 * more compatibility with continues integration systems.
 * more documentation.
@@ -129,6 +130,8 @@ etalon (reference) log by renaming `.log` to `.et`.
 This is log with statistics on all tests from the tests directory.
 The name of a meta log consists of the tests directory name and `.mlog` extension.
 The meta log is sent to emails (if --email option is specified and there is a correct email configs).
+
+NOTE: Even for the same test logs, the meta log can be changed due to sectionTitle option in config.js files. 
 
 ### Browser profiles
 
@@ -337,7 +340,7 @@ These logs are sent to email (if corresponding options is enabled).
 They are almost the same as for Email subject notations.
 Meta log contains statistics info for each directory.
 
-Meta log contains from two parts: short (contains diffed tests only) and long (contains all the tests).
+Meta log contains two parts: short (contains diffed tests only) and long (contains all the tests).
 
 ### Process exit code and stdout
 

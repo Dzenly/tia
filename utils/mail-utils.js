@@ -44,7 +44,15 @@ var mailOptions = {
 
 };
 
-exports.send = function (subj, attachment, archive) {
+/**
+ * Sends email.
+ *
+ * @param subj
+ * @param {Array of Strings} txtAttachments
+ * @param {Array of Strings} [zipAttachments]
+ * @returns {Promise<T>}
+ */
+exports.send = function (subj, txtAttachments, zipAttachments) {
   if (!gIn.params.email) {
     gIn.tracer.trace0('Mail disabled.');
     return;
@@ -55,9 +63,14 @@ exports.send = function (subj, attachment, archive) {
   }
   mailOptions.subject = subj;
   mailOptions.to = gT.suiteConfig.mailRecipientList;
-  mailOptions.attachments = [/*{path: gT.engineConsts.gitPullLog}, */{path: attachment, contentType: 'text/plain'}];
-  if (archive) {
-    mailOptions.attachments.push({path: archive, contentType: 'application/zip'});
+  mailOptions.attachments = txtAttachments.filter(val => Boolean(val)).map(val => ({path: val, contentType: 'text/plain'}));
+
+  /*{path: gT.engineConsts.gitPullLog}, */
+
+  if (zipAttachments) {
+    mailOptions.attachments = mailOptions.attachments.concat(
+      zipAttachments.filter(val => Boolean(val)).map(val => ({path: val, contentType: 'application/zip'}))
+    );
   }
   return gT.sOrig.promise.checkedNodeCall(
     function (options, callback) { // callback will be provided by checkedNodeCall
