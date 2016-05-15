@@ -53,7 +53,7 @@ Key
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_Key.html
 
 After install one can find examples of (non TIA) selenium tests here:
-`TIA/node_modules/selenium-webdriver/test` 
+`tia/node_modules/selenium-webdriver/test` 
 
 I create wrappers for Selenium API, but for now for complex tests one needs to know selenium.
 sOrig global object provides Selenium objects (listed above).
@@ -160,7 +160,7 @@ See also the `selProfilePath` option in the `config/default-suite-config.js`.
 
 ## Installation
 
-$ npm install -g TIA
+$ npm install -g tia
 
 ### Self - test after installation
 
@@ -174,11 +174,11 @@ $ mkdir my-prj
 $ cd my-prj
 $ npm init
 $ mkdir tests
-$ npm install TIA
+$ npm install tia
 
 In your debug confiuration you can use
 
-node --harmony mode_modules/TIA/bin/TIA.js
+node --harmony mode_modules/tia/bin/tia.js
 
 ### Using typings
 
@@ -261,7 +261,7 @@ Use JSON here because JS files (except config.js, suite-config.js) are runned as
 
 ## Environment variables
 
-See TIA_TESTS_DIR and TIA_REQUIRE_MODULES descriptions in tia --help.
+See TIA_TESTS_DIR and TIA_REQUIRE_MODULES descriptions in `tia --help`.
 Use TIA_NO_COLORS - to disable ANSI colors.
 
 ----------------------------------
@@ -270,11 +270,11 @@ Use TIA_NO_COLORS - to disable ANSI colors.
 
 To show help when TIA is installed globally:
 
-$ TIA --help
+$ tia --help
 
 To show help for local installation:
 
-$ node --harmony bin/TIA.js --help
+$ node --harmony bin/tia.js --help
 
 ----------------------------------
 
@@ -370,7 +370,7 @@ https://technet.microsoft.com/en-us/library/cc817881.aspx
 
 You can use this link in your RSS feed client:
 
-https://github.com/Dzenly/TIA/releases.atom
+https://github.com/Dzenly/tia/releases.atom
 	
 * Autocompletion in IDE.
 If your IDE does not automatically suggest autocompletion for short named global objects 's', 't', 'l', etc.,
@@ -410,7 +410,7 @@ it can speed up your debugging.
 ## Known issues and bugs
 
 * Ignore this message:
-  `.../.nvm/versions/node/v4.4.1/bin/TIA: line 2: //#: No such file or directory`
+  `.../.nvm/versions/node/v4.4.1/bin/tia: line 2: //#: No such file or directory`
 
 * Browser profiles do not save on Windows after browser closing.
   I.e. you can use predefined profiles, but it will not be updated after selenium tests.
@@ -445,7 +445,7 @@ More then 10 years I have been involved in auto-testing.
 So I develop this test engine using all my experience and best practices.
 Also I learn existing test engines and add their best parts to TIA.
 My TODO lists are in 'inner-docs' project directory:
-https://github.com/Dzenly/TIA/tree/master/inner-docs.
+https://github.com/Dzenly/tia/tree/master/inner-docs.
 In a few weeks I am planning to translate all docs to English and create a github wiki page.
 Here is an info about my accounts for donations:
-https://github.com/Dzenly/TIA/blob/master/donations-info.md
+https://github.com/Dzenly/tia/blob/master/donations-info.md
