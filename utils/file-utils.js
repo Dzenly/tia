@@ -108,15 +108,15 @@ exports.createEmptyLog = function (path) {
 };
 
 exports.fileToStdout = function (file) {
-  console.log(fs.readFileSync(file, {encoding: 'ascii'}));
+  console.log(fs.readFileSync(file, {encoding: gT.engineConsts.logEncoding}));
 };
 
 exports.fileToStderr = function (file) {
-  console.error(fs.readFileSync(file, {encoding: 'ascii'}));
+  console.error(fs.readFileSync(file, {encoding: gT.engineConsts.logEncoding}));
 };
 
 exports.saveJson = function (obj, file) {
-  fs.writeFileSync(file, JSON.stringify(obj), {encoding: 'ascii'});
+  fs.writeFileSync(file, JSON.stringify(obj), {encoding: gT.engineConsts.logEncoding});
 };
 
 function collectArcPaths(dirInfo, arcPaths) {

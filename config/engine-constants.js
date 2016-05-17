@@ -27,5 +27,7 @@ module.exports = {
   remoteChromeDriverPid: 'cd.pid',
 
   // File name for PID for remote chrome driver.
-  remoteChromeDriverSid: 'cd.sid'
+  remoteChromeDriverSid: 'cd.sid',
+
+  logEncoding: 'utf8' // ascii
 };

@@ -15,17 +15,17 @@ function nextScreenShotPath() {
 }
 
 /**
- * Initializes TIA helpers.
- * Loads and runs the tia-helpers.js script in context of current browser window.
+ * Initializes TIA browser helpers.
+ * Loads and runs the tia-br-helpers.js script in context of current browser window.
  * Adds some helpers to window object.
  *
  * @param {boolean} [logAction] - is logging needed for this action.
  *
  * @returns a promise which will be resolved with script return value.
  */
-exports.initTiaHelpers = function (logAction) {
+exports.initTiaBrHelpers = function (logAction) {
   return gIn.wrap('Initialization of TIA helpers ... ', logAction, function () {
-    return exports.executeScriptFromFile(mPath.join(__dirname, 'browser-part/tia-helpers.js'), false);
+    return exports.executeScriptFromFile(mPath.join(__dirname, 'browser-part/tia-br-helpers.js'), false);
   });
 };
 

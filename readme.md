@@ -9,7 +9,7 @@ The engine is ready to use, but requires adding:
 * more API for ExtJs actions.
 * more means for exploration of ExtJs applications.
 * more assertions.
-* more compatibility with continues integration systems.
+* more compatibility with continuous integration systems.
 * more documentation.
 
 To don't blow up versions for now I am not following SEMVER rules.

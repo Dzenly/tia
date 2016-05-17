@@ -166,7 +166,7 @@ function *runTestSuite(dir) {
   var metaLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog);
   var metaLogPrevDifResBool = Boolean(metaLogPrevDifRes);
   if (metaLogPrevDifResBool) {
-    fs.writeFileSync(prevDif, metaLogPrevDifRes, {encoding: 'ascii'});
+    fs.writeFileSync(prevDif, metaLogPrevDifRes, {encoding: gT.engineConsts.logEncoding});
     txtAttachments.push(prevDif);
   }
 
@@ -177,7 +177,7 @@ function *runTestSuite(dir) {
     let metaLogEtDifRes = gIn.diffUtils.getDiff('.', gIn.params.etMlog, noTimeLog);
     let metaLogEtDifResBool = Boolean(metaLogEtDifRes);
     if (metaLogEtDifResBool) {
-      fs.writeFileSync(etDif, metaLogEtDifRes, {encoding: 'ascii'});
+      fs.writeFileSync(etDif, metaLogEtDifRes, {encoding: gT.engineConsts.logEncoding});
       txtAttachments.push(etDif);
     }
     gIn.tracer.trace3('metaLogEtDifRes: ' + metaLogEtDifResBool);

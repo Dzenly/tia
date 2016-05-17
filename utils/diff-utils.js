@@ -19,7 +19,8 @@ exports.changedDiffs = 0;
  * @param newFile - basename for file 2
  */
 exports.getDiff = function (dir, oldFile, newFile) {
-  var diffRes = child_process.spawnSync('diff', [oldFile, newFile], {cwd: dir, encoding: 'ascii'});
+  // TODO: check utf8 support.
+  var diffRes = child_process.spawnSync('diff', [oldFile, newFile], {cwd: dir, encoding: gT.engineConsts.logEncoding});
   return diffRes.stdout + diffRes.stderr;
 };
 
@@ -46,7 +47,7 @@ exports.diff = function (jsTest) {
 
   gIn.fileUtils.backupDif(diffPath);
 
-  fs.writeFileSync(diffPath, out, {encoding: 'ascii'});
+  fs.writeFileSync(diffPath, out, {encoding: gT.engineConsts.logEncoding});
   // var oldOut = out;
 
   // Check for expected diff.

@@ -18,9 +18,8 @@ var fs = require('fs');
 // };
 
 function logToFile(msg) {
-  // , {encoding: 'ascii'}
   // TODO: check how diff work for unicode.
-  fs.appendFileSync(exports.logFile, msg);
+  fs.appendFileSync(exports.logFile, msg, {encoding: gT.engineConsts.logEncoding});
 }
 
 function logToFileLn(msg) {
@@ -119,7 +118,7 @@ exports.logIfNotDisabled = function (msg, enable) {
 };
 
 function writeStrToFile(str, diffed, isDif) {
-  fs.writeSync(exports.fd, str, null, 'ascii');
+  fs.writeSync(exports.fd, str, null, gT.engineConsts.logEncoding);
 }
 
 function writeStrToStdout(str, diffed, isDif) {
@@ -168,7 +167,7 @@ function saveDirInfo(dirInfo, indent, verbose, noTime) {
         writeToSuiteLog(gIn.tInfo.testInfoToString(curInfo, false, verbose, noTime), curInfo.diffed);
         if (curInfo.diffed && gIn.params.diffsToMlog && !isVerbose) {
           let difPath = gIn.textUtils.jsToDif(curInfo.path);
-          let dif = fs.readFileSync(difPath, 'ascii');
+          let dif = fs.readFileSync(difPath, gT.engineConsts.logEncoding);
           writeToSuiteLog(indent + '============== DIF ============== \n');
           let diffStrs = dif.split('\n');
           for (let str of diffStrs) {
@@ -202,7 +201,7 @@ exports.saveSuiteLog = function (dirInfo, log, noTime) {
   writeLogStr = writeStrToFile;
   exports.fd = fs.openSync(log, 'w');
   saveSuiteLogPart(false, dirInfo, noTime);
-  fs.writeSync(exports.fd, '\n', null, 'ascii');
+  fs.writeSync(exports.fd, '\n', null, gT.engineConsts.logEncoding);
   saveSuiteLogPart(true, dirInfo, noTime);
   fs.closeSync(exports.fd);
   return gIn.tInfo.testInfoToString(dirInfo, true, true, noTime, true);
