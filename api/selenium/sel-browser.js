@@ -87,26 +87,26 @@ exports.executeScriptFromFile = function (fPath, logAction) {
 /**
  * Sets function body for "Ctrl/Meta + Alt + LClick" handler.
  * You can use 'e' object of MouseEvent class.
- * Removes previous tiaOnClick handler (if exists).
+ * Removes previous tiaOnMouseDown handler (if exists).
  * @param funcBody
  * @param logAction
  * @returns {*}
  */
-exports.setDbgClickHandler = function(funcBody, logAction) {
+exports.setDbgOnMouseDown = function(funcBody, logAction) {
   return gIn.wrap('Setup debug hotkey handler ... ', logAction, function () {
     var scriptStr = `
     try {
-      document.removeEventListener('mousedown', tiaOnClick);
+      document.removeEventListener('mousedown', tiaOnMouseDown);
     } catch(e) {
     }
-    window.tiaOnClick = function (e) {
+    window.tiaOnMouseDown = function (e) {
       if ((e.ctrlKey || e.metaKey) && e.altKey && e.which === 1) {
         ${funcBody}
       }
     }
-    document.addEventListener('mousedown', tiaOnClick);
+    document.addEventListener('mousedown', tiaOnMouseDown);
     `;
-    // gIn.tracer.trace3('setDbgHKHandler: script: ' + funcBody);
+    // gIn.tracer.trace3('setDbgOnMouseDown: script: ' + funcBody);
     return gT.sOrig.driver.executeScript(scriptStr);
   });
 };

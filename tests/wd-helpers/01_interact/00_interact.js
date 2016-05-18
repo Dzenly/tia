@@ -13,7 +13,7 @@ function *test() {
 
   // yield s.driver.sleep(35000);
 
-  // yield s.browser.setDbgClickHandler(`
+  // yield s.browser.setDbgOnMouseDown(`
   // var el = Ext.dom.Element.fromPoint(e.clientX, e.clientY);
   // alert(el);
   // `

@@ -53,6 +53,10 @@
       }
     },
 
+    showHierarchy: function () {
+
+    },
+
     //hasAjaxFailures: function() {
     //	return this.ajaxFailuresArr.length > 0;
     //},
@@ -89,7 +93,7 @@
       return res;
     },
 
-    getTabIdByText : function (compId, text) {
+    getTabIdByText: function (compId, text) {
       var items = Ext.getCmp(compId).getTabBar().items;
       var cmp = items.findBy(function (item) {
         return item.text === text;
@@ -100,111 +104,142 @@
 
     // TODO: form.down('[fieldLabel=Тип риска]').inputEl
 
-  collectCompInfo: function (comp) {
+    collectCompInfo: function (comp) {
 
-    if (!comp) {// jscs:ignore
-      return '';
-    }
-
-    // getController?
-
-    // Private member.
-    //var refHolder = comp.lookupReferenceHolder();
-    //alert(refHolder.$className);
-
-    var controller = comp.getController();
-    var controllerStr = '';
-    var modelStr = '';
-
-    if (controller) {
-      var refsObj = controller.getReferences();
-      var refsStr = Ext.Object.getKeys(refsObj).join(' ');
-
-      var routesObj = controller.getRoutes();
-      var routesStr = Ext.Object.getKeys(routesObj).join(' ');
-
-      // TODO: getStore ?? или это есть во ViewModel?
-
-      var viewModel = controller.getViewModel();
-      if (viewModel) {
-        modelStr += 'Model clName: ' + viewModel.$className;
+      if (!comp) {
+        return '';
       }
 
-      controllerStr = '----------\ncontroller: ' +
-        '\nclName: ' + controller.$className +
-        '\nid: ' + controller.id +
-        '\nrefs: ' + refsStr +
-        '\nroutes: ' + routesStr +
-        '\n' + modelStr + '\n-------\n';
+      // getController?
 
-    }
+      // Private member.
+      //var refHolder = comp.lookupReferenceHolder();
+      //alert(refHolder.$className);
 
-    var itemId = comp.getItemId();
-    var ref = comp.getReference();
-    var xtypes = comp.getXTypes();
-    var clName = comp.$className;
-    var refHolder = comp.initialConfig.referenceHolder;
-    // var isContainer = comp.isContainer;
-    // var id = comp.getId();
-    // var itemCount;
-    // if (isContainer) {
-    //   itemCount = comp.items.getCount();
-    // }
+      var compRefs = null;
+      var compRefsStr = '';
+      var chCnt = 0;
 
-    var attrsObj = comp.getEl().getAttributes();
-    var attrsStr = '';
-
-    Ext.Object.each(attrsObj, function (key, value) {
-      if (key !== 'style' && key !== 'tabindex') {
-        attrsStr += key + ': ' + value + '\n';
+      if (comp.isContainer) {
+        //console.log('cont cl name: ' + comp.$className);
+        compRefs = comp.getReferences();
+        if (compRefs) {
+          compRefsStr = Ext.Object.getKeys(refsObj).join(' ');
+        }
+        chCnt = comp.items.getCount();
+      } else {
+        //console.log('not cont cl name: ' + comp.$className);
       }
-    });
 
-    // 'DOM id: ' + id +
-    // '\nDom Class: ' + comp.getEl().getAttribute('class') +
-    // '\nDom name: ' + comp.getEl().getAttribute('name') +
-    // '\nisContainer: ' + isContainer;
-    // '\nitemCount: ' + itemCount;
+      var refHolder = comp.lookupReferenceHolder();
+      var refHolderStr = '';
+      if (refHolder) {
+        //console.log('rh: ' + refHolder.$className);
+        var rHXTypes = refHolder.isComponent ? refHolder.getXTypes() : '';
+        var rHClName = refHolder.$className;
+        refHolderStr += 'xtypes: ' + rHXTypes + ', clName: ' + rHClName + ', isViewController: ' + refHolder.isViewController;
 
-    var outStr =
-      'ref: ' + ref +
-      '\nrefHolder: ' + refHolder +
-      '\n' + controllerStr +
-      '\nitemId: ' + itemId +
-      '\nxtypes: ' + xtypes +
-      '\nclName: ' + clName +
-      '\nAttrs: \n' + attrsStr;
+      }
 
-    outStr += '\n=============\n' + this.collectCompInfo(comp.up());
-    return outStr;
+      var controller = comp.getController();
+      var controllerStr = '';
+      var modelStr = '';
+
+      if (controller) {
+        var refsObj = controller.getReferences();
+        var refsStr = Ext.Object.getKeys(refsObj).join(' ');
+
+        var routesObj = controller.getRoutes();
+        var routesStr = Ext.Object.getKeys(routesObj).join(' ');
+
+        // TODO: getStore ?? или это есть во ViewModel?
+
+        var viewModel = controller.getViewModel();
+        if (viewModel) {
+          modelStr += 'Model clName: ' + viewModel.$className;
+        }
+
+        controllerStr = '----------\ncontroller: isViewController: ' + controller.isViewController +
+          '\nclName: ' + controller.$className +
+          '\nid: ' + controller.id +
+          '\nrefs: ' + refsStr +
+          '\nroutes: ' + routesStr +
+          '\n' + modelStr + '\n-------\n';
+
+      }
+
+      var itemId = comp.getItemId();
+      var ref = comp.getReference();
+      var xtypes = comp.getXTypes();
+      var clName = comp.$className;
+      var refHolderCfg = comp.initialConfig.referenceHolder;
+      // var isContainer = comp.isContainer;
+      // var id = comp.getId();
+      // var itemCount;
+      // if (isContainer) {
+      //   itemCount = comp.items.getCount();
+      // }
+
+      var attrsObj = comp.getEl().getAttributes();
+      var attrsStr = '';
+
+      Ext.Object.each(attrsObj, function (key, value) {
+        if (key !== 'style' && key !== 'tabindex') {
+          attrsStr += key + ': ' + value + '\n';
+        }
+      });
+
+      // 'DOM id: ' + id +
+      // '\nDom Class: ' + comp.getEl().getAttribute('class') +
+      // '\nDom name: ' + comp.getEl().getAttribute('name') +
+      // '\nisContainer: ' + isContainer;
+      // '\nitemCount: ' + itemCount;
+
+      var outStr =
+        'ref: ' + ref +
+        '\nitemId: ' + itemId +
+        '\nxtypes: ' + xtypes +
+        '\nclName: ' + clName +
+        '\nariaRole: ' + comp.ariaRole +
+        '\nAttrs: \n' + attrsStr +
+        '\nisRefHolderCfg: ' + refHolderCfg +
+        '\nrefHolder: ' + refHolderStr +
+        '\ncompRefs: ' + compRefsStr +
+        '\nchCnt: ' + chCnt +
+        '\n' + controllerStr;
+
+
+      outStr += '\n=============\n' + this.collectCompInfo(comp.up());
+      return outStr;
+    }
+    ,
+
+    // var comp = extDomEl.component; undefined for unknown reason.
+    // viewModel
+    // parent / childs ?
+    // tooltip, label
+
+    // Shows info (alert + console.log) for object under mouse cursor, e - MouseEvent object.
+    showCompInfo: function (e) {
+      var str = Ext.dom.Element.fromPoint(e.clientX, e.clientY);
+      var extDomEl = Ext.dom.Element.get(str);
+      var comp = Ext.Component.fromElement(extDomEl);
+      var outStr = this.collectCompInfo(comp);
+      // var msgBox = Ext.Msg.prompt('', outStr.replace(/\n/g, '<br>'));
+
+      this.showMsgBox(outStr);
+      // console.log(outStr);
+    },
+
+    showMsgBox: function(msg) {
+      var msgBox = Ext.Msg.show({
+        message: msg.replace(/\n/g, '<br>'),
+        width: 1100,
+        minWidth: 1100,
+        modal: true
+      });
+    }
   }
-  ,
-
-  // var comp = extDomEl.component; undefined for unknown reason.
-  // viewModel
-  // parent / childs ?
-  // tooltip, label
-
-  // Shows info (alert + console.log) for object under mouse cursor, e - MouseEvent object.
-  showCompInfo: function (e) {
-    var str = Ext.dom.Element.fromPoint(e.clientX, e.clientY);
-    var extDomEl = Ext.dom.Element.get(str);
-    var comp = Ext.Component.fromElement(extDomEl);
-    var outStr = this.collectCompInfo(comp);
-    // var msgBox = Ext.Msg.prompt('', outStr.replace(/\n/g, '<br>'));
-
-    var msgBox = Ext.Msg.show({
-      message: outStr.replace(/\n/g, '<br>'),
-      width: 1100,
-      minWidth: 1100,
-      modal: true
-    });
-
-    // msgBox.setWidth(1000);
-    // msgBox.setHeight(1000);
-    console.log(outStr);
-  }
-}
   ;
 
   var onAjaxError = function (conn, response, options, eOpts) {

@@ -38,3 +38,4 @@ gT.e.initTiaExtJsBrHelpers = function (logAction) {
 };
 
 gT.e.ua = require('./extjs-user-actions.js');
+gT.e.exp = require('./extjs-exploration.js');
