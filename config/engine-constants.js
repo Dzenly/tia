@@ -7,6 +7,8 @@ module.exports = {
 
   requireModulesEnvVarName: 'TIA_REQUIRE_MODULES',
 
+  emailCfgPathEnvVarName: 'TIA_EMAIL_CFG_PATH',
+
   // Имя файла для локального конфига.
   configName: 'config.js',
 

@@ -238,7 +238,19 @@ module.exports = {
 
 ### For email
 
-It should be defined in `suite-config.js` (see above).
+There are two ways how to use email settings.
+
+#### --email-cfg-path cmd line option and TIA_EMAIL_CFG_PATH environment variables.
+
+You can specify path to some `*.js` or `*.json` file.
+TIA does `require` this config and 
+options are merged to default suite config, see `config/default-suite-config.js`.
+If the `mailRecipientList` field in the config is empty, email will be disabled.
+
+#### With suite-config.js
+
+Email options also can be defined in `suite-config.js` (see above).
+Settings from `suite-config.js` will override cmd line and env variable settings.
 See `config/default-suite-config.js` for email option descriptions.
 To keep credentials secret you can have `suite-config.js` like:
 

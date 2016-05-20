@@ -1,0 +1,6 @@
+{
+  "mailSmtpHost": "smtp.yandex.ru",
+  "mailUser": "build@rvision.pro",
+  "mailPassword": "bla-bla-bla",
+  "mailRecipientList": "somemail@someserver.com, someanothermail@someserver.com"
+}

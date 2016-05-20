@@ -53,8 +53,10 @@ function usage() {
       , any test which file path (relative to <testSuiteRoot>) contains <pathToDirOrTest> substring will run.
       By default, tests from all directories (recursively) will run.
 
-      --email enables email sending.
-
+      --email-cfg-path <path> - path to email config. See tia/doc/mail-cfg-example.json for example.
+      See tia/config/default-suite-config.js for more details.
+      Note: ${gT.engineConsts.emailCfgPathEnvVarName} environment variable can be used for the same purpose.
+      
       --stack-to-log print stack trace to test logs.
 
       --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).
@@ -126,12 +128,12 @@ var opts = {
     'trace-level',
     'require-modules',
     'def-host',
-    'et-mlog'
+    'et-mlog',
+    'email-cfg-path'
   ],
   boolean: [
     'h',
     'help',
-    'email',
     'stack-to-log',
     'xvfb',
     // 'logs-to-mail',
@@ -211,6 +213,18 @@ if (!args.requireModules) {
 
 gIn.params = args;
 gIn.params.testsDir = testsDir;
+
+if (!gIn.params.emailCfgPath) {
+  gIn.params.emailCfgPath = process.env[gT.engineConsts.testsDirEnvVarName];
+}
+
+if (gIn.params.emailCfgPath) {
+  gIn.params.emailCfgPath = path.resolve(gIn.params.emailCfgPath);
+  gIn.tracer.trace3('Email Cfg Path: ' + gIn.params.emailCfgPath);
+  gT.suiteConfigDefault = gIn.configUtils.mergeConfigs(gT.suiteConfigDefault, require(gIn.params.emailCfgPath));
+} else {
+  gIn.tracer.trace3('No email Cfg Path');
+}
 
 gIn.params.testsParentDir = path.dirname(testsDir);
 
