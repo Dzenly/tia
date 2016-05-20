@@ -215,7 +215,7 @@ gIn.params = args;
 gIn.params.testsDir = testsDir;
 
 if (!gIn.params.emailCfgPath) {
-  gIn.params.emailCfgPath = process.env[gT.engineConsts.testsDirEnvVarName];
+  gIn.params.emailCfgPath = process.env[gT.engineConsts.emailCfgPathEnvVarName];
 }
 
 if (gIn.params.emailCfgPath) {
