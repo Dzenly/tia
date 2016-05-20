@@ -1,6 +1,24 @@
 'use strict';
-
 /* globals gT, gIn */
+
+var fs = require('fs');
+var path = require('path');
+
+/**
+ * Initializes TIA ExtJs exploration helpers.
+ * Loads and runs the tia-extjs-br-exp-helpers.js script in context of current browser window.
+ *
+ * @param {boolean} [logAction] - is logging needed for this action.
+ *
+ * @returns a promise which will be resolved with script return value.
+ */
+exports.initHelpers = function (logAction) {
+  return gIn.wrap('Initialization of TIA ExtJs Exp helpers ... ', logAction, function () {
+    var scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/tia-extjs-br-exp-helpers.js'), 'utf8');
+    // gIn.tracer.trace3('initHelpers: script: ' + scriptStr);
+    return gT.sOrig.driver.executeScript(scriptStr);
+  });
+};
 
 /**
  * Sets default handlers for debug.
@@ -20,12 +38,12 @@ exports.setDefDbgHandlers = function(logAction) {
     }
     window.tiaExtJsOnMouseDown = function (e) {
       if ((e.ctrlKey || e.metaKey) && e.altKey && e.which === 1) {
-        tiaExtJs.showCompInfo(e);
+        tiaEJExp.showCompInfoFromPoint(e);
       }
     };
     window.tiaExtJsOnKeyDown = function (e) {
       if ((e.ctrlKey || e.metaKey) && e.altKey && e.keyCode === 84) {
-        tiaExtJs.showHierarchy();
+        tiaEJExp.showCompHierarchy();
       }
     };
     document.addEventListener('mousedown', tiaExtJsOnMouseDown);
