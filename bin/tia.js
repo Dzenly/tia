@@ -56,7 +56,9 @@ function usage() {
       --email-cfg-path <path> - path to email config. See tia/doc/mail-cfg-example.json for example.
       See tia/config/default-suite-config.js for more details.
       Note: ${gT.engineConsts.emailCfgPathEnvVarName} environment variable can be used for the same purpose.
-      
+
+      --disable-email - disables email.
+
       --stack-to-log print stack trace to test logs.
 
       --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).
@@ -145,7 +147,8 @@ var opts = {
     'run-self-tests',
     'ignore-skip-flag',
     'use-remote-driver',
-    'stop-remote-driver'
+    'stop-remote-driver',
+    'disable-email'
   ],
   default: {
     browser: browsers[0],

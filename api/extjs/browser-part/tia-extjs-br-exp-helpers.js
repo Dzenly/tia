@@ -145,9 +145,17 @@
       // '\nisContainer: ' + isContainer;
       // '\nitemCount: ' + itemCount;
 
+      var locKeys;
+      var text = '';
+      if (comp.getText) {
+        text = comp.getText();
+        locKeys = tiaExtJs.getLocKeysByText(text);
+      }
+
       var outStr =
         'ref: ' + ref +
         '\nitemId: ' + itemId +
+        '\nLoc Keys: ' + locKeys + '; Text:' + text +
         '\nxtypes: ' + xtypes +
         '\nclName: ' + clName +
         '\nariaRole: ' + comp.ariaRole +
@@ -160,7 +168,7 @@
         '\n' + controllerStr;
 
 
-      outStr += '\n=============\n' + this.collectCompInfo(comp.up());
+      outStr += '\n=======================================\n' + this.collectCompInfo(comp.up());
       return outStr;
     }
     ,

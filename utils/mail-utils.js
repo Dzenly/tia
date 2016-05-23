@@ -53,7 +53,7 @@ var mailOptions = {
  * @returns {Promise<T>}
  */
 exports.send = function (subj, txtAttachments, zipAttachments) {
-  if (!gT.suiteConfig.mailRecipientList) {
+  if (gIn.params.disableEmail || !gT.suiteConfig.mailRecipientList) {
     gIn.tracer.traceErr('Mail list is empty.');
     return;
   }

@@ -46,19 +46,21 @@
       return res;
     },
 
-    getTabIdByItemId: function (compId, tabItemId) {
-      var cmp = Ext.getCmp(compId).getTabBar().down('#' + tabItemId);
-      var res = cmp ? cmp.getId() : null;
-      return res;
+    getLocKeysByText: function (text) {
+      var res = [];
+      for (var key in this.locale) {
+        if (this.locale.hasOwnProperty(key)) {
+          console.log(key);
+          if (text === this.locale[key]) {
+            res.push(key);
+          }
+        }
+      }
+      return res.join(', ');
     },
 
-    getTabIdByText: function (compId, text) {
-      var items = Ext.getCmp(compId).getTabBar().items;
-      var cmp = items.findBy(function (item) {
-        return item.text === text;
-      });
-      var res = cmp ? cmp.getId() : null;
-      return res;
+    getTextByLocKey: function (key) {
+      return this.locale[key];
     }
 
   };

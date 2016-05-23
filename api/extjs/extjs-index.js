@@ -22,20 +22,45 @@ global.e = gT.e;
 
 /**
  * Initializes TIA ExtJs helpers.
- * Loads and runs the tia-extjs-br-helpers.js script in context of current browser window.
+ * Loads and runs scripts from the extjs/browser-part directory in context of current browser window.
  * Adds some ExtJs helpers to window object.
  *
- * @param {boolean} [logAction] - is logging needed for this action.
+ * @param {boolean} [logAction=true] - is logging needed for this action.
  *
  * @returns a promise which will be resolved with script return value.
  */
 gT.e.initTiaExtJsBrHelpers = function (logAction) {
   return gIn.wrap('Initialization of TIA ExtJs helpers ... ', logAction, function () {
-    var scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/tia-extjs-br-helpers.js'), 'utf8');
-    // gIn.tracer.trace3('initTiaExtJsBrHelpers: script: ' + scriptStr);
+    let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/tia-extjs-br-helpers.js'), 'utf8');
     return gT.sOrig.driver.executeScript(scriptStr);
+  })
+    .then(function (res) {
+      let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/tia-extjs-br-dyn-id-helpers.js'), 'utf8');
+      return gT.sOrig.driver.executeScript(scriptStr);
+    });
+};
+
+/**
+ * Sets locale object. Locale object is key-value object for localization.
+ * Key is english text, and value is any utf8 text.
+ *
+ * @param objExpression - expression how to get locale object.
+ * @param {boolean} [logAction=true] - is logging needed for this action.
+ * @returns a promise which will be resolved with script return value.
+ */
+gT.e.setLocaleObject = function (objExpression, logAction) {
+  return gIn.wrap('setLocaleObject ... ', logAction, function () {
+    var scriptStr = `
+        tiaExtJs.locale = ${objExpression};
+        return tiaExtJs.locale;
+    `;
+    return gT.sOrig.driver.executeScript(scriptStr)
+      .then(function (res) {
+        gT.e.locale = res;
+      });
   });
 };
 
+gT.e.u = require('./extjs-utils');
 gT.e.ua = require('./extjs-user-actions.js');
 gT.e.exp = require('./extjs-exploration.js');
