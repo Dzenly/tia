@@ -46,7 +46,7 @@
     },
 
     showCompHierarchy: function () {
-      var mainView = this.getMainView();
+      var mainView = tiaExtJs.getMainView();
       this.componentsInfo(mainView);
     },
 
@@ -186,29 +186,8 @@
       var outStr = this.collectCompInfo(comp);
       // var msgBox = Ext.Msg.prompt('', outStr.replace(/\n/g, '<br>'));
 
-      this.showMsgBox(outStr);
+      tiaExtJs.showMsgBox(outStr);
       // console.log(outStr);
-    },
-
-    showMsgBox: function(msg) {
-      var msgBox = Ext.Msg.show({
-        message: msg.replace(/\n/g, '<br>'),
-        width: 1100,
-        minWidth: 1100,
-        modal: true
-      });
-    },
-
-    getMainView: function() {
-      return Ext.Component.fromElement(Ext.getBody());
-    },
-
-    getAppName: function() {
-      return Ext.app.Application.instance.getName();
-    },
-
-    getApp: function() {
-      return window[this.getAppName()];
     }
   };
 })();

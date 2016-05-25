@@ -20,6 +20,13 @@ global.e = gT.e;
 // ua - User Actions.
 // sa - script Actions.
 
+// for gT.e.initTiaExtJsBrHelpers
+var brHelpers = [
+  'e-br.js',
+  'e-br-search.js',
+  'e-br-dyn-id.js'
+];
+
 /**
  * Initializes TIA ExtJs helpers.
  * Loads and runs scripts from the extjs/browser-part directory in context of current browser window.
@@ -31,13 +38,13 @@ global.e = gT.e;
  */
 gT.e.initTiaExtJsBrHelpers = function (logAction) {
   return gIn.wrap('Initialization of TIA ExtJs helpers ... ', logAction, function () {
-    let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/tia-extjs-br-helpers.js'), 'utf8');
-    return gT.sOrig.driver.executeScript(scriptStr);
-  })
-    .then(function (res) {
-      let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/tia-extjs-br-dyn-id-helpers.js'), 'utf8');
-      return gT.sOrig.driver.executeScript(scriptStr);
+    return gT.sOrig.promise.consume(function* () {
+      for (const fName of brHelpers) {
+        let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part', fName), 'utf8');
+        yield gT.sOrig.driver.executeScript(scriptStr);
+      }
     });
+  });
 };
 
 /**

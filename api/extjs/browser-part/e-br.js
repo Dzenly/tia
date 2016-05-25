@@ -61,6 +61,27 @@
 
     getTextByLocKey: function (key) {
       return this.locale[key];
+    },
+
+    showMsgBox: function(msg) {
+      var msgBox = Ext.Msg.show({
+        message: msg.replace(/\n/g, '<br>'),
+        width: 1100,
+        minWidth: 1100,
+        modal: true
+      });
+    },
+
+    getMainView: function() {
+      return Ext.Component.fromElement(Ext.getBody());
+    },
+
+    getAppName: function() {
+      return Ext.app.Application.instance.getName();
+    },
+
+    getApp: function() {
+      return window[this.getAppName()];
     }
 
   };

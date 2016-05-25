@@ -6,7 +6,7 @@ var path = require('path');
 
 /**
  * Initializes TIA ExtJs exploration helpers.
- * Loads and runs the tia-extjs-br-exp-helpers.js script in context of current browser window.
+ * Loads and runs the e-br-exp.js script in context of current browser window.
  *
  * @param {boolean} [logAction] - is logging needed for this action.
  *
@@ -14,7 +14,7 @@ var path = require('path');
  */
 exports.initHelpers = function (logAction) {
   return gIn.wrap('Initialization of TIA ExtJs Exp helpers ... ', logAction, function () {
-    var scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/tia-extjs-br-exp-helpers.js'), 'utf8');
+    var scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/e-br-exp.js'), 'utf8');
     // gIn.tracer.trace3('initHelpers: script: ' + scriptStr);
     return gT.sOrig.driver.executeScript(scriptStr);
   });
