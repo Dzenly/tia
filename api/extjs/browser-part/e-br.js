@@ -50,7 +50,6 @@
       var res = [];
       for (var key in this.locale) {
         if (this.locale.hasOwnProperty(key)) {
-          console.log(key);
           if (text === this.locale[key]) {
             res.push(key);
           }

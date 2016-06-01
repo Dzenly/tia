@@ -29,24 +29,28 @@ exports.initHelpers = function (logAction) {
  * @returns {*}
  */
 exports.setDefDbgHandlers = function(logAction) {
-  return gIn.wrap('Setup debug mousedown and keydown handler for extJs ... ', logAction, function () {
+  return gIn.wrap('Setup debug click and keydown handler for extJs ... ', logAction, function () {
     var scriptStr = `
     try {
-      document.removeEventListener('mousedown', tiaExtJsOnMouseDown);
+      document.removeEventListener('click', tiaExtJsOnMouseDown);
       document.removeEventListener('keydown', tiaExtJsOnKeyDown);
     } catch(e) {
     }
     window.tiaExtJsOnMouseDown = function (e) {
       if ((e.ctrlKey || e.metaKey) && e.altKey && e.which === 1) {
         tiaEJExp.showCompInfoFromPoint(e);
+        e.preventDefault();
+        e.stopImmediatePropagation();
       }
     };
     window.tiaExtJsOnKeyDown = function (e) {
       if ((e.ctrlKey || e.metaKey) && e.altKey && e.keyCode === 84) {
         tiaEJExp.showCompHierarchy();
+        e.preventDefault();
+        e.stopImmediatePropagation();
       }
     };
-    document.addEventListener('mousedown', tiaExtJsOnMouseDown);
+    document.addEventListener('click', tiaExtJsOnMouseDown);
     document.addEventListener('keydown', tiaExtJsOnKeyDown);
     `;
     // gIn.tracer.trace3('setDbgOnMouseDown: script: ' + funcBody);

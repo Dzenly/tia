@@ -6,7 +6,7 @@
 
   window.tiaEJExp = {
 
-    getSingleComponentInfo: function(c, indent) {
+    getSingleComponentInfo: function (c, indent) {
 
     },
 
@@ -50,6 +50,35 @@
       this.componentsInfo(mainView);
     },
 
+    getControllerInfo: function (controller) {
+      var controllerStr = '';
+      var modelStr = '';
+      if (controller) {
+        var refsObj = controller.getReferences();
+        var refsStr = Ext.Object.getKeys(refsObj).join(' ');
+
+        var routesObj = controller.getRoutes();
+        var routesStr = Ext.Object.getKeys(routesObj).join(' ');
+
+        // TODO: getStore ?? или это есть во ViewModel?
+
+        var viewModel = controller.getViewModel();
+        if (viewModel) {
+          modelStr += 'Model clName: ' + viewModel.$className;
+        }
+
+        controllerStr = '^^^^^^^^^^\ncontroller: isViewController: ' + controller.isViewController +
+          '\nclName: ' + controller.$className +
+          '\nid: ' + controller.id +
+          '\nrefs: ' + refsStr +
+          '\nroutes: ' + routesStr +
+          '\n' + modelStr + '\n++++++++++\n';
+
+      }
+
+      return controllerStr;
+    },
+
     // TODO: form.down('[fieldLabel=Тип риска]').inputEl
 
     collectCompInfo: function (comp) {
@@ -76,7 +105,7 @@
       if (comp.isContainer) {
         compRefs = comp.getReferences();
         if (compRefs) {
-          compRefsStr = Ext.Object.getKeys(refsObj).join(' ');
+          compRefsStr = Ext.Object.getKeys(compRefs).join(' ');
         }
         chCnt = comp.items.getCount();
       }
@@ -88,35 +117,12 @@
         var rHXTypes = refHolder.isComponent ? refHolder.getXTypes() : '';
         var rHClName = refHolder.$className;
         refHolderStr += 'xtypes: ' + rHXTypes + ', clName: ' + rHClName + ', isViewController: ' + refHolder.isViewController;
-
       }
 
       var controller = comp.getController();
-      var controllerStr = '';
-      var modelStr = '';
-
-      if (controller) {
-        var refsObj = controller.getReferences();
-        var refsStr = Ext.Object.getKeys(refsObj).join(' ');
-
-        var routesObj = controller.getRoutes();
-        var routesStr = Ext.Object.getKeys(routesObj).join(' ');
-
-        // TODO: getStore ?? или это есть во ViewModel?
-
-        var viewModel = controller.getViewModel();
-        if (viewModel) {
-          modelStr += 'Model clName: ' + viewModel.$className;
-        }
-
-        controllerStr = '----------\ncontroller: isViewController: ' + controller.isViewController +
-          '\nclName: ' + controller.$className +
-          '\nid: ' + controller.id +
-          '\nrefs: ' + refsStr +
-          '\nroutes: ' + routesStr +
-          '\n' + modelStr + '\n-------\n';
-
-      }
+      var controllerStr = this.getControllerInfo(controller);
+      var controllerStr1 = this.getControllerInfo(comp.lookupController(false));
+      var controllerStr2 = this.getControllerInfo(comp.lookupController(true));
 
       var itemId = comp.getItemId();
       var ref = comp.getReference();
@@ -149,8 +155,12 @@
       var text = '';
       if (comp.getText) {
         text = comp.getText();
+        console.log('Text: ' + text);
         locKeys = tiaExtJs.getLocKeysByText(text);
+        console.log('LocKeys: ' + locKeys);
       }
+
+      var sep = '-------------';
 
       var outStr =
         'ref: ' + ref +
@@ -159,14 +169,16 @@
         '\nxtypes: ' + xtypes +
         '\nclName: ' + clName +
         '\nariaRole: ' + comp.ariaRole +
+        '\nfieldLabel: ' + comp.fieldLabel +
         '\nAttrs: \n' + attrsStr +
         '\nisRefHolderCfg: ' + refHolderCfg +
         '\nrefHolder: ' + refHolderStr +
         '\ncompRefs: ' + compRefsStr +
         '\nchCnt: ' + chCnt +
         '\nisViewport: ' + comp.isViewport +
-        '\n' + controllerStr;
-
+        '\nget\n' + controllerStr + sep +
+        '\nlookup\n' + controllerStr1 + sep +
+        '\nlookup(true)\n' + controllerStr2;
 
       outStr += '\n=======================================\n' + this.collectCompInfo(comp.up());
       return outStr;
@@ -182,9 +194,11 @@
     showCompInfoFromPoint: function (e) {
       var str = Ext.dom.Element.fromPoint(e.clientX, e.clientY);
       var extDomEl = Ext.dom.Element.get(str);
+      console.log('getHtml: ' + extDomEl.getHtml());
+      window.e1 = extDomEl;
       var comp = Ext.Component.fromElement(extDomEl);
+      window.c1 = comp;
       var outStr = this.collectCompInfo(comp);
-      // var msgBox = Ext.Msg.prompt('', outStr.replace(/\n/g, '<br>'));
 
       tiaExtJs.showMsgBox(outStr);
       // console.log(outStr);
