@@ -24,7 +24,8 @@ global.e = gT.e;
 var brHelpers = [
   'e-br.js',
   'e-br-search.js',
-  'e-br-dyn-id.js'
+  'e-br-dyn-id.js',
+  'e-br-content.js'
 ];
 
 /**

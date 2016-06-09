@@ -40,6 +40,7 @@
             var child = c.items.get(i);
             this.componentsInfo(child, indent + '*|', parents + '/' + parent);
           }
+
           console.log(indent + '--------------------------');
         }
       }

@@ -13,6 +13,15 @@
       this.cache = {};
     },
 
+    /* searches the first parent with isPanel === true */
+    parentPanel: function (comp) {
+      return comp.findParentBy(function(container) {
+        if (container.isPanel) {
+          return true;
+        }
+      });
+    },
+
     /**
      * Gets component using id, reference, localization key.
      * @param id - component HTML id.
