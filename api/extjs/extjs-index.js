@@ -59,8 +59,8 @@ gT.e.initTiaExtJsBrHelpers = function (logAction) {
 gT.e.setLocaleObject = function (objExpression, logAction) {
   return gIn.wrap('setLocaleObject ... ', logAction, function () {
     var scriptStr = `
-        tiaExtJs.locale = ${objExpression};
-        return tiaExtJs.locale;
+        tiaEJ.locale = ${objExpression};
+        return tiaEJ.locale;
     `;
     return gT.sOrig.driver.executeScript(scriptStr)
       .then(function (res) {

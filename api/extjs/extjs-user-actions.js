@@ -19,7 +19,7 @@ function click(fName) {
  */
 exports.clickTabByIdItemId = function (id, itemId, logAction) {
   return gIn.wrap(`Click on tab ${itemId} of component ${id} ... `, logAction, function () {
-    return gT.sOrig.driver.executeScript(`return tiaExtJs.dynId.getTabIdByIdItemId('${id}', '${itemId}')`)
+    return gT.sOrig.driver.executeScript(`return tiaEJ.dynId.getTabIdByIdItemId('${id}', '${itemId}')`)
       .then(click('clickTabByIdItemId'));
   });
 };
@@ -35,7 +35,7 @@ exports.clickTabByIdItemId = function (id, itemId, logAction) {
  */
 exports.clickTabByIdText = function (id, text, logAction) {
   return gIn.wrap(`Click on tab with text ${text} of component ${id} ... `, logAction, function () {
-    return gT.sOrig.driver.executeScript(`return tiaExtJs.dynId.getTabIdByIdText ('${id}', '${text}')`)
+    return gT.sOrig.driver.executeScript(`return tiaEJ.dynId.getTabIdByIdText ('${id}', '${text}')`)
       .then(click('clickTabByIdText'));
   });
 };
@@ -51,7 +51,7 @@ exports.clickTabByIdText = function (id, text, logAction) {
  */
 exports.clickTabByIdLocKey = function (id, locKey, logAction) {
   return gIn.wrap(`Click on tab with locale key ${locKey} of component ${id} ... `, logAction, function () {
-    return gT.sOrig.driver.executeScript(`return tiaExtJs.dynId.getTabIdByIdLocKey('${id}', '${locKey}')`)
+    return gT.sOrig.driver.executeScript(`return tiaEJ.dynId.getTabIdByIdLocKey('${id}', '${locKey}')`)
       .then(click('clickTabByIdLocKey'));
   });
 };
@@ -67,7 +67,7 @@ exports.clickTabByIdLocKey = function (id, locKey, logAction) {
  */
 exports.clickByIdRefKey = function (id, ref, key, logAction) {
   return gIn.wrap(`Click on tab by id (${id}), reference (${ref}), key ${key} ... `, logAction, function () {
-    return gT.sOrig.driver.executeScript(`return tiaExtJs.dynId.getByIdRefKey('${id}', '${ref}', '${key}')`)
+    return gT.sOrig.driver.executeScript(`return tiaEJ.dynId.getByIdRefKey('${id}', '${ref}', '${key}')`)
       .then(click('clickByIdRefKey'));
   });
 };

@@ -4,7 +4,7 @@
 (function () {
   'use strict';
   // Class to get dynamic id's.
-  window.tiaExtJs.search = {
+  window.tiaEJ.search = {
 
     // Cache to store temporary objects for fast access.
     cache: {},
@@ -29,7 +29,7 @@
      * @param key - key in locale.
      */
     byIdRefKey: function (id, ref, key) {
-      var text = tiaExtJs.locale[key];
+      var text = tiaEJ.locale[key];
       return Ext.getCmp(id)
         .lookupReference(ref)
         .items
@@ -61,7 +61,7 @@
     },
 
     tabByIdLocKey: function (id, key) {
-      var text = tiaExtJs.locale[key];
+      var text = tiaEJ.locale[key];
       return this.getTabByIdText(id, text);
     }
   };

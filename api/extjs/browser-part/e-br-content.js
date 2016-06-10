@@ -4,7 +4,47 @@
 (function () {
   'use strict';
 
-  window.tiaExtJs.ctByObj = {
+  window.tiaEJ.ctSelectors = {
+    rowBody: '.x-grid-rowbody-tr',
+    rowVisibleBody: '.x-grid-rowbody-tr:not(.x-grid-row-body-hidden)'
+  };
+
+  window.tiaEJ.ctConsts = {
+    sep: ' | ', // column texts separator
+    indent: '  ',
+    title: 'Title: ',
+    header: 'Header: ',
+    visible: 'Visible',
+    notVisible: 'Not visible',
+    rowBody: '  Row body: '
+  };
+
+  window.tiaEJ.ctMisc = {
+
+    /**
+     *
+     * @param {HTMLElement} row
+     * @param {Boolean} [includeHidden = false]
+     * @returns {String}
+     */
+    getRowBody: function (row, includeHidden) {
+      var res = [];
+      var selector = includeHidden ? tiaEJ.ctSelectors.rowBody : tiaEJ.ctSelectors.rowVisibleBody;
+      var rowBodies = row.parentNode.querySelectorAll(tiaEJ.ctSelectors.rowVisibleBody);
+      for (var i = 0, len = rowBodies.length; i < len; i++) {
+        res.push(tiaEJ.ctConsts.rowBody + rowBodies[i].textContent);
+      }
+
+      if (res.length > 0) {
+        return res.join('\n')
+      }
+
+      return null;
+    }
+  };
+
+  // This class must contain only methods which receive table objects.
+  window.tiaEJ.ctByObj = {
 
     /**
      * Gets columns objects for a table.
@@ -12,7 +52,7 @@
      * @returns {Array} - columns.
      */
     getCols: function (table) {
-      var panel = tiaExtJs.search.parentPanel(table);
+      var panel = tiaEJ.search.parentPanel(table);
       var columns = panel.getVisibleColumns();
       return columns;
     },
@@ -80,8 +120,6 @@
         options.rowRange.end = 1e9;
       }
 
-      var sep = ' | '; // TODO: move to some ctConsts ?
-
       var origColSelectors = this.getColSelectors(table);
       var origColHeaderTexts = this.getColHeaderTexts(table);
 
@@ -99,10 +137,11 @@
       }
 
       var arr = [];
+      var title = this.getParentTitle(table);
 
-      arr.push(isVisible ? 'Visible' : 'Not Visible');
-
-      arr.push('Header: ' + colHeaderTexts.join(sep));
+      arr.push(tiaEJ.ctConsts.title + title);
+      arr.push(isVisible ? tiaEJ.ctConsts.visible : tiaEJ.ctConsts.notVisible);
+      arr.push(tiaEJ.ctConsts.header + colHeaderTexts.join(tiaEJ.ctConsts.sep));
 
       var rowIndex = options.rowRange.start;
       var row;
@@ -116,9 +155,13 @@
         });
 
         if (recordArr.length) {
-          arr.push(recordArr.join(sep));
+          arr.push(recordArr.join(tiaEJ.ctConsts.sep));
         }
 
+        var rowBody = tiaEJ.ctMisc.getRowBody(row);
+        if (rowBody) {
+          arr.push(rowBody);
+        }
         rowIndex++;
       }
 
@@ -127,17 +170,26 @@
       } else {
         return arr.join('\n');
       }
+    },
+
+    /**
+     * Gets title of a parent panel.
+     * @param {Ext.view.Table} table - the table.
+     */
+    getParentTitle: function (table) {
+      var panel = tiaEJ.search.parentPanel(table);
+      return panel.getTitle();
     }
   };
 
   // Auto creating ctById object with copy of methods of ctByObj,
   // these methods take id instead of Ext.view.Table object.
-  window.tiaExtJs.ctById = {};
-  var props = Object.getOwnPropertyNames(tiaExtJs.ctByObj);
+  window.tiaEJ.ctById = {};
+  var props = Object.getOwnPropertyNames(tiaEJ.ctByObj);
   props.forEach(function (fName) {
-    tiaExtJs.ctById[fName] = function (id, options) {
+    tiaEJ.ctById[fName] = function (id, options) {
       var cmp = Ext.getCmp(id);
-      return tiaExtJs.ctByObj[fName](cmp, options);
+      return tiaEJ.ctByObj[fName](cmp, options);
     };
   });
 

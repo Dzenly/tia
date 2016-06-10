@@ -1,4 +1,4 @@
-/* globals window: true, screen: true, DsgwDwd3: true, tia: true, tiaExtJs: true */
+/* globals window: true, screen: true, DsgwDwd3: true, tia: true, tiaEJ: true */
 /* Test helper for all pages */
 (function () {
   'use strict';
@@ -12,14 +12,14 @@
 
     cleanExceptions: function (cleanExtAjaxFailures) {
       this.exceptionsArr = [];
-      if (cleanExtAjaxFailures && tiaExtJs) {
-        tiaExtJs.cleanAjaxFailures();
+      if (cleanExtAjaxFailures && tiaEJ) {
+        tiaEJ.cleanAjaxFailures();
       }
     },
 
     getExceptions: function (addExtJsAjaxFailures) {
       var tmp = this.exceptionsArr.concat(
-        (addExtJsAjaxFailures && (typeof tiaExtJs !== 'undefined')) ? tiaExtJs.getAjaxFailures() : []
+        (addExtJsAjaxFailures && (typeof tiaEJ !== 'undefined')) ? tiaEJ.getAjaxFailures() : []
       );
       this.cleanExceptions();
       return tmp;

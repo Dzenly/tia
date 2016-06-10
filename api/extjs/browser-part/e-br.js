@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  window.tiaExtJs = {
+  window.tiaEJ = {
 
     // It if returns true there is not a bad chance that ExtJs application is ready to use.
     // Deprecated.
@@ -86,7 +86,7 @@
   };
 
   var onAjaxError = function (conn, response, options, eOpts) {
-    tiaExtJs.ajaxFailuresArr.push('Ajax Exception: response.status: ' + response.status);
+    tiaEJ.ajaxFailuresArr.push('Ajax Exception: response.status: ' + response.status);
   };
 
   Ext.onReady(function () {

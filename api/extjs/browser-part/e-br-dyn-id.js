@@ -4,7 +4,7 @@
 (function () {
   'use strict';
   // Class to get dynamic id's.
-  window.tiaExtJs.dynId = {
+  window.tiaEJ.dynId = {
     /**
      * Gets dynamic id using id, reference, localization key.
      * @param id - component HTML id.
@@ -12,7 +12,7 @@
      * @param key - key in locale.
      */
     getByIdRefKey: function (id, ref, key) {
-      var text = tiaExtJs.locale[key];
+      var text = tiaEJ.locale[key];
       return Ext.getCmp(id)
         .lookupReference(ref)
         .items
@@ -37,7 +37,7 @@
     },
 
     getTabIdByIdLocKey: function (id, key) {
-      var text = tiaExtJs.locale[key];
+      var text = tiaEJ.locale[key];
       return this.getTabIdByIdText(id, text);
     },
 

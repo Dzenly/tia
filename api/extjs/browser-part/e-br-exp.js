@@ -47,7 +47,7 @@
     },
 
     showCompHierarchy: function () {
-      var mainView = tiaExtJs.getMainView();
+      var mainView = tiaEJ.getMainView();
       this.componentsInfo(mainView);
     },
 
@@ -157,7 +157,7 @@
       if (comp.getText) {
         text = comp.getText();
         console.log('Text: ' + text);
-        locKeys = tiaExtJs.getLocKeysByText(text);
+        locKeys = tiaEJ.getLocKeysByText(text);
         console.log('LocKeys: ' + locKeys);
       }
 
@@ -201,7 +201,7 @@
       window.c1 = comp;
       var outStr = this.collectCompInfo(comp);
 
-      tiaExtJs.showMsgBox(outStr);
+      tiaEJ.showMsgBox(outStr);
       // console.log(outStr);
     }
   };

@@ -32,26 +32,26 @@ exports.setDefDbgHandlers = function(logAction) {
   return gIn.wrap('Setup debug click and keydown handler for extJs ... ', logAction, function () {
     var scriptStr = `
     try {
-      document.removeEventListener('click', tiaExtJsOnMouseDown);
-      document.removeEventListener('keydown', tiaExtJsOnKeyDown);
+      document.removeEventListener('click', tiaEJOnMouseDown);
+      document.removeEventListener('keydown', tiaEJOnKeyDown);
     } catch(e) {
     }
-    window.tiaExtJsOnMouseDown = function (e) {
+    window.tiaEJOnMouseDown = function (e) {
       if ((e.ctrlKey || e.metaKey) && e.altKey && e.which === 1) {
         tiaEJExp.showCompInfoFromPoint(e);
         e.preventDefault();
         e.stopImmediatePropagation();
       }
     };
-    window.tiaExtJsOnKeyDown = function (e) {
+    window.tiaEJOnKeyDown = function (e) {
       if ((e.ctrlKey || e.metaKey) && e.altKey && e.keyCode === 84) {
         tiaEJExp.showCompHierarchy();
         e.preventDefault();
         e.stopImmediatePropagation();
       }
     };
-    document.addEventListener('click', tiaExtJsOnMouseDown);
-    document.addEventListener('keydown', tiaExtJsOnKeyDown);
+    document.addEventListener('click', tiaEJOnMouseDown);
+    document.addEventListener('keydown', tiaEJOnKeyDown);
     `;
     // gIn.tracer.trace3('setDbgOnMouseDown: script: ' + funcBody);
     return gT.sOrig.driver.executeScript(scriptStr);
