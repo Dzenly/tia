@@ -14,12 +14,23 @@
     indent: '  ',
     title: 'Title: ',
     header: 'Header: ',
-    visible: 'Visible',
-    notVisible: 'Not visible',
-    rowBody: '  Row body: '
+    visible: '(Visible)',
+    notVisible: '(Not visible)',
+    rowBody: '  Row body: ',
+    getVisibility: function (cond) {
+      return cond ? this.visible : this.notVisible;
+    }
   };
 
   window.tiaEJ.ctMisc = {
+
+    /**
+     *
+     * @param elem
+     */
+    isHidden: function (elem) {
+      return elem.offsetHeight === 0;
+    },
 
     /**
      *
@@ -32,7 +43,9 @@
       var selector = includeHidden ? tiaEJ.ctSelectors.rowBody : tiaEJ.ctSelectors.rowVisibleBody;
       var rowBodies = row.parentNode.querySelectorAll(selector);
       for (var i = 0, len = rowBodies.length; i < len; i++) {
-        res.push(tiaEJ.ctConsts.rowBody + rowBodies[i].textContent);
+        var rowBody = rowBodies[i];
+        var visInfo = tiaEJ.ctConsts.getVisibility(!this.isHidden(rowBody));
+        res.push(tiaEJ.ctConsts.rowBody + rowBody.textContent + ' ' + visInfo);
       }
 
       if (res.length > 0) {
@@ -45,6 +58,22 @@
 
   // This class must contain only methods which receive table objects.
   window.tiaEJ.ctByObj = {
+
+    expandAllGroups: function (table) {
+      Ext.each(table.features, function (feature) {
+        if (feature.ftype === 'grouping') {
+          feature.expandAll();
+        }
+      });
+    },
+
+    collapseAllGroups: function (table) {
+      Ext.each(table.features, function (feature) {
+        if (feature.ftype === 'grouping') {
+          feature.collapseAll();
+        }
+      });
+    },
 
     /**
      * Gets columns objects for a table.
@@ -85,6 +114,7 @@
 
     /**
      * Gets the entire table content. Only visible columns are returned.
+     * Collapsed groups are excluded from result.
      * @param {Ext.view.Table} table - the table.
      *
      * @param {Object} [options]
@@ -140,7 +170,7 @@
       var title = this.getParentTitle(table);
 
       arr.push(tiaEJ.ctConsts.title + title);
-      arr.push(isVisible ? tiaEJ.ctConsts.visible : tiaEJ.ctConsts.notVisible);
+      arr.push(tiaEJ.ctConsts.getVisibility(isVisible));
       arr.push(tiaEJ.ctConsts.header + colHeaderTexts.join(tiaEJ.ctConsts.sep));
 
       var rowIndex = options.rowRange.start;
@@ -158,7 +188,7 @@
           arr.push(recordArr.join(tiaEJ.ctConsts.sep));
         }
 
-        var rowBody = tiaEJ.ctMisc.getRowBody(row);
+        var rowBody = tiaEJ.ctMisc.getRowBody(row, true);
         if (rowBody) {
           arr.push(rowBody);
         }
