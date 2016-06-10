@@ -30,13 +30,13 @@
     getRowBody: function (row, includeHidden) {
       var res = [];
       var selector = includeHidden ? tiaEJ.ctSelectors.rowBody : tiaEJ.ctSelectors.rowVisibleBody;
-      var rowBodies = row.parentNode.querySelectorAll(tiaEJ.ctSelectors.rowVisibleBody);
+      var rowBodies = row.parentNode.querySelectorAll(selector);
       for (var i = 0, len = rowBodies.length; i < len; i++) {
         res.push(tiaEJ.ctConsts.rowBody + rowBodies[i].textContent);
       }
 
       if (res.length > 0) {
-        return res.join('\n')
+        return res.join('\n');
       }
 
       return null;
