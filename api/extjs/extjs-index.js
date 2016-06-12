@@ -72,3 +72,5 @@ gT.e.setLocaleObject = function (objExpression, logAction) {
 gT.e.u = require('./extjs-utils');
 gT.e.ua = require('./extjs-user-actions.js');
 gT.e.exp = require('./extjs-exploration.js');
+gT.e.s = require('./extjs-search.js');
+gT.e.ct = require('./extjs-content.js');

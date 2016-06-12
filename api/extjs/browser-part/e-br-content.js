@@ -11,7 +11,7 @@
 
   window.tiaEJ.ctConsts = {
     sep: ' | ', // column texts separator
-    indent: '  ',
+    indent: ' | ',
     title: 'Title: ',
     header: 'Header: ',
     visible: '(Visible)',
@@ -53,6 +53,41 @@
       }
 
       return null;
+    },
+
+    checkVisibilityAndFillOptions: function (isVisible, options) {
+      if (
+        !isVisible && options.throwIfInvisible
+      ) {
+        throw new Error('Table is invisible');
+      }
+      options = options || {};
+      options.rowRange = options.rowRange || {};
+
+      if (typeof options.rowRange.start === 'undefined') {
+        options.rowRange.start = 0;
+      }
+      if (typeof options.rowRange.end === 'undefined') {
+        options.rowRange.end = 1e9;
+      }
+      return options;
+    },
+
+    stringifyRecord: function (record, printFieldName) {
+      console.log(record.$className);
+      var fields = record.getFields();
+      var fieldCount = fields.length;
+
+      var arr = [];
+
+      for (var j = 0; j < fieldCount; j++) {
+        var field = fields[j];
+        var fieldName = field.getName();
+        var fieldValue = record.get(fieldName);
+        // var fieldValue = record[fieldName];
+        arr.push((printFieldName ?  (fieldName + ': ') : '') + fieldValue);
+      }
+      return arr.join(', ');
     }
   };
 
@@ -115,6 +150,7 @@
     /**
      * Gets the entire table content. Only visible columns are returned.
      * Collapsed groups are excluded from result.
+     * Rows and columns which are hidden but can be achieved by scrolling are included.
      * @param {Ext.view.Table} table - the table.
      *
      * @param {Object} [options]
@@ -136,19 +172,7 @@
 
       var isVisible = table.isVisible(true);
 
-      if (!isVisible && options.throwIfInvisible) {
-        throw new Error('Table is invisible');
-      }
-
-      options = options || {};
-      options.rowRange = options.rowRange || {};
-
-      if (typeof options.rowRange.start === 'undefined') {
-        options.rowRange.start = 0;
-      }
-      if (typeof options.rowRange.end === 'undefined') {
-        options.rowRange.end = 1e9;
-      }
+      options = tiaEJ.ctMisc.checkVisibilityAndFillOptions(isVisible, options);
 
       var origColSelectors = this.getColSelectors(table);
       var origColHeaderTexts = this.getColHeaderTexts(table);
@@ -200,6 +224,30 @@
       } else {
         return arr.join('\n');
       }
+    },
+
+    getTree: function (table, options) {
+
+      var isVisible = table.isVisible(true);
+      options = tiaEJ.ctMisc.checkVisibilityAndFillOptions(isVisible, options);
+      var panel = tiaEJ.search.parentPanel(table);
+      var root = panel.getRootNode();
+      var res = [];
+
+      function traverseSubTree(node, indent) {
+        res.push(indent + tiaEJ.ctMisc.stringifyRecord(node, true));
+        if (node.hasChildNodes()) {
+          indent += tiaEJ.ctConsts.indent;
+          node.eachChild(function (curNode) {
+            traverseSubTree(curNode, indent);
+          });
+        }
+      }
+
+      traverseSubTree(root, '');
+
+      return res.join('\n');
+
     },
 
     /**
