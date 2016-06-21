@@ -1,0 +1,86 @@
+=================
+Title: Tests for equalDeep assertion
+Good cases
+OK: Numbers
+OK: Numbers result
+OK: Strings
+OK: Strings result
+OK: Object with no sub object
+OK: Object with no sub object result
+OK: Object with sub object
+OK: Object with sub object result
+==========
+Bad cases
+FAIL: null, undefined
+Path: '', Act type: object, 'Exp type: undefined
+OK: false
+FAIL: undefined, null
+Path: '', Act type: undefined, 'Exp type: object
+OK: false
+FAIL: null, object
+Path: , 
+Act val: null
+Exp val: [object Object]
+OK: false
+FAIL: object, null
+Path: , 
+Act val: [object Object]
+Exp val: null
+OK: false
+FAIL: object, string
+Path: '', Act type: object, 'Exp type: string
+OK: false
+FAIL: string, object
+Path: '', Act type: string, 'Exp type: object
+OK: false
+FAIL: object, number
+Path: '', Act type: object, 'Exp type: number
+OK: false
+FAIL: number, object
+Path: '', Act type: number, 'Exp type: object
+OK: false
+FAIL: number, string
+Path: '', Act type: number, 'Exp type: string
+OK: false
+FAIL: string, number
+Path: '', Act type: string, 'Exp type: number
+OK: false
+FAIL: Numbers
+Path: , 
+Act val: 5
+Exp val: 4
+OK: false
+FAIL: Strings
+Path: , 
+Act val: a
+Exp val: b
+OK: false
+FAIL: Object with no sub object
+Path: /a, 
+Act val: 3
+Exp val: 4
+OK: false
+FAIL: Object with sub object
+Path: /sub/sub1/h, 
+Act val: 5
+Exp val: 6
+OK: false
+FAIL: Different properties
+Path: '', Property names are different: Act : a, Exp : b
+OK: false
+FAIL: Different property count
+Different property counts, 
+Path: '', 
+Act props: a
+Exp props: 
+OK: false
+FAIL: Different property types: object, null
+Path: /a, 
+Act val: [object Object]
+Exp val: null
+OK: false
+FAIL: Different property types: number, string
+Path: '/a', Act type: number, 'Exp type: string
+OK: false
+=================
+Pass: 26, Fail: 18

@@ -40,8 +40,8 @@ gT.u.execGen = function (gen) {
     });
 };
 
-gT.s.fail = function (url, logAction) {
-  return gIn.wrap('Intentional fail for debug: ... ', logAction, function () {
-    return promise.rejected('Intentional fail');
-  });
-};
+// gT.s.fail = function (url, logAction) {
+//   return gIn.wrap('Intentional fail for debug: ... ', logAction, function () {
+//     return promise.rejected('Intentional fail');
+//   });
+// };

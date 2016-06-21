@@ -1,0 +1,15 @@
+=================
+Title: Tests for "exception" assertion
+Any exception
+OK: Expected any exception: 'Error: My Exception'
+Certain exception
+OK: Expected exception: 'Error: My Exception'
+Unexpected exception
+FAIL: Actual Exception: 'Error: My Exception'
+Expected Exception: 'Error: Another exception'
+Not any exception
+FAIL: There is not any exception
+Not a certain exception
+FAIL: There is not expected exception: 'Some Expected Exception'
+=================
+Pass: 2, Fail: 3
