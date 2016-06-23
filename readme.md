@@ -111,7 +111,7 @@ Global objects have short aliases (see files above).
 
 ### Test log
 
-This is a text fail (in ASCII encoding) which is created by TIA API calls
+This is a text file which is created by TIA API calls
 (actions with logging, assertions, etc.) in a test JS file.
 The file reflects the test scenario and should be very similar with the according test plan section.
 
