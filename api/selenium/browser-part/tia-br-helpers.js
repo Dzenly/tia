@@ -37,7 +37,9 @@
         width: screen.width,
         height: screen.height
       };
-    }
+    },
+
+    u : {} // utility functions, will be added later by other browser javascripts.
   };
 
   //console.log('TestHelper loaded');

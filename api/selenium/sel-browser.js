@@ -14,6 +14,15 @@ function nextScreenShotPath() {
   return gIn.textUtils.changeExt(jsPath, '_' + index + '.png');
 }
 
+// for gT.e.initTiaExtJsBrHelpers
+var brHelpers = [
+  'tia-br-helpers.js'
+];
+
+var commonUtils = [
+  'misc-utils.js'
+];
+
 /**
  * Initializes TIA browser helpers.
  * Loads and runs the tia-br-helpers.js script in context of current browser window.
@@ -25,9 +34,24 @@ function nextScreenShotPath() {
  */
 exports.initTiaBrHelpers = function (logAction) {
   return gIn.wrap('Initialization of TIA helpers ... ', logAction, function () {
-    return exports.executeScriptFromFile(mPath.join(__dirname, 'browser-part/tia-br-helpers.js'), false);
+    return gT.sOrig.promise.consume(function*() {
+      for (const fName of brHelpers) {
+        let fPath = mPath.join(__dirname, 'browser-part', fName);
+        yield exports.executeScriptFromFile(fPath);
+      }
+      for (const fName of commonUtils) {
+        let fPath = mPath.join(__dirname, '..', '..', 'common-utils', fName);
+        yield exports.executeScriptFromFile(fPath);
+      }
+    });
   });
 };
+
+// exports.initTiaBrHelpers = function (logAction) {
+//   return gIn.wrap('Initialization of TIA helpers ... ', logAction, function () {
+//     return exports.executeScriptFromFile(mPath.join(__dirname, 'browser-part/tia-br-helpers.js'), false);
+//   });
+// };
 
 /**
  * Loads page with specified URL.
@@ -78,6 +102,7 @@ exports.executeScript = function (scriptStr, logAction) {
  */
 exports.executeScriptFromFile = function (fPath, logAction) {
   return gIn.wrap('Execute script from file ' + fPath + ' ... ', logAction, function () {
+    gIn.tracer.trace3('executeScriptFromFile: ' + fPath);
     var scriptStr = fs.readFileSync(fPath, 'utf8');
     // gIn.tracer.trace3('initTiaHelpers: script: ' + scriptStr);
     return gT.sOrig.driver.executeScript(scriptStr);
@@ -93,7 +118,7 @@ exports.executeScriptFromFile = function (fPath, logAction) {
  * @param logAction
  * @returns {*}
  */
-exports.setDbgOnClick = function(funcBody, logAction) {
+exports.setDbgOnClick = function (funcBody, logAction) {
   return gIn.wrap('Setup debug hotkey handler ... ', logAction, function () {
     var scriptStr = `
     try {
