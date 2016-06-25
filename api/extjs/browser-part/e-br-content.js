@@ -55,16 +55,10 @@
       return null;
     },
 
-    checkVisibilityAndFillOptions: function (isVisible, options) {
+    checkVisibilityAndFillOptions: function (isVisible, options, getDefOpts) {
 
-      function getDefOpts() {
-        return {
-          throwIfInvisible: false,
-          rowRange: {
-            start: 0,
-            stop: 1e9
-          }
-        };
+      if (typeof options === 'string') {
+        options = JSON.parse(options);
       }
 
       options = tia.u.mergeOptions(options, getDefOpts);
@@ -77,19 +71,33 @@
       return options;
     },
 
-    stringifyRecord: function (record, printFieldName) {
-      console.log(record.$className);
-      var fields = record.getFields();
-      var fieldCount = fields.length;
-
+    stringifyAllRecord: function (record, printFieldName) {
+      var fieldsToPrint = record.getFields();
+      var fieldCount = fieldsToPrint.length;
       var arr = [];
-
-      for (var j = 0; j < fieldCount; j++) {
-        var field = fields[j];
+      for (var i = 0; i < fieldCount; i++) {
+        var field = fieldsToPrint[i];
         var fieldName = field.getName();
         var fieldValue = record.get(fieldName);
-        // var fieldValue = record[fieldName];
         arr.push((printFieldName ? (fieldName + ': ') : '') + fieldValue);
+      }
+      return arr.join(', ');
+    },
+
+    stringifyRecord: function (record, fieldsToPrint, printFieldName) {
+      var fieldCount = fieldsToPrint.length;
+      var arr = [];
+      for (var i = 0; i < fieldCount; i++) {
+        var fieldName = fieldsToPrint[i];
+        var fieldValue = record.get(fieldName);
+        if (fieldName === 'checked' && fieldValue === null) {
+          continue;
+        }
+        if (fieldName !== 'text') {
+          arr.push((printFieldName ? (fieldName + ': ') : '') + fieldValue);
+        } else {
+          arr.push(fieldValue);
+        }
       }
       return arr.join(', ');
     },
@@ -208,7 +216,17 @@
 
       var isVisible = table.isVisible(true);
 
-      options = tiaEJ.ctMisc.checkVisibilityAndFillOptions(isVisible, options);
+      function getDefOpts() {
+        return {
+          throwIfInvisible: false,
+          rowRange: {
+            start: 0,
+            stop: 1e9
+          }
+        };
+      }
+
+      options = tiaEJ.ctMisc.checkVisibilityAndFillOptions(isVisible, options, getDefOpts);
 
       var origColSelectors = this.getColSelectors(table);
       var origColHeaderTexts = this.getColHeaderTexts(table);
@@ -264,16 +282,57 @@
       }
     },
 
+    /**
+     * Gets entire tree content.
+     * Collapsed nodes are also included in results.
+     *
+     * @param table
+     * @param options
+     * @returns {string}
+     */
     getTree: function (table, options) {
 
+      function getDefOpts() {
+        return {
+          throwIfInvisible: false,
+          allFields: false
+        };
+      }
+
       var isVisible = table.isVisible(true);
-      options = tiaEJ.ctMisc.checkVisibilityAndFillOptions(isVisible, options);
+      options = tiaEJ.ctMisc.checkVisibilityAndFillOptions(isVisible, options, getDefOpts);
       var panel = tiaEJ.search.parentPanel(table);
       var root = panel.getRootNode();
       var res = [];
 
       function traverseSubTree(node, indent) {
-        res.push(indent + tiaEJ.ctMisc.stringifyRecord(node, true));
+
+        var fieldsToPrint = ['text', 'checked'];
+
+        if (tia.debugMode) {
+          fieldsToPrint = [
+            'text',
+            'checked',
+            'id',
+            'visible',
+            'expanded',
+            'leaf',
+            'expandable',
+            'index',
+            'depth',
+            'qtip',
+            'qtitle',
+            'cls'
+          ];
+        }
+
+        if (options.allFields) {
+          res.push(indent + tiaEJ.ctMisc.stringifyAllRecord(node, fieldsToPrint, true));
+        } else {
+          res.push(indent + tiaEJ.ctMisc.stringifyRecord(node, fieldsToPrint, true));
+        }
+
+
         if (node.hasChildNodes()) {
           indent += tiaEJ.ctConsts.indent;
           node.eachChild(function (curNode) {

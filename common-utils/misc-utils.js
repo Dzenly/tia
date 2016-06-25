@@ -17,6 +17,13 @@
     return result;
   };
 
+  container.optsToJson = function (options) {
+    if (typeof options === 'undefined') {
+      options = null;
+    }
+    return JSON.stringify(options);
+  };
+
   /**
    * Merges src options with default ones.
    * @param {object} src
