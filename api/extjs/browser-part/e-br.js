@@ -30,11 +30,8 @@
       return tmp;
     },
 
-    activeAjaxCallsCount: function () {
-      if (!Ext.Ajax.requests) {
-        return 0;
-      }
-      return Ext.Ajax.requests.length;
+    isThereActiveAjaxCalls: function () {
+      return Ext.Ajax.isLoading();
     },
 
     // If field is omited - all data will be fetched.

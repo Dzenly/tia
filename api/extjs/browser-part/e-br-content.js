@@ -113,6 +113,10 @@
 
         arr.push('Ext.isReady: ' + Ext.isReady);
 
+        // arr.push('Ajax req count: ' + tiaEJ.getActiveAjaxCallsCount());
+
+        arr.push('Ajax isLoading: ' + Ext.Ajax.isLoading());
+
         arr.push('Table:');
         tia.u.dumpObj(table, props, arr);
 

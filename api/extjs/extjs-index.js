@@ -74,3 +74,4 @@ gT.e.ua = require('./extjs-user-actions.js');
 gT.e.exp = require('./extjs-exploration.js');
 gT.e.s = require('./extjs-search.js');
 gT.e.ct = require('./extjs-content.js');
+gT.e.w = require('./extjs-waits.js');
