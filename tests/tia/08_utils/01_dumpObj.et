@@ -1,0 +1,15 @@
+=================
+Title: Tests for dump function
+Separatedly: 
+a.b: a.b
+a.c.d: a.c.d
+g(): g()
+f.h.j().i: f.h.j().i
+==========
+Together: 
+a.b: a.b
+a.c.d: a.c.d
+g(): g()
+f.h.j().i: f.h.j().i
+=================
+Pass: 0, Fail: 0

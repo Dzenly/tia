@@ -1,16 +1,15 @@
 (function () {
   'use strict';
 
-  var obj;
+  var container;
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    obj = exports;
+    container = exports;
   } else {
-    obj = window.tia.u;
+    container = window.tia.u;
   }
 
-
-  obj.copyObject = function (obj) {
+  container.copyObject = function (obj) {
     var result = {};
     for (var prop in obj) {
       result[prop] = obj[prop];
@@ -28,7 +27,7 @@
    * Note: this means that default options must contain all possible options.
    *
    */
-  obj.mergeOptions = function mergeOptions(src, def) {
+  container.mergeOptions = function mergeOptions(src, def) {
     var dst = def();
 
     function handleObj(src, dst) {
@@ -48,8 +47,37 @@
       }
     }
 
+    if (!src) {
+      src = {};
+    }
+
     handleObj(src, dst);
 
     return dst;
   };
+
+  /**
+   * Prints given object properies to string.
+   * @param obj - Object which properties to print.
+   * @param propPaths - Names for properties to print.
+   * @param dstArr - Destination array to place strings to.
+   */
+  container.dumpObj = function (obj, propPaths, dstArr) {
+
+    for (var i = 0, len1 = propPaths.length; i < len1; i++) {
+      var propPath = propPaths[i];
+      var subProps = propPath.split('.');
+      var propPathVal = obj;
+      for (var j = 0, len2 = subProps.length; j < len2; j++) {
+        var subProp = subProps[j];
+        if (subProp.slice(-2) === '()') {
+          propPathVal = propPathVal[subProp.slice(0, -2)]();
+        } else {
+          propPathVal = propPathVal[subProp];
+        }
+      }
+      dstArr.push(propPath + ': ' + propPathVal);
+    }
+  };
+
 })();

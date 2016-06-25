@@ -138,6 +138,30 @@ exports.setDbgOnClick = function (funcBody, logAction) {
 };
 
 /**
+ * Sets debug mode for browser scripts.
+ * More info is showed for elements (including ExtJs ones).
+ * @param logAction
+ * @returns {*}
+ */
+exports.setDebugMode = function (logAction) {
+  return gIn.wrap('Set debug mode ... ', logAction, function () {
+    return gT.sOrig.driver.executeScript('tia.debugMode = true;');
+  });
+};
+
+/**
+ * Resets debug mode for browser scripts.
+ * More info is showed for elements (including ExtJs ones).
+ * @param logAction
+ * @returns {*}
+ */
+exports.resetDebugMode = function (logAction) {
+  return gIn.wrap('Reset debug mode ... ', logAction, function () {
+    return gT.sOrig.driver.executeScript('tia.debugMode = false;');
+  });
+};
+
+/**
  * Returns current URL.
  * @param logAction
  * @returns {*}

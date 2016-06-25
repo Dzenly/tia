@@ -100,6 +100,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         gIn.logger.errorln('Act.Wrapper.FAIL' + stopTimer(startTime));
         gIn.logger.errorln('========== Err Info Begin ==========');
         gIn.logger.exception('Exception in wrapper: ', err);
+        gIn.logger.exception('Exception stack: ', err.stack);
         if (typeof gT.sOrig.driver !== 'undefined' && !gIn.errFlag) {
           gIn.errFlag = true; // To prevent recursive error report on error report.
           /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */

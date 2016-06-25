@@ -1,6 +1,6 @@
 // jscs:ignore
 // TODO: by label, by object data (like linkedItem), form navigations.
-
+/* globals tia */
 (function () {
   'use strict';
 
@@ -56,19 +56,23 @@
     },
 
     checkVisibilityAndFillOptions: function (isVisible, options) {
+
+      function getDefOpts() {
+        return {
+          throwIfInvisible: false,
+          rowRange: {
+            start: 0,
+            stop: 1e9
+          }
+        };
+      }
+
+      options = tia.u.mergeOptions(options, getDefOpts);
+
       if (
         !isVisible && options.throwIfInvisible
       ) {
         throw new Error('Table is invisible');
-      }
-      options = options || {};
-      options.rowRange = options.rowRange || {};
-
-      if (typeof options.rowRange.start === 'undefined') {
-        options.rowRange.start = 0;
-      }
-      if (typeof options.rowRange.end === 'undefined') {
-        options.rowRange.end = 1e9;
       }
       return options;
     },
@@ -85,9 +89,37 @@
         var fieldName = field.getName();
         var fieldValue = record.get(fieldName);
         // var fieldValue = record[fieldName];
-        arr.push((printFieldName ?  (fieldName + ': ') : '') + fieldValue);
+        arr.push((printFieldName ? (fieldName + ': ') : '') + fieldValue);
       }
       return arr.join(', ');
+    },
+
+    // TODO: table -> component.
+    fillDebugInfo: function (table, arr) {
+      if (tia.debugMode) {
+        var props = [
+          '_renderState',
+          'isDisabled()',
+          'isHidden()',
+          'isFocusable()',
+          'isSuspended()',
+          'isLayoutSuspended()',
+          'isMasked()'
+        ];
+        var panelProps = [
+          '_renderState',
+          'isConfiguring'
+        ];
+
+        arr.push('Ext.isReady: ' + Ext.isReady);
+
+        arr.push('Table:');
+        tia.u.dumpObj(table, props, arr);
+
+        arr.push('Panel:');
+        var panel = tiaEJ.search.parentPanel(table);
+        tia.u.dumpObj(panel, panelProps, arr);
+      }
     }
   };
 
@@ -161,7 +193,7 @@
      *
      * @param {Object} [options.rowRange] - rows to include to result (inclusively).
      * @param {Number} [options.rowRange.start = 0] - row index to start from.
-     * @param {Number} [options.rowRange.end = 1e9] - row index to end with.
+     * @param {Number} [options.rowRange.stop = 1e9] - row index to end with.
      *
      * @param {Boolean} [options.throwIfInvisible = false] - throw an exception if the table if invisible.
      *
@@ -193,13 +225,15 @@
       var arr = [];
       var title = this.getParentTitle(table);
 
+      tiaEJ.ctMisc.fillDebugInfo(table, arr);
+
       arr.push(tiaEJ.ctConsts.title + title);
       arr.push(tiaEJ.ctConsts.getVisibility(isVisible));
       arr.push(tiaEJ.ctConsts.header + colHeaderTexts.join(tiaEJ.ctConsts.sep));
 
       var rowIndex = options.rowRange.start;
       var row;
-      while ((row = table.getRow(rowIndex)) && rowIndex <= options.rowRange.end) {
+      while ((row = table.getRow(rowIndex)) && rowIndex <= options.rowRange.stop) {
 
         var recordArr = [];
 

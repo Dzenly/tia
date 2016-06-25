@@ -39,7 +39,9 @@
       };
     },
 
-    u : {} // utility functions, will be added later by other browser javascripts.
+    u : {}, // utility functions, will be added later by other browser javascripts.
+
+    debugMode: false // To print more info about elements (including ExtJs ones).
   };
 
   //console.log('TestHelper loaded');
