@@ -1,5 +1,64 @@
 ==========
 
+autoGetId - в вывод об компоненте.
+
+get - для ExtJs должна дождаться Url и дождаться всех Ajax вызовов.
+
+Что за id в treeModel?
+  
+Клик на элементе в дереве.
+
+
+Должен ли node id быть уникальным.
+
+treeStore. filter ?
+cascadeBy
+findChildBy
+child.data.text
+
+
+
+var rn = panel.getRootNode() - какого типа return value?
+var c = rn.findChild("text","Also ASP.net",true); // Возможно ищет только в экспанднутом дереве?
+c.expand();
+
+а ещё есть node id и есть getNodeById.
+
+TODO: в исследовалке показывать id нода дерева, на котором стоит курсор мыши.
+
+грид имеет метод filter.
+
+Можно ли rootNode взять у View не поднимаясь до panel.
+
+```js
+
+  var panel = me.up('panel'),
+                    rn = panel.getRootNode(),
+                    regex = new RegExp("ASP.net");
+
+  rn.findChildBy(function (child) {
+                    var text = child.data.text;
+                    if (regex.test(text) === true) {
+                        console.warn("selecting child", child);
+                        panel.getSelectionModel().select(child, true);
+                    }
+                });
+```
+
+http://victorbarzana.blogspot.ru/2012/11/recursively-search-in-extjs-tree.html
+https://gist.github.com/colinramsay/1789536
+
+Ext.data.TreeStore - есть filters в конфигах.
+
+
+Ф-я для считывания элемента дерева по индексам. Клика по индексам.
+Ф-я для поиска элемента дерева по тексту, экспанда, если надо и клика.
+
+Там какие-то Path должны быть для деревьев.
+
+Перелопатить опять View, Panel, Model, NodeInterface.
+
+
 Перед считыванием грида проверять его "готовность", м.б. он в процессе обновления.
 
 Применить функционал опций.

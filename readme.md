@@ -16,7 +16,7 @@ To don't blow up versions for now I am not following SEMVER rules.
 I change the 'patch' version part at adding new functionality and bug fixes,
 and change the 'minor' version part at changes which break backward compatibility.
 
-After 1.0.0 (it is planned as of June 2016) version I will follow SEMVER strictly.
+After 1.0.0 (it is planned as of July 2016) version I will follow SEMVER strictly.
 
 ----------------------------------
 
@@ -273,7 +273,7 @@ Use JSON here because JS files (except config.js, suite-config.js) are runned as
 
 ## Environment variables
 
-See TIA_TESTS_DIR and TIA_REQUIRE_MODULES descriptions in `tia --help`.
+See TIA_TESTS_DIR, TIA_REQUIRE_MODULES, TIA_EXTERNAL_LOG descriptions in `tia --help`.
 Use TIA_NO_COLORS - to disable ANSI colors.
 
 ----------------------------------

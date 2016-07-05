@@ -9,6 +9,8 @@ module.exports = {
 
   emailCfgPathEnvVarName: 'TIA_EMAIL_CFG_PATH',
 
+  externalLogEnvVarName: 'TIA_EXTERNAL_LOG',
+
   // Имя файла для локального конфига.
   configName: 'config.js',
 

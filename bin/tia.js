@@ -100,6 +100,10 @@ function usage() {
 
       --stop-remote-driver - (for chromedriver only) shuts down the remote driver.
 
+      --ext-log <external_log_path> - before each test this file is removed, and after each test this file content
+      is added to test log. This allows to track some unexpected server side errors.
+      ${gT.engineConsts.externalLogEnvVarName} environment variable also can be used for this.
+
       -h, --help - Print this help.
 
     Examples:
@@ -131,7 +135,8 @@ var opts = {
     'require-modules',
     'def-host',
     'et-mlog',
-    'email-cfg-path'
+    'email-cfg-path',
+    'ext-log'
   ],
   boolean: [
     'h',
@@ -223,10 +228,21 @@ if (!gIn.params.emailCfgPath) {
 
 if (gIn.params.emailCfgPath) {
   gIn.params.emailCfgPath = path.resolve(gIn.params.emailCfgPath);
-  gIn.tracer.trace3('Email Cfg Path: ' + gIn.params.emailCfgPath);
+  gIn.tracer.trace3('Email cfg path: ' + gIn.params.emailCfgPath);
   gT.suiteConfigDefault = gIn.configUtils.mergeConfigs(gT.suiteConfigDefault, require(gIn.params.emailCfgPath));
 } else {
-  gIn.tracer.trace3('No email Cfg Path');
+  gIn.tracer.trace3('No email cfg path');
+}
+
+if (!gIn.params.extLog) {
+  gIn.params.extLog = process.env[gT.engineConsts.externalLogEnvVarName];
+}
+
+if (gIn.params.extLog) {
+  gIn.params.extLog = path.resolve(gIn.params.extLog);
+  gIn.tracer.trace3('External log path: ' + gIn.params.extLog);
+} else {
+  gIn.tracer.trace3('No external log path');
 }
 
 gIn.params.testsParentDir = path.dirname(testsDir);
@@ -240,7 +256,7 @@ if (gIn.params.etMlog && !path.isAbsolute(gIn.params.etMlog)) {
   gIn.params.etMlog = path.join(gIn.params.testsParentDir, gIn.params.etMlog);
 }
 
-gIn.tracer.trace3('Etalog Metalog path: ' + gIn.params.etMlog);
+gIn.tracer.trace3('Etalon Metalog path: ' + gIn.params.etMlog);
 
 // TODO: support several paths for pattern?
 
