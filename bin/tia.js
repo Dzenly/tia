@@ -178,7 +178,8 @@ var path = require('path');
 
 if (args.runSelfTests) {
   args.testsDir = path.resolve(path.join(__dirname, '..', 'tests'));
-  args.etMlog = 'tests.et';
+  args.etMlog = gT.engineConsts.selfTestsEtMLog;
+  args.extLog = gT.engineConsts.selfTestsExtLog;
 }
 
 if (args.debugMax) {

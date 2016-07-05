@@ -37,6 +37,16 @@ exports.safeUnlink = function (path) {
   }
 };
 
+exports.safeReadFile = function (path) {
+  var res = '';
+  try {
+    res = fs.readFileSync(path, gT.engineConsts.logEncoding);
+  } catch (e) {
+    // No handling intentionaly.
+  }
+  return res;
+};
+
 exports.backupDif = function (path) {
   try {
     fs.renameSync(path, path + '.old');

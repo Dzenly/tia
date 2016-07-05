@@ -31,6 +31,7 @@ function runTestFile(file) {
 }
 
 function *handleTestFile(file, dirConfig) {
+
   // Restore the state which could be damaged by previous test and any other initialization.
   gIn.tInfo.isPassCountingEnabled = true;
   gIn.loggerCfg.defLlLogAction = true;
@@ -62,6 +63,10 @@ function *handleTestFile(file, dirConfig) {
   gIn.fileUtils.createEmptyLog(file);
   gIn.fileUtils.rmPngs(file);
 
+  if (gIn.params.extLog) {
+    gIn.fileUtils.safeUnlink(gIn.params.extLog);
+  }
+
   var startTime = gT.timeUtils.startTimer();
 
   yield flow.execute(function () { // gIn.tInfo.data
@@ -69,6 +74,12 @@ function *handleTestFile(file, dirConfig) {
   });
 
   gIn.logger.testSummary();
+
+  if (gIn.params.extLog) {
+    let extLog = gIn.fileUtils.safeReadFile(gIn.params.extLog);
+    gIn.logger.log(extLog);
+  }
+
   gIn.tInfo.data.time = gT.timeUtils.stopTimer(startTime);
   gIn.diffUtils.diff(file);
 

@@ -167,3 +167,5 @@ tmpProfiles
 
 br-profiles/
 *.old
+
+ext-log.log
