@@ -25,7 +25,8 @@ var brHelpers = [
   'e-br.js',
   'e-br-search.js',
   'e-br-dyn-id.js',
-  'e-br-content.js'
+  'e-br-content.js',
+  'e-br-get-html-els.js'
 ];
 
 /**
@@ -74,4 +75,5 @@ gT.e.ua = require('./extjs-user-actions.js');
 gT.e.exp = require('./extjs-exploration.js');
 gT.e.s = require('./extjs-search.js');
 gT.e.ct = require('./extjs-content.js');
+gT.e.cl = require('./extjs-clicks.js');
 gT.e.w = require('./extjs-waits.js');
