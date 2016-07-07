@@ -18,8 +18,17 @@
         return null;
       }
       return this.getFromTableByIndex(table, index);
-    }
+    },
 
+    getFromTableByFieldLocKey: function (table, fieldValueKey, fieldName) {
+      fieldName = fieldName ? fieldName : 'name';
+      var store = table.getStore();
+      var index = store.findExact(fieldName, tiaEJ.locale[fieldValueKey]);
+      if (index === -1) {
+        return null;
+      }
+      return this.getFromTableByIndex(table, index);
+    }
   };
 
   // Auto creating hEById object with copy of methods of hEByObj,
