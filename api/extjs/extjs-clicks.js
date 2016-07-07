@@ -2,6 +2,7 @@
 /* globals gT: true */
 /* globals gIn: true */
 
+// Note that for tree only expanded nodes are taking into account.
 exports.tableItemByIndex = function (tableId, tableName, itemIndex, logAction) {
   return gIn.wrap(`Click table '${tableName}' item by index '${itemIndex}'`, logAction, function () {
     return gT.s.browser.executeScript(`return tiaEJ.hEById.getFromTableByIndex('${tableId}', ${itemIndex});`, false)

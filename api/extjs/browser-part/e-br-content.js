@@ -307,7 +307,7 @@
 
       function traverseSubTree(node, indent) {
 
-        var fieldsToPrint = ['text', 'checked'];
+        var fieldsToPrint = ['text', 'checked', 'id'];
 
         if (tia.debugMode) {
           fieldsToPrint = [

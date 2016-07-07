@@ -20,8 +20,6 @@ cascadeBy
 findChildBy
 child.data.text
 
-
-
 var rn = panel.getRootNode() - какого типа return value?
 var c = rn.findChild("text","Also ASP.net",true); // Возможно ищет только в экспанднутом дереве?
 c.expand();

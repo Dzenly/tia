@@ -5,6 +5,7 @@
 
   window.tiaEJ.hEByObj = {
 
+    // Note that for tree only expanded nodes are taking into account.
     getFromTableByIndex: function (table, index) {
       var el = table.getRow(index);
       return el;

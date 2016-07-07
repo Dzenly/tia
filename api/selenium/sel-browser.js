@@ -81,6 +81,21 @@ exports.close = function (logAction) {
 };
 
 /**
+ * Sets a function which clicks body every minute to keep session active.
+ * @param logAction
+ * @returns {*}
+ */
+exports.setBodyClicker = function (logAction) {
+  return gIn.wrap('Set body clicker to keep session active ... ', logAction, function () {
+    return gT.sOrig.driver.executeScript(`
+    setInterval(function() {
+      document.body.click();
+    }
+    , 60000)`);
+  });
+};
+
+/**
  * Runs specified JavaScript in browser.
  *
  * @param {string} scriptStr - JavaScript text to execute.
