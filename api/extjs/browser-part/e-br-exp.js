@@ -2,19 +2,21 @@
 (function () {
   'use strict';
 
-  // ownerCt vs up - show difference.
-
   window.tiaEJExp = {
 
     consts: {
-      bigSep: '\n=============================\n'
+      bigSepLn: '\n==================================\n',
+      avgSep: '======================',
+      smallSep: '--------------------------',
+      tinySep: '------------',
+      nA: 'N/A'
     },
 
     getSingleComponentInfo: function (c, indent) {
 
     },
 
-    componentsInfo: function (c, indent, parents) {
+    logCompHierarchyToConsole: function (c, indent, parents) {
       if (!indent) {
         indent = '';
       }
@@ -37,26 +39,26 @@
         console.log('Container children:');
         var cnt = c.items.getCount();
         if (cnt) {
-          console.log(indent + '==========================');
+          console.log(indent + this.consts.avgSep);
           for (var i = 0; i < cnt; i++) {
-            console.log(indent + '==========================');
+            console.log(indent + this.consts.avgSep);
             console.log(indent + '*|' + 'child ' + i + ' for cmp: ' + parent);
             var child = c.items.get(i);
-            this.componentsInfo(child, indent + '*|', parents + '/' + parent);
+            this.logCompHierarchyToConsole(child, indent + '*|', parents + '/' + parent);
           }
 
-          console.log(indent + '--------------------------');
+          console.log(indent + this.consts.smallSep);
         }
       }
     },
 
     showCompHierarchy: function () {
       var mainView = tiaEJ.getMainView();
-      this.componentsInfo(mainView);
+      this.logCompHierarchyToConsole(mainView);
     },
 
     getControllerInfo: function (controller) {
-      var controllerStr = '';
+      var controllerStr = 'N/A';
       var modelStr = '';
       if (controller) {
         var refsObj = controller.getReferences();
@@ -72,7 +74,7 @@
           modelStr += 'Model clName: ' + viewModel.$className;
         }
 
-        controllerStr = '^^^^^^^^^^\ncontroller: isViewController: ' + controller.isViewController +
+        controllerStr = 'CONTROLLER INFO:\ncontroller: isViewController: ' + controller.isViewController +
           '\nclName: ' + controller.$className +
           '\nid: ' + controller.id +
           '\nrefs: ' + refsStr +
@@ -104,30 +106,29 @@
       //alert(refHolder.$className);
 
       var compRefs = null;
-      var compRefsStr = '';
-      var chCnt = 0;
+      var getReferencesStr = '';
+      var childrenCount = 0;
 
       if (comp.isContainer) {
         compRefs = comp.getReferences();
         if (compRefs) {
-          compRefsStr = Ext.Object.getKeys(compRefs).join(' ');
+          getReferencesStr = Ext.Object.getKeys(compRefs).join(' ');
         }
-        chCnt = comp.items.getCount();
+        childrenCount = comp.items.getCount();
       }
 
       var refHolder = comp.lookupReferenceHolder();
       var refHolderStr = '';
       if (refHolder) {
-        //console.log('rh: ' + refHolder.$className);
         var rHXTypes = refHolder.isComponent ? refHolder.getXTypes() : '';
         var rHClName = refHolder.$className;
         refHolderStr += 'xtypes: ' + rHXTypes + ', clName: ' + rHClName + ', isViewController: ' + refHolder.isViewController;
       }
 
       var controller = comp.getController();
-      var controllerStr = this.getControllerInfo(controller);
-      var controllerStr1 = this.getControllerInfo(comp.lookupController(false));
-      var controllerStr2 = this.getControllerInfo(comp.lookupController(true));
+      var getControllerStr = this.getControllerInfo(controller);
+      var lookupControllerStr = this.getControllerInfo(comp.lookupController(false));
+      var lookupControllerSkipThisStr = this.getControllerInfo(comp.lookupController(true));
 
       var itemId = comp.getItemId();
       var ref = comp.getReference();
@@ -141,14 +142,7 @@
       //   itemCount = comp.items.getCount();
       // }
 
-      var attrsObj = comp.getEl().getAttributes();
-      var attrsStr = '';
-
-      Ext.Object.each(attrsObj, function (key, value) {
-        if (key !== 'style' && key !== 'tabindex') {
-          attrsStr += key + ': ' + value + '\n';
-        }
-      });
+      var attrsStr = tiaEJ.ctMisc.getAttributes(comp);
 
       // 'DOM id: ' + id +
       // '\nDom Class: ' + comp.getEl().getAttribute('class') +
@@ -156,36 +150,56 @@
       // '\nisContainer: ' + isContainer;
       // '\nitemCount: ' + itemCount;
 
-      var locKeys;
+      var localeKeys = this.consts.nA;
       var text = '';
       if (comp.getText) {
         text = comp.getText();
-        console.log('Text: ' + text);
-        locKeys = tiaEJ.getLocKeysByText(text);
-        console.log('LocKeys: ' + locKeys);
+        localeKeys = tiaEJ.getLocKeysByText(text);
       }
 
-      var sep = '-------------';
+      var viewModel = comp.lookupViewModel();
+      var session = comp.lookupSession();
+
+      var viewModelStr = this.consts.nA;
+      if (viewModel) {
+        viewModelStr = viewModel.$className
+      }
+
+      var sessionStr = this.consts.nA;
+      if (session) {
+        sessionStr = session.$className;
+      }
+
+      var confItemIdStr = this.consts.nA;
+      try {
+        confItemIdStr = comp.getConfig('itemId', true);
+      } catch(e){
+      }
 
       var outStr =
-        'ref: ' + ref +
-        '\nitemId: ' + itemId +
-        '\nLoc Keys: ' + locKeys + '; Text:' + text +
-        '\nxtypes: ' + xtypes +
+        'ariaRole: ' + comp.ariaRole +
         '\nclName: ' + clName +
-        '\nariaRole: ' + comp.ariaRole +
+        '\nid: ' + comp.getId() + (comp.autoGenId ? ' (autogenerated)' : '') +
+        '\nreference: ' + ref +
+        '\nitemId: ' + itemId +
+        '\nitemId from config: ' + confItemIdStr +
+        '\nLocale Keys: ' + localeKeys + '; getText:' + text +
+        '\nxtypes: ' + xtypes +
         '\nfieldLabel: ' + comp.fieldLabel +
-        '\nAttrs: \n' + attrsStr +
+        '\nAttrs: \n' + attrsStr + '------\n' +
+
+        '\nviewModel: ' + viewModelStr +
+        '\nsession: ' + sessionStr +
         '\nisRefHolderCfg: ' + refHolderCfg +
         '\nrefHolder: ' + refHolderStr +
-        '\ncompRefs: ' + compRefsStr +
-        '\nchCnt: ' + chCnt +
+        '\ncompRefs: ' + getReferencesStr +
+        '\nChildren count: ' + childrenCount +
         '\nisViewport: ' + comp.isViewport +
-        '\nget\n' + controllerStr + sep +
-        '\nlookup\n' + controllerStr1 + sep +
-        '\nlookup(true)\n' + controllerStr2;
+        '\ngetController\n' + getControllerStr + this.consts.smallSep +
+        '\nlookupController()\n' + lookupControllerStr + this.consts.smallSep +
+        '\nlookupController(skipThis)\n' + lookupControllerSkipThisStr;
 
-      outStr += '\n=======================================\n' + this.collectCompInfo(comp.up());
+      outStr += this.consts.bigSepLn + this.collectCompInfo(comp.up());
       return outStr;
     }
     ,
@@ -199,19 +213,20 @@
     showCompInfoFromPoint: function (e) {
       var str = Ext.dom.Element.fromPoint(e.clientX, e.clientY);
       var extDomEl = Ext.dom.Element.get(str);
-      console.log('getHtml: ' + extDomEl.getHtml());
+      // console.log('getHtml: ' + extDomEl.getHtml());
       window.e1 = extDomEl;
       var comp = Ext.Component.fromElement(extDomEl);
 
       var record = null;
-      var recordStr = 'Record Placeholder';
+      var recordStr = 'Record info: ';
 
       try {
         record = comp.getRecord(extDomEl);
-        recordStr = tiaEJ.ctMisc.stringifyAllRecord(record, true);
-        recordStr += this.consts.bigSep;
+        recordStr += '\n' + tiaEJ.ctMisc.stringifyAllRecord(record, true);
+        recordStr += this.consts.bigSepLn;
       } catch (e) {
-        console.log(e);
+        recordStr += this.consts.nA;
+        console.log('Exp exc:' + e);
       }
 
       if (tia.debugMode) {

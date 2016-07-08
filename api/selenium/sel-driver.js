@@ -112,13 +112,14 @@ exports.init = function (cleanProfile, logAction) {
       var remoteDriverConnectionStr = gT.suiteConfig.remoteDriverUrl + ':' + gT.suiteConfig.remoteDriverPort;
 
       if (sid) {
-        gIn.tracer.trace3('There is not current SID');
+        gIn.tracer.trace3('There is current SID');
+        gT.firstRunWithRemoteDriver = false;
         var executor = gT.sOrig.executors.createExecutor(remoteDriverConnectionStr);
         gT.sOrig.driver = gT.sOrig.wdModule.WebDriver.attachToSession(
           executor,
           sid);
       } else {
-        gIn.tracer.trace3('There is current SID');
+        gIn.tracer.trace3('There is not current SID');
         gT.firstRunWithRemoteDriver = true;
         gT.sOrig.driver = new gT.sOrig.wdModule.Builder()
           .forBrowser(gIn.params.browser)

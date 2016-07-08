@@ -32,6 +32,21 @@
       return elem.offsetHeight === 0;
     },
 
+    getAttributes: function(compOrEl) {
+
+      var el = compOrEl.isComponent ? compOrEl.getEl() : compOrEl;
+      var attrsObj = el.getAttributes();
+      var attrsStr = '';
+      var excludeArr = ['style', 'tabindex', 'id'];
+
+      Ext.Object.each(attrsObj, function (key, value) {
+        if (excludeArr.indexOf(key) === -1) {
+          attrsStr += key + ': ' + value + '\n';
+        }
+      });
+      return attrsStr;
+    },
+
     /**
      *
      * @param {HTMLElement} row
