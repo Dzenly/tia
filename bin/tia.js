@@ -80,6 +80,10 @@ function usage() {
 
       --debug-max - equals to --log-to-console --log-err-to-console --force-log-actions --trace-level 3
       Though --trace-level option can be used to set up needed value in spite of --debug-max.
+      
+      --debug-avg - equals to --log-to-console --log-err-to-console --trace-level 2
+      Though --trace-level option can be used to set up needed value in spite of --debug-avg.
+      Note: --debug-max have precedence over --debug-avg.
 
       --run-self-tests - Run tests for the engine (from tia/tests directory).
 
@@ -149,6 +153,7 @@ var opts = {
     'force-log-actions',
     'diffs-to-mlog',
     'debug-max',
+    'debug-avg',
     'run-self-tests',
     'ignore-skip-flag',
     'use-remote-driver',
@@ -180,6 +185,14 @@ if (args.runSelfTests) {
   args.testsDir = path.resolve(path.join(__dirname, '..', 'tests'));
   args.etMlog = gT.engineConsts.selfTestsEtMLog;
   args.extLog = gT.engineConsts.selfTestsExtLog;
+}
+
+if (args.debugAvg) {
+  args.logToConsole = true;
+  args.errToConsole = true;
+  if (args.traceLevel === -1) {
+    args.traceLevel = 2;
+  }
 }
 
 if (args.debugMax) {

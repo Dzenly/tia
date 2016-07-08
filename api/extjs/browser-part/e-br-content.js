@@ -10,7 +10,7 @@
   };
 
   window.tiaEJ.ctConsts = {
-    sep: ' | ', // column texts separator
+    colSep: ' | ', // column texts separator
     indent: ' | ',
     title: 'Title: ',
     header: 'Header: ',
@@ -79,7 +79,7 @@
         var field = fieldsToPrint[i];
         var fieldName = field.getName();
         var fieldValue = record.get(fieldName);
-        arr.push((printFieldName ? (fieldName + ': ') : '') + fieldValue);
+        arr.push((printFieldName ? (fieldName + ': ') : '') + '"' + fieldValue + '"');
       }
       return arr.join(', ');
     },
@@ -94,9 +94,9 @@
           continue;
         }
         if (fieldName !== 'text') {
-          arr.push((printFieldName ? (fieldName + ': ') : '') + fieldValue);
+          arr.push((printFieldName ? (fieldName + ': ') : '')  + '"' + fieldValue + '"');
         } else {
-          arr.push(fieldValue);
+          arr.push('"' + fieldValue + '"');
         }
       }
       return arr.join(', ');
@@ -251,21 +251,30 @@
 
       arr.push(tiaEJ.ctConsts.title + title);
       arr.push(tiaEJ.ctConsts.getVisibility(isVisible));
-      arr.push(tiaEJ.ctConsts.header + colHeaderTexts.join(tiaEJ.ctConsts.sep));
+      arr.push(tiaEJ.ctConsts.header + colHeaderTexts.join(tiaEJ.ctConsts.colSep));
 
       var rowIndex = options.rowRange.start;
       var row;
       while ((row = table.getRow(rowIndex)) && rowIndex <= options.rowRange.stop) {
 
-        var recordArr = [];
+        var textsArr = [];
+
+        var record = table.getRecord(row);
+        var id = record.get('id');
 
         colSelectors.forEach(function (sel, index) {
           var col = row.querySelector(sel);
-          recordArr.push(col.textContent);
+          textsArr.push(col.textContent);
         });
 
-        if (recordArr.length) {
-          arr.push(recordArr.join(tiaEJ.ctConsts.sep));
+        var idSuffix = '';
+
+        if (id) {
+          idSuffix = ' (id: ' + id + ')';
+        }
+
+        if (textsArr.length) {
+          arr.push(textsArr.join(tiaEJ.ctConsts.colSep) + idSuffix);
         }
 
         var rowBody = tiaEJ.ctMisc.getRowBody(row, true);

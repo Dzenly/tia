@@ -6,6 +6,10 @@
 
   window.tiaEJExp = {
 
+    consts: {
+      bigSep: '\n=============================\n'
+    },
+
     getSingleComponentInfo: function (c, indent) {
 
     },
@@ -198,8 +202,22 @@
       console.log('getHtml: ' + extDomEl.getHtml());
       window.e1 = extDomEl;
       var comp = Ext.Component.fromElement(extDomEl);
-      window.c1 = comp;
-      var outStr = this.collectCompInfo(comp);
+
+      var record = null;
+      var recordStr = 'Record Placeholder';
+
+      try {
+        record = comp.getRecord(extDomEl);
+        recordStr = tiaEJ.ctMisc.stringifyAllRecord(record, true);
+        recordStr += this.consts.bigSep;
+      } catch (e) {
+        console.log(e);
+      }
+
+      if (tia.debugMode) {
+        window.c1 = comp;
+      }
+      var outStr = recordStr + '\n' + this.collectCompInfo(comp);
 
       tiaEJ.showMsgBox(outStr);
       // console.log(outStr);

@@ -17,7 +17,7 @@ function getOs() {
 
 function runTestFile(file) {
 
-  gIn.tracer.trace0('Starting new test: ' + file);
+  gIn.tracer.trace2('Starting new test: ' + file);
 
   gIn.errFlag = false;
 
