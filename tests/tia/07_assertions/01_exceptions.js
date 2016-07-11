@@ -2,27 +2,27 @@
 
 t.setTitle('Tests for "exception" assertion');
 
-var msg = 'My Exception';
+var tableName = 'My Exception';
 
 l.println('Any exception');
 a.exception(
   function () {
-    throw new Error(msg);
+    throw new Error(tableName);
   }
 );
 
 l.println('Certain exception');
 a.exception(
   function () {
-    throw new Error(msg);
+    throw new Error(tableName);
   },
-  'Error: ' + msg
+  'Error: ' + tableName
 );
 
 l.println('Unexpected exception');
 a.exception(
   function () {
-    throw new Error(msg);
+    throw new Error(tableName);
   },
   'Error: ' + 'Another exception'
 );

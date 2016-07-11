@@ -187,6 +187,16 @@
       });
     },
 
+    expandAllTree: function (table) {
+      var panel = tiaEJ.search.parentPanel(table);
+      panel.expandAll();
+    },
+
+    collapseAllTree: function (table) {
+      var panel = tiaEJ.search.parentPanel(table);
+      panel.collapseAll();
+    },
+
     /**
      * Gets columns objects for a table.
      * @param {Ext.view.Table} table - the table.
