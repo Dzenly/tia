@@ -11,6 +11,7 @@
 
   window.tiaEJ.ctConsts = {
     colSep: ' | ', // column texts separator
+    rowSep: '= = = = = = =',
     indent: ' | ',
     title: 'Title: ',
     header: 'Header: ',
@@ -32,7 +33,7 @@
       return elem.offsetHeight === 0;
     },
 
-    getAttributes: function(compOrEl) {
+    getAttributes: function (compOrEl) {
 
       var el = compOrEl.isComponent ? compOrEl.getEl() : compOrEl;
       var attrsObj = el.getAttributes();
@@ -96,6 +97,23 @@
         var fieldValue = record.get(fieldName);
         arr.push((printFieldName ? (fieldName + ': ') : '') + '"' + fieldValue + '"');
       }
+
+      arr.push('\n' + tiaEJ.ctConsts.rowSep + '\n');
+      var propsArr = [
+        'entityName',
+        'getId()',
+        'getIdProperty()',
+        'session.$className',
+        'store.$className'
+      ];
+      tia.u.dumpObj(record, propsArr, arr, true);
+
+      var index;
+      try {
+        index = record.store.indexOfId(record.getId());
+      } catch (e) {
+      }
+      arr.push('Index in store: ' + index);
       return arr.join(', ');
     },
 
@@ -109,7 +127,7 @@
           continue;
         }
         if (fieldName !== 'text') {
-          arr.push((printFieldName ? (fieldName + ': ') : '')  + '"' + fieldValue + '"');
+          arr.push((printFieldName ? (fieldName + ': ') : '') + '"' + fieldValue + '"');
         } else {
           arr.push('"' + fieldValue + '"');
         }

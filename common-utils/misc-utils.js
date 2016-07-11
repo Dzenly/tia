@@ -68,19 +68,24 @@
    * @param obj - Object which properties to print.
    * @param propPaths - Names for properties to print.
    * @param dstArr - Destination array to place strings to.
+   * @param [safe] - do not generate error if property does not exists.
    */
-  container.dumpObj = function (obj, propPaths, dstArr) {
+  container.dumpObj = function (obj, propPaths, dstArr, safe) {
 
     for (var i = 0, len1 = propPaths.length; i < len1; i++) {
       var propPath = propPaths[i];
-      var subProps = propPath.split('.');
+      var subPropNames = propPath.split('.');
       var propPathVal = obj;
-      for (var j = 0, len2 = subProps.length; j < len2; j++) {
-        var subProp = subProps[j];
-        if (subProp.slice(-2) === '()') {
-          propPathVal = propPathVal[subProp.slice(0, -2)]();
+      for (var j = 0, len2 = subPropNames.length; j < len2; j++) {
+        var subPropName = subPropNames[j]
+        if (safe && (!propPathVal)) {
+          propPathVal = 'N/A';
+          break;
+        }
+        if (subPropName.slice(-2) === '()') {
+          propPathVal = propPathVal[subPropName.slice(0, -2)]();
         } else {
-          propPathVal = propPathVal[subProp];
+          propPathVal = propPathVal[subPropName];
         }
       }
       dstArr.push(propPath + ': ' + propPathVal);
