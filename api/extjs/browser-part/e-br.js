@@ -64,6 +64,7 @@
         message: msg.replace(/\n/g, '<br>'),
         width: 1100,
         minWidth: 1100,
+        minHeight: 1200,
         modal: false
       });
     },

@@ -172,15 +172,33 @@
           '\ngetName(): ' + comp.getName() +
           '\ngetValue(): ' + comp.getValue() +
 
-          '\ngetRawValue(): ' + comp.getRawValue() +
-          '\ngetSubmitValue(): ' + comp.getSubmitValue() +
+          '\ngetRawValue(): ' + (comp.getRawValue ? comp.getRawValue() : 'N/A') +
+          '\ngetSubmitValue(): ' + (comp.getSubmitValue ? comp.getSubmitValue() : 'N/A') +
           '\ngetInputId(): ' + comp.getInputId() +
+          '\ninitialConfig.inputType: ' + comp.initialConfig.inputType +
+          '\ninitialConfig.boxLabel: ' + comp.initialConfig.boxLabel +
+          '\ninputType: ' + comp.inputType +
           '\ngetFieldLabel(): ' + comp.getFieldLabel() +
           '\ngetActiveError(): ' + comp.getActiveError() +
 
-          '\ngetErrors(): ' + comp.getErrors().join('\n') +
+          '\ngetErrors(): ' + comp.getErrors().join('\n');
 
-          this.consts.lnAvgSep
+        if (comp.isPickerField) {
+          var pickerComp = comp.getPicker();
+          var store = comp.getStore();
+          if (store) {
+            store = store.$className;
+          }
+
+          formFieldStr += '\nPicker field Info:' +
+            '\n $className: ' + pickerComp.$className +
+            '\n getStore().$className: ' + store +
+            '\n initialConfig.displayField: ' + comp.initialConfig.displayField +
+            '\n initialConfig.hiddenName: ' + comp.initialConfig.hiddenName;
+          // ?? getRecordDisplayData. TODO:
+        }
+
+        formFieldStr += this.consts.lnAvgSep;
       }
 
       var outStr =
