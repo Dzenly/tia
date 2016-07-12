@@ -6,29 +6,29 @@
   window.tiaEJ.hEByObj = {
 
     // Note that for tree only expanded nodes are taking into account.
-    getFromTableByIndex: function (table, index) {
+    getTableItemByIndex: function (table, index) {
       var el = table.getRow(index);
       return el;
     },
 
-    getFromTableByField: function (table, fieldValue, fieldName) {
+    getTableItemByField: function (table, fieldValue, fieldName) {
       fieldName = fieldName ? fieldName : 'name';
       var store = table.getStore();
       var index = store.findExact(fieldName, fieldValue);
       if (index === -1) {
         return null;
       }
-      return this.getFromTableByIndex(table, index);
+      return this.getTableItemByIndex(table, index);
     },
 
-    getFromTableByFieldLocKey: function (table, fieldValueKey, fieldName) {
+    getTableItemByFieldLocKey: function (table, fieldValueKey, fieldName) {
       fieldName = fieldName ? fieldName : 'name';
       var store = table.getStore();
       var index = store.findExact(fieldName, tiaEJ.locale[fieldValueKey]);
       if (index === -1) {
         return null;
       }
-      return this.getFromTableByIndex(table, index);
+      return this.getTableItemByIndex(table, index);
     }
   };
 
