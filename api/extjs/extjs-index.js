@@ -70,10 +70,10 @@ gT.e.setLocaleObject = function (objExpression, logAction) {
   });
 };
 
-gT.e.u = require('./extjs-utils');
-gT.e.ua = require('./extjs-user-actions.js');
-gT.e.exp = require('./extjs-exploration.js');
-gT.e.s = require('./extjs-search.js');
-gT.e.ct = require('./extjs-content.js');
-gT.e.cl = require('./extjs-clicks.js');
-gT.e.w = require('./extjs-waits.js');
+gT.e.utils = require('./extjs-utils');
+gT.e.api = require('./extjs-api-actions.js');
+gT.e.explore = require('./extjs-exploration.js');
+gT.e.search = require('./extjs-search.js');
+gT.e.logCtById = require('./extjs-log-by-id.js');
+gT.e.lClick = require('./extjs-l-clicks.js');
+gT.e.wait = require('./extjs-waits.js');
