@@ -12,6 +12,8 @@
   window.tiaEJ.ctConsts = {
     colSep: ' | ', // column texts separator
     rowSep: '= = = = = = =',
+    contentStart: '    /~~~~~~~~\\\n',
+    contentFinish: '    \\________/\n',
     indent: ' | ',
     title: 'Title: ',
     header: 'Header: ',
@@ -20,6 +22,9 @@
     rowBody: '  Row body: ',
     getVisibility: function (cond) {
       return cond ? this.visible : this.notVisible;
+    },
+    wrap: function(str) {
+      return this.contentStart + str + this.contentFinish;
     }
   };
 
@@ -117,7 +122,11 @@
       return arr.join(', ');
     },
 
+
     stringifyRecord: function (record, fieldsToPrint, printFieldName) {
+      fieldsToPrint = fieldsToPrint ? fieldsToPrint : record.getFields().map(function(val) {
+        return val.getName();
+      });
       var fieldCount = fieldsToPrint.length;
       var arr = [];
       for (var i = 0; i < fieldCount; i++) {
@@ -133,6 +142,20 @@
         }
       }
       return arr.join(', ');
+    },
+
+    stringifyStore: function (store, fieldsToPrint, printFieldName) {
+      var res = 'Store dump: \n';
+      for (var i = 0, len = store.getCount(); i < len; i++) {
+        var record = store.getAt(i);
+        res += this.stringifyRecord(record, fieldsToPrint, printFieldName); // fieldsToPrint,
+        res += '\n';
+      }
+      return res;
+    },
+
+    stringifyStoreField: function (store, field) {
+      return this.stringifyStore(store, [field]);
     },
 
     // TODO: table -> component.
@@ -187,13 +210,13 @@
       });
     },
 
-    expandAllTree: function (table) {
-      var panel = tiaEJ.search.parentPanel(table);
+    expandAllTree: function (tree) {
+      var panel = tiaEJ.search.parentPanel(tree);
       panel.expandAll();
     },
 
-    collapseAllTree: function (table) {
-      var panel = tiaEJ.search.parentPanel(table);
+    collapseAllTree: function (tree) {
+      var panel = tiaEJ.search.parentPanel(tree);
       panel.collapseAll();
     },
 
@@ -234,6 +257,48 @@
       return texts;
     },
 
+    safeGetConfig: function (comp, cfgName) {
+      var res;
+      try {
+        res = comp.getConfig(cfgName);
+      } catch(e) {
+        if (tia.debugMode) {
+          console.log('safeGetConfig: Expected exception for cfgName: "' + cfgName + '": ' + e);
+        }
+      }
+      return res;
+    },
+
+    getIdItemIdReference: function (comp) {
+      var id = comp.initialConfig.id;
+      var itemId = this.safeGetConfig(comp, 'itemId');
+      var reference = comp.getReference();
+      var str = 'id: ' + id + ', itemId: ' + itemId + ', reference: ' + reference;
+      return str;
+    },
+
+    getNameAndLabel: function (field) {
+      var name = field.getName();
+      var labelText = field.getFieldLabel();
+      var str = 'name: ' + name + ', labelText: ' + labelText;
+      return str;
+    },
+
+    /**
+     * Gets text from a ComboBox
+     * @param cb
+     * @returns {*}
+     */
+    getCB: function (cb) {
+      var str = 'ComboBox content:\n';
+      str += this.getIdItemIdReference(cb) + '\n';
+      str += this.getNameAndLabel(cb) + '\n';
+      var displayField = this.safeGetConfig(cb, 'displayField');
+      str += 'displayField: ' + displayField + '\n';
+      str += tiaEJ.ctMisc.stringifyStoreField(cb.getStore(), displayField);
+      return tiaEJ.ctConsts.wrap(str);
+    },
+
     /**
      * Gets the entire table content. Only visible columns are returned.
      * Collapsed groups are excluded from result.
@@ -254,6 +319,7 @@
      *
      * @returns {String} - Content of the table (multi-line).
      * @throws {Error} - if the table is invisible and options.throwIfInvisible is true.
+     * TODO: make id printing optional.
      */
     get: function (table, options) {
 
@@ -330,7 +396,7 @@
       if (arr.length === 0) {
         return null;
       } else {
-        return arr.join('\n');
+        return tiaEJ.ctConsts.wrap('Table content: \n' + arr.join('\n') + '\n');
       }
     },
 
@@ -384,7 +450,6 @@
           res.push(indent + tiaEJ.ctMisc.stringifyRecord(node, fieldsToPrint, true));
         }
 
-
         if (node.hasChildNodes()) {
           indent += tiaEJ.ctConsts.indent;
           node.eachChild(function (curNode) {
@@ -395,7 +460,7 @@
 
       traverseSubTree(root, '');
 
-      return res.join('\n');
+      return tiaEJ.ctConsts.wrap('Tree content: \n' + res.join('\n') + '\n');
 
     },
 
