@@ -52,8 +52,26 @@ exports.tableItemByFieldId = function (tableId, tableName, id, logAction) {
   });
 };
 
+exports.comboBoxItemByIndex = function (cbId, itemIndex, logAction) {
+  return gIn.wrap(`Click combo box item by index '${itemIndex}'`, logAction, function () {
+    return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputEl('${cbId}');`, false)
+      .then(function (inputEl) {
+        return inputEl.click();
+      })
+      .then(function () {
+        return gT.sOrig.driver.wait(function () {
+          return gT.s.browser.executeScript(`return tiaEJ.hEById.isCBPickerVisible('${cbId}');`, false);
+        }, 5000);
+      })
+      .then(function () {
+        return gT.s.browser.executeScript(`return tiaEJ.hEById.getCBItemByIndex('${cbId}', ${itemIndex});`, false);
+      })
+      .then(printTextAndClick(logAction));
+  });
+};
+
 function click(fName) {
-  return function(dynId) {
+  return function (dynId) {
     gIn.tracer.trace3(`${fName}:, id of found element: ${dynId}`);
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(dynId)).click();
   };

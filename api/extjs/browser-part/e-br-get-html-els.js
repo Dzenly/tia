@@ -29,7 +29,26 @@
         return null;
       }
       return this.getTableItemByIndex(table, index);
+    },
+
+    getInputEl: function (field) {
+      return field.inputEl.dom;
+    },
+
+    getInputId: function (field) {
+      return field.getInputId();
+    },
+
+    isCBPickerVisible: function (cb) {
+      var boundList = cb.getPicker();
+      return boundList.isVisible(true) && cb.isExpanded;
+    },
+
+    getCBItemByIndex: function (cb, index) {
+      var boundList = cb.getPicker();
+      return boundList.getNode(index);
     }
+
   };
 
   // Auto creating hEById object with copy of methods of hEByObj,
