@@ -9,24 +9,24 @@
     rowVisibleBody: '.x-grid-rowbody-tr:not(.x-grid-row-body-hidden)'
   };
 
-  window.tiaEJ.ctConsts = {
-    colSep: ' | ', // column texts separator
-    rowSep: '= = = = = = =',
-    contentStart: '    /~~~~~~~~\\\n',
-    contentFinish: '    \\________/\n',
-    indent: ' | ',
-    title: 'Title: ',
-    header: 'Header: ',
-    visible: '(Visible)',
-    notVisible: '(Not visible)',
-    rowBody: '  Row body: ',
-    getVisibility: function (cond) {
-      return cond ? this.visible : this.notVisible;
-    },
-    wrap: function (str) {
-      return this.contentStart + str + this.contentFinish;
-    }
-  };
+  // window.tiaEJ.content = {
+  //   colSep: ' | ', // column texts separator
+  //   rowSep: '= = = = = = =',
+  //   contentStart: '    /~~~~~~~~\\\n',
+  //   contentFinish: '    \\________/\n',
+  //   indent: ' | ',
+  //   title: 'Title: ',
+  //   header: 'Header: ',
+  //   visible: '(Visible)',
+  //   notVisible: '(Not visible)',
+  //   rowBody: '  Row body: ',
+  //   getVisibility: function (cond) {
+  //     return cond ? this.visible : this.notVisible;
+  //   },
+  //   wrap: function (str) {
+  //     return this.contentStart + str + this.contentFinish;
+  //   }
+  // };
 
   window.tiaEJ.ctMisc = {
 
@@ -65,8 +65,8 @@
       var rowBodies = row.parentNode.querySelectorAll(selector);
       for (var i = 0, len = rowBodies.length; i < len; i++) {
         var rowBody = rowBodies[i];
-        var visInfo = tiaEJ.ctConsts.getVisibility(!this.isHidden(rowBody));
-        res.push(tiaEJ.ctConsts.rowBody + rowBody.textContent + ' ' + visInfo);
+        var visInfo = tia.cC.content.getVisibility(!this.isHidden(rowBody));
+        res.push(tia.cC.content.rowBody + rowBody.textContent + ' ' + visInfo);
       }
 
       if (res.length > 0) {
@@ -82,7 +82,7 @@
         options = JSON.parse(options);
       }
 
-      options = tia.u.mergeOptions(options, getDefOpts);
+      options = tia.cU.mergeOptions(options, getDefOpts);
 
       if (
         !isVisible && options.throwIfInvisible
@@ -103,7 +103,7 @@
         arr.push((printFieldName ? (fieldName + ': ') : '') + '"' + fieldValue + '"');
       }
 
-      arr.push('\n' + tiaEJ.ctConsts.rowSep + '\n');
+      arr.push('\n' + tia.cC.content.rowSep + '\n');
       var propsArr = [
         'entityName',
         'getId()',
@@ -111,7 +111,7 @@
         'session.$className',
         'store.$className'
       ];
-      tia.u.dumpObj(record, propsArr, arr, true);
+      tia.cU.dumpObj(record, propsArr, arr, true);
 
       var index;
       try {
@@ -182,11 +182,11 @@
         arr.push('Ajax isLoading: ' + Ext.Ajax.isLoading());
 
         arr.push('Table:');
-        tia.u.dumpObj(table, props, arr);
+        tia.cU.dumpObj(table, props, arr);
 
         arr.push('Panel:');
         var panel = tiaEJ.search.parentPanel(table);
-        tia.u.dumpObj(panel, panelProps, arr);
+        tia.cU.dumpObj(panel, panelProps, arr);
       }
     }
   };
@@ -296,7 +296,7 @@
       var displayField = this.safeGetConfig(cb, 'displayField');
       str += 'displayField: ' + displayField + '\n';
       str += tiaEJ.ctMisc.stringifyStoreField(cb.getStore(), displayField);
-      return tiaEJ.ctConsts.wrap(str);
+      return tia.cC.content.wrap(str);
     },
 
     getSelectedItemTexts: function (view) {
@@ -304,7 +304,7 @@
       var texts = nodes.map(function (node) {
         return node.innerText;
       });
-      return tiaEJ.ctConsts.wrap(texts.join('\n'));
+      return tia.cC.content.wrap(texts.join('\n'));
     },
 
     getSelectedItemFields: function (view, fieldsToPrint, printFieldName) {
@@ -313,8 +313,22 @@
         var record = view.getRecord(node);
         return tiaEJ.ctMisc.stringifyRecord(record, fieldsToPrint, printFieldName);
       });
-      return tiaEJ.ctConsts.wrap(texts.join('\n') + '\n');
+      return tia.cC.content.wrap(texts.join('\n') + '\n');
     },
+
+    /**
+     * Not very useful. Because it is hard for user, to check values in log.
+     * @param form - Ext.form.Panel
+     * @returns {Object} - Object with key/value pairs.
+     */
+    getFormSubmitValues: function (form) {
+      var fields = form.getValues(false, false, false, false);
+      return fields; // O
+    },
+
+
+
+
 
     /**
      * Gets the entire table content. Only visible columns are returned.
@@ -375,9 +389,9 @@
 
       tiaEJ.ctMisc.fillDebugInfo(table, arr);
 
-      arr.push(tiaEJ.ctConsts.title + title);
-      arr.push(tiaEJ.ctConsts.getVisibility(isVisible));
-      arr.push(tiaEJ.ctConsts.header + colHeaderTexts.join(tiaEJ.ctConsts.colSep));
+      arr.push(tia.cC.content.title + title);
+      arr.push(tia.cC.content.getVisibility(isVisible));
+      arr.push(tia.cC.content.header + colHeaderTexts.join(tia.cC.content.colSep));
 
       var rowIndex = options.rowRange.start;
       var row;
@@ -400,7 +414,7 @@
         }
 
         if (textsArr.length) {
-          arr.push(textsArr.join(tiaEJ.ctConsts.colSep) + idSuffix);
+          arr.push(textsArr.join(tia.cC.content.colSep) + idSuffix);
         }
 
         var rowBody = tiaEJ.ctMisc.getRowBody(row, true);
@@ -413,7 +427,7 @@
       if (arr.length === 0) {
         return null;
       } else {
-        return tiaEJ.ctConsts.wrap('Table content: \n' + arr.join('\n') + '\n');
+        return tia.cC.content.wrap('Table content: \n' + arr.join('\n') + '\n');
       }
     },
 
@@ -468,7 +482,7 @@
         }
 
         if (node.hasChildNodes()) {
-          indent += tiaEJ.ctConsts.indent;
+          indent += tia.cC.content.indent;
           node.eachChild(function (curNode) {
             traverseSubTree(curNode, indent);
           });
@@ -477,7 +491,7 @@
 
       traverseSubTree(root, '');
 
-      return tiaEJ.ctConsts.wrap('Tree content: \n' + res.join('\n') + '\n');
+      return tia.cC.content.wrap('Tree content: \n' + res.join('\n') + '\n');
 
     },
 

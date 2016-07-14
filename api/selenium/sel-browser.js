@@ -20,7 +20,8 @@ var brHelpers = [
 ];
 
 var commonUtils = [
-  'misc-utils.js'
+  'common-constants.js',
+  'common-misc-utils.js'
 ];
 
 /**

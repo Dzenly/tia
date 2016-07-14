@@ -39,7 +39,9 @@
       };
     },
 
-    u : {}, // utility functions, will be added later by other browser javascripts.
+    cU : {}, // common utility functions, will be added later by other browser javascripts.
+
+    cC : {}, // common constants, will be added later by other browser javascripts.
 
     debugMode: false // To print more info about elements (including ExtJs ones).
   };

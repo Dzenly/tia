@@ -34,7 +34,9 @@ gIn.logger = require('./loggers/logger.js');
 
 gIn.tracer = require('./tracer.js');
 
-gIn.miscUtils = require('../common-utils/misc-utils.js');
+gIn.commonMiscUtils = require('../common-utils/common-misc-utils.js');
+
+gIn.commonConsts = require('../common-utils/common-constants.js');
 
 gIn.fileUtils = require('../utils/file-utils.js');
 

@@ -25,7 +25,7 @@ var obj = {
 
 function test(propPaths) {
   var arr = [];
-  gIn.miscUtils.dumpObj(obj, propPaths, arr);
+  gIn.commonMiscUtils.dumpObj(obj, propPaths, arr);
   l.println(arr.join('\n'));
 }
 

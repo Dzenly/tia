@@ -40,15 +40,15 @@ var dst1 = {
   }
 };
 
-var dst = gIn.miscUtils.mergeOptions(src, def);
+var dst = gIn.commonMiscUtils.mergeOptions(src, def);
 a.equalDeep(dst, dst1, 'Src with non default values');
 
-dst = gIn.miscUtils.mergeOptions({}, def);
+dst = gIn.commonMiscUtils.mergeOptions({}, def);
 a.equalDeep(dst, def(), 'Empty src');
 
 a.exception(
   function () {
-    gIn.miscUtils.mergeOptions({a: null}, def);
+    gIn.commonMiscUtils.mergeOptions({a: null}, def);
   },
   'TypeError: Cannot convert undefined or null to object'
 );

@@ -1,13 +1,15 @@
 'use strict';
 /* globals gT, gIn */
 
+var util = require('util');
+
 // TODO: support different range options.
 // TODO: function for convertation object to its text representation (smth, like JSON).
 
 exports.table = function (id, tableName, options, logAction) {
   return gIn.wrap('Logging content of table: "' + tableName + '" ... ', logAction, function () {
     return gT.sOrig.driver.executeScript(
-      `return tiaEJ.ctById.get('${id}', '${gIn.miscUtils.optsToJson(options)}')`
+      `return tiaEJ.ctById.get('${id}', '${gIn.commonMiscUtils.optsToJson(options)}')`
     )
       .then(function (res) {
         gIn.logger.logln('\n' + res);
@@ -18,7 +20,7 @@ exports.table = function (id, tableName, options, logAction) {
 exports.tree = function (id, treeName, options, logAction) {
   return gIn.wrap('Logging content of tree: "' + treeName + '" ... ', logAction, function () {
     return gT.sOrig.driver.executeScript(
-      `return tiaEJ.ctById.getTree('${id}', '${gIn.miscUtils.optsToJson(options)}')`
+      `return tiaEJ.ctById.getTree('${id}', '${gIn.commonMiscUtils.optsToJson(options)}')`
     )
       .then(function (res) {
         gIn.logger.logln('\n' + res);
@@ -62,3 +64,11 @@ exports.selectedItemFields = function (id, viewName, fieldsToPrint, printFieldNa
   });
 };
 
+exports.formSubmitValues = function (id, formName, logAction) {
+  return gIn.wrap('Logging submit values for form: "' + formName + '" ... ', logAction, function () {
+    return gT.sOrig.driver.executeScript(`return tiaEJ.ctById.getFormSubmitValues('${id}');`)
+      .then(function (res) {
+        gIn.logger.log('\n' + gIn.commonConsts.content.wrap(util.inspect(res) + '\n'));
+      });
+  });
+};

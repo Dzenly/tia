@@ -6,7 +6,7 @@
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     container = exports;
   } else {
-    container = window.tia.u;
+    container = window.tia.cU;
   }
 
   container.copyObject = function (obj) {
