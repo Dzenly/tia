@@ -12,6 +12,20 @@ function printTextAndClick(logAction) {
   };
 }
 
+/**
+ * Some ExtJs API functions require parameter to be numeric type and not equal string.
+ * @param val
+ * @returns {string}
+ */
+function valueToParameter(val) {
+  if (typeof val === 'number') {
+    return `${val}`;
+  }
+  if (typeof val === 'string') {
+    return `'${val}'`;
+  }
+}
+
 // Note that for tree only expanded nodes are taking into account.
 exports.tableItemByIndex = function (tableId, tableName, itemIndex, logAction) {
   return gIn.wrap(`Click table '${tableName}' item by index '${itemIndex}'`, logAction, function () {
@@ -22,10 +36,10 @@ exports.tableItemByIndex = function (tableId, tableName, itemIndex, logAction) {
 
 exports.tableItemByField = function (tableId, tableName, fieldValue, fieldName, logAction) {
   fieldName = fieldName ? fieldName : 'name';
-  return gIn.wrap(`Click table '${tableName}' item, fieldValue: '${fieldValue}', fieldName: '${fieldName}'`,
+  return gIn.wrap(`Click table '${tableName}' item, fieldValue: ${valueToParameter(fieldValue)}, fieldName: '${fieldName}'`,
     logAction, function () {
       return gT.s.browser.executeScript(
-        `return tiaEJ.hEById.getTableItemByField('${tableId}', '${fieldValue}', '${fieldName}');`
+        `return tiaEJ.hEById.getTableItemByField('${tableId}', ${valueToParameter(fieldValue)}, '${fieldName}');`
         , false
       ).then(printTextAndClick(logAction));
     });
@@ -44,17 +58,23 @@ exports.tableItemByFieldLocKey = function (tableId, tableName, fieldValueKey, fi
 
 exports.tableItemByFieldId = function (tableId, tableName, id, logAction) {
   return gIn.wrap(`Click table '${tableName}' item, with id: '${id}'`, logAction, function () {
-    id = (typeof id === 'number') ? id : `'${id}'`;
     return gT.s.browser.executeScript(
-      `return tiaEJ.hEById.getTableItemByField('${tableId}', ${id}, 'id');`
+      `return tiaEJ.hEById.getTableItemByField('${tableId}', ${valueToParameter(id)}, 'id');`
       , false
     ).then(printTextAndClick(logAction));
   });
 };
 
 exports.comboBoxItemByIndex = function (cbId, itemIndex, logAction) {
-  return gIn.wrap(`Click combo box item by index '${itemIndex}'`, logAction, function () {
-    return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputEl('${cbId}');`, false)
+  return gIn.wrap(``, logAction, function () {
+    return gT.s.browser.executeScript(`return tiaEJ.hEById.getNameAndLabel('${cbId}');`, false)
+      .then(function (obj) {
+        gIn.logger.logIfNotDisabled(
+          `Click combo box(name: '${obj.name}', label: '${obj.label}'), item #${itemIndex}`, logAction);
+      })
+      .then(function () {
+        return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputEl('${cbId}');`, false);
+      })
       .then(function (inputEl) {
         return inputEl.click();
       })
@@ -69,6 +89,36 @@ exports.comboBoxItemByIndex = function (cbId, itemIndex, logAction) {
       .then(printTextAndClick(logAction));
   });
 };
+
+exports.comboBoxItemByField = function (cbId, fieldValue, fieldName, logAction) {
+  return gIn.wrap(``, logAction, function () {
+    return gT.s.browser.executeScript(`return tiaEJ.hEById.getNameAndLabel('${cbId}');`, false)
+      .then(function (obj) {
+        gIn.logger.logIfNotDisabled(
+          `Click combo box(name: '${obj.name}', label: '${obj.label}'), by field (name: ${fieldName}, value: ${fieldValue})`,
+          logAction);
+      })
+      .then(function () {
+        return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputEl('${cbId}');`, false);
+      })
+      .then(function (inputEl) {
+        return inputEl.click();
+      })
+      .then(function () {
+        return gT.sOrig.driver.wait(function () {
+          return gT.s.browser.executeScript(`return tiaEJ.hEById.isCBPickerVisible('${cbId}');`, false);
+        }, 5000);
+      })
+      .then(function () {
+        return gT.s.browser.executeScript(
+          `return tiaEJ.hEById.getCBItemByField('${cbId}', ${valueToParameter(fieldValue)}, '${fieldName}');`,
+          false);
+      })
+      .then(printTextAndClick(logAction));
+  });
+};
+
+//
 
 function click(fName) {
   return function (dynId) {

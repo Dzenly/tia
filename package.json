@@ -19,7 +19,9 @@
     "engine",
     "selenium",
     "webdriver",
-    "extjs"
+    "extjs",
+    "web",
+    "gui"
   ],
   "author": "Dzenly <alexchem@yandex.ru>",
   "license": "MIT",

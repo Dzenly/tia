@@ -11,21 +11,27 @@
       return el;
     },
 
-    getTableItemByField: function (table, fieldValue, fieldName) {
+    indexOfField: function (comp, fieldValue, fieldName) {
       fieldName = fieldName ? fieldName : 'name';
-      var store = table.getStore();
+      var store = comp.getStore();
       var index = store.findExact(fieldName, fieldValue);
       if (index === -1) {
+        return null;
+      }
+      return index;
+    },
+
+    getTableItemByField: function (table, fieldValue, fieldName) {
+      var index = this.indexOfField(table, fieldValue, fieldName);
+      if (!index) {
         return null;
       }
       return this.getTableItemByIndex(table, index);
     },
 
     getTableItemByFieldLocKey: function (table, fieldValueKey, fieldName) {
-      fieldName = fieldName ? fieldName : 'name';
-      var store = table.getStore();
-      var index = store.findExact(fieldName, tiaEJ.locale[fieldValueKey]);
-      if (index === -1) {
+      var index = this.indexOfField(table, tiaEJ.locale[fieldValueKey], fieldName);
+      if (!index) {
         return null;
       }
       return this.getTableItemByIndex(table, index);
@@ -33,6 +39,10 @@
 
     getInputEl: function (field) {
       return field.inputEl.dom;
+    },
+
+    getNameAndLabel: function (field) {
+      return {name: field.getName(), label: field.getFieldLabel()};
     },
 
     getInputId: function (field) {
@@ -45,6 +55,15 @@
     },
 
     getCBItemByIndex: function (cb, index) {
+      var boundList = cb.getPicker();
+      return boundList.getNode(index);
+    },
+
+    getCBItemByField: function (cb, fieldValue, fieldName) {
+      var index = this.indexOfField(cb, fieldValue, fieldName);
+      if (!index) {
+        return null;
+      }
       var boundList = cb.getPicker();
       return boundList.getNode(index);
     }
