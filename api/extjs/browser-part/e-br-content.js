@@ -23,7 +23,7 @@
     getVisibility: function (cond) {
       return cond ? this.visible : this.notVisible;
     },
-    wrap: function(str) {
+    wrap: function (str) {
       return this.contentStart + str + this.contentFinish;
     }
   };
@@ -124,7 +124,7 @@
 
 
     stringifyRecord: function (record, fieldsToPrint, printFieldName) {
-      fieldsToPrint = fieldsToPrint ? fieldsToPrint : record.getFields().map(function(val) {
+      fieldsToPrint = fieldsToPrint ? fieldsToPrint : record.getFields().map(function (val) {
         return val.getName();
       });
       var fieldCount = fieldsToPrint.length;
@@ -148,7 +148,7 @@
       var res = 'Store dump: \n';
       for (var i = 0, len = store.getCount(); i < len; i++) {
         var record = store.getAt(i);
-        res += this.stringifyRecord(record, fieldsToPrint, printFieldName); // fieldsToPrint,
+        res += this.stringifyRecord(record, fieldsToPrint, printFieldName);
         res += '\n';
       }
       return res;
@@ -261,7 +261,7 @@
       var res;
       try {
         res = comp.getConfig(cfgName);
-      } catch(e) {
+      } catch (e) {
         if (tia.debugMode) {
           console.log('safeGetConfig: Expected exception for cfgName: "' + cfgName + '": ' + e);
         }
@@ -297,6 +297,23 @@
       str += 'displayField: ' + displayField + '\n';
       str += tiaEJ.ctMisc.stringifyStoreField(cb.getStore(), displayField);
       return tiaEJ.ctConsts.wrap(str);
+    },
+
+    getSelectedItemTexts: function (view) {
+      var nodes = view.getSelectedNodes();
+      var texts = nodes.map(function (node) {
+        return node.innerText;
+      });
+      return tiaEJ.ctConsts.wrap(texts.join('\n'));
+    },
+
+    getSelectedItemFields: function (view, fieldsToPrint, printFieldName) {
+      var nodes = view.getSelectedNodes();
+      var texts = nodes.map(function (node) {
+        var record = view.getRecord(node);
+        return tiaEJ.ctMisc.stringifyRecord(record, fieldsToPrint, printFieldName);
+      });
+      return tiaEJ.ctConsts.wrap(texts.join('\n') + '\n');
     },
 
     /**

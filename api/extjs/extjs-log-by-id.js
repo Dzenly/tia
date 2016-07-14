@@ -4,8 +4,8 @@
 // TODO: support different range options.
 // TODO: function for convertation object to its text representation (smth, like JSON).
 
-exports.table = function (id, msg, options, logAction) {
-  return gIn.wrap('Logging content of table: "' + msg + '" ... ', logAction, function () {
+exports.table = function (id, tableName, options, logAction) {
+  return gIn.wrap('Logging content of table: "' + tableName + '" ... ', logAction, function () {
     return gT.sOrig.driver.executeScript(
       `return tiaEJ.ctById.get('${id}', '${gIn.miscUtils.optsToJson(options)}')`
     )
@@ -15,8 +15,8 @@ exports.table = function (id, msg, options, logAction) {
   });
 };
 
-exports.tree = function (id, msg, options, logAction) {
-  return gIn.wrap('Logging content of tree: "' + msg + '" ... ', logAction, function () {
+exports.tree = function (id, treeName, options, logAction) {
+  return gIn.wrap('Logging content of tree: "' + treeName + '" ... ', logAction, function () {
     return gT.sOrig.driver.executeScript(
       `return tiaEJ.ctById.getTree('${id}', '${gIn.miscUtils.optsToJson(options)}')`
     )
@@ -36,3 +36,29 @@ exports.comboBox = function (id, logAction) {
       });
   });
 };
+
+exports.selectedItemTexts = function (id, viewName, logAction) {
+  return gIn.wrap('Logging selected items for view: "' + viewName + '" ... ', logAction, function () {
+    return gT.sOrig.driver.executeScript(`return tiaEJ.ctById.getSelectedItemTexts('${id}');`)
+      .then(function (res) {
+        gIn.logger.log('\n' + res);
+      });
+  });
+};
+
+
+exports.selectedItemFields = function (id, viewName, fieldsToPrint, printFieldName, logAction) {
+  return gIn.wrap('Logging selected items for view: "' + viewName + '" ... ', logAction, function () {
+
+    if (fieldsToPrint) {
+      fieldsToPrint = `JSON.parse('${JSON.stringify(fieldsToPrint)}')`;
+    }
+    return gT.sOrig.driver.executeScript(
+      `return tiaEJ.ctById.getSelectedItemFields('${id}', ${fieldsToPrint}, ${printFieldName});`
+    )
+      .then(function (res) {
+        gIn.logger.log('\n' + res);
+      });
+  });
+};
+

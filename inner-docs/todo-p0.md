@@ -1,5 +1,25 @@
 API для определения выбранного элемента в дереве или таблице.
-Для отображаемого текста и для record.
+2 ф-и:
+Для отображаемого текста, для record.
+
+===============
+
+getSelectedNodes : HTMLElement[] (из AbstractView)
+innerText.
+
+getRecord
+getRecords
+getSelectedItemText(id)
+getSelectedItemRecord(id, fieldNames, fieldValues)
+isSelected ( node ) : Boolean 
+
+
+
+
+
+==============
+
+
 
 Тест для всех видов API.
 В том числе и для кликов по табам.
