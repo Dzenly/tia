@@ -78,7 +78,7 @@
    */
   container.dumpObj = function (obj, propPaths, dstArr, safe) {
 
-    if (typeof dstArr === 'undefined') {
+    if (typeof dstArr === 'undefined' || dstArr === null) {
       dstArr = [];
     }
 
@@ -128,7 +128,7 @@
             }
 
             actPropPathStr += '(' + argsStr + ')';
-            propPathVal = propPathVal.apply(null, args);
+            propPathVal = propPathVal.apply(obj, args);
           }
 
           actualPropPathArr.push(actPropPathStr);
@@ -138,6 +138,11 @@
           actualPropPathArr.push(subPropName);
         }
       }
+
+      if (typeof propPathVal === 'object') {
+        propPathVal = JSON.stringify(propPathVal);
+      }
+
       dstArr.push(actualPropPathArr.join('.') + ': ' + propPathVal);
     }
 

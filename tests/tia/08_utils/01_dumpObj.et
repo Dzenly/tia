@@ -15,6 +15,9 @@ k(1,2,3): 6
 l(3,4,5).fun(6,7): 25
 l(3,4,5).fun1(6,7)(8,9): 42
 m()(): 27
+n(): null
+o: null
+p: {"a":5,"b":6}
 aaa: undefined
 bbb: N/A
 a.asdf: N/A

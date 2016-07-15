@@ -151,20 +151,28 @@
 
       var formFieldArr = [
         this.consts.avgSep,
-        'Form Field Info: ',
-        'getName(): ' + field.getName(),
-        'getValue(): ' + field.getValue(),
-        'getRawValue(): ' + (field.getRawValue ? field.getRawValue() : 'N/A'),
-        'getSubmitValue(): ' + (field.getSubmitValue ? field.getSubmitValue() : 'N/A'),
-        'getInputId(): ' + field.getInputId(),
-        'initialConfig.inputType: ' + field.initialConfig.inputType,
-        'initialConfig.boxLabel: ' + field.initialConfig.boxLabel,
-        'inputType: ' + field.inputType,
-        'getFieldLabel(): ' + field.getFieldLabel(),
-        'getActiveError(): ' + field.getActiveError(),
-
-        'getErrors(): ' + field.getErrors().join('; ')
+        'Form Field Info: '
       ];
+
+      // tia.cU.dumpObj({getName: function() {return field['getName']()}}, [
+      //   'getName()'
+      // ], formFieldArr, true);
+
+      tia.cU.dumpObj(field, [
+        'getName()',
+        'getValue()',
+        'getRawValue()',
+        'getSubmitValue()',
+        'getModelData()',
+        'getSubmitData()',
+        'getInputId()',
+        'initialConfig.inputType',
+        'initialConfig.boxLabel',
+        'inputType',
+        'getFieldLabel()',
+        'getActiveError()',
+        'getErrors()'
+      ], formFieldArr, true);
 
       if (field.isPickerField) {
         var pickerComp = field.getPicker();

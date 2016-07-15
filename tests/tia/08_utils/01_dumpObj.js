@@ -40,6 +40,14 @@ var obj = {
     return function() {
       return 27;
     }
+  },
+  n : function() {
+    return null;
+  },
+  o: null,
+  p: {
+    a: 5,
+    b: 6
   }
 };
 
@@ -50,12 +58,12 @@ function testExistingArr(propPaths) {
 }
 
 function testNewArr(propPaths) {
-  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, arr);
+  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null);
   l.println(arr.join('\n'));
 }
 
 function testNewArrSafe(propPaths) {
-  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, arr, true);
+  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, true);
   l.println(arr.join('\n'));
 }
 
@@ -73,7 +81,7 @@ testNewArr([
   'a.b', 'a.c.d', 'g()', 'f.h.j().i', {path: 'k()', args: [[1, 2, 3]]},
   {path: 'l().fun()', args: [[3, 4, 5], [6, 7]]},
   {path: 'l().fun1()()', args: [[3, 4, 5], [6, 7], [8, 9]]},
-  'm()()'
+  'm()()', 'n()', 'o', 'p'
   ]);
 
 testNewArrSafe(['aaa', 'bbb.ccc', 'a.asdf()']);
