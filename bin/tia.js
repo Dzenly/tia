@@ -41,82 +41,87 @@ function usage() {
 
     , where options:
 
-      --tests-dir <Tests Root Directory> - root directory for test suite (can be relative to current working dir).
-      It there is no --tests-dir, tia will check ${gT.engineConsts.testsDirEnvVarName} environment variable.
-      If there is no explicit tests directory, current working directory will be used.
-      Note: browser profile root is created as sibling to tests directory.
-
       --browser <browser> (default: ${browsers[0]}) browser to run tests for.
       Supported browsers are: ${browsers.join(', ')}
 
-      --pattern <pattern> - pattern for tests to run.
-      , any test which file path (relative to <testSuiteRoot>) contains <pathToDirOrTest> substring will run.
-      By default, tests from all directories (recursively) will run.
-
-      --email-cfg-path <path> - path to email config. See tia/doc/mail-cfg-example.json for example.
-      See tia/config/default-suite-config.js for more details.
-      Note: ${gT.engineConsts.emailCfgPathEnvVarName} environment variable can be used for the same purpose.
-
-      --disable-email - disables email.
-
-      --stack-to-log print stack trace to test logs.
-
-      --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).
-
-      --err-to-console print all errors to console.
-
-      --log-to-console print test logs to console.
-
-      --trace-level <level> enables tracing (1 | 2 | 3 ) (1 - less verbose, 3 - maximum verbosity, 0 - forbids tracing).
-
-      --force-log-actions forced console logs for all actions. Does not affect file logs.
-      Works only with --log-to-console option
-
-      --require-modules <paths_separated_by_comma>
-      Forces tia to require listed files as Node.js modules.
-      ${gT.engineConsts.requireModulesEnvVarName} environment variable also can be used for this.
-      
-      --diffs-to-mlog - forces diffs to be printed to short meta log. 
-
-      --debug-max - equals to --log-to-console --log-err-to-console --force-log-actions --trace-level 3
-      Though --trace-level option can be used to set up needed value in spite of --debug-max.
-      
-      --debug-avg - equals to --log-to-console --log-err-to-console --trace-level 2
+      --debug-avg - equals to --log-to-console --log-err-to-console --keep-browser-at-error --trace-level 2
       Though --trace-level option can be used to set up needed value in spite of --debug-avg.
       Note: --debug-max have precedence over --debug-avg.
 
-      --run-self-tests - Run tests for the engine (from tia/tests directory).
+      --debug-max - equals to --log-to-console --log-err-to-console --keep-browser-at-error --force-log-actions --trace-level 3
+      Though --trace-level option can be used to set up needed value in spite of --debug-max.
 
       --def-host <host:port> - sets default host and port.
       E.g. --def-host http://localhost:1338
       This parameter allows to use the '$(host)' string in your tests.
       See more details in selHost option description in config/default-dir-config.js.
 
+      --diffs-to-mlog - forces diffs to be printed to short meta log.
+
+      --disable-email - disables email.
+
+      --email-cfg-path <path> - path to email config. See tia/doc/mail-cfg-example.json for example.
+      See tia/config/default-suite-config.js for more details.
+
+      --err-to-console print all errors to console.
+
       --et-mlog - filepath for etalog meta-log (absolute or relative to parent of tests directory).
       If exists, - it is used for meta logs comparison and writing info such as
       ET_MLOG / DIF_MLOG to the head of output.
-
-      --ignore-skip-flag - ignore 'skip' config option in config.js files.
-
-      --use-remote-driver - (for chromedriver only). Starts the browser driver (if it is not already started),
-      and forces s.driver.init() to use this external driver.
-      The variable gT.firstRunWithRemoteDriver is true when the current run is the first run for which remote driver was initialized. 
-
-      --stop-remote-driver - (for chromedriver only) shuts down the remote driver.
 
       --ext-log <external_log_path> - before each test this file is removed, and after each test this file content
       is added to test log. This allows to track some unexpected server side errors.
       ${gT.engineConsts.externalLogEnvVarName} environment variable also can be used for this.
 
+      --force-log-actions forced console logs for all actions. Does not affect file logs.
+      Works only with --log-to-console option
+
       -h, --help - Print this help.
+
+      --ignore-skip-flag - ignore 'skip' config option in config.js files.
+
+      --keep-browser-at-error - prevents browser quit at errors.
+      It saves much time at debugging of heavy applications.
+
+      --log-to-console print test logs to console.
+
+      --pattern <pattern> - pattern for tests to run.
+      , any test which file path (relative to <testSuiteRoot>) contains <pathToDirOrTest> substring will run.
+      By default, tests from all directories (recursively) will run.
+
+      --require-modules <paths_separated_by_comma>
+      Forces tia to require listed files as Node.js modules.
+      ${gT.engineConsts.requireModulesEnvVarName} environment variable also can be used for this.
+
+      --run-self-tests - Run tests for the engine (from tia/tests directory).
+
+      --stack-to-log print stack trace to test logs.
+
+      --stop-remote-driver - (for chromedriver only) shuts down the remote driver.
+
+      --tests-dir <Tests Root Directory> - root directory for test suite (can be relative to current working dir).
+      It there is no --tests-dir, tia will check ${gT.engineConsts.testsDirEnvVarName} environment variable.
+      If there is no explicit tests directory, current working directory will be used.
+      Note: browser profile root is created as sibling to tests directory.
+
+      Note: ${gT.engineConsts.emailCfgPathEnvVarName} environment variable can be used for the same purpose.
+
+      --trace-level <level> enables tracing (1 | 2 | 3 ) (1 - less verbose, 3 - maximum verbosity, 0 - forbids tracing).
+
+      --use-remote-driver - (for chromedriver only). Starts the browser driver (if it is not already started),
+      and forces s.driver.init() to use this external driver.
+      The variable gT.firstRunWithRemoteDriver is true when the current run is the first run for which remote driver was initialized. 
+
+      --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).
 
     Examples:
         tia --tests-dir <path_to_my-tests-dir>
         node --harmony bin/tia.js --tests-dir <path_to_my-tests-dir>
     If there is no diffs, 0 is returned, otherwise 1 is returned.
+
+    This utility uses external utilities: diff, rm.
     
-    This utility uses external utilities (diff, rm) and webdriver.
-    see readme.md for more details.`
+    See readme.md for more details.`
   );
 }
 
@@ -158,7 +163,8 @@ var opts = {
     'ignore-skip-flag',
     'use-remote-driver',
     'stop-remote-driver',
-    'disable-email'
+    'disable-email',
+    'keep-browser-at-error'
   ],
   default: {
     browser: browsers[0],
@@ -190,6 +196,7 @@ if (args.runSelfTests) {
 if (args.debugAvg) {
   args.logToConsole = true;
   args.errToConsole = true;
+  args.keepBrowserAtError = true;
   if (args.traceLevel === -1) {
     args.traceLevel = 2;
   }
@@ -198,6 +205,7 @@ if (args.debugAvg) {
 if (args.debugMax) {
   args.logToConsole = true;
   args.errToConsole = true;
+  args.keepBrowserAtError = true;
   args.forceLogActions = true;
   if (args.traceLevel === -1) {
     args.traceLevel = 3;

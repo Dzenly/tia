@@ -116,7 +116,9 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
               return gT.s.browser.logConsoleContent();
             })
             .then(function (res) {
-              return gT.s.driver.quit();
+              if (!gIn.params.keepBrowserAtError) {
+                return gT.s.driver.quit();
+              }
             })
             .then(function () {
               gIn.logger.errorln('========== Err Info End ==========');

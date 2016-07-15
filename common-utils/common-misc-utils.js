@@ -66,30 +66,77 @@
   /**
    * Prints given object properies to string.
    * @param obj - Object which properties to print.
-   * @param propPaths - Names for properties to print.
+   * @param {Array} propPaths - Names for properties to print.
+   * This can be array of strings or array with objects, like
+   * {
+   *   path: <path>,
+   *   args: <array of arrays of arguments> Note - only arrays are supported.
+   *   when function is met in path, next arguments array is used.
+   * }
    * @param dstArr - Destination array to place strings to.
    * @param [safe] - do not generate error if property does not exists.
    */
   container.dumpObj = function (obj, propPaths, dstArr, safe) {
 
+    if (typeof dstArr === 'undefined') {
+      dstArr = [];
+    }
+
     for (var i = 0, len1 = propPaths.length; i < len1; i++) {
       var propPath = propPaths[i];
+
+      var argsArr = void(0);
+      if (typeof propPath === 'object') {
+        argsArr = propPath.args;
+        propPath = propPath.path;
+      }
       var subPropNames = propPath.split('.');
       var propPathVal = obj;
+      var argsIndex = 0;
+      var actualPropPathArr = [];
       for (var j = 0, len2 = subPropNames.length; j < len2; j++) {
-        var subPropName = subPropNames[j]
+        var subPropName = subPropNames[j];
         if (safe && (!propPathVal)) {
           propPathVal = 'N/A';
           break;
         }
-        if (subPropName.slice(-2) === '()') {
-          propPathVal = propPathVal[subPropName.slice(0, -2)]();
+
+        var braceCount = (subPropName.match(/\(\)/g) || []).length;
+
+        if (braceCount) {
+
+          var funcName = subPropName.slice(0, subPropName.indexOf('('));
+          propPathVal = propPathVal[funcName];
+
+          var actPropPathStr = funcName;
+
+          while(braceCount--) {
+
+            var args = void(0);
+            if (argsArr) {
+              args = argsArr[argsIndex];
+              argsIndex++;
+            }
+            var argsStr = '';
+            if (typeof args !== 'undefined' && args !== null) {
+              argsStr = JSON.stringify(args).slice(1, -1);
+            }
+
+            actPropPathStr += '(' + argsStr + ')';
+            propPathVal = propPathVal.apply(null, args);
+          }
+
+          actualPropPathArr.push(actPropPathStr);
+
         } else {
           propPathVal = propPathVal[subPropName];
+          actualPropPathArr.push(subPropName);
         }
       }
-      dstArr.push(propPath + ': ' + propPathVal);
+      dstArr.push(actualPropPathArr.join('.') + ': ' + propPathVal);
     }
+
+    return dstArr;
   };
 
 })();

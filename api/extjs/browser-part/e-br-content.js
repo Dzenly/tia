@@ -47,7 +47,7 @@
 
       Ext.Object.each(attrsObj, function (key, value) {
         if (excludeArr.indexOf(key) === -1) {
-          attrsStr += key + ': ' + value + '\n';
+          attrsStr += key + ': ' + value + ';';
         }
       });
       return attrsStr;
@@ -145,11 +145,10 @@
     },
 
     stringifyStore: function (store, fieldsToPrint, printFieldName) {
-      var res = 'Store dump: \n';
+      var res = 'Store dump: ';
       for (var i = 0, len = store.getCount(); i < len; i++) {
         var record = store.getAt(i);
-        res += this.stringifyRecord(record, fieldsToPrint, printFieldName);
-        res += '\n';
+        res += '\n' + this.stringifyRecord(record, fieldsToPrint, printFieldName);
       }
       return res;
     },
@@ -295,7 +294,7 @@
       str += this.getNameAndLabel(cb) + '\n';
       var displayField = this.safeGetConfig(cb, 'displayField');
       str += 'displayField: ' + displayField + '\n';
-      str += tiaEJ.ctMisc.stringifyStoreField(cb.getStore(), displayField);
+      str += tiaEJ.ctMisc.stringifyStoreField(cb.getStore(), displayField) + '\n';
       return tia.cC.content.wrap(str);
     },
 
@@ -316,6 +315,19 @@
       return tia.cC.content.wrap(texts.join('\n') + '\n');
     },
 
+    isCompVisible: function (comp) {
+      var visible = comp.isVisible(true);
+      var notHidden = !comp.isHidden();
+      return visible && notHidden;
+    },
+
+    isCompAccessible: function (comp) {
+      var notDisabled = !comp.isDisabled();
+      var notMasked = !comp.isMasked(true);
+      var notSuspended = !comp.isSuspended(true);
+      return this.isCompVisible() && notDisabled && notMasked && notSuspended;
+    },
+
     /**
      * Not very useful. Because it is hard for user, to check values in log.
      * @param form - Ext.form.Panel
@@ -326,9 +338,9 @@
       return fields; // O
     },
 
+    getForm: function (form) {
 
-
-
+    },
 
     /**
      * Gets the entire table content. Only visible columns are returned.

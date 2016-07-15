@@ -5,9 +5,8 @@
   window.tiaEJExp = {
 
     consts: {
-      lnBigSepLn: '\n==================================\n',
+      bigSep: '==================================',
       avgSep: '======================',
-      lnAvgSep: '\n======================',
       smallSep: '--------------------------',
       tinySep: '------------',
       nA: 'N/A'
@@ -53,47 +52,140 @@
       }
     },
 
-    showCompHierarchy: function () {
-      var mainView = tiaEJ.getMainView();
-      this.logCompHierarchyToConsole(mainView);
-    },
+    getCompHierarchy: function (c, indent, parents) {
+      if (!indent) {
+        indent = '';
+      }
+      if (!parents) {
+        parents = '';
+      }
+      var parent = c.getItemId();
+      console.log('Parents: ' + parents);
+      console.log([
+        indent + 'Component:',
+        indent + 'Id: ' + c.getId() + ', itemId: ' + c.getItemId() + ', reference: ' + c.getReference() + ', xtypes: ' + c.getXTypes(),
+        indent + 'clName: ' + c.$className + ', focusable: ' + c.focusable + ', visible: ' + c.isVisible(true)
+      ].join('\n'));
 
-    getControllerInfo: function (controller) {
-      var controllerStr = 'N/A';
-      var modelStr = '';
-      if (controller) {
-        var refsObj = controller.getReferences();
-        var refsStr = Ext.Object.getKeys(refsObj).join(' ');
-
-        var routesObj = controller.getRoutes();
-        var routesStr = Ext.Object.getKeys(routesObj).join(' ');
-
-        // TODO: getStore ?? или это есть во ViewModel?
-
-        var viewModel = controller.getViewModel();
-        if (viewModel) {
-          modelStr += 'viewModel.$className: ' + viewModel.$className;
+      if (c.isContainer) {
+        console.log([
+          indent + 'Container:',
+          indent + 'ariaRole: ' + c.ariaRole + ', isViewport: ' + c.isViewport + ', ch.cnt: ' + c.items.getCount()
+        ].join('\n'));
+        console.log('Container children:');
+        var cnt = c.items.getCount();
+        if (cnt) {
+          console.log(indent + this.consts.avgSep);
+          for (var i = 0; i < cnt; i++) {
+            console.log(indent + this.consts.avgSep);
+            console.log(indent + '*|' + 'child ' + i + ' for cmp: ' + parent);
+            var child = c.items.get(i);
+            this.logCompHierarchyToConsole(child, indent + '*|', parents + '/' + parent);
+          }
+          console.log(indent + this.consts.smallSep);
         }
-
-        controllerStr = 'CONTROLLER INFO:\ncontroller: isViewController: ' + controller.isViewController +
-          '\nclName: ' + controller.$className +
-          '\nid: ' + controller.id +
-          '\nrefs: ' + refsStr +
-          '\nroutes: ' + routesStr +
-          '\n' + modelStr + '\n++++++++++\n';
-
       }
-
-      return controllerStr;
     },
 
-    // TODO: form.down('[fieldLabel=Тип риска]').inputEl
+    showCompHierarchy: function (onlyVisible) {
+      var mainView = tiaEJ.getMainView();
+      var outStr = this.getCompHierarchy(mainView, onlyVisible);
+      tiaEJ.showMsgBox(outStr);
+    },
 
-    collectCompInfo: function (comp, extended) {
-
-      if (!comp) {
-        return '';
+    /**
+     * Returns array with strings about controller. It is for caller to join them or to add indent to each.
+     * @param controller
+     * @returns {Array}
+     */
+    getControllerInfo: function (controller, msg) {
+      if (!controller) {
+        return ['N/A'];
       }
+      var modelStr = '';
+      var refsObj = controller.getReferences();
+      var refsStr = Ext.Object.getKeys(refsObj).join(', ');
+
+      var routesObj = controller.getRoutes();
+      var routesStr = Ext.Object.getKeys(routesObj).join(', ');
+
+      // TODO: getStore ?? или это есть во ViewModel?
+
+      var viewModel = controller.getViewModel();
+      if (viewModel) {
+        modelStr += 'viewModel.$className: ' + viewModel.$className;
+      }
+
+      return [
+        'CONTROLLER INFO (' + msg + '):',
+        'controller: isViewController: ' + controller.isViewController,
+        'clName: ' + controller.$className,
+        'id: ' + controller.id,
+        'getReferences(): ' + refsStr,
+        'routes: ' + routesStr,
+        modelStr,
+        '++++++++++'
+      ]
+    },
+
+    getStoreContent: function (store) {
+      var storeInfoArr = [
+        this.consts.tinySep,
+        'Store Info:'
+      ];
+      if (store) {
+        storeInfoArr.push('Store $className: ' + store.$className);
+        storeInfoArr.push(tiaEJ.ctMisc.stringifyStore(store, false, true));
+      } else {
+        storeInfoArr.push('N/A');
+      }
+      storeInfoArr.push(this.consts.tinySep);
+      return storeInfoArr;
+    },
+
+    /**
+     * Returns array of strings with info about form field.
+     * @param field
+     */
+    getFormFieldInfo: function (field) {
+
+      var formFieldArr = [
+        this.consts.avgSep,
+        'Form Field Info: ',
+        'getName(): ' + field.getName(),
+        'getValue(): ' + field.getValue(),
+        'getRawValue(): ' + (field.getRawValue ? field.getRawValue() : 'N/A'),
+        'getSubmitValue(): ' + (field.getSubmitValue ? field.getSubmitValue() : 'N/A'),
+        'getInputId(): ' + field.getInputId(),
+        'initialConfig.inputType: ' + field.initialConfig.inputType,
+        'initialConfig.boxLabel: ' + field.initialConfig.boxLabel,
+        'inputType: ' + field.inputType,
+        'getFieldLabel(): ' + field.getFieldLabel(),
+        'getActiveError(): ' + field.getActiveError(),
+
+        'getErrors(): ' + field.getErrors().join('; ')
+      ];
+
+      if (field.isPickerField) {
+        var pickerComp = field.getPicker();
+        formFieldArr = formFieldArr.concat([
+          this.consts.tinySep,
+          'Picker field Info:',
+          '$className: ' + pickerComp.$className,
+          'getConfig(displayField): ' + field.getConfig('displayField'),
+          'initialConfig.hiddenName: ' + field.initialConfig.hiddenName,
+          this.consts.tinySep,
+        ]);
+
+        var store = field.getStore();
+        formFieldArr = formFieldArr.concat(this.getStoreContent(store));
+      }
+
+      formFieldArr.push(this.consts.avgSep);
+      return formFieldArr;
+    },
+
+    getComponentInfo: function (comp, extended) {
 
       // TODO: fieldLabel for form fields.
       // And other stuff for form fields.
@@ -126,10 +218,9 @@
         refHolderStr += 'xtypes: ' + rHXTypes + ', clName: ' + rHClName + ', isViewController: ' + refHolder.isViewController;
       }
 
-      var controller = comp.getController();
-      var getControllerStr = this.getControllerInfo(controller);
-      var lookupControllerStr = this.getControllerInfo(comp.lookupController(false));
-      var lookupControllerSkipThisStr = this.getControllerInfo(comp.lookupController(true));
+      var getControllerArr = this.getControllerInfo(comp.getController(), 'getController()');
+      var lookupControllerArr = this.getControllerInfo(comp.lookupController(false), 'lookupController(false)');
+      var lookupControllerSkipThisArr = this.getControllerInfo(comp.lookupController(true), 'lookupController(true)');
 
       // var isContainer = comp.isContainer;
       // var id = comp.getId();
@@ -163,88 +254,67 @@
         sessionStr = session.$className;
       }
 
-      var formFieldStr = '';
+      var outArr = [
+        'ariaRole: ' + comp.ariaRole,
+        'getXType(): ' + comp.getXType(),
+        '$className: ' + comp.$className,
+        'initialConfig.id: ' + comp.initialConfig.id,
+        'getId: ' + comp.getId() + (comp.autoGenId ? ' (autogenerated)' : ''),
+        'getConfig(id): ' + tiaEJ.ctByObj.safeGetConfig(comp, 'id'),
+        'initialConfig.reference: ' + comp.initialConfig.reference,
+        'getReference(): ' + comp.getReference(),
+        'getConfig(reference): ' + tiaEJ.ctByObj.safeGetConfig(comp, 'reference'),
+        'initialConfig.itemId: ' + comp.initialConfig.itemId,
+        'getItemId(): ' + comp.getItemId(),
+        'getConfig(itemId): ' + tiaEJ.ctByObj.safeGetConfig(comp, 'itemId'),
+        'getText:' + text + ', Locale Keys: ' + localeKeys,
+        'getXTypes(): ' + comp.getXTypes(),
+
+        'initialConfig.itemSelector: ' + comp.initialConfig.itemSelector,
+        'isPanel: ' + comp.isPanel,
+
+        '------',
+        'Attrs:',
+        tiaEJ.ctMisc.getAttributes(comp),
+        '------',
+
+        'isVisible(true): ' + comp.isVisible(true),
+        'isHidden(): ' + comp.isHidden(),
+        'isDisabled(): ' + comp.isDisabled(),
+        // 'isMasked(true): ' + comp.isMasked(true),
+        'isSuspended(): ' + comp.isSuspended()
+      ];
 
       if (comp.isFormField) {
-
-        formFieldStr = this.consts.lnAvgSep +
-          '\nForm Field Info: ' +
-          '\ngetName(): ' + comp.getName() +
-          '\ngetValue(): ' + comp.getValue() +
-
-          '\ngetRawValue(): ' + (comp.getRawValue ? comp.getRawValue() : 'N/A') +
-          '\ngetSubmitValue(): ' + (comp.getSubmitValue ? comp.getSubmitValue() : 'N/A') +
-          '\ngetInputId(): ' + comp.getInputId() +
-          '\ninitialConfig.inputType: ' + comp.initialConfig.inputType +
-          '\ninitialConfig.boxLabel: ' + comp.initialConfig.boxLabel +
-          '\ninputType: ' + comp.inputType +
-          '\ngetFieldLabel(): ' + comp.getFieldLabel() +
-          '\ngetActiveError(): ' + comp.getActiveError() +
-
-          '\ngetErrors(): ' + comp.getErrors().join('\n');
-
-        if (comp.isPickerField) {
-          var pickerComp = comp.getPicker();
-          var store = comp.getStore();
-          var storeInfo
-          if (store) {
-            storeInfo = store.$className;
-            storeInfo += '\n' + tiaEJ.ctMisc.stringifyStore(comp.getStore(), false, true);
-          }
-
-          formFieldStr += '\nPicker field Info:' +
-            '\n $className: ' + pickerComp.$className +
-            '\n Store Info: ' + storeInfo +
-            '\n isVisible(): ' + pickerComp.isVisible() +
-            // '\n getNodes(): ' + pickerComp.getNodes().length + // TODO: Показывает только видимые.
-            '\n initialConfig.displayField: ' + comp.getConfig('displayField') +
-            '\n initialConfig.hiddenName: ' + comp.initialConfig.hiddenName;
-          // ?? getRecordDisplayData. TODO:
-        }
-
-        formFieldStr += this.consts.lnAvgSep;
-      }
-
-      var outStr =
-        'ariaRole: ' + comp.ariaRole +
-        '\ngetXType(): ' + comp.getXType() +
-        '\n$className: ' + comp.$className +
-        '\ninitialConfig.id: ' + comp.initialConfig.id +
-        '\ngetId: ' + comp.getId() + (comp.autoGenId ? ' (autogenerated)' : '') +
-        '\ngetConfig(id): ' + tiaEJ.ctByObj.safeGetConfig(comp, 'id') +
-        '\ninitialConfig.reference: ' + comp.initialConfig.reference +
-        '\ngetReference(): ' + comp.getReference() +
-        '\ngetConfig(reference): ' + tiaEJ.ctByObj.safeGetConfig(comp, 'reference') +
-        '\ninitialConfig.itemId: ' + comp.initialConfig.itemId +
-        '\ngetItemId(): ' + comp.getItemId() +
-        '\ngetConfig(itemId): ' + tiaEJ.ctByObj.safeGetConfig(comp, 'itemId') +
-        '\ngetText:' + text + ', Locale Keys: ' + localeKeys +
-        '\ngetXTypes(): ' + comp.getXTypes() +
-
-        '\ninitialConfig.itemSelector: ' + comp.initialConfig.itemSelector +
-        '\nisPanel: ' + comp.isPanel +
-        '\n------\nAttrs: \n' + tiaEJ.ctMisc.getAttributes(comp) + '------';
-
-      if (formFieldStr) {
-        outStr += formFieldStr;
+        outArr = outArr.concat(this.getFormFieldInfo(comp));
       }
 
       if (extended) {
-        outStr +=
-          '\nlookupViewModel().$className: ' + viewModelStr +
-          '\nlookupSession().$className: ' + sessionStr +
-          '\ninitialConfig.referenceHolder: ' + comp.initialConfig.referenceHolder +
-          '\nlookupReferenceHolder(): ' + refHolderStr +
-          '\ngetReferences(): ' + getReferencesStr +
-          '\nitems.getCount(): ' + itemsGetCount +
-          '\nisViewport: ' + comp.isViewport +
+        outArr = outArr.concat([
+          'lookupViewModel().$className: ' + viewModelStr,
+          'lookupSession().$className: ' + sessionStr,
+          'initialConfig.referenceHolder: ' + comp.initialConfig.referenceHolder,
+          'lookupReferenceHolder(): ' + refHolderStr,
+          'getReferences(): ' + getReferencesStr,
+          'items.getCount(): ' + itemsGetCount,
+          'isViewport: ' + comp.isViewport,
 
-          '\ngetController\n' + getControllerStr + this.consts.smallSep +
-          '\nlookupController()\n' + lookupControllerStr + this.consts.smallSep +
-          '\nlookupController(skipThis)\n' + lookupControllerSkipThisStr;
+          getControllerArr + this.consts.smallSep,
+          lookupControllerArr + this.consts.smallSep,
+          lookupControllerSkipThisArr
+        ]);
       }
-      outStr += this.consts.lnBigSepLn + this.collectCompInfo(comp.up());
-      return outStr;
+      outArr.push(this.consts.bigSep);
+      return outArr;
+    },
+
+    getComponentAndParentsInfo: function (comp, extended) {
+      if (!comp) {
+        return '';
+      }
+      var outArr = this.getComponentInfo(comp, extended);
+      outArr = outArr.concat(this.getComponentAndParentsInfo(comp.up(), extended));
+      return outArr;
     },
 
     // var comp = extDomEl.component; undefined for unknown reason.
@@ -266,7 +336,7 @@
       try {
         record = comp.getRecord(extDomEl);
         recordStr += '\n' + tiaEJ.ctMisc.stringifyAllRecord(record, true);
-        recordStr += this.consts.lnBigSepLn;
+        recordStr += this.consts.bigSep;
       } catch (e) {
         recordStr += this.consts.nA;
         console.log('Exp exc:' + e);
@@ -275,7 +345,7 @@
       if (tia.debugMode) {
         window.c1 = comp;
       }
-      var outStr = recordStr + '\n' + this.collectCompInfo(comp);
+      var outStr = recordStr + '\n' + this.getComponentAndParentsInfo(comp).join('\n');
 
       tiaEJ.showMsgBox(outStr);
       // console.log(outStr);
