@@ -35,29 +35,45 @@ var obj = {
         }
       }
     }
+  },
+  m: function() {
+    return function() {
+      return 27;
+    }
   }
-
 };
 
-function test(propPaths) {
+function testExistingArr(propPaths) {
   var arr = [];
-  gIn.commonMiscUtils.dumpObj(obj, propPaths, arr);
+  gT.commonMiscUtils.dumpObj(obj, propPaths, arr);
+  l.println(arr.join('\n'));
+}
+
+function testNewArr(propPaths) {
+  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, arr);
+  l.println(arr.join('\n'));
+}
+
+function testNewArrSafe(propPaths) {
+  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, arr, true);
   l.println(arr.join('\n'));
 }
 
 l.println('Separatedly: ');
 
-test(['a.b']);
-test(['a.c.d']);
-test(['g()']);
-test(['f.h.j().i']);
+testExistingArr(['a.b']);
+testExistingArr(['a.c.d']);
+testExistingArr(['g()']);
+testNewArrSafe(['f.h.j().i']);
 
 l.sep();
 l.println('Together: ');
 
-test([
+testNewArr([
   'a.b', 'a.c.d', 'g()', 'f.h.j().i', {path: 'k()', args: [[1, 2, 3]]},
   {path: 'l().fun()', args: [[3, 4, 5], [6, 7]]},
-  {path: 'l().fun1()()', args: [[3, 4, 5], [6, 7], [8, 9]]}
-
+  {path: 'l().fun1()()', args: [[3, 4, 5], [6, 7], [8, 9]]},
+  'm()()'
   ]);
+
+testNewArrSafe(['aaa', 'bbb.ccc', 'a.asdf()']);

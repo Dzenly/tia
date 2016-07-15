@@ -9,7 +9,7 @@ var util = require('util');
 exports.table = function (id, tableName, options, logAction) {
   return gIn.wrap('Logging content of table: "' + tableName + '" ... ', logAction, function () {
     return gT.sOrig.driver.executeScript(
-      `return tiaEJ.ctById.get('${id}', '${gIn.commonMiscUtils.optsToJson(options)}')`
+      `return tiaEJ.ctById.get('${id}', '${gT.commonMiscUtils.optsToJson(options)}')`
     )
       .then(function (res) {
         gIn.logger.logln('\n' + res);
@@ -20,7 +20,7 @@ exports.table = function (id, tableName, options, logAction) {
 exports.tree = function (id, treeName, options, logAction) {
   return gIn.wrap('Logging content of tree: "' + treeName + '" ... ', logAction, function () {
     return gT.sOrig.driver.executeScript(
-      `return tiaEJ.ctById.getTree('${id}', '${gIn.commonMiscUtils.optsToJson(options)}')`
+      `return tiaEJ.ctById.getTree('${id}', '${gT.commonMiscUtils.optsToJson(options)}')`
     )
       .then(function (res) {
         gIn.logger.logln('\n' + res);
@@ -68,7 +68,7 @@ exports.formSubmitValues = function (id, formName, logAction) {
   return gIn.wrap('Logging submit values for form: "' + formName + '" ... ', logAction, function () {
     return gT.sOrig.driver.executeScript(`return tiaEJ.ctById.getFormSubmitValues('${id}');`)
       .then(function (res) {
-        gIn.logger.log('\n' + gIn.commonConsts.content.wrap(util.inspect(res) + '\n'));
+        gIn.logger.log('\n' + gT.commonConsts.content.wrap(util.inspect(res) + '\n'));
       });
   });
 };

@@ -112,6 +112,11 @@
 
           while(braceCount--) {
 
+            if (safe && (!propPathVal)) {
+              propPathVal = 'N/A';
+              break;
+            }
+
             var args = void(0);
             if (argsArr) {
               args = argsArr[argsIndex];
