@@ -111,7 +111,7 @@
         'session.$className',
         'store.$className'
       ];
-      tia.cU.dumpObj(record, propsArr, arr, true);
+      tia.cU.dumpObj(record, propsArr, arr);
 
       var index;
       try {

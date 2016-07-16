@@ -74,76 +74,83 @@
    *   when function is met in path, next arguments array is used.
    * }
    * @param dstArr - Destination array to place strings to.
-   * @param [safe] - do not generate error if property does not exists.
+   * @param [unsafe] - generate error if property does not exists.
    */
-  container.dumpObj = function (obj, propPaths, dstArr, safe) {
+  container.dumpObj = function (obj, propPaths, dstArr, unsafe) {
 
     if (typeof dstArr === 'undefined' || dstArr === null) {
       dstArr = [];
     }
 
-    for (var i = 0, len1 = propPaths.length; i < len1; i++) {
-      var propPath = propPaths[i];
+    try {
 
-      var argsArr = void(0);
-      if (typeof propPath === 'object') {
-        argsArr = propPath.args;
-        propPath = propPath.path;
-      }
-      var subPropNames = propPath.split('.');
-      var propPathVal = obj;
-      var argsIndex = 0;
-      var actualPropPathArr = [];
-      for (var j = 0, len2 = subPropNames.length; j < len2; j++) {
-        var subPropName = subPropNames[j];
-        if (safe && (!propPathVal)) {
-          propPathVal = 'N/A';
-          break;
+      for (var i = 0, len1 = propPaths.length; i < len1; i++) {
+        var propPath = propPaths[i];
+
+        var argsArr = void(0);
+        if (typeof propPath === 'object') {
+          argsArr = propPath.args;
+          propPath = propPath.path;
         }
-
-        var braceCount = (subPropName.match(/\(\)/g) || []).length;
-
-        if (braceCount) {
-
-          var funcName = subPropName.slice(0, subPropName.indexOf('('));
-          propPathVal = propPathVal[funcName];
-
-          var actPropPathStr = funcName;
-
-          while(braceCount--) {
-
-            if (safe && (!propPathVal)) {
-              propPathVal = 'N/A';
-              break;
-            }
-
-            var args = void(0);
-            if (argsArr) {
-              args = argsArr[argsIndex];
-              argsIndex++;
-            }
-            var argsStr = '';
-            if (typeof args !== 'undefined' && args !== null) {
-              argsStr = JSON.stringify(args).slice(1, -1);
-            }
-
-            actPropPathStr += '(' + argsStr + ')';
-            propPathVal = propPathVal.apply(obj, args);
+        var subPropNames = propPath.split('.');
+        var propPathVal = obj;
+        var argsIndex = 0;
+        var actualPropPathArr = [];
+        for (var j = 0, len2 = subPropNames.length; j < len2; j++) {
+          var subPropName = subPropNames[j];
+          if (!unsafe && (!propPathVal)) {
+            propPathVal = 'N/A';
+            break;
           }
 
-          actualPropPathArr.push(actPropPathStr);
+          var braceCount = (subPropName.match(/\(\)/g) || []).length;
 
-        } else {
-          propPathVal = propPathVal[subPropName];
-          actualPropPathArr.push(subPropName);
+          if (braceCount) {
+
+            var funcName = subPropName.slice(0, subPropName.indexOf('('));
+            propPathVal = propPathVal[funcName];
+
+            var actPropPathStr = funcName;
+
+            while (braceCount--) {
+
+              if (!unsafe && (!propPathVal)) {
+                propPathVal = 'N/A';
+                break;
+              }
+
+              var args = void(0);
+              if (argsArr) {
+                args = argsArr[argsIndex];
+                argsIndex++;
+              }
+              var argsStr = '';
+              if (typeof args !== 'undefined' && args !== null) {
+                argsStr = JSON.stringify(args).slice(1, -1);
+              }
+
+              actPropPathStr += '(' + argsStr + ')';
+              propPathVal = propPathVal.apply(obj, args);
+            }
+            actualPropPathArr.push(actPropPathStr);
+            actPropPathStr = '';
+
+          } else {
+            propPathVal = propPathVal[subPropName];
+            actualPropPathArr.push(subPropName);
+          }
         }
-      }
 
-      if (typeof propPathVal === 'object') {
-        propPathVal = JSON.stringify(propPathVal);
-      }
+        if (typeof propPathVal === 'object') {
+          propPathVal = JSON.stringify(propPathVal);
+        }
 
-      dstArr.push(actualPropPathArr.join('.') + ': ' + propPathVal);
+        dstArr.push(actualPropPathArr.join('.') + ': ' + propPathVal);
+      }
+    } catch(e){
+      actualPropPathArr.push(actPropPathStr);
+      e.message += '; Path: ' + actualPropPathArr.join('.');
+      throw e;
     }
 
     return dstArr;

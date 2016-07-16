@@ -2,6 +2,12 @@
 Title: Tests for dump function
 Separatedly: 
 a.b: a.b
+nnnn: N/A
+a.nnn: N/A
+a.nnn: N/A
+g().a: undefined
+g().a: N/A
+l(3,4,5).fun1(6,7)(8,9).a: undefined
 a.c.d: a.c.d
 g(): g()
 f.h.j().i: f.h.j().i
@@ -21,5 +27,12 @@ p: {"a":5,"b":6}
 aaa: undefined
 bbb: N/A
 a.asdf: N/A
+OK: Expected exception: 'TypeError: Cannot read property 'apply' of undefined; Path: www()'
+OK: Expected exception: 'TypeError: Cannot read property 'ggg' of undefined; Path: www.'
+OK: Expected exception: 'TypeError: Cannot read property 'apply' of undefined; Path: a.b.v()'
+OK: Expected exception: 'TypeError: propPathVal.apply is not a function; Path: a()'
+OK: Expected exception: 'TypeError: propPathVal.apply is not a function; Path: g()()'
+OK: Expected exception: 'TypeError: Cannot read property 'apply' of undefined; Path: l(3,4,5).fun2(6,7)'
+OK: Expected exception: 'TypeError: Cannot read property 'b' of undefined; Path: l(3,4,5).fun1(6,7)(8,9).a.'
 =================
-Pass: 0, Fail: 0
+Pass: 7, Fail: 0

@@ -154,10 +154,6 @@
         'Form Field Info: '
       ];
 
-      // tia.cU.dumpObj({getName: function() {return field['getName']()}}, [
-      //   'getName()'
-      // ], formFieldArr, true);
-
       tia.cU.dumpObj(field, [
         'getName()',
         'getValue()',
@@ -172,18 +168,22 @@
         'getFieldLabel()',
         'getActiveError()',
         'getErrors()'
-      ], formFieldArr, true);
+      ], formFieldArr);
 
       if (field.isPickerField) {
         var pickerComp = field.getPicker();
         formFieldArr = formFieldArr.concat([
           this.consts.tinySep,
-          'Picker field Info:',
-          '$className: ' + pickerComp.$className,
-          'getConfig(displayField): ' + field.getConfig('displayField'),
-          'initialConfig.hiddenName: ' + field.initialConfig.hiddenName,
-          this.consts.tinySep,
-        ]);
+          'Picker field Info:']);
+
+        tia.cU.dumpObj(pickerComp, ['$className',], formFieldArr);
+
+        tia.cU.dumpObj(field, [
+          {path: 'getConfig()', args: [['displayField']]},
+          'initialConfig.hiddenName'
+        ], formFieldArr);
+
+        formFieldArr.push(this.consts.tinySep)
 
         var store = field.getStore();
         formFieldArr = formFieldArr.concat(this.getStoreContent(store));
@@ -261,6 +261,10 @@
       if (session) {
         sessionStr = session.$className;
       }
+
+      // tia.cU.dumpObj({getName: function() {return field['getName']()}}, [
+      //   'getName()'
+      // ], formFieldArr);
 
       var outArr = [
         'ariaRole: ' + comp.ariaRole,
