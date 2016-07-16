@@ -87,3 +87,10 @@ http://www.binaryclips.com/2016/03/selenium-webdriver-in-c-how-to-use.html
 Как selenium работает с MessageBox ?
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_TargetLocator.html#alert
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_AlertPromise.html
+
+========================
+
+Улучшить распечатку иерархии видимых компонентов.
+Скроллинг клавиатурой по messageBox.
+Сделать диалог с деревом видимых компонентов.
+В дереве первым идет лист с инфой о компоненте, затем узлы.
