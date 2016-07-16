@@ -108,6 +108,7 @@
           if (braceCount) {
 
             var funcName = subPropName.slice(0, subPropName.indexOf('('));
+            var thisObj = propPathVal;
             propPathVal = propPathVal[funcName];
 
             var actPropPathStr = funcName;
@@ -130,7 +131,8 @@
               }
 
               actPropPathStr += '(' + argsStr + ')';
-              propPathVal = propPathVal.apply(obj, args);
+              propPathVal = propPathVal.apply(thisObj, args);
+              thisObj = propPathVal
             }
             actualPropPathArr.push(actPropPathStr);
             actPropPathStr = '';

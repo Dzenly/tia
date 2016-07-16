@@ -3,8 +3,8 @@
 ====================    Short Log END.    ====================
 
 ====================    Verbose Log BEGIN:    ====================
-"tests", dif: 0, Fail: 24, EDif: 1, Skip: 5, Pass: 62, "The whole tests bunch for TIA"
-| "tia", dif: 0, Fail: 24, EDif: 1, Skip: 4, Pass: 52, ""
+"tests", dif: 0, Fail: 24, EDif: 1, Skip: 5, Pass: 65, "The whole tests bunch for TIA"
+| "tia", dif: 0, Fail: 24, EDif: 1, Skip: 4, Pass: 55, ""
 | | "00_sanity", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 10, ""
 | | | "00_checkForGlobals.js", OK, fail: 0, Pass: 5, "Checking that all global variables are exist and correct."
 | | | "01_3msg3pass.js", OK, fail: 0, Pass: 3, "2 messages and 3 passes."
@@ -32,9 +32,9 @@
 | | "07_assertions", dif: 0, Fail: 21, edif: 0, skip: 0, Pass: 28, ""
 | | | "00_equalDeep.js", OK, Fail: 18, Pass: 26, "Tests for equalDeep assertion"
 | | | "01_exceptions.js", OK, Fail: 3, Pass: 2, "Tests for "exception" assertion"
-| | "08_utils", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 10, ""
+| | "08_utils", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 13, ""
 | | | "00_mergeOptions.js", OK, fail: 0, Pass: 3, "Tests for mergeOptions function"
-| | | "01_dumpObj.js", OK, fail: 0, Pass: 7, "Tests for dump function"
+| | | "01_dumpObj.js", OK, fail: 0, Pass: 10, "Tests for dump function"
 | | "09_extLog", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, ""
 | | | "00_extLog.js", OK, fail: 0, pass: 0, "Test for external log"
 | "wd-helpers", dif: 0, fail: 0, edif: 0, Skip: 1, Pass: 10, ""

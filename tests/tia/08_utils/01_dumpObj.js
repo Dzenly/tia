@@ -7,41 +7,48 @@ var obj = {
     b: 'a.b',
     c: {
       d: 'a.c.d'
+    },
+    fun: function () {
+      return this.b;
     }
   },
   f: {
     h: {
-      j: function() {
+      j: function () {
         return {
-          i : 'f.h.j().i'
+          i: 'f.h.j().i'
         };
       }
     }
   },
-  g: function() {
+  g: function () {
     return 'g()';
   },
-  k: function(a, b, c) {
+  k: function (a, b, c) {
     return a + b + c;
   },
-  l: function(a, b, c) {
+  l: function (a, b, c) {
     return {
-      fun: function(param1, param2) {
+      fun: function (param1, param2) {
         return a + b + c + param1 + param2;
       },
-      fun1: function(param1, param2) {
-        return function(param3, param4) {
+      fun1: function (param1, param2) {
+        return function (param3, param4) {
           return a + b + c + param1 + param2 + param3 + param4;
         }
+      },
+      thisVal: 5,
+      fun3: function () {
+        return this.thisVal;
       }
     }
   },
-  m: function() {
-    return function() {
+  m: function () {
+    return function () {
       return 27;
     }
   },
-  n : function() {
+  n: function () {
     return null;
   },
   o: null,
@@ -63,13 +70,15 @@ function testNewArr(propPaths) {
 }
 
 function testNewArrSafe(propPaths) {
-  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null);
+  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths);
   l.println(arr.join('\n'));
 }
 
 l.println('Separatedly: ');
 
 testExistingArr(['a.b']);
+
+testExistingArr(['l().fun3()', 'a.fun()']);
 
 testNewArrSafe(['nnnn.mmmm', 'a.nnn.mmm', 'a.nnn()', 'g().a', 'g().a.b']);
 
@@ -87,9 +96,14 @@ testNewArr([
   {path: 'l().fun()', args: [[3, 4, 5], [6, 7]]},
   {path: 'l().fun1()()', args: [[3, 4, 5], [6, 7], [8, 9]]},
   'm()()', 'n()', 'o', 'p'
-  ]);
+]);
 
 testNewArrSafe(['aaa', 'bbb.ccc', 'a.asdf()']);
+
+l.println(gT.commonMiscUtils.dumpObj(void(0), ['aaa']).join('\n'));
+l.println(gT.commonMiscUtils.dumpObj(null, ['aaa']).join('\n'));
+l.println(gT.commonMiscUtils.dumpObj({}, ['aaa']).join('\n'));
+
 
 a.exception(()=>testExistingArr(['www()']), "TypeError: Cannot read property 'apply' of undefined; Path: www()");
 a.exception(()=>testExistingArr(['www.ggg']), "TypeError: Cannot read property 'ggg' of undefined; Path: www.");
@@ -99,4 +113,12 @@ a.exception(()=>testExistingArr(['g()()']), "TypeError: propPathVal.apply is not
 a.exception(()=>testExistingArr([{path: 'l().fun2()', args: [[3, 4, 5], [6, 7]]}]),
   "TypeError: Cannot read property 'apply' of undefined; Path: l(3,4,5).fun2(6,7)");
 a.exception(()=>testExistingArr([{path: 'l().fun1()().a.b', args: [[3, 4, 5], [6, 7], [8, 9]]}]),
-   "TypeError: Cannot read property 'b' of undefined; Path: l(3,4,5).fun1(6,7)(8,9).a.");
+  "TypeError: Cannot read property 'b' of undefined; Path: l(3,4,5).fun1(6,7)(8,9).a.");
+
+a.exception(()=>gT.commonMiscUtils.dumpObj(void(0), ['aaa'], null, true),
+  "TypeError: Cannot read property 'aaa' of undefined; Path: ");
+a.exception(()=>gT.commonMiscUtils.dumpObj(null, ['aaa'], null, true),
+  "TypeError: Cannot read property 'aaa' of null; Path: ");
+
+a.exception(()=>gT.commonMiscUtils.dumpObj('asdf', ['aaa.bbb'], null, true),
+  "TypeError: Cannot read property 'bbb' of undefined; Path: aaa.");
