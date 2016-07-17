@@ -1,55 +1,3 @@
-Скроллинг клавиатурой по messageBox.
-
-Почитать про Base Config, есть ли там мысль, что конфиги отражаются на свойства.
-
-Улучшить распечатку компонента и его родителей.
-
-Однообразные сепараторы для content и для exploration, чтобы тестописатели привыкали.
-
-Внести/задействовать в распечатку компонента параметр - объект с опциями
-- что печатать, а что нет.
-Все-таки привести исследовалку к виду, когда она будет
-обозначать путь поиска элемента. Т.е. строку, которую можно скопи-пастить в код теста.
-М.б. сделать фильтрацию в уже готовом массиве? .filter.
-
-Есть ли в ExtJs компоненте информация из какого он сорца?
-Может быть у ExtJs есть особый режим, в котором это показывается?
-
-=====================
-
-Разобраться почему fromPoint не срабатывает на disabled элементах.
-```js
-document.elementFromPoint(x, y)
-
-document.querySelectorAll(':hover') - last element - the most specific.
-
-function allElementsFromPoint(x, y) {
-    var element, elements = [];
-    var old_visibility = [];
-    while (true) {
-        element = document.elementFromPoint(x, y);
-        if (!element || element === document.documentElement) {
-            break;
-        }
-        elements.push(element);
-        old_visibility.push(element.style.visibility);
-        element.style.visibility = 'hidden'; // Temporarily hide the element (without changing the layout)
-    }
-    for (var k = 0; k < elements.length; k++) {
-        elements[k].style.visibility = old_visibility[k];
-    }
-    elements.reverse();
-    return elements;
-}
-
-function getTarget(event) {
-    var el = event.target || event.srcElement;
-    return el.nodeType == 1? el : el.parentNode;
-}
-```
-
-=====================
-
 Вычитать всю форму, в смысле: name, label, value, rawValue, [set of values].
 М.б. два вида value () getModelData, getSubmitData.
 И какой-то ручной toString?
@@ -60,8 +8,8 @@ function getTarget(event) {
 
 2. через items пробежать все компоненты. У них найти возможных детей.
 У всего читать label, boxLabel, name, value - два вида, 
-    
-=====================    
+
+======================
 
 API для получения значения из контрола.
 По id формы и имени контрола.
@@ -90,11 +38,50 @@ API для кликов по checkbox и по radiobutton.
 
 API для вытягивания ошибок в формах.
 
+=====================    
+
+Ext.mixin.Observable
+Ext.EventManager
+Что насчет preventDefault, stopPropagation?
+
+Ext.Class
+Ext.Base
+
+Скроллинг клавиатурой по messageBox.
+
+=====================
+
+Почитать про Base Config, есть ли там мысль, что конфиги отражаются на свойства.
+Есть мысль, что есть автогенеренные геттеры и сеттеры, видимо, для каждого ожидаемого конфига.
+Проверить.
+
+Улучшить распечатку компонента и его родителей.
+
+Однообразные сепараторы для content и для exploration, чтобы тестописатели привыкали.
+
+Внести/задействовать в распечатку компонента параметр - объект с опциями
+- что печатать, а что нет.
+Все-таки привести исследовалку к виду, когда она будет
+обозначать путь поиска элемента. Т.е. строку, которую можно скопи-пастить в код теста.
+М.б. сделать фильтрацию в уже готовом массиве? .filter.
+
+=====================
+
+Есть ли в ExtJs компоненте информация из какого он сорца?
+Может быть у ExtJs есть особый режим, в котором это показывается?
+
+? Заменить initialConfig на getInitialConfig() ?
+
 ======================
 
 Тест для всех видов API.
 В том числе и для кликов по табам.
 При кликах по табам - включить ожидание завершения AJAX вызовов в API.
+
+======================
+
+Попробовать использовать исследовательские скрипты в разработке / отладке.
+Перенести код установки хэндлеров в браузерную часть.
 
 ======================
 
@@ -162,6 +149,17 @@ isSelected ( node ) : Boolean
 
 ?? При работе с деревьями - сделать автоэкспанд перед кликом.
 ?? При работе с таблицами - тоже.
+
+======================
+
+http://docs.sencha.com/extjs/5.1.2/Ext.ClassManager.html
+
+http://docs.sencha.com/extjs/5.1/core_concepts/components.html
+http://docs.sencha.com/extjs/5.1/core_concepts/layouts.html
+http://docs.sencha.com/extjs/5.1/application_architecture/application_architecture.html
+http://docs.sencha.com/extjs/5.1/components/forms.html
+
+В общем ещё раз пройтись по Guides с углубленным пониманием.
 
 ======================
 
@@ -415,6 +413,15 @@ commands:
 Большая проблема - хреновый call stack от Selenium WebDriver при ошибках - есть описание ошибки,
 но нет нормального колл - стэка, т.к. у драйвера какая-то своя очередь.
 Поисследовать это.
+
+================================================
+
+Информация об элементе под курсором в статусе или во всплывающем исчезающем тултипе.
+Хелп по командах исследования - Ctrl + Alt + H.
+
+================================================
+
+http://docs.sencha.com/extjs/5.1/core_concepts/localization.html
 
 ================================================
 

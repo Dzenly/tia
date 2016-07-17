@@ -317,6 +317,32 @@
         }
       }
 
+      window.c1 = comp;
+
+      // var oldBorder = comp.getConfig().border;
+      // var oldStyle = comp.getConfig().style;
+      //
+      // console.dir(oldBorder);
+      // console.dir(oldStyle);
+      //
+      // comp.setConfig('border', 5)
+      // comp.setConfig('style', {
+      //   borderColor: 'red',
+      //   borderStyle: 'solid'
+      // });
+      //
+      // setTimeout(function () {
+      //   comp.setConfig('border', oldBorder);
+      //   comp.setConfig('style', oldStyle);
+      // }, 10000);
+
+
+      // comp.setBorder(5);
+      // comp.setStyle({
+      //   borderColor: 'red',
+      //   borderStyle: 'solid'
+      // });
+
       var record = null;
       var recordStr = 'Record info: ';
 
