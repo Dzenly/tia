@@ -1,6 +1,6 @@
 'use strict';
 
-t.setTitle('Tests for dump function');
+t.setTitle('Tests for dumpObj function');
 
 var obj = {
   a: {
@@ -58,61 +58,96 @@ var obj = {
   }
 };
 
-function testExistingArr(propPaths) {
+var eMode = gT.commonMiscUtils.dumpObjErrMode;
+
+function testExistingArrException(propPaths) {
   var arr = [];
-  gT.commonMiscUtils.dumpObj(obj, propPaths, arr, true);
-  l.println(arr.join('\n'));
+  gT.commonMiscUtils.dumpObj(obj, propPaths, arr, eMode.exception);
+  if (arr.length) {
+    l.println(arr.join('\n'));
+  }
 }
 
-function testNewArr(propPaths) {
-  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, true);
-  l.println(arr.join('\n'));
+function testNewArrException(propPaths) {
+  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, eMode.exception);
+  if (arr.length) {
+    l.println(arr.join('\n'));
+  }
 }
 
-function testNewArrSafe(propPaths) {
+function testNewArrNA(propPaths) {
+  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, eMode.showNA);
+  if (arr.length) {
+    l.println(arr.join('\n'));
+  }
+}
+
+function testNewArrNADef(propPaths) {
   var arr = gT.commonMiscUtils.dumpObj(obj, propPaths);
-  l.println(arr.join('\n'));
+  if (arr.length) {
+    l.println(arr.join('\n'));
+  }
+}
+
+function testNewArrOmitStr(propPaths) {
+  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, eMode.omitString);
+  if (arr.length) {
+    l.println(arr.join('\n'));
+  }
+}
+
+function testNewArrOmitStrIfUndefined(propPaths) {
+  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, eMode.omitStringIfUndefined);
+  if (arr.length) {
+    l.println(arr.join('\n'));
+  }
 }
 
 l.println('Separatedly: ');
 
-testExistingArr(['a.b']);
+testNewArrOmitStrIfUndefined(['nnnn.mmmm', 'a.nnn.mmm', 'a.nnn()', 'g().a', 'g().a.b']);
 
-testExistingArr(['l().fun3()', 'a.fun()']);
+testExistingArrException(['a.b']);
 
-testNewArrSafe(['nnnn.mmmm', 'a.nnn.mmm', 'a.nnn()', 'g().a', 'g().a.b']);
+testExistingArrException(['l().fun3()', 'a.fun()']);
 
-testExistingArr([{path: 'l().fun1()().a', args: [[3, 4, 5], [6, 7], [8, 9]]}]);
+testNewArrNADef(['nnnn.mmmm', 'a.nnn.mmm', 'a.nnn()', 'g().a', 'g().a.b']);
 
-testExistingArr(['a.c.d']);
-testExistingArr(['g()']);
-testNewArrSafe(['f.h.j().i']);
+testNewArrNA(['nnnn.mmmm', 'a.nnn.mmm', 'a.nnn()', 'g().a', 'g().a.b']);
+
+testNewArrOmitStr(['nnnn.mmmm', 'a.nnn.mmm', 'a.nnn()', 'g().a', 'g().a.b']);
+
+testExistingArrException([{path: 'l().fun1()().a', args: [[3, 4, 5], [6, 7], [8, 9]]}]);
+
+testExistingArrException(['a.c.d']);
+testExistingArrException(['g()']);
+testNewArrNADef(['f.h.j().i']);
 
 l.sep();
 l.println('Together: ');
 
-testNewArr([
+testNewArrException([
   'a.b', 'a.c.d', 'g()', 'f.h.j().i', {path: 'k()', args: [[1, 2, 3]]},
   {path: 'l().fun()', args: [[3, 4, 5], [6, 7]]},
   {path: 'l().fun1()()', args: [[3, 4, 5], [6, 7], [8, 9]]},
   'm()()', 'n()', 'o', 'p'
 ]);
 
-testNewArrSafe(['aaa', 'bbb.ccc', 'a.asdf()']);
+testNewArrNADef(['aaa', 'bbb.ccc', 'a.asdf()']);
 
 l.println(gT.commonMiscUtils.dumpObj(void(0), ['aaa']).join('\n'));
 l.println(gT.commonMiscUtils.dumpObj(null, ['aaa']).join('\n'));
 l.println(gT.commonMiscUtils.dumpObj({}, ['aaa']).join('\n'));
 
 
-a.exception(()=>testExistingArr(['www()']), "TypeError: Cannot read property 'apply' of undefined; Path: www()");
-a.exception(()=>testExistingArr(['www.ggg']), "TypeError: Cannot read property 'ggg' of undefined; Path: www.");
-a.exception(()=>testExistingArr(['a.b.v()']), "TypeError: Cannot read property 'apply' of undefined; Path: a.b.v()");
-a.exception(()=>testExistingArr(['a()']), "TypeError: propPathVal.apply is not a function; Path: a()");
-a.exception(()=>testExistingArr(['g()()']), "TypeError: propPathVal.apply is not a function; Path: g()()");
-a.exception(()=>testExistingArr([{path: 'l().fun2()', args: [[3, 4, 5], [6, 7]]}]),
+a.exception(()=>testExistingArrException(['www()']), "TypeError: Cannot read property 'apply' of undefined; Path: www()");
+a.exception(()=>testExistingArrException(['www.ggg']), "TypeError: Cannot read property 'ggg' of undefined; Path: www.");
+a.exception(()=>testExistingArrException(['a.b.v()']), "TypeError: Cannot read property 'apply' of undefined; Path: a.b.v()");
+a.exception(()=>testExistingArrException(['a()']), "TypeError: propPathVal.apply is not a function; Path: a()");
+a.exception(()=>testExistingArrException(['g()()']), "TypeError: propPathVal.apply is not a function; Path: g()()");
+a.exception(()=>testExistingArrException([{path: 'l().fun2()', args: [[3, 4, 5], [6, 7]]}]),
   "TypeError: Cannot read property 'apply' of undefined; Path: l(3,4,5).fun2(6,7)");
-a.exception(()=>testExistingArr([{path: 'l().fun1()().a.b', args: [[3, 4, 5], [6, 7], [8, 9]]}]),
+a.exception(()=>testExistingArrException([{path: 'l().fun1()().a.b', args: [[3, 4, 5], [6, 7], [8, 9]]}]),
   "TypeError: Cannot read property 'b' of undefined; Path: l(3,4,5).fun1(6,7)(8,9).a.");
 
 a.exception(()=>gT.commonMiscUtils.dumpObj(void(0), ['aaa'], null, true),

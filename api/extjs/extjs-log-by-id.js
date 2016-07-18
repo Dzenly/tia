@@ -72,3 +72,12 @@ exports.formSubmitValues = function (id, formName, logAction) {
       });
   });
 };
+
+exports.form = function (id, formName, includingStores, logAction) {
+  return gIn.wrap('Logging content of form: "' + formName + '" ... ', logAction, function () {
+    return gT.sOrig.driver.executeScript(`return tiaEJ.ctById.getForm('${id}', ${includingStores});`)
+      .then(function (res) {
+        gIn.logger.log('\n' + res);
+      });
+  });
+};

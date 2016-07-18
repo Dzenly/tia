@@ -100,7 +100,7 @@
       ];
       if (store) {
         storeInfoArr.push('Store $className: ' + store.$className);
-        storeInfoArr.push(tiaEJ.ctMisc.stringifyStore(store, false, true));
+        storeInfoArr = storeInfoArr.concat(tiaEJ.ctMisc.stringifyStore(store, false, true));
       } else {
         storeInfoArr.push('N/A');
       }
@@ -129,6 +129,7 @@
         'getInputId()',
         'initialConfig.inputType',
         'initialConfig.boxLabel',
+        'boxLabel',
         'inputType',
         'getFieldLabel()',
         'getActiveError()',

@@ -53,6 +53,19 @@
       return attrsStr;
     },
 
+    // Store must contain at least one record.
+    doesStoreContainField: function (store, fieldName) {
+      var model = store.first();
+      var names = model.getFields().map(function (field) {
+        return field.getName();
+      });
+      var index = names.indexOf(fieldName);
+      if (index === -1) {
+        return false;
+      }
+      return true;
+    },
+
     /**
      *
      * @param {HTMLElement} row
@@ -145,10 +158,10 @@
     },
 
     stringifyStore: function (store, fieldsToPrint, printFieldName) {
-      var res = 'Store dump: ';
+      var res = ['Store dump: '];
       for (var i = 0, len = store.getCount(); i < len; i++) {
         var record = store.getAt(i);
-        res += '\n' + this.stringifyRecord(record, fieldsToPrint, printFieldName);
+        res.push(this.stringifyRecord(record, fieldsToPrint, printFieldName));
       }
       return res;
     },
@@ -276,10 +289,13 @@
       return str;
     },
 
-    getNameAndLabel: function (field) {
-      var name = field.getName();
-      var labelText = field.getFieldLabel();
-      var str = 'name: ' + name + ', labelText: ' + labelText;
+    getNameAndLabels: function (field) {
+      var name = field.getName ? field.getName() : 'N/A';
+      var labelText = field.getFieldLabel ? field.getFieldLabel() : 'N/A';
+      var str = 'name: ' + name + ', label: ' + labelText;
+      if (field.boxLabel) {
+        str += ', boxLabel: ' + field.boxLabel;
+      }
       return str;
     },
 
@@ -291,10 +307,10 @@
     getCB: function (cb) {
       var str = 'ComboBox content:\n';
       str += this.getIdItemIdReference(cb) + '\n';
-      str += this.getNameAndLabel(cb) + '\n';
+      str += this.getNameAndLabels(cb) + '\n';
       var displayField = this.safeGetConfig(cb, 'displayField');
       str += 'displayField: ' + displayField + '\n';
-      str += tiaEJ.ctMisc.stringifyStoreField(cb.getStore(), displayField) + '\n';
+      str += tiaEJ.ctMisc.stringifyStoreField(cb.getStore(), displayField).join('\n') + '\n';
       return tia.cC.content.wrap(str);
     },
 
@@ -338,8 +354,71 @@
       return fields; // O
     },
 
-    getForm: function (form) {
+    /**
+     *
+     * @param comp
+     * @param includingStores - use true to just include store, and 2 to forse store printing even if displayField is absent in the store.
+     * @param indent
+     * @returns {*}
+     */
+    getFormChild: function (comp, includingStores, indent) {
+      if (typeof indent === 'undefined') {
+        indent = '';
+      }
+      if (!tiaEJ.ctByObj.isCompVisible(comp)) {
+        return '';
+      }
+      var str = indent;
+      var strArr = tia.cU.dumpObj(comp, [
+        'getXType()',
+        'getName()',
+        'getFieldLabel()',
+        'boxLabel',
+        'title',
+        'getRawValue()'
+      ], null, tia.cU.dumpObjErrMode.omitStringIfUndefined);
 
+      str += strArr.join(', ');
+
+      if (comp.isDisabled && comp.isDisabled()) {
+        str += ', disabled';
+      }
+      str += '\n';
+
+      if (includingStores) {
+        var store = comp.getStore ? comp.getStore() : null;
+        if (store) {
+          var displayField = this.safeGetConfig(comp, 'displayField');
+          str += indent + 'Field content: (displayField: ' + displayField + ')\n';
+
+          if (includingStores === 2 || tiaEJ.ctMisc.doesStoreContainField(store, displayField)) {
+            // str += tiaEJ.ctMisc.stringifyStoreField(store, displayField).map(function (arrStr) {
+            str += tiaEJ.ctMisc.stringifyStore(store, null, true).map(function (arrStr) {
+                return indent + arrStr;
+              }).join('\n') + '\n';
+          } else {
+            str += indent + 'N/A: No displayField in store\n';
+          }
+        }
+      }
+      if (comp.items) {
+        var self = this;
+        comp.items.each(function (item) {
+          str += self.getFormChild(item, includingStores, indent + '  ');
+        })
+      }
+      return str + indent + tia.cC.content.rowSep1 + '\n';// tia.cC.content.wrapEx(indent, str);
+    },
+
+    getForm: function (form, includingStores) {
+      var str = '';
+      if (form.items) {
+        var self = this;
+        form.items.each(function (item) {
+          str += self.getFormChild(item, includingStores);
+        })
+      }
+      return str;
     },
 
     /**

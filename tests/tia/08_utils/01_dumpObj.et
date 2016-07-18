@@ -1,5 +1,5 @@
 =================
-Title: Tests for dump function
+Title: Tests for dumpObj function
 Separatedly: 
 a.b: a.b
 l().fun3(): 5
@@ -9,6 +9,12 @@ a.nnn: N/A
 a.nnn: N/A
 g().a: undefined
 g().a: N/A
+nnnn: N/A
+a.nnn: N/A
+a.nnn: N/A
+g().a: undefined
+g().a: N/A
+g().a: undefined
 l(3,4,5).fun1(6,7)(8,9).a: undefined
 a.c.d: a.c.d
 g(): g()

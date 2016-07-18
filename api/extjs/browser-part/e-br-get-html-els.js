@@ -41,7 +41,7 @@
       return field.inputEl.dom;
     },
 
-    getNameAndLabel: function (field) {
+    getNameAndLabels: function (field) {
       return {name: field.getName(), label: field.getFieldLabel()};
     },
 

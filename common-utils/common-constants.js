@@ -12,6 +12,7 @@
   container.content = {
     colSep: ' | ', // column texts separator
     rowSep: '= = = = = = =',
+    rowSep1: '-------------------',
     contentStart: '    /~~~~~~~~\\\n',
     contentFinish: '    \\________/\n',
     indent: ' | ',
@@ -25,6 +26,9 @@
     },
     wrap: function (str) {
       return this.contentStart + str + this.contentFinish;
+    },
+    wrapEx: function (indent, str) {
+      return indent + this.contentStart + str + indent + this.contentFinish;
     }
   };
 

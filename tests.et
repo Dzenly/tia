@@ -34,7 +34,7 @@
 | | | "01_exceptions.js", OK, Fail: 3, Pass: 2, "Tests for "exception" assertion"
 | | "08_utils", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 13, ""
 | | | "00_mergeOptions.js", OK, fail: 0, Pass: 3, "Tests for mergeOptions function"
-| | | "01_dumpObj.js", OK, fail: 0, Pass: 10, "Tests for dump function"
+| | | "01_dumpObj.js", OK, fail: 0, Pass: 10, "Tests for dumpObj function"
 | | "09_extLog", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, ""
 | | | "00_extLog.js", OK, fail: 0, pass: 0, "Test for external log"
 | "wd-helpers", dif: 0, fail: 0, edif: 0, Skip: 1, Pass: 10, ""
