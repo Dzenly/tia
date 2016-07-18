@@ -7,7 +7,10 @@
     container = exports;
   } else {
     container = window.tia.cU;
+    container.debugMode = window.tia.debugMode;
   }
+
+
 
   container.copyObject = function (obj) {
     var result = {};
@@ -179,7 +182,7 @@
     } catch (e) {
       actualPropPathArr.push(actPropPathStr);
       e.message += '; Path: ' + actualPropPathArr.join('.');
-      if (tia.debugMode) {
+      if (container.debugMode) {
         console.log(e.stack);
       }
       throw e;

@@ -1,12 +1,6 @@
-Вычитать всю форму, в смысле: name, label, value, rawValue, [set of values].
-М.б. два вида value () getModelData, getSubmitData.
-И какой-то ручной toString?
-Ибо value в общем случае - объект.
-
-Через items пробежать все компоненты. У них найти возможных детей.
-У всего читать label, boxLabel, name, value - два вида, 
-Подумать, что читать у контейнеров.
-Возможно, нужно будет сделать раскейсовку по типа групп и контролов.
+Улучшить инфо при exceptions, ибо selenium-webdriver имеет неинформативный call stack.
+window.onerror
+process.on('uncaughtException')
 
 ======================
 
