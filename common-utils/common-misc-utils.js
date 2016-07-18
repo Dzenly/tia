@@ -95,6 +95,7 @@
     if (typeof dstArr === 'undefined' || dstArr === null) {
       dstArr = [];
     }
+    var actualPropPathArr;
     try {
       outerLoop:
         for (var i = 0, len1 = propPaths.length; i < len1; i++) {
@@ -108,7 +109,7 @@
           var subPropNames = propPath.split('.');
           var propPathVal = obj;
           var argsIndex = 0;
-          var actualPropPathArr = [];
+          actualPropPathArr = [];
           for (var j = 0, len2 = subPropNames.length; j < len2; j++) {
             var subPropName = subPropNames[j];
 
@@ -178,6 +179,9 @@
     } catch (e) {
       actualPropPathArr.push(actPropPathStr);
       e.message += '; Path: ' + actualPropPathArr.join('.');
+      if (tia.debugMode) {
+        console.log(e.stack);
+      }
       throw e;
     }
     return dstArr;

@@ -145,7 +145,7 @@
         tia.cU.dumpObj(pickerComp, ['$className',], formFieldArr);
 
         tia.cU.dumpObj(field, [
-          {path: 'getConfig()', args: [['displayField']]},
+          'getConfig().displayField',
           'initialConfig.hiddenName'
         ], formFieldArr);
 
@@ -233,7 +233,7 @@
         'getItemId()'
       ], outArr);
 
-      outArr.push('getConfig(itemId): ' + tiaEJ.ctByObj.safeGetConfig(comp, 'itemId'));
+      // outArr.push('getConfig(itemId): ' + tiaEJ.ctByObj.safeGetConfig(comp, 'itemId'));
       outArr.push('getText:' + text + ', Locale Keys: ' + localeKeys);
 
       tia.cU.dumpObj(comp, [
@@ -350,10 +350,12 @@
       try {
         record = comp.getRecord(extDomEl);
         recordStr += '\n' + tiaEJ.ctMisc.stringifyAllRecord(record, true);
-        recordStr += this.consts.bigSep;
+        recordStr += '\n' + this.consts.bigSep;
       } catch (e) {
         recordStr += this.consts.nA;
-        console.log('Exp exc:' + e);
+        if (tia.debugMode) {
+          console.log('Exp exc:' + e);
+        }
       }
 
       if (tia.debugMode) {

@@ -6,6 +6,7 @@ var util = require('util');
 // TODO: support different range options.
 // TODO: function for convertation object to its text representation (smth, like JSON).
 
+// Use -1 as stop index to show only table header.
 exports.table = function (id, tableName, options, logAction) {
   return gIn.wrap('Logging content of table: "' + tableName + '" ... ', logAction, function () {
     return gT.sOrig.driver.executeScript(
@@ -77,7 +78,7 @@ exports.form = function (id, formName, includingStores, logAction) {
   return gIn.wrap('Logging content of form: "' + formName + '" ... ', logAction, function () {
     return gT.sOrig.driver.executeScript(`return tiaEJ.ctById.getForm('${id}', ${includingStores});`)
       .then(function (res) {
-        gIn.logger.log('\n' + res);
+        gIn.logger.log('\n' + gT.commonConsts.content.wrap(res) + '\n');
       });
   });
 };

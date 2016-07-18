@@ -51,7 +51,7 @@
 
     isCBPickerVisible: function (cb) {
       var boundList = cb.getPicker();
-      return boundList.isVisible(true) && cb.isExpanded;
+      return boundList.isVisible(true) && cb.isExpanded && !cb.isDisabled();
     },
 
     getCBItemByIndex: function (cb, index) {
@@ -61,7 +61,7 @@
 
     getCBItemByField: function (cb, fieldValue, fieldName) {
       var index = this.indexOfField(cb, fieldValue, fieldName);
-      if (!index) {
+      if (index === -1) {
         return null;
       }
       var boundList = cb.getPicker();

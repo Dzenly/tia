@@ -283,7 +283,7 @@
 
     getIdItemIdReference: function (comp) {
       var id = comp.initialConfig.id;
-      var itemId = this.safeGetConfig(comp, 'itemId');
+      var itemId = comp.initialConfig.itemId; //this.safeGetConfig(comp, 'itemId');
       var reference = comp.getReference();
       var str = 'id: ' + id + ', itemId: ' + itemId + ', reference: ' + reference;
       return str;
@@ -374,6 +374,7 @@
         'getName()',
         'getFieldLabel()',
         'boxLabel',
+        'getText()',
         'title',
         'getRawValue()'
       ], null, tia.cU.dumpObjErrMode.omitStringIfUndefined);

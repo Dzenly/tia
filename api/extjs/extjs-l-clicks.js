@@ -67,7 +67,7 @@ exports.tableItemByFieldId = function (tableId, tableName, id, logAction) {
 
 exports.comboBoxItemByIndex = function (cbId, itemIndex, logAction) {
   return gIn.wrap(``, logAction, function () {
-    return gT.s.browser.executeScript(`return tiaEJ.hEById.getNameAndLabel('${cbId}');`, false)
+    return gT.s.browser.executeScript(`return tiaEJ.hEById.getNameAndLabels('${cbId}');`, false)
       .then(function (obj) {
         gIn.logger.logIfNotDisabled(
           `Click combo box(name: '${obj.name}', label: '${obj.label}'), item #${itemIndex}`, logAction);
@@ -92,7 +92,7 @@ exports.comboBoxItemByIndex = function (cbId, itemIndex, logAction) {
 
 exports.comboBoxItemByField = function (cbId, fieldValue, fieldName, logAction) {
   return gIn.wrap(``, logAction, function () {
-    return gT.s.browser.executeScript(`return tiaEJ.hEById.getNameAndLabel('${cbId}');`, false)
+    return gT.s.browser.executeScript(`return tiaEJ.hEById.getNameAndLabels('${cbId}');`, false)
       .then(function (obj) {
         gIn.logger.logIfNotDisabled(
           `Click combo box(name: '${obj.name}', label: '${obj.label}'), by field (name: ${fieldName}, value: ${fieldValue})`,

@@ -62,8 +62,8 @@
     showMsgBox: function(msg) {
       var msgBox = Ext.Msg.show({
         message: msg.replace(/\n/g, '<br>'),
-        width: 1100,
-        minWidth: 1100,
+        width: 1200,
+        minWidth: 1200,
         minHeight: 1200,
         modal: false,
         scrollable: true
