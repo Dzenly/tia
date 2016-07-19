@@ -174,6 +174,7 @@ function *runTestSuite(dir) {
   // dirInfo.title = path.basename(dir);
   gIn.logger.saveSuiteLog(dirInfo, noTimeLog, true);
 
+  var noPrevMLog = gIn.fileUtils.isAbsent(noTimeLogPrev);
   var metaLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog);
   var metaLogPrevDifResBool = Boolean(metaLogPrevDifRes);
   if (metaLogPrevDifResBool) {
@@ -198,7 +199,7 @@ function *runTestSuite(dir) {
   }
 
   var changedDiffs = gIn.diffUtils.changedDiffs ? '(' + gIn.diffUtils.changedDiffs + ' diff(s) changed)' : '';
-  var emailSubj = (metaLogPrevDifResBool ? 'DIF FROM PREV' : ('AS PREV' + changedDiffs)) +
+  var emailSubj = (noPrevMLog ? 'NO PREV' : (metaLogPrevDifResBool ? 'DIF FROM PREV' : ('AS PREV' + changedDiffs))) +
     ', ' + gIn.logger.saveSuiteLog(dirInfo, log) + ', ' + getOs();
   var emailSubjCons = etMlogInfoCons + emailSubj;
   emailSubj = etMlogInfo + emailSubj;

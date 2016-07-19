@@ -336,6 +336,7 @@ These logs are sent to email (if corresponding options is enabled).
 * DIF_MLOG - the current meta log is different from the etalon meta log
 * linux_3.16.0-4 - OS.
 * amd64 - Platform.
+* NO PREV - no previous log, e.g. the first run, custom files removing, or some terrible fail at previous run.
 * DIF FROM PREV - the current tests run is different from the previous run.
 * AS PREV - the current run is equal to the previous run.
 * AS PREV (8 diff(s) changed). - the current run has diffs in the same tests as in previous run, but diffs are changed.

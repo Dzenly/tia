@@ -98,10 +98,10 @@ exports.emptyDir = function (dir) {
   exports.rmDir(dir);
 };
 
-exports.safeRename = function (path1, path2) {
-  exports.safeUnlink(path2);
+exports.safeRename = function (oldPath, newPath) {
+  exports.safeUnlink(newPath);
   try {
-    fs.renameSync(path1, path2);
+    fs.renameSync(oldPath, newPath);
   } catch (e) {
     // No handling intentionaly.
   }
