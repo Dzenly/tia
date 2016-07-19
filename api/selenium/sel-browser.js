@@ -44,6 +44,7 @@ exports.initTiaBrHelpers = function (logAction) {
         let fPath = mPath.join(__dirname, '..', '..', 'common-utils', fName);
         yield exports.executeScriptFromFile(fPath);
       }
+      gIn.brHelpersInitiated = true;
     });
   });
 };
@@ -174,6 +175,15 @@ exports.setDebugMode = function (logAction) {
 exports.resetDebugMode = function (logAction) {
   return gIn.wrap('Reset debug mode ... ', logAction, function () {
     return gT.sOrig.driver.executeScript('tia.debugMode = false;');
+  });
+};
+
+exports.getDebugMode = function (logAction) {
+  return gIn.wrap('Get debug mode ... ', logAction, function () {
+    return gT.sOrig.driver.executeScript('return tia.debugMode;').then(function (res) {
+      gIn.logger.logIfNotDisabled(res + ' ... ', logAction);
+      return res;
+    });
   });
 };
 

@@ -107,7 +107,9 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
           gIn.tracer.trace1('Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.');
           gT.s.browser.screenshot()
             .then(function (res) {
-              return gT.s.browser.initTiaBrHelpers();
+              if (!gIn.brHelpersInitiated) {
+                return gT.s.browser.initTiaBrHelpers();
+              }
             })
             .then(function (res) {
               return gT.s.browser.logExceptions(true);

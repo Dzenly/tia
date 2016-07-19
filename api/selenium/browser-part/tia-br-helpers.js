@@ -51,6 +51,9 @@
   // MDN: When the function returns true, this prevents the firing of the default event handler.
   var onError = function (msg, url, line) {
     tia.exceptionsArr.push('Exception: Msg: ' + msg + ', Url: ' + url + ', Line: ' + line);
+    if (tia.debugMode) {
+      console.log('onError: ' + tia.getExceptions());
+    }
     //console.log(msg + ' ' + url + ' ' + line);
   };
   window.onerror = onError;

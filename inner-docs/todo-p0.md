@@ -1,6 +1,4 @@
-Улучшить инфо при exceptions, ибо selenium-webdriver имеет неинформативный call stack.
-window.onerror
-process.on('uncaughtException')
+Почему tia.debugMode === false ??? после setDebugMode.
 
 ======================
 
@@ -568,5 +566,8 @@ IE ??
 
 В деревьях распечатывать только: Ext.tree.Panel.displayField?
 
+========================
 
+Запинать все на Firefox и перейти на него при отладке.
+Сравнить возможности отладочных тулзов при работе с WebDriver.
 

@@ -305,4 +305,9 @@ if (gIn.params.defHost) {
 // TODO: now profile creates in current working directory.
 // Replace it with testSuiteRoot directory ?
 
+process.on('uncaughtException', (err) => {
+  console.log(`uncaughtException: ${err}`);
+  console.log(err.stack);
+});
+
 require('../engine/runner.js')(testsDir);

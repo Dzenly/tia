@@ -455,9 +455,9 @@ Thank you, "R-Vision", for initial sponsorship and for allowance to open the sou
 
 More then 10 years I have been involved in auto-testing. I very like it and I have many ideas to implement.
 So I develop this test engine, dedicating most of my free time to this, using all my experience and best practices.
-Main goals of this project is to create good tool for ExtJs applications testing, and to fasten autotesting in common, using log comparison paradigm (and not assertion paradigm, though assertions are also supported).
+Main goals of this project is to create a good tool for ExtJs applications testing, and to fasten autotesting in common, using the log comparison paradigm (and not the assertion paradigm, though assertions are also supported).
 
-If you like my work you can to star my project on github:
+If you like my work, you can to star my project on github:
 https://github.com/Dzenly/tia.
 
 If you wish to support the project with moneys, here is an info about my accounts for donations:
@@ -465,6 +465,6 @@ https://github.com/Dzenly/tia/blob/master/donations-info.md
 
 My TODO lists are in 'inner-docs' project directory:
 https://github.com/Dzenly/tia/tree/master/inner-docs.
-After 1.0.0 release I am planning to create a github wiki page and create the site with engine documentation with search ability.
+After 1.0.0 release I am planning to create a github wiki page and create the site containing engine documentation with search ability.
 
 When I will finish to implement my general ideas about this engine I will create a tool like TestLink based on Node.js.

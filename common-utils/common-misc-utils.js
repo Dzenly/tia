@@ -5,12 +5,15 @@
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     container = exports;
+    container.getDebugMode = function () {
+      return false;
+    };
   } else {
     container = window.tia.cU;
-    container.debugMode = window.tia.debugMode;
+    container.getDebugMode = function () {
+      return window.tia.debugMode;
+    };
   }
-
-
 
   container.copyObject = function (obj) {
     var result = {};
@@ -182,7 +185,7 @@
     } catch (e) {
       actualPropPathArr.push(actPropPathStr);
       e.message += '; Path: ' + actualPropPathArr.join('.');
-      if (container.debugMode) {
+      if (container.getDebugMode()) {
         console.log(e.stack);
       }
       throw e;
