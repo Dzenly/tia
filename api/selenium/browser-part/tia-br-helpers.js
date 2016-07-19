@@ -49,12 +49,15 @@
   //console.log('TestHelper loaded');
 
   // MDN: When the function returns true, this prevents the firing of the default event handler.
-  var onError = function (msg, url, line) {
-    tia.exceptionsArr.push('Exception: Msg: ' + msg + ', Url: ' + url + ', Line: ' + line);
+  var onError = function (msg, url, line, col, error) {
+    tia.exceptionsArr.push('TIA onerror exception: Msg: ' + msg + ', Url: ' + url + ', Line: ' + line +
+      ', col: ' + col + ', error: ' + error);
     if (tia.debugMode) {
-      console.log('onError: ' + tia.getExceptions());
+      console.error(tia.getExceptions());
+      if (error && error.stack) {
+        console.log(error.stack);
+      }
     }
-    //console.log(msg + ' ' + url + ' ' + line);
   };
   window.onerror = onError;
 })();

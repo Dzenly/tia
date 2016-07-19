@@ -43,7 +43,7 @@ gT.e.initTiaExtJsBrHelpers = function (logAction) {
     return gT.sOrig.promise.consume(function* () {
       for (const fName of brHelpers) {
         let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part', fName), 'utf8');
-        yield gT.sOrig.driver.executeScript(scriptStr);
+        yield gT.s.browser.executeScriptWrapper(scriptStr);
       }
     });
   });
@@ -63,7 +63,7 @@ gT.e.setLocaleObject = function (objExpression, logAction) {
         tiaEJ.locale = ${objExpression};
         return tiaEJ.locale;
     `;
-    return gT.sOrig.driver.executeScript(scriptStr)
+    return gT.s.browser.executeScriptWrapper(scriptStr)
       .then(function (res) {
         gT.e.locale = res;
       });

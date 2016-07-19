@@ -13,7 +13,7 @@
      */
     getByIdRefKey: function (id, ref, key) {
       var text = tiaEJ.locale[key];
-      return Ext.getCmp(id)
+      return tiaEJ.search.byId(id)
         .lookupReference(ref)
         .items
         .findBy(function (item) {
@@ -27,11 +27,11 @@
      * @param ref - reference inside component found by id.
      */
     getByIdRef: function (id, ref) {
-      return Ext.getCmp(id).lookupReference(ref).id;
+      return tiaEJ.search.byId(id).lookupReference(ref).id;
     },
 
     getTabIdByIdItemId: function (id, tabItemId) {
-      var cmp = Ext.getCmp(id).getTabBar().down('#' + tabItemId);
+      var cmp = tiaEJ.search.byId(id).getTabBar().down('#' + tabItemId);
       var res = cmp ? cmp.getId() : null;
       return res;
     },
@@ -42,7 +42,7 @@
     },
 
     getTabIdByIdText: function (id, text) {
-      var items = Ext.getCmp(id).getTabBar().items;
+      var items = tiaEJ.search.byId(id).getTabBar().items;
       var cmp = items.findBy(function (item) {
         return item.text === text;
       });

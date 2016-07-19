@@ -16,7 +16,7 @@ exports.initHelpers = function (logAction) {
   return gIn.wrap('Initialization of TIA ExtJs Exp helpers ... ', logAction, function () {
     var scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/e-br-exp.js'), 'utf8');
     // gIn.tracer.trace3('initHelpers: script: ' + scriptStr);
-    return gT.sOrig.driver.executeScript(scriptStr);
+    return gT.s.browser.executeScriptWrapper(scriptStr);
   });
 };
 
@@ -54,6 +54,6 @@ exports.setDefDbgHandlers = function(logAction) {
     document.addEventListener('keydown', tiaEJOnKeyDown);
     `;
     // gIn.tracer.trace3('setDbgOnMouseDown: script: ' + funcBody);
-    return gT.sOrig.driver.executeScript(scriptStr);
+    return gT.s.browser.executeScriptWrapper(scriptStr);
   });
 };

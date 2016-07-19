@@ -22,6 +22,18 @@
       });
     },
 
+    byId: function(id) {
+      var cmp = Ext.getCmp(id); // good getCmp using.
+      if (typeof cmp === 'undefined') {
+        var err = new Error('Component not found for id: ' + id);
+        throw err;
+      }
+      if (typeof cmp === null) {
+        throw new Error('Class was found instead of component for id: ' + id);
+      }
+      return cmp;
+    },
+
     /**
      * Gets component using id, reference, localization key.
      * @param id - component HTML id.
@@ -30,7 +42,7 @@
      */
     byIdRefKey: function (id, ref, key) {
       var text = tiaEJ.locale[key];
-      return Ext.getCmp(id)
+      return this.byId(id)
         .lookupReference(ref)
         .items
         .findBy(function (item) {
@@ -44,16 +56,16 @@
      * @param ref - reference inside component found by id.
      */
     byIdRef: function (id, ref) {
-      return Ext.getCmp(id).lookupReference(ref);
+      return this.byId(id).lookupReference(ref);
     },
 
     tabByIdItemId: function (id, tabItemId) {
-      var cmp = Ext.getCmp(id).getTabBar().down('#' + tabItemId);
+      var cmp = this.byId(id).getTabBar().down('#' + tabItemId);
       return cmp;
     },
 
     tabByIdText: function (id, text) {
-      var items = Ext.getCmp(id).getTabBar().items;
+      var items = this.byId(id).getTabBar().items;
       var cmp = items.findBy(function (item) {
         return item.text === text;
       });

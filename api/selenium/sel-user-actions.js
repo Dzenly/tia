@@ -59,3 +59,9 @@ exports.sendKeysByDynamicId = function (id, keys, msg, logAction) {
   });
 };
 
+exports.sendKeysToBody = function (keys, logAction) {
+  return gIn.wrap('Sending keys: "' + keys + '", to body ... ', logAction, function () {
+    return gT.sOrig.driver.findElement(gT.sOrig.by.css('body')).sendKeys(keys);
+  });
+};
+

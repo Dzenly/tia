@@ -89,12 +89,23 @@ exports.close = function (logAction) {
  */
 exports.setBodyClicker = function (logAction) {
   return gIn.wrap('Set body clicker to keep session active ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript(`
+    return exports.executeScriptWrapper(`
     setInterval(function() {
       document.body.click();
     }
     , 60000)`);
   });
+};
+
+exports.executeScriptWrapper = function (scriptStr) {
+  // TODO: tmpFunc in debug mode only, to increase performance in non-debug mode.
+  var newScriptStr = 'window.tiaTmpFunc = function () { ';
+  newScriptStr += 'try {' + scriptStr + '} catch (e) {';
+  newScriptStr += `console.error('TIA caught exception: \\n' + e + '\\n');`;
+  newScriptStr += `console.error('stack: ' + e.stack + '\\n');`;
+  newScriptStr += 'throw e; };';
+  newScriptStr += '}; return tiaTmpFunc();';
+  return gT.sOrig.driver.executeScript(newScriptStr);
 };
 
 /**
@@ -107,7 +118,7 @@ exports.setBodyClicker = function (logAction) {
  */
 exports.executeScript = function (scriptStr, logAction) {
   return gIn.wrap('Script execution ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript(scriptStr);
+    return exports.executeScriptWrapper(scriptStr);
   });
 };
 
@@ -122,7 +133,7 @@ exports.executeScriptFromFile = function (fPath, logAction) {
     gIn.tracer.trace3('executeScriptFromFile: ' + fPath);
     var scriptStr = fs.readFileSync(fPath, 'utf8');
     // gIn.tracer.trace3('initTiaHelpers: script: ' + scriptStr);
-    return gT.sOrig.driver.executeScript(scriptStr);
+    return exports.executeScriptWrapper(scriptStr);
   });
 };
 
@@ -150,7 +161,7 @@ exports.setDbgOnClick = function (funcBody, logAction) {
     document.addEventListener('click', tiaOnClick);
     `;
     // gIn.tracer.trace3('setDbgOnClick: script: ' + funcBody);
-    return gT.sOrig.driver.executeScript(scriptStr);
+    return exports.executeScriptWrapper(scriptStr);
   });
 };
 
@@ -162,7 +173,7 @@ exports.setDbgOnClick = function (funcBody, logAction) {
  */
 exports.setDebugMode = function (logAction) {
   return gIn.wrap('Set debug mode ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript('tia.debugMode = true;');
+    return exports.executeScriptWrapper('tia.debugMode = true;');
   });
 };
 
@@ -174,13 +185,13 @@ exports.setDebugMode = function (logAction) {
  */
 exports.resetDebugMode = function (logAction) {
   return gIn.wrap('Reset debug mode ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript('tia.debugMode = false;');
+    return exports.executeScriptWrapper('tia.debugMode = false;');
   });
 };
 
 exports.getDebugMode = function (logAction) {
   return gIn.wrap('Get debug mode ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript('return tia.debugMode;').then(function (res) {
+    return exports.executeScriptWrapper('return tia.debugMode;').then(function (res) {
       gIn.logger.logIfNotDisabled(res + ' ... ', logAction);
       return res;
     });
@@ -227,11 +238,11 @@ exports.logConsoleContent = function () {
 };
 
 exports.logExceptions = function (extAjaxFailures, logAction) {
-  return gT.sOrig.driver.executeScript('return !!window.tia').then(
+  return exports.executeScriptWrapper('return !!window.tia').then(
     function (res) {
       gIn.tracer.trace1('logBrowserExceptions, tia is: ' + res);
       if (res) {
-        return gT.sOrig.driver.executeScript('return tia.getExceptions(' + extAjaxFailures + ')')
+        return exports.executeScriptWrapper('return tia.getExceptions(' + extAjaxFailures + ')')
           .then(function (arr) {
             for (var str of arr) {
               let logStr = 'BR.EXC: ' + gIn.textUtils.removeSelSid(str);
@@ -252,10 +263,10 @@ exports.logExceptions = function (extAjaxFailures, logAction) {
 // No log action intentionaly.
 exports.cleanExceptions = function (extAjaxFailures, logAction) {
   return gIn.wrap('Cleaning client exceptions: ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript('return window.rvtReady').then(
+    return exports.executeScriptWrapper('return window.rvtReady').then(
       function (res) {
         if (res) {
-          return gT.sOrig.driver.executeScript('tia.cleanExceptions(' + extAjaxFailures + ')');
+          return exports.executeScriptWrapper('tia.cleanExceptions(' + extAjaxFailures + ')');
         }
       });
   });
@@ -297,7 +308,7 @@ exports.setWindowSize = function (width, height, logAction) {
  */
 exports.getScreenResolution = function (logAction) {
   return gIn.wrap('Get screen resolution ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript('return tia.getScreenResolution()')
+    return exports.executeScriptWrapper('return tia.getScreenResolution()')
       .then(function (res) {
         // Save resolution to emulate maximize.
         gT.s.browser.screenWidth = res.width;

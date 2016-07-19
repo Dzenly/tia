@@ -9,8 +9,8 @@ var util = require('util');
 // Use -1 as stop index to show only table header.
 exports.table = function (id, tableName, options, logAction) {
   return gIn.wrap('Logging content of table: "' + tableName + '" ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript(
-      `return tiaEJ.ctById.get('${id}', '${gT.commonMiscUtils.optsToJson(options)}')`
+    return gT.s.browser.executeScriptWrapper(
+      `return tiaEJ.ctById.getTable('${id}', '${gT.commonMiscUtils.optsToJson(options)}')`
     )
       .then(function (res) {
         gIn.logger.logln('\n' + res);
@@ -20,7 +20,7 @@ exports.table = function (id, tableName, options, logAction) {
 
 exports.tree = function (id, treeName, options, logAction) {
   return gIn.wrap('Logging content of tree: "' + treeName + '" ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript(
+    return gT.s.browser.executeScriptWrapper(
       `return tiaEJ.ctById.getTree('${id}', '${gT.commonMiscUtils.optsToJson(options)}')`
     )
       .then(function (res) {
@@ -31,7 +31,7 @@ exports.tree = function (id, treeName, options, logAction) {
 
 exports.comboBox = function (id, logAction) {
   return gIn.wrap('Logging content of combobox ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript(
+    return gT.s.browser.executeScriptWrapper(
       `return tiaEJ.ctById.getCB('${id}');`
     )
       .then(function (res) {
@@ -42,7 +42,7 @@ exports.comboBox = function (id, logAction) {
 
 exports.selectedItemTexts = function (id, viewName, logAction) {
   return gIn.wrap('Logging selected items for view: "' + viewName + '" ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript(`return tiaEJ.ctById.getSelectedItemTexts('${id}');`)
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getSelectedItemTexts('${id}');`)
       .then(function (res) {
         gIn.logger.log('\n' + res);
       });
@@ -56,7 +56,7 @@ exports.selectedItemFields = function (id, viewName, fieldsToPrint, printFieldNa
     if (fieldsToPrint) {
       fieldsToPrint = `JSON.parse('${JSON.stringify(fieldsToPrint)}')`;
     }
-    return gT.sOrig.driver.executeScript(
+    return gT.s.browser.executeScriptWrapper(
       `return tiaEJ.ctById.getSelectedItemFields('${id}', ${fieldsToPrint}, ${printFieldName});`
     )
       .then(function (res) {
@@ -67,7 +67,7 @@ exports.selectedItemFields = function (id, viewName, fieldsToPrint, printFieldNa
 
 exports.formSubmitValues = function (id, formName, logAction) {
   return gIn.wrap('Logging submit values for form: "' + formName + '" ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript(`return tiaEJ.ctById.getFormSubmitValues('${id}');`)
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getFormSubmitValues('${id}');`)
       .then(function (res) {
         gIn.logger.log('\n' + gT.commonConsts.content.wrap(util.inspect(res) + '\n'));
       });
@@ -76,7 +76,7 @@ exports.formSubmitValues = function (id, formName, logAction) {
 
 exports.form = function (id, formName, includingStores, logAction) {
   return gIn.wrap('Logging content of form: "' + formName + '" ... ', logAction, function () {
-    return gT.sOrig.driver.executeScript(`return tiaEJ.ctById.getForm('${id}', ${includingStores});`)
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getForm('${id}', ${includingStores});`)
       .then(function (res) {
         gIn.logger.log('\n' + gT.commonConsts.content.wrap(res) + '\n');
       });
