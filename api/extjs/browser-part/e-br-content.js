@@ -6,7 +6,9 @@
 
   window.tiaEJ.ctSelectors = {
     rowBody: '.x-grid-rowbody-tr',
-    rowVisibleBody: '.x-grid-rowbody-tr:not(.x-grid-row-body-hidden)'
+    rowVisibleBody: '.x-grid-rowbody-tr:not(.x-grid-row-body-hidden)',
+    cellInnerAction: '.x-grid-cell-inner-action-col',
+    actionColIcon: '.x-action-col-icon'
   };
 
   // window.tiaEJ.content = {
@@ -261,12 +263,26 @@
      * @param {Ext.view.Table} table - the table.
      * @returns {Array} - texts.
      */
-    getColHeaderTexts: function (table) {
+    getColHeaderInfos: function (table) {
       var cols = this.getCols(table);
-      var texts = cols.map(function (col) {
-        return col.textEl.dom.textContent;
+      var str = cols.map(function (col) {
+        // col.textEl.dom.textContent // slower but more honest.
+        // TODO: getConfig().tooltip - проверить.
+        var info = col.getXType() + ': "' + col.text + '"';
+        var toolTip = col.getConfig().toolTip;
+        if (toolTip) {
+          info += ', toolTip: ' + toolTip;
+        }
+        // if (col.items) {
+        //   info += ', items: ' + JSON.stringify(col.items);
+        // }
+        // if (col.getXType() === 'actioncolumn') {
+        //   console.dir(col);
+        //   window.c2 = col;
+        // }
+        return info;
       });
-      return texts;
+      return str;
     },
 
     safeGetConfig: function (comp, cfgName) {
@@ -446,6 +462,10 @@
      */
     getTable: function (table, options) {
 
+      if (table.isPanel) {
+        table = table.getView();
+      }
+
       var isVisible = table.isVisible(true);
 
       function getDefOpts() {
@@ -461,29 +481,29 @@
       options = tiaEJ.ctMisc.checkVisibilityAndFillOptions(isVisible, options, getDefOpts);
 
       var origColSelectors = this.getColSelectors(table);
-      var origColHeaderTexts = this.getColHeaderTexts(table);
+      var origColHeaderInfo = this.getColHeaderInfos(table);
 
       var colSelectors = [];
-      var colHeaderTexts = [];
+      var colHeaderInfos = [];
 
       if (options.includeColumns) {
         options.includeColumns.forEach(function (indexOfColumn) {
           colSelectors.push(origColSelectors[indexOfColumn]);
-          colHeaderTexts.push(origColHeaderTexts[indexOfColumn]);
+          colHeaderInfos.push(origColHeaderInfo[indexOfColumn]);
         });
       } else {
         colSelectors = origColSelectors;
-        colHeaderTexts = origColHeaderTexts;
+        colHeaderInfos = origColHeaderInfo;
       }
 
       var arr = [];
       var title = this.getParentTitle(table);
 
-      tiaEJ.ctMisc.fillDebugInfo(table, arr);
+      // tiaEJ.ctMisc.fillDebugInfo(table, arr);
 
       arr.push(tia.cC.content.title + title);
       arr.push(tia.cC.content.getVisibility(isVisible));
-      arr.push(tia.cC.content.header + colHeaderTexts.join(tia.cC.content.colSep));
+      arr.push(tia.cC.content.header + colHeaderInfos.join(tia.cC.content.colSep));
 
       var rowIndex = options.rowRange.start;
       var row;
@@ -532,6 +552,10 @@
      * @returns {string}
      */
     getTree: function (table, options) {
+
+      if (table.isPanel) {
+        table = table.getView();
+      }
 
       function getDefOpts() {
         return {

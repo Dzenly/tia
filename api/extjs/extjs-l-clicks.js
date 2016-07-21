@@ -118,6 +118,28 @@ exports.comboBoxItemByField = function (cbId, fieldValue, fieldName, logAction) 
   });
 };
 
+
+exports.comboBoxItemByFormIdNameField = function (formId, name, fieldValue, fieldName, logAction) {
+  return gIn.wrap(`Click combobox item by formId: ${formId}, name: ${name}, fieldName: ${fieldName}, fieldValue: ${fieldValue}`,
+    logAction, function () {
+      return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
+        .then(function (inputEl) {
+          return inputEl.click();
+        })
+        .then(function () {
+          return gT.sOrig.driver.wait(function () {
+            return gT.s.browser.executeScript(`return tiaEJ.hEById.isCBPickerVisibleByFormName('${formId}', '${name}');`, false);
+          }, 5000);
+        })
+        .then(function () {
+          return gT.s.browser.executeScript(
+            `return tiaEJ.hEById.getCBItemByFormNameField('${formId}', '${name}', ${valueToParameter(fieldValue)}, '${fieldName}');`,
+            false);
+        })
+        .then(printTextAndClick(logAction));
+    });
+};
+
 //
 
 function click(fName) {

@@ -59,6 +59,18 @@
       return this.byId(id).lookupReference(ref);
     },
 
+    byFormIdName: function (formId, name) {
+      var form = this.byId(formId);
+      return form.getForm().findField(name);
+    },
+
+    byFormAndName: function (form, name) {
+      if (form.isPanel) {
+        form = form.getForm();
+      }
+      return form.findField(name);
+    },
+
     tabByIdItemId: function (id, tabItemId) {
       var cmp = this.byId(id).getTabBar().down('#' + tabItemId);
       return cmp;

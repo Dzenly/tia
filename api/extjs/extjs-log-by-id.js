@@ -7,7 +7,18 @@ var util = require('util');
 // TODO: function for convertation object to its text representation (smth, like JSON).
 
 // Use -1 as stop index to show only table header.
-exports.table = function (id, tableName, options, logAction) {
+exports.table = function (id, options, logAction) {
+  return gIn.wrap('Logging content of table with id: "' + id + '" ... ', logAction, function () {
+    return gT.s.browser.executeScriptWrapper(
+      `return tiaEJ.ctById.getTable('${id}', '${gT.commonMiscUtils.optsToJson(options)}')`
+    )
+      .then(function (res) {
+        gIn.logger.logln('\n' + res);
+      });
+  });
+};
+
+exports.tableByDynId = function (id, tableName, options, logAction) {
   return gIn.wrap('Logging content of table: "' + tableName + '" ... ', logAction, function () {
     return gT.s.browser.executeScriptWrapper(
       `return tiaEJ.ctById.getTable('${id}', '${gT.commonMiscUtils.optsToJson(options)}')`
@@ -18,7 +29,18 @@ exports.table = function (id, tableName, options, logAction) {
   });
 };
 
-exports.tree = function (id, treeName, options, logAction) {
+exports.tree = function (id, options, logAction) {
+  return gIn.wrap('Logging content of tree with id: "' + id + '" ... ', logAction, function () {
+    return gT.s.browser.executeScriptWrapper(
+      `return tiaEJ.ctById.getTree('${id}', '${gT.commonMiscUtils.optsToJson(options)}')`
+    )
+      .then(function (res) {
+        gIn.logger.logln('\n' + res);
+      });
+  });
+};
+
+exports.treeByDynId = function (id, treeName, options, logAction) {
   return gIn.wrap('Logging content of tree: "' + treeName + '" ... ', logAction, function () {
     return gT.s.browser.executeScriptWrapper(
       `return tiaEJ.ctById.getTree('${id}', '${gT.commonMiscUtils.optsToJson(options)}')`

@@ -7,11 +7,17 @@
 
     // Note that for tree only expanded nodes are taking into account.
     getTableItemByIndex: function (table, index) {
+      if (table.isPanel) {
+        table = table.getView();
+      }
       var el = table.getRow(index);
       return el;
     },
 
     indexOfField: function (comp, fieldValue, fieldName) {
+      if (comp.isPanel) {
+        comp = comp.getView();
+      }
       fieldName = fieldName ? fieldName : 'name';
       var store = comp.getStore();
       var index = store.findExact(fieldName, fieldValue);
@@ -41,6 +47,11 @@
       return field.inputEl.dom;
     },
 
+    getInputElByFormName: function (form, name) {
+      var field = tiaEJ.search.byFormAndName(form, name);
+      return field.inputEl.dom;
+    },
+
     getNameAndLabels: function (field) {
       return {name: field.getName(), label: field.getFieldLabel()};
     },
@@ -50,6 +61,12 @@
     },
 
     isCBPickerVisible: function (cb) {
+      var boundList = cb.getPicker();
+      return boundList.isVisible(true) && cb.isExpanded && !cb.isDisabled();
+    },
+
+    isCBPickerVisibleByFormName: function (form, name) {
+      var cb = tiaEJ.search.byFormAndName(form, name);
       var boundList = cb.getPicker();
       return boundList.isVisible(true) && cb.isExpanded && !cb.isDisabled();
     },
@@ -66,7 +83,13 @@
       }
       var boundList = cb.getPicker();
       return boundList.getNode(index);
-    }
+    },
+
+    getCBItemByFormNameField: function (form, name, fieldValue, fieldName) {
+      var cb = tiaEJ.search.byFormAndName(form, name);
+      return this.getCBItemByField(cb, fieldValue, fieldName);
+    },
+
 
   };
 
@@ -75,9 +98,9 @@
   window.tiaEJ.hEById = {};
   var props = Object.getOwnPropertyNames(tiaEJ.hEByObj);
   props.forEach(function (fName) {
-    tiaEJ.hEById[fName] = function (id, param2, param3, param4) {
+    tiaEJ.hEById[fName] = function (id, param2, param3, param4, param5) {
       var cmp = tiaEJ.search.byId(id);
-      return tiaEJ.hEByObj[fName](cmp, param2, param3, param4);
+      return tiaEJ.hEByObj[fName](cmp, param2, param3, param4, param5);
     };
   });
 })();

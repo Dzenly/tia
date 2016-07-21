@@ -1,17 +1,75 @@
-Сделать обертки. Чтобы мои ошибки в коде обрабатывал я сам.
-Т.е. 
-1. обернуть в try / catch все что я посылаю в браузер.
-2. обернуть в try / catch все, что я ставлю в очередь на выполнение webdriver'ом.
+https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/2766
+
+В исследовалке - как-то выделенно выдавать данные на ближайшую родительскую панель.
+
+Containers.js:
+Разве reference можно задавать в Ext.define ??
+А id ?
+
+getIdByFn() : custom function to get id.
+getCompByFn()
+
+===================
+
+Сделать так, чтобы API принимало и панели тоже, в местах, где оно ждет view.
 
 
 
+Найти такой элемент: 'x-grid-cell-inner x-grid-cell-inner-action-col'
+Внутри найти все элементы: x-action-col-icon
+Считать tag, role, src class title data-qtip alt
+удалить из них x-action-col-icon и x-action-col-{number}
+
+items {
+  iconCls - можно вычитать.
+  getClass() - это уже лучше из html выдернуть.
+  getTip - выдернуть либо через title, либо через data-qtip.
+}
+
+==============
+
+
+* Прочитать ещё раз доки что может храниться в Action.
+* Посмотреть наш код.
+
+
+emptyCellText "&#160;"
 
 
 
+Посмотреть сорец этого грида.
+
+drop down menus in grid headers.
+
+// TODO: getConfig().tooltip - проверить для хэдеров таблиц.
+
+Вытащить тултипы из Action column.
+Это придется делать либо через селекторы, либо через API, ежели там есть чего.
+Есть ли для контента ячейки соответвующий ExtJs класс?
+
+?? Что такое group header and sub headers?
+
+x-grid-cell-inner 
+x-grid-cell-inner x-grid-cell-inner-action-col
+
+Иконки: x-action-col-icon x-action-col-0   icon-file-word reports-icon
+actionIconCls -> x-action-col-icon
+
+innerCls -> x-grid-cell-inner-action-col
+
+data-qtip
+
+
+c2.getCellInnerSelector()
+".x-grid-cell-actioncolumn-3303 .x-grid-cell-inner"
 
 ======================
 
 API для работы с деревом внутри комбобокса.
+
+======================
+
+Обернуть в try / catch все, что я ставлю в очередь на выполнение webdriver'ом.
 
 ======================
 
@@ -584,3 +642,4 @@ IE ??
 Запинать все на Firefox и перейти на него при отладке.
 Сравнить возможности отладочных тулзов при работе с WebDriver.
 
+Вывод инфы о ячейках таблицы и о ячейках заголовка таблицы в исследовалке.
