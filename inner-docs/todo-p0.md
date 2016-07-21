@@ -9,6 +9,9 @@ Containers.js:
 getIdByFn() : custom function to get id.
 getCompByFn()
 
+
+Для компонентов с выставленной reference - показывать lookupReferenceHolder.
+
 ===================
 
 Сделать так, чтобы API принимало и панели тоже, в местах, где оно ждет view.

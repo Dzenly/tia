@@ -242,6 +242,8 @@
 
       outArr.push('getConfig(reference): ' + tiaEJ.ctByObj.safeGetConfig(comp, 'reference'));
 
+      outArr.push('initialConfig.referenceHolder: ' + this.boldIf(comp.initialConfig.referenceHolder, comp.initialConfig.referenceHolder, 'orange', '20px'));
+
       tia.cU.dumpObj(comp, [
         'initialConfig.itemId',
         'getItemId()'
@@ -278,7 +280,6 @@
         tia.cU.dumpObj(comp, [
           'lookupViewModel().$className',
           'lookupSession().$className',
-          'initialConfig.referenceHolder',
           'items.getCount()',
           'isViewport'
         ], outArr);
