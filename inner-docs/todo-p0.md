@@ -9,8 +9,14 @@ Containers.js:
 getIdByFn() : custom function to get id.
 getCompByFn()
 
+===================
 
-Для компонентов с выставленной reference - показывать lookupReferenceHolder.
+Поиск по референсу:
+
+lookupReferenceHolder().lookupReference('form')
+lookupReference - напрямую сработает у вьюхи, которой принадлежит контроллер.
+
+
 
 ===================
 
@@ -646,3 +652,7 @@ IE ??
 Сравнить возможности отладочных тулзов при работе с WebDriver.
 
 Вывод инфы о ячейках таблицы и о ячейках заголовка таблицы в исследовалке.
+
+Подумать о переходе на Java WebDriver - побольше возможностей, получше документация:
+http://eclipsesource.com/blogs/2016/07/20/running-node-js-on-the-jvm/?utm_source=nodeweekly&utm_medium=email
+
