@@ -53,7 +53,7 @@
     showCompHierarchy: function (onlyVisible) {
       var mainView = tiaEJ.getMainView();
       var outArr = this.getCompHierarchy(mainView, onlyVisible);
-      tiaEJ.showMsgBox(outArr.join('\n'));
+      tiaEJ.showMsgBox(outArr.join('\n'), 'Components hierarchy');
     },
 
     /**
@@ -400,7 +400,7 @@
       }
       var outStr = recordStr + '\n' + this.getComponentAndParentsInfo(comp).join('\n');
 
-      tiaEJ.showMsgBox(outStr);
+      tiaEJ.showMsgBox(outStr, 'Info about a component under mouse cursor');
       // console.log(outStr);
     }
   };

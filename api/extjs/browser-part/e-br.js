@@ -59,8 +59,10 @@
       return this.locale[key];
     },
 
-    showMsgBox: function(msg) {
+    showMsgBox: function(msg, title) {
       var msgBox = Ext.Msg.show({
+        title: 'TIA ExtJs exploration: ' + title,
+        titleAlign: 'center', // Seems like does not work.
         message: msg.replace(/\n/g, '<br>'),
         width: 1200,
         minWidth: 1200,

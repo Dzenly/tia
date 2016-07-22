@@ -16,12 +16,9 @@ getCompByFn()
 lookupReferenceHolder().lookupReference('form')
 lookupReference - напрямую сработает у вьюхи, которой принадлежит контроллер.
 
-
-
 ===================
 
 Сделать так, чтобы API принимало и панели тоже, в местах, где оно ждет view.
-
 
 
 Найти такой элемент: 'x-grid-cell-inner x-grid-cell-inner-action-col'
