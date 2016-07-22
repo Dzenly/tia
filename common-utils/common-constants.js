@@ -21,6 +21,8 @@
     visible: '(Visible)',
     notVisible: '(Not visible)',
     rowBody: '  Row body: ',
+    defEmptyCellText: '&#160;',
+    qTipAttr: 'data-qtip',
     getVisibility: function (cond) {
       return cond ? this.visible : this.notVisible;
     },

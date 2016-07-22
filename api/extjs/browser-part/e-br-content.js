@@ -55,6 +55,17 @@
       return attrsStr;
     },
 
+    getSelectedAttributes: function (domElem, attrArr) {
+      var resArr = [];
+      attrArr.forEach(function (attrName) {
+        var attrVal = domElem.getAttribute(attrName);
+        if (attrVal) {
+          resArr.push(attrName + ': ' + attrVal);
+        }
+      });
+      return resArr.join(', ');
+    },
+
     // Store must contain at least one record.
     doesStoreContainField: function (store, fieldName) {
       var model = store.first();
@@ -265,10 +276,14 @@
      */
     getColHeaderInfos: function (table) {
       var cols = this.getCols(table);
-      var str = cols.map(function (col) {
+      var arr = cols.map(function (col) {
         // col.textEl.dom.textContent // slower but more honest.
         // TODO: getConfig().tooltip - проверить.
-        var info = col.getXType() + ': "' + col.text + '"';
+        var text = col.text;
+        if (text === col.emptyCellText) {
+          text = '<emptyCellText>';
+        }
+        var info = col.getXType() + ': "' + text + '"';
         var toolTip = col.getConfig().toolTip;
         if (toolTip) {
           info += ', toolTip: ' + toolTip;
@@ -282,7 +297,7 @@
         // }
         return info;
       });
-      return str;
+      return arr;
     },
 
     safeGetConfig: function (comp, cfgName) {
@@ -480,19 +495,19 @@
 
       options = tiaEJ.ctMisc.checkVisibilityAndFillOptions(isVisible, options, getDefOpts);
 
-      var origColSelectors = this.getColSelectors(table);
+      var origCols = this.getCols(table);
       var origColHeaderInfo = this.getColHeaderInfos(table);
 
-      var colSelectors = [];
+      var cols = [];
       var colHeaderInfos = [];
 
       if (options.includeColumns) {
         options.includeColumns.forEach(function (indexOfColumn) {
-          colSelectors.push(origColSelectors[indexOfColumn]);
+          cols.push(origCols[indexOfColumn]);
           colHeaderInfos.push(origColHeaderInfo[indexOfColumn]);
         });
       } else {
-        colSelectors = origColSelectors;
+        cols = origCols;
         colHeaderInfos = origColHeaderInfo;
       }
 
@@ -514,9 +529,55 @@
         var record = table.getRecord(row);
         var id = record.get('id');
 
-        colSelectors.forEach(function (sel, index) {
-          var col = row.querySelector(sel);
-          textsArr.push(col.textContent);
+        cols.forEach(function (extCol, index) {
+          var sel = table.getCellSelector(extCol);
+          var domCol = row.querySelector(sel);
+          var textContent = domCol.textContent;
+          if (textContent === extCol.emptyCellText) {
+            textContent = '<emptyCellText>';
+          }
+
+          if (extCol.getXType() === 'actioncolumn') {
+
+            var actArr = [
+              '\n------',
+              'Actions info: '
+            ];
+
+            var actInner = domCol.querySelector(tiaEJ.ctSelectors.cellInnerAction);
+            if (actInner) {
+              var icons = actInner.querySelectorAll(tiaEJ.ctSelectors.actionColIcon);
+              for (var i = 0, len = icons.length; i < len; i++) {
+                var icon = icons[i];
+                var style = icon.getAttribute('style');
+                var displayNone = Boolean(style.match(/display\s*:\s*none/));
+                if (!displayNone) {
+
+                  var classValue = icon.getAttribute('class');
+                  var classValueArr = classValue.split(/\s+/);
+                  classValueArr = classValueArr.filter(function (el) {
+                    if (el.indexOf('x-action-col') === -1) {
+                      return true;
+                    }
+                    return false;
+                  });
+                  var iconInfoStr = 'Tag: ' + icon.nodeName + ', ' + tiaEJ.ctMisc.getSelectedAttributes(icon, [
+                      'role',
+                      // 'src',
+                      'title',
+                      'alt',
+                      tia.cC.content.qTipAttr
+                    ]);
+
+                  iconInfoStr += ', classes: ' + classValueArr.join(' ');
+                  actArr.push(iconInfoStr);
+                }
+              }
+            }
+            actArr.push('------');
+            textContent += actArr.join('\n');
+          }
+          textsArr.push(textContent);
         });
 
         var idSuffix = '';
