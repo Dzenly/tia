@@ -75,5 +75,6 @@ gT.e.api = require('./extjs-api-actions.js');
 gT.e.explore = require('./extjs-exploration.js');
 gT.e.search = require('./extjs-search.js');
 gT.e.logCtById = require('./extjs-log-by-id.js');
+gT.e.logCtByFormIdName = require('./extjs-log-by-formIdName.js');
 gT.e.lClick = require('./extjs-l-clicks.js');
 gT.e.wait = require('./extjs-waits.js');

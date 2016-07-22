@@ -2,6 +2,16 @@
 /* globals gT: true */
 /* globals gIn: true */
 
+function printTextAndDblClick(logAction) {
+  return function (webEl) {
+    webEl.getText()
+      .then(function (text) { // Using of selenium queue, so not then.then.
+        gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
+      });
+    return new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform();
+  };
+}
+
 function printTextAndClick(logAction) {
   return function (webEl) {
     webEl.getText()
@@ -80,7 +90,7 @@ exports.comboBoxItemByIndex = function (cbId, itemIndex, logAction) {
       })
       .then(function () {
         return gT.sOrig.driver.wait(function () {
-          return gT.s.browser.executeScript(`return tiaEJ.hEById.isCBPickerVisible('${cbId}');`, false);
+          return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisible('${cbId}');`);
         }, 5000);
       })
       .then(function () {
@@ -106,7 +116,7 @@ exports.comboBoxItemByField = function (cbId, fieldValue, fieldName, logAction) 
       })
       .then(function () {
         return gT.sOrig.driver.wait(function () {
-          return gT.s.browser.executeScript(`return tiaEJ.hEById.isCBPickerVisible('${cbId}');`, false);
+          return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisible('${cbId}');`);
         }, 5000);
       })
       .then(function () {
@@ -118,6 +128,57 @@ exports.comboBoxItemByField = function (cbId, fieldValue, fieldName, logAction) 
   });
 };
 
+exports.comboBoxItemByFormIdNameIndex = function (formId, name, index, logAction) {
+  return gIn.wrap(`Click combobox item by formId: ${formId}, name: ${name}, index: ${index}`,
+    logAction, function () {
+      return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
+        .then(function (inputEl) {
+          return inputEl.click();
+        })
+        .then(function () {
+          return gT.sOrig.driver.wait(function () {
+            return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisibleByFormName('${formId}', '${name}');`);
+          }, 5000);
+        })
+        .then(function () {
+          return gT.s.browser.executeScript(
+            `return tiaEJ.hEById.getCBItemByFormNameIndex('${formId}', '${name}', ${index});`,
+            false);
+        })
+        .then(printTextAndClick(logAction));
+    });
+};
+
+exports.dblComboBoxItemByFormIdNameIndex = function (formId, name, index, logAction) {
+  return gIn.wrap(`Double Click combobox item by formId: ${formId}, name: ${name}, index: ${index}`,
+    logAction, function () {
+      return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
+        .then(function (inputEl) {
+          return inputEl.click();
+        })
+        .then(function () {
+          return gT.sOrig.driver.wait(function () {
+            return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisibleByFormName('${formId}', '${name}');`);
+          }, 5000);
+        })
+        .then(function () {
+          return gT.s.browser.executeScript(
+            `return tiaEJ.hEById.getCBItemByFormNameIndex('${formId}', '${name}', ${index});`,
+            false);
+        })
+        .then(printTextAndDblClick(logAction));
+    });
+};
+
+exports.fieldByFormIdName = function (formId, name, logAction) {
+  return gIn.wrap(`Click form field item by formId: ${formId}, name: ${name} ... `,
+    logAction, function () {
+      return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
+        .then(function (inputEl) {
+          return inputEl.click();
+        });
+    });
+};
 
 exports.comboBoxItemByFormIdNameField = function (formId, name, fieldValue, fieldName, logAction) {
   return gIn.wrap(`Click combobox item by formId: ${formId}, name: ${name}, fieldName: ${fieldName}, fieldValue: ${fieldValue}`,
@@ -128,7 +189,7 @@ exports.comboBoxItemByFormIdNameField = function (formId, name, fieldValue, fiel
         })
         .then(function () {
           return gT.sOrig.driver.wait(function () {
-            return gT.s.browser.executeScript(`return tiaEJ.hEById.isCBPickerVisibleByFormName('${formId}', '${name}');`, false);
+            return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisibleByFormName('${formId}', '${name}');`);
           }, 5000);
         })
         .then(function () {

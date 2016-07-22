@@ -73,6 +73,10 @@
 
     getCBItemByIndex: function (cb, index) {
       var boundList = cb.getPicker();
+      if (boundList.isXType('tablepanel')) {
+        boundList = boundList.getView();
+      }
+      window.c3 = boundList;
       return boundList.getNode(index);
     },
 
@@ -83,6 +87,11 @@
       }
       var boundList = cb.getPicker();
       return boundList.getNode(index);
+    },
+
+    getCBItemByFormNameIndex: function (form, name, index) {
+      var cb = tiaEJ.search.byFormAndName(form, name);
+      return this.getCBItemByIndex(cb, index);
     },
 
     getCBItemByFormNameField: function (form, name, fieldValue, fieldName) {

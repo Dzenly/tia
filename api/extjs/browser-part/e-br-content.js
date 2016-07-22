@@ -388,7 +388,9 @@
     /**
      *
      * @param comp
-     * @param includingStores - use true to just include store, and 2 to forse store printing even if displayField is absent in the store.
+     * @param includingStores - use true to just include store and print displayField,
+     * 1 - to print only displayField, name and text fields (if exist)
+     * and 2 to force store printing all fields.
      * @param indent
      * @returns {*}
      */
@@ -421,15 +423,34 @@
         var store = comp.getStore ? comp.getStore() : null;
         if (store) {
           var displayField = this.safeGetConfig(comp, 'displayField');
-          str += indent + 'Field content: (displayField: ' + displayField + ')\n';
 
-          if (includingStores === 2 || tiaEJ.ctMisc.doesStoreContainField(store, displayField)) {
-            // str += tiaEJ.ctMisc.stringifyStoreField(store, displayField).map(function (arrStr) {
+          if (includingStores === 2) {
             str += tiaEJ.ctMisc.stringifyStore(store, null, true).map(function (arrStr) {
                 return indent + arrStr;
               }).join('\n') + '\n';
+          } else if (includingStores === 1) {
+            var fieldsToPrintArr = [];
+            if (displayField && tiaEJ.ctMisc.doesStoreContainField(store, displayField)) {
+              fieldsToPrintArr.push(displayField);
+            }
+            if (tiaEJ.ctMisc.doesStoreContainField(store, 'name')) {
+              fieldsToPrintArr.push('name');
+            }
+            if (tiaEJ.ctMisc.doesStoreContainField(store, 'text')) {
+              fieldsToPrintArr.push('text');
+            }
+            str += tiaEJ.ctMisc.stringifyStore(store, fieldsToPrintArr, true).map(function (arrStr) {
+                return indent + arrStr;
+              }).join('\n') + '\n';
           } else {
-            str += indent + 'N/A: No displayField in store\n';
+            str += indent + 'Field content: (displayField: ' + displayField + ')\n';
+            if (tiaEJ.ctMisc.doesStoreContainField(store, displayField)) {
+              str += tiaEJ.ctMisc.stringifyStore(store, [displayField], true).map(function (arrStr) {
+                  return indent + arrStr;
+                }).join('\n') + '\n';
+            } else {
+              str += indent + 'N/A: No displayField in store\n';
+            }
           }
         }
       }

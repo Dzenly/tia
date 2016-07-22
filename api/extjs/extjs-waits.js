@@ -13,7 +13,7 @@
 exports.ajaxRequestsFinish = function (urlPrefix, timeout, logAction) {
   return gIn.wrap('Waiting for AJAX requests finish ... ', logAction, function () {
     return gT.sOrig.driver.wait(function () {
-      return gT.s.browser.executeScript('return tiaEJ.isThereActiveAjaxCalls();', false)
+      return gT.s.browser.executeScriptWrapper('return tiaEJ.isThereActiveAjaxCalls();')
         .then(function (res) {
           return !res;
         });
