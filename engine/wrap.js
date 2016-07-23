@@ -85,7 +85,28 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
     startTime = startTimer();
     gIn.tracer.trace3('Inside wrapper, after start timer, msg: ' + msg);
   });
-  return flow.execute(act)
+  return flow.execute(function () {
+    var actResult = act();
+    if (!actResult || !actResult.then) { // If result is not promise.
+      return actResult;
+    }
+    return new gT.sOrig.promise.Promise(function (resolve, reject) {
+      // Engine constant, reset by cmd line options.
+      var tId = setTimeout(function () {
+        gT.s.browser.screenshot(); // If screenshot will hang - will be recursion until max screenshots count.
+        reject('Timeout expired, you action is considered as hanging.');
+      }, gIn.params.hangTimeout);
+      actResult
+        .then(function (value) {
+          clearTimeout(tId);
+          resolve(value)
+        })
+        .catch(function (err) {
+          clearTimeout(tId);
+          reject(err);
+        });
+    });
+  })
     .then(
       function (val) {
         gIn.tracer.trace3('Wrapper: after action execute, msg: ' + msg);

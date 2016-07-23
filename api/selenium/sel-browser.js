@@ -77,7 +77,7 @@ exports.loadPage = function (url, logAction) {
  */
 exports.close = function (logAction) {
   gT.s.browser.logConsoleContent();
-  return gIn.wrap('Closing the browser .... ', logAction, function () {
+  return gIn.wrap('Closing the browser ... ', logAction, function () {
     return gT.sOrig.driver.close();
   }, true);
 };

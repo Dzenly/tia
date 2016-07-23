@@ -34,10 +34,6 @@ items {
 
 ==============
 
-emptyCellText "&#160;"
-
-
-
 Посмотреть сорец этого грида.
 
 drop down menus in grid headers.

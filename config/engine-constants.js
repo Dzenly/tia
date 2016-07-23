@@ -37,5 +37,7 @@ module.exports = {
 
   selfTestsEtMLog: 'tests.et',
 
-  selfTestsExtLog: 'ext-log.log'
+  selfTestsExtLog: 'ext-log.log',
+
+  hangTimeout: 20000 // Timeout after which action function considered as hanging.
 };

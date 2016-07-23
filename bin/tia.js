@@ -77,6 +77,9 @@ function usage() {
       Works only with --log-to-console option
 
       -h, --help - Print this help.
+      
+      --hang-timeout <timeout> - timeout in milliseconds after which some action considered as hanged one,
+      a screenshot is saved and an error is generated. ${gT.engineConsts.hangTimeout} milliseconds by default.
 
       --ignore-skip-flag - ignore 'skip' config option in config.js files.
 
@@ -169,7 +172,8 @@ var opts = {
   default: {
     browser: browsers[0],
     l: false,
-    'trace-level': -1
+    'trace-level': -1,
+    'hang-timeout': gT.engineConsts.hangTimeout
     // , 'ignore-skip-flag': false
   },
   unknown: unknownOption
