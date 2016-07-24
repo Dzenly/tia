@@ -90,22 +90,40 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
     if (!actResult || !actResult.then) { // If result is not promise.
       return actResult;
     }
-    return new gT.sOrig.promise.Promise(function (resolve, reject) {
-      // Engine constant, reset by cmd line options.
-      var tId = setTimeout(function () {
-        gT.s.browser.screenshot(); // If screenshot will hang - will be recursion until max screenshots count.
-        reject('Timeout expired, you action is considered as hanging.');
-      }, gIn.params.hangTimeout);
-      actResult
-        .then(function (value) {
-          clearTimeout(tId);
-          resolve(value)
-        })
-        .catch(function (err) {
-          clearTimeout(tId);
-          reject(err);
-        });
-    });
+    var tId = setTimeout(function () {
+      gT.s.browser.screenshot(); // If screenshot will hang - will be recursion until max screenshots count.
+      actResult.cancel('Timeout expired, you action is considered as hanged.');
+    };
+
+    // http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/promise_exports_Promise.html
+    // since thenFinally documentation says that it returns result of callback and not original promise,
+    // I am really don't know what this function is needed for.
+    return actResult
+      .then(function (res) {
+        clearTimeout(tId);
+        return res;
+      })
+      .catch(function (err) {
+        clearTimeout(tId);
+        throw err; // TODO: Check that selenium-webdriver implementation indeed complain to the PromiseA+ standard.
+      });
+
+    // return new gT.sOrig.promise.Promise(function (resolve, reject) {
+    //   // Engine constant, reset by cmd line options.
+    //   var tId = setTimeout(function () {
+    //     gT.s.browser.screenshot(); // If screenshot will hang - will be recursion until max screenshots count.
+    //     reject('Timeout expired, you action is considered as hanged.');
+    //   }, gIn.params.hangTimeout);
+    //   actResult
+    //     .then(function (value) {
+    //       clearTimeout(tId);
+    //       resolve(value)
+    //     })
+    //     .catch(function (err) {
+    //       clearTimeout(tId);
+    //       reject(err);
+    //     });
+    // });
   })
     .then(
       function (val) {
