@@ -140,40 +140,40 @@ function unknownOption(option) {
 var opts = {
   // trace is number, numbers implied by default in minimist.
   string: [
-    'tests-dir',
     'browser',
-    'pattern',
-    'trace-level',
-    'require-modules',
     'def-host',
     'et-mlog',
     'email-cfg-path',
-    'ext-log'
+    'ext-log',
+    'pattern',
+    'require-modules',
+    'tests-dir',
+    'trace-level',
   ],
-  boolean: [
+  boolean: [ // 'logs-to-mail',
+    'debug-avg',
+    'debug-max',
+    'diffs-to-mlog',
+    'disable-email',
+    'err-to-console',
+    'force-log-actions',
+    'ignore-skip-flag',
     'h',
     'help',
-    'stack-to-log',
-    'xvfb',
-    // 'logs-to-mail',
+    'keep-browser-at-error',
     'log-err-to-console',
     'log-to-console',
-    'force-log-actions',
-    'diffs-to-mlog',
-    'debug-max',
-    'debug-avg',
     'run-self-tests',
-    'ignore-skip-flag',
-    'use-remote-driver',
+    'stack-to-log',
     'stop-remote-driver',
-    'disable-email',
-    'keep-browser-at-error'
+    'use-remote-driver',
+    'xvfb'
   ],
   default: {
     browser: browsers[0],
     l: false,
+    'hang-timeout': gT.engineConsts.hangTimeout,
     'trace-level': -1,
-    'hang-timeout': gT.engineConsts.hangTimeout
     // , 'ignore-skip-flag': false
   },
   unknown: unknownOption
