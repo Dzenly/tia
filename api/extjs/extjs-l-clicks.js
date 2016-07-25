@@ -22,6 +22,28 @@ function printTextAndClick(logAction) {
   };
 }
 
+function printTextAndClickTextItem(logAction) {
+  return function (webEl) {
+    return webEl.findElement(gT.sOrig.by.css('.x-tree-node-text'))
+      .then(function (el) {
+        el.getText()
+          .then(function (text) { // Using of selenium queue, so not then.then.
+            gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
+          });
+        return el.click();
+      });
+    // webEl.getAttribute('class')
+    //   .then(function (attrVal) {
+    //     gIn.logger.logIfNotDisabled(', Item class: "' + attrVal + '"', logAction);
+    //   });
+    // webEl.getText()
+    //   .then(function (text) { // Using of selenium queue, so not then.then.
+    //     gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
+    //   });
+
+  };
+}
+
 /**
  * Some ExtJs API functions require parameter to be numeric type and not equal string.
  * @param val
@@ -40,7 +62,7 @@ function valueToParameter(val) {
 exports.tableItemByIndex = function (tableId, tableName, itemIndex, logAction) {
   return gIn.wrap(`Click table '${tableName}' item by index '${itemIndex}'`, logAction, function () {
     return gT.s.browser.executeScript(`return tiaEJ.hEById.getTableItemByIndex('${tableId}', ${itemIndex});`, false)
-      .then(printTextAndClick(logAction));
+      .then(printTextAndClickTextItem(logAction));
   });
 };
 
@@ -51,7 +73,7 @@ exports.tableItemByField = function (tableId, tableName, fieldValue, fieldName, 
       return gT.s.browser.executeScript(
         `return tiaEJ.hEById.getTableItemByField('${tableId}', ${valueToParameter(fieldValue)}, '${fieldName}');`
         , false
-      ).then(printTextAndClick(logAction));
+      ).then(printTextAndClickTextItem(logAction));
     });
 };
 
@@ -62,7 +84,7 @@ exports.tableItemByFieldLocKey = function (tableId, tableName, fieldValueKey, fi
       return gT.s.browser.executeScript(
         `return tiaEJ.hEById.getTableItemByFieldLocKey('${tableId}', '${fieldValueKey}', '${fieldName}');`
         , false
-      ).then(printTextAndClick(logAction));
+      ).then(printTextAndClickTextItem(logAction));
     });
 };
 
@@ -71,7 +93,7 @@ exports.tableItemByFieldId = function (tableId, tableName, id, logAction) {
     return gT.s.browser.executeScript(
       `return tiaEJ.hEById.getTableItemByField('${tableId}', ${valueToParameter(id)}, 'id');`
       , false
-    ).then(printTextAndClick(logAction));
+    ).then(printTextAndClickTextItem(logAction));
   });
 };
 
