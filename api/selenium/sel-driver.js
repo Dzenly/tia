@@ -182,7 +182,7 @@ exports.sleep = function (ms, logAction) {
 };
 
 exports.quit = function (logAction) {
-  return gIn.wrap('Quitting .... ', logAction, function () {
+  return gIn.wrap('Quitting ... ', logAction, function () {
     return gT.sOrig.driver.quit();
   }, true);
 };

@@ -7,7 +7,7 @@ Script execution ... OK
 One exception and one console log:
 BR.CONSOLE: SEVERE: javascript 248:96 Uncaught ReferenceError: DsgwDwd3 is not defined
 No exceptions and console logs:
-Closing the browser .... OK
-Quitting .... OK
+Closing the browser ... OK
+Quitting ... OK
 =================
 Pass: 5, Fail: 0
