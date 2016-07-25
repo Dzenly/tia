@@ -93,8 +93,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
     var tId = setTimeout(function () {
       gT.s.browser.screenshot(); // If screenshot will hang - will be recursion until max screenshots count.
       actResult.cancel('Timeout expired, you action is considered as hanged.');
-    };
-
+    }, gIn.params.hangTimeout);
     // http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/promise_exports_Promise.html
     // since thenFinally documentation says that it returns result of callback and not original promise,
     // I am really don't know what this function is needed for.
