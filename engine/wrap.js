@@ -156,18 +156,18 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
           gT.s.browser.screenshot()
             .then(function (res) {
               if (!gIn.brHelpersInitiated) {
-                return gT.s.browser.initTiaBrHelpers();
+                return gT.s.browser.initTiaBrHelpers(true);
               }
             })
             .then(function (res) {
-              return gT.s.browser.logExceptions(true);
+              return gT.s.browser.logExceptions(true, true);
             })
             .then(function (res) {
               return gT.s.browser.logConsoleContent();
             })
             .then(function (res) {
               if (!gIn.params.keepBrowserAtError) {
-                return gT.s.driver.quit();
+                return gT.s.driver.quit(true);
               }
             })
             .then(function () {
@@ -179,8 +179,18 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         } else {
           //gIn.logger.errorln('Info: No selenium driver');
           gIn.logger.errorln('========== Err Info End ==========');
+          let driverExisted = Boolean(gT.sOrig.driver);
+          if (gT.sOrig.driver) {
+            if (!gIn.params.keepBrowserAtError) {
+              return gT.s.driver.quit(true)
+                .then(function () {
+                  gIn.tracer.trace2('sOrig.driver deletion (error at error handling)');
+                  delete gT.sOrig.driver;
+                });
+            }
+          }
           // yield will generate exception with this object.
-          return promise.rejected('Error in action. Sel. driver exists: ' + Boolean(gT.sOrig.driver) + ', Error at error handling: ' + Boolean(gIn.errFlag));
+          return promise.rejected('Error in action. Sel. driver existed: ' + Boolean(driverExisted) + ', Error at error handling: ' + Boolean(gIn.errFlag));
         }
 
         // return; // If we will return smth here, it will be returned from yield.
