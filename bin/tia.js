@@ -314,4 +314,6 @@ process.on('uncaughtException', (err) => {
   console.log(err.stack);
 });
 
+gT.sOrig.promise.LONG_STACK_TRACES = true;
+
 require('../engine/runner.js')(testsDir);
