@@ -91,10 +91,11 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
       return actResult;
     }
     var tId = setTimeout(function () {
-      gIn.logger.error('\nControlFlow state: \n' + flow.getSchedule(true) + '\n');
+      // gIn.logger.error('\nControlFlow state: \n' + flow.getSchedule(true) + '\n');
       // flow.reset();
-      gT.s.browser.screenshot(); // If screenshot will hang - will be recursion until max screenshots count.
-      // gT.s.browser.screenshot(); // If screenshot will hang - will be recursion until max screenshots count.
+      setTimeout(function () { // To use another queue, because next reject will clear this queue.
+        gT.s.browser.screenshot(); // If screenshot will hang - will be recursion until max screenshots count.
+      }, 0);
       // flow = gT.sOrig.promise.controlFlow();
       // gIn.logger.error('\nControlFlow state (after reset): ' + flow.getSchedule(true) + '\n');
       actResult.cancel('Timeout expired, your action is considered as hanged.');
