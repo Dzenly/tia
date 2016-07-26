@@ -1,4 +1,4 @@
-# Time Is All (log driven test engine)
+# Time Is All (log driven test engine with ExtJs support)
 
 This is an engine for `[massive]` regression testing automation.
 The engine supports Web sites testing using Selenium WebDriver and inner API for work with ExtJs elements.
