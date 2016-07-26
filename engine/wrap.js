@@ -113,7 +113,8 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
       })
       .catch(function (err) {
         clearTimeout(tId);
-        throw err; // TODO: Check that selenium-webdriver implementation indeed complain to the PromiseA+ standard.
+        // throw err; // TODO: Check that selenium-webdriver implementation indeed complain to the PromiseA+ standard.
+        return gT.sOrig.promise.rejected(err);
       });
 
     // return new gT.sOrig.promise.Promise(function (resolve, reject) {
@@ -178,7 +179,8 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         } else {
           //gIn.logger.errorln('Info: No selenium driver');
           gIn.logger.errorln('========== Err Info End ==========');
-          return promise.rejected('Error in action (sel. driver was absent)'); // yield will generate exception with this object.
+          // yield will generate exception with this object.
+          return promise.rejected('Error in action. Sel. driver exists: ' + Boolean(gT.sOrig.driver) + ', Error at error handling: ' + Boolean(gIn.errFlag));
         }
 
         // return; // If we will return smth here, it will be returned from yield.
