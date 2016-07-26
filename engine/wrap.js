@@ -156,7 +156,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
               // yield will generate exception with this object.
               return promise.rejected('Error in action (sel. driver was existed)');
             }).catch(function (err) {
-              gIn.tracer.trace1(`Error at quit at error handling, let's kill ourselves`);
+              gIn.logger.errorln(`Error at quit at error handling, let's kill ourselves`);
               process.exit(1);
             });
           }
@@ -166,7 +166,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
           } else {
             gIn.errRecursionCount++;
             if (gIn.errRecursionCount > 2) {
-              gIn.tracer.trace1(`Recursive error at error handling, let's kill ourselves`);
+              gIn.logger.errorln(`Recursive error at error handling, let's kill ourselves`);
               process.exit(1);
             }
           }
@@ -180,7 +180,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
                   gIn.tracer.trace2('sOrig.driver deletion (error at error handling)');
                   delete gT.sOrig.driver;
                 }).catch(function (err) {
-                  gIn.tracer.trace1(`Error at quit at error handling, let's kill ourselves`);
+                  gIn.logger.errorln(`Error at quit at error handling, let's kill ourselves`);
                   process.exit(1);
                 });
             }
