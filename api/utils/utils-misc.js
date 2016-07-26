@@ -40,6 +40,12 @@ gT.u.execGen = function (gen) {
     });
 };
 
+gT.u.setHangTimeout = function (newTimeout) {
+  var oldTimeout = gIn.params.hangTimeout;
+  gIn.params.hangTimeout = newTimeout;
+  return oldTimeout;
+};
+
 // gT.s.fail = function (url, logAction) {
 //   return gIn.wrap('Intentional fail for debug: ... ', logAction, function () {
 //     return promise.rejected('Intentional fail');

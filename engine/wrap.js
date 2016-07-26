@@ -91,8 +91,10 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
       return actResult;
     }
     var tId = setTimeout(function () {
+      gIn.logger.error('ControlFlow state: ' + flow.getSchedule(true));
+
       gT.s.browser.screenshot(); // If screenshot will hang - will be recursion until max screenshots count.
-      actResult.cancel('Timeout expired, you action is considered as hanged.');
+      actResult.cancel('Timeout expired, your action is considered as hanged.');
     }, gIn.params.hangTimeout);
     // http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/promise_exports_Promise.html
     // since thenFinally documentation says that it returns result of callback and not original promise,
@@ -111,7 +113,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
     //   // Engine constant, reset by cmd line options.
     //   var tId = setTimeout(function () {
     //     gT.s.browser.screenshot(); // If screenshot will hang - will be recursion until max screenshots count.
-    //     reject('Timeout expired, you action is considered as hanged.');
+    //     reject('Timeout expired, your action is considered as hanged.');
     //   }, gIn.params.hangTimeout);
     //   actResult
     //     .then(function (value) {
