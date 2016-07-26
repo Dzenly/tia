@@ -99,8 +99,6 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
           gT.s.browser.screenshot();
         }, 0);
       }
-      // flow = gT.sOrig.promise.controlFlow();
-      // gIn.logger.error('\nControlFlow state (after reset): ' + flow.getSchedule(true) + '\n');
       actResult.cancel('Timeout expired, your action is considered as hanged.');
     }, gIn.params.hangTimeout);
     // http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/promise_exports_Promise.html
@@ -116,23 +114,6 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         // throw err; // TODO: Check that selenium-webdriver implementation indeed complain to the PromiseA+ standard.
         return gT.sOrig.promise.rejected(err);
       });
-
-    // return new gT.sOrig.promise.Promise(function (resolve, reject) {
-    //   // Engine constant, reset by cmd line options.
-    //   var tId = setTimeout(function () {
-    //     gT.s.browser.screenshot(); // If screenshot will hang - will be recursion until max screenshots count.
-    //     reject('Timeout expired, your action is considered as hanged.');
-    //   }, gIn.params.hangTimeout);
-    //   actResult
-    //     .then(function (value) {
-    //       clearTimeout(tId);
-    //       resolve(value)
-    //     })
-    //     .catch(function (err) {
-    //       clearTimeout(tId);
-    //       reject(err);
-    //     });
-    // });
   })
     .then(
       function (val) {
@@ -149,34 +130,46 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         gIn.logger.errorln('========== Err Info Begin ==========');
         gIn.logger.exception('Exception in wrapper: ', err);
         gIn.logger.exception('Exception stack: ', err.stack);
-        if (typeof gT.sOrig.driver !== 'undefined' && !gIn.errFlag) {
-          gIn.errFlag = true; // To prevent recursive error report on error report.
+        if (typeof gT.sOrig.driver !== 'undefined' && !gIn.errRecursionCount) {
+          gIn.errRecursionCount = 1; // To prevent recursive error report on error report.
           /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
           gIn.tracer.trace1('Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.');
-          gT.s.browser.screenshot()
-            .then(function (res) {
-              if (!gIn.brHelpersInitiated) {
-                return gT.s.browser.initTiaBrHelpers(true);
-              }
-            })
-            .then(function (res) {
-              return gT.s.browser.logExceptions(true, true);
-            })
-            .then(function (res) {
-              return gT.s.browser.logConsoleContent();
-            })
-            .then(function (res) {
-              if (!gIn.params.keepBrowserAtError) {
-                return gT.s.driver.quit(true);
-              }
-            })
-            .then(function () {
-              gIn.logger.errorln('========== Err Info End ==========');
-              gIn.tracer.trace2('sOrig.driver deletion');
-              delete gT.sOrig.driver;
-              return promise.rejected('Error in action (sel. driver was existed)'); // yield will generate exception with this object.
+          gT.s.browser.screenshot().catch(function (err) {
+            gIn.tracer.trace1('Error at screenshot at error handling');
+          });
+          if (!gIn.brHelpersInitiated) {
+            gT.s.browser.initTiaBrHelpers(true).catch(function (err) {
+              gIn.tracer.trace1('Error at initTiaBrHelpers at error handling');
             });
+          }
+          gT.s.browser.logExceptions(true, true).catch(function (err) {
+            gIn.tracer.trace1('Error at logExceptions at error handling');
+          });
+          gT.s.browser.logConsoleContent().catch(function (err) {
+            gIn.tracer.trace1('Error at logConsoleContent at error handling');
+          });
+          if (!gIn.params.keepBrowserAtError) {
+            return gT.s.driver.quit(true).then(function () {
+              gIn.logger.errorln('========== Err Info End ==========');
+              gIn.tracer.trace1('sOrig.driver deletion');
+              delete gT.sOrig.driver;
+              // yield will generate exception with this object.
+              return promise.rejected('Error in action (sel. driver was existed)');
+            }).catch(function (err) {
+              gIn.tracer.trace1(`Error at quit at error handling, let's kill ourselves`);
+              process.exit(1);
+            });
+          }
         } else {
+          if (!gIn.errRecursionCount) {
+            gIn.errRecursionCount = 1;
+          } else {
+            gIn.errRecursionCount++;
+            if (gIn.errRecursionCount > 2) {
+              gIn.tracer.trace1(`Recursive error at error handling, let's kill ourselves`);
+              process.exit(1);
+            }
+          }
           //gIn.logger.errorln('Info: No selenium driver');
           gIn.logger.errorln('========== Err Info End ==========');
           let driverExisted = Boolean(gT.sOrig.driver);
@@ -186,11 +179,15 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
                 .then(function () {
                   gIn.tracer.trace2('sOrig.driver deletion (error at error handling)');
                   delete gT.sOrig.driver;
+                }).catch(function (err) {
+                  gIn.tracer.trace1(`Error at quit at error handling, let's kill ourselves`);
+                  process.exit(1);
                 });
             }
           }
           // yield will generate exception with this object.
-          return promise.rejected('Error in action. Sel. driver existed: ' + Boolean(driverExisted) + ', Error at error handling: ' + Boolean(gIn.errFlag));
+          return promise.rejected('Error in action. Sel. driver existed: ' + Boolean(driverExisted) +
+            ', Error recursion at error handling: ' + gIn.errRecursionCount);
         }
 
         // return; // If we will return smth here, it will be returned from yield.
