@@ -474,6 +474,11 @@
       return str;
     },
 
+    getFormChildByFormName: function (form, name, includingStores) {
+      var comp = tiaEJ.search.byFormAndName(form, name);
+      return this.getFormChild(comp, includingStores);
+    },
+
     /**
      * Gets the entire table content. Only visible columns are returned.
      * Collapsed groups are excluded from result.

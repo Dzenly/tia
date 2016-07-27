@@ -16,3 +16,14 @@ exports.comboBox = function (id, logAction) {
       });
   });
 };
+
+exports.field = function (id, name, includingStores, logAction) {
+  return gIn.wrap(`Logging content of form (id: ${id}) field (name: ${name}) ... `, logAction, function () {
+    return gT.s.browser.executeScriptWrapper(
+      `return tiaEJ.ctById.getFormChildByFormName('${id}', '${name}', ${includingStores});`
+    )
+      .then(function (res) {
+        gIn.logger.log('\n' + res);
+      });
+  });
+};

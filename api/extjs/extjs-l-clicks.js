@@ -202,6 +202,18 @@ exports.fieldByFormIdName = function (formId, name, logAction) {
     });
 };
 
+exports.checkBoxByFormIdName = function (formId, name, logAction) {
+  return gIn.wrap(`Click checkBox (name: ${name}) on form (id: ${formId}) ... `,
+    logAction, function () {
+      return gT.s.browser.executeScript(`return tiaEJ.hEById.getElByFormName('${formId}', '${name}');`, false)
+        .then(printTextAndClick(logAction));
+          // function (inputEl) {
+          // ;
+          // return inputEl.click();
+        // });
+    });
+};
+
 exports.comboBoxItemByFormIdNameField = function (formId, name, fieldValue, fieldName, logAction) {
   return gIn.wrap(`Click combobox item by formId: ${formId}, name: ${name}, fieldName: ${fieldName}, fieldValue: ${fieldValue}`,
     logAction, function () {

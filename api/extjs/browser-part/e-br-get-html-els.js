@@ -52,6 +52,11 @@
       return field.inputEl.dom;
     },
 
+    getElByFormName: function (form, name) {
+      var field = tiaEJ.search.byFormAndName(form, name);
+      return field.getEl().dom;
+    },
+
     getNameAndLabels: function (field) {
       return {name: field.getName(), label: field.getFieldLabel()};
     },

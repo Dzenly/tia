@@ -1,7 +1,7 @@
 {
   "name": "tia",
   "version": "0.3.38",
-  "description": "Time is All (logs driven test engine)",
+  "description": "Time is All (logs driven test engine with ExtJs support)",
   "bin": {
     "tia": "bin/tia.js"
   },
@@ -24,7 +24,9 @@
     "webdriver",
     "extjs",
     "web",
-    "gui"
+    "gui",
+    "unit",
+    "regression"
   ],
   "author": "Dzenly <alexchem@yandex.ru>",
   "license": "MIT",
