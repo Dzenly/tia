@@ -98,6 +98,7 @@ exports.setBodyClicker = function (logAction) {
 };
 
 exports.executeScriptWrapper = function (scriptStr) {
+  // gIn.tracer.trace3('executeScriptWrapper');
   // TODO: tmpFunc in debug mode only, to increase performance in non-debug mode.
   var newScriptStr = 'window.tiaTmpFunc = function () { ';
   newScriptStr += 'try {' + scriptStr + '} catch (e) {';

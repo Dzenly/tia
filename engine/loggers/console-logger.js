@@ -21,6 +21,10 @@ exports.msg = function (msg) {
   process.stdout.write(msg);
 };
 
+exports.msgln = function (msg) {
+  exports.msg(msg + '\n');
+};
+
 /**
  *
  * @param chalkProps - string or array.
@@ -57,6 +61,11 @@ exports.err = function (msg) {
     msg = chalk.red(msg);
   }
   process.stdout.write(msg);
+};
+
+
+exports.errln = function (msg) {
+  exports.err(msg + '\n');
 };
 
 // =====================================

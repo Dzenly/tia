@@ -122,7 +122,8 @@ exports.fileToStdout = function (file) {
 };
 
 exports.fileToStderr = function (file) {
-  console.error(fs.readFileSync(file, {encoding: gT.engineConsts.logEncoding}));
+  // console.error(fs.readFileSync(file, {encoding: gT.engineConsts.logEncoding}));
+  gIn.cLogger.errln(fs.readFileSync(file, {encoding: gT.engineConsts.logEncoding}));
 };
 
 exports.saveJson = function (obj, file) {

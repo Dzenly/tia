@@ -17,7 +17,7 @@ var cfg = {
     console.log(msg);
   },
   logErr: function (msg) {
-    console.error(msg);
+    console.error(msg); // OK with console.error. Tmp utils.
   },
   indent: '      '
 };

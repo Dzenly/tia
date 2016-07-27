@@ -99,17 +99,23 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
       return gT.sOrig.promise.rejected(CANCELLING_THE_TEST);
     }
 
-    var actResult = gIn.test1 ? gT.sOrig.promise.delayed(70000) : act();
+    var actResult = act();
     if (!actResult || !actResult.then) { // If result is not promise.
       return actResult;
     }
     var tId = setTimeout(function () {
-      gIn.logger.error('\nControlFlow state: \n' + flow.getSchedule(false) + '\n');
+      gIn.logger.errorln('Hanged action detected');
+      gIn.logger.errorln('ControlFlow state: \n' + flow.getSchedule(false));
       // flow.reset();
       if (!gIn.screenShotScheduled) {
         gIn.screenShotScheduled = true;
         setTimeout(function () { // To use another queue, because next reject will clear this queue.
-          gT.s.browser.screenshot();
+          flow.execute(function () {
+            gIn.tracer.trace1('Getting a screenshot for hanged action.');
+            return gT.s.browser.screenshot().catch(function (err) {
+              gIn.tracer.traceErr('Error at screenshot for hanged action.');
+            });
+          });
         }, 0);
       }
       actResult.cancel('Timeout expired, your action is considered as hanged.');

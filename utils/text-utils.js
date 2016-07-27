@@ -16,6 +16,9 @@ exports.filterStack = function (strStack) {
 };
 
 exports.excToStr = function (err, noStack) {
+  if (typeof err === 'undefined') {
+    return '\nNo Exception info\n';
+  }
   var errStr = err.toString();//(typeof err.message === 'undefined') ? err : err.message;
   if (gIn.params.stackToLog || !noStack) {
     if (typeof err.stack !== 'undefined') {

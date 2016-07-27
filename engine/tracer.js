@@ -3,30 +3,30 @@
 /* globals gIn: true */
 
 exports.traceErr = function (msg) {
-  console.error('TRCERR: ' + msg);
+  gIn.cLogger.errln('TRCERR: ' + msg);
 };
 
 // To distinct tracing from common console.log's.
 exports.trace0 = function (msg) {
   if (gIn.params.traceLevel > -1) {
-    console.log('TRC0: ' + msg);
+    gIn.cLogger.msgln('TRC0: ' + msg);
   }
 };
 
 exports.trace1 = function (msg) {
   if (gIn.params.traceLevel > 0) {
-    console.log('TRC1: ' + msg);
+    gIn.cLogger.msgln('TRC1: ' + msg);
   }
 };
 
 exports.trace2 = function (msg) {
   if (gIn.params.traceLevel > 1) {
-    console.log('TRC2: ' + msg);
+    gIn.cLogger.msgln('TRC2: ' + msg);
   }
 };
 
 exports.trace3 = function (msg) {
   if (gIn.params.traceLevel > 2) {
-    console.log('TRC3: ' + msg);
+    gIn.cLogger.msgln('TRC3: ' + msg);
   }
 };

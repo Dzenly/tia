@@ -130,7 +130,7 @@ function usage() {
 
 function unknownOption(option) {
   if (option && option.substr(0, 1) === '-') {
-    console.error('Unknown option: "' + option + '"');
+    gIn.cLogger.errln('Unknown option: "' + option + '"\n');
     usage();
     process.exit(1);
   }
@@ -218,8 +218,8 @@ if (args.debugMax) {
 
 var browser = args.browser;
 if (browsers.indexOf(browser) === -1) {
-  console.error('Invalid browser: ' + browser);
-  console.error('Supported browsers are: ' + browsers.join(', '));
+  gIn.cLogger.errln('Invalid browser: ' + browser);
+  gIn.cLogger.errln('Supported browsers are: ' + browsers.join(', '));
   process.exit(1);
 }
 
@@ -310,8 +310,8 @@ if (gIn.params.defHost) {
 // Replace it with testSuiteRoot directory ?
 
 process.on('uncaughtException', (err) => {
-  console.error(`TIA: uncaughtException: ${err}`);
-  console.log('Stack: ' + err.stack);
+  gIn.logger.errorln('TIA: uncaughtException:');
+  gIn.logger.exception(err);
 });
 
 gT.sOrig.promise.LONG_STACK_TRACES = true;
