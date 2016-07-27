@@ -310,8 +310,8 @@ if (gIn.params.defHost) {
 // Replace it with testSuiteRoot directory ?
 
 process.on('uncaughtException', (err) => {
-  console.log(`uncaughtException: ${err}`);
-  console.log(err.stack);
+  console.error(`TIA: uncaughtException: ${err}`);
+  console.log('Stack: ' + err.stack);
 });
 
 gT.sOrig.promise.LONG_STACK_TRACES = true;

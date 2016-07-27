@@ -20,6 +20,7 @@ function runTestFile(file) {
   gIn.tracer.trace2('Starting new test: ' + file);
 
   gIn.errRecursionCount = 0;
+  gIn.cancelThisTest = false;
 
   try {
     nodeUtils.requireEx(file, true);

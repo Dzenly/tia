@@ -64,6 +64,14 @@ function *pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
   }
 }
 
+const CANCELLING_THE_TEST = 'Cancelling the test due to hanging';
+
+function handleErrAtErrorHandling(msg) {
+  gIn.logger.errorln(`${msg} at error handling. The test will be canceled.`);
+  gIn.cancelThisTest = true;
+  return gT.sOrig.promise.rejected(CANCELLING_THE_TEST);
+}
+
 /**
  * Wraps Selenium actions for:
  * logging
@@ -86,12 +94,17 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
     gIn.tracer.trace3('Inside wrapper, after start timer, msg: ' + msg);
   });
   return flow.execute(function () {
-    var actResult = act();
+    if (gIn.cancelThisTest) {
+      gIn.tracer.trace1('Cancelling action using gIn.cancelThisTest flag');
+      return gT.sOrig.promise.rejected(CANCELLING_THE_TEST);
+    }
+
+    var actResult = gIn.test1 ? gT.sOrig.promise.delayed(70000) : act();
     if (!actResult || !actResult.then) { // If result is not promise.
       return actResult;
     }
     var tId = setTimeout(function () {
-      // gIn.logger.error('\nControlFlow state: \n' + flow.getSchedule(true) + '\n');
+      gIn.logger.error('\nControlFlow state: \n' + flow.getSchedule(false) + '\n');
       // flow.reset();
       if (!gIn.screenShotScheduled) {
         gIn.screenShotScheduled = true;
@@ -130,6 +143,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         gIn.logger.errorln('========== Err Info Begin ==========');
         gIn.logger.exception('Exception in wrapper: ', err);
         gIn.logger.exception('Exception stack: ', err.stack);
+
         if (typeof gT.sOrig.driver !== 'undefined' && !gIn.errRecursionCount) {
           gIn.errRecursionCount = 1; // To prevent recursive error report on error report.
           /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
@@ -156,8 +170,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
               // yield will generate exception with this object.
               return promise.rejected('Error in action (sel. driver was existed)');
             }).catch(function (err) {
-              gIn.logger.errorln(`Error at quit at error handling, let's kill ourselves`);
-              process.exit(1);
+              return handleErrAtErrorHandling('Error at quit');
             });
           }
         } else {
@@ -166,8 +179,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
           } else {
             gIn.errRecursionCount++;
             if (gIn.errRecursionCount > 2) {
-              gIn.logger.errorln(`Recursive error at error handling, let's kill ourselves`);
-              process.exit(1);
+              return handleErrAtErrorHandling('Recursive error');
             }
           }
           //gIn.logger.errorln('Info: No selenium driver');
@@ -180,8 +192,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
                   gIn.tracer.trace2('sOrig.driver deletion (error at error handling)');
                   delete gT.sOrig.driver;
                 }).catch(function (err) {
-                  gIn.logger.errorln(`Error at quit at error handling, let's kill ourselves`);
-                  process.exit(1);
+                  return handleErrAtErrorHandling('Error at quit');
                 });
             }
           }
