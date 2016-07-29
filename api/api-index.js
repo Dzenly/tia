@@ -27,8 +27,8 @@ global.l = gT.l; // Alias. If your IDE does not autocomplete log. you can use gT
  * Low level API for tests. It can be used for helpers writing.
  * @type {{}}
  */
-gT.ll = require('./low-level.js');
-global.ll = gT.ll;
+gT.lL = require('./low-level.js');
+global.lL = gT.lL;
 
 // ==================================================
 
@@ -75,6 +75,10 @@ gT.u = {};
 global.u = gT.u;
 
 require('./utils/utils-index.js');
+
+// ==================================================
+
+gT.hL = require('./high-level');
 
 // ==================================================
 

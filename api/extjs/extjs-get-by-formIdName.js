@@ -12,7 +12,7 @@ exports.rawValue = function (id, name, logAction) {
 };
 
 exports.isDisabled = function (id, name, logAction) {
-  return gIn.wrap(`Checking if form (id: ${id}) field (name: ${name}) disabled ... `, logAction, function () {
+  return gIn.wrap(`Getting isDisabled() for form (id: ${id}) field (name: ${name}) ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
       `return tiaEJ.ctById.isFormFieldDisabled('${id}', '${name}');`
     );
