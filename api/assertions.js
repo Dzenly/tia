@@ -9,14 +9,11 @@
  * @param msg - message to describe the entity which you expect.
  */
 exports.true = function (condition, msg) {
-  var logStr;
   if (Boolean(condition)) {
-    logStr = msg;
-    gT.l.pass(logStr);
+    gT.l.pass(msg);
     return true;
   } else {
-    logStr = msg;
-    gT.l.fail(logStr);
+    gT.l.fail(msg);
     return false;
   }
 };
@@ -195,5 +192,16 @@ exports.notEqualBool = function (val1, val2, msg1, msg2, doNotShowValues) {
   } else {
     gT.l.fail(msg1 + ' === ' + msg2 + ' === ' + val1);
     return false;
+  }
+};
+
+exports.sP = {
+  true: function (condition, msg) {
+    if (Boolean(condition)) {
+      return true;
+    } else {
+      gT.l.fail(msg);
+      return false;
+    }
   }
 };

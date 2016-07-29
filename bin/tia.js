@@ -73,8 +73,8 @@ function usage() {
       is added to test log. This allows to track some unexpected server side errors.
       ${gT.engineConsts.externalLogEnvVarName} environment variable also can be used for this.
 
-      --force-log-actions forced console logs for all actions. Does not affect file logs.
-      Works only with --log-to-console option
+      --force-log-actions forced console logs for all actions ans silent passes (in high level API).
+      Does not affect file logs. Works only with --log-to-console option
 
       -h, --help - Print this help.
       

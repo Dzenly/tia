@@ -6,15 +6,13 @@
  Low level utilities for tests.
  */
 
-var tInfo = gIn.tInfo;
-
 /**
  * Sets passes count for current test.
  * Can be used for debug.
  */
 exports.setPassed = function (newCount) {
   gIn.tracer.trace3('Changing passed tests count to ' + newCount);
-  tInfo.data.passed = newCount;
+  gIn.tInfo.data.passed = newCount;
 };
 
 /**
@@ -23,7 +21,7 @@ exports.setPassed = function (newCount) {
  */
 exports.setFailed = function (newCount) {
   gIn.tracer.trace3('Changing failed tests count to ' + newCount);
-  tInfo.data.failed = newCount;
+  gIn.tInfo.data.failed = newCount;
 };
 
 /**
@@ -32,7 +30,7 @@ exports.setFailed = function (newCount) {
  * @returns {number}
  */
 exports.getPassed = function () {
-  return tInfo.data.passed;
+  return gIn.tInfo.data.passed;
 };
 
 /**
@@ -40,7 +38,7 @@ exports.getPassed = function () {
  * @returns {number}
  */
 exports.getFailed = function () {
-  return tInfo.data.failed;
+  return gIn.tInfo.data.failed;
 };
 
 /**
@@ -53,6 +51,12 @@ exports.getFailed = function () {
 exports.setLlPassCounting = function (enable) {
   var old = gIn.tInfo.isPassCountingEnabled;
   gIn.tInfo.isPassCountingEnabled = enable;
+  return old;
+};
+
+exports.setLlPassPrinting = function (enable) {
+  var old = gIn.tInfo.isPassPrintingEnabled;
+  gIn.tInfo.isPassPrintingEnabled = enable;
   return old;
 };
 

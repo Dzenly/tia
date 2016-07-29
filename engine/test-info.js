@@ -3,7 +3,8 @@
 /* globals gT: true */
 
 var mPath = require('path');
-exports.setLlPassCounting = true;
+exports.isPassCountingEnabled = true;
+exports.isPassPrintingEnabled = true;
 
 function formLogPart(str, count) {
   if (!count) {

@@ -53,8 +53,11 @@ exports.fail = function (msg) {
  */
 exports.pass = function (msg) {
   if (typeof msg !== 'undefined') {
-    gIn.logger.pass(ok + msg + '\n');
+    if (gIn.tInfo.isPassPrintingEnabled) {
+      gIn.logger.pass(ok + msg + '\n');
+    } else if (gIn.params.forceLogActions) {
+      gIn.cLogger.passIfEnabled(msg);
+    }
   }
   gIn.tInfo.addPass();
 };
-
