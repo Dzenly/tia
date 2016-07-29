@@ -135,3 +135,11 @@ a.equalBool(0, 2, 'val1', 'val2');  // fail
 a.notEqualBool(1, 1, 'val1', 'val2');
 a.notEqualBool(1, 2, 'val1', 'val2'); // fail
 a.notEqualBool(true, false, 'val1', 'val2'); // pass
+
+a.equalBool(1, 1, 'val1', 'val2', true);  // pass
+a.equalBool(1, 2, 'val1', 'val2', true);  // pass
+a.equalBool(0, 2, 'val1', 'val2', true);  // fail
+
+a.notEqualBool(1, 1, 'val1', 'val2', true); // fail
+a.notEqualBool(1, 2, 'val1', 'val2', true); // fail
+a.notEqualBool(true, false, 'val1', 'val2', true); // pass

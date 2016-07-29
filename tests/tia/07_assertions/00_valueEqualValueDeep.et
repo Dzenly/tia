@@ -90,5 +90,11 @@ FAIL: val1: false !== val2: true
 FAIL: val1 === val2 === true
 FAIL: val1 === val2 === true
 OK: val1: true !== val2: false
+OK: val1 === val2
+OK: val1 === val2
+FAIL: val1: false !== val2: true
+FAIL: val1 === val2 === true
+FAIL: val1 === val2 === true
+OK: val1 !== val2
 =================
-Pass: 30, Fail: 22
+Pass: 33, Fail: 25

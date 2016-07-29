@@ -152,8 +152,12 @@ exports.exception = function (func, expExc) {
   }
 };
 
-exports.equal = function (val1, val2, msg1, msg2) {
+exports.equal = function (val1, val2, msg1, msg2, doNotShowValues) {
   if (val1 === val2) {
+    if (doNotShowValues) {
+      gT.l.pass(msg1 + ' === ' + msg2);
+      return true;
+    }
     gT.l.pass(msg1 + ': ' + val1 + ' === ' + msg2 + ': ' + val2);
     return true;
   } else {
@@ -162,10 +166,14 @@ exports.equal = function (val1, val2, msg1, msg2) {
   }
 };
 
-exports.equalBool = function (val1, val2, msg1, msg2) {
+exports.equalBool = function (val1, val2, msg1, msg2, doNotShowValues) {
   val1 = Boolean(val1);
   val2 = Boolean(val2);
   if (val1 === val2) {
+    if (doNotShowValues) {
+      gT.l.pass(msg1 + ' === ' + msg2);
+      return true;
+    }
     gT.l.pass(msg1 + ' === ' + msg2 + ' === ' + val1);
     return true;
   } else {
@@ -174,10 +182,14 @@ exports.equalBool = function (val1, val2, msg1, msg2) {
   }
 };
 
-exports.notEqualBool = function (val1, val2, msg1, msg2) {
+exports.notEqualBool = function (val1, val2, msg1, msg2, doNotShowValues) {
   val1 = Boolean(val1);
   val2 = Boolean(val2);
   if (val1 !== val2) {
+    if (doNotShowValues) {
+      gT.l.pass(msg1 + ' !== ' + msg2);
+      return true;
+    }
     gT.l.pass(msg1 + ': ' + val1 + ' !== ' + msg2 + ': ' + val2);
     return true;
   } else {
