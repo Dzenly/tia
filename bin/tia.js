@@ -113,7 +113,9 @@ function usage() {
 
       --use-remote-driver - (for chromedriver only). Starts the browser driver (if it is not already started),
       and forces s.driver.init() to use this external driver.
-      The variable gT.firstRunWithRemoteDriver is true when the current run is the first run for which remote driver was initialized. 
+      The variable gT.firstRunWithRemoteDriver is true when the current run is the first run for which remote driver was initialized.
+       
+       -v, --version - shot the version of tia engine.
 
       --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).
 
@@ -167,6 +169,8 @@ var opts = {
     'stack-to-log',
     'stop-remote-driver',
     'use-remote-driver',
+    'v',
+    'version',
     'xvfb'
   ],
   default: {
@@ -184,8 +188,13 @@ var args = require('minimist')(process.argv.slice(2), opts);
 const camelcaseKeys = require('camelcase-keys');
 args = camelcaseKeys(args);
 
-if (args['h'] || args['help']) {
+if (args.h || args.help) {
   usage();
+  process.exit(0);
+}
+
+if (args.v || args.version) {
+  console.log(require('../package.json').version);
   process.exit(0);
 }
 
