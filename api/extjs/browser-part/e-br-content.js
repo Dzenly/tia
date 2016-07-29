@@ -320,14 +320,43 @@
       return str;
     },
 
-    getNameAndLabels: function (field) {
-      var name = field.getName ? field.getName() : 'N/A';
-      var labelText = field.getFieldLabel ? field.getFieldLabel() : 'N/A';
-      var str = 'name: ' + name + ', label: ' + labelText;
-      if (field.boxLabel) {
-        str += ', boxLabel: ' + field.boxLabel;
+    getNameAndLabels: function (field, noName) {
+      var resArr = [];
+      if (!noName && field.getName && field.getName()) {
+        resArr.push('name: ' + field.getName());
       }
-      return str;
+      if (field.getFieldLabel && field.getFieldLabel()) {
+        resArr.push('label: ' + field.getFieldLabel());
+      }
+      if (field.boxLabel) {
+        resArr.push('boxLabel: ' + field.boxLabel);
+      }
+      return resArr.join(', ');
+    },
+
+    getFormFieldEnabledDisabledInfo: function (form, name) {
+      var field = tiaEJ.search.byFormAndName(form, name);
+      var res = this.getNameAndLabels(field, true);
+      res += ', ' + (field.isDisabled() ? 'disabled' : 'enabled');
+      return res;
+    },
+
+    getFormFieldRawValue: function (form, name) {
+      var field = tiaEJ.search.byFormAndName(form, name);
+      return field.getRawValue();
+    },
+
+    isFormFieldDisabled: function (form, name) {
+      var field = tiaEJ.search.byFormAndName(form, name);
+      return field.isDisabled();
+    },
+
+    getFormFieldShortInfo: function (form, name) {
+      var field = tiaEJ.search.byFormAndName(form, name);
+      var res = this.getNameAndLabels(field, true);
+      res += ', ' + (field.isDisabled() ? 'disabled' : 'enabled');
+      res += ', ' + 'rawValue: ' + field.getRawValue();
+      return res;
     },
 
     /**

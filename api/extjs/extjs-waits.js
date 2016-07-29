@@ -22,20 +22,31 @@ exports.ajaxRequestsFinish = function (timeout, logAction) {
   });
 };
 
+function logFormFieldInfo(formId, name, logAction) {
+  return function () {
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getFormFieldEnabledDisabledInfo('${formId}', '${name}');`)
+      .then(function (res) {
+        gIn.logger.logIfNotDisabled(', ' + res + ' ... ', logAction);
+      });
+  }
+}
+
 exports.formFieldEnabled = function (formId, name, timeout, logAction) {
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
-  return gIn.wrap(`Waiting for enabling of form (id: ${formId}) item (name: ${name}) ... `, logAction, function () {
+  return gIn.wrap(`Waiting for enabling field (name: ${name}) on form (id: ${formId})`, logAction, function () {
     return gT.sOrig.driver.wait(function () {
       return gT.s.browser.executeScriptWrapper(`return tiaEJ.check.formFieldEnabled('${formId}', '${name}');`)
-    }, timeout);
+    }, timeout)
+      .then(logFormFieldInfo(formId, name, logAction));
   });
 };
 
 exports.formFieldDisabled = function (formId, name, timeout, logAction) {
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
-  return gIn.wrap(`Waiting for disabling of form (id: ${formId}) item (name: ${name}) ... `, logAction, function () {
+  return gIn.wrap(`Waiting for disabling field (name: ${name}) onform (id: ${formId})`, logAction, function () {
     return gT.sOrig.driver.wait(function () {
       return gT.s.browser.executeScriptWrapper(`return tiaEJ.check.formFieldDisabled('${formId}', '${name}');`)
-    }, timeout);
+    }, timeout)
+      .then(logFormFieldInfo(formId, name, logAction));
   });
 };

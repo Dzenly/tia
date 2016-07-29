@@ -27,3 +27,25 @@ exports.field = function (id, name, includingStores, logAction) {
       });
   });
 };
+
+exports.fieldEnabledDisabledInfo = function (id, name, logAction) {
+  return gIn.wrap(`Enabled/Disabled info of form (id: ${id}) field: name: ${name}`, logAction, function () {
+    return gT.s.browser.executeScriptWrapper(
+      `return tiaEJ.ctById.getFormFieldEnabledDisabledInfo('${id}', '${name}');`
+    )
+      .then(function (res) {
+        gIn.logger.log(', ' + res + ' ... ');
+      });
+  });
+};
+
+exports.fieldShortInfo = function (id, name, logAction) {
+  return gIn.wrap(`Info of form (id: ${id}) field: name: ${name}`, logAction, function () {
+    return gT.s.browser.executeScriptWrapper(
+      `return tiaEJ.ctById.getFormFieldShortInfo('${id}', '${name}');`
+    )
+      .then(function (res) {
+        gIn.logger.log(', ' + res + ' ... ');
+      });
+  });
+};

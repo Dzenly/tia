@@ -1,10 +1,10 @@
 ====================    Short Log BEGIN:    ====================
-"tests", dif: 0, Fail: 24
+"tests", dif: 0, Fail: 25
 ====================    Short Log END.    ====================
 
 ====================    Verbose Log BEGIN:    ====================
-"tests", dif: 0, Fail: 24, EDif: 1, Skip: 5, Pass: 65, "The whole tests bunch for TIA"
-| "tia", dif: 0, Fail: 24, EDif: 1, Skip: 4, Pass: 55, ""
+"tests", dif: 0, Fail: 25, EDif: 1, Skip: 5, Pass: 66, "The whole tests bunch for TIA"
+| "tia", dif: 0, Fail: 25, EDif: 1, Skip: 4, Pass: 56, ""
 | | "00_sanity", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 10, ""
 | | | "00_checkForGlobals.js", OK, fail: 0, Pass: 5, "Checking that all global variables are exist and correct."
 | | | "01_3msg3pass.js", OK, fail: 0, Pass: 3, "2 messages and 3 passes."
@@ -29,8 +29,8 @@
 | | | "0_empty.js", OK, fail: 0, pass: 0, ""
 | | "06_suiteConfig", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 4, ""
 | | | "00_suiteConfig.js", OK, fail: 0, Pass: 4, "Checking config and suite-config work."
-| | "07_assertions", dif: 0, Fail: 21, edif: 0, skip: 0, Pass: 28, ""
-| | | "00_equalDeep.js", OK, Fail: 18, Pass: 26, "Tests for equalDeep assertion"
+| | "07_assertions", dif: 0, Fail: 22, edif: 0, skip: 0, Pass: 29, ""
+| | | "00_valueEqualValueDeep.js", OK, Fail: 19, Pass: 27, "Tests for equalDeep assertion"
 | | | "01_exceptions.js", OK, Fail: 3, Pass: 2, "Tests for "exception" assertion"
 | | "08_utils", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 13, ""
 | | | "00_mergeOptions.js", OK, fail: 0, Pass: 3, "Tests for mergeOptions function"

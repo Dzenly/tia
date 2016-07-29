@@ -41,10 +41,10 @@ var dst1 = {
 };
 
 var dst = gT.commonMiscUtils.mergeOptions(src, def);
-a.equalDeep(dst, dst1, 'Src with non default values');
+a.valueDeep(dst, dst1, 'Src with non default values');
 
 dst = gT.commonMiscUtils.mergeOptions({}, def);
-a.equalDeep(dst, def(), 'Empty src');
+a.valueDeep(dst, def(), 'Empty src');
 
 a.exception(
   function () {

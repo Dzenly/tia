@@ -6,36 +6,38 @@
 /**
  * Checks that specified condition is true.
  * @param condition
- * @param msg
+ * @param msg - message to describe the entity which you expect.
  */
 exports.true = function (condition, msg) {
   var logStr;
   if (Boolean(condition)) {
     logStr = msg;
     gT.l.pass(logStr);
+    return true;
   } else {
     logStr = msg;
     gT.l.fail(logStr);
+    return false;
   }
 };
 
 /**
  * Checks that specified condition is false.
  * @param condition
- * @param msg
+ * @param msg - message to describe the entity which you expect.
  */
 exports.false = function (condition, msg) {
-  return exports.true(!Boolean(condition), false);
+  return exports.true(!Boolean(condition), msg);
 };
 
 /**
  * Checks that value equals to expected value.
  * @param {*} actVal - actual value.
  * @param {*} expVal - expected value.
- * @param {String} [msg] - message to log.
+ * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-exports.equal = function (actVal, expVal, msg) {
+exports.value = function (actVal, expVal, msg) {
   if (typeof msg !== 'undefined') {
     if (actVal === expVal) {
       gT.l.pass(msg + ': ' + actVal);
@@ -64,10 +66,10 @@ exports.equal = function (actVal, expVal, msg) {
  * Functions are not supported.
  * @param actVal - actual value.
  * @param expVal - expected value.
- * @param msg - message to log.
+ * @param msg - message to describe the entity which you expect.
  * @returns {boolean}
  */
-exports.equalDeep = function (actVal, expVal, msg) {
+exports.valueDeep = function (actVal, expVal, msg) {
 
   function handleVals(actVal, expVal, path) {
     let actType = typeof actVal;
@@ -129,7 +131,7 @@ exports.exception = function (func, expExc) {
       msg = 'There is not any exception';
     } else {
       msg = `There is not expected exception: '${expExc}'`;
-    };
+    }
     gT.l.fail(msg);
     return false;
   } catch (e) {
@@ -147,5 +149,15 @@ exports.exception = function (func, expExc) {
     gT.l.fail(`Actual Exception: '${str}'\nExpected Exception: '${expExc}'`);
     return false;
 
+  }
+};
+
+exports.equal = function (val1, val2, msg1, msg2) {
+  if (val1 === val2) {
+    gT.l.pass(msg1 + ': ' + val1 + ' === ' + msg2 + ': ' + val2);
+    return true;
+  } else {
+    gT.l.fail(msg1 + ': ' + val1 + ' !== ' + msg2 + ': ' + val2);
+    return false;
   }
 };

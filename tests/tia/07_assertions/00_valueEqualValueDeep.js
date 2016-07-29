@@ -82,13 +82,13 @@ var obj3 = {
 var res;
 
 function checkGood(act, exp, msg) {
-  res = a.equalDeep(act, exp, msg);
-  a.true(res, msg + ' result');
+  res = a.valueDeep(act, exp, msg);
+  a.true(res, msg);
 }
 
 function checkBad(act, exp, msg) {
-  res = a.equalDeep(act, exp, msg);
-  a.false(res, msg + ' result');
+  res = a.valueDeep(act, exp, msg);
+  a.false(res, msg);
 }
 
 l.println('Good cases');
@@ -124,3 +124,7 @@ checkBad({a: 5}, {}, 'Different property count');
 checkBad({a: {}}, {a: null}, 'Different property types: object, null');
 
 checkBad({a: 3}, {a: 'asdf'}, 'Different property types: number, string');
+
+a.equal(1, 1, 'val1', 'val2')
+
+a.equal(1, 2, 'val1', 'val2')
