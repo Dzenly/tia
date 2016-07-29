@@ -161,3 +161,27 @@ exports.equal = function (val1, val2, msg1, msg2) {
     return false;
   }
 };
+
+exports.equalBool = function (val1, val2, msg1, msg2) {
+  val1 = Boolean(val1);
+  val2 = Boolean(val2);
+  if (val1 === val2) {
+    gT.l.pass(msg1 + ' === ' + msg2 + ' === ' + val1);
+    return true;
+  } else {
+    gT.l.fail(msg1 + ': ' + val1 + ' !== ' + msg2 + ': ' + val2);
+    return false;
+  }
+};
+
+exports.notEqualBool = function (val1, val2, msg1, msg2) {
+  val1 = Boolean(val1);
+  val2 = Boolean(val2);
+  if (val1 !== val2) {
+    gT.l.pass(msg1 + ': ' + val1 + ' !== ' + msg2 + ': ' + val2);
+    return true;
+  } else {
+    gT.l.fail(msg1 + ' === ' + msg2 + ' === ' + val1);
+    return false;
+  }
+};

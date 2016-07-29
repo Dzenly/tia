@@ -84,5 +84,11 @@ Path: '/a', Act type: number, 'Exp type: string
 OK: Different property types: number, string
 OK: val1: 1 === val2: 1
 FAIL: val1: 1 !== val2: 2
+OK: val1 === val2 === true
+OK: val1 === val2 === true
+FAIL: val1: false !== val2: true
+FAIL: val1 === val2 === true
+FAIL: val1 === val2 === true
+OK: val1: true !== val2: false
 =================
-Pass: 27, Fail: 19
+Pass: 30, Fail: 22
