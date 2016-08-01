@@ -13,23 +13,28 @@
 exports.checkCheckboxAffects = function *(formId, checkBoxName, directFields, reverseFields, logActions) {
 
   function *checkCBAffects() {
+
+    const resAccName = 'checkCBAffects';
+    a.initResultsAccumulator(resAccName);
+
     let isSet = yield e.getByFormIdName.rawValue(formId, checkBoxName);
 
     for (let i = 0, len = directFields.length; i < len; i++) {
       let name = directFields[i];
       let isDisabled = yield e.getByFormIdName.isDisabled(formId, name);
-      gT.a.true(isDisabled !== isSet, 'Direct check for "' + name + '"');
+      gT.a.true(isDisabled !== isSet, 'Direct check for "' + name + '"', {accName: resAccName});
     }
 
     for (let i = 0, len = reverseFields.length; i < len; i++) {
       let name = reverseFields[i];
       let isDisabled = yield e.getByFormIdName.isDisabled(formId, name);
-      gT.a.true(isDisabled === isSet, 'Reverse check for "' + name + '"');
+      gT.a.true(isDisabled === isSet, 'Reverse check for "' + name + '"', {accName: resAccName});
     }
 
     yield e.lClick.checkBoxByFormIdName(formId, checkBoxName);
     isSet = !isSet;
-    a.sP.true(isSet === (yield e.getByFormIdName.rawValue(formId, checkBoxName)), 'Checkbox state changed after click');
+    a.true(isSet === (yield e.getByFormIdName.rawValue(formId, checkBoxName)),
+      'Checkbox state changed after click', {passSilently: true, noPassIncrement: true, accName: resAccName});
 
     for (let i = 0, len = directFields.length; i < len; i++) {
       let name = directFields[i];
@@ -43,12 +48,14 @@ exports.checkCheckboxAffects = function *(formId, checkBoxName, directFields, re
 
     yield e.lClick.checkBoxByFormIdName(formId, checkBoxName);
     isSet = !isSet;
-    a.sP.true(isSet === (yield e.getByFormIdName.rawValue(formId, checkBoxName)), 'Checkbox state changed after click');
+    a.true(isSet === (yield e.getByFormIdName.rawValue(formId, checkBoxName)),
+      'Checkbox state changed after click', {passSilently: true, noPassIncrement: true, accName: resAccName});
   }
 
-  yield *gT.hL.wrapGenerator(
+  var res = yield *gT.hL.wrapGenerator(
     checkCBAffects,
     `Check checkbox (name: ${checkBoxName}) affects for form with id: ${formId}`, {passLlPrinting: true});
 
+  return res;
 };
 

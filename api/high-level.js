@@ -32,7 +32,7 @@ exports.wrapGenerator = function* (gen, msg, options) {
   var oldPassLl = gT.lL.setLlPassCounting(opts.passLl);
   var oldPassLlPrinting = gT.lL.setLlPassPrinting(opts.passLlPrinting);
 
-  yield *gen();
+  var res = yield *gen();
 
   gT.lL.setDefaultLlLogAction(oldLogLl);
   gT.lL.setLlPassCounting(oldPassLl);
@@ -45,6 +45,8 @@ exports.wrapGenerator = function* (gen, msg, options) {
   if (opts.passHl) {
     gIn.tInfo.addPassForce();
   }
+
+  return res;
 };
 
 

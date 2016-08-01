@@ -3,17 +3,72 @@
 /* globals gT: true */
 /* globals gIn: true */
 
+
+/*
+Assertions can use results accumulators.
+I.e. the map which remembers if there was some error for current name.
+ */
+
+var resultAccumulators = {};
+
+function checkAccName(name) {
+  if (typeof name !== 'string') {
+    throw new Error('Use string type for accumulator name');
+  }
+}
+
+exports.initResultsAccumulator = function (name) {
+  checkAccName(name);
+  resultAccumulators[name] = true;
+};
+
+exports.getResultFromAccumulator = function (name) {
+  checkAccName(name);
+  return resultAccumulators[name];
+};
+
+exports.deleteResultAccumulator = function (name) {
+  checkAccName(name);
+  delete resultAccumulators[name];
+};
+
+exports.mergeResultToAccumulator = function (res, name) {
+  checkAccName(name);
+  resultAccumulators[name] = resultAccumulators[name] && res;
+};
+
 /**
+ * For shortening the code.
+ * Adds result accumulators usage to fail call.
+ * @param msg
+ * @param mode
+ */
+function failWrapper(msg, mode) {
+  gT.l.fail(msg);
+  if (mode && mode.accName) {
+    mode[accName] = false;
+  }
+}
+
+/**
+ * The parameter for all assertions.
+ * @param {Object} [mode] the mode for pass case.
+ * @param {Boolean} [mode.passSilently] - do not show message.
+ * @param {Boolean} [mode.noPassIncrement] - do not increment pass counter.
+ * @param {Boolean} [mode.accName] - the name for result accumulator which will be falsed if some assertion is failed.
+ * /
+
+ /**
  * Checks that specified condition is true.
  * @param condition
  * @param msg - message to describe the entity which you expect.
  */
-exports.true = function (condition, msg) {
+exports.true = function (condition, msg, mode) {
   if (Boolean(condition)) {
-    gT.l.pass(msg);
+    gT.l.pass(msg, mode);
     return true;
   } else {
-    gT.l.fail(msg);
+    failWrapper(msg, mode);
     return false;
   }
 };
@@ -22,9 +77,10 @@ exports.true = function (condition, msg) {
  * Checks that specified condition is false.
  * @param condition
  * @param msg - message to describe the entity which you expect.
+ * param {Object} mode - see 'true' assertin description.
  */
-exports.false = function (condition, msg) {
-  return exports.true(!Boolean(condition), msg);
+exports.false = function (condition, msg, mode) {
+  return exports.true(!Boolean(condition), msg, mode);
 };
 
 /**
@@ -34,25 +90,25 @@ exports.false = function (condition, msg) {
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-exports.value = function (actVal, expVal, msg) {
+exports.value = function (actVal, expVal, msg, mode) {
   if (typeof msg !== 'undefined') {
     if (actVal === expVal) {
-      gT.l.pass(msg + ': ' + actVal);
+      gT.l.pass(msg + ': ' + actVal, mode);
       return true;
     } else {
       msg += '\nAct: ' + actVal + '\nExp: ' + expVal;
-      gT.l.fail(msg);
+      failWrapper(msg, mode);
       return false;
     }
   } else {
     if (actVal === expVal) {
       msg = 'Act: "' + actVal + '" = Exp: "' + expVal + '"';
       // TODO: (Yellow color ??) It is strange situation to compare smth without message.
-      gT.l.pass(msg);
+      gT.l.pass(msg, mode);
       return true;
     } else {
       msg = 'Equality checking:\nAct: ' + actVal + '\nExp: "' + expVal;
-      gT.l.fail(msg);
+      failWrapper(msg, mode);
       return false;
     }
   }
@@ -66,7 +122,7 @@ exports.value = function (actVal, expVal, msg) {
  * @param msg - message to describe the entity which you expect.
  * @returns {boolean}
  */
-exports.valueDeep = function (actVal, expVal, msg) {
+exports.valueDeep = function (actVal, expVal, msg, mode) {
 
   function handleVals(actVal, expVal, path) {
     let actType = typeof actVal;
@@ -74,7 +130,7 @@ exports.valueDeep = function (actVal, expVal, msg) {
 
     if (actType !== expType) {
       msg += `\nPath: '${path}', Act type: ${actType}, 'Exp type: ${expType}`;
-      gT.l.fail(msg);
+      failWrapper(msg, mode);
       return false;
     }
 
@@ -84,7 +140,7 @@ exports.valueDeep = function (actVal, expVal, msg) {
 
       if (actProps.length !== expProps.length) {
         msg += `\nDifferent property counts, \nPath: '${path}', \nAct props: ${actProps}\nExp props: ${expProps}`;
-        gT.l.fail(msg);
+        failWrapper(msg, mode);
         return false;
       }
 
@@ -94,7 +150,7 @@ exports.valueDeep = function (actVal, expVal, msg) {
 
         if (actSubProp !== expSubProp) {
           msg += `\nPath: '${path}', Property names are different: Act : ${actSubProp}, Exp : ${expSubProp}`;
-          gT.l.fail(msg);
+          failWrapper(msg, mode);
           return false;
         }
 
@@ -105,7 +161,7 @@ exports.valueDeep = function (actVal, expVal, msg) {
     } else {
       if (actVal !== expVal) {
         msg += `\nPath: ${path}, \nAct val: ${actVal}\nExp val: ${expVal}`;
-        gT.l.fail(msg);
+        failWrapper(msg, mode);
         return false;
       }
     }
@@ -114,13 +170,13 @@ exports.valueDeep = function (actVal, expVal, msg) {
 
   var res = handleVals(actVal, expVal, '');
   if (res) {
-    gT.l.pass(msg); // There is no sense to print [object Object].
+    gT.l.pass(msg, mode); // There is no sense to print [object Object].
     return true;
   }
   return false;
 };
 
-exports.exception = function (func, expExc) {
+exports.exception = function (func, expExc, mode) {
   try {
     func();
     var msg;
@@ -129,79 +185,80 @@ exports.exception = function (func, expExc) {
     } else {
       msg = `There is not expected exception: '${expExc}'`;
     }
-    gT.l.fail(msg);
+    failWrapper(msg, mode);
     return false;
   } catch (e) {
     var str = e.toString();
 
     if (typeof expExc === 'undefined') {
-      gT.l.pass(`Expected any exception: '${str}'`)
+      gT.l.pass(`Expected any exception: '${str}'`, mode);
       return true;
     }
 
     if (str === expExc) {
-      gT.l.pass(`Expected exception: '${expExc}'`);
+      gT.l.pass(`Expected exception: '${expExc}'`, mode);
       return true;
     }
-    gT.l.fail(`Actual Exception: '${str}'\nExpected Exception: '${expExc}'`);
+    failWrapper(`Actual Exception: '${str}'\nExpected Exception: '${expExc}'`, mode);
     return false;
 
   }
 };
 
-exports.equal = function (val1, val2, msg1, msg2, doNotShowValues) {
+exports.equal = function (val1, val2, msg1, msg2, doNotShowValues, mode) {
   if (val1 === val2) {
     if (doNotShowValues) {
-      gT.l.pass(msg1 + ' === ' + msg2);
+      gT.l.pass(msg1 + ' === ' + msg2, mode);
       return true;
     }
-    gT.l.pass(msg1 + ': ' + val1 + ' === ' + msg2 + ': ' + val2);
+    gT.l.pass(msg1 + ': ' + val1 + ' === ' + msg2 + ': ' + val2, mode);
     return true;
   } else {
-    gT.l.fail(msg1 + ': ' + val1 + ' !== ' + msg2 + ': ' + val2);
+    failWrapper(msg1 + ': ' + val1 + ' !== ' + msg2 + ': ' + val2, mode);
     return false;
   }
 };
 
-exports.equalBool = function (val1, val2, msg1, msg2, doNotShowValues) {
+exports.equalBool = function (val1, val2, msg1, msg2, doNotShowValues, mode) {
   val1 = Boolean(val1);
   val2 = Boolean(val2);
   if (val1 === val2) {
     if (doNotShowValues) {
-      gT.l.pass(msg1 + ' === ' + msg2);
+      gT.l.pass(msg1 + ' === ' + msg2, mode);
       return true;
     }
-    gT.l.pass(msg1 + ' === ' + msg2 + ' === ' + val1);
+    gT.l.pass(msg1 + ' === ' + msg2 + ' === ' + val1, mode);
     return true;
   } else {
-    gT.l.fail(msg1 + ': ' + val1 + ' !== ' + msg2 + ': ' + val2);
+    failWrapper(msg1 + ': ' + val1 + ' !== ' + msg2 + ': ' + val2, mode);
     return false;
   }
 };
 
-exports.notEqualBool = function (val1, val2, msg1, msg2, doNotShowValues) {
+exports.notEqualBool = function (val1, val2, msg1, msg2, doNotShowValues, mode) {
   val1 = Boolean(val1);
   val2 = Boolean(val2);
   if (val1 !== val2) {
     if (doNotShowValues) {
-      gT.l.pass(msg1 + ' !== ' + msg2);
+      gT.l.pass(msg1 + ' !== ' + msg2, mode);
       return true;
     }
-    gT.l.pass(msg1 + ': ' + val1 + ' !== ' + msg2 + ': ' + val2);
+    gT.l.pass(msg1 + ': ' + val1 + ' !== ' + msg2 + ': ' + val2, mode);
     return true;
   } else {
-    gT.l.fail(msg1 + ' === ' + msg2 + ' === ' + val1);
+    failWrapper(msg1 + ' === ' + msg2 + ' === ' + val1, mode);
     return false;
   }
 };
 
-exports.sP = {
-  true: function (condition, msg) {
-    if (Boolean(condition)) {
-      return true;
-    } else {
-      gT.l.fail(msg);
-      return false;
-    }
-  }
-};
+// Silent pass.
+// exports.sP = {
+//   true: function (condition, msg) {
+//     if (Boolean(condition)) {
+//       return true;
+//     } else {
+//       failWrapper(msg, mode);
+//       return false;
+//     }
+//   }
+// };

@@ -50,14 +50,21 @@ exports.fail = function (msg) {
 /**
  * Logs Pass with optional msg.
  * Increases passes count.
+ * @param msg - msg to log.
+ * @param {Object} [mode] the mode
+ * @param {Boolean} [mode.passSilently] - do not show message.
+ * @param {Boolean} [mode.noPassIncrement] - do not increment pass counter.
  */
-exports.pass = function (msg) {
-  if (typeof msg !== 'undefined') {
+exports.pass = function (msg, mode) {
+  mode = mode || {passSilently: false, noPassIncrement: false};
+  if (typeof msg !== 'undefined' && !mode.passSilently) {
     if (gIn.tInfo.isPassPrintingEnabled) {
       gIn.logger.pass(ok + msg + '\n');
     } else if (gIn.params.forceLogActions) {
       gIn.cLogger.passIfEnabled(msg);
     }
   }
-  gIn.tInfo.addPass();
+  if (!mode.noPassIncrement) {
+    gIn.tInfo.addPass();
+  }
 };
