@@ -323,6 +323,6 @@ process.on('uncaughtException', (err) => {
   gIn.logger.exception(err);
 });
 
-gT.sOrig.promise.LONG_STACK_TRACES = true;
+gT.sOrig.promise.LONG_STACK_TRACES = false;
 
 require('../engine/runner.js')(testsDir);

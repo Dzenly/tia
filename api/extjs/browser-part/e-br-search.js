@@ -68,7 +68,11 @@
       if (form.isPanel) {
         form = form.getForm();
       }
-      return form.findField(name);
+      var res = form.findField(name);
+      if (!res) {
+        throw 'Can not find form field with name: ' + name;
+      }
+      return res;
     },
 
     tabByIdItemId: function (id, tabItemId) {

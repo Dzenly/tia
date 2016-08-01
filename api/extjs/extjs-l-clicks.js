@@ -2,13 +2,23 @@
 /* globals gT: true */
 /* globals gIn: true */
 
+function clickWrapper(webEl) {
+  gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
+  return webEl.click();
+}
+
+function dblClickWrapper(webEl) {
+  gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
+  return new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform();
+}
+
 function printTextAndDblClick(logAction) {
   return function (webEl) {
     webEl.getText()
       .then(function (text) { // Using of selenium queue, so not then.then.
         gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
       });
-    return new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform();
+    return dblClickWrapper(webEl);
   };
 }
 
@@ -18,7 +28,7 @@ function printTextAndClick(logAction) {
       .then(function (text) { // Using of selenium queue, so not then.then.
         gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
       });
-    return webEl.click();
+    return clickWrapper(webEl);
   };
 }
 
@@ -30,7 +40,7 @@ function printTextAndClickTextItem(logAction) {
           .then(function (text) { // Using of selenium queue, so not then.then.
             gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
           });
-        return el.click();
+        return clickWrapper(el);
       });
     // webEl.getAttribute('class')
     //   .then(function (attrVal) {
@@ -108,7 +118,7 @@ exports.comboBoxItemByIndex = function (cbId, itemIndex, logAction) {
         return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputEl('${cbId}');`, false);
       })
       .then(function (inputEl) {
-        return inputEl.click();
+        return clickWrapper(inputEl);
       })
       .then(function () {
         return gT.sOrig.driver.wait(function () {
@@ -134,7 +144,7 @@ exports.comboBoxItemByField = function (cbId, fieldValue, fieldName, logAction) 
         return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputEl('${cbId}');`, false);
       })
       .then(function (inputEl) {
-        return inputEl.click();
+        return clickWrapper(inputEl);
       })
       .then(function () {
         return gT.sOrig.driver.wait(function () {
@@ -155,7 +165,7 @@ exports.comboBoxItemByFormIdNameIndex = function (formId, name, index, logAction
     logAction, function () {
       return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
         .then(function (inputEl) {
-          return inputEl.click();
+          return clickWrapper(inputEl);
         })
         .then(function () {
           return gT.sOrig.driver.wait(function () {
@@ -176,7 +186,7 @@ exports.dblComboBoxItemByFormIdNameIndex = function (formId, name, index, logAct
     logAction, function () {
       return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
         .then(function (inputEl) {
-          return inputEl.click();
+          return clickWrapper(inputEl);
         })
         .then(function () {
           return gT.sOrig.driver.wait(function () {
@@ -197,7 +207,7 @@ exports.fieldByFormIdName = function (formId, name, logAction) {
     logAction, function () {
       return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
         .then(function (inputEl) {
-          return inputEl.click();
+          return clickWrapper(inputEl);
         });
     });
 };
@@ -207,10 +217,6 @@ exports.checkBoxByFormIdName = function (formId, name, logAction) {
     logAction, function () {
       return gT.s.browser.executeScript(`return tiaEJ.hEById.getElByFormName('${formId}', '${name}');`, false)
         .then(printTextAndClick(logAction));
-          // function (inputEl) {
-          // ;
-          // return inputEl.click();
-        // });
     });
 };
 
@@ -219,7 +225,7 @@ exports.comboBoxItemByFormIdNameField = function (formId, name, fieldValue, fiel
     logAction, function () {
       return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
         .then(function (inputEl) {
-          return inputEl.click();
+          return clickWrapper(inputEl);
         })
         .then(function () {
           return gT.sOrig.driver.wait(function () {
@@ -235,12 +241,10 @@ exports.comboBoxItemByFormIdNameField = function (formId, name, fieldValue, fiel
     });
 };
 
-//
-
-function click(fName) {
+function clickById(fName) {
   return function (dynId) {
     gIn.tracer.trace3(`${fName}:, id of found element: ${dynId}`);
-    return gT.sOrig.driver.findElement(gT.sOrig.by.id(dynId)).click();
+    return clickWrapper(gT.sOrig.driver.findElement(gT.sOrig.by.id(dynId)));
   };
 }
 
@@ -254,7 +258,7 @@ function click(fName) {
 exports.tabByIdItemId = function (id, itemId, logAction) {
   return gIn.wrap(`Click on tab ${itemId} of component ${id} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.dynId.getTabIdByIdItemId('${id}', '${itemId}')`)
-      .then(click('clickTabByIdItemId'));
+      .then(clickById('clickTabByIdItemId'));
   });
 };
 
@@ -270,7 +274,7 @@ exports.tabByIdItemId = function (id, itemId, logAction) {
 exports.tabByIdText = function (id, text, logAction) {
   return gIn.wrap(`Click on tab with text ${text} of component ${id} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.dynId.getTabIdByIdText ('${id}', '${text}')`)
-      .then(click('clickTabByIdText'));
+      .then(clickById('clickTabByIdText'));
   });
 };
 
@@ -286,7 +290,7 @@ exports.tabByIdText = function (id, text, logAction) {
 exports.tabByIdLocKey = function (id, locKey, logAction) {
   return gIn.wrap(`Click on tab with locale key ${locKey} of component ${id} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.dynId.getTabIdByIdLocKey('${id}', '${locKey}')`)
-      .then(click('clickTabByIdLocKey'));
+      .then(clickById('clickTabByIdLocKey'));
   });
 };
 
@@ -302,6 +306,6 @@ exports.tabByIdLocKey = function (id, locKey, logAction) {
 exports.compByIdRefKey = function (id, ref, key, logAction) {
   return gIn.wrap(`Click on tab by id (${id}), reference (${ref}), key ${key} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.dynId.getByIdRefKey('${id}', '${ref}', '${key}')`)
-      .then(click('clickByIdRefKey'));
+      .then(clickById('clickByIdRefKey'));
   });
 };
