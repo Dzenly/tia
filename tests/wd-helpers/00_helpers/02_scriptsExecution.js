@@ -8,7 +8,7 @@ function *test() {
   var res = yield s.browser.executeScript('return 5;');
   l.println('Result of script execution: ' + res);
 
-  yield s.browser.close();
+  // yield s.browser.close();
   yield s.driver.quit();
 }
 

@@ -3,7 +3,7 @@
 ====================    Short Log END.    ====================
 
 ====================    Verbose Log BEGIN:    ====================
-"tests", dif: 0, Fail: 31, EDif: 1, Skip: 5, Pass: 72, "The whole tests bunch for TIA"
+"tests", dif: 0, Fail: 31, EDif: 1, Skip: 5, Pass: 70, "The whole tests bunch for TIA"
 | "tia", dif: 0, Fail: 31, EDif: 1, Skip: 4, Pass: 62, ""
 | | "00_sanity", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 10, ""
 | | | "00_checkForGlobals.js", OK, fail: 0, Pass: 5, "Checking that all global variables are exist and correct."
@@ -37,9 +37,9 @@
 | | | "01_dumpObj.js", OK, fail: 0, Pass: 10, "Tests for dumpObj function"
 | | "09_extLog", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, ""
 | | | "00_extLog.js", OK, fail: 0, pass: 0, "Test for external log"
-| "wd-helpers", dif: 0, fail: 0, edif: 0, Skip: 1, Pass: 10, ""
-| | "00_helpers", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 10, ""
+| "wd-helpers", dif: 0, fail: 0, edif: 0, Skip: 1, Pass: 8, ""
+| | "00_helpers", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 8, ""
 | | | "00_generators.js", OK, fail: 0, pass: 0, "Test for generator runner"
-| | | "01_clientExceptions.js", OK, fail: 0, Pass: 5, "Test for client exceptions"
-| | | "02_scriptsExecution.js", OK, fail: 0, Pass: 5, "Test for client exceptions"
+| | | "01_clientExceptions.js", OK, fail: 0, Pass: 4, "Test for client exceptions"
+| | | "02_scriptsExecution.js", OK, fail: 0, Pass: 4, "Test for client exceptions"
 ====================    Verbose Log END.    ====================

@@ -23,7 +23,7 @@ function *test() {
 	yield s.browser.logExceptions(true);
 	yield s.browser.logConsoleContent();
 
-	yield s.browser.close();
+	// yield s.browser.close();
 	yield s.driver.quit();
 }
 
