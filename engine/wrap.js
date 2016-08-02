@@ -65,10 +65,22 @@ function *pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
 }
 
 const CANCELLING_THE_TEST = 'Cancelling the test due to hanging';
+const CANCELLING_THE_SUITE = 'Cancelling the suite due to hanging';
 
 function handleErrAtErrorHandling(msg) {
   gIn.logger.errorln(`${msg} at error handling. The test will be canceled.`);
   gIn.cancelThisTest = true;
+  if (gIn.errRecursionCount > gT.engineConsts.maxRecursiveErrCountForTest) {
+    if (!gIn.suiteErrRecursionCount) {
+      gIn.suiteErrRecursionCount = 1;
+    } else {
+      gIn.suiteErrRecursionCount++;
+      if (gIn.suiteErrRecursionCount > gT.engineConsts.maxTestCountWithRecursiveError) {
+        gIn.cancelSuite = true;
+        return gT.sOrig.promise.rejected(CANCELLING_THE_SUITE);
+      }
+    }
+  }
   return gT.sOrig.promise.rejected(CANCELLING_THE_TEST);
 }
 
@@ -98,7 +110,10 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
       gIn.tracer.trace1('Cancelling action using gIn.cancelThisTest flag');
       return gT.sOrig.promise.rejected(CANCELLING_THE_TEST);
     }
-
+    if (gIn.cancelSuite) {
+      gIn.tracer.trace1('Cancelling action using gIn.cancelSuite flag');
+      return gT.sOrig.promise.rejected(CANCELLING_THE_SUITE);
+    }
     var actResult = act();
     if (!actResult || !actResult.then) { // If result is not promise.
       return actResult;
@@ -184,7 +199,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
             gIn.errRecursionCount = 1;
           } else {
             gIn.errRecursionCount++;
-            if (gIn.errRecursionCount > 2) {
+            if (gIn.errRecursionCount > gT.engineConsts.maxRecursiveErrCountForTest) {
               return handleErrAtErrorHandling('Recursive error');
             }
           }
