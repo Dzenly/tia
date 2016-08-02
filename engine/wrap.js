@@ -162,6 +162,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         gIn.tInfo.addFail();
         gIn.logger.errorln('Act.Wrapper.FAIL' + stopTimer(startTime));
         gIn.logger.errorln('========== Err Info Begin ==========');
+        gIn.logger.errorln('Msg was: ' + msg);
         gIn.logger.exception('Exception in wrapper: ', err);
         gIn.logger.exception('Exception stack: ', err.stack);
 
