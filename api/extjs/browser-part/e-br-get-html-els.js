@@ -84,7 +84,7 @@
       window.c3 = boundList;
       var res = boundList.getNode(index);
       if (!res) {
-        throw 'getCBItemByIndex: can not find node with index: ' + index;
+        throw new Error('getCBItemByIndex: can not find node with index: ' + index);
       }
       return res;
     },
@@ -97,9 +97,9 @@
       var boundList = cb.getPicker();
       var res = boundList.getNode(index);
       if (!res) {
-        throw 'getCBItemByField: can not find node with index: ' + index
+        throw new Error('getCBItemByField: can not find node with index: ' + index
         + ', fieldName: ' + fieldName
-        + ', fieldValue: ' + fieldValue;
+        + ', fieldValue: ' + fieldValue);
       }
       return res;
     },
