@@ -126,7 +126,7 @@ exports.comboBoxItemByIndex = function (cbId, itemIndex, logAction) {
       })
       .then(function () {
         return gT.sOrig.driver.wait(function () {
-          return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisible('${cbId}');`);
+          return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisible('${cbId}', ${itemIndex});`);
         }, 5000);
       })
       .then(function () {
@@ -173,7 +173,7 @@ exports.comboBoxItemByFormIdNameIndex = function (formId, name, index, logAction
         })
         .then(function () {
           return gT.sOrig.driver.wait(function () {
-            return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisibleByFormName('${formId}', '${name}');`);
+            return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisibleByFormName('${formId}', '${name}', ${index});`);
           }, 5000);
         })
         .then(function () {
@@ -194,7 +194,7 @@ exports.dblComboBoxItemByFormIdNameIndex = function (formId, name, index, logAct
         })
         .then(function () {
           return gT.sOrig.driver.wait(function () {
-            return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisibleByFormName('${formId}', '${name}');`);
+            return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisibleByFormName('${formId}', '${name}', ${index});`);
           }, 5000);
         })
         .then(function () {

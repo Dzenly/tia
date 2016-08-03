@@ -77,17 +77,19 @@
       return this.isNthPickerItemVisible(picker, 0);
     },
 
-    isCBPickerVisible: function (cb) {
+    isCBPickerVisible: function (cb, itemIndex) {
+      itemIndex = itemIndex || 0;
       var boundList = cb.getPicker();
       return boundList.isVisible(true) && cb.isExpanded && !cb.isDisabled()
-        && this.isFirstPickerItemVisible(boundList);
+        && this.isNthPickerItemVisible(boundList, itemIndex);
     },
 
-    isCBPickerVisibleByFormName: function (form, name) {
+    isCBPickerVisibleByFormName: function (form, name, itemIndex) {
+      itemIndex = itemIndex || 0;
       var cb = tiaEJ.search.byFormAndName(form, name);
       var boundList = cb.getPicker();
       return boundList.isVisible(true) && cb.isExpanded && !cb.isDisabled()
-        && this.isFirstPickerItemVisible(boundList);
+        && this.isNthPickerItemVisible(boundList, itemIndex);
     },
 
     getCBItemByIndex: function (cb, index) {
