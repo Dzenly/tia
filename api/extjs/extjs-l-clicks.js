@@ -3,12 +3,16 @@
 /* globals gIn: true */
 
 function clickWrapper(webEl) {
-  gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
+  if (gT.engineConsts.extJsClickDelay) {
+    gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
+  }
   return webEl.click();
 }
 
 function dblClickWrapper(webEl) {
-  gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
+  if (gT.engineConsts.extJsClickDelay) {
+    gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
+  }
   return new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform();
 }
 

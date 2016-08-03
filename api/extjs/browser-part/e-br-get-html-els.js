@@ -82,7 +82,11 @@
         boundList = boundList.getView();
       }
       window.c3 = boundList;
-      return boundList.getNode(index);
+      var res = boundList.getNode(index);
+      if (!res) {
+        throw 'getCBItemByIndex: can not find node with index: ' + index;
+      }
+      return res;
     },
 
     getCBItemByField: function (cb, fieldValue, fieldName) {
@@ -91,7 +95,13 @@
         return null;
       }
       var boundList = cb.getPicker();
-      return boundList.getNode(index);
+      var res = boundList.getNode(index);
+      if (!res) {
+        throw 'getCBItemByField: can not find node with index: ' + index
+        + ', fieldName: ' + fieldName
+        + ', fieldValue: ' + fieldValue;
+      }
+      return res;
     },
 
     getCBItemByFormNameIndex: function (form, name, index) {
