@@ -153,7 +153,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
       function (val) {
         gIn.tracer.trace3('Wrapper: after action execute, msg: ' + msg);
         flow.execute(function *() {
-          gIn.tInfo.addPass(); // will be taken from global sandbox.
+          // gIn.tInfo.addPass();
           yield *pauseAndLogOk(logAction, startTime, noConsoleAndExceptions);
         });
         return val; // This value will be returned from yield.
