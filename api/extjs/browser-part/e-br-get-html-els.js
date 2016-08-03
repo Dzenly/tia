@@ -65,15 +65,25 @@
       return field.getInputId();
     },
 
+    isFirstPickerItemVisible: function(picker) {
+      if (picker.isXType('tablepanel')) {
+        picker = picker.getView();
+      }
+      var res = Boolean(picker.getNode(0));
+      return res;
+    },
+
     isCBPickerVisible: function (cb) {
       var boundList = cb.getPicker();
-      return boundList.isVisible(true) && cb.isExpanded && !cb.isDisabled();
+      return boundList.isVisible(true) && cb.isExpanded && !cb.isDisabled()
+        && this.isFirstPickerItemVisible(boundList);
     },
 
     isCBPickerVisibleByFormName: function (form, name) {
       var cb = tiaEJ.search.byFormAndName(form, name);
       var boundList = cb.getPicker();
-      return boundList.isVisible(true) && cb.isExpanded && !cb.isDisabled();
+      return boundList.isVisible(true) && cb.isExpanded && !cb.isDisabled()
+        && this.isFirstPickerItemVisible(boundList);
     },
 
     getCBItemByIndex: function (cb, index) {
