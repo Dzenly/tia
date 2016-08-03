@@ -17,6 +17,8 @@ exports.checkCheckboxAffects = function *(formId, checkBoxName, directFields, re
     const resAccName = 'checkCBAffects';
     a.initResultsAccumulator(resAccName);
 
+    yield e.wait.ajaxRequestsFinish();
+
     let isSet = yield e.getByFormIdName.rawValue(formId, checkBoxName);
 
     for (let i = 0, len = directFields.length; i < len; i++) {
@@ -32,6 +34,7 @@ exports.checkCheckboxAffects = function *(formId, checkBoxName, directFields, re
     }
 
     yield e.lClick.checkBoxByFormIdName(formId, checkBoxName);
+    yield e.wait.ajaxRequestsFinish();
     isSet = !isSet;
     a.true(isSet === (yield e.getByFormIdName.rawValue(formId, checkBoxName)),
       'Checkbox state changed after click', {passSilently: true, noPassIncrement: true, accName: resAccName});
@@ -47,6 +50,7 @@ exports.checkCheckboxAffects = function *(formId, checkBoxName, directFields, re
     }
 
     yield e.lClick.checkBoxByFormIdName(formId, checkBoxName);
+    yield e.wait.ajaxRequestsFinish();
     isSet = !isSet;
     a.true(isSet === (yield e.getByFormIdName.rawValue(formId, checkBoxName)),
       'Checkbox state changed after click', {passSilently: true, noPassIncrement: true, accName: resAccName});
