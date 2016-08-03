@@ -65,12 +65,16 @@
       return field.getInputId();
     },
 
-    isFirstPickerItemVisible: function(picker) {
+    isNthPickerItemVisible: function(picker, n) {
       if (picker.isXType('tablepanel')) {
         picker = picker.getView();
       }
-      var res = Boolean(picker.getNode(0));
+      var res = Boolean(picker.getNode(n));
       return res;
+    },
+
+    isFirstPickerItemVisible: function(picker) {
+      return this.isNthPickerItemVisible(picker, 0);
     },
 
     isCBPickerVisible: function (cb) {
