@@ -188,8 +188,10 @@ exports.comboBoxItemByFormIdNameIndex = function (formId, name, index, logAction
 exports.dblComboBoxItemByFormIdNameIndex = function (formId, name, index, logAction) {
   return gIn.wrap(`Double Click combobox item by formId: ${formId}, name: ${name}, index: ${index}`,
     logAction, function () {
+      var extInputEl;
       return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
         .then(function (inputEl) {
+          extInputEl = inputEl;
           return clickWrapper(inputEl)
             .then(function () {
               return gT.e.wait.ajaxRequestsFinish(5000, false);
@@ -202,7 +204,7 @@ exports.dblComboBoxItemByFormIdNameIndex = function (formId, name, index, logAct
         })
         .then(function () {
         }, function (err) { // One more chance to click combobox.
-          return clickWrapper(inputEl)
+          return clickWrapper(extInputEl)
             .then(function () {
               return gT.e.wait.ajaxRequestsFinish(5000, false);
             })
@@ -242,8 +244,10 @@ exports.checkBoxByFormIdName = function (formId, name, logAction) {
 exports.comboBoxItemByFormIdNameField = function (formId, name, fieldValue, fieldName, logAction) {
   return gIn.wrap(`Click combobox item by formId: ${formId}, name: ${name}, fieldName: ${fieldName}, fieldValue: ${fieldValue}`,
     logAction, function () {
+      var extInputEl;
       return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
         .then(function (inputEl) {
+          extInputEl = inputEl;
           return clickWrapper(inputEl)
             .then(function () {
               return gT.e.wait.ajaxRequestsFinish(5000, false);
@@ -256,7 +260,7 @@ exports.comboBoxItemByFormIdNameField = function (formId, name, fieldValue, fiel
         })
         .then(function () {
         }, function (err) { // One more chance to click combobox.
-          return clickWrapper(inputEl)
+          return clickWrapper(extInputEl)
             .then(function () {
               return gT.e.wait.ajaxRequestsFinish(5000, false);
             })
