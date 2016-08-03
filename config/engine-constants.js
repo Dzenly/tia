@@ -45,7 +45,7 @@ module.exports = {
 
   // Delay before click on ExtJs element. It seems like ExtJs does not handle
   // too fast clicking.
-  extJsClickDelay: 500, // milliseconds.
+  extJsClickDelay: 200, // milliseconds.
 
   maxRecursiveErrCountForTest: 2, // Maximum recursive errors count for one test.
 
