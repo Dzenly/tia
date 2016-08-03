@@ -190,12 +190,27 @@ exports.dblComboBoxItemByFormIdNameIndex = function (formId, name, index, logAct
     logAction, function () {
       return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
         .then(function (inputEl) {
-          return clickWrapper(inputEl);
+          return clickWrapper(inputEl)
+            .then(function () {
+              return gT.e.wait.ajaxRequestsFinish(5000, false);
+            });
         })
         .then(function () {
           return gT.sOrig.driver.wait(function () {
             return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisibleByFormName('${formId}', '${name}', ${index});`);
-          }, 5000);
+          }, 3000);
+        })
+        .then(function () {
+        }, function (err) { // One more chance to click combobox.
+          return clickWrapper(inputEl)
+            .then(function () {
+              return gT.e.wait.ajaxRequestsFinish(5000, false);
+            })
+            .then(function () {
+              return gT.sOrig.driver.wait(function () {
+                return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisibleByFormName('${formId}', '${name}');`);
+              }, 3000);
+            });
         })
         .then(function () {
           return gT.s.browser.executeScript(
@@ -229,12 +244,27 @@ exports.comboBoxItemByFormIdNameField = function (formId, name, fieldValue, fiel
     logAction, function () {
       return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
         .then(function (inputEl) {
-          return clickWrapper(inputEl);
+          return clickWrapper(inputEl)
+            .then(function () {
+              return gT.e.wait.ajaxRequestsFinish(5000, false);
+            });
         })
         .then(function () {
           return gT.sOrig.driver.wait(function () {
             return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisibleByFormName('${formId}', '${name}');`);
-          }, 5000);
+          }, 3000);
+        })
+        .then(function () {
+        }, function (err) { // One more chance to click combobox.
+          return clickWrapper(inputEl)
+            .then(function () {
+              return gT.e.wait.ajaxRequestsFinish(5000, false);
+            })
+            .then(function () {
+              return gT.sOrig.driver.wait(function () {
+                return gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisibleByFormName('${formId}', '${name}');`);
+              }, 3000);
+            });
         })
         .then(function () {
           return gT.s.browser.executeScript(
