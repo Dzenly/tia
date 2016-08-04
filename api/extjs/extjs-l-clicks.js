@@ -16,7 +16,7 @@ exports.delayAndClick = function(webEl, isDblClick) {
     gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
   }
   gIn.tracer.trace3('delayAndClick: before click');
-  return isDblClick ? new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform() : webEl.click();
+  return isDblClick ? (new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform()) : webEl.click();
 };
 
 exports.createFuncPrintTextDelayClick = function (isDblClick, logAction) {
