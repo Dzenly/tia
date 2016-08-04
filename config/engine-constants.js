@@ -57,7 +57,7 @@ module.exports = {
   // Comboboxes have a glitch, at one left click they can open bouldList and immediately close it.
   // This constant sets how many times tia will retry to click comboboxes if bound List is not opened.
   // If retry count is 0 the only one attempt to click combobox will be performed.
-  cbRetryClicksCount: 1,
+  cbRetryClicksCount: 2,
 
   cbBoundListTimeout: 3000, // milliseconds for waiting of bound list to be opened after click on combobox.
 
