@@ -12,14 +12,17 @@ function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, 
     }
     return gT.e.lClick.clickAndWaitForAjaxFinish(inputEl)
       .then(function () {
-        return gT.sOrig.driver.wait(function () {
-          return gT.s.browser.executeScriptWrapper(jsWaitBoundList);
-        }, gT.engineConsts.cbBoundListTimeout);
-      }, function (err) {
-        // Sometimes combobox treated one click as two and closes immediately after open.
-        // So this code gives a second chance to it.
-        gIn.tracer.trace1('Using one more chance to click combo box');
-        return clickCb(inputEl, count + 1);
+        return gT.sOrig.driver.wait(
+          function () {
+            return gT.s.browser.executeScriptWrapper(jsWaitBoundList);
+          }, gT.engineConsts.cbBoundListTimeout
+        )
+          .catch(function (err) {
+            // Sometimes combobox treated one click as two and closes immediately after open.
+            // So this code gives a second chance to it.
+            gIn.tracer.trace1('Using one more chance to click combo box');
+            return clickCb(inputEl, count + 1);
+          });
       })
       .then(function () {
         return gT.s.browser.executeScript(jsGetListItem, false);
@@ -29,7 +32,7 @@ function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, 
 }
 
 function createFuncClickCbByJsToGetInputEl(jsGetInputEl, jsWaitBoundList, jsGetListItem, isDblClick, logAction) {
-  return function() {
+  return function () {
     return gT.s.browser.executeScript(jsGetInputEl, false)
       .then(createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, logAction));
   }
