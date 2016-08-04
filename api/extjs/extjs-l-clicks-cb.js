@@ -26,14 +26,18 @@ function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, 
           });
       })
       .catch(function (err) {
-        gIn.tracer.trace1('Using one more chance to click combo box (click failed)');
+        gIn.tracer.trace1('Using one more chance to click combo box (inputEl click failed)');
         return clickCb(inputEl, count + 1);
       })
       .then(function () {
         gIn.tracer.trace3('Before get list item');
         return gT.s.browser.executeScript(jsGetListItem, false);
       })
-      .then(gT.e.lClick.createFuncPrintTextDelayClick(isDblClick, logAction));
+      .then(gT.e.lClick.createFuncPrintTextDelayClick(isDblClick, logAction))
+      .catch(function (err) {
+        gIn.tracer.trace1('Using one more chance to click combo box (item click failed)');
+        return clickCb(inputEl, count + 1);
+      });
   };
 }
 
