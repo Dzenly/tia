@@ -82,4 +82,6 @@ gT.e.getByFormIdName = require('./extjs-get-by-formIdName.js');
 gT.e.hL = require('./extjs-hl.js');
 
 gT.e.lClick = require('./extjs-l-clicks.js');
+gT.e.lClick.cb = require('./extjs-l-clicks-cb.js');
+
 gT.e.wait = require('./extjs-waits.js');

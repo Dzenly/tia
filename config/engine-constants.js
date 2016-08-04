@@ -51,5 +51,17 @@ module.exports = {
 
   // Maximum tests count with recursive errors if this limit is exceeded
   // all tests will be cancelled.
-  maxTestCountWithRecursiveError: 2
+  maxTestCountWithRecursiveError: 2,
+
+
+  // Comboboxes have a glitch, at one left click they can open bouldList and immediately close it.
+  // This constant sets how many times tia will retry to click comboboxes if bound List is not opened.
+  // If retry count is 0 the only one attempt to click combobox will be performed.
+  cbRetryClicksCount: 1,
+
+  cbBoundListTimeout: 3000, // milliseconds for waiting of bound list to be opened after click on combobox.
+
+  // milliseconds for waiting of ajax requests after clicks.
+  // This is actual for lazy loading some stuff at clicking.
+  ajaxTimeoutAfterClick: 5000,
 };

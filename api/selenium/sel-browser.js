@@ -49,6 +49,20 @@ exports.initTiaBrHelpers = function (logAction) {
   });
 };
 
+/**
+ * Prepares parameters for JS calls in browser.
+ * @param val
+ * @returns {string}
+ */
+exports.valueToParameter = function (val) {
+  if (typeof val === 'number') {
+    return `${val}`;
+  }
+  if (typeof val === 'string') {
+    return `'${val}'`;
+  }
+};
+
 // exports.initTiaBrHelpers = function (logAction) {
 //   return gIn.wrap('Initialization of TIA helpers ... ', logAction, function () {
 //     return exports.executeScriptFromFile(mPath.join(__dirname, 'browser-part/tia-br-helpers.js'), false);
