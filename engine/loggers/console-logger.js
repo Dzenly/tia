@@ -14,12 +14,24 @@ if (!process.env.TIA_NO_COLORS) {
 // exports.isChalkEnabled = isChalkEnabled;
 
 /**
+ * Tracks EOL of last message printed to console.
+ * @param msg
+ */
+function trackEOL(msg) {
+  if (Boolean(msg.match(/(\n|\r)$/))) {
+    gIn.tracePref = '';
+  } else {
+    gIn.tracePref = '\n';
+  }
+}
+
+/**
  * Writes msg to stdout as is.
  * @param msg
  */
 exports.msg = function (msg) {
   process.stdout.write(msg);
-  // gIn.eOL = true;
+  trackEOL(msg);
 };
 
 exports.msgln = function (msg) {
@@ -51,6 +63,7 @@ exports.chalkWrap = function (chalkProps, msg) {
  */
 exports.msgDifStr = function (msg) {
   process.stdout.write(exports.chalkWrap(['yellow', 'bold'], msg));
+  trackEOL(msg);
 };
 
 /**
@@ -62,7 +75,7 @@ exports.err = function (msg) {
     msg = chalk.red(msg);
   }
   process.stdout.write(msg);
-  // gIn.eOL = true;
+  trackEOL(msg);
 };
 
 
