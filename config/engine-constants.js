@@ -63,7 +63,7 @@ module.exports = {
 
   // milliseconds for waiting of ajax requests after clicks.
   // This is actual for lazy loading some stuff at clicking.
-  ajaxTimeoutAfterClick: 5000,
+  ajaxTimeoutAfterClick: 5000, // TODO: increase after good debugging. For now low value is needed to detect unstable parts.
 
   elGetTextFail: 'ElGetTextFail' // The error message for getText fail for Web Element.
 };

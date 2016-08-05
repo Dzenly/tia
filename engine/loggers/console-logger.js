@@ -19,6 +19,7 @@ if (!process.env.TIA_NO_COLORS) {
  */
 exports.msg = function (msg) {
   process.stdout.write(msg);
+  // gIn.eOL = true;
 };
 
 exports.msgln = function (msg) {
@@ -61,6 +62,7 @@ exports.err = function (msg) {
     msg = chalk.red(msg);
   }
   process.stdout.write(msg);
+  // gIn.eOL = true;
 };
 
 

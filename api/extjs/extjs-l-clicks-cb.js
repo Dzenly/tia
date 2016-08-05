@@ -3,6 +3,7 @@
 /* globals gIn: true */
 
 function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, logAction) {
+
   return function clickCb(inputEl, count, noPrint) {
     count = count || 0;
     if (count > gT.engineConsts.cbRetryClicksCount) {
@@ -10,7 +11,7 @@ function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, 
       gIn.tracer.err(errStr);
       return gT.sOrig.promise.rejected(new Error(errStr));
     }
-    return gT.e.lClick.clickAndWaitForAjaxFinish(inputEl)
+    return gT.e.lClick.clickAndWaitForAjaxFinish(inputEl, 5000)
       .then(function () {
         gIn.tracer.msg3('Before wait after cb inputEl click');
         return gT.sOrig.driver.wait(
@@ -18,32 +19,33 @@ function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, 
             return gT.s.browser.executeScriptWrapper(jsWaitBoundList);
           }, gT.engineConsts.cbBoundListTimeout
         )
-          .catch(function (err) {
+          .catch(function (err) { // Catch for bound list wait.
             gIn.tracer.exc(err);
             // Sometimes combobox treated one click as two and closes immediately after open.
             // So this code gives a second chance to it.
-            gIn.tracer.msg1('Using one more chance to click combo box (wait failed)');
+            gIn.tracer.msg1('Using one more chance to click combo box (bound list wait failed)');
             return clickCb(inputEl, count + 1, noPrint);
           });
-      })
-      .catch(function (err) {
+      }, function (err) { // Catch for click or ajax wait.
         gIn.tracer.exc(err);
-        gIn.tracer.msg1('Using one more chance to click combo box (inputEl click failed)');
+        gIn.tracer.msg1('Using one more chance to click combo box (inputEl click or ajax wait failed)');
         return clickCb(inputEl, count + 1, noPrint);
       })
       .then(function () {
         gIn.tracer.msg3('Before get list item');
         return gT.s.browser.executeScript(jsGetListItem, false);
       })
-      .then(gT.e.lClick.createFuncPrintTextDelayClick(isDblClick, noPrint , logAction))
-      .catch(function (err) {
-        gIn.tracer.exc(err);
-        gIn.tracer.msg1('Using one more chance to click combo box (item click failed)');
-        if (err !== gT.engineConsts.elGetTextFail) {
-          noPrint = true;
-        }
-        return clickCb(inputEl, count + 1, noPrint);
-      });
+      .then(function (el) {
+        return gT.e.lClick.createFuncPrintTextDelayClick(isDblClick, noPrint, logAction)(el)
+          .catch(function (err) { // Catch for text item getting or click.
+            gIn.tracer.exc(err);
+            gIn.tracer.msg1('Using one more chance to click combo box (item click failed)');
+            if (err !== gT.engineConsts.elGetTextFail) {
+              noPrint = true;
+            }
+            return clickCb(inputEl, count + 1, noPrint);
+          });
+      })
   };
 }
 

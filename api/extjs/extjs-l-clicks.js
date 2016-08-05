@@ -2,12 +2,13 @@
 /* globals gT: true */
 /* globals gIn: true */
 
-exports.clickAndWaitForAjaxFinish = function (webEl) {
+exports.clickAndWaitForAjaxFinish = function (webEl, waitTimeout) {
+  waitTimeout = waitTimeout || gT.engineConsts.ajaxTimeoutAfterClick;
   if (gT.engineConsts.extJsClickDelay) {
     gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
   }
   return webEl.click().then(function () {
-    return gT.e.wait.ajaxRequestsFinish(gT.engineConsts.ajaxTimeoutAfterClick, false);
+    return gT.e.wait.ajaxRequestsFinish(waitTimeout, false);
   });
 };
 

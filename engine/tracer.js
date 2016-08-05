@@ -7,7 +7,7 @@ exports.err = function (msg) {
 };
 
 exports.exc = function (err) {
-  gIn.cLogger.errln(gIn.textUtils.excToStr(err));
+  gIn.cLogger.errln('TRCEXC: ' + gIn.textUtils.excToStr(err));
 };
 
 // To distinct tracing from common console.log's.
