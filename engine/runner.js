@@ -17,7 +17,7 @@ function getOs() {
 
 function runTestFile(file) {
 
-  gIn.tracer.trace2('Starting new test: ' + file);
+  gIn.tracer.msg2('Starting new test: ' + file);
 
   gIn.errRecursionCount = 0;
   gIn.cancelThisTest = false;
@@ -114,7 +114,7 @@ function handleDirConfig(dir, files, prevDirConfig) {
  * @param prevDirConfig
  */
 function *handleTestDir(dir, prevDirConfig) {
-  gIn.tracer.trace3('handleDir Dir: ' + dir);
+  gIn.tracer.msg3('handleDir Dir: ' + dir);
   var files = fs.readdirSync(dir);
   var dirConfig = handleDirConfig(dir, files, prevDirConfig);
   var dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
@@ -133,7 +133,7 @@ function *handleTestDir(dir, prevDirConfig) {
       innerCurInfo = yield *handleTestFile(fileOrDirPath, dirConfig);
     } else if (stat.isDirectory()) {
       if (fileOrDir === gT.engineConsts.profileRootDir) {
-        gIn.tracer.trace3('Skipping directory, because it is browser profile');
+        gIn.tracer.msg3('Skipping directory, because it is browser profile');
         continue;
       }
       innerCurInfo = yield *handleTestDir(fileOrDirPath, dirConfig);
@@ -193,7 +193,7 @@ function *runTestSuite(dir) {
       fs.writeFileSync(etDif, metaLogEtDifRes, {encoding: gT.engineConsts.logEncoding});
       txtAttachments.push(etDif);
     }
-    gIn.tracer.trace3('metaLogEtDifRes: ' + metaLogEtDifResBool);
+    gIn.tracer.msg3('metaLogEtDifRes: ' + metaLogEtDifResBool);
     etMlogInfo = metaLogEtDifResBool ? 'DIF_MLOG, ' : 'ET_MLOG, ';
     etMlogInfoCons = metaLogEtDifResBool ? gIn.cLogger.chalkWrap('red', 'DIF_MLOG') + ', ' :
     gIn.cLogger.chalkWrap('green', 'ET_MLOG') + ', ';
@@ -257,7 +257,7 @@ module.exports = function (suiteRoot) {
           process.exitCode = exitStatus;
         },
         function (err) {
-          gIn.tracer.traceErr('Runner ERR: ' + gIn.textUtils.excToStr(err));
+          gIn.tracer.err('Runner ERR: ' + gIn.textUtils.excToStr(err));
           process.exitCode = 1;
         }
       );

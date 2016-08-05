@@ -11,7 +11,7 @@
  * Can be used for debug.
  */
 exports.setPassed = function (newCount) {
-  gIn.tracer.trace3('Changing passed tests count to ' + newCount);
+  gIn.tracer.msg3('Changing passed tests count to ' + newCount);
   gIn.tInfo.data.passed = newCount;
 };
 
@@ -20,7 +20,7 @@ exports.setPassed = function (newCount) {
  * Can be used for debug.
  */
 exports.setFailed = function (newCount) {
-  gIn.tracer.trace3('Changing failed tests count to ' + newCount);
+  gIn.tracer.msg3('Changing failed tests count to ' + newCount);
   gIn.tInfo.data.failed = newCount;
 };
 

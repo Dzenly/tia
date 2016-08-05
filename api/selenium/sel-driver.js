@@ -35,7 +35,7 @@ exports.init = function (cleanProfile, logAction) {
 
     if (gIn.config.selProfilePath) {
       profileAbsPath = mpath.resolve(mpath.join(gIn.params.profileRootPath, gIn.config.selProfilePath));
-      gIn.tracer.trace2('Profile path: ' + profileAbsPath);
+      gIn.tracer.msg2('Profile path: ' + profileAbsPath);
     }
 
     var options;
@@ -85,7 +85,7 @@ exports.init = function (cleanProfile, logAction) {
         break;
     }
 
-    gIn.tracer.trace3(util.inspect(capabilities));
+    gIn.tracer.msg3(util.inspect(capabilities));
 
     var prefs = new gT.sOrig.wdModule.logging.Preferences();
     // TODO: this parameter correctly works only for chrome.
@@ -112,14 +112,14 @@ exports.init = function (cleanProfile, logAction) {
       var remoteDriverConnectionStr = gT.suiteConfig.remoteDriverUrl + ':' + gT.suiteConfig.remoteDriverPort;
 
       if (sid) {
-        gIn.tracer.trace3('There is current SID');
+        gIn.tracer.msg3('There is current SID');
         gT.firstRunWithRemoteDriver = false;
         var executor = gT.sOrig.executors.createExecutor(remoteDriverConnectionStr);
         gT.sOrig.driver = gT.sOrig.wdModule.WebDriver.attachToSession(
           executor,
           sid);
       } else {
-        gIn.tracer.trace3('There is not current SID');
+        gIn.tracer.msg3('There is not current SID');
         gT.firstRunWithRemoteDriver = true;
         gT.sOrig.driver = new gT.sOrig.wdModule.Builder()
           .forBrowser(gIn.params.browser)
@@ -132,7 +132,7 @@ exports.init = function (cleanProfile, logAction) {
         gT.sOrig.driver.getSession()
           .then(function (res) {
             let sid = gIn.remoteDriverUtils.saveSid(res.getId());
-            gIn.tracer.trace3('Saved session id: ' + res.getId());
+            gIn.tracer.msg3('Saved session id: ' + res.getId());
           })
           .catch(function (e) {
             gIn.logger.exception('Error at getSession: ', e);

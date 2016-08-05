@@ -14,7 +14,7 @@ function *safeGen(gen) {
     yield* gen();
   } catch (e) {
     if (gIn.params.errToConsole) {
-      gIn.tracer.traceErr('Safe Generator caught error: ' + gIn.textUtils.excToStr(e));
+      gIn.tracer.err('Safe Generator caught error: ' + gIn.textUtils.excToStr(e));
     }
     gT.l.println('Safe Generator caught error: ' + gIn.textUtils.excToStr(e));
   }
@@ -32,11 +32,11 @@ gT.u.execGen = function (gen) {
   return gT.sOrig.flow.execute(function () { // Safe variant.
     return gT.sOrig.promise.consume(safeGen, null, gen)
       .catch(function (err) {
-        gIn.tracer.traceErr('execGen, consume: ' + err);
+        gIn.tracer.err('execGen, consume: ' + err);
       });
   })
     .catch(function (err) {
-      gIn.tracer.traceErr('execGen, (flow.execute): ' + err);
+      gIn.tracer.err('execGen, (flow.execute): ' + err);
     });
 };
 

@@ -36,8 +36,8 @@ exports.handleSuiteConfig = function () {
   try {
     localSuiteConfig = nodeUtils.requireEx(configPath, true).result;
   } catch (e) {
-    gIn.tracer.trace2(e);
-    gIn.tracer.trace2('There is no Local Suite Config: ' + configPath);
+    gIn.tracer.msg2(e);
+    gIn.tracer.msg2('There is no Local Suite Config: ' + configPath);
   }
   gT.suiteConfig = exports.mergeConfigs(gT.suiteConfigDefault, localSuiteConfig);
 };

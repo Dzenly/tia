@@ -98,20 +98,20 @@ function handleErrAtErrorHandling(msg) {
  * @private
  */
 module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
-  gIn.tracer.trace3('Inside wrapper, before start timer,  msg: ' + msg);
+  gIn.tracer.msg3('Inside wrapper, before start timer,  msg: ' + msg);
   var startTime;
   flow.execute(function () {
     gIn.logger.logIfNotDisabled(msg, logAction);
     startTime = startTimer();
-    gIn.tracer.trace3('Inside wrapper, after start timer, msg: ' + msg);
+    gIn.tracer.msg3('Inside wrapper, after start timer, msg: ' + msg);
   });
   return flow.execute(function () {
     if (gIn.cancelThisTest) {
-      gIn.tracer.trace1('Cancelling action using gIn.cancelThisTest flag');
+      gIn.tracer.msg1('Cancelling action using gIn.cancelThisTest flag');
       return gT.sOrig.promise.rejected(CANCELLING_THE_TEST);
     }
     if (gIn.cancelSuite) {
-      gIn.tracer.trace1('Cancelling action using gIn.cancelSuite flag');
+      gIn.tracer.msg1('Cancelling action using gIn.cancelSuite flag');
       return gT.sOrig.promise.rejected(CANCELLING_THE_SUITE);
     }
     var actResult = act();
@@ -126,9 +126,9 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         gIn.screenShotScheduled = true;
         setTimeout(function () { // To use another queue, because next reject will clear this queue.
           flow.execute(function () {
-            gIn.tracer.trace1('Getting a screenshot for hanged action.');
+            gIn.tracer.msg1('Getting a screenshot for hanged action.');
             return gT.s.browser.screenshot().catch(function (err) {
-              gIn.tracer.traceErr('Error at screenshot for hanged action.');
+              gIn.tracer.err('Error at screenshot for hanged action.');
             });
           });
         }, 0);
@@ -151,7 +151,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
   })
     .then(
       function (val) {
-        gIn.tracer.trace3('Wrapper: after action execute, msg: ' + msg);
+        gIn.tracer.msg3('Wrapper: after action execute, msg: ' + msg);
         flow.execute(function *() {
           // gIn.tInfo.addPass();
           yield *pauseAndLogOk(logAction, startTime, noConsoleAndExceptions);
@@ -169,25 +169,25 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         if (typeof gT.sOrig.driver !== 'undefined' && !gIn.errRecursionCount) {
           gIn.errRecursionCount = 1; // To prevent recursive error report on error report.
           /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
-          gIn.tracer.trace1('Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.');
+          gIn.tracer.msg1('Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.');
           gT.s.browser.screenshot().catch(function (err) {
-            gIn.tracer.trace1('Error at screenshot at error handling');
+            gIn.tracer.msg1('Error at screenshot at error handling');
           });
           if (!gIn.brHelpersInitiated) {
             gT.s.browser.initTiaBrHelpers(true).catch(function (err) {
-              gIn.tracer.trace1('Error at initTiaBrHelpers at error handling');
+              gIn.tracer.msg1('Error at initTiaBrHelpers at error handling');
             });
           }
           gT.s.browser.logExceptions(true, true).catch(function (err) {
-            gIn.tracer.trace1('Error at logExceptions at error handling');
+            gIn.tracer.msg1('Error at logExceptions at error handling');
           });
           gT.s.browser.logConsoleContent().catch(function (err) {
-            gIn.tracer.trace1('Error at logConsoleContent at error handling');
+            gIn.tracer.msg1('Error at logConsoleContent at error handling');
           });
           if (!gIn.params.keepBrowserAtError) {
             return gT.s.driver.quit(true).then(function () {
               gIn.logger.errorln('========== Err Info End ==========');
-              gIn.tracer.trace1('sOrig.driver deletion');
+              gIn.tracer.msg1('sOrig.driver deletion');
               delete gT.sOrig.driver;
               // yield will generate exception with this object.
               return promise.rejected('Error in action (sel. driver was existed)');
@@ -211,7 +211,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
             if (!gIn.params.keepBrowserAtError) {
               return gT.s.driver.quit(true)
                 .then(function () {
-                  gIn.tracer.trace2('sOrig.driver deletion (error at error handling)');
+                  gIn.tracer.msg2('sOrig.driver deletion (error at error handling)');
                   delete gT.sOrig.driver;
                 }).catch(function (err) {
                   return handleErrAtErrorHandling('Error at quit');

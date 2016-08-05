@@ -2,7 +2,7 @@
 /* globals gT: true */
 /* globals gIn: true */
 
-exports.clickAndWaitForAjaxFinish = function(webEl) {
+exports.clickAndWaitForAjaxFinish = function (webEl) {
   if (gT.engineConsts.extJsClickDelay) {
     gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
   }
@@ -11,21 +11,33 @@ exports.clickAndWaitForAjaxFinish = function(webEl) {
   });
 };
 
-exports.delayAndClick = function(webEl, isDblClick) {
+exports.delayAndClick = function (webEl, isDblClick) {
   if (gT.engineConsts.extJsClickDelay) {
     gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
   }
-  gIn.tracer.trace3('delayAndClick: before click');
+  gIn.tracer.msg3('delayAndClick: before click');
   return isDblClick ? (new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform()) : webEl.click();
 };
 
-exports.createFuncPrintTextDelayClick = function (isDblClick, logAction) {
+exports.createFuncPrintTextDelayClick = function (isDblClick, noPrint, logAction) {
+  if (noPrint) {
+    return function (webEl) {
+      return exports.delayAndClick(webEl, isDblClick);
+    }
+  }
   return function (webEl) {
-    webEl.getText()
-      .then(function (text) { // Using of selenium queue, so not then.then.
-        gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
+    return webEl.getText()
+      .then(
+        function (text) { // Using of selenium queue, so not then.then.
+          gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
+        },
+        function (err) {
+          gIn.tracer.err(err);
+          return gT.sOrig.promise.rejected(gT.engineConsts.elGetTextFail);
+        })
+      .then(function () {
+        return exports.delayAndClick(webEl, isDblClick);
       });
-    return exports.delayAndClick(webEl, isDblClick);
   };
 };
 
@@ -95,13 +107,13 @@ exports.checkBoxByFormIdName = function (formId, name, logAction) {
   return gIn.wrap(`Click checkBox (name: ${name}) on form (id: ${formId}) ... `,
     logAction, function () {
       return gT.s.browser.executeScript(`return tiaEJ.hEById.getElByFormName('${formId}', '${name}');`, false)
-        .then(exports.createFuncPrintTextDelayClick(logAction));
+        .then(exports.createFuncPrintTextDelayClick(false, false, logAction));
     });
 };
 
 function createFuncDelayAndClickById(callerName) {
   return function (dynId) {
-    gIn.tracer.trace3(`${callerName}:, id of element: ${dynId}`);
+    gIn.tracer.msg3(`${callerName}:, id of element: ${dynId}`);
     return exports.delayAndClick(gT.sOrig.driver.findElement(gT.sOrig.by.id(dynId)));
   };
 }

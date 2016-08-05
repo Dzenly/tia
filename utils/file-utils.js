@@ -82,7 +82,7 @@ exports.rmDir = function (dir, removeSelf) {
           fs.unlinkSync(filePath);
         }
       } catch (e) {
-        gIn.tracer.traceErr('rmDir: ' + gIn.textUtils.excToStr(e));
+        gIn.tracer.err('rmDir: ' + gIn.textUtils.excToStr(e));
       }
       if (fdata.isDirectory()) {
         exports.rmDir(filePath, true);
@@ -172,8 +172,8 @@ exports.archiveSuiteDir = function (dirInfo) {
   try {
     child_process.execSync('zip ' + arcName + ' ' + arr.join(' '), {stdio: [null, null, null]});
   } catch (e) {
-    gIn.tracer.traceErr('zip stderr: ' + e.stderr.toString());
-    gIn.tracer.traceErr('zip stdout: ' + e.stdout.toString());
+    gIn.tracer.err('zip stderr: ' + e.stderr.toString());
+    gIn.tracer.err('zip stdout: ' + e.stdout.toString());
     throw(new Error('Error with zip'));
   }
 

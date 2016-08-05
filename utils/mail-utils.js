@@ -54,7 +54,7 @@ var mailOptions = {
  */
 exports.send = function (subj, txtAttachments, zipAttachments) {
   if (gIn.params.disableEmail || !gT.suiteConfig.mailRecipientList) {
-    gIn.tracer.traceErr('Mail list is empty.');
+    gIn.tracer.err('Mail list is empty.');
     return;
   }
   mailOptions.subject = subj;
@@ -72,7 +72,7 @@ exports.send = function (subj, txtAttachments, zipAttachments) {
     function (options, callback) { // callback will be provided by checkedNodeCall
       getSmtpTransporter().sendMail(options, function (err, info) {
         if (err) {
-          gIn.tracer.traceErr('sendMail ERR: ' + err);
+          gIn.tracer.err('sendMail ERR: ' + err);
         }
         /* else {
          console.log('SendMail response: ' + info.response);

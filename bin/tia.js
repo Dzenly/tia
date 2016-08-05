@@ -263,10 +263,10 @@ if (!gIn.params.emailCfgPath) {
 
 if (gIn.params.emailCfgPath) {
   gIn.params.emailCfgPath = path.resolve(gIn.params.emailCfgPath);
-  gIn.tracer.trace3('Email cfg path: ' + gIn.params.emailCfgPath);
+  gIn.tracer.msg3('Email cfg path: ' + gIn.params.emailCfgPath);
   gT.suiteConfigDefault = gIn.configUtils.mergeConfigs(gT.suiteConfigDefault, require(gIn.params.emailCfgPath));
 } else {
-  gIn.tracer.trace3('No email cfg path');
+  gIn.tracer.msg3('No email cfg path');
 }
 
 if (!gIn.params.extLog) {
@@ -275,15 +275,15 @@ if (!gIn.params.extLog) {
 
 if (gIn.params.extLog) {
   gIn.params.extLog = path.resolve(gIn.params.extLog);
-  gIn.tracer.trace3('External log path: ' + gIn.params.extLog);
+  gIn.tracer.msg3('External log path: ' + gIn.params.extLog);
 } else {
-  gIn.tracer.trace3('No external log path');
+  gIn.tracer.msg3('No external log path');
 }
 
 gIn.params.testsParentDir = path.dirname(testsDir);
 
-gIn.tracer.trace3('Tests Dir: ' + testsDir);
-gIn.tracer.trace3('Tests Parent Dir: ' + gIn.params.testsParentDir);
+gIn.tracer.msg3('Tests Dir: ' + testsDir);
+gIn.tracer.msg3('Tests Parent Dir: ' + gIn.params.testsParentDir);
 
 gIn.params.profileRootPath = path.join(gIn.params.testsParentDir, gT.engineConsts.profileRootDir);
 
@@ -291,7 +291,7 @@ if (gIn.params.etMlog && !path.isAbsolute(gIn.params.etMlog)) {
   gIn.params.etMlog = path.join(gIn.params.testsParentDir, gIn.params.etMlog);
 }
 
-gIn.tracer.trace3('Etalon Metalog path: ' + gIn.params.etMlog);
+gIn.tracer.msg3('Etalon Metalog path: ' + gIn.params.etMlog);
 
 // TODO: support several paths for pattern?
 
@@ -299,7 +299,7 @@ if (gIn.params.traceLevel > 3) {
   gIn.params.traceLevel = 3;
 }
 
-gIn.tracer.trace2('Browsers profile root: ' + gIn.params.profileRootPath);
+gIn.tracer.msg2('Browsers profile root: ' + gIn.params.profileRootPath);
 
 gIn.params.minPathSearchIndex = testsDir.length + 1; // Minumum index for path search.
 

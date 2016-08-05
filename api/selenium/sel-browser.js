@@ -145,7 +145,7 @@ exports.executeScript = function (scriptStr, logAction) {
  */
 exports.executeScriptFromFile = function (fPath, logAction) {
   return gIn.wrap('Execute script from file ' + fPath + ' ... ', logAction, function () {
-    gIn.tracer.trace3('executeScriptFromFile: ' + fPath);
+    gIn.tracer.msg3('executeScriptFromFile: ' + fPath);
     var scriptStr = fs.readFileSync(fPath, 'utf8');
     // gIn.tracer.trace3('initTiaHelpers: script: ' + scriptStr);
     return exports.executeScriptWrapper(scriptStr);
@@ -241,13 +241,13 @@ exports.logConsoleContent = function () {
   //return gIn.wrap('', false, function() {
   return gT.sOrig.driver.manage().logs().get(gT.sOrig.wdModule.logging.Type.BROWSER).then(
     function (entries) {
-      gIn.tracer.trace1('Begin of console Log');
+      gIn.tracer.msg1('Begin of console Log');
       for (var entry of entries) {
         let logStr = 'BR.CONSOLE: ' + entry.level.name + ': ' +
           gIn.textUtils.collapseHost(gIn.textUtils.removeSelSid(entry.message));
         gIn.logger.logln(logStr);
       }
-      gIn.tracer.trace1('End of console Log');
+      gIn.tracer.msg1('End of console Log');
     });
   //});
 };
@@ -255,13 +255,13 @@ exports.logConsoleContent = function () {
 exports.logExceptions = function (extAjaxFailures, logAction) {
   return exports.executeScriptWrapper('return !!window.tia').then(
     function (res) {
-      gIn.tracer.trace1('logBrowserExceptions, tia is: ' + res);
+      gIn.tracer.msg1('logBrowserExceptions, tia is: ' + res);
       if (res) {
         return exports.executeScriptWrapper('return tia.getExceptions(' + extAjaxFailures + ')')
           .then(function (arr) {
             for (var str of arr) {
               let logStr = 'BR.EXC: ' + gIn.textUtils.removeSelSid(str);
-              gIn.tracer.traceErr(logStr);
+              gIn.tracer.err(logStr);
               gIn.logger.logln(logStr);
             }
           });
@@ -349,11 +349,11 @@ exports.maximize = function (logAction) {
 };
 
 exports.screenshot = function (logAction) {
-  gIn.tracer.trace2('Inside screenshot function 1.');
+  gIn.tracer.msg2('Inside screenshot function 1.');
   return gIn.wrap('Screenshot: ', logAction, function () {
-    gIn.tracer.trace2('Inside screenshot function 2.');
+    gIn.tracer.msg2('Inside screenshot function 2.');
     return gT.sOrig.driver.takeScreenshot().then(function (str) {
-      gIn.tracer.trace2('Inside screenshot function 3.');
+      gIn.tracer.msg2('Inside screenshot function 3.');
       if (gIn.tInfo.data.screenShotCounter > 99) {
         // TODO: place the constant to config (but code must be changed also)?
         return gT.sOrig.promise.rejected('Too many screenshoots');

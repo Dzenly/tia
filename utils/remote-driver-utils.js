@@ -53,7 +53,7 @@ exports.getSid = function () {
  */
 exports.start = function () {
   if (getPid()) {
-    gIn.tracer.trace3('Remote driver is already started');
+    gIn.tracer.msg3('Remote driver is already started');
     return gT.sOrig.promise.fulfilled(true);
   }
 
@@ -68,7 +68,7 @@ exports.start = function () {
       });
     savePid(child.pid);
     child.unref();
-    gIn.tracer.trace3('Starting remote driver');
+    gIn.tracer.msg3('Starting remote driver');
     setTimeout(function () {
       resolve(true);
     }, 2000); // TODO: magic constant, to make sure that driver is ready.
@@ -85,10 +85,10 @@ exports.start = function () {
 exports.stop = function () {
   var pid = getPid();
   if (!pid) {
-    gIn.tracer.trace3('No remote driver to stop');
+    gIn.tracer.msg3('No remote driver to stop');
     return;
   }
-  gIn.tracer.trace3('Stopping remote driver');
+  gIn.tracer.msg3('Stopping remote driver');
   process.kill(pid);
   removePid();
   exports.removeSid();
