@@ -114,6 +114,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
       gIn.tracer.msg1('Cancelling action using gIn.cancelSuite flag');
       return gT.sOrig.promise.rejected(CANCELLING_THE_SUITE);
     }
+    gIn.tracer.msg3('Inside wrapper, before act() call,  msg: ' + msg);
     var actResult = act();
     if (!actResult || !actResult.then) { // If result is not promise.
       return actResult;
@@ -140,10 +141,13 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
     // I am really don't know what this function is needed for.
     return actResult
       .then(function (res) {
+        gIn.tracer.msg3('Inside wrapper, act().then,  msg: ' + msg);
         clearTimeout(tId);
         return res;
       })
       .catch(function (err) {
+        gIn.tracer.err('Inside wrapper, act().catch,  msg: ' + msg);
+        gIn.tracer.exc(err);
         clearTimeout(tId);
         // throw err; // TODO: Check that selenium-webdriver implementation indeed complain to the PromiseA+ standard.
         return gT.sOrig.promise.rejected(err);
