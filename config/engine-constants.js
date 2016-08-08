@@ -39,9 +39,9 @@ module.exports = {
 
   selfTestsExtLog: 'ext-log.log',
 
-  hangTimeout: 20000, // Timeout after which action function considered as hanging.,
+  hangTimeout: 35000, // Timeout after which action function considered as hanging.,
 
-  defaultWaitTimeout: 20000, // Default timeout for e.wait functions.,
+  defaultWaitTimeout: 30000, // Default timeout for e.wait functions.,
 
   // Delay before click on ExtJs element. It seems like ExtJs does not handle
   // too fast clicking.
