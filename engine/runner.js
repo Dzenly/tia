@@ -176,7 +176,7 @@ function *runTestSuite(dir) {
   gIn.logger.saveSuiteLog(dirInfo, noTimeLog, true);
 
   var noPrevMLog = gIn.fileUtils.isAbsent(noTimeLogPrev);
-  var metaLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeLogPrev, noTimeLog);
+  var metaLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeLog, noTimeLogPrev);
   var metaLogPrevDifResBool = Boolean(metaLogPrevDifRes);
   if (metaLogPrevDifResBool) {
     fs.writeFileSync(prevDif, metaLogPrevDifRes, {encoding: gT.engineConsts.logEncoding});
@@ -187,7 +187,7 @@ function *runTestSuite(dir) {
   var etMlogInfoCons = '';
 
   if (gIn.params.etMlog) {
-    let metaLogEtDifRes = gIn.diffUtils.getDiff('.', gIn.params.etMlog, noTimeLog);
+    let metaLogEtDifRes = gIn.diffUtils.getDiff('.', noTimeLog, gIn.params.etMlog);
     let metaLogEtDifResBool = Boolean(metaLogEtDifRes);
     if (metaLogEtDifResBool) {
       fs.writeFileSync(etDif, metaLogEtDifRes, {encoding: gT.engineConsts.logEncoding});

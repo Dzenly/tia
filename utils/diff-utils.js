@@ -37,7 +37,7 @@ exports.getDiff = function (dir, oldFile, newFile) {
 exports.diff = function (jsTest) {
   var dir = path.dirname(jsTest);
   var base = path.basename(jsTest, '.js');
-  var out = exports.getDiff(dir, base + '.et', base + '.log');
+  var out = exports.getDiff(dir, base + '.log', base + '.et');
   var diffPath = path.join(dir, base + '.dif');
   var diffed = out ? 1 : 0;
   if (!diffed) {
@@ -51,11 +51,11 @@ exports.diff = function (jsTest) {
   // var oldOut = out;
 
   // Check for expected diff.
-  out = exports.getDiff(dir, base + '.edif', base + '.dif');
+  out = exports.getDiff(dir, base + '.dif', base + '.edif');
   if (out) {
     // gIn.tracer.trace1(`${base} DIFF: \n ${oldOut}`);
     gIn.tInfo.data.diffed = 1;
-    out = exports.getDiff(dir, base + '.dif.old', base + '.dif');
+    out = exports.getDiff(dir, base + '.dif', base + '.dif.old');
     if (out) {
       exports.changedDiffs++;
     }

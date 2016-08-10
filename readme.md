@@ -312,6 +312,7 @@ and is saved as `*.et` file.
 
 After a test run its current log is compared with its etalon log.
 If there is a difference it is saved as `*.dif` file.
+Note: All diffs are made as diff newOut oldOut, so as error or difference will be on top of log.
 
 There is an ability to create expected diff files (`*.edif`).
 If the current `*.dif` is equal to `*.edif` it is not counted as a diffed one.
