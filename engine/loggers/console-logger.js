@@ -15,10 +15,11 @@ if (!process.env.TIA_NO_COLORS) {
 
 /**
  * Tracks EOL of last message printed to console.
+ * Also msg can be boolean - true means there is EOL.
  * @param msg
  */
 function trackEOL(msg) {
-  if (Boolean(msg.match(/(\n|\r)$/))) {
+  if (msg === true || Boolean(msg.match(/(\n|\r)$/))) {
     gIn.tracePref = '';
   } else {
     gIn.tracePref = '\n';
@@ -64,6 +65,15 @@ exports.chalkWrap = function (chalkProps, msg) {
 exports.msgDifStr = function (msg) {
   process.stdout.write(exports.chalkWrap(['yellow', 'bold'], msg));
   trackEOL(msg);
+};
+
+/**
+ * Writes string for debug tracing.
+ * @param msg
+ */
+exports.msgDbg = function (msg) {
+  process.stdout.write(exports.chalkWrap(['cyan', 'bold'], msg) + '\n');
+  trackEOL(true);
 };
 
 /**

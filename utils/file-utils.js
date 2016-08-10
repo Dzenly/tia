@@ -143,7 +143,7 @@ function collectArcPaths(dirInfo, arcPaths) {
       collectArcPaths(curInfo, arcPaths);
     } else {
       if (curInfo.diffed) {
-        arcPaths.push('"' + gIn.textUtils.changeExt(curInfo.path, '') + '"*');
+        arcPaths.push(gIn.textUtils.changeExt(curInfo.path, ''));
       }
     }
   }
@@ -154,10 +154,16 @@ exports.archiveSuiteDir = function (dirInfo) {
     return null;
   }
   var arcName = new Date().toISOString().slice(0, 19).replace(/:/g, '_') + '.zip';
-  //arcName = path.resolve(arcName); // TODO shorten paths in zip?
+  arcName = path.resolve(arcName); // TODO shorten paths in zip?
   if (!gT.suiteConfig.attachOnlyDiffs) {
     // TODO: can throw, is this ok?
-    child_process.execSync('zip -r ' + arcName + ' ' + dirInfo.path, {stdio: [null, null, null]});
+    try {
+      child_process.execSync(`cd ${gIn.params.testsDir} && zip -r ` + arcName + ' ' + '*', {stdio: [null, null, null]});
+    } catch (e) {
+      gIn.tracer.err('zip stderr: ' + e.stderr.toString());
+      gIn.tracer.err('zip stdout: ' + e.stdout.toString());
+      throw(new Error('Error with zip'));
+    }
     return arcName;
   }
 
@@ -166,11 +172,17 @@ exports.archiveSuiteDir = function (dirInfo) {
   collectArcPaths(dirInfo, arr);
 
   if (arr.length === 0) {
+    gIn.tracer.msg3('Archieve: No diffs, no archieve');
     return null;
   }
 
+  arr = arr.map(function (item ) {
+    let newItem = '"' + path.relative(gIn.params.testsDir, item) + '"*';
+    return newItem;
+  });
+
   try {
-    child_process.execSync('zip ' + arcName + ' ' + arr.join(' '), {stdio: [null, null, null]});
+    child_process.execSync(`cd ${gIn.params.testsDir} && zip ` + arcName + ' ' + arr.join(' '), {stdio: [null, null, null]});
   } catch (e) {
     gIn.tracer.err('zip stderr: ' + e.stderr.toString());
     gIn.tracer.err('zip stdout: ' + e.stdout.toString());

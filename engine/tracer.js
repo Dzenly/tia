@@ -10,6 +10,15 @@ exports.exc = function (err) {
   gIn.cLogger.errln(gIn.tracePref + 'TRCEXC: ' + gIn.textUtils.excToStr(err));
 };
 
+/**
+ * Temporary tracing for debug to disctinct it from other tracing.
+ * Note: find 'gIn.tracer.dbg' entry in sources to clean up them.
+ * @param err
+ */
+exports.dbg = function (msg) {
+  gIn.cLogger.msgDbg(gIn.tracePref + 'TMP DBG TRC: ' + msg);
+};
+
 // To distinct tracing from common console.log's.
 exports.msg0 = function (msg) {
   if (gIn.params.traceLevel > -1) {
