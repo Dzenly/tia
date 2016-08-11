@@ -214,7 +214,7 @@ exports.getDebugMode = function (logAction) {
 };
 
 /**
- * Returns current URL.
+ * Returns the current page URL.
  * @param logAction
  * @returns {*}
  */
@@ -222,6 +222,20 @@ exports.getCurUrl = function (logAction) {
   return gIn.wrap('Getting URL ... ', logAction, function () {
     return gT.sOrig.driver.getCurrentUrl().then(function (res) {
       return gIn.textUtils.collapseHost(res);
+    });
+  });
+};
+
+/**
+ * Returns the current page Title.
+ * @param logAction
+ * @returns {*}
+ */
+exports.getTitle = function (logAction) {
+  return gIn.wrap('Getting title ... ', logAction, function () {
+    return gT.sOrig.driver.getTitle().then(function (res) {
+      gIn.tracer.msg3('Title is : ' + res);
+      return res;
     });
   });
 };

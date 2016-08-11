@@ -1,6 +1,36 @@
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_Logs.html
+webdriver.manage().logs()
+get(type) 
+getAvailableLogTypes()
+
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_Timeouts.html
+webdriver.manage().timeouts()
+implicitlyWait(ms) - 0 by default.
+pageLoadTimeout(ms)
+?? какое дефолтное значение ??
+setScriptTimeout()
+
+Актуальные capabilities:
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_WebDriver.html#getCapabilities
+
+===================
+
+executeAsyncScript - подумать как применять.
+
+===================
+
+Можно ли в вейт кондишне ждать либо одного либо другого.
+Если что - нужно написать такую ф-ю.
+
+Убедиться, что два init - это нормально.
+
 ===================
 
 get - для ExtJs должна дождаться Url и дождаться всех Ajax вызовов.
+
+===================
+
+Выделить из браузерного API get чего-то?
 
 ===================
 
@@ -715,4 +745,14 @@ gT.suiteConfig.attachOnlyDiffs - в cmd line opts, пробежаться ещё
 посмотреть что следует вынести в cmd line.
 
 ===================
+
+Аргументы для внешних тулзов, которые подключаются через require.
+Можно сделать отдельную строковую опцию, где можно задавать все такие аргументы.
+
+===================
+
+? Добавить сверку с эталонным скриншотом
+Уровни похожести изображений?
+Sikuli?
+
 

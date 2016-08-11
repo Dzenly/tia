@@ -132,7 +132,7 @@ exports.init = function (cleanProfile, logAction) {
         gT.sOrig.driver.getSession()
           .then(function (res) {
             let sid = gIn.remoteDriverUtils.saveSid(res.getId());
-            gIn.tracer.msg3('Saved session id: ' + res.getId());
+            gIn.tracer.msg3('Saved session id: ' + sid);
           })
           .catch(function (e) {
             gIn.logger.exception('Error at getSession: ', e);
@@ -163,7 +163,7 @@ exports.init = function (cleanProfile, logAction) {
         .withCapabilities(capabilities).build();
     }
 
-    return promise.fulfilled(true); // in case of fail there will be exception.
+    return promise.fulfilled(true);
   });
 };
 
