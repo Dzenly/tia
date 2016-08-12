@@ -4,6 +4,7 @@
 'use strict';
 
 /* globals gIn: true, gT */
+var nodeUtil = require('util');
 
 require('../engine/init-global-objects.js');
 
@@ -97,6 +98,9 @@ function usage() {
       ${gT.engineConsts.requireModulesEnvVarName} environment variable also can be used for this.
 
       --run-self-tests - Run tests for the engine (from tia/tests directory).
+      
+      --share-browser - Try to share the browser between tests. I.e. ignore quit for all tests except the last
+      one and init exept the first one.
 
       --stack-to-log print stack trace to test logs.
 
@@ -166,6 +170,7 @@ var opts = {
     'log-err-to-console',
     'log-to-console',
     'run-self-tests',
+    'share-browser',
     'stack-to-log',
     'stop-remote-driver',
     'use-remote-driver',
@@ -321,8 +326,10 @@ if (gIn.params.defHost) {
 process.on('uncaughtException', (err) => {
   gIn.logger.errorln('TIA: uncaughtException:');
   gIn.logger.exception(err);
+  throw err;
 });
 
 gT.sOrig.promise.LONG_STACK_TRACES = false;
+gIn.tracer.msg3('Parameters: ' + nodeUtil.inspect(gIn.params));
 
 require('../engine/runner.js')(testsDir);

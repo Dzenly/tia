@@ -8,10 +8,6 @@ var util = require('util');
 var promise = gT.sOrig.promise;
 // var flow = gT.sOrig.flow;
 
-gIn.profileConsts = {
-
-};
-
 /**
  * Initiates webdriver.
  * All gui tests should start with this function.
@@ -19,13 +15,27 @@ gIn.profileConsts = {
  * @param {Boolean} cleanProfile - Is profile cleaning needed. Works only if custom profile is defined.
  * @param {Boolean} [logAction] -  enable/disable logging for this action.
  * Default value is set by gT.engineConsts.defLLLogAction.
- * But default value if false if there is
+ * But default value if false if there is not custom user profile.
  * There is an issue with custom profile on Windows. Profile is not saved after browser closing.
  */
 exports.init = function (cleanProfile, logAction) {
-  // if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
-  //   logAction = false;
-  // }
+  if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
+    logAction = false;
+  }
+
+  gIn.tracer.msg3('selProfilePath: ' + gIn.config.selProfilePath);
+  gIn.tracer.msg3('shareBrowser: ' + gIn.params.shareBrowser);
+  gIn.tracer.msg3('sharedBrowserInitiated: ' + gIn.sharedBrowserInitiated);
+
+  if (!gIn.config.selProfilePath && gIn.params.shareBrowser) {
+    if (gIn.sharedBrowserInitiated) {
+      gIn.tracer.msg3('Initialization is not needed');
+      return;
+    } else {
+      gIn.sharedBrowserInitiated = true;
+    }
+  }
+
   var profileInfo;
   if (gIn.config.selProfilePath) {
     profileInfo = '(with user defined ' + (cleanProfile ? 'empty' : 'saved') + ' profile)';
@@ -191,8 +201,24 @@ exports.sleep = function (ms, logAction) {
   });
 };
 
+
+/**
+ * Quit from the browser.
+ * @param [logAction]
+ * If there was a custom profile - default logAction is true,
+ * otherwise - false.
+ * @returns {*}
+ */
 exports.quit = function (logAction) {
-  return gIn.wrap('Quitting ... ', logAction, function () {
+  if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
+    logAction = false;
+  }
+  if (gIn.sharedBrowserInitiated) {
+    gIn.tracer.msg3('Quit is not needed');
+    // TODO: quit if this is the last test.
+    return;
+  }
+  return gIn.wrap('Quiting ... ', logAction, function () {
     return gT.sOrig.driver.quit();
   }, true);
 };
