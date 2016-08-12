@@ -1,12 +1,10 @@
 =================
 Title: Test for client exceptions
-Initialization (with default empty profile) ... OK
 Loading a page with URL: "http://google.com" ... OK
 No exceptions and console logs:
 Script execution ... OK
 One exception and one console log:
 BR.CONSOLE: SEVERE: javascript 248:96 Uncaught ReferenceError: DsgwDwd3 is not defined
 No exceptions and console logs:
-Quitting ... OK
 =================
 Pass: 0, Fail: 0
