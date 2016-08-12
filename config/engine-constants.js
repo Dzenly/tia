@@ -69,6 +69,8 @@ module.exports = {
 
   defIsPassCountingEnabled: true, // Default value of pass counting for tests.
 
-  defLLLogAction: true // Default value for low level actions logging.
+  defLLLogAction: true, // Default value for low level actions logging.
+
+  remoteDriverStartTime: 2000 // The time for remote driver to start.
 
 };

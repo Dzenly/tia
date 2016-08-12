@@ -756,3 +756,69 @@ gT.suiteConfig.attachOnlyDiffs - в cmd line opts, пробежаться ещё
 Sikuli?
 
 
+Добавить в хелп:
+Мое API не поддерживает внутреннюю очередь, поэтому вся синхронизация делается с помощью yield.
+
+===================
+
+getCapabilities в трейс или в префикс письма.
+
+===================
+
+Присылать лог в html форме, с подсветками.
+Конечные тесты могут быть гиперссылками на лог.
+В металог идут дифы, поэтому пока что ссылка на диф ненужна.
+
+===================
+
+Обернуть вообще все вызовы в Execute, чтобы не париться с синхронизацией.
+Будет возмжожность и юзать yield и then цепочки.
+
+Если взять всю ф-ю, вместе с врапером в Execute, то не над act() выполнять в Execute.
+
+act() - может возвращать не thenable ?
+
+Это что:
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/http/util.html#waitForServer
+
+
+Проверить что будет в catch.
+```js
+flow.execute(function() {
+  flow.execute(() => console.log('a'));
+  flow.execute(() => throw new Error('asdf'));
+}).catch(фыва);
+
+```
+
+Проверить пример
+
+```js
+var d1 = promise.defer();
+d1.promise.then(() => console.log('A'));
+
+var d2 = promise.defer();
+d2.promise.then(() => console.log('B'));
+
+flow.execute(function() {
+  d1.promise.then(() => console.log('C'));
+  flow.execute(() => console.log('D'));
+});
+flow.execute(function() {
+  flow.execute(() => console.log('E'));
+  flow.execute(() => console.log('F'));
+  d1.fulfill();
+  d2.fulfill();
+}).then(function() {
+  console.log('fin');
+});
+// D
+// A
+// C
+// B
+// E
+// F
+// fin
+
+```
+

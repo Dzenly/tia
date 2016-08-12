@@ -71,7 +71,7 @@ exports.start = function () {
     gIn.tracer.msg3('Starting remote driver');
     setTimeout(function () {
       resolve(true);
-    }, 2000); // TODO: magic constant, to make sure that driver is ready.
+    }, gT.engineConsts.remoteDriverStartTime);
     // child.stdout.on('data', (data) => {
     //   gIn.tracer.trace2('Output from chromedriver: ' + data);
     // });
