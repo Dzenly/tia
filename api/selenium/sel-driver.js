@@ -8,14 +8,24 @@ var util = require('util');
 var promise = gT.sOrig.promise;
 // var flow = gT.sOrig.flow;
 
+gIn.profileConsts = {
+
+};
+
 /**
  * Initiates webdriver.
  * All gui tests should start with this function.
  *
- * @param {Boolean} cleanProfile - Is profile cleaning needed.
- * @param {Boolean} logAction -  enable/disable logging for this action.
+ * @param {Boolean} cleanProfile - Is profile cleaning needed. Works only if custom profile is defined.
+ * @param {Boolean} [logAction] -  enable/disable logging for this action.
+ * Default value is set by gT.engineConsts.defLLLogAction.
+ * But default value if false if there is
+ * There is an issue with custom profile on Windows. Profile is not saved after browser closing.
  */
 exports.init = function (cleanProfile, logAction) {
+  // if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
+  //   logAction = false;
+  // }
   var profileInfo;
   if (gIn.config.selProfilePath) {
     profileInfo = '(with user defined ' + (cleanProfile ? 'empty' : 'saved') + ' profile)';

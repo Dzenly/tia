@@ -65,5 +65,10 @@ module.exports = {
   // This is actual for lazy loading some stuff at clicking.
   ajaxTimeoutAfterClick: 15000, // TODO: increase after good debugging. For now low value is needed to detect unstable parts.
 
-  elGetTextFail: 'ElGetTextFail' // The error message for getText fail for Web Element.
+  elGetTextFail: 'ElGetTextFail', // The error message for getText fail for Web Element.
+
+  defIsPassCountingEnabled: true, // Default value of pass counting for tests.
+
+  defLLLogAction: true // Default value for low level actions logging.
+
 };

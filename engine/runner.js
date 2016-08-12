@@ -34,8 +34,8 @@ function runTestFile(file) {
 function *handleTestFile(file, dirConfig) {
 
   // Restore the state which could be damaged by previous test and any other initialization.
-  gIn.tInfo.isPassCountingEnabled = true;
-  gIn.loggerCfg.defLlLogAction = true;
+  gIn.tInfo.isPassCountingEnabled = gT.engineConsts.defIsPassCountingEnabled;
+  gIn.loggerCfg.defLLLogAction = gT.engineConsts.defLLLogAction;
 
   gIn.config = gIn.configUtils.copyConfig(dirConfig); // Config for current test, can be changed by test.
   // It is not safe to create such structure in the test and return it from test,

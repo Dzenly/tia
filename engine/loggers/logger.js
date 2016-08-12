@@ -101,12 +101,12 @@ exports.logIfEnabled = function (msg, enable) {
 /**
  * Logs a message.
  * @param msg - A message to be logged.
- * @param {Boolean} [enable = gIn.loggerCfg.defLlLogAction] - If false - log is disabled,
+ * @param {Boolean} [enable = gIn.loggerCfg.defLLLogAction] - If false - log is disabled,
  * otherwise - log is enabled.
  */
 exports.logIfNotDisabled = function (msg, enable) {
   if (typeof enable === 'undefined') {
-    enable = gIn.loggerCfg.defLlLogAction;
+    enable = gIn.loggerCfg.defLLLogAction;
   }
   let dontWriteToFile = false;
   if (!enable && gIn.params.forceLogActions) {

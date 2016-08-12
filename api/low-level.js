@@ -68,7 +68,7 @@ exports.setLlPassPrinting = function (enable) {
  * @returns {boolean} - old Log Action value.
  */
 exports.setDefaultLlLogAction = function (enable) {
-  var old = gIn.loggerCfg.defLlLogAction;
-  gIn.loggerCfg.defLlLogAction = enable;
+  var old = gIn.loggerCfg.defLLLogAction;
+  gIn.loggerCfg.defLLLogAction = enable;
   return old;
 };

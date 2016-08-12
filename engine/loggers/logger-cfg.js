@@ -4,5 +4,5 @@ exports.consoleLogPrefix = ''; // LOG:
 exports.errPrefix = 'ERR: ';
 exports.excPrefix = 'EXC: ';
 exports.indentation = '| ';
-exports.defLlLogAction = true;
+exports.defLLLogAction = gT.engineConsts.defLLLogAction;
 //exports.firstIndent = '|-'

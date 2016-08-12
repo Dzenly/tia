@@ -1,7 +1,7 @@
 'use strict';
 
-// Конфиг для директорий, используемый по умолчанию.
-// Эти опции можно перегружать в локальных конфигах директорий.
+// The default config for test directories.
+// Options can be overloaded in directory configs.
 module.exports = {
 
   // API - функции могут писать информацию о своем вызове в лог.
