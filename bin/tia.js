@@ -100,7 +100,7 @@ function usage() {
       --run-self-tests - Run tests for the engine (from tia/tests directory).
       
       --share-browser - Try to share the browser between tests. I.e. ignore quit for all tests except the last
-      one and init exept the first one.
+      one and init exept the first one. Do not use this option with --use-remote-driver for now.
 
       --stack-to-log print stack trace to test logs.
 

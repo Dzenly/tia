@@ -69,34 +69,42 @@ exports.send = function (subj, txtAttachments, zipAttachments) {
     );
   }
 
-  // return new gT.sOrig.promise.Promise(function (resolve, reject) {
-  //
-  //   function sendMail() {
-  //
+  return new gT.sOrig.promise.Promise(function (resolve, reject) {
+
+    var attemptCounter = gT.engineConsts.mailAttemptsCount;
+
+    function sendMail() {
+      getSmtpTransporter().sendMail(mailOptions, function (err, info) {
+        if (err) {
+          gIn.tracer.err('sendMail ERR: ' + err);
+          if (attemptCounter) {
+            attemptCounter--;
+            gIn.tracer.msg1('sendMail: retry, attemptCounter' + attemptCounter);
+            setTimeout(sendMail, gT.engineConsts.mailWaitTimeout * 1000)
+          } else {
+            gIn.tracer.err('sendMail ERR: no more attempts');
+            reject(err);
+          }
+        } else {
+          resolve(info);
+        }
+      });
+    }
+    sendMail();
+  });
+
+  // return gT.sOrig.promise.checkedNodeCall(
+  //   function (options, callback) { // callback will be provided by checkedNodeCall
   //     getSmtpTransporter().sendMail(options, function (err, info) {
   //       if (err) {
   //         gIn.tracer.err('sendMail ERR: ' + err);
-  //         setTimeout(gT.engineConsts.mailWaitTimeout)
   //       }
-  //     }
-  //
+  //       /* else {
+  //        console.log('SendMail response: ' + info.response);
+  //        }*/
+  //       callback(err, info);
+  //     });
   //   }
-  //
-  //
-  // });
-
-  return gT.sOrig.promise.checkedNodeCall(
-    function (options, callback) { // callback will be provided by checkedNodeCall
-      getSmtpTransporter().sendMail(options, function (err, info) {
-        if (err) {
-          gIn.tracer.err('sendMail ERR: ' + err);
-        }
-        /* else {
-         console.log('SendMail response: ' + info.response);
-         }*/
-        callback(err, info);
-      });
-    }
-    , mailOptions
-  );
+  //   , mailOptions
+  // );
 };
