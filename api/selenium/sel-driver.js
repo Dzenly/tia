@@ -30,7 +30,7 @@ exports.init = function (cleanProfile, logAction) {
   if (!gIn.config.selProfilePath && gIn.params.shareBrowser) {
     if (gIn.sharedBrowserInitiated) {
       gIn.tracer.msg3('Initialization is not needed');
-      return;
+      return gT.sOrig.promise.fulfilled('Initialization is not needed');
     } else {
       gIn.sharedBrowserInitiated = true;
     }
@@ -214,11 +214,28 @@ exports.quit = function (logAction) {
     logAction = false;
   }
   if (gIn.sharedBrowserInitiated) {
-    gIn.tracer.msg3('Quit is not needed');
-    // TODO: quit if this is the last test.
-    return;
+    gIn.tracer.msg3('quit: Shared browser, no quit');
+    return gT.sOrig.promise.fulfilled('Shared browser, no quit');
   }
   return gIn.wrap('Quiting ... ', logAction, function () {
-    return gT.sOrig.driver.quit();
+    return gT.sOrig.driver.quit().then(function () {
+      gIn.tracer.msg3('Quit: Driver is deleted');
+      delete gT.sOrig.driver;
+    });
   }, true);
+};
+
+/**
+ * Quit if driver is initiated and
+ */
+exports.quitIfInited = function () {
+  if (gT.sOrig.driver) {
+    gIn.tracer.msg3('quitIfInited: before quit call');
+    return gT.sOrig.driver.quit().then(function () {
+      delete gT.sOrig.driver;
+      gIn.tracer.msg3('quitIfInited: Driver is deleted');
+    });
+  }
+  gIn.tracer.msg3('quitIfInited: no driver, no quit');
+  return gT.sOrig.promise.fulfilled('No driver, no quit');
 };

@@ -172,6 +172,8 @@ function *runTestSuite(dir) {
 
   var dirInfo = yield* handleTestDir(dir, gT.dirConfigDefault);
 
+  yield gT.s.driver.quitIfInited();
+
   // dirInfo.title = path.basename(dir);
   gIn.logger.saveSuiteLog(dirInfo, noTimeLog, true);
 

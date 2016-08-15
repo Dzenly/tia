@@ -1,3 +1,15 @@
+===================
+
+Сделать таймаут для мейла и переотправление его, и сколько-то попыток.
+
+===================
+
+Сделать close для последнего теста с --shared-browser.
+Похоже, без этого есть торможение. Возможно, драйвер держит event loop в активном состоянии.
+
+===================
+
+
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_Logs.html
 webdriver.manage().logs()
 get(type) 
@@ -824,4 +836,6 @@ flow.execute(function() {
 
 TODO: пройтись по всему коду в свете того, что режекченный промис сбрасывает всю subtask.
 
+==============
 
+Selenium не подчищает за собой временный профайл браузера?

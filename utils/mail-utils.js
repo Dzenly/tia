@@ -68,6 +68,23 @@ exports.send = function (subj, txtAttachments, zipAttachments) {
       zipAttachments.filter(val => Boolean(val)).map(val => ({path: val, contentType: 'application/zip'}))
     );
   }
+
+  // return new gT.sOrig.promise.Promise(function (resolve, reject) {
+  //
+  //   function sendMail() {
+  //
+  //     getSmtpTransporter().sendMail(options, function (err, info) {
+  //       if (err) {
+  //         gIn.tracer.err('sendMail ERR: ' + err);
+  //         setTimeout(gT.engineConsts.mailWaitTimeout)
+  //       }
+  //     }
+  //
+  //   }
+  //
+  //
+  // });
+
   return gT.sOrig.promise.checkedNodeCall(
     function (options, callback) { // callback will be provided by checkedNodeCall
       getSmtpTransporter().sendMail(options, function (err, info) {
