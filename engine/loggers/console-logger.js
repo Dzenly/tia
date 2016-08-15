@@ -13,6 +13,8 @@ if (!process.env.TIA_NO_COLORS) {
 // exports.chalk = chalk;
 // exports.isChalkEnabled = isChalkEnabled;
 
+gIn.tracePref = '';
+
 /**
  * Tracks EOL of last message printed to console.
  * Also msg can be boolean - true means there is EOL.
