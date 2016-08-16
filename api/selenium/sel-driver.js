@@ -178,7 +178,7 @@ exports.init = function (cleanProfile, logAction) {
       // };
       // ==============================
 
-    } else {
+    } else { // Temporary driver
       gT.sOrig.driver = new gT.sOrig.wdModule.Builder().forBrowser(gIn.params.browser)
         .withCapabilities(capabilities).build();
     }

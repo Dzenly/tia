@@ -92,19 +92,4 @@ exports.send = function (subj, txtAttachments, zipAttachments) {
     }
     sendMail();
   });
-
-  // return gT.sOrig.promise.checkedNodeCall(
-  //   function (options, callback) { // callback will be provided by checkedNodeCall
-  //     getSmtpTransporter().sendMail(options, function (err, info) {
-  //       if (err) {
-  //         gIn.tracer.err('sendMail ERR: ' + err);
-  //       }
-  //       /* else {
-  //        console.log('SendMail response: ' + info.response);
-  //        }*/
-  //       callback(err, info);
-  //     });
-  //   }
-  //   , mailOptions
-  // );
 };

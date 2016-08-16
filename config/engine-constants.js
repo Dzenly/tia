@@ -39,7 +39,7 @@ module.exports = {
 
   selfTestsExtLog: 'ext-log.log',
 
-  hangTimeout: 35000, // Timeout after which action function considered as hanging.,
+  hangTimeout: 60000, // Timeout after which action function considered as hanging.,
 
   defaultWaitTimeout: 30000, // Default timeout for e.wait functions.,
 

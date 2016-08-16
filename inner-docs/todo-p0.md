@@ -1,11 +1,29 @@
 ===================
 
+Что делать с зависаниями.
+Добавить диагностику состояния вебдрайвера.
+Попробовать с удаленным вебдрайвером?
+
+Внешний скриншотер для Xvfb ?
+
+===================
+
 Сделать таймаут для мейла и переотправление его, и сколько-то попыток.
 
 ===================
 
 Сделать close для последнего теста с --shared-browser.
 Похоже, без этого есть торможение. Возможно, драйвер держит event loop в активном состоянии.
+
+
+Можно ли запросить у драйвера ID текущей сессии?
+Можно ли запросить количество и статус текущих сессий?
+
+Содержимое какой-то системной переменной в префикс к мейлу или в subj.
+
+For commands that cause a new document to load, the point at which the command returns is determined by the session’s page load strategy. A value of normal causes the command to return after the load event fires on the new page, a value of eager causes it to return after DOMContentLoaded fires, and a value of none causes it to return immediately.
+
+Подписаться на Executor и смотреть какие команды с какими параметрами идут вебдрайверу.
 
 ===================
 

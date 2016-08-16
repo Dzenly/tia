@@ -11,10 +11,6 @@ function getPidPath() {
   return path.join(gIn.params.testsParentDir, gT.engineConsts.remoteChromeDriverPid);
 }
 
-function getSidPath() {
-  return path.join(gIn.params.testsParentDir, gT.engineConsts.remoteChromeDriverSid);
-}
-
 function savePid(pid) {
   fs.writeFileSync(getPidPath(), pid, 'utf8');
 }
@@ -29,6 +25,10 @@ function getPid() {
   } catch (e) {
     return null;
   }
+}
+
+function getSidPath() {
+  return path.join(gIn.params.testsParentDir, gT.engineConsts.remoteChromeDriverSid);
 }
 
 exports.saveSid = function (sid) {
