@@ -201,8 +201,11 @@ function *runTestSuite(dir) {
     gIn.cLogger.chalkWrap('green', 'ET_MLOG') + ', ';
   }
 
+  let subjTimeMark = dirInfo.time > gIn.params.tooLongTime ? ', TOO_LONG' : '';
+
   var changedDiffs = gIn.diffUtils.changedDiffs ? '(' + gIn.diffUtils.changedDiffs + ' diff(s) changed)' : '';
   var emailSubj = (noPrevMLog ? 'NO PREV' : (metaLogPrevDifResBool ? 'DIF FROM PREV' : ('AS PREV' + changedDiffs))) +
+    subjTimeMark +
     ', ' + gIn.logger.saveSuiteLog(dirInfo, log) + ', ' + getOs();
   var emailSubjCons = etMlogInfoCons + emailSubj;
   emailSubj = etMlogInfo + emailSubj;

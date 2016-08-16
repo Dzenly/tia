@@ -335,6 +335,7 @@ These logs are sent to email (if corresponding options is enabled).
 
 * ET_MLOG - the current meta log is equal to the etalon meta log
 * DIF_MLOG - the current meta log is different from the etalon meta log
+* TOO_LONG - tests duration is exceeded --too-long-time parameter
 * linux_3.16.0-4 - OS.
 * amd64 - Platform.
 * NO PREV - no previous log, e.g. the first run, custom files removing, or some terrible fail at previous run.

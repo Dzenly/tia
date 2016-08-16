@@ -113,6 +113,9 @@ function usage() {
 
       Note: ${gT.engineConsts.emailCfgPathEnvVarName} environment variable can be used for the same purpose.
 
+      --too-long-time <duration>. If tests running exceeded the specified milliseconds amount. Email subject will
+      have 'TOO_LONG' prefix.
+
       --trace-level <level> enables tracing (1 | 2 | 3 ) (1 - less verbose, 3 - maximum verbosity, 0 - forbids tracing).
 
       --use-remote-driver - (for chromedriver only). Starts the browser driver (if it is not already started),
@@ -151,10 +154,12 @@ var opts = {
     'et-mlog',
     'email-cfg-path',
     'ext-log',
+    'hang-timeout',
     'pattern',
     'require-modules',
     'tests-dir',
-    'trace-level',
+    'too-long-time',
+    'trace-level'
   ],
   boolean: [ // 'logs-to-mail',
     'debug-avg',
@@ -180,8 +185,9 @@ var opts = {
   ],
   default: {
     browser: browsers[0],
-    l: false,
+    // l: false,
     'hang-timeout': gT.engineConsts.hangTimeout,
+    'too-long-time': gT.engineConsts.tooLongTime,
     'trace-level': -1,
     // , 'ignore-skip-flag': false
   },

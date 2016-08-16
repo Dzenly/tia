@@ -39,7 +39,9 @@ module.exports = {
 
   selfTestsExtLog: 'ext-log.log',
 
-  hangTimeout: 60000, // Timeout after which action function considered as hanging.,
+  hangTimeout: 60000, // Timeout (ms) after which action function considered as hanging.
+
+  tooLongTime: 1e12, // If tests exceeded this duration (ms) the TOO_LONG prefix will be added to email subject.
 
   defaultWaitTimeout: 30000, // Default timeout for e.wait functions.,
 
