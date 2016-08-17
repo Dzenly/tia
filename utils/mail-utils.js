@@ -86,6 +86,7 @@ exports.send = function (subj, txtAttachments, zipAttachments) {
             reject(err);
           }
         } else {
+          gIn.tracer.msg3('sendMail Info: ' + info);
           resolve(info);
         }
       });
