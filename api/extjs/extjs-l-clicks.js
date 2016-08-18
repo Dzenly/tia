@@ -12,18 +12,21 @@ exports.clickAndWaitForAjaxFinish = function (webEl, waitTimeout) {
   });
 };
 
-exports.delayAndClick = function (webEl, isDblClick) {
+exports.delayClickAndWaitForAjaxFinish = function (webEl, isDblClick) {
   if (gT.engineConsts.extJsClickDelay) {
     gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
   }
   gIn.tracer.msg3('delayAndClick: before click');
-  return isDblClick ? (new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform()) : webEl.click();
+  return (isDblClick ? (new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform()) : webEl.click())
+    .then(function () {
+      gT.e.wait.ajaxRequestsFinish(undefined, false);
+    });
 };
 
 exports.createFuncPrintTextDelayClick = function (isDblClick, noPrint, logAction) {
   if (noPrint) {
     return function (webEl) {
-      return exports.delayAndClick(webEl, isDblClick);
+      return exports.delayClickAndWaitForAjaxFinish(webEl, isDblClick);
     }
   }
   return function (webEl) {
@@ -37,7 +40,7 @@ exports.createFuncPrintTextDelayClick = function (isDblClick, noPrint, logAction
           return gT.sOrig.promise.rejected(gT.engineConsts.elGetTextFail);
         })
       .then(function () {
-        return exports.delayAndClick(webEl, isDblClick);
+        return exports.delayClickAndWaitForAjaxFinish(webEl, isDblClick);
       });
   };
 };
@@ -50,7 +53,7 @@ function createFuncPrintTextAndClickTableRow(logAction) {
           .then(function (text) { // Using of selenium queue, so not then.then.
             gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
           });
-        return exports.delayAndClick(el);
+        return exports.delayClickAndWaitForAjaxFinish(el);
       });
   };
 }
@@ -99,7 +102,7 @@ exports.fieldByFormIdName = function (formId, name, logAction) {
     logAction, function () {
       return gT.s.browser.executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
         .then(function (inputEl) {
-          return exports.delayAndClick(inputEl);
+          return exports.delayClickAndWaitForAjaxFinish(inputEl);
         });
     });
 };
@@ -115,7 +118,7 @@ exports.checkBoxByFormIdName = function (formId, name, logAction) {
 function createFuncDelayAndClickById(callerName) {
   return function (dynId) {
     gIn.tracer.msg3(`${callerName}:, id of element: ${dynId}`);
-    return exports.delayAndClick(gT.sOrig.driver.findElement(gT.sOrig.by.id(dynId)));
+    return exports.delayClickAndWaitForAjaxFinish(gT.sOrig.driver.findElement(gT.sOrig.by.id(dynId)));
   };
 }
 

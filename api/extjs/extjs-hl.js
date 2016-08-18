@@ -34,7 +34,6 @@ exports.checkCheckboxAffects = function *(formId, checkBoxName, directFields, re
     }
 
     yield e.lClick.checkBoxByFormIdName(formId, checkBoxName);
-    yield e.wait.ajaxRequestsFinish();
     isSet = !isSet;
     a.true(isSet === (yield e.getByFormIdName.rawValue(formId, checkBoxName)),
       'Checkbox state changed after click', {passSilently: true, noPassIncrement: true, accName: resAccName});
@@ -50,7 +49,6 @@ exports.checkCheckboxAffects = function *(formId, checkBoxName, directFields, re
     }
 
     yield e.lClick.checkBoxByFormIdName(formId, checkBoxName);
-    yield e.wait.ajaxRequestsFinish();
     isSet = !isSet;
     a.true(isSet === (yield e.getByFormIdName.rawValue(formId, checkBoxName)),
       'Checkbox state changed after click', {passSilently: true, noPassIncrement: true, accName: resAccName});
