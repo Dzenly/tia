@@ -24,7 +24,7 @@ var path = require('path');
 exports.init = function (logAction) {
   return gIn.wrap('Initialization of TIA ExtJs Exp helpers ... ', logAction, function () {
     let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/e-br-exp.js'), 'utf8');
-    gIn.tracer.msg3('init: script: ' + scriptStr);
+    // gIn.tracer.msg3('init: script: ' + scriptStr);
     return gT.s.browser.executeScriptWrapper(scriptStr);
   }).then(function () {
     let scriptStr = `

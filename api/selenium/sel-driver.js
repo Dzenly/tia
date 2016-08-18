@@ -209,9 +209,9 @@ exports.sleep = function (ms, logAction) {
  * @returns {*}
  */
 exports.quit = function (logAction) {
-  if (gIn.params.jsExplore) {
-    gIn.tracer.msg3('quit: jsExplore, no quit');
-    return gT.sOrig.promise.fulfilled('jsExplore, no quit');
+  if (gIn.params.ejExplore) {
+    gIn.tracer.msg3('quit: ejExplore, no quit');
+    return gT.sOrig.promise.fulfilled('ejExplore, no quit');
   }
   if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
     logAction = false;
@@ -232,9 +232,9 @@ exports.quit = function (logAction) {
  * Quit if driver is initiated and
  */
 exports.quitIfInited = function () {
-  if (gIn.params.jsExplore) {
-    gIn.tracer.msg3('quitIfInited: jsExplore, no quit');
-    return gT.sOrig.promise.fulfilled('jsExplore, no quit');
+  if (gIn.params.ejExplore) {
+    gIn.tracer.msg3('quitIfInited: ejExplore, no quit');
+    return gT.sOrig.promise.fulfilled('ejExplore, no quit');
   }
   if (gT.sOrig.driver) {
     gIn.tracer.msg3('quitIfInited: before quit call');

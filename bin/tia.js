@@ -349,7 +349,7 @@ process.on('uncaughtException', (err) => {
 
 gT.sOrig.promise.LONG_STACK_TRACES = false;
 
-if (gIn.params.jsExplore) {
+if (gIn.params.ejExplore) {
   gIn.params.keepBrowserAtError = true;
 }
 
