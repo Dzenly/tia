@@ -61,6 +61,17 @@ function usage() {
 
       --disable-email - disables email.
 
+      --ej-explore - Just sets global variable gIn.params.ejExplore to true.
+      Your tests may use this flag to conditionally call the gT.e.explore.init().
+      This call enables exploration mode for ExtJs applications, where:
+      1. "Ctrl + Alt + Left Mouse Click" opens a dialog with info about the ExtJS component under pointer
+      and all its parents.
+      2. "Ctrl + Alt + T" - opens a dialog with the whole visible component hierarchy.
+      3. Debug mode for browser part of TIA code is enabled.
+      4. The gT.s.driver.quit() is ignored and browser does not quit at errors
+      (i.e. --keep-browser-at-error is implied).
+      5. Function is set up to imitate the click to the document body every minute to avoid session expiration.
+
       --email-cfg-path <path> - path to email config. See tia/doc/mail-cfg-example.json for example.
       See tia/config/default-suite-config.js for more details.
 
@@ -166,6 +177,7 @@ var opts = {
     'debug-max',
     'diffs-to-mlog',
     'disable-email',
+    'ej-explore',
     'err-to-console',
     'force-log-actions',
     'ignore-skip-flag',
@@ -336,6 +348,11 @@ process.on('uncaughtException', (err) => {
 });
 
 gT.sOrig.promise.LONG_STACK_TRACES = false;
+
+if (gIn.params.jsExplore) {
+  gIn.params.keepBrowserAtError = true;
+}
+
 gIn.tracer.msg3('Parameters: ' + nodeUtil.inspect(gIn.params));
 
 require('../engine/runner.js')(testsDir);

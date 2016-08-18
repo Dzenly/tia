@@ -201,7 +201,6 @@ exports.sleep = function (ms, logAction) {
   });
 };
 
-
 /**
  * Quit from the browser.
  * @param [logAction]
@@ -210,6 +209,10 @@ exports.sleep = function (ms, logAction) {
  * @returns {*}
  */
 exports.quit = function (logAction) {
+  if (gIn.params.jsExplore) {
+    gIn.tracer.msg3('quit: jsExplore, no quit');
+    return gT.sOrig.promise.fulfilled('jsExplore, no quit');
+  }
   if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
     logAction = false;
   }
@@ -229,11 +232,10 @@ exports.quit = function (logAction) {
  * Quit if driver is initiated and
  */
 exports.quitIfInited = function () {
-  if (gIn.params.keepBrowserAtError) {
-    gIn.tracer.msg3('quitIfInited: keepBrowsreAtError, no quit');
-    return gT.sOrig.promise.fulfilled('keepBrowsreAtError, no quit');
+  if (gIn.params.jsExplore) {
+    gIn.tracer.msg3('quitIfInited: jsExplore, no quit');
+    return gT.sOrig.promise.fulfilled('jsExplore, no quit');
   }
-
   if (gT.sOrig.driver) {
     gIn.tracer.msg3('quitIfInited: before quit call');
     return gT.sOrig.driver.quit().then(function () {

@@ -8,29 +8,26 @@ var path = require('path');
  * Initializes TIA ExtJs exploration helpers.
  * Loads and runs the e-br-exp.js script in context of current browser window.
  *
+ * Sets default handlers for debug and explorations.
+ * Ctrl/Meta + Alt + LClick - shows info about ExtJs component under mouse cursor.
+ * And Ctrl/Meta + Alt + t - shows components hierarchy.
+ * Removes previous handlers (if they exist).
+ *
+ * Sets debug mode for browser JS TIA part.
+ *
+ * Sets body clicker to avoid session expiration.
+ *
  * @param {boolean} [logAction] - is logging needed for this action.
  *
  * @returns a promise which will be resolved with script return value.
  */
-exports.initHelpers = function (logAction) {
+exports.init = function (logAction) {
   return gIn.wrap('Initialization of TIA ExtJs Exp helpers ... ', logAction, function () {
-    var scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/e-br-exp.js'), 'utf8');
-    // gIn.tracer.trace3('initHelpers: script: ' + scriptStr);
+    let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/e-br-exp.js'), 'utf8');
+    gIn.tracer.msg3('init: script: ' + scriptStr);
     return gT.s.browser.executeScriptWrapper(scriptStr);
-  });
-};
-
-/**
- * Sets default handlers for debug.
- * Ctrl/Meta + Alt + LClick - shows info about ExtJs component under mouse cursor.
- * And Ctrl/Meta + Alt + t - shows components hierarchy.
- * Removes previous handlers (if they exist).
- * @param logAction
- * @returns {*}
- */
-exports.setDefDbgHandlers = function(logAction) {
-  return gIn.wrap('Setup debug click and keydown handler for extJs ... ', logAction, function () {
-    var scriptStr = `
+  }).then(function () {
+    let scriptStr = `
     try {
       document.removeEventListener('click', tiaEJOnMouseDown);
       document.removeEventListener('keydown', tiaEJOnKeyDown);
@@ -53,7 +50,10 @@ exports.setDefDbgHandlers = function(logAction) {
     document.addEventListener('click', tiaEJOnMouseDown);
     document.addEventListener('keydown', tiaEJOnKeyDown);
     `;
-    // gIn.tracer.trace3('setDbgOnMouseDown: script: ' + funcBody);
     return gT.s.browser.executeScriptWrapper(scriptStr);
+  }).then(function () {
+    return gT.s.browser.setDebugMode();
+  }).then(function () {
+    return gT.s.browser.setBodyClicker();
   });
 };
