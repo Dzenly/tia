@@ -56,7 +56,11 @@
     },
 
     getTextByLocKey: function (key) {
-      return this.locale[key];
+      var res = this.locale[key];
+      if (typeof res === 'undefined') {
+        throw new Error('No such key in locale: ' + key);
+      }
+      return res;
     },
 
     showMsgBox: function(msg, title) {

@@ -88,6 +88,7 @@ exports.tableItemByFieldLocKey = function (tableId, tableName, fieldValueKey, fi
     });
 };
 
+// TODO: probably it is safe now to print tableId.
 exports.tableItemByFieldId = function (tableId, tableName, id, logAction) {
   return gIn.wrap(`Click table '${tableName}' item, with id: '${id}'`, logAction, function () {
     return gT.s.browser.executeScript(

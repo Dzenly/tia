@@ -739,13 +739,27 @@
 
   // Auto creating ctById object with copy of methods of ctByObj,
   // these methods take id instead of Ext.view.Table object.
+
+  var ctByObjProps = Object.getOwnPropertyNames(tiaEJ.ctByObj);
+
   window.tiaEJ.ctById = {};
-  var props = Object.getOwnPropertyNames(tiaEJ.ctByObj);
-  props.forEach(function (fName) {
+  window.tiaEJ.ctByContIdAndDownQuery = {};
+
+  ctByObjProps.forEach(function (fName) {
     tiaEJ.ctById[fName] = function (id, param2, param3, param4) {
       var cmp = tiaEJ.search.byId(id);
       return tiaEJ.ctByObj[fName](cmp, param2, param3, param4);
     };
-  });
 
+    tiaEJ.ctByContIdAndDownQuery[fName] = function (contId, queryStr, param2, param3, param4) {
+      var cont = tiaEJ.search.byId(contId);
+      var cmp = cont.down(queryStr);
+      if (cmp === null) {
+        throw new Error('ctByContIdAndDownQuery: Component not found container id: ' + contId
+        + ', down("' + queryStr + '"');
+      }
+      return tiaEJ.ctByObj[fName](cmp, param2, param3, param4);
+    };
+
+  });
 })();
