@@ -12,7 +12,7 @@ function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, 
       gIn.tracer.err(errStr);
       return gT.sOrig.promise.rejected(new Error(errStr));
     }
-    return gT.e.lClick.clickAndWaitForAjaxFinish(inputEl, 5000)
+    return gT.e.lClick.clickAndWaitForAjaxFinish(inputEl)
       .then(function () {
         gIn.tracer.msg3('Before wait after cb inputEl click');
         return gT.sOrig.driver.wait(
