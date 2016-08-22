@@ -1,5 +1,11 @@
 ===================
 
+Перед этим вызвать getId(), для генерации уникального id.
+someAction(id, params)
+
+someAction(webEl, params)
+
+asdf.someAction(getIdBy(,), params);
 
 ===================
 

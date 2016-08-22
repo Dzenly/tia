@@ -132,7 +132,7 @@ function createFuncDelayAndClickById(callerName) {
  */
 exports.tabByIdItemId = function (id, itemId, logAction) {
   return gIn.wrap(`Click on tab ${itemId} of component ${id} ... `, logAction, function () {
-    return gT.s.browser.executeScriptWrapper(`return tiaEJ.dynId.getTabIdByIdItemId('${id}', '${itemId}')`)
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.searchId.tabByIdItemId('${id}', '${itemId}')`)
       .then(createFuncDelayAndClickById('clickTabByIdItemId'));
   });
 };
@@ -148,7 +148,7 @@ exports.tabByIdItemId = function (id, itemId, logAction) {
  */
 exports.tabByIdText = function (id, text, logAction) {
   return gIn.wrap(`Click on tab with text ${text} of component ${id} ... `, logAction, function () {
-    return gT.s.browser.executeScriptWrapper(`return tiaEJ.dynId.getTabIdByIdText ('${id}', '${text}')`)
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.searchId.tabByIdText ('${id}', '${text}')`)
       .then(createFuncDelayAndClickById('clickTabByIdText'));
   });
 };
@@ -164,7 +164,7 @@ exports.tabByIdText = function (id, text, logAction) {
  */
 exports.tabByIdLocKey = function (id, locKey, logAction) {
   return gIn.wrap(`Click on tab with locale key ${locKey} of component ${id} ... `, logAction, function () {
-    return gT.s.browser.executeScriptWrapper(`return tiaEJ.dynId.getTabIdByIdLocKey('${id}', '${locKey}')`)
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.searchId.tabByIdLocKey('${id}', '${locKey}')`)
       .then(createFuncDelayAndClickById('clickTabByIdLocKey'));
   });
 };
@@ -180,7 +180,7 @@ exports.tabByIdLocKey = function (id, locKey, logAction) {
  */
 exports.compByIdRefKey = function (id, ref, key, logAction) {
   return gIn.wrap(`Click on tab by id (${id}), reference (${ref}), key ${key} ... `, logAction, function () {
-    return gT.s.browser.executeScriptWrapper(`return tiaEJ.dynId.getByIdRefKey('${id}', '${ref}', '${key}')`)
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.searchId.byIdRefKey('${id}', '${ref}', '${key}')`)
       .then(createFuncDelayAndClickById('clickByIdRefKey'));
   });
 };

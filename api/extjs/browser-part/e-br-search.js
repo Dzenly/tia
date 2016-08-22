@@ -3,26 +3,18 @@
 
 (function () {
   'use strict';
-  // Class to get dynamic id's.
   window.tiaEJ.search = {
-
-    // Cache to store temporary objects for fast access.
-    cache: {},
-
-    clearCache: function () {
-      this.cache = {};
-    },
 
     /* searches the first parent with isPanel === true */
     parentPanel: function (comp) {
-      return comp.findParentBy(function(container) {
+      return comp.findParentBy(function (container) {
         if (container.isPanel) {
           return true;
         }
       });
     },
 
-    byId: function(id) {
+    byId: function (id) {
       var cmp = Ext.getCmp(id); // good getCmp using.
       if (typeof cmp === 'undefined') {
         var err = new Error('Component not found for id: ' + id);
@@ -35,28 +27,43 @@
     },
 
     /**
+     * Gets component using id and reference.
+     * @param id - component HTML id.
+     * @param ref - reference inside component found by id.
+     */
+    byIdRef: function (id, ref) {
+      var cmp = this.byId(id).lookupReferenceHolder().lookupReference(ref);
+      if (!cmp) {
+        throw new Error('Component not found for container id: ' + id + ', reference: ' + ref);
+      }
+      return cmp;
+    },
+
+    byText: function (cmp, text, searchPathMsg) {
+      if (!cmp.items) {
+        throw new Error('Component: ' + searchPathMsg + 'has no items');
+      }
+      var resItem = cmp.items
+        .findBy(function (item) {
+          return item.text === text;
+        });
+      if (!resItem) {
+        throw new Error('Item not found for ' + searchPathMsg + ', text: ' + text);
+      }
+      return resItem;
+    },
+
+    /**
      * Gets component using id, reference, localization key.
      * @param id - component HTML id.
      * @param ref - reference inside component found by id.
      * @param key - key in locale.
      */
     byIdRefKey: function (id, ref, key) {
-      var text = tiaEJ.locale[key];
-      return this.byId(id)
-        .lookupReference(ref)
-        .items
-        .findBy(function (item) {
-          return item.text === text;
-        });
-    },
-
-    /**
-     * Gets component using id and reference.
-     * @param id - component HTML id.
-     * @param ref - reference inside component found by id.
-     */
-    byIdRef: function (id, ref) {
-      return this.byId(id).lookupReference(ref);
+      var text = tiaEJ.getTextByLocKey(key);
+      var cmp = this.search.byIdRef(id, ref);
+      var resItem = this.search.byText(cmp, text, 'container id: ' + id + ', reference: ' + ref);
+      return resItem;
     },
 
     byFormIdName: function (formId, name) {
@@ -77,20 +84,36 @@
 
     tabByIdItemId: function (id, tabItemId) {
       var cmp = this.byId(id).getTabBar().down('#' + tabItemId);
+      if (!cmp) {
+        throw new Error('Tab not found for container id: ' + id + ', itemId: ' + itemId);
+      }
       return cmp;
     },
 
     tabByIdText: function (id, text) {
-      var items = this.byId(id).getTabBar().items;
-      var cmp = items.findBy(function (item) {
-        return item.text === text;
-      });
-      return cmp;
+      var cmp = tiaEJ.search.byId(id);
+      if (cmp.isPanel) {
+        cmp = cmp.getTabBar();
+      }
+      var resItem = tiaEJ.search.byText(cmp, text, 'container id: ' + id);
+      return resItem;
     },
 
     tabByIdLocKey: function (id, key) {
       var text = tiaEJ.locale[key];
-      return this.getTabByIdText(id, text);
+      return this.tabByIdText(id, text);
     }
   };
+
+  var searchProps = Object.getOwnPropertyNames(tiaEJ.search);
+
+  window.tiaEJ.searchId = {};
+
+  searchProps.forEach(function (fName) {
+    tiaEJ.searchId[fName] = function (param1, param2, param3, param4, param5) {
+      var cmp = tiaEJ.search[fName](param1, param2, param3, param4, param5);
+      return cmp.getId();
+    }
+  });
+
 })();
