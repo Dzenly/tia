@@ -71,7 +71,6 @@ exports.selectedItemTexts = function (id, viewName, logAction) {
   });
 };
 
-
 exports.selectedItemFields = function (id, viewName, fieldsToPrint, printFieldName, logAction) {
   return gIn.wrap('Logging selected items for view: "' + viewName + '" ... ', logAction, function () {
 
@@ -112,4 +111,21 @@ exports.formByDynId = function (id, formName, includingStores, logAction) {
         gIn.logger.log('\n' + gT.commonConsts.content.wrap(res) + '\n');
       });
   });
-};
+}
+
+// exports.formByDynId = function (id, formName, includingStores, logAction) {
+//   return gIn.wrap('Logging content of form: "' + formName + '" ... ', logAction, function () {
+//     var idPromise;
+//     if (gT.sOrig.promise.isPromise(id)) {
+//       idPromise = id;
+//     } else {
+//       idPromise = gT.sOrig.promise.fulfilled(id)
+//     }
+//     return idPromise.then(function () {
+//       return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getForm('${id}', ${includingStores});`)
+//         .then(function (res) {
+//           gIn.logger.log('\n' + gT.commonConsts.content.wrap(res) + '\n');
+//         });
+//     });
+//   });
+// };

@@ -82,6 +82,14 @@
       return res;
     },
 
+    byIdCompQuery: function (id, compQuery) {
+      var cmp = this.byId(id).down(compQuery);
+      if (!cmp) {
+        throw new Error('Component not found for container id: ' + id + ', compQuery: ' + compQuery);
+      }
+      return cmp;
+    },
+
     tabByIdItemId: function (id, tabItemId) {
       var cmp = this.byId(id).getTabBar().down('#' + tabItemId);
       if (!cmp) {

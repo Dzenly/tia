@@ -751,6 +751,7 @@
       return tiaEJ.ctByObj[fName](cmp, param2, param3, param4);
     };
 
+    // TODO: Check if this is needed indeed?
     tiaEJ.ctByContIdAndDownQuery[fName] = function (contId, queryStr, param2, param3, param4) {
       var cont = tiaEJ.search.byId(contId);
       var cmp = cont.down(queryStr);

@@ -1,5 +1,16 @@
 ===================
 
+
+someGenerator() {
+    yield logCtById.form(yield promiseId)
+}
+
+
+
+
+===================
+
+
 Перед этим вызвать getId(), для генерации уникального id.
 someAction(id, params)
 
