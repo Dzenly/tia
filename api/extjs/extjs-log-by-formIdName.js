@@ -29,7 +29,7 @@ exports.field = function (id, name, includingStores, logAction) {
 };
 
 exports.fields = function (id, names, includingStores, logAction) {
-  id = gT.e.logUtils.getIdInfo(id);
+  id = gT.s.misc.getIdInfo(id);
   return gIn.wrap(`Logging choosen fields of form ${id.logStr} fields ... `, logAction, function () {
     let namesJson = JSON.stringify(names);
     return gT.s.browser.executeScriptWrapper(

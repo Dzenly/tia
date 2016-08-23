@@ -1,6 +1,18 @@
 'use strict';
-
 /* globals gT: true */
+
+exports.getIdInfo = function (id) {
+  if (typeof id === 'object') {
+    return {
+      id: id.id,
+      logStr: `(${id.nameForLog})`
+    };
+  }
+  return {
+    id: id,
+    logStr: `(id: ${id})`
+  };
+};
 
 // Dummy functions for tests for test engine.
 // Msg - is just message to identify the place in test.

@@ -21,6 +21,7 @@ gT.sOrig.key = gT.sOrig.wdModule.Key;
 
 // gIn.s = {};
 gT.s.driver = require('./sel-driver.js');
+gT.s.misc = require('./sel-misc.js');
 gT.s.wait = require('./sel-waits.js');
 gT.s.uA = require('./sel-user-actions.js');
 gT.s.browser = require('./sel-browser.js');
