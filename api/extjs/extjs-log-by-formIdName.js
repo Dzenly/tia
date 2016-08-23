@@ -28,6 +28,19 @@ exports.field = function (id, name, includingStores, logAction) {
   });
 };
 
+exports.fields = function (id, names, includingStores, logAction) {
+  id = gT.e.logUtils.getIdInfo(id);
+  return gIn.wrap(`Logging choosen fields of form ${id.logStr} fields ... `, logAction, function () {
+    let namesJson = JSON.stringify(names);
+    return gT.s.browser.executeScriptWrapper(
+      `return tiaEJ.ctById.getFormChildrenByFormNames('${id.id}', '${namesJson}', ${includingStores});`
+    )
+      .then(function (res) {
+        gIn.logger.log('\n' + gT.commonConsts.content.wrap(res) + '\n');
+      });
+  });
+};
+
 exports.fieldEnabledDisabledInfo = function (id, name, logAction) {
   return gIn.wrap(`Enabled/Disabled info of form (id: ${id}) field: name: ${name}`, logAction, function () {
     return gT.s.browser.executeScriptWrapper(

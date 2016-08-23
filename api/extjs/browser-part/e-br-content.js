@@ -508,6 +508,17 @@
       return this.getFormChild(comp, includingStores);
     },
 
+    getFormChildrenByFormNames: function (form, names, includingStores) {
+      if (typeof names === 'string') {
+        names = JSON.parse(names);
+      }
+      var self = this;
+      return names.map(function (name) {
+        var comp = tiaEJ.search.byFormAndName(form, name);
+        return self.getFormChild(comp, includingStores);
+      });
+    },
+
     /**
      * Gets the entire table content. Only visible columns are returned.
      * Collapsed groups are excluded from result.
