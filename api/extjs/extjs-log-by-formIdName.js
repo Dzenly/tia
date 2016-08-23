@@ -35,8 +35,9 @@ exports.fields = function (id, names, includingStores, logAction) {
     return gT.s.browser.executeScriptWrapper(
       `return tiaEJ.ctById.getFormChildrenByFormNames('${id.id}', '${namesJson}', ${includingStores});`
     )
-      .then(function (res) {
-        gIn.logger.log('\n' + gT.commonConsts.content.wrap(res) + '\n');
+      .then(function (arr) {
+        let str = arr.join('');
+        gIn.logger.log('\n' + gT.commonConsts.content.wrap(str));
       });
   });
 };
