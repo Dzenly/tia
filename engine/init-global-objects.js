@@ -19,6 +19,10 @@ process.env.PATH = process.env.PATH + path.delimiter + path.dirname(process.exec
 // Tests use promise and control flow from selenium-webdriver module.
 // It is non GUI stuff.
 gT.sOrig.wdModule = require('selenium-webdriver');
+
+gT.sOrig.driverLogType = gT.sOrig.wdModule.logging.Type.DRIVER;
+gT.sOrig.browserLogType = gT.sOrig.wdModule.logging.Type.BROWSER;
+
 gT.sOrig.promise = gT.sOrig.wdModule.promise;
 gT.sOrig.flow = gT.sOrig.promise.controlFlow();
 

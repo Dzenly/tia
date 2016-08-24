@@ -111,8 +111,8 @@ exports.init = function (cleanProfile, logAction) {
     // TODO: this parameter correctly works only for chrome.
     // phantomjs gets all messages, independent on choosen level.
     // Mozilla gets no messages.
-    prefs.setLevel(gT.sOrig.wdModule.logging.Type.BROWSER, gIn.params.browserLogLevel);
-    prefs.setLevel(gT.sOrig.wdModule.logging.Type.DRIVER, gIn.params.driverLogLevel);
+    prefs.setLevel(gT.sOrig.browserLogType, gIn.params.browserLogLevel);
+    prefs.setLevel(gT.sOrig.driverLogType, gIn.params.driverLogLevel);
 
     capabilities.setLoggingPrefs(prefs);
 
@@ -173,6 +173,8 @@ exports.init = function (cleanProfile, logAction) {
       gT.sOrig.driver = new gT.sOrig.wdModule.Builder().forBrowser(gIn.params.browser)
         .withCapabilities(capabilities).build();
     }
+
+    gT.sOrig.logs = gT.sOrig.driver.manage().logs();
 
     return promise.fulfilled(true);
   });
@@ -238,15 +240,16 @@ exports.quitIfInited = function () {
   return gT.sOrig.promise.fulfilled('No driver, no quit');
 };
 
-exports.printSelDriverLogs = function () {
-  return gT.sOrig.driver.manage().logs().get(gT.sOrig.wdModule.logging.Type.DRIVER).then(
+exports.printSelDriverLogs = function (minValue) {
+  return gT.sOrig.logs.get(gT.sOrig.driverLogType).then(
     function (entries) {
-      gIn.tracer.msg1('Start of printSelDriverLogs');
+      gIn.tracer.msg3('Start of printSelDriverLogs');
       for (var entry of entries) {
-        let logStr = 'SEL.DR.LOG: ' + entry.level.name + ': ' +
-          gIn.textUtils.collapseHost(gIn.textUtils.removeSelSid(entry.message));
-        gIn.logger.logln(logStr);
+        if (entry.level.value >= minValue) {
+          let logStr = `SEL.DR.LOG: ${entry.level.name} (${entry.level.value}), Message:\n ${entry.message}`;
+          gIn.logger.logln(logStr);
+        }
       }
-      gIn.tracer.msg1('End of printSelDriverLogs');
+      gIn.tracer.msg3('End of printSelDriverLogs');
     });
 };

@@ -252,29 +252,28 @@ exports.getTitle = function (logAction) {
  * @returns {Promise.<TResult>}
  */
 exports.printSelBrowserLogs = function () {
-  return gT.sOrig.driver.manage().logs().get(gT.sOrig.wdModule.logging.Type.BROWSER).then(
+  return gT.sOrig.logs.get(gT.sOrig.browserLogType).then(
     function (entries) {
-      gIn.tracer.msg1('Begin of printSelBrowserLogs');
+      gIn.tracer.msg3('Begin of printSelBrowserLogs');
       for (var entry of entries) {
         let logStr = 'SEL.BR.LOG: ' + entry.level.name + ': ' +
           gIn.textUtils.collapseHost(gIn.textUtils.removeSelSid(entry.message));
         gIn.logger.logln(logStr);
       }
-      gIn.tracer.msg1('End of printSelBrowserLogs');
+      gIn.tracer.msg3('End of printSelBrowserLogs');
     });
 };
 
 exports.printCaughtExceptions = function (extAjaxFailures) {
-
   return exports.executeScriptWrapper(`if (window.tia) return tia.getExceptions(${extAjaxFailures}); else return [];`)
     .then(function (arr) {
-      gIn.tracer.msg1('Begin of printCaughtExceptions');
+      gIn.tracer.msg3('Begin of printCaughtExceptions');
       for (var str of arr) {
         let logStr = 'CAUGHT.BR.EXC: ' + gIn.textUtils.removeSelSid(str);
         gIn.tracer.err(logStr);
         gIn.logger.logln(logStr);
       }
-      gIn.tracer.msg1('End of printCaughtExceptions');
+      gIn.tracer.msg3('End of printCaughtExceptions');
     });
 };
 
