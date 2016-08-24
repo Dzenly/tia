@@ -4,6 +4,7 @@
 
 // http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_Key.html
 
+let wdKey = gT.sOrig.key;
 
 /**
  * Clicks to element specified by id.
@@ -18,20 +19,6 @@ exports.clickById = function (id, logAction) {
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).click();
   });
 };
-
-// /**
-//  * Clicks to element specified by id. msg is logged instead of id.
-//  *
-//  * @param id
-//  * @param msg
-//  * @param logAction -  enable/disable logging for this action.
-//  * @returns {Promise.<TResult>}
-//  */
-// exports.clickByDynamicId = function (id, msg, logAction) {
-//   return gIn.wrap('Click on element : "' + msg + '" ... ', logAction, function () {
-//     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id)).click();
-//   });
-// };
 
 /**
  * Send keys to the web element with specified id.
@@ -51,27 +38,26 @@ exports.sendKeysById = function (id, keys, logAction) {
 exports.selectAllAndSendKeysById = function (id, keys, logAction) {
   id = gT.s.misc.getIdInfo(id);
   return gIn.wrap(`Select all and sending keys: "${keys}", to element ${id.logStr} ... `, logAction, function () {
-    let key = gT.sOrig.key;
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
-      .sendKeys(key.CONTROL, 'a', key.NULL, keys);
+      .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, keys);
   });
 };
 
-// /**
-//  * Sends keys to element by dynamically generated id.
-//  * Logs msg instead of id.
-//  *
-//  * @param id
-//  * @param keys
-//  * @param msg
-//  * @param logAction
-//  * @returns {Promise.<TResult>}
-//  */
-// exports.sendKeysByDynamicId = function (id, keys, msg, logAction) {
-//   return gIn.wrap('Sending keys: "' + keys + '", to element: "' + msg + '" ... ', logAction, function () {
-//     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id)).sendKeys(keys);
-//   });
-// };
+exports.selectAllAndDeleteById = function (id, logAction) {
+  id = gT.s.misc.getIdInfo(id);
+  return gIn.wrap(`Select all and press delete for element ${id.logStr} ... `, logAction, function () {
+    return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
+      .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, wdKey.DELETE, wdKey.NULL);
+  });
+};
+
+exports.clearById = function (id, logAction) {
+  id = gT.s.misc.getIdInfo(id);
+  return gIn.wrap(`Clear element ${id.logStr} ... `, logAction, function () {
+    return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
+      .clear();
+  });
+};
 
 exports.sendKeysToBody = function (keys, logAction) {
   return gIn.wrap('Sending keys: "' + keys + '", to body ... ', logAction, function () {

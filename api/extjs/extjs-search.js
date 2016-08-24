@@ -1,5 +1,7 @@
 'use strict';
 
+var inspect = require('util').inspect;
+
 exports.byIdCompQuery = function (id, compQuery, logAction) {
   id = gT.s.misc.getIdInfo(id);
   return gIn.wrap(`Searching id by container ${id.logStr}, compQuery: ${compQuery} ... `, logAction, function () {
@@ -38,7 +40,7 @@ exports.inputByIdCompQuery = function (id, compQuery, logAction) {
   return gIn.wrap(`Searching input id by container ${id.logStr}, compQuery: ${compQuery} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.searchInputId.byIdCompQuery('${id.id}', '${compQuery}')`)
       .then(function (foundId) {
-        gIn.tracer.msg3(`inputByIdCompQuery, found id: ${foundId}`);
+        gIn.tracer.msg3(`inputByIdCompQuery, found id: ${inspect(foundId)}`);
         return foundId;
       });
   });
@@ -49,7 +51,7 @@ exports.inputByFormIdName = function (id, name, logAction) {
   return gIn.wrap(`Searching input id by form ${id.logStr}, name: ${name} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.searchInputId.byFormIdName('${id.id}', '${name}')`)
       .then(function (foundId) {
-        gIn.tracer.msg3(`inputByFormIdName, found id: ${foundId}`);
+        gIn.tracer.msg3(`inputByFormIdName, found id: ${inspect(foundId)}`);
         return foundId;
       });
   });
@@ -60,7 +62,7 @@ exports.inputByIdRef = function (id, ref, logAction) {
   return gIn.wrap(`Searching input id by container ${id.logStr}, reference: ${ref} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.searchInputId.byIdRef('${id.id}', '${ref}')`)
       .then(function (foundId) {
-        gIn.tracer.msg3(`inputByIdRef, found id: ${foundId}`);
+        gIn.tracer.msg3(`inputByIdRef, found id: ${inspect(foundId)}`);
         return foundId;
       });
   });

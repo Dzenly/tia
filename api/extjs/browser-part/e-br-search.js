@@ -125,7 +125,8 @@
     };
     tiaEJ.searchInputId[fName] = function (param1, param2, param3, param4, param5) {
       var cmp = tiaEJ.search[fName](param1, param2, param3, param4, param5);
-      return cmp.getInputId();
+      var nameForLog = tiaEJ.ctByObj.getNameAndLabels(cmp, true);
+      return {id: cmp.getInputId(), nameForLog: nameForLog};
     };
   });
 })();
