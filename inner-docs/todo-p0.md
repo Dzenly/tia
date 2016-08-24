@@ -1,22 +1,5 @@
 ===================
 
-Писать браузерные exceptions в лог если команда фейльнулась.
-В общем, всегда после команды писать исключения в лог.
-
-То же самое про исключения webdriver, т.е. мессаги с кодом больше 900.
-
-===================
-
-sendKeys([key.CONTROL, 'a', key.NULL, '111']);
-
-Entry {
-  level: Level { name_: 'INFO', value_: 800 },
-  message: 'COMMAND TypeElement {\n   "id": "0.30494447971045213-5",\n   "value": [ "", ",", "a", ",", "", ",", "1", "1", "1" ]\n}\n',
-  timestamp: 1471962031363,
-  type: '' },
-
-===================
-
 logById
 
 почему там больше одной ф-и?
@@ -24,10 +7,6 @@ logById
 Может быть сделать автоматическую разруливалку типа компонента.
 
 1. У каждого типа компонента свой набор опций - что показывать, что нет.
-
-
-
-
 
 ===================
 
@@ -108,26 +87,7 @@ form.findField('name')
 
 
 
-
-
-
-
-
-
-
-
 Сделать браузерную ф-ю, которая выдает компонент по множеству способов.
-
-
-
-
-
-
-
-
-
-
-
 
 ===================
 
@@ -193,12 +153,6 @@ FullScreen window ???
 Посмотреть есть ли баг с зависанием у FireFox и какая скорость у FireFox.
 
 ===================
-
-
-http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_Logs.html
-webdriver.manage().logs()
-get(type) 
-getAvailableLogTypes()
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_Timeouts.html
 webdriver.manage().timeouts()

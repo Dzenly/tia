@@ -62,6 +62,8 @@ function *pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
   if (gIn.config.selPrintClConsoleAfterEachCommand) {
     yield gT.s.browser.printSelBrowserLogs();
   }
+
+  yield s.driver.printSelDriverLogs(900);
 }
 
 const CANCELLING_THE_TEST = 'Cancelling the test due to hanging';
@@ -174,20 +176,29 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
           gIn.errRecursionCount = 1; // To prevent recursive error report on error report.
           /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
           gIn.tracer.msg1('Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.');
-          gT.s.browser.screenshot().catch(function (err) {
-            gIn.tracer.msg1('Error at screenshot at error handling');
+
+          s.driver.printSelDriverLogs(900).catch(function (err) {
+            gIn.tracer.msg1('Error at printSelDriverLogs at error handling');
           });
+
           if (!gIn.brHelpersInitiated) {
             gT.s.browser.initTiaBrHelpers(true).catch(function (err) {
               gIn.tracer.msg1('Error at initTiaBrHelpers at error handling');
             });
           }
+
           gT.s.browser.printCaughtExceptions(true).catch(function (err) {
             gIn.tracer.msg1('Error at logExceptions at error handling');
           });
+
           gT.s.browser.printSelBrowserLogs().catch(function (err) {
             gIn.tracer.msg1('Error at logConsoleContent at error handling');
           });
+
+          gT.s.browser.screenshot().catch(function (err) {
+            gIn.tracer.msg1('Error at screenshot at error handling');
+          });
+
           if (!gIn.params.keepBrowserAtError) {
             return gT.s.driver.quit(true).then(function () {
               gIn.logger.errorln('========== Err Info End ==========');
