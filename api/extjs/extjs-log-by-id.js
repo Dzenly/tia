@@ -96,22 +96,23 @@ exports.formSubmitValues = function (id, formName, logAction) {
 };
 
 exports.form = function (id, includingStores, logAction) {
-  return gIn.wrap('Logging content of form with id: "' + id + '" ... ', logAction, function () {
-    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getForm('${id}', ${includingStores});`)
-      .then(function (res) {
-        gIn.logger.log('\n' + gT.commonConsts.content.wrap(res));
+  id = gT.s.misc.getIdInfo(id);
+  return gIn.wrap(`Logging content of form ${id.logStr} ... `, logAction, function () {
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getForm('${id.id}', ${includingStores});`)
+      .then(function (formContent) {
+        gIn.logger.log('\n' + gT.commonConsts.content.wrap(formContent));
       });
   });
 };
 
-exports.formByDynId = function (id, formName, includingStores, logAction) {
-  return gIn.wrap('Logging content of form: "' + formName + '" ... ', logAction, function () {
-    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getForm('${id}', ${includingStores});`)
-      .then(function (res) {
-        gIn.logger.log('\n' + gT.commonConsts.content.wrap(res));
-      });
-  });
-}
+// exports.formByDynId = function (id, formName, includingStores, logAction) {
+//   return gIn.wrap('Logging content of form: "' + formName + '" ... ', logAction, function () {
+//     return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getForm('${id}', ${includingStores});`)
+//       .then(function (res) {
+//         gIn.logger.log('\n' + gT.commonConsts.content.wrap(res));
+//       });
+//   });
+// }
 
 // exports.formByDynId = function (id, formName, includingStores, logAction) {
 //   return gIn.wrap('Logging content of form: "' + formName + '" ... ', logAction, function () {

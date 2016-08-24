@@ -116,12 +116,16 @@
   var searchProps = Object.getOwnPropertyNames(tiaEJ.search);
 
   window.tiaEJ.searchId = {};
+  window.tiaEJ.searchInputId = {};
 
   searchProps.forEach(function (fName) {
     tiaEJ.searchId[fName] = function (param1, param2, param3, param4, param5) {
       var cmp = tiaEJ.search[fName](param1, param2, param3, param4, param5);
       return cmp.getId();
-    }
+    };
+    tiaEJ.searchInputId[fName] = function (param1, param2, param3, param4, param5) {
+      var cmp = tiaEJ.search[fName](param1, param2, param3, param4, param5);
+      return cmp.getInputId();
+    };
   });
-
 })();

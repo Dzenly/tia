@@ -77,6 +77,13 @@ module.exports = {
 
   mailWaitTimeout: 20, // Seconds. If we failed to send mail we will wait this amount of seconds and retry.
 
-  mailAttemptsCount: 10 // Times. If we failed to send mail we will retry this amount of times.
+  mailAttemptsCount: 10, // Times. If we failed to send mail we will retry this amount of times.
 
+  // Дефолтный уровень сообщений, отлавливаемых в консоли браузера.
+  // Из-за этих сообщений могут быть дифы. Ближе к релизу можно ставить 900 (WARNING).
+  // http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/logging_exports_Level.html
+  defaultBrowserLogLevel: 1000,
+
+  // Дефолтный уровень логирования для драйвера.
+  defaultDriverLogLevel: 900
 };

@@ -14,7 +14,7 @@ gT.sOrig = {}; // Original selenium API.
 global.sOrig = gT.sOrig;
 
 // Chromedriver needs nodejs.
-process.env.PATH = process.env.PATH + path.delimiter + require('path').dirname(process.execPath);
+process.env.PATH = process.env.PATH + path.delimiter + path.dirname(process.execPath);
 
 // Tests use promise and control flow from selenium-webdriver module.
 // It is non GUI stuff.

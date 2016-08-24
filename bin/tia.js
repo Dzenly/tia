@@ -45,6 +45,9 @@ function usage() {
       --browser <browser> (default: ${browsers[0]}) browser to run tests for.
       Supported browsers are: ${browsers.join(', ')}
 
+      --browser-log-level <level> - 0 - 1000 (default ${gT.engineConsts.defaultBrowserLogLevel}). 0 means to log all, 1000 - only severe errors.
+      800 - info, 900 - warnings. 1000 - severe errors.
+
       --debug-avg - equals to --log-to-console --log-err-to-console --keep-browser-at-error --trace-level 2
       Though --trace-level option can be used to set up needed value in spite of --debug-avg.
       Note: --debug-max have precedence over --debug-avg.
@@ -60,6 +63,9 @@ function usage() {
       --diffs-to-mlog - forces diffs to be printed to short meta log.
 
       --disable-email - disables email.
+
+      --driver-log-level <level> - 0 - 1000 (default ${gT.engineConsts.defaultDriverLogLevel}). 0 means to log all, 1000 - only severe errors.
+      800 - info, 900 - warnings. 1000 - severe errors.
 
       --ej-explore - Just sets global variable gIn.params.ejExplore to true.
       Your tests may use this flag to conditionally call the gT.e.explore.init().
@@ -161,7 +167,9 @@ var opts = {
   // trace is number, numbers implied by default in minimist.
   string: [
     'browser',
+    'browser-log-level',
     'def-host',
+    'driver-log-level',
     'et-mlog',
     'email-cfg-path',
     'ext-log',
@@ -198,6 +206,8 @@ var opts = {
   default: {
     browser: browsers[0],
     // l: false,
+    'browser-log-level': gT.engineConsts.defaultBrowserLogLevel,
+    'driver-log-level': gT.engineConsts.defaultDriverLogLevel,
     'hang-timeout': gT.engineConsts.hangTimeout,
     'too-long-time': gT.engineConsts.tooLongTime,
     'trace-level': -1,

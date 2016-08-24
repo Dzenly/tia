@@ -2,6 +2,9 @@
 /* globals gT: true */
 /* globals gIn: true */
 
+// http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_Key.html
+
+
 /**
  * Clicks to element specified by id.
  *
@@ -42,6 +45,15 @@ exports.sendKeysById = function (id, keys, logAction) {
   id = gT.s.misc.getIdInfo(id);
   return gIn.wrap(`Sending keys: "${keys}", to element ${id.logStr} ... `, logAction, function () {
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).sendKeys(keys);
+  });
+};
+
+exports.selectAllAndSendKeysById = function (id, keys, logAction) {
+  id = gT.s.misc.getIdInfo(id);
+  return gIn.wrap(`Select all and sending keys: "${keys}", to element ${id.logStr} ... `, logAction, function () {
+    let key = gT.sOrig.key;
+    return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
+      .sendKeys(key.CONTROL, 'a', key.NULL, keys);
   });
 };
 

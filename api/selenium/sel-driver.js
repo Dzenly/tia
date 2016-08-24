@@ -111,18 +111,9 @@ exports.init = function (cleanProfile, logAction) {
     // TODO: this parameter correctly works only for chrome.
     // phantomjs gets all messages, independent on choosen level.
     // Mozilla gets no messages.
-    var reportLevel;
-    switch (gIn.config.selConsoleReportLevel) {
-      case 'WARNING':
-        reportLevel = gT.sOrig.wdModule.logging.Level.WARNING;
-        break;
-      case 'SEVERE':
-        reportLevel = gT.sOrig.wdModule.logging.Level.SEVERE;
-        break;
-      default:
-        return promise.rejected('invalid selConsoleReportLevel value: ' + gIn.config.selConsoleReportLevel);
-    }
-    prefs.setLevel(gT.sOrig.wdModule.logging.Type.BROWSER, reportLevel);
+    prefs.setLevel(gT.sOrig.wdModule.logging.Type.BROWSER, gIn.params.browserLogLevel);
+    prefs.setLevel(gT.sOrig.wdModule.logging.Type.DRIVER, gIn.params.driverLogLevel);
+
     capabilities.setLoggingPrefs(prefs);
 
     if (gIn.params.useRemoteDriver) {

@@ -37,7 +37,7 @@
   "dependencies": {
     "camelcase-keys": "^3.0.0",
     "chalk": "^1.1.1",
-    "chromedriver": "^2.23.0",
+    "chromedriver": "^2.23.1",
     "minimist": "^1.2.0",
     "nodemailer": "^2.5.0",
     "nodemailer-smtp-transport": "^2.6.0",

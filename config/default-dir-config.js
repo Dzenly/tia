@@ -37,6 +37,8 @@ module.exports = {
   selPrintClExcAfterEachCommand: false,
 
   // Печатать в лог содержимое консоли браузера, добавленное за время выполнения low level функции.
+  // TODO: перенести в константы и cmd line?
+  // TODO: включать при отладке?
   selPrintClConsoleAfterEachCommand: false,
 
   // Выбор дисплея, например ':1.5' чтобы тесты работали без видимого GUI
@@ -52,7 +54,7 @@ module.exports = {
 
   // Уровень сообщений, отлавливаемых в консоли браузера. SEVERE или WARNING.
   // Из-за этих сообщений могут быть дифы. Ближе к релизу можно ставить WARNING.
-  selConsoleReportLevel: 'SEVERE',
+  // selConsoleReportLevel: 'SEVERE',
 
   // Адрес сервера. Полезно менять при одновременной работе нескольких тестеров на одной машине.
   // В логах адрес будет заменяться на $(host).
