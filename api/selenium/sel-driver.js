@@ -241,12 +241,12 @@ exports.quitIfInited = function () {
 exports.printSelDriverLogs = function () {
   return gT.sOrig.driver.manage().logs().get(gT.sOrig.wdModule.logging.Type.DRIVER).then(
     function (entries) {
-      gIn.tracer.msg1('Start of logSelDriverLogs');
+      gIn.tracer.msg1('Start of printSelDriverLogs');
       for (var entry of entries) {
         let logStr = 'SEL.DR.LOG: ' + entry.level.name + ': ' +
           gIn.textUtils.collapseHost(gIn.textUtils.removeSelSid(entry.message));
         gIn.logger.logln(logStr);
       }
-      gIn.tracer.msg1('End of logSelDriverLogs');
+      gIn.tracer.msg1('End of printSelDriverLogs');
     });
 };
