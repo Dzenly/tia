@@ -238,7 +238,7 @@ exports.quitIfInited = function () {
   return gT.sOrig.promise.fulfilled('No driver, no quit');
 };
 
-exports.logSelDriverLogs = function () {
+exports.printSelDriverLogs = function () {
   return gT.sOrig.driver.manage().logs().get(gT.sOrig.wdModule.logging.Type.DRIVER).then(
     function (entries) {
       gIn.tracer.msg1('Start of logSelDriverLogs');

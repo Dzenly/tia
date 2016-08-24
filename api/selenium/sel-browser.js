@@ -251,7 +251,7 @@ exports.getTitle = function (logAction) {
  *
  * @returns {Promise.<TResult>}
  */
-exports.logSelBrowserLogs = function () {
+exports.printSelBrowserLogs = function () {
   return gT.sOrig.driver.manage().logs().get(gT.sOrig.wdModule.logging.Type.BROWSER).then(
     function (entries) {
       gIn.tracer.msg1('Begin of logSelBrowserLogs');
@@ -264,7 +264,7 @@ exports.logSelBrowserLogs = function () {
     });
 };
 
-exports.logCaughtExceptions = function (extAjaxFailures) {
+exports.printCaughtExceptions = function (extAjaxFailures) {
 
   return exports.executeScriptWrapper(`if (window.tia) return tia.getExceptions(${extAjaxFailures}); else return [];`)
     .then(function (arr) {

@@ -10,18 +10,18 @@ function *test() {
 	// yield s.browser.setWindowSize(2560, 1440);
 
 	l.println('No exceptions and console logs:');
-	yield s.browser.logCaughtExceptions(true);
-	yield s.browser.logSelBrowserLogs();
+	yield s.browser.printCaughtExceptions(true);
+	yield s.browser.printSelBrowserLogs();
 
 	yield issueClientException();
 
 	l.println('One exception and one console log:');
-	yield s.browser.logCaughtExceptions(true);
-	yield s.browser.logSelBrowserLogs();
+	yield s.browser.printCaughtExceptions(true);
+	yield s.browser.printSelBrowserLogs();
 
 	l.println('No exceptions and console logs:');
-	yield s.browser.logCaughtExceptions(true);
-	yield s.browser.logSelBrowserLogs();
+	yield s.browser.printCaughtExceptions(true);
+	yield s.browser.printSelBrowserLogs();
 
 	// yield s.browser.close();
 	yield s.driver.quit();
