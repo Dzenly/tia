@@ -56,11 +56,11 @@ function *pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
     return;
   }
   if (gIn.config.selPrintClExcAfterEachCommand) {
-    yield gT.s.browser.logExceptions();
+    yield gT.s.browser.logCaughtExceptions();
   }
 
   if (gIn.config.selPrintClConsoleAfterEachCommand) {
-    yield gT.s.browser.logConsoleContent();
+    yield gT.s.browser.logSelBrowserLogs();
   }
 }
 
@@ -182,10 +182,10 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
               gIn.tracer.msg1('Error at initTiaBrHelpers at error handling');
             });
           }
-          gT.s.browser.logExceptions(true, true).catch(function (err) {
+          gT.s.browser.logCaughtExceptions(true).catch(function (err) {
             gIn.tracer.msg1('Error at logExceptions at error handling');
           });
-          gT.s.browser.logConsoleContent().catch(function (err) {
+          gT.s.browser.logSelBrowserLogs().catch(function (err) {
             gIn.tracer.msg1('Error at logConsoleContent at error handling');
           });
           if (!gIn.params.keepBrowserAtError) {

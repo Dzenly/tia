@@ -237,3 +237,16 @@ exports.quitIfInited = function () {
   gIn.tracer.msg3('quitIfInited: no driver, no quit');
   return gT.sOrig.promise.fulfilled('No driver, no quit');
 };
+
+exports.logSelDriverLogs = function () {
+  return gT.sOrig.driver.manage().logs().get(gT.sOrig.wdModule.logging.Type.DRIVER).then(
+    function (entries) {
+      gIn.tracer.msg1('Start of logSelDriverLogs');
+      for (var entry of entries) {
+        let logStr = 'SEL.DR.LOG: ' + entry.level.name + ': ' +
+          gIn.textUtils.collapseHost(gIn.textUtils.removeSelSid(entry.message));
+        gIn.logger.logln(logStr);
+      }
+      gIn.tracer.msg1('End of logSelDriverLogs');
+    });
+};

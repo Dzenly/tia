@@ -90,7 +90,7 @@ exports.loadPage = function (url, logAction) {
  * @returns {Promise.<TResult>}
  */
 exports.close = function (logAction) {
-  gT.s.browser.logConsoleContent();
+  // gT.s.browser.logSelLogs();
   return gIn.wrap('Closing the browser ... ', logAction, function () {
     return gT.sOrig.driver.close();
   }, true);
@@ -251,35 +251,30 @@ exports.getTitle = function (logAction) {
  *
  * @returns {Promise.<TResult>}
  */
-exports.logConsoleContent = function () {
-  //return gIn.wrap('', false, function() {
+exports.logSelBrowserLogs = function () {
   return gT.sOrig.driver.manage().logs().get(gT.sOrig.wdModule.logging.Type.BROWSER).then(
     function (entries) {
-      gIn.tracer.msg1('Begin of console Log');
+      gIn.tracer.msg1('Begin of logSelBrowserLogs');
       for (var entry of entries) {
-        let logStr = 'BR.CONSOLE: ' + entry.level.name + ': ' +
+        let logStr = 'SEL.BR.LOG: ' + entry.level.name + ': ' +
           gIn.textUtils.collapseHost(gIn.textUtils.removeSelSid(entry.message));
         gIn.logger.logln(logStr);
       }
-      gIn.tracer.msg1('End of console Log');
+      gIn.tracer.msg1('End of logSelBrowserLogs');
     });
-  //});
 };
 
-exports.logExceptions = function (extAjaxFailures, logAction) {
-  return exports.executeScriptWrapper('return !!window.tia').then(
-    function (res) {
-      gIn.tracer.msg1('logBrowserExceptions, tia is: ' + res);
-      if (res) {
-        return exports.executeScriptWrapper('return tia.getExceptions(' + extAjaxFailures + ')')
-          .then(function (arr) {
-            for (var str of arr) {
-              let logStr = 'BR.EXC: ' + gIn.textUtils.removeSelSid(str);
-              gIn.tracer.err(logStr);
-              gIn.logger.logln(logStr);
-            }
-          });
+exports.logCaughtExceptions = function (extAjaxFailures) {
+
+  return exports.executeScriptWrapper(`if (window.tia) return tia.getExceptions(${extAjaxFailures}); else return [];`)
+    .then(function (arr) {
+      gIn.tracer.msg1('Begin of logCaughtExceptions');
+      for (var str of arr) {
+        let logStr = 'CAUGHT.BR.EXC: ' + gIn.textUtils.removeSelSid(str);
+        gIn.tracer.err(logStr);
+        gIn.logger.logln(logStr);
       }
+      gIn.tracer.msg1('End of logCaughtExceptions');
     });
 };
 
@@ -292,12 +287,7 @@ exports.logExceptions = function (extAjaxFailures, logAction) {
 // No log action intentionaly.
 exports.cleanExceptions = function (extAjaxFailures, logAction) {
   return gIn.wrap('Cleaning client exceptions: ... ', logAction, function () {
-    return exports.executeScriptWrapper('return window.rvtReady').then(
-      function (res) {
-        if (res) {
-          return exports.executeScriptWrapper('tia.cleanExceptions(' + extAjaxFailures + ')');
-        }
-      });
+    return exports.executeScriptWrapper(`if (window.tia) tia.cleanExceptions(${extAjaxFailures});`);
   });
 };
 
