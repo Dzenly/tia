@@ -1,5 +1,53 @@
 ===================
 
+hover ?
+как зависнуть над объектом ?
+
+как управлять перемещением курсора ?
+
+Как показать курсор мыши, чтобы он двигался?
+
+WebElement.getLocation()
+
+actionSequence.mouseMove.
+
+===================
+
+https://sites.google.com/a/chromium.org/chromedriver/capabilities
+
+http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/capabilities_exports_Capability.html
+
+===================
+
+Потестить webElement, хранит ли он данные внутри, или при всякий get* командах обращается к вебдрайверу?
+Если хранит внутри - он бесполезен, разве что если у него есть команда update.
+
+
+Подумать, как  засунуть WebElement в idToIdObj.
+В принципе, актуально только для непосредственных кликов или sendKeys, clear,
+
+
+И ещё logStr - если это tab, или button.
+оно будет содержать getText или value или innerText, или ещё что.
+
+Сделать в браузерном коде возвращение сложных объектов.
+
+===================
+
+Поискать везде ${id}
+id
+formId
+
+dynid no case sensitive
+параметры типа name в функциях 
+exports.treeByDynId = function (id, treeName, options, logAction) {
+
+Чтобы добавить поддержку динамических id во все API.
+
+id = idToIdObj(id);
+
+===================
+
 logById
 
 почему там больше одной ф-и?
@@ -342,6 +390,8 @@ drop down menus in grid headers.
 Тогда почему такие большие цепочки в очереди?
 
 ===================
+
+
 
 Как бы нормально посмотреть состояние очереди.
 Поменьше анонимных функций. Чтобы в стэке была информация.

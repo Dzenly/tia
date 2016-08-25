@@ -14,7 +14,7 @@ let wdKey = gT.sOrig.key;
  * @returns {Promise.<TResult>}
  */
 exports.clickById = function (id, logAction) {
-  id = gT.s.misc.getIdInfo(id);
+  id = idToIdObj(id);
   return gIn.wrap(`Click on element ${id.logStr} ... `, logAction, function () {
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).click();
   });
@@ -29,14 +29,14 @@ exports.clickById = function (id, logAction) {
  * @returns {Promise.<TResult>}
  */
 exports.sendKeysById = function (id, keys, logAction) {
-  id = gT.s.misc.getIdInfo(id);
+  id = idToIdObj(id);
   return gIn.wrap(`Sending keys: "${keys}", to element ${id.logStr} ... `, logAction, function () {
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).sendKeys(keys);
   });
 };
 
 exports.selectAllAndSendKeysById = function (id, keys, logAction) {
-  id = gT.s.misc.getIdInfo(id);
+  id = idToIdObj(id);
   return gIn.wrap(`Select all and sending keys: "${keys}", to element ${id.logStr} ... `, logAction, function () {
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
       .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, keys);
@@ -44,7 +44,7 @@ exports.selectAllAndSendKeysById = function (id, keys, logAction) {
 };
 
 exports.selectAllAndDeleteById = function (id, logAction) {
-  id = gT.s.misc.getIdInfo(id);
+  id = idToIdObj(id);
   return gIn.wrap(`Select all and press delete for element ${id.logStr} ... `, logAction, function () {
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
       .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, wdKey.DELETE, wdKey.NULL);
@@ -52,7 +52,7 @@ exports.selectAllAndDeleteById = function (id, logAction) {
 };
 
 exports.clearById = function (id, logAction) {
-  id = gT.s.misc.getIdInfo(id);
+  id = idToIdObj(id);
   return gIn.wrap(`Clear element ${id.logStr} ... `, logAction, function () {
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
       .clear();

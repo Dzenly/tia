@@ -8,20 +8,10 @@ var util = require('util');
 
 // Use -1 as stop index to show only table header.
 exports.table = function (id, options, logAction) {
-  return gIn.wrap('Logging content of table with id: "' + id + '" ... ', logAction, function () {
+  id = idToIdObj(id);
+  return gIn.wrap(`Logging content of table ${id.logStr} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
-      `return tiaEJ.ctById.getTable('${id}', '${gT.commonMiscUtils.optsToJson(options)}')`
-    )
-      .then(function (res) {
-        gIn.logger.logln('\n' + res);
-      });
-  });
-};
-
-exports.tableByDynId = function (id, tableName, options, logAction) {
-  return gIn.wrap('Logging content of table: "' + tableName + '" ... ', logAction, function () {
-    return gT.s.browser.executeScriptWrapper(
-      `return tiaEJ.ctById.getTable('${id}', '${gT.commonMiscUtils.optsToJson(options)}')`
+      `return tiaEJ.ctById.getTable('${id.id}', '${gT.commonMiscUtils.optsToJson(options)}')`
     )
       .then(function (res) {
         gIn.logger.logln('\n' + res);
@@ -30,20 +20,10 @@ exports.tableByDynId = function (id, tableName, options, logAction) {
 };
 
 exports.tree = function (id, options, logAction) {
-  return gIn.wrap('Logging content of tree with id: "' + id + '" ... ', logAction, function () {
+  id = idToIdObj(id);
+  return gIn.wrap(`Logging content of tree ${id.logStr} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
-      `return tiaEJ.ctById.getTree('${id}', '${gT.commonMiscUtils.optsToJson(options)}')`
-    )
-      .then(function (res) {
-        gIn.logger.logln('\n' + res);
-      });
-  });
-};
-
-exports.treeByDynId = function (id, treeName, options, logAction) {
-  return gIn.wrap('Logging content of tree: "' + treeName + '" ... ', logAction, function () {
-    return gT.s.browser.executeScriptWrapper(
-      `return tiaEJ.ctById.getTree('${id}', '${gT.commonMiscUtils.optsToJson(options)}')`
+      `return tiaEJ.ctById.getTree('${id.id}', '${gT.commonMiscUtils.optsToJson(options)}')`
     )
       .then(function (res) {
         gIn.logger.logln('\n' + res);
@@ -52,9 +32,10 @@ exports.treeByDynId = function (id, treeName, options, logAction) {
 };
 
 exports.comboBox = function (id, logAction) {
-  return gIn.wrap('Logging content of combobox ... ', logAction, function () {
+  id = idToIdObj(id);
+  return gIn.wrap(`Logging content of combobox ${id.logStr} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
-      `return tiaEJ.ctById.getCB('${id}');`
+      `return tiaEJ.ctById.getCB('${id.id}');`
     )
       .then(function (res) {
         gIn.logger.log('\n' + res);
@@ -63,22 +44,23 @@ exports.comboBox = function (id, logAction) {
 };
 
 exports.selectedItemTexts = function (id, viewName, logAction) {
-  return gIn.wrap('Logging selected items for view: "' + viewName + '" ... ', logAction, function () {
-    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getSelectedItemTexts('${id}');`)
+  id = idToIdObj(id);
+  return gIn.wrap(`Logging selected items for view ${id.logStr} ... `, logAction, function () {
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getSelectedItemTexts('${id.id}');`)
       .then(function (res) {
         gIn.logger.log('\n' + res);
       });
   });
 };
 
-exports.selectedItemFields = function (id, viewName, fieldsToPrint, printFieldName, logAction) {
-  return gIn.wrap('Logging selected items for view: "' + viewName + '" ... ', logAction, function () {
-
+exports.selectedItemFields = function (id, fieldsToPrint, printFieldName, logAction) {
+  id = idToIdObj(id);
+  return gIn.wrap(`Logging selected items for view ${id.logStr} ... `, logAction, function () {
     if (fieldsToPrint) {
       fieldsToPrint = `JSON.parse('${JSON.stringify(fieldsToPrint)}')`;
     }
     return gT.s.browser.executeScriptWrapper(
-      `return tiaEJ.ctById.getSelectedItemFields('${id}', ${fieldsToPrint}, ${printFieldName});`
+      `return tiaEJ.ctById.getSelectedItemFields('${id.id}', ${fieldsToPrint}, ${printFieldName});`
     )
       .then(function (res) {
         gIn.logger.log('\n' + res);
@@ -86,9 +68,10 @@ exports.selectedItemFields = function (id, viewName, fieldsToPrint, printFieldNa
   });
 };
 
-exports.formSubmitValues = function (id, formName, logAction) {
-  return gIn.wrap('Logging submit values for form: "' + formName + '" ... ', logAction, function () {
-    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getFormSubmitValues('${id}');`)
+exports.formSubmitValues = function (id, logAction) {
+  id = idToIdObj(id);
+  return gIn.wrap(`Logging submit values for form ${id.logStr} ... `, logAction, function () {
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getFormSubmitValues('${id.id}');`)
       .then(function (res) {
         gIn.logger.log('\n' + gT.commonConsts.content.wrap(util.inspect(res) + '\n'));
       });
@@ -96,7 +79,7 @@ exports.formSubmitValues = function (id, formName, logAction) {
 };
 
 exports.form = function (id, includingStores, logAction) {
-  id = gT.s.misc.getIdInfo(id);
+  id = idToIdObj(id);
   return gIn.wrap(`Logging content of form ${id.logStr} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getForm('${id.id}', ${includingStores});`)
       .then(function (formContent) {
@@ -105,28 +88,3 @@ exports.form = function (id, includingStores, logAction) {
   });
 };
 
-// exports.formByDynId = function (id, formName, includingStores, logAction) {
-//   return gIn.wrap('Logging content of form: "' + formName + '" ... ', logAction, function () {
-//     return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getForm('${id}', ${includingStores});`)
-//       .then(function (res) {
-//         gIn.logger.log('\n' + gT.commonConsts.content.wrap(res));
-//       });
-//   });
-// }
-
-// exports.formByDynId = function (id, formName, includingStores, logAction) {
-//   return gIn.wrap('Logging content of form: "' + formName + '" ... ', logAction, function () {
-//     var idPromise;
-//     if (gT.sOrig.promise.isPromise(id)) {
-//       idPromise = id;
-//     } else {
-//       idPromise = gT.sOrig.promise.fulfilled(id)
-//     }
-//     return idPromise.then(function () {
-//       return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getForm('${id}', ${includingStores});`)
-//         .then(function (res) {
-//           gIn.logger.log('\n' + gT.commonConsts.content.wrap(res) + '\n');
-//         });
-//     });
-//   });
-// };

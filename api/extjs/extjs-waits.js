@@ -22,9 +22,10 @@ exports.ajaxRequestsFinish = function (timeout, logAction) {
   });
 };
 
+// TODO: redundant call to webdriver ?
 function logFormFieldInfo(formId, name, logAction) {
   return function () {
-    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getFormFieldEnabledDisabledInfo('${formId}', '${name}');`)
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getFormFieldEnabledDisabledInfo('${formId.id}', '${name}');`)
       .then(function (res) {
         gIn.logger.logIfNotDisabled(', ' + res + ' ... ', logAction);
       });
@@ -32,20 +33,22 @@ function logFormFieldInfo(formId, name, logAction) {
 }
 
 exports.formFieldEnabled = function (formId, name, timeout, logAction) {
+  formId = idToIdObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
-  return gIn.wrap(`Waiting for enabling field (name: ${name}) on form (id: ${formId})`, logAction, function () {
+  return gIn.wrap(`Waiting for enabling field (name: ${name}) on form ${formId.logStr}`, logAction, function () {
     return gT.sOrig.driver.wait(function () {
-      return gT.s.browser.executeScriptWrapper(`return tiaEJ.check.formFieldEnabled('${formId}', '${name}');`)
+      return gT.s.browser.executeScriptWrapper(`return tiaEJ.check.formFieldEnabled('${formId.id}', '${name}');`)
     }, timeout)
       .then(logFormFieldInfo(formId, name, logAction));
   });
 };
 
 exports.formFieldDisabled = function (formId, name, timeout, logAction) {
+  formId = idToIdObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
-  return gIn.wrap(`Waiting for disabling field (name: ${name}) onform (id: ${formId})`, logAction, function () {
+  return gIn.wrap(`Waiting for disabling field (name: ${name}) onform ${formId.logStr}`, logAction, function () {
     return gT.sOrig.driver.wait(function () {
-      return gT.s.browser.executeScriptWrapper(`return tiaEJ.check.formFieldDisabled('${formId}', '${name}');`)
+      return gT.s.browser.executeScriptWrapper(`return tiaEJ.check.formFieldDisabled('${formId.id}', '${name}');`)
     }, timeout)
       .then(logFormFieldInfo(formId, name, logAction));
   });

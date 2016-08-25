@@ -2,6 +2,8 @@
 /* globals gT: true */
 /* globals gIn: true */
 
+// ExtJS specific functions.
+
 
 // exports.id = function (id, keys, logAction) {
 //   id = gT.s.misc.getIdInfo(id);

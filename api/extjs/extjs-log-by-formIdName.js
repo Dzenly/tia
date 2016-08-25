@@ -18,9 +18,10 @@ var util = require('util');
 // };
 
 exports.field = function (id, name, includingStores, logAction) {
-  return gIn.wrap(`Logging content of form (id: ${id}) field (name: ${name}) ... `, logAction, function () {
+  id = idToIdObj(id);
+  return gIn.wrap(`Logging content of form ${id.logStr} field (name: ${name}) ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
-      `return tiaEJ.ctById.getFormChildByFormName('${id}', '${name}', ${includingStores});`
+      `return tiaEJ.ctById.getFormChildByFormName('${id.id}', '${name}', ${includingStores});`
     )
       .then(function (res) {
         gIn.logger.log('\n' + res);
@@ -29,7 +30,7 @@ exports.field = function (id, name, includingStores, logAction) {
 };
 
 exports.fields = function (id, names, includingStores, logAction) {
-  id = gT.s.misc.getIdInfo(id);
+  id = idToIdObj(id);
   return gIn.wrap(`Logging choosen fields of form ${id.logStr} fields ... `, logAction, function () {
     let namesJson = JSON.stringify(names);
     return gT.s.browser.executeScriptWrapper(
@@ -43,9 +44,10 @@ exports.fields = function (id, names, includingStores, logAction) {
 };
 
 exports.fieldEnabledDisabledInfo = function (id, name, logAction) {
-  return gIn.wrap(`Enabled/Disabled info of form (id: ${id}) field: name: ${name}`, logAction, function () {
+  id = idToIdObj(id);
+  return gIn.wrap(`Enabled/Disabled info of form ${id.logStr} field: name: ${name}`, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
-      `return tiaEJ.ctById.getFormFieldEnabledDisabledInfo('${id}', '${name}');`
+      `return tiaEJ.ctById.getFormFieldEnabledDisabledInfo('${id.id}', '${name}');`
     )
       .then(function (res) {
         gIn.logger.log(', ' + res + ' ... ');
@@ -54,9 +56,10 @@ exports.fieldEnabledDisabledInfo = function (id, name, logAction) {
 };
 
 exports.fieldShortInfo = function (id, name, logAction) {
-  return gIn.wrap(`Info of form (id: ${id}) field: name: ${name}`, logAction, function () {
+  id = idToIdObj(id);
+  return gIn.wrap(`Info of form ${id.logStr} field: name: ${name}`, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
-      `return tiaEJ.ctById.getFormFieldShortInfo('${id}', '${name}');`
+      `return tiaEJ.ctById.getFormFieldShortInfo('${id.id}', '${name}');`
     )
       .then(function (res) {
         gIn.logger.log(', ' + res + ' ... ');

@@ -12,6 +12,8 @@
  */
 exports.checkCheckboxAffects = function *(formId, checkBoxName, directFields, reverseFields, logActions) {
 
+  formId = idToIdObj(formId);
+
   function *checkCBAffects() {
 
     const resAccName = 'checkCBAffects';
@@ -56,7 +58,7 @@ exports.checkCheckboxAffects = function *(formId, checkBoxName, directFields, re
 
   var res = yield *gT.hL.wrapGenerator(
     checkCBAffects,
-    `Check checkbox (name: ${checkBoxName}) affects for form with id: ${formId}`, {passLlPrinting: true});
+    `Check checkbox (name: ${checkBoxName}) affects for form ${formId.logStr}`, {passLlPrinting: true});
 
   return res;
 };

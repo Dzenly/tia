@@ -109,9 +109,10 @@ exports.fieldByFormIdName = function (formId, name, logAction) {
 };
 
 exports.checkBoxByFormIdName = function (formId, name, logAction) {
-  return gIn.wrap(`Click checkBox (name: ${name}) on form (id: ${formId}) ... `,
+  formId = idToIdObj(formId);
+  return gIn.wrap(`Click checkBox (name: ${name}) on form ${formId.logStr} ... `,
     logAction, function () {
-      return gT.s.browser.executeScript(`return tiaEJ.hEById.getElByFormName('${formId}', '${name}');`, false)
+      return gT.s.browser.executeScript(`return tiaEJ.hEById.getElByFormName('${formId.id}', '${name}');`, false)
         .then(exports.createFuncPrintTextDelayClick(false, false, logAction));
     });
 };

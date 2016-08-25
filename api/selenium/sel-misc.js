@@ -1,17 +1,29 @@
 'use strict';
 /* globals gT: true */
 
-exports.getIdInfo = function (id) {
+global.idToIdObj = gT.idToIdObj = function(id) {
+  var res;
   if (typeof id === 'object') {
-    return {
+    if (id.logStr) { // Already converted.
+      return id;
+    }
+    res = {
       id: id.id,
       logStr: `(${id.nameForLog})`
     };
+  } else {
+    res = {
+      id: id,
+      logStr: `(id: ${id})`
+    };
   }
-  return {
-    id: id,
-    logStr: `(id: ${id})`
-  };
+  // res.valueOf = function () {
+  //   return this.logStr;
+  // };
+  // res.toString = function () { // Seems like template strings do not use valueOf().
+  //   return this.logStr;
+  // };
+  return res;
 };
 
 // Dummy functions for tests for test engine.
