@@ -234,10 +234,15 @@
       var lookupControllerSkipThisArr = this.getControllerInfo(comp.lookupController(true), 'lookupController(true)');
 
       var localeKeys = this.consts.nA;
-      var text = '';
+      var textStr = '';
       if (comp.getText) {
-        text = comp.getText();
-        localeKeys = tiaEJ.getLocKeysByText(text);
+        textStr = 'getText(): ' + comp.getText();
+        localeKeys = tiaEJ.getLocKeysByText(textStr);
+      } else {
+        if (comp.text) {
+          textStr = 'text:' + comp.text;
+          localeKeys = tiaEJ.getLocKeysByText(textStr);
+        }
       }
 
       var outArr = [];
@@ -273,7 +278,7 @@
       ], outArr);
 
       // outArr.push('getConfig(itemId): ' + tiaEJ.ctByObj.safeGetConfig(comp, 'itemId'));
-      outArr.push('getText:' + text + ', Locale Keys: ' + localeKeys);
+      outArr.push(textStr + ', Locale Keys: ' + localeKeys);
 
       tia.cU.dumpObj(comp, [
         'getXTypes()',

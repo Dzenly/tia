@@ -63,6 +63,8 @@ exports.init = function (cleanProfile, logAction) {
     switch (gIn.params.browser) {
       case 'chrome':
         options = new gT.sOrig.chrome.Options();
+        options.addArguments('--dns-prefetch-disable');
+
         if (gIn.config.selProfilePath) {
           options.addArguments('--user-data-dir=' + profileAbsPath);
         }
@@ -175,6 +177,8 @@ exports.init = function (cleanProfile, logAction) {
     }
 
     gT.sOrig.logs = gT.sOrig.driver.manage().logs();
+
+    // TODO: delay by gT.engineConsts.defaultDelayAfterDriverCreate ?
 
     return promise.fulfilled(true);
   });

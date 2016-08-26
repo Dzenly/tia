@@ -12,8 +12,9 @@
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
 exports.waitForElementById = function (id, timeout, logAction) {
-  return gIn.wrap('Waiting for element by id : "' + id + '" ... ', logAction, function () {
-    return gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.id(id)), timeout);
+  id = idToIdObj(id);
+  return gIn.wrap(`Waiting for element by id ${id.logStr} ... `, logAction, function () {
+    return gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.id(id.id)), timeout);
   });
 };
 

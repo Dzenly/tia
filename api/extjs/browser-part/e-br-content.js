@@ -334,6 +334,22 @@
       return resArr.join(', ');
     },
 
+    getLabelsAndText: function (field) {
+      var resArr = [];
+      if (field.getFieldLabel && field.getFieldLabel()) {
+        resArr.push('label: ' + field.getFieldLabel());
+      }
+      if (field.boxLabel) {
+        resArr.push('boxLabel: ' + field.boxLabel);
+      }
+      if (field.getText) {
+        resArr.push('text: ' + field.getText());
+      } else if (field.text) {
+        resArr.push('text: ' + field.text);
+      }
+      return resArr.join(', ');
+    },
+
     getFormFieldEnabledDisabledInfo: function (form, name) {
       var field = tiaEJ.search.byFormAndName(form, name);
       var res = this.getNameAndLabels(field, true);
@@ -517,6 +533,16 @@
         var comp = tiaEJ.search.byFormAndName(form, name);
         return self.getFormChild(comp, includingStores);
       });
+    },
+
+    getFormFieldError: function (comp) {
+      return comp.getActiveError();
+    },
+
+    getFormFieldErrorByFormName: function (form, name) {
+      var comp = tiaEJ.search.byFormAndName(form, name);
+      console.log(comp.getActiveError());
+      return comp.getActiveError();
     },
 
     /**

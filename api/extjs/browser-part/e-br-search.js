@@ -116,6 +116,7 @@
   var searchProps = Object.getOwnPropertyNames(tiaEJ.search);
 
   window.tiaEJ.searchId = {};
+  window.tiaEJ.searchFieldId = {};
   window.tiaEJ.searchInputId = {};
 
   searchProps.forEach(function (fName) {
@@ -123,9 +124,16 @@
       var cmp = tiaEJ.search[fName](param1, param2, param3, param4, param5);
       return cmp.getId();
     };
+
+    tiaEJ.searchFieldId[fName] = function (param1, param2, param3, param4, param5) {
+      var cmp = tiaEJ.search[fName](param1, param2, param3, param4, param5);
+      var nameForLog = tiaEJ.ctByObj.getLabelsAndText(cmp);
+      return {id: cmp.getId(), nameForLog: nameForLog};
+    };
+
     tiaEJ.searchInputId[fName] = function (param1, param2, param3, param4, param5) {
       var cmp = tiaEJ.search[fName](param1, param2, param3, param4, param5);
-      var nameForLog = tiaEJ.ctByObj.getNameAndLabels(cmp, true);
+      var nameForLog = tiaEJ.ctByObj.getNameAndLabels(cmp, false);
       return {id: cmp.getInputId(), nameForLog: nameForLog};
     };
   });

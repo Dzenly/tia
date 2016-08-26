@@ -88,3 +88,12 @@ exports.form = function (id, includingStores, logAction) {
   });
 };
 
+exports.formField = function (id, includingStores, logAction) {
+  id = idToIdObj(id);
+  return gIn.wrap(`Logging content of form field ${id.logStr} ... `, logAction, function () {
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getFormChild('${id.id}', ${includingStores});`)
+      .then(function (fieldContent) {
+        gIn.logger.log('\n' + gT.commonConsts.content.wrap(fieldContent));
+      });
+  });
+};

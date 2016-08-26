@@ -172,31 +172,31 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         gIn.logger.exception('Exception in wrapper: ', err);
         gIn.logger.exception('Exception stack: ', err.stack);
 
-        if (typeof gT.sOrig.driver !== 'undefined' && !gIn.errRecursionCount) {
+        if (gT.sOrig.driver && !gIn.errRecursionCount) {
           gIn.errRecursionCount = 1; // To prevent recursive error report on error report.
           /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
           gIn.tracer.msg1('Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.');
 
           s.driver.printSelDriverLogs(900).catch(function (err) {
-            gIn.tracer.msg1('Error at printSelDriverLogs at error handling');
+            gIn.tracer.msg1('Error at printSelDriverLogs at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
           });
 
           if (!gIn.brHelpersInitiated) {
             gT.s.browser.initTiaBrHelpers(true).catch(function (err) {
-              gIn.tracer.msg1('Error at initTiaBrHelpers at error handling');
+              gIn.tracer.msg1('Error at initTiaBrHelpers at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
             });
           }
 
           gT.s.browser.printCaughtExceptions(true).catch(function (err) {
-            gIn.tracer.msg1('Error at logExceptions at error handling');
+            gIn.tracer.msg1('Error at logExceptions at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
           });
 
           gT.s.browser.printSelBrowserLogs().catch(function (err) {
-            gIn.tracer.msg1('Error at logConsoleContent at error handling');
+            gIn.tracer.msg1('Error at logConsoleContent at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
           });
 
           gT.s.browser.screenshot().catch(function (err) {
-            gIn.tracer.msg1('Error at screenshot at error handling');
+            gIn.tracer.msg1('Error at screenshot at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
           });
 
           if (!gIn.params.keepBrowserAtError) {

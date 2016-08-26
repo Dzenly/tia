@@ -55,7 +55,6 @@ module.exports = {
   // all tests will be cancelled.
   maxTestCountWithRecursiveError: 2,
 
-
   // Comboboxes have a glitch, at one left click they can open bouldList and immediately close it.
   // This constant sets how many times tia will retry to click comboboxes if bound List is not opened.
   // If retry count is 0 the only one attempt to click combobox will be performed.
@@ -85,5 +84,9 @@ module.exports = {
   defaultBrowserLogLevel: 1000,
 
   // Дефолтный уровень логирования для драйвера.
-  defaultDriverLogLevel: 900
+  defaultDriverLogLevel: 900,
+
+  // https://bugs.chromium.org/p/chromedriver/issues/detail?id=817#c21
+  // TODO: use this if --dns-prefetch-disable will not work.
+  defaultDelayAfterDriverCreate: 2000 // Delay after webdriver create to avoid error.
 };

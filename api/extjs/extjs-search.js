@@ -67,3 +67,36 @@ exports.inputByIdRef = function (id, ref, logAction) {
       });
   });
 };
+
+exports.fieldByIdCompQuery = function (id, compQuery, logAction) {
+  id = idToIdObj(id);
+  return gIn.wrap(`Searching field id by container ${id.logStr}, compQuery: ${compQuery} ... `, logAction, function () {
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.searchFieldId.byIdCompQuery('${id.id}', '${compQuery}')`)
+      .then(function (foundId) {
+        gIn.tracer.msg3(`fieldByIdCompQuery, found id: ${inspect(foundId)}`);
+        return foundId;
+      });
+  });
+};
+
+exports.fieldByFormIdName = function (id, name, logAction) {
+  id = idToIdObj(id);
+  return gIn.wrap(`Searching field id by form ${id.logStr}, name: ${name} ... `, logAction, function () {
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.searchFieldId.byFormIdName('${id.id}', '${name}')`)
+      .then(function (foundId) {
+        gIn.tracer.msg3(`fieldByFormIdName, found id: ${inspect(foundId)}`);
+        return foundId;
+      });
+  });
+};
+
+exports.fieldByIdRef = function (id, ref, logAction) {
+  id = idToIdObj(id);
+  return gIn.wrap(`Searching field id by container ${id.logStr}, reference: ${ref} ... `, logAction, function () {
+    return gT.s.browser.executeScriptWrapper(`return tiaEJ.searchFieldId.byIdRef('${id.id}', '${ref}')`)
+      .then(function (foundId) {
+        gIn.tracer.msg3(`fieldByIdRef, found id: ${inspect(foundId)}`);
+        return foundId;
+      });
+  });
+};

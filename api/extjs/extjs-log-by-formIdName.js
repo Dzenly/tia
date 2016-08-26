@@ -66,3 +66,15 @@ exports.fieldShortInfo = function (id, name, logAction) {
       });
   });
 };
+
+exports.fieldError = function (id, name, logAction) {
+  id = idToIdObj(id);
+  return gIn.wrap(`Error of form ${id.logStr} field (name: ${name}):`, logAction, function () {
+    return gT.s.browser.executeScriptWrapper(
+      `return tiaEJ.ctById.getFormFieldErrorByFormName('${id.id}', '${name}');`
+    )
+      .then(function (res) {
+        gIn.logger.log('\n' + gT.commonConsts.content.wrap(res + '\n'));
+      });
+  });
+};
