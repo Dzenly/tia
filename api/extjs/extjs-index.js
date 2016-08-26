@@ -26,7 +26,8 @@ var brHelpers = [
   'e-br-search.js',
   'e-br-content.js',
   'e-br-check.js',
-  'e-br-get-html-els.js'
+  'e-br-get-html-els.js',
+  'e-br-msgbox.js'
 ];
 
 /**
@@ -79,6 +80,7 @@ gT.e.logCtById = require('./extjs-log-by-id.js');
 gT.e.logCtByFormIdName = require('./extjs-log-by-formIdName.js');
 gT.e.logUtils = require('./extjs-log-utils');
 gT.e.getByFormIdName = require('./extjs-get-by-formIdName.js');
+gT.e.msgBox = require('./extjs-msgbox.js');
 
 gT.e.hL = require('./extjs-hl.js');
 

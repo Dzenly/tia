@@ -153,6 +153,7 @@ exports.init = function (cleanProfile, logAction) {
       }
 
       // ==============================
+      // TODO:
       // Using undocumented property to trace all selenium commands.
       // var executorRef = gT.sOrig.driver.executor_;
       // executorRef.executeOrig = executorRef.execute;
