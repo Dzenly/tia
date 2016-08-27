@@ -179,9 +179,9 @@ exports.init = function (cleanProfile, logAction) {
 
     gT.sOrig.logs = gT.sOrig.driver.manage().logs();
 
-    // TODO: delay by gT.engineConsts.defaultDelayAfterDriverCreate ?
-
-    return promise.fulfilled(true);
+    // Trying to fix chromedriver issue 817 by delay.
+    // https://bugs.chromium.org/p/chromedriver/issues/detail?id=817#c21
+    return promise.delayed(gT.engineConsts.defaultDelayAfterDriverCreate);
   });
 };
 
