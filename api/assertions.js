@@ -107,7 +107,7 @@ exports.value = function (actVal, expVal, msg, mode) {
       gT.l.pass(msg, mode);
       return true;
     } else {
-      msg = 'Equality checking:\nAct: ' + actVal + '\nExp: "' + expVal;
+      msg = 'Equality checking:\nAct: ' + actVal + '\nExp: ' + expVal;
       failWrapper(msg, mode);
       return false;
     }
