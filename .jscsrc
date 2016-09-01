@@ -1,5 +1,5 @@
 {
-  "preset": "yandex",
+  "preset": "loris",
   "fileExtensions": [".js"],
   "excludeFiles": ["node_modules/**"],
   "requireSpaceAfterLineComment": false,

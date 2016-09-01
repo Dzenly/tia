@@ -46,7 +46,7 @@ exports.mergeResultToAccumulator = function (res, name) {
 function failWrapper(msg, mode) {
   gT.l.fail(msg);
   if (mode && mode.accName) {
-    mode[accName] = false;
+    mode.accName = false;
   }
 }
 

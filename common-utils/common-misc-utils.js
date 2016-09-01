@@ -53,8 +53,8 @@
         if (typeof src[prop] === 'undefined') {
           continue;
         }
-        if (typeof dst[prop] !== typeof src[prop]) {
-          throw Error('Unexpected type, expected: ' + typeof dst[prop] + ', actual: ' + typeof src[prop]);
+        if (typeof dst[prop] !== 'undefined' && typeof dst[prop] !== typeof src[prop]) {
+          throw Error('Unexpected type for prop: ' + prop + ', expected: ' + typeof dst[prop] + ', actual: ' + typeof src[prop]);
         }
         if (typeof dst[prop] === 'object') {
           handleObj(src[prop], dst[prop]);
@@ -102,6 +102,7 @@
       dstArr = [];
     }
     var actualPropPathArr;
+    var actPropPathStr;
     try {
       outerLoop:
         for (var i = 0, len1 = propPaths.length; i < len1; i++) {
@@ -137,7 +138,7 @@
               var thisObj = propPathVal;
               propPathVal = propPathVal[funcName];
 
-              var actPropPathStr = funcName;
+              actPropPathStr = funcName;
 
               while (braceCount--) {
 
@@ -163,7 +164,7 @@
 
                 actPropPathStr += '(' + argsStr + ')';
                 propPathVal = propPathVal.apply(thisObj, args);
-                thisObj = propPathVal
+                thisObj = propPathVal;
               }
               actualPropPathArr.push(actPropPathStr);
               actPropPathStr = '';
