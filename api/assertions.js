@@ -115,6 +115,45 @@ exports.value = function (actVal, expVal, msg, mode) {
 };
 
 /**
+ * Checks that string value representation equals to expected string.
+ * @param {*} actVal - actual value.
+ * @param {*} expVal - expected value.
+ * @param {String} [msg] - message to describe the entity which you expect.
+ * @returns {Boolean} comparision result.
+ */
+exports.valueStr = function (actVal, expVal, msg, mode) {
+  actVal = String(actVal);
+  expVal = String(expVal);
+  return exports.value(actVal, expVal, msg, mode);
+};
+
+/**
+ * Checks that number value representation equals to expected number.
+ * @param {*} actVal - actual value.
+ * @param {*} expVal - expected value.
+ * @param {String} [msg] - message to describe the entity which you expect.
+ * @returns {Boolean} comparision result.
+ */
+exports.valueNumber = function (actVal, expVal, msg, mode) {
+  actVal = Number(actVal);
+  expVal = Number(expVal);
+  return exports.value(actVal, expVal, msg, mode);
+};
+
+/**
+ * Checks that bool value representation equals to expected bool value.
+ * @param {*} actVal - actual value.
+ * @param {*} expVal - expected value.
+ * @param {String} [msg] - message to describe the entity which you expect.
+ * @returns {Boolean} comparision result.
+ */
+exports.valueBool = function (actVal, expVal, msg, mode) {
+  actVal = Boolean(actVal);
+  expVal = Boolean(expVal);
+  return exports.value(actVal, expVal, msg, mode);
+};
+
+/**
  * Checks that two objects or values are equal.
  * Functions are not supported.
  * @param actVal - actual value.
