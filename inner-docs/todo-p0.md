@@ -1,3 +1,53 @@
+Если один тест завис, тест за ним может сломаться с таким логом.
+При этом нет мейла. См. конец лога, программа завершается аварийно.
+М.б. стоит вернуть обработчик unhandledExceptions.
+М.б. стот сделать тест, где искусственно вызывать такое зависание.
+
+```
+build	14-сен-2016 05:16:12	[39m[31mERR: Recursive error at error handling. The test will be canceled.
+build	14-сен-2016 05:16:12	[39m[31mERR: Error at quit at error handling. The test will be canceled.
+build	14-сен-2016 05:16:12	[39m[31m
+build	14-сен-2016 05:16:12	TRCERR: Safe Generator caught error: Cancelling the suite due to hanging
+build	14-сен-2016 05:16:12	 No stack trace
+build	14-сен-2016 05:16:12	
+build	14-сен-2016 05:16:12	[39m
+build	14-сен-2016 05:16:12	TRC2: Starting new test: /root/.nvm/versions/node/v4.5.0/lib/node_modules/tia/tests/wd-helpers/00_helpers/02_scriptsExecution.js
+build	14-сен-2016 05:16:12	TRC3: selProfilePath: 
+build	14-сен-2016 05:16:12	TRC3: shareBrowser: false
+build	14-сен-2016 05:16:12	TRC3: sharedBrowserInitiated: undefined
+build	14-сен-2016 05:16:12	TRC3: Inside wrapper, before start timer,  msg: Initialization (with default empty profile) ... 
+build	14-сен-2016 05:16:12	TRC3: Inside wrapper, after start timer, msg: Initialization (with default empty profile) ... 
+build	14-сен-2016 05:16:12	TRC1: Cancelling action using gIn.cancelSuite flag
+build	14-сен-2016 05:16:12	[31mERR: Act.Wrapper.FAIL
+build	14-сен-2016 05:16:12	[39m[31mERR: ========== Err Info Begin ==========
+build	14-сен-2016 05:16:12	[39m[31mERR: Msg was: Initialization (with default empty profile) ... 
+build	14-сен-2016 05:16:12	[39m[31mEXC: Exception in wrapper:  Cancelling the suite due to hanging
+build	14-сен-2016 05:16:12	 No stack trace
+build	14-сен-2016 05:16:12	
+build	14-сен-2016 05:16:12	[39m[31mEXC: Exception stack:  
+build	14-сен-2016 05:16:12	No Exception info
+build	14-сен-2016 05:16:12	
+build	14-сен-2016 05:16:12	[39m
+build	14-сен-2016 05:16:12	TRC1: Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.
+build	14-сен-2016 05:16:12	[31mTRCERR: Safe Generator caught error: NoSuchSessionError: This driver instance does not have a valid session ID (did you call WebDriver.quit()?) and may no longer be used.
+build	14-сен-2016 05:16:12	NoSuchSessionError: This driver instance does not have a valid session ID (did you call WebDriver.quit()?) and may no longer be used.
+build	14-сен-2016 05:16:12	[39m
+build	14-сен-2016 05:16:12	TRC3: handleDir Dir: /root/.nvm/versions/node/v4.5.0/lib/node_modules/tia/tests/wd-helpers/01_interact
+build	14-сен-2016 05:16:12	TRC3: quitIfInited: before quit call
+build	14-сен-2016 05:16:12	[31mTRCERR: Runner ERR: NoSuchSessionError: This driver instance does not have a valid session ID (did you call WebDriver.quit()?) and may no longer be used.
+build	14-сен-2016 05:16:12	NoSuchSessionError: This driver instance does not have a valid session ID (did you call WebDriver.quit()?) and may no longer be used.
+build	14-сен-2016 05:16:12	    at next (native)
+build	14-сен-2016 05:16:12	From: Task: <anonymous>
+build	14-сен-2016 05:16:12	    at process._tickCallback (node.js:369:9)
+build	14-сен-2016 05:16:12	    at Function.Module.runMain (module.js:443:11)
+build	14-сен-2016 05:16:12	    at startup (node.js:139:18)
+build	14-сен-2016 05:16:12	    at node.js:974:3
+error	14-сен-2016 05:21:12	Command exited with non-zero status 1
+error	14-сен-2016 05:21:12	0.56user 0.15system 10:06.71elapsed 0%CPU (0avgtext+0avgdata 48572maxresident)k
+error	14-сен-2016 05:21:12	0inputs+360outputs (0major+31344minor)pagefaults 0swaps
+build	14-сен-2016 05:21:12	[39m
+simple	14-сен-2016 05:21:12	Failing task since return code of [/bin/sh /opt/atlassian/bamboo/temp/RV-TIAT2-JOB1-7414-ScriptBuildTask-8744185176314095995.sh] was 1 while expected 0
+```
 ===================
 
 Может быть вести какой-то отдельный лог с трейсингом?

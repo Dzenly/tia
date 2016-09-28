@@ -125,7 +125,6 @@ function usage() {
 
       --tests-dir <Tests Root Directory> - root directory for test suite (can be relative to current working dir).
       It there is no --tests-dir, tia will check ${gT.engineConsts.testsDirEnvVarName} environment variable.
-      If there is no explicit tests directory, current working directory will be used.
       Note: browser profile root is created as sibling to tests directory.
 
       Note: ${gT.engineConsts.emailCfgPathEnvVarName} environment variable can be used for the same purpose.
@@ -272,7 +271,9 @@ var testsDir = args.testsDir;
 if (!testsDir) {
   testsDir = process.env[gT.engineConsts.testsDirEnvVarName];
   if (!testsDir) {
-    testsDir = process.cwd();
+    gIn.cLogger.errln('Tests directory is not specified');
+    process.exit(1);
+    // testsDir = process.cwd();
   }
 } else {
   testsDir = path.resolve(testsDir);
