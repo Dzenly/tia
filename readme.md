@@ -424,9 +424,6 @@ it can speed up your debugging.
 
 ## Known issues and bugs
 
-* Ignore this message:
-  `.../.nvm/versions/node/v4.4.1/bin/tia: line 2: //#: No such file or directory`
-
 * Browser profiles do not save on Windows after browser closing.
   I.e. you can use predefined profiles, but it will not be updated after selenium tests.
   Chrome's profile is broken after browser exit, Firefox profile does not
