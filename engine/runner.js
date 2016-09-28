@@ -1,5 +1,7 @@
 'use strict';
 
+var inspect = require('util').inspect;
+
 /* globals gT: true */
 /* globals gIn: true */
 
@@ -27,6 +29,7 @@ function runTestFile(file) {
   } catch (e) {
     // TODO: why did I disable exceptions to console here?
     gIn.logger.exception('Exception in runner: ', e);
+    gIn.logger.logResourcesUsage();
     gIn.tInfo.addFail();
   }
 }

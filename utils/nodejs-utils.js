@@ -1,6 +1,7 @@
 'use strict';
 
 var path = require('path');
+var util = require('util');
 
 /**
  * Clears 'require' cache for specified node module.
@@ -31,4 +32,12 @@ exports.requireEx = function (modPath, clearCache) {
   }
 
   return res;
+};
+
+exports.getResourcesUsage = function () {
+  var str = util.inspect(process.memoryUsage());
+  if (process.cpuUsage) {
+    str += util.inspect(process.cpuUsage());
+  }
+  return str;
 };

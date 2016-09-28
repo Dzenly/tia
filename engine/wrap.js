@@ -1,5 +1,7 @@
 'use strict';
 
+var inspect = require('util').inspect;
+
 /* globals gIn: true */
 /* globals gT: true */
 
@@ -171,6 +173,8 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         gIn.logger.errorln('Msg was: ' + msg);
         gIn.logger.exception('Exception in wrapper: ', err);
         gIn.logger.exception('Exception stack: ', err.stack);
+
+        gIn.logger.logResourcesUsage();
 
         if (gT.sOrig.driver && !gIn.errRecursionCount) {
           gIn.errRecursionCount = 1; // To prevent recursive error report on error report.

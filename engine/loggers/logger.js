@@ -10,6 +10,7 @@
 var isVerbose;
 
 var fs = require('fs');
+var nodeUtils = require('../../utils/nodejs-utils.js');
 
 // Must be called only before handleDir for root test directory, like engine, app, etc..
 // TODO: what it is ?
@@ -41,6 +42,12 @@ exports.log = function (msg, dontWriteToFile) {
 
 exports.logln = function (msg) {
   exports.log(msg + '\n');
+};
+
+exports.logResourcesUsage = function () {
+  if (gIn.config.resUsagePrintAtErrors) {
+    exports.logln(nodeUtils.getResourcesUsage());
+  }
 };
 
 exports.logBold = function (msg) {

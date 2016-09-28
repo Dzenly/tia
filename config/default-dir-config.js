@@ -62,6 +62,8 @@ module.exports = {
   // Этот параметр нужно перегружать в локальном config.js.
   selHost: 'http://localhost:1338',
 
+  resUsagePrintAtErrors: true // Print resource usage at error. Makes sense to disable for tests for errors testing.
+
   // TODO ?:
   //stopTestsIfThrow: false, // Can be overriden in tests for test engine.
   //stopTestsIfFail: false, // Can be overriden in tests for test engine.

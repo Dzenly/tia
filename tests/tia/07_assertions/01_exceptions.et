@@ -5,8 +5,9 @@ OK: Expected any exception: 'Error: My Exception'
 Certain exception
 OK: Expected exception: 'Error: My Exception'
 Unexpected exception
-FAIL: Actual Exception: 'Error: My Exception'
-Expected Exception: 'Error: Another exception'
+FAIL: Actual Exception vs Expected one:
+'Error: My Exception'
+'Error: Another exception'
 Not any exception
 FAIL: There is not any exception
 Not a certain exception
