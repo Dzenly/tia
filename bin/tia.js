@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-':'; //# comment; exec /usr/bin/env node --harmony "$0" "$@"
-
+':' //# comment; exec /usr/bin/env node --harmony "$0" "$@"
 'use strict';
+
+// http://sambal.org/2014/02/passing-options-node-shebang-line/
 
 /* globals gIn: true, gT */
 var nodeUtil = require('util');

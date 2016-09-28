@@ -238,7 +238,7 @@ exports.exception = function (func, expExc, mode) {
       gT.l.pass(`Expected exception: '${expExc}'`, mode);
       return true;
     }
-    failWrapper(`Actual Exception: '${str}'\nExpected Exception: '${expExc}'`, mode);
+    failWrapper(`Actual Exception vs Expected one:\n'${str}'\n'${expExc}'`, mode);
     return false;
 
   }
