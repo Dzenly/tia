@@ -16,7 +16,7 @@ To don't blow up versions for now I am not following SEMVER rules.
 I change the 'patch' version part at adding new functionality and bug fixes,
 and change the 'minor' version part at changes which break backward compatibility.
 
-After 1.0.0 (it is planned as of August 2016) version I will follow SEMVER strictly.
+After 1.0.0 (it is planned as of November 2016) version I will follow SEMVER strictly.
 
 ----------------------------------
 
