@@ -1,7 +1,5 @@
 'use strict';
 
-var inspect = require('util').inspect;
-
 /* globals gT: true */
 /* globals gIn: true */
 
@@ -163,6 +161,7 @@ function *handleTestDir(dir, prevDirConfig) {
 function *runTestSuite(dir) {
   //console.log('runAsync Dir: ' + dir);
   var log = dir + '.mlog'; // Summary log.
+  var procInfoFilePath = dir + '.procInfo';
   var txtAttachments = [log];
   var noTimeLog = log + '.notime';
   var prevDif = noTimeLog + '.prev.dif';
@@ -219,11 +218,16 @@ function *runTestSuite(dir) {
 
   var arcName = gIn.fileUtils.archiveSuiteDir(dirInfo);
 
+  var procInfo = nodeUtils.getProcInfo();
+  fs.writeFileSync(procInfoFilePath, procInfo, {encoding: gT.engineConsts.logEncoding});
+  txtAttachments.push(procInfoFilePath);
+
   yield gIn.mailUtils.send(emailSubj, txtAttachments, [arcName]);
   var status = dirInfo.diffed ? 1 : 0;
   gIn.cLogger.msg('\n' + emailSubjCons + '\n');
   if (gT.suiteConfig.metaLogToStdout) {
     gIn.logger.printSuiteLog(dirInfo);
+    gIn.cLogger.msgln(procInfo);
     //gIn.fileUtils.fileToStdout(log);
   }
 
