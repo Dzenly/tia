@@ -41,6 +41,13 @@ exports.msgln = function (msg) {
   exports.msg(msg + '\n');
 };
 
+exports.logResourcesUsage = function (prefix) {
+  // if (gIn.config.resUsagePrintAtErrors) {
+  prefix = prefix || '';
+  exports.msgln(prefix + gT.nodeUtils.getResourcesUsage());
+  // }
+};
+
 /**
  *
  * @param chalkProps - string or array.

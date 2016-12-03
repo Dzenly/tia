@@ -169,3 +169,5 @@ br-profiles/
 *.old
 
 ext-log.log
+
+*.procInfo

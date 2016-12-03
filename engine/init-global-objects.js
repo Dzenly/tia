@@ -56,6 +56,8 @@ gIn.mailUtils = require('../utils/mail-utils.js');
 
 gIn.remoteDriverUtils = require('../utils/remote-driver-utils.js');
 
+gT.nodeUtils = require('../utils/nodejs-utils.js');
+
 gIn.wrap = require('./wrap.js');
 
 require('../api/api-index.js');

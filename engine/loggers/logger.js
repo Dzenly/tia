@@ -44,9 +44,10 @@ exports.logln = function (msg) {
   exports.log(msg + '\n');
 };
 
-exports.logResourcesUsage = function () {
+exports.logResourcesUsage = function (prefix) {
   if (gIn.config.resUsagePrintAtErrors) {
-    exports.logln(nodeUtils.getResourcesUsage());
+    prefix = prefix || '';
+    exports.logln(prefix + nodeUtils.getResourcesUsage());
   }
 };
 

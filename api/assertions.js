@@ -1,12 +1,14 @@
 'use strict';
 
+var co = require('co');
+
 /* globals gT: true */
 /* globals gIn: true */
 
 
 /*
-Assertions can use results accumulators.
-I.e. the map which remembers if there was some error for current name.
+ Assertions can use results accumulators.
+ I.e. the map which remembers if there was some error for current name.
  */
 
 var resultAccumulators = {};
@@ -242,6 +244,41 @@ exports.exception = function (func, expExc, mode) {
     return false;
 
   }
+};
+
+/**
+ *
+ * @param yieldable
+ * @param expExc
+ * @param mode
+ * @return {Promise}
+ */
+exports.exceptionAsync = function (yieldable, expExc, mode) {
+  return co(yieldable)
+    .then(function (res) {
+      console.log('GOOD');
+      var msg;
+      if (typeof expExc === 'undefined') {
+        msg = 'There is not any exception';
+      } else {
+        msg = `There is not expected exception: '${expExc}'`;
+      }
+      failWrapper(msg, mode);
+      return false;
+    }, function (e) {
+      var str = e.toString();
+      console.log('BAD: ' + str);
+      if (typeof expExc === 'undefined') {
+        gT.l.pass(`Expected any exception: '${str}'`, mode);
+        return true;
+      }
+      if (str === expExc) {
+        gT.l.pass(`Expected exception: '${expExc}'`, mode);
+        return true;
+      }
+      failWrapper(`Actual Exception vs Expected one:\n'${str}'\n'${expExc}'`, mode);
+      return false;
+    });
 };
 
 exports.equal = function (val1, val2, msg1, msg2, doNotShowValues, mode) {
