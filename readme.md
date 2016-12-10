@@ -5,7 +5,7 @@ The engine supports Web sites testing using Selenium WebDriver
 and provides API for work with ExtJs components.
 Xvfb is supported.
 
-*Note: the since 0.12.x version - the minimum supported Node.js version is 6.9.0.*
+*Note: since the 0.12.x version - the minimum supported Node.js version is 6.9.0.*
 
 The engine is in development stage, but well tested and ready to use.
 
