@@ -174,7 +174,11 @@ function *runTestSuite(dir) {
 
   var dirInfo = yield* handleTestDir(dir, gT.dirConfigDefault);
 
-  yield gT.s.driver.quitIfInited();
+  if (!gIn.params.useRemoteDriver) {
+    yield gT.s.driver.quitIfInited();
+  } else {
+    gIn.tracer.msg3('No force driver.quit() for the last test, due to useRemoteDriver option');
+  }
 
   // dirInfo.title = path.basename(dir);
   gIn.logger.saveSuiteLog(dirInfo, noTimeLog, true);
@@ -247,7 +251,7 @@ module.exports = function (suiteRoot) {
     return 'Just removing of remove driver';
   }
 
-  var result = gT.sOrig.promise.fulfilled(true);
+  var result = gT.sOrig.promise.Promise.resolve(true);
 
   if (gIn.params.useRemoteDriver) {
     result = result.then(function () {

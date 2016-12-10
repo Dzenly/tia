@@ -9,7 +9,8 @@ process.env.PATH = chromeDriverPath + path.delimiter + process.env.PATH;
 gIn.chromeDriverPath = chromeDriverPath;
 
 gT.sOrig.chrome = require('selenium-webdriver/chrome');
-gT.sOrig.executors = require('selenium-webdriver/executors');
+gT.sOrig.Executor = require('selenium-webdriver/http').Executor;
+gT.sOrig.Client = require('selenium-webdriver/http').HttpClient;
 gT.sOrig.firefox = require('selenium-webdriver/firefox');
 
 gT.sOrig.by = gT.sOrig.wdModule.By;

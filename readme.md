@@ -1,18 +1,19 @@
 # Time Is All (log driven test engine with ExtJs support)
 
 This is an engine for `[massive]` regression testing automation.
-The engine supports Web sites GUI testing using Selenium WebDriver.
+The engine supports Web sites testing using Selenium WebDriver
+and provides API for work with ExtJs components.
 Xvfb is supported.
-The engine provides API for work with ExtJs components.
-Also the engine can be used for common (non GUI, non Web) unit tests and regression tests.
 
-The engine is in develompent stage, but well tested and ready to use.
+*Note: the since 0.12.x version - the minimum supported Node.js version is 6.9.0.*
+
+The engine is in development stage, but well tested and ready to use.
 
 To don't blow up versions for now I am not following SEMVER rules.
 I change the 'patch' version part at adding new functionality and bug fixes,
 and change the 'minor' version part at changes which break backward compatibility.
 
-After 1.0.0 (it is planned as of November 2016) version I will follow SEMVER strictly.
+After 1.0.0 version I will follow SEMVER strictly.
 
 Some TODO for near future:
 
@@ -30,7 +31,7 @@ Some TODO for near future:
 
 ## Selenium WebDriver notes
 
-GUI part is created on top of official JS selenium-webdriver binding:
+GUI part is created on top of the official JS selenium-webdriver binding:
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/index.html
 

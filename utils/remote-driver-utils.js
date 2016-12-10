@@ -54,7 +54,7 @@ exports.getSid = function () {
 exports.start = function () {
   if (getPid()) {
     gIn.tracer.msg3('Remote driver is already started');
-    return gT.sOrig.promise.fulfilled(true);
+    return gT.sOrig.promise.Promise.resolve(true);
   }
 
   return new gT.sOrig.promise.Promise(function (resolve, reject) {

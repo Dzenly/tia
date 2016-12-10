@@ -37,13 +37,13 @@ global.idToIdObj = gT.idToIdObj = function(id) {
 //
 // gT.s.dummyPromiseRejected = function (msg) {
 //   return gIn.wrap('Dummy promise rejected: "' + msg, logAction, function () {
-//     return promise.rejected('Rejected');
+//     return promise.Promise.reject('Rejected');
 //   });
 // };
 //
 // gT.s.dummyPromiseThrowed = function (msg) {
 //   return gIn.wrap('Dummy promise rejected: "' + msg, logAction, function () {
-//     return promise.rejected('Rejected');
+//     return promise.Promise.reject('Rejected');
 //   });
 // };
 

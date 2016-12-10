@@ -30,7 +30,7 @@ exports.init = function (cleanProfile, logAction) {
   if (!gIn.config.selProfilePath && gIn.params.shareBrowser) {
     if (gIn.sharedBrowserInitiated) {
       gIn.tracer.msg3('Initialization is not needed');
-      return gT.sOrig.promise.fulfilled('Initialization is not needed');
+      return gT.sOrig.promise.Promise.resolve('Initialization is not needed');
     } else {
       gIn.sharedBrowserInitiated = true;
     }
@@ -127,10 +127,14 @@ exports.init = function (cleanProfile, logAction) {
       if (sid) {
         gIn.tracer.msg3('There is current SID');
         gT.firstRunWithRemoteDriver = false;
-        var executor = gT.sOrig.executors.createExecutor(remoteDriverConnectionStr);
+
+        var client = new gT.sOrig.Client(remoteDriverConnectionStr);
+        var executor = new gT.sOrig.Executor(client);
+
         gT.sOrig.driver = gT.sOrig.wdModule.WebDriver.attachToSession(
           executor,
           sid);
+
       } else {
         gIn.tracer.msg3('There is not current SID');
         gT.firstRunWithRemoteDriver = true;
@@ -186,7 +190,7 @@ exports.init = function (cleanProfile, logAction) {
 };
 
 /**
- * Sleeps for specified milliseconds amount.
+ * Sleeps for the specified milliseconds amount.
  *
  * @param ms
  * @param logAction
@@ -209,14 +213,14 @@ exports.sleep = function (ms, logAction) {
 exports.quit = function (logAction) {
   if (gIn.params.ejExplore) {
     gIn.tracer.msg3('quit: ejExplore, no quit');
-    return gT.sOrig.promise.fulfilled('ejExplore, no quit');
+    return gT.sOrig.promise.Promise.resolve('ejExplore, no quit');
   }
   if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
     logAction = false;
   }
   if (gIn.sharedBrowserInitiated) {
     gIn.tracer.msg3('quit: Shared browser, no quit');
-    return gT.sOrig.promise.fulfilled('Shared browser, no quit');
+    return gT.sOrig.promise.Promise.resolve('Shared browser, no quit');
   }
   return gIn.wrap('Quiting ... ', logAction, function () {
     return gT.sOrig.driver.quit().then(function () {
@@ -227,12 +231,12 @@ exports.quit = function (logAction) {
 };
 
 /**
- * Quit if driver is initiated and
+ * Quit if driver is initiated and if there is not ejExplore mode.
  */
 exports.quitIfInited = function () {
   if (gIn.params.ejExplore) {
     gIn.tracer.msg3('quitIfInited: ejExplore, no quit');
-    return gT.sOrig.promise.fulfilled('ejExplore, no quit');
+    return gT.sOrig.promise.Promise.resolve('ejExplore, no quit');
   }
   if (gT.sOrig.driver) {
     gIn.tracer.msg3('quitIfInited: before quit call');
@@ -242,7 +246,7 @@ exports.quitIfInited = function () {
     });
   }
   gIn.tracer.msg3('quitIfInited: no driver, no quit');
-  return gT.sOrig.promise.fulfilled('No driver, no quit');
+  return gT.sOrig.promise.Promise.resolve('No driver, no quit');
 };
 
 exports.printSelDriverLogs = function (minValue) {

@@ -81,11 +81,11 @@ function handleErrAtErrorHandling(msg) {
       gIn.suiteErrRecursionCount++;
       if (gIn.suiteErrRecursionCount > gT.engineConsts.maxTestCountWithRecursiveError) {
         gIn.cancelSuite = true;
-        return gT.sOrig.promise.rejected(CANCELLING_THE_SUITE);
+        return gT.sOrig.promise.Promise.reject(CANCELLING_THE_SUITE);
       }
     }
   }
-  return gT.sOrig.promise.rejected(CANCELLING_THE_TEST);
+  return gT.sOrig.promise.Promise.reject(CANCELLING_THE_TEST);
 }
 
 /**
@@ -112,11 +112,11 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
   return flow.execute(function () {
     if (gIn.cancelThisTest) {
       gIn.tracer.msg1('Cancelling action using gIn.cancelThisTest flag');
-      return gT.sOrig.promise.rejected(CANCELLING_THE_TEST);
+      return gT.sOrig.promise.Promise.reject(CANCELLING_THE_TEST);
     }
     if (gIn.cancelSuite) {
       gIn.tracer.msg1('Cancelling action using gIn.cancelSuite flag');
-      return gT.sOrig.promise.rejected(CANCELLING_THE_SUITE);
+      return gT.sOrig.promise.Promise.reject(CANCELLING_THE_SUITE);
     }
     gIn.tracer.msg3('Inside wrapper, before act() call,  msg: ' + msg);
     var actResult = act();
@@ -154,7 +154,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
         gIn.tracer.exc(err);
         clearTimeout(tId);
         // throw err; // TODO: Check that selenium-webdriver implementation indeed complain to the PromiseA+ standard.
-        return gT.sOrig.promise.rejected(err);
+        return gT.sOrig.promise.Promise.reject(err);
       });
   })
     .then(
@@ -209,7 +209,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
               gIn.tracer.msg1('sOrig.driver deletion');
               delete gT.sOrig.driver;
               // yield will generate exception with this object.
-              return promise.rejected('Error in action (sel. driver was existed)');
+              return promise.Promise.reject('Error in action (sel. driver was existed)');
             }).catch(function (err) {
               return handleErrAtErrorHandling('Error at quit');
             });
@@ -238,7 +238,7 @@ module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
             }
           }
           // yield will generate exception with this object.
-          return promise.rejected('Error in action. Sel. driver existed: ' + Boolean(driverExisted) +
+          return promise.Promise.reject('Error in action. Sel. driver existed: ' + Boolean(driverExisted) +
             ', Error recursion at error handling: ' + gIn.errRecursionCount);
         }
 

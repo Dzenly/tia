@@ -101,8 +101,9 @@ exports.usage = function () {
 
       --run-self-tests - Run tests for the engine (from tia/tests directory).
       
-      --share-browser - Try to share the browser between tests. I.e. ignore quit for all tests except the last
-      one and init exept the first one. Do not use this option with --use-remote-driver for now.
+      --share-browser - Try to share the browser between tests within one node.js process.
+      In this case 'init' call is performed only for the first test and 'quit' call only for the last one.
+      Note, that --use-remote-driver option prevents the last test from automatically quit.
 
       --stack-to-log print stack trace to test logs.
 
@@ -121,7 +122,12 @@ exports.usage = function () {
 
       --use-remote-driver - (for chromedriver only). Starts the browser driver (if it is not already started),
       and forces s.driver.init() to use this external driver.
-      The variable gT.firstRunWithRemoteDriver is true when the current run is the first run for which remote driver was initialized.
+      This is convenient for test debugging.
+      This option allows to use the same page opened in the browser for different node.js processes.
+      I.e. one process ("node tia" run) - does load needed page, performs some actions with the page, exit.
+      The next process ("node tia"  run) - performs other actions. Etc.
+      The variable gT.firstRunWithRemoteDriver is true when the current run is the first run for which
+      the remote driver was initialized.
        
        -v, --version - shot the version of tia engine.
 
