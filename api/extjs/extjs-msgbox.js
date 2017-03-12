@@ -3,7 +3,7 @@
 
 var util = require('util');
 
-exports.logTitle = function (logAction) {
+exports.logTitle = function logTitle(logAction) {
   return gIn.wrap(`Log title of message box: `, logAction, function () {
     return gT.s.browser.executeScriptWrapper('return tiaEJ.msgBox.getTitle()')
       .then(function (title) {
@@ -12,7 +12,7 @@ exports.logTitle = function (logAction) {
   });
 };
 
-exports.logMsg = function (logAction) {
+exports.logMsg = function logMsg(logAction) {
   return gIn.wrap(`Log msg of message box: `, logAction, function () {
     return gT.s.browser.executeScriptWrapper('return tiaEJ.msgBox.getMsg()')
       .then(function (msg) {
@@ -21,7 +21,7 @@ exports.logMsg = function (logAction) {
   });
 };
 
-exports.logContent = function (logAction) {
+exports.logContent = function logContent(logAction) {
   return gIn.wrap(`Log content of message box ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper('return tiaEJ.msgBox.getContent()')
       .then(function (content) {
@@ -30,7 +30,7 @@ exports.logContent = function (logAction) {
   });
 };
 
-exports.getButtonIdByItemId = function (itemId, logAction) {
+exports.getButtonIdByItemId = function getButtonIdByItemId(itemId, logAction) {
   return gIn.wrap(`Get message box button id for itemId: ${itemId} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.msgBox.getButtonIdByItemId('${itemId}')`);
   });

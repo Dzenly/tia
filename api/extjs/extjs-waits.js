@@ -10,7 +10,7 @@
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-exports.ajaxRequestsFinish = function (timeout, logAction) {
+exports.ajaxRequestsFinish = function ajaxRequestsFinish(timeout, logAction) {
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap('Waiting for AJAX requests finish ... ', logAction, function () {
     return gT.sOrig.driver.wait(function () {
@@ -32,7 +32,7 @@ function logFormFieldInfo(formId, name, logAction) {
   }
 }
 
-exports.formFieldEnabled = function (formId, name, timeout, logAction) {
+exports.formFieldEnabled = function formFieldEnabled(formId, name, timeout, logAction) {
   formId = idToIdObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap(`Waiting for enabling field (name: ${name}) on form ${formId.logStr}`, logAction, function () {
@@ -43,7 +43,7 @@ exports.formFieldEnabled = function (formId, name, timeout, logAction) {
   });
 };
 
-exports.formFieldDisabled = function (formId, name, timeout, logAction) {
+exports.formFieldDisabled = function formFieldDisabled(formId, name, timeout, logAction) {
   formId = idToIdObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap(`Waiting for disabling field (name: ${name}) onform ${formId.logStr}`, logAction, function () {

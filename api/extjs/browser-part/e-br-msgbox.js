@@ -7,15 +7,15 @@
 
   window.tiaEJ.msgBox = {
 
-    getTitle: function () {
+    getTitle: function getTitle() {
       return Ext.Msg.getTitle();
     },
 
-    getMsg: function () {
+    getMsg: function getMsg() {
       return Ext.Msg.msg.getEl().dom.innerText;
     },
 
-    getContent: function () {
+    getContent: function getContent() {
       var res = 'title: ' + this.getTitle() + '; msg: ' + this.getMsg();
       var buttons = Ext.Msg.query('button')
         .filter(function (button) {
@@ -36,7 +36,7 @@
       return res;
     },
 
-    getButtonCompByItemId: function (itemId) {
+    getButtonCompByItemId: function getButtonCompByItemId(itemId) {
       var button = Ext.Msg.down('button#' + itemId);
       if (!button) {
         throw new Error('Msg box does not contain button with itemId: ' + itemId);
@@ -44,12 +44,12 @@
       return button;
     },
 
-    getButtonIdByItemId: function (itemId) {
+    getButtonIdByItemId: function getButtonIdByItemId(itemId) {
       var button = this.getButtonCompByItemId(itemId);
       return {id: button.getId(), nameForLog: button.text};
     },
 
-    getButtonWebElByItemId: function (itemId) {
+    getButtonWebElByItemId: function getButtonWebElByItemId(itemId) {
       var button = this.getButtonCompByItemId(itemId);
       return button.getEl().dom;
     }

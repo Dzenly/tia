@@ -2,12 +2,12 @@
 
 /* globals gT: true */
 
-exports.removeSelSid = function (str) {
+exports.removeSelSid = function removeSelSid(str) {
   var re = /\?_dc=\d+/g;
   return str.replace(re, '');
 };
 
-exports.filterStack = function (strStack) {
+exports.filterStack = function filterStack(strStack) {
   var stArr = strStack.split('\n');
   var newArr = stArr.filter(function (el, index, arr) {
     return el.indexOf('node_modules') === -1;
@@ -15,7 +15,7 @@ exports.filterStack = function (strStack) {
   return newArr.join('\n');
 };
 
-exports.excToStr = function (err, noStack) {
+exports.excToStr = function excToStr(err, noStack) {
   if (typeof err === 'undefined') {
     return '\nNo Exception info\n';
   }
@@ -30,11 +30,11 @@ exports.excToStr = function (err, noStack) {
   return errStr;
 };
 
-exports.winToUnixSep = function (path) {
+exports.winToUnixSep = function winToUnixSep(path) {
   return path.replace(/\\\\/g, '/');
 };
 
-exports.changeExt = function (jsPath, newExt) {
+exports.changeExt = function changeExt(jsPath, newExt) {
   return jsPath.substr(0, jsPath.length - 3) + newExt;
 };
 
@@ -43,19 +43,19 @@ exports.changeExt = function (jsPath, newExt) {
  * Just replaces two last symbols by 'log' at the end of string.
  * @param jsPath - path to js file.
  */
-exports.jsToLog = function (jsPath) {
+exports.jsToLog = function jsToLog(jsPath) {
   return exports.changeExt(jsPath, '.log');
 };
 
-exports.jsToDif = function (jsPath) {
+exports.jsToDif = function jsToDif(jsPath) {
   return exports.changeExt(jsPath, '.dif');
 };
 
-exports.expandHost = function (str) {
+exports.expandHost = function expandHost(str) {
   return str.replace('$(host)', gIn.config.selHost);
 };
 
-exports.collapseHost = function (str) {
+exports.collapseHost = function collapseHost(str) {
   return str.replace(gIn.config.selHost, '$(host)');
 };
 

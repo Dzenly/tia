@@ -10,7 +10,7 @@
  * @param directFields - Fields which are enabled when the checkbox is set.
  * @param reverseFields - Fields which are enabled when the checkbox is reset.
  */
-exports.checkCheckboxAffects = function *(formId, checkBoxName, directFields, reverseFields, logActions) {
+exports.checkCheckboxAffects = function * checkCheckboxAffects(formId, checkBoxName, directFields, reverseFields, logActions) {
 
   formId = idToIdObj(formId);
 

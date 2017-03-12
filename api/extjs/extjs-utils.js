@@ -6,7 +6,7 @@
  * @param text
  * @returns {string}
  */
-exports.getLocKeysByText = function (text) {
+exports.getLocKeysByText = function getLocKeysByText(text) {
   var res = [];
   for (var key in gT.e.locale) {
     if (gT.e.locale.hasOwnProperty(key)) {

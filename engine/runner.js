@@ -243,7 +243,7 @@ function *runTestSuite(dir) {
 }
 
 // Returns subject for email.
-module.exports = function (suiteRoot) {
+module.exports = function runner(suiteRoot) {
   gIn.configUtils.handleSuiteConfig();
 
   if (gIn.params.stopRemoteDriver) {

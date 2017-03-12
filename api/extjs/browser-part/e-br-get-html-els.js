@@ -6,7 +6,7 @@
   window.tiaEJ.hEByObj = {
 
     // Note that for tree only expanded nodes are taking into account.
-    getTableItemByIndex: function (table, index) {
+    getTableItemByIndex: function getTableItemByIndex(table, index) {
       if (table.isPanel) {
         table = table.getView();
       }
@@ -14,7 +14,7 @@
       return el;
     },
 
-    indexOfField: function (comp, fieldValue, fieldName) {
+    indexOfField: function indexOfField(comp, fieldValue, fieldName) {
       if (comp.isPanel) {
         comp = comp.getView();
       }
@@ -27,7 +27,7 @@
       return index;
     },
 
-    getTableItemByField: function (table, fieldValue, fieldName) {
+    getTableItemByField: function getTableItemByField(table, fieldValue, fieldName) {
       var index = this.indexOfField(table, fieldValue, fieldName);
       if (!index) {
         return null;
@@ -35,7 +35,7 @@
       return this.getTableItemByIndex(table, index);
     },
 
-    getTableItemByFieldLocKey: function (table, fieldValueKey, fieldName) {
+    getTableItemByFieldLocKey: function getTableItemByFieldLocKey(table, fieldValueKey, fieldName) {
       var index = this.indexOfField(table, tiaEJ.locale[fieldValueKey], fieldName);
       if (!index) {
         return null;
@@ -43,29 +43,29 @@
       return this.getTableItemByIndex(table, index);
     },
 
-    getInputEl: function (field) {
+    getInputEl: function getInputEl(field) {
       return field.inputEl.dom;
     },
 
-    getInputElByFormName: function (form, name) {
+    getInputElByFormName: function getInputElByFormName(form, name) {
       var field = tiaEJ.search.byFormAndName(form, name);
       return field.inputEl.dom;
     },
 
-    getElByFormName: function (form, name) {
+    getElByFormName: function getElByFormName(form, name) {
       var field = tiaEJ.search.byFormAndName(form, name);
       return field.getEl().dom;
     },
 
-    getNameAndLabels: function (field) {
+    getNameAndLabels: function getNameAndLabels(field) {
       return {name: field.getName(), label: field.getFieldLabel()};
     },
 
-    getInputId: function (field) {
+    getInputId: function getInputId(field) {
       return field.getInputId();
     },
 
-    isNthPickerItemVisible: function(picker, n) {
+    isNthPickerItemVisible: function isNthPickerItemVisible(picker, n) {
       if (picker.isXType('tablepanel')) {
         picker = picker.getView();
       }
@@ -73,18 +73,18 @@
       return res;
     },
 
-    isFirstPickerItemVisible: function(picker) {
+    isFirstPickerItemVisible: function isFirstPickerItemVisible(picker) {
       return this.isNthPickerItemVisible(picker, 0);
     },
 
-    isCBPickerVisible: function (cb, itemIndex) {
+    isCBPickerVisible: function isCBPickerVisible(cb, itemIndex) {
       itemIndex = itemIndex || 0;
       var boundList = cb.getPicker();
       return boundList.isVisible(true) && cb.isExpanded && !cb.isDisabled()
         && this.isNthPickerItemVisible(boundList, itemIndex);
     },
 
-    isCBPickerVisibleByFormName: function (form, name, itemIndex) {
+    isCBPickerVisibleByFormName: function isCBPickerVisibleByFormName(form, name, itemIndex) {
       itemIndex = itemIndex || 0;
       var cb = tiaEJ.search.byFormAndName(form, name);
       var boundList = cb.getPicker();
@@ -92,7 +92,7 @@
         && this.isNthPickerItemVisible(boundList, itemIndex);
     },
 
-    getCBItemByIndex: function (cb, index) {
+    getCBItemByIndex: function getCBItemByIndex(cb, index) {
       var boundList = cb.getPicker();
       if (boundList.isXType('tablepanel')) {
         boundList = boundList.getView();
@@ -105,7 +105,7 @@
       return res;
     },
 
-    getCBItemByField: function (cb, fieldValue, fieldName) {
+    getCBItemByField: function getCBItemByField(cb, fieldValue, fieldName) {
       var index = this.indexOfField(cb, fieldValue, fieldName);
       if (index === -1) {
         return null;
@@ -120,12 +120,12 @@
       return res;
     },
 
-    getCBItemByFormNameIndex: function (form, name, index) {
+    getCBItemByFormNameIndex: function getCBItemByFormNameIndex(form, name, index) {
       var cb = tiaEJ.search.byFormAndName(form, name);
       return this.getCBItemByIndex(cb, index);
     },
 
-    getCBItemByFormNameField: function (form, name, fieldValue, fieldName) {
+    getCBItemByFormNameField: function getCBItemByFormNameField(form, name, fieldValue, fieldName) {
       var cb = tiaEJ.search.byFormAndName(form, name);
       return this.getCBItemByField(cb, fieldValue, fieldName);
     },

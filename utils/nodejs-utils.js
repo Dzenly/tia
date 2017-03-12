@@ -7,7 +7,7 @@ var inspect = require('util').inspect;
  * Clears 'require' cache for specified node module.
  * @param {String} resolvedModulePath
  */
-exports.clearRequireCache = function (resolvedModulePath) {
+exports.clearRequireCache = function clearRequireCache(resolvedModulePath) {
   delete require.cache[resolvedModulePath];
 };
 
@@ -19,7 +19,7 @@ exports.clearRequireCache = function (resolvedModulePath) {
  * @returns {{res: *, resolvedModPath: String}}
  * @throws {*} - Exceptions from 'require' calls.
  */
-exports.requireEx = function (modPath, clearCache) {
+exports.requireEx = function requireEx(modPath, clearCache) {
 
   let absFilePath = path.resolve(modPath);
   var res = {
@@ -43,7 +43,7 @@ function toMs(val) {
   return (val / 1000).toFixed(3);
 }
 
-exports.getResourcesUsage = function () {
+exports.getResourcesUsage = function getResourcesUsage() {
   var mem = process.memoryUsage();
   mem.rss = toMb(mem.rss);
   mem.heapTotal = toMb(mem.heapTotal);

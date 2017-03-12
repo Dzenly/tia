@@ -13,7 +13,7 @@ let wdKey = gT.sOrig.key;
  * @param logAction -  enable/disable logging for this action.
  * @returns {Promise.<TResult>}
  */
-exports.clickById = function (id, logAction) {
+exports.clickById = function clickById(id, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Click on element ${id.logStr} ... `, logAction, function () {
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).click();
@@ -28,14 +28,14 @@ exports.clickById = function (id, logAction) {
  * @param logAction
  * @returns {Promise.<TResult>}
  */
-exports.sendKeysById = function (id, keys, logAction) {
+exports.sendKeysById = function sendKeysById(id, keys, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Sending keys: "${keys}", to element ${id.logStr} ... `, logAction, function () {
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).sendKeys(keys);
   });
 };
 
-exports.selectAllAndSendKeysById = function (id, keys, logAction) {
+exports.selectAllAndSendKeysById = function selectAllAndSendKeysById(id, keys, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Select all and sending keys: "${keys}", to element ${id.logStr} ... `, logAction, function () {
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
@@ -43,7 +43,7 @@ exports.selectAllAndSendKeysById = function (id, keys, logAction) {
   });
 };
 
-exports.selectAllAndDeleteById = function (id, logAction) {
+exports.selectAllAndDeleteById = function selectAllAndDeleteById(id, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Select all and press delete for element ${id.logStr} ... `, logAction, function () {
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
@@ -51,7 +51,7 @@ exports.selectAllAndDeleteById = function (id, logAction) {
   });
 };
 
-exports.clearById = function (id, logAction) {
+exports.clearById = function clearById(id, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Clear element ${id.logStr} ... `, logAction, function () {
     return gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
@@ -59,7 +59,7 @@ exports.clearById = function (id, logAction) {
   });
 };
 
-exports.sendKeysToBody = function (keys, logAction) {
+exports.sendKeysToBody = function sendKeysToBody(keys, logAction) {
   return gIn.wrap('Sending keys: "' + keys + '", to body ... ', logAction, function () {
     return gT.sOrig.driver.findElement(gT.sOrig.by.css('body')).sendKeys(keys);
   });

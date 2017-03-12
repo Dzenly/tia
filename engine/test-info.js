@@ -23,7 +23,7 @@ function formLogPart(str, count) {
  * @param noTitle
  * @returns {string}
  */
-exports.testInfoToString = function (curInfo, isDir, verbose, noTime, noTitle) {
+exports.testInfoToString = function testInfoToString(curInfo, isDir, verbose, noTime, noTitle) {
   var path, title, diffed, failed, ediffed, skipped, passed, time;
   if (isDir) {
     path = '';
@@ -56,7 +56,7 @@ exports.testInfoToString = function (curInfo, isDir, verbose, noTime, noTitle) {
  *
  * @param isDir - true - directory, false - file.
  */
-exports.createTestInfo = function (isDir, title, path) {
+exports.createTestInfo = function createTestInfo(isDir, title, path) {
   var info = {
     path: gIn.textUtils.winToUnixSep(path), // For uniform logging.
     title: title,
@@ -76,18 +76,18 @@ exports.createTestInfo = function (isDir, title, path) {
   return info;
 };
 
-exports.addFail = function () {
+exports.addFail = function addFail() {
   if (gIn.config.ignorePassAndFailCounters) {
     return;
   }
   exports.data.failed++; // From global sandbox.
 };
 
-exports.addPassForce = function () {
+exports.addPassForce = function addPassForce() {
   exports.data.passed++;
 };
 
-exports.addPass = function () {
+exports.addPass = function addPass() {
   if (!exports.isPassCountingEnabled || gIn.config.ignorePassAndFailCounters) {
     return;
   }

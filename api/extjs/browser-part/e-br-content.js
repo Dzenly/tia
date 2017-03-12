@@ -36,11 +36,11 @@
      *
      * @param elem
      */
-    isHidden: function (elem) {
+    isHidden: function isHidden(elem) {
       return elem.offsetHeight === 0;
     },
 
-    getAttributes: function (compOrEl) {
+    getAttributes: function getAttributes(compOrEl) {
 
       var el = compOrEl.isComponent ? compOrEl.getEl() : compOrEl;
       var attrsObj = el.getAttributes();
@@ -55,7 +55,7 @@
       return attrsStr;
     },
 
-    getSelectedAttributes: function (domElem, attrArr) {
+    getSelectedAttributes: function getSelectedAttributes(domElem, attrArr) {
       var resArr = [];
       attrArr.forEach(function (attrName) {
         var attrVal = domElem.getAttribute(attrName);
@@ -67,7 +67,7 @@
     },
 
     // Store must contain at least one record.
-    doesStoreContainField: function (store, fieldName) {
+    doesStoreContainField: function doesStoreContainField(store, fieldName) {
       var model = store.first();
       var names = model.getFields().map(function (field) {
         return field.getName();
@@ -85,7 +85,7 @@
      * @param {Boolean} [includeHidden = false]
      * @returns {String}
      */
-    getRowBody: function (row, includeHidden) {
+    getRowBody: function getRowBody(row, includeHidden) {
       var res = [];
       var selector = includeHidden ? tiaEJ.ctSelectors.rowBody : tiaEJ.ctSelectors.rowVisibleBody;
       var rowBodies = row.parentNode.querySelectorAll(selector);
@@ -102,7 +102,7 @@
       return null;
     },
 
-    checkVisibilityAndFillOptions: function (isVisible, options, getDefOpts) {
+    checkVisibilityAndFillOptions: function checkVisibilityAndFillOptions(isVisible, options, getDefOpts) {
 
       if (typeof options === 'string') {
         options = JSON.parse(options);
@@ -118,7 +118,7 @@
       return options;
     },
 
-    stringifyAllRecord: function (record, printFieldName) {
+    stringifyAllRecord: function stringifyAllRecord(record, printFieldName) {
       var fieldsToPrint = record.getFields();
       var fieldCount = fieldsToPrint.length;
       var arr = [];
@@ -149,7 +149,7 @@
     },
 
 
-    stringifyRecord: function (record, fieldsToPrint, printFieldName) {
+    stringifyRecord: function stringifyRecord(record, fieldsToPrint, printFieldName) {
       fieldsToPrint = fieldsToPrint ? fieldsToPrint : record.getFields().map(function (val) {
         return val.getName();
       });
@@ -170,7 +170,7 @@
       return arr.join(', ');
     },
 
-    stringifyStore: function (store, fieldsToPrint, printFieldName) {
+    stringifyStore: function stringifyStore(store, fieldsToPrint, printFieldName) {
       var res = ['Store dump: '];
       for (var i = 0, len = store.getCount(); i < len; i++) {
         var record = store.getAt(i);
@@ -179,12 +179,12 @@
       return res;
     },
 
-    stringifyStoreField: function (store, field) {
+    stringifyStoreField: function stringifyStoreField(store, field) {
       return this.stringifyStore(store, [field]);
     },
 
     // TODO: table -> component.
-    fillDebugInfo: function (table, arr) {
+    fillDebugInfo: function fillDebugInfo(table, arr) {
       if (tia.debugMode) {
         var props = [
           '_renderState',
@@ -219,7 +219,7 @@
   // This class must contain only methods which receive table objects.
   window.tiaEJ.ctByObj = {
 
-    expandAllGroups: function (table) {
+    expandAllGroups: function expandAllGroups(table) {
       Ext.each(table.features, function (feature) {
         if (feature.ftype === 'grouping') {
           feature.expandAll();
@@ -227,7 +227,7 @@
       });
     },
 
-    collapseAllGroups: function (table) {
+    collapseAllGroups: function collapseAllGroups(table) {
       Ext.each(table.features, function (feature) {
         if (feature.ftype === 'grouping') {
           feature.collapseAll();
@@ -235,12 +235,12 @@
       });
     },
 
-    expandAllTree: function (tree) {
+    expandAllTree: function expandAllTree(tree) {
       var panel = tiaEJ.search.parentPanel(tree);
       panel.expandAll();
     },
 
-    collapseAllTree: function (tree) {
+    collapseAllTree: function collapseAllTree(tree) {
       var panel = tiaEJ.search.parentPanel(tree);
       panel.collapseAll();
     },
@@ -250,7 +250,7 @@
      * @param {Ext.view.Table} table - the table.
      * @returns {Array} - columns.
      */
-    getCols: function (table) {
+    getCols: function getCols(table) {
       var panel = tiaEJ.search.parentPanel(table);
       var columns = panel.getVisibleColumns();
       return columns;
@@ -261,7 +261,7 @@
      * @param {Ext.view.Table} table - the table.
      * @returns {Array} - strings with selectors.
      */
-    getColSelectors: function (table) {
+    getColSelectors: function getColSelectors(table) {
       var cols = this.getCols(table);
       var selectors = cols.map(function (col) {
         return table.getCellSelector(col);
@@ -274,7 +274,7 @@
      * @param {Ext.view.Table} table - the table.
      * @returns {Array} - texts.
      */
-    getColHeaderInfos: function (table) {
+    getColHeaderInfos: function getColHeaderInfos(table) {
       var cols = this.getCols(table);
       var arr = cols.map(function (col) {
         // col.textEl.dom.textContent // slower but more honest.
@@ -300,7 +300,7 @@
       return arr;
     },
 
-    safeGetConfig: function (comp, cfgName) {
+    safeGetConfig: function safeGetConfig(comp, cfgName) {
       var res;
       try {
         res = comp.getConfig(cfgName);
@@ -312,7 +312,7 @@
       return res;
     },
 
-    getIdItemIdReference: function (comp) {
+    getIdItemIdReference: function getIdItemIdReference(comp) {
       var id = comp.initialConfig.id;
       var itemId = comp.initialConfig.itemId; //this.safeGetConfig(comp, 'itemId');
       var reference = comp.getReference();
@@ -320,7 +320,7 @@
       return str;
     },
 
-    getNameAndLabels: function (field, noName) {
+    getNameAndLabels: function getNameAndLabels(field, noName) {
       var resArr = [];
       if (!noName && field.getName && field.getName()) {
         resArr.push('name: ' + field.getName());
@@ -334,7 +334,7 @@
       return resArr.join(', ');
     },
 
-    getLabelsAndText: function (field) {
+    getLabelsAndText: function getLabelsAndText(field) {
       var resArr = [];
       if (field.getFieldLabel && field.getFieldLabel()) {
         resArr.push('label: ' + field.getFieldLabel());
@@ -350,24 +350,24 @@
       return resArr.join(', ');
     },
 
-    getFormFieldEnabledDisabledInfo: function (form, name) {
+    getFormFieldEnabledDisabledInfo: function getFormFieldEnabledDisabledInfo(form, name) {
       var field = tiaEJ.search.byFormAndName(form, name);
       var res = this.getNameAndLabels(field, true);
       res += ', ' + (field.isDisabled() ? 'disabled' : 'enabled');
       return res;
     },
 
-    getFormFieldRawValue: function (form, name) {
+    getFormFieldRawValue: function getFormFieldRawValue(form, name) {
       var field = tiaEJ.search.byFormAndName(form, name);
       return field.getRawValue();
     },
 
-    isFormFieldDisabled: function (form, name) {
+    isFormFieldDisabled: function isFormFieldDisabled(form, name) {
       var field = tiaEJ.search.byFormAndName(form, name);
       return field.isDisabled();
     },
 
-    getFormFieldShortInfo: function (form, name) {
+    getFormFieldShortInfo: function getFormFieldShortInfo(form, name) {
       var field = tiaEJ.search.byFormAndName(form, name);
       var res = this.getNameAndLabels(field, true);
       res += ', ' + (field.isDisabled() ? 'disabled' : 'enabled');
@@ -380,7 +380,7 @@
      * @param cb
      * @returns {*}
      */
-    getCB: function (cb) {
+    getCB: function getCB(cb) {
       var str = 'ComboBox content:\n';
       str += this.getIdItemIdReference(cb) + '\n';
       str += this.getNameAndLabels(cb) + '\n';
@@ -390,7 +390,7 @@
       return tia.cC.content.wrap(str);
     },
 
-    getSelectedItemTexts: function (view) {
+    getSelectedItemTexts: function getSelectedItemTexts(view) {
       var nodes = view.getSelectedNodes();
       var texts = nodes.map(function (node) {
         return node.innerText;
@@ -398,7 +398,7 @@
       return tia.cC.content.wrap(texts.join('\n'));
     },
 
-    getSelectedItemFields: function (view, fieldsToPrint, printFieldName) {
+    getSelectedItemFields: function getSelectedItemFields(view, fieldsToPrint, printFieldName) {
       var nodes = view.getSelectedNodes();
       var texts = nodes.map(function (node) {
         var record = view.getRecord(node);
@@ -407,13 +407,13 @@
       return tia.cC.content.wrap(texts.join('\n') + '\n');
     },
 
-    isCompVisible: function (comp) {
+    isCompVisible: function isCompVisible(comp) {
       var visible = comp.isVisible(true);
       var notHidden = !comp.isHidden();
       return visible && notHidden;
     },
 
-    isCompAccessible: function (comp) {
+    isCompAccessible: function isCompAccessible(comp) {
       var notDisabled = !comp.isDisabled();
       var notMasked = !comp.isMasked(true);
       var notSuspended = !comp.isSuspended(true);
@@ -425,7 +425,7 @@
      * @param form - Ext.form.Panel
      * @returns {Object} - Object with key/value pairs.
      */
-    getFormSubmitValues: function (form) {
+    getFormSubmitValues: function getFormSubmitValues(form) {
       var fields = form.getValues(false, false, false, false);
       return fields; // O
     },
@@ -439,7 +439,7 @@
      * @param indent
      * @returns {*}
      */
-    getFormChild: function (comp, includingStores, indent) {
+    getFormChild: function getFormChild(comp, includingStores, indent) {
       if (typeof indent === 'undefined') {
         indent = '';
       }
@@ -508,7 +508,7 @@
       return str + indent + tia.cC.content.rowSep1 + '\n';// tia.cC.content.wrapEx(indent, str);
     },
 
-    getForm: function (form, includingStores) {
+    getForm: function getForm(form, includingStores) {
       var str = '';
       if (form.items) {
         var self = this;
@@ -519,12 +519,12 @@
       return str;
     },
 
-    getFormChildByFormName: function (form, name, includingStores) {
+    getFormChildByFormName: function getFormChildByFormName(form, name, includingStores) {
       var comp = tiaEJ.search.byFormAndName(form, name);
       return this.getFormChild(comp, includingStores);
     },
 
-    getFormChildrenByFormNames: function (form, names, includingStores) {
+    getFormChildrenByFormNames: function getFormChildrenByFormNames(form, names, includingStores) {
       if (typeof names === 'string') {
         names = JSON.parse(names);
       }
@@ -535,11 +535,11 @@
       });
     },
 
-    getFormFieldError: function (comp) {
+    getFormFieldError: function getFormFieldError(comp) {
       return comp.getActiveError();
     },
 
-    getFormFieldErrorByFormName: function (form, name) {
+    getFormFieldErrorByFormName: function getFormFieldErrorByFormName(form, name) {
       var comp = tiaEJ.search.byFormAndName(form, name);
       console.log(comp.getActiveError());
       return comp.getActiveError();
@@ -567,7 +567,7 @@
      * @throws {Error} - if the table is invisible and options.throwIfInvisible is true.
      * TODO: make id printing optional.
      */
-    getTable: function (table, options) {
+    getTable: function getTable(table, options) {
 
       if (table.isPanel) {
         table = table.getView();
@@ -704,7 +704,7 @@
      * @param options
      * @returns {string}
      */
-    getTree: function (table, options) {
+    getTree: function getTree(table, options) {
 
       if (table.isPanel) {
         table = table.getView();
@@ -768,7 +768,7 @@
      * Gets title of a parent panel.
      * @param {Ext.view.Table} table - the table.
      */
-    getParentTitle: function (table) {
+    getParentTitle: function getParentTitle(table) {
       var panel = tiaEJ.search.parentPanel(table);
       return panel.getTitle();
     }

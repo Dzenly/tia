@@ -18,7 +18,7 @@ exports.changedDiffs = 0;
  * @param oldFile - basename for file 1
  * @param newFile - basename for file 2
  */
-exports.getDiff = function (dir, oldFile, newFile) {
+exports.getDiff = function getDiff(dir, oldFile, newFile) {
   // TODO: check utf8 support.
   var diffRes = child_process.spawnSync('diff', [oldFile, newFile], {cwd: dir, encoding: gT.engineConsts.logEncoding});
   return diffRes.stdout + diffRes.stderr;
@@ -34,7 +34,7 @@ exports.getDiff = function (dir, oldFile, newFile) {
  *
  * @param jsTest - path to js file, for which just created *.log to be diffed with *.eth.
  */
-exports.diff = function (jsTest) {
+exports.diff = function diff(jsTest) {
   var dir = path.dirname(jsTest);
   var base = path.basename(jsTest, '.js');
   var out = exports.getDiff(dir, base + '.log', base + '.et');

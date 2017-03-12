@@ -7,7 +7,7 @@ var util = require('util');
 // TODO: function for convertation object to its text representation (smth, like JSON).
 
 // Use -1 as stop index to show only table header.
-exports.table = function (id, options, logAction) {
+exports.table = function table(id, options, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Logging content of table ${id.logStr} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
@@ -19,7 +19,7 @@ exports.table = function (id, options, logAction) {
   });
 };
 
-exports.tree = function (id, options, logAction) {
+exports.tree = function tree(id, options, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Logging content of tree ${id.logStr} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
@@ -31,7 +31,7 @@ exports.tree = function (id, options, logAction) {
   });
 };
 
-exports.comboBox = function (id, logAction) {
+exports.comboBox = function comboBox(id, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Logging content of combobox ${id.logStr} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
@@ -43,7 +43,7 @@ exports.comboBox = function (id, logAction) {
   });
 };
 
-exports.selectedItemTexts = function (id, viewName, logAction) {
+exports.selectedItemTexts = function selectedItemTexts(id, viewName, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Logging selected items for view ${id.logStr} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getSelectedItemTexts('${id.id}');`)
@@ -53,7 +53,7 @@ exports.selectedItemTexts = function (id, viewName, logAction) {
   });
 };
 
-exports.selectedItemFields = function (id, fieldsToPrint, printFieldName, logAction) {
+exports.selectedItemFields = function selectedItemFields(id, fieldsToPrint, printFieldName, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Logging selected items for view ${id.logStr} ... `, logAction, function () {
     if (fieldsToPrint) {
@@ -68,7 +68,7 @@ exports.selectedItemFields = function (id, fieldsToPrint, printFieldName, logAct
   });
 };
 
-exports.formSubmitValues = function (id, logAction) {
+exports.formSubmitValues = function formSubmitValues(id, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Logging submit values for form ${id.logStr} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getFormSubmitValues('${id.id}');`)
@@ -78,7 +78,7 @@ exports.formSubmitValues = function (id, logAction) {
   });
 };
 
-exports.form = function (id, includingStores, logAction) {
+exports.form = function form(id, includingStores, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Logging content of form ${id.logStr} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getForm('${id.id}', ${includingStores});`)
@@ -88,7 +88,7 @@ exports.form = function (id, includingStores, logAction) {
   });
 };
 
-exports.formField = function (id, includingStores, logAction) {
+exports.formField = function formField(id, includingStores, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Logging content of form field ${id.logStr} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getFormChild('${id.id}', ${includingStores});`)

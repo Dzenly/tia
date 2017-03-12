@@ -21,7 +21,7 @@ var path = require('path');
  *
  * @returns a promise which will be resolved with script return value.
  */
-exports.init = function (logAction) {
+exports.init = function init(logAction) {
   return gIn.wrap('Initialization of TIA ExtJs Exp helpers ... ', logAction, function () {
     let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/e-br-exp.js'), 'utf8');
     // gIn.tracer.msg3('init: script: ' + scriptStr);

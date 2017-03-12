@@ -39,7 +39,7 @@ var brHelpers = [
  *
  * @returns a promise which will be resolved with script return value.
  */
-gT.e.initTiaExtJsBrHelpers = function (logAction) {
+gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
   return gIn.wrap('Initialization of TIA ExtJs helpers ... ', logAction, function () {
     return gT.sOrig.promise.consume(function* () {
       for (const fName of brHelpers) {
@@ -58,7 +58,7 @@ gT.e.initTiaExtJsBrHelpers = function (logAction) {
  * @param {boolean} [logAction=true] - is logging needed for this action.
  * @returns a promise which will be resolved with script return value.
  */
-gT.e.setLocaleObject = function (objExpression, logAction) {
+gT.e.setLocaleObject = function setLocaleObject(objExpression, logAction) {
   return gIn.wrap('setLocaleObject ... ', logAction, function () {
     var scriptStr = `
         tiaEJ.locale = ${objExpression};

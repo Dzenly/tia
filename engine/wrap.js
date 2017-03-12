@@ -101,7 +101,7 @@ function handleErrAtErrorHandling(msg) {
  * @returns {*} - Promise will be resolved to value or to exception.
  * @private
  */
-module.exports = function (msg, logAction, act, noConsoleAndExceptions) {
+module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
   gIn.tracer.msg3('Inside wrapper, before start timer,  msg: ' + msg);
   var startTime;
   flow.execute(function () {

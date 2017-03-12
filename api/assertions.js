@@ -19,22 +19,22 @@ function checkAccName(name) {
   }
 }
 
-exports.initResultsAccumulator = function (name) {
+exports.initResultsAccumulator = function initResultsAccumulator(name) {
   checkAccName(name);
   resultAccumulators[name] = true;
 };
 
-exports.getResultFromAccumulator = function (name) {
+exports.getResultFromAccumulator = function getResultFromAccumulator(name) {
   checkAccName(name);
   return resultAccumulators[name];
 };
 
-exports.deleteResultAccumulator = function (name) {
+exports.deleteResultAccumulator = function deleteResultAccumulator(name) {
   checkAccName(name);
   delete resultAccumulators[name];
 };
 
-exports.mergeResultToAccumulator = function (res, name) {
+exports.mergeResultToAccumulator = function mergeResultToAccumulator(res, name) {
   checkAccName(name);
   resultAccumulators[name] = resultAccumulators[name] && res;
 };
@@ -65,7 +65,7 @@ function failWrapper(msg, mode) {
  * @param condition
  * @param msg - message to describe the entity which you expect.
  */
-exports.true = function (condition, msg, mode) {
+exports.true = function true1(condition, msg, mode) {
   if (Boolean(condition)) {
     gT.l.pass(msg, mode);
     return true;
@@ -81,7 +81,7 @@ exports.true = function (condition, msg, mode) {
  * @param msg - message to describe the entity which you expect.
  * param {Object} mode - see 'true' assertin description.
  */
-exports.false = function (condition, msg, mode) {
+exports.false = function false1(condition, msg, mode) {
   return exports.true(!Boolean(condition), msg, mode);
 };
 
@@ -92,7 +92,7 @@ exports.false = function (condition, msg, mode) {
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-exports.value = function (actVal, expVal, msg, mode) {
+exports.value = function value(actVal, expVal, msg, mode) {
   if (typeof msg !== 'undefined') {
     if (actVal === expVal) {
       gT.l.pass(msg + ': ' + actVal, mode);
@@ -123,7 +123,7 @@ exports.value = function (actVal, expVal, msg, mode) {
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-exports.valueStr = function (actVal, expVal, msg, mode) {
+exports.valueStr = function valueStr(actVal, expVal, msg, mode) {
   actVal = String(actVal);
   expVal = String(expVal);
   return exports.value(actVal, expVal, msg, mode);
@@ -136,7 +136,7 @@ exports.valueStr = function (actVal, expVal, msg, mode) {
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-exports.valueNumber = function (actVal, expVal, msg, mode) {
+exports.valueNumber = function valueNumber(actVal, expVal, msg, mode) {
   actVal = Number(actVal);
   expVal = Number(expVal);
   return exports.value(actVal, expVal, msg, mode);
@@ -149,7 +149,7 @@ exports.valueNumber = function (actVal, expVal, msg, mode) {
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-exports.valueBool = function (actVal, expVal, msg, mode) {
+exports.valueBool = function valueBool(actVal, expVal, msg, mode) {
   actVal = Boolean(actVal);
   expVal = Boolean(expVal);
   return exports.value(actVal, expVal, msg, mode);
@@ -163,7 +163,7 @@ exports.valueBool = function (actVal, expVal, msg, mode) {
  * @param msg - message to describe the entity which you expect.
  * @returns {boolean}
  */
-exports.valueDeep = function (actVal, expVal, msg, mode) {
+exports.valueDeep = function valueDeep(actVal, expVal, msg, mode) {
 
   function handleVals(actVal, expVal, path) {
     let actType = typeof actVal;
@@ -217,7 +217,7 @@ exports.valueDeep = function (actVal, expVal, msg, mode) {
   return false;
 };
 
-exports.exception = function (func, expExc, mode) {
+exports.exception = function exception(func, expExc, mode) {
   try {
     func();
     var msg;
@@ -253,7 +253,7 @@ exports.exception = function (func, expExc, mode) {
  * @param mode
  * @return {Promise}
  */
-exports.exceptionAsync = function (yieldable, expExc, mode) {
+exports.exceptionAsync = function exceptionAsync(yieldable, expExc, mode) {
   return co(yieldable)
     .then(function (res) {
       console.log('GOOD');
@@ -281,7 +281,7 @@ exports.exceptionAsync = function (yieldable, expExc, mode) {
     });
 };
 
-exports.equal = function (val1, val2, msg1, msg2, doNotShowValues, mode) {
+exports.equal = function equal(val1, val2, msg1, msg2, doNotShowValues, mode) {
   if (val1 === val2) {
     if (doNotShowValues) {
       gT.l.pass(msg1 + ' === ' + msg2, mode);
@@ -295,7 +295,7 @@ exports.equal = function (val1, val2, msg1, msg2, doNotShowValues, mode) {
   }
 };
 
-exports.equalBool = function (val1, val2, msg1, msg2, doNotShowValues, mode) {
+exports.equalBool = function equalBool(val1, val2, msg1, msg2, doNotShowValues, mode) {
   val1 = Boolean(val1);
   val2 = Boolean(val2);
   if (val1 === val2) {
@@ -311,7 +311,7 @@ exports.equalBool = function (val1, val2, msg1, msg2, doNotShowValues, mode) {
   }
 };
 
-exports.notEqualBool = function (val1, val2, msg1, msg2, doNotShowValues, mode) {
+exports.notEqualBool = function notEqualBool(val1, val2, msg1, msg2, doNotShowValues, mode) {
   val1 = Boolean(val1);
   val2 = Boolean(val2);
   if (val1 !== val2) {

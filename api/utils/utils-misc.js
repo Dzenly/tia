@@ -27,7 +27,7 @@ function *safeGen(gen) {
  * @param gen - function - generator.
  * @returns {Promise}
  */
-gT.u.execGen = function (gen) {
+gT.u.execGen = function execGen(gen) {
   //return flow.execute(gen); // Unsafe variant.
   return gT.sOrig.flow.execute(function () { // Safe variant.
     return gT.sOrig.promise.consume(safeGen, null, gen)
@@ -40,7 +40,7 @@ gT.u.execGen = function (gen) {
     });
 };
 
-gT.u.setHangTimeout = function (newTimeout) {
+gT.u.setHangTimeout = function setHangTimeout(newTimeout) {
   var oldTimeout = gIn.params.hangTimeout;
   gIn.params.hangTimeout = newTimeout;
   return oldTimeout;

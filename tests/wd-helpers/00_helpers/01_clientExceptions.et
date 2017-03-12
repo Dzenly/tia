@@ -4,7 +4,7 @@ Loading a page with URL: "http://google.com" ... OK
 No exceptions and console logs:
 Script execution ... OK
 One exception and one console log:
-SEL.BR.LOG: SEVERE: javascript 247:95 Uncaught ReferenceError: DsgwDwd3 is not defined
+SEL.BR.LOG: SEVERE: javascript 356:95 Uncaught ReferenceError: DsgwDwd3 is not defined
 No exceptions and console logs:
 =================
 Pass: 0, Fail: 0

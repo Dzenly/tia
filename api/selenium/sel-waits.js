@@ -11,7 +11,7 @@
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-exports.waitForElementById = function (id, timeout, logAction) {
+exports.waitForElementById = function waitForElementById(id, timeout, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Waiting for element by id ${id.logStr} ... `, logAction, function () {
     return gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.id(id.id)), timeout);
@@ -27,7 +27,7 @@ exports.waitForElementById = function (id, timeout, logAction) {
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-exports.waitForElementByClassName = function (className, timeout, logAction) {
+exports.waitForElementByClassName = function waitForElementByClassName(className, timeout, logAction) {
   return gIn.wrap('Waiting for element by class name : "' + className + '" ... ', logAction, function () {
     return gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.className(className)), timeout);
   });
@@ -42,7 +42,7 @@ exports.waitForElementByClassName = function (className, timeout, logAction) {
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-exports.waitForElementByCssSelector = function (selector, timeout, logAction) {
+exports.waitForElementByCssSelector = function waitForElementByCssSelector(selector, timeout, logAction) {
   return gIn.wrap('Waiting for element by css selector : "' + selector + '" ... ', logAction, function () {
     return gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.css(selector)), timeout);
   });
@@ -57,7 +57,7 @@ exports.waitForElementByCssSelector = function (selector, timeout, logAction) {
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-exports.waitForTitle = function (title, timeout, logAction) {
+exports.waitForTitle = function waitForTitle(title, timeout, logAction) {
   return gIn.wrap('Waiting for windows title: "' + title + '" ... ', logAction, function () {
     return gT.sOrig.driver.wait(gT.sOrig.until.titleIs(title), timeout);
   });
@@ -71,7 +71,7 @@ exports.waitForTitle = function (title, timeout, logAction) {
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-exports.waitForUrl = function (expUrl, timeout, logAction) {
+exports.waitForUrl = function waitForUrl(expUrl, timeout, logAction) {
   return gIn.wrap('Waiting for URL: "' + expUrl + '" ... ', logAction, function () {
     return gT.sOrig.driver.wait(function () {
       return gT.sOrig.driver.getCurrentUrl().then(function (actUrl) {
@@ -90,7 +90,7 @@ exports.waitForUrl = function (expUrl, timeout, logAction) {
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-exports.waitForUrlPrefix = function (urlPrefix, timeout, logAction) {
+exports.waitForUrlPrefix = function waitForUrlPrefix(urlPrefix, timeout, logAction) {
   return gIn.wrap('Waiting for URL prefix: "' + urlPrefix + '" ... ', logAction, function () {
     return gT.sOrig.driver.wait(function () {
       return gT.sOrig.driver.getCurrentUrl().then(function (actUrl) {

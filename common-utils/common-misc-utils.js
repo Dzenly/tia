@@ -10,12 +10,12 @@
     };
   } else {
     container = window.tia.cU;
-    container.getDebugMode = function () {
+    container.getDebugMode = function getDebugMode() {
       return window.tia.debugMode;
     };
   }
 
-  container.copyObject = function (obj) {
+  container.copyObject = function copyObject(obj) {
     var result = {};
     for (var prop in obj) {
       result[prop] = obj[prop];
@@ -23,7 +23,7 @@
     return result;
   };
 
-  container.optsToJson = function (options) {
+  container.optsToJson = function optsToJson(options) {
     if (typeof options === 'undefined') {
       options = null;
     }
@@ -40,7 +40,7 @@
    * Note: this means that default options must contain all possible options.
    *
    */
-  container.mergeOptions = function (src, def) {
+  container.mergeOptions = function mergeOptions(src, def) {
     var dst = def();
 
     if (typeof dst !== 'object' && typeof src === 'undefined') {
@@ -94,7 +94,7 @@
    * @param dstArr - Destination array to place strings to.
    * @param [errMode] - see dumpObjErrMode
    */
-  container.dumpObj = function (obj, propPaths, dstArr, errMode) {
+  container.dumpObj = function dumpObj(obj, propPaths, dstArr, errMode) {
     if (typeof errMode === 'undefined') {
       errMode = container.dumpObjErrMode.showNA;
     }

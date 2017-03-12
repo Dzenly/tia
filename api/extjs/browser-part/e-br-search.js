@@ -6,7 +6,7 @@
   window.tiaEJ.search = {
 
     /* searches the first parent with isPanel === true */
-    parentPanel: function (comp) {
+    parentPanel: function parentPanel(comp) {
       return comp.findParentBy(function (container) {
         if (container.isPanel) {
           return true;
@@ -14,7 +14,7 @@
       });
     },
 
-    byId: function (id) {
+    byId: function byId(id) {
       var cmp = Ext.getCmp(id); // good getCmp using.
       if (typeof cmp === 'undefined') {
         var err = new Error('Component not found for id: ' + id);
@@ -31,7 +31,7 @@
      * @param id - component HTML id.
      * @param ref - reference inside component found by id.
      */
-    byIdRef: function (id, ref) {
+    byIdRef: function byIdRef(id, ref) {
       var cmp = this.byId(id).lookupReferenceHolder().lookupReference(ref);
       if (!cmp) {
         throw new Error('Component not found for container id: ' + id + ', reference: ' + ref);
@@ -39,7 +39,7 @@
       return cmp;
     },
 
-    byText: function (cmp, text, searchPathMsg) {
+    byText: function byText(cmp, text, searchPathMsg) {
       if (!cmp.items) {
         throw new Error('Component: ' + searchPathMsg + 'has no items');
       }
@@ -59,19 +59,19 @@
      * @param ref - reference inside component found by id.
      * @param key - key in locale.
      */
-    byIdRefKey: function (id, ref, key) {
+    byIdRefKey: function byIdRefKey(id, ref, key) {
       var text = tiaEJ.getTextByLocKey(key);
       var cmp = this.search.byIdRef(id, ref);
       var resItem = this.search.byText(cmp, text, 'container id: ' + id + ', reference: ' + ref);
       return resItem;
     },
 
-    byFormIdName: function (formId, name) {
+    byFormIdName: function byFormIdName(formId, name) {
       var form = this.byId(formId);
       return form.getForm().findField(name);
     },
 
-    byFormAndName: function (form, name) {
+    byFormAndName: function byFormAndName(form, name) {
       if (form.isPanel) {
         form = form.getForm();
       }
@@ -82,7 +82,7 @@
       return res;
     },
 
-    byIdCompQuery: function (id, compQuery) {
+    byIdCompQuery: function byIdCompQuery(id, compQuery) {
       var cmp = this.byId(id).down(compQuery);
       if (!cmp) {
         throw new Error('Component not found for container id: ' + id + ', compQuery: ' + compQuery);
@@ -90,7 +90,7 @@
       return cmp;
     },
 
-    tabByIdItemId: function (id, tabItemId) {
+    tabByIdItemId: function tabByIdItemId(id, tabItemId) {
       var cmp = this.byId(id).getTabBar().down('#' + tabItemId);
       if (!cmp) {
         throw new Error('Tab not found for container id: ' + id + ', itemId: ' + itemId);
@@ -98,7 +98,7 @@
       return cmp;
     },
 
-    tabByIdText: function (id, text) {
+    tabByIdText: function tabByIdText(id, text) {
       var cmp = tiaEJ.search.byId(id);
       if (cmp.isPanel) {
         cmp = cmp.getTabBar();
@@ -107,7 +107,7 @@
       return resItem;
     },
 
-    tabByIdLocKey: function (id, key) {
+    tabByIdLocKey: function tabByIdLocKey(id, key) {
       var text = tiaEJ.locale[key];
       return this.tabByIdText(id, text);
     }

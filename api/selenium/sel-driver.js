@@ -18,7 +18,7 @@ var promise = gT.sOrig.promise;
  * But default value if false if there is not custom user profile.
  * There is an issue with custom profile on Windows. Profile is not saved after browser closing.
  */
-exports.init = function (cleanProfile, logAction) {
+exports.init = function init(cleanProfile, logAction) {
   if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
     logAction = false;
   }
@@ -197,7 +197,7 @@ exports.init = function (cleanProfile, logAction) {
  *
  * @returns {Promise}
  */
-exports.sleep = function (ms, logAction) {
+exports.sleep = function sleep(ms, logAction) {
   return gIn.wrap('Sleep ' + ms + ' ms ... ', logAction, function () {
     return gT.sOrig.flow.timeout(ms);
   });
@@ -210,7 +210,7 @@ exports.sleep = function (ms, logAction) {
  * otherwise - false.
  * @returns {*}
  */
-exports.quit = function (logAction) {
+exports.quit = function quit(logAction) {
   if (gIn.params.ejExplore) {
     gIn.tracer.msg3('quit: ejExplore, no quit');
     return gT.sOrig.promise.Promise.resolve('ejExplore, no quit');
@@ -233,7 +233,7 @@ exports.quit = function (logAction) {
 /**
  * Quit if driver is initiated and if there is not ejExplore mode.
  */
-exports.quitIfInited = function () {
+exports.quitIfInited = function quitIfInited() {
   if (gIn.params.ejExplore) {
     gIn.tracer.msg3('quitIfInited: ejExplore, no quit');
     return gT.sOrig.promise.Promise.resolve('ejExplore, no quit');
@@ -249,7 +249,7 @@ exports.quitIfInited = function () {
   return gT.sOrig.promise.Promise.resolve('No driver, no quit');
 };
 
-exports.printSelDriverLogs = function (minValue) {
+exports.printSelDriverLogs = function printSelDriverLogs(minValue) {
   return gT.sOrig.logs.get(gT.sOrig.driverLogType).then(
     function (entries) {
       gIn.tracer.msg3('Start of printSelDriverLogs');

@@ -31,15 +31,15 @@ function getSidPath() {
   return path.join(gIn.params.testsParentDir, gT.engineConsts.remoteChromeDriverSid);
 }
 
-exports.saveSid = function (sid) {
+exports.saveSid = function saveSid(sid) {
   fs.writeFileSync(getSidPath(), sid, 'utf8');
 };
 
-exports.removeSid = function () {
+exports.removeSid = function removeSid() {
   gIn.fileUtils.safeUnlink(getSidPath());
 };
 
-exports.getSid = function () {
+exports.getSid = function getSid() {
   try {
     return fs.readFileSync(getSidPath(), 'utf8');
   } catch (e) {
@@ -51,7 +51,7 @@ exports.getSid = function () {
  * starts remote chromedriver
  * @returns {Promise}
  */
-exports.start = function () {
+exports.start = function start() {
   if (getPid()) {
     gIn.tracer.msg3('Remote driver is already started');
     return gT.sOrig.promise.Promise.resolve(true);
@@ -82,7 +82,7 @@ exports.start = function () {
 /**
  * Stops remote chromedriver.
  */
-exports.stop = function () {
+exports.stop = function stop() {
   var pid = getPid();
   if (!pid) {
     gIn.tracer.msg3('No remote driver to stop');

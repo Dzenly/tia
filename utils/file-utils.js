@@ -20,7 +20,7 @@ var child_process = require('child_process');
  * @param path
  * @returns {boolean}
  */
-exports.isAbsent = function (path) {
+exports.isAbsent = function isAbsent(path) {
   try {
     fs.statSync(path);
   } catch (e) {
@@ -29,7 +29,7 @@ exports.isAbsent = function (path) {
   return false;
 };
 
-exports.safeUnlink = function (path) {
+exports.safeUnlink = function safeUnlink(path) {
   try {
     fs.unlinkSync(path);
   } catch (e) {
@@ -37,7 +37,7 @@ exports.safeUnlink = function (path) {
   }
 };
 
-exports.safeReadFile = function (path) {
+exports.safeReadFile = function safeReadFile(path) {
   var res = '';
   try {
     res = fs.readFileSync(path, gT.engineConsts.logEncoding);
@@ -47,7 +47,7 @@ exports.safeReadFile = function (path) {
   return res;
 };
 
-exports.backupDif = function (path) {
+exports.backupDif = function backupDif(path) {
   try {
     fs.renameSync(path, path + '.old');
   } catch (e) {
@@ -55,7 +55,7 @@ exports.backupDif = function (path) {
   }
 };
 
-exports.rmPngs = function (jsPath) {
+exports.rmPngs = function rmPngs(jsPath) {
   try {
     child_process.execSync('rm ' + gIn.textUtils.changeExt(jsPath, '*.png'), {stdio: [null, null, null]});
   } catch (e) {
@@ -63,7 +63,7 @@ exports.rmPngs = function (jsPath) {
   }
 };
 
-exports.rmDir = function (dir, removeSelf) {
+exports.rmDir = function rmDir(dir, removeSelf) {
   var files;
   try {
     files = fs.readdirSync(dir);
@@ -94,11 +94,11 @@ exports.rmDir = function (dir, removeSelf) {
   }
 };
 
-exports.emptyDir = function (dir) {
+exports.emptyDir = function emptyDir(dir) {
   exports.rmDir(dir);
 };
 
-exports.safeRename = function (oldPath, newPath) {
+exports.safeRename = function safeRename(oldPath, newPath) {
   exports.safeUnlink(newPath);
   try {
     fs.renameSync(oldPath, newPath);
@@ -108,25 +108,25 @@ exports.safeRename = function (oldPath, newPath) {
 };
 
 // Removes file, if exists.
-exports.createEmptyFileSync = function (path) {
+exports.createEmptyFileSync = function createEmptyFileSync(path) {
   fs.closeSync(fs.openSync(path, 'w'));
 };
 
-exports.createEmptyLog = function (path) {
+exports.createEmptyLog = function createEmptyLog(path) {
   gIn.logger.logFile = gIn.textUtils.jsToLog(path);
   exports.createEmptyFileSync(gIn.logger.logFile);
 };
 
-exports.fileToStdout = function (file) {
+exports.fileToStdout = function fileToStdout(file) {
   console.log(fs.readFileSync(file, {encoding: gT.engineConsts.logEncoding}));
 };
 
-exports.fileToStderr = function (file) {
+exports.fileToStderr = function fileToStderr(file) {
   // console.error(fs.readFileSync(file, {encoding: gT.engineConsts.logEncoding}));
   gIn.cLogger.errln(fs.readFileSync(file, {encoding: gT.engineConsts.logEncoding}));
 };
 
-exports.saveJson = function (obj, file) {
+exports.saveJson = function saveJson(obj, file) {
   fs.writeFileSync(file, JSON.stringify(obj), {encoding: gT.engineConsts.logEncoding});
 };
 
@@ -149,7 +149,7 @@ function collectArcPaths(dirInfo, arcPaths) {
   }
 }
 
-exports.archiveSuiteDir = function (dirInfo) {
+exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
   if (gIn.params.disableEmail || !gT.suiteConfig.attachArchiveToMail || !gT.suiteConfig.mailRecipientList) {
     return null;
   }

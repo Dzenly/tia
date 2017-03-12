@@ -17,7 +17,7 @@ var util = require('util');
 //   });
 // };
 
-exports.field = function (id, name, includingStores, logAction) {
+exports.field = function field(id, name, includingStores, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Logging content of form ${id.logStr} field (name: ${name}) ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
@@ -29,7 +29,7 @@ exports.field = function (id, name, includingStores, logAction) {
   });
 };
 
-exports.fields = function (id, names, includingStores, logAction) {
+exports.fields = function fields(id, names, includingStores, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Logging choosen fields of form ${id.logStr} fields ... `, logAction, function () {
     let namesJson = JSON.stringify(names);
@@ -43,7 +43,7 @@ exports.fields = function (id, names, includingStores, logAction) {
   });
 };
 
-exports.fieldEnabledDisabledInfo = function (id, name, logAction) {
+exports.fieldEnabledDisabledInfo = function fieldEnabledDisabledInfo(id, name, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Enabled/Disabled info of form ${id.logStr} field: name: ${name}`, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
@@ -55,7 +55,7 @@ exports.fieldEnabledDisabledInfo = function (id, name, logAction) {
   });
 };
 
-exports.fieldShortInfo = function (id, name, logAction) {
+exports.fieldShortInfo = function fieldShortInfo(id, name, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Info of form ${id.logStr} field: name: ${name}`, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
@@ -67,7 +67,7 @@ exports.fieldShortInfo = function (id, name, logAction) {
   });
 };
 
-exports.fieldError = function (id, name, logAction) {
+exports.fieldError = function fieldError(id, name, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Error of form ${id.logStr} field (name: ${name}):`, logAction, function () {
     return gT.s.browser.executeScriptWrapper(

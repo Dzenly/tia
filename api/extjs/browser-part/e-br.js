@@ -20,22 +20,22 @@
     //	return this.ajaxFailuresArr.length > 0;
     //},
 
-    cleanAjaxFailures: function () {
+    cleanAjaxFailures: function cleanAjaxFailures() {
       this.ajaxFailuresArr = [];
     },
 
-    getAjaxFailures: function () {
+    getAjaxFailures: function getAjaxFailures() {
       var tmp = this.ajaxFailuresArr;
       this.cleanAjaxFailures();
       return tmp;
     },
 
-    isThereActiveAjaxCalls: function () {
+    isThereActiveAjaxCalls: function isThereActiveAjaxCalls() {
       return Ext.Ajax.isLoading();
     },
 
     // If field is omited - all data will be fetched.
-    getStoreData: function (storeId, field) {
+    getStoreData: function getStoreData(storeId, field) {
       var arr = Ext.StoreManager.get(storeId).getRange();
       var res = arr.map(function (elem) {
         return elem[field];
@@ -43,7 +43,7 @@
       return res;
     },
 
-    getLocKeysByText: function (text) {
+    getLocKeysByText: function getLocKeysByText(text) {
       var res = [];
       for (var key in this.locale) {
         if (this.locale.hasOwnProperty(key)) {
@@ -55,7 +55,7 @@
       return res.join(', ');
     },
 
-    getTextByLocKey: function (key) {
+    getTextByLocKey: function getTextByLocKey(key) {
       var res = this.locale[key];
       if (typeof res === 'undefined') {
         throw new Error('No such key in locale: ' + key);
@@ -63,7 +63,7 @@
       return res;
     },
 
-    showMsgBox: function(msg, title) {
+    showMsgBox: function showMsgBox(msg, title) {
       var msgBox = Ext.Msg.show({
         title: 'TIA ExtJs exploration: ' + title,
         titleAlign: 'center', // Seems like does not work.
@@ -76,21 +76,21 @@
       });
     },
 
-    getMainView: function() {
+    getMainView: function getMainView() {
       return Ext.Component.fromElement(Ext.getBody());
     },
 
-    getAppName: function() {
+    getAppName: function getAppName() {
       return Ext.app.Application.instance.getName();
     },
 
-    getApp: function() {
+    getApp: function getApp() {
       return window[this.getAppName()];
     }
 
   };
 
-  var onAjaxError = function (conn, response, options, eOpts) {
+  var onAjaxError = function onAjaxError(conn, response, options, eOpts) {
     tiaEJ.ajaxFailuresArr.push('Ajax Exception: response.status: ' + response.status);
   };
 

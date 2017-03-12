@@ -3,12 +3,12 @@
   // Class to get dynamic id's.
   window.tiaEJ.check = {
 
-    formFieldDisabled: function (formId, name) {
+    formFieldDisabled: function formFieldDisabled(formId, name) {
       var field = tiaEJ.search.byFormIdName(formId, name);
       return field.isDisabled();
     },
 
-    formFieldEnabled: function (formId, name) {
+    formFieldEnabled: function formFieldEnabled(formId, name) {
       return !this.formFieldDisabled(formId, name);
     }
   };

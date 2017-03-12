@@ -52,7 +52,7 @@ var mailOptions = {
  * @param {Array of Strings} [zipAttachments]
  * @returns {Promise<T>}
  */
-exports.send = function (subj, txtAttachments, zipAttachments) {
+exports.send = function send(subj, txtAttachments, zipAttachments) {
   if (gIn.params.disableEmail || !gT.suiteConfig.mailRecipientList) {
     gIn.tracer.err('Mail list is empty.');
     return;

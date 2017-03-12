@@ -76,7 +76,7 @@ function clickCb(logText, jsGetInputEl, jsWaitBoundList, jsGetListItem, isDblCli
   });
 }
 
-exports.idIndex = function (cbId, itemIndex, logAction) {
+exports.idIndex = function idIndex(cbId, itemIndex, logAction) {
   return gIn.wrap(``, logAction, function () {
     return gT.s.browser.executeScript(`return tiaEJ.hEById.getNameAndLabels('${cbId}');`, false)
       .then(function (obj) {
@@ -93,7 +93,7 @@ exports.idIndex = function (cbId, itemIndex, logAction) {
   });
 };
 
-exports.idField = function (cbId, fieldValue, fieldName, logAction) {
+exports.idField = function idField(cbId, fieldValue, fieldName, logAction) {
   return gIn.wrap(``, logAction, function () {
     return gT.s.browser.executeScript(`return tiaEJ.hEById.getNameAndLabels('${cbId}');`, false)
       .then(function (obj) {
@@ -111,7 +111,7 @@ exports.idField = function (cbId, fieldValue, fieldName, logAction) {
   });
 };
 
-exports.formIdNameIndex = function (formId, name, index, logAction) {
+exports.formIdNameIndex = function formIdNameIndex(formId, name, index, logAction) {
   return clickCb(
     // logText
     `Double Click combobox item by formId: ${formId}, name: ${name}, index: ${index}`,
@@ -128,7 +128,7 @@ exports.formIdNameIndex = function (formId, name, index, logAction) {
   );
 };
 
-exports.dblFormIdNameIndex = function (formId, name, index, logAction) {
+exports.dblFormIdNameIndex = function dblFormIdNameIndex(formId, name, index, logAction) {
   return clickCb(
     // logText
     `Double Click combobox item by formId: ${formId}, name: ${name}, index: ${index}`,
@@ -145,7 +145,7 @@ exports.dblFormIdNameIndex = function (formId, name, index, logAction) {
   );
 };
 
-exports.formIdNameField = function (formId, name, fieldValue, fieldName, logAction) {
+exports.formIdNameField = function formIdNameField(formId, name, fieldValue, fieldName, logAction) {
   return clickCb(
     // logText
     `Click combobox item by formId: ${formId}, name: ${name}, fieldName: ${fieldName}, fieldValue: ${fieldValue}`,

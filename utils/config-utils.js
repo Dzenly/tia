@@ -5,7 +5,7 @@
 var path = require('path');
 var nodeUtils = require('../utils/nodejs-utils.js');
 
-exports.copyConfig = function (config) {
+exports.copyConfig = function copyConfig(config) {
   var result = {};
   for (var prop in config) {
     result[prop] = config[prop];
@@ -20,7 +20,7 @@ exports.copyConfig = function (config) {
  * @param config1
  * @param config2
  */
-exports.mergeConfigs = function (config1, config2) {
+exports.mergeConfigs = function mergeConfigs(config1, config2) {
   var result = exports.copyConfig(config1);
   result.sectionTitle = '';
   for (var prop in config2) {
@@ -30,7 +30,7 @@ exports.mergeConfigs = function (config1, config2) {
 };
 
 // Returns merged config for suite.
-exports.handleSuiteConfig = function () {
+exports.handleSuiteConfig = function handleSuiteConfig() {
   var localSuiteConfig = {};
   var configPath = path.join(gIn.params.testsDir, gT.engineConsts.suiteConfigName);
   try {

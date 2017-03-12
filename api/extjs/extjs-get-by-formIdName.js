@@ -3,7 +3,7 @@
 
 var util = require('util');
 
-exports.rawValue = function (id, name, logAction) {
+exports.rawValue = function rawValue(id, name, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Getting raw value of form ${id.logStr} field: name: ${name} ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(
@@ -12,7 +12,7 @@ exports.rawValue = function (id, name, logAction) {
   });
 };
 
-exports.isDisabled = function (id, name, logAction) {
+exports.isDisabled = function isDisabled(id, name, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Getting isDisabled() for form ${id.logStr} field (name: ${name}) ... `, logAction, function () {
     return gT.s.browser.executeScriptWrapper(

@@ -32,7 +32,7 @@ function logToFileLn(msg) {
  * @param msg
  * @param noConsole
  */
-exports.log = function (msg, dontWriteToFile) {
+exports.log = function log(msg, dontWriteToFile) {
   // We use append here, to don't lost some strings if something will break the test engine.
   gIn.cLogger.logIfEnabled(msg);
   if (!dontWriteToFile) {
@@ -40,28 +40,28 @@ exports.log = function (msg, dontWriteToFile) {
   }
 };
 
-exports.logln = function (msg) {
+exports.logln = function logln(msg) {
   exports.log(msg + '\n');
 };
 
-exports.logResourcesUsage = function (prefix) {
+exports.logResourcesUsage = function logResourcesUsage(prefix) {
   if (gIn.config.resUsagePrintAtErrors) {
     prefix = prefix || '';
     exports.logln(prefix + nodeUtils.getResourcesUsage());
   }
 };
 
-exports.logBold = function (msg) {
+exports.logBold = function logBold(msg) {
   gIn.cLogger.logBold(msg);
   logToFile(msg);
 };
 
-exports.fail = function (msg) {
+exports.fail = function fail(msg) {
   gIn.cLogger.failIfEnabled(msg);
   logToFile(msg);
 };
 
-exports.pass = function (msg) {
+exports.pass = function pass(msg) {
   gIn.cLogger.passIfEnabled(msg);
   logToFile(msg);
 };
@@ -70,13 +70,13 @@ exports.pass = function (msg) {
  * Report about some error.
  * @param msg
  */
-exports.error = function (msg) {
+exports.error = function error(msg) {
   msg = gIn.loggerCfg.errPrefix + msg;
   gIn.cLogger.errIfEnabled(msg);
   logToFile(msg);
 };
 
-exports.errorln = function (msg) {
+exports.errorln = function errorln(msg) {
   return exports.error(msg + '\n');
 };
 
@@ -85,7 +85,7 @@ exports.errorln = function (msg) {
  * @param msg
  * @param e
  */
-exports.exception = function (msg, e) {
+exports.exception = function exception(msg, e) {
   msg = gIn.loggerCfg.excPrefix + msg;
   gIn.cLogger.errIfEnabled(msg + ' ' + gIn.textUtils.excToStr(e) + '\n');
   logToFile(msg + ' ' + gIn.textUtils.excToStr(e, true) + '\n');
@@ -96,7 +96,7 @@ exports.exception = function (msg, e) {
  * @param msg - A message to be logged.
  * @param {Boolean}[enable]. If true log is enabled, othwerwise log is disabled.
  */
-exports.logIfEnabled = function (msg, enable) {
+exports.logIfEnabled = function logIfEnabled(msg, enable) {
   let dontWriteToFile = false;
   if (!enable && gIn.params.forceLogActions) {
     dontWriteToFile = true;
@@ -112,7 +112,7 @@ exports.logIfEnabled = function (msg, enable) {
  * @param {Boolean} [enable = gIn.loggerCfg.defLLLogAction] - If false - log is disabled,
  * otherwise - log is enabled.
  */
-exports.logIfNotDisabled = function (msg, enable) {
+exports.logIfNotDisabled = function logIfNotDisabled(msg, enable) {
   if (typeof enable === 'undefined') {
     enable = gIn.loggerCfg.defLLLogAction;
   }
@@ -149,7 +149,7 @@ function writeToSuiteLog(str, diffed, isDif) {
   writeLogStr(str, diffed, isDif);
 }
 
-exports.testSummary = function () {
+exports.testSummary = function testSummary() {
   exports.log('=================\n');
   exports.log('Pass: ' + gIn.tInfo.data.passed + ', Fail: ' + gIn.tInfo.data.failed + '\n');
 };
@@ -205,7 +205,7 @@ function saveSuiteLogPart(verbose, dirInfo, noTime) {
  * @parem noTime
  * @returns {string} - Verbose info for the root test directory.
  */
-exports.saveSuiteLog = function (dirInfo, log, noTime) {
+exports.saveSuiteLog = function saveSuiteLog(dirInfo, log, noTime) {
   writeLogStr = writeStrToFile;
   exports.fd = fs.openSync(log, 'w');
   saveSuiteLogPart(false, dirInfo, noTime);
@@ -216,7 +216,7 @@ exports.saveSuiteLog = function (dirInfo, log, noTime) {
 };
 
 /* Prints expected tests results to stdout and unexpected to stderr */
-exports.printSuiteLog = function (dirInfo) {
+exports.printSuiteLog = function printSuiteLog(dirInfo) {
   writeLogStr = writeStrToStdout;
   saveSuiteLogPart(false, dirInfo, false);
   writeToSuiteLog('\n');

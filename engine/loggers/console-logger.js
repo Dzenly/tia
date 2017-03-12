@@ -32,16 +32,16 @@ function trackEOL(msg) {
  * Writes msg to stdout as is.
  * @param msg
  */
-exports.msg = function (msg) {
+exports.msg = function msg(msg) {
   process.stdout.write(msg);
   trackEOL(msg);
 };
 
-exports.msgln = function (msg) {
+exports.msgln = function msgln(msg) {
   exports.msg(msg + '\n');
 };
 
-exports.logResourcesUsage = function (prefix) {
+exports.logResourcesUsage = function logResourcesUsage(prefix) {
   // if (gIn.config.resUsagePrintAtErrors) {
   prefix = prefix || '';
   exports.msgln(prefix + gT.nodeUtils.getResourcesUsage());
@@ -54,7 +54,7 @@ exports.logResourcesUsage = function (prefix) {
  * @param msg
  * @returns {*}
  */
-exports.chalkWrap = function (chalkProps, msg) {
+exports.chalkWrap = function chalkWrap(chalkProps, msg) {
   if (isChalkEnabled) {
     if (typeof chalkProps === 'string') {
       msg = chalk[chalkProps](msg);
@@ -71,7 +71,7 @@ exports.chalkWrap = function (chalkProps, msg) {
  * Writes string from dif to console.
  * @param msg
  */
-exports.msgDifStr = function (msg) {
+exports.msgDifStr = function msgDifStr(msg) {
   process.stdout.write(exports.chalkWrap(['yellow', 'bold'], msg));
   trackEOL(msg);
 };
@@ -80,7 +80,7 @@ exports.msgDifStr = function (msg) {
  * Writes string for debug tracing.
  * @param msg
  */
-exports.msgDbg = function (msg) {
+exports.msgDbg = function msgDbg(msg) {
   process.stdout.write(exports.chalkWrap(['cyan', 'bold'], msg) + '\n');
   trackEOL(true);
 };
@@ -89,7 +89,7 @@ exports.msgDbg = function (msg) {
  * Writes msg to stdout using red ANSI color code.
  * @param msg
  */
-exports.err = function (msg) {
+exports.err = function err(msg) {
   if (isChalkEnabled) {
     msg = chalk.red(msg);
   }
@@ -98,7 +98,7 @@ exports.err = function (msg) {
 };
 
 
-exports.errln = function (msg) {
+exports.errln = function errln(msg) {
   exports.err(msg + '\n');
 };
 
@@ -109,7 +109,7 @@ exports.errln = function (msg) {
  * Otherwise - does nothing.
  * @param msg
  */
-exports.logIfEnabled = function (msg) {
+exports.logIfEnabled = function logIfEnabled(msg) {
   if (gIn.params.logToConsole) {
     exports.msg(gIn.loggerCfg.consoleLogPrefix + msg);
   }
@@ -120,13 +120,13 @@ exports.logIfEnabled = function (msg) {
  * @param msg
  * Prefix should be set in caller.
  */
-exports.errIfEnabled = function (msg) {
+exports.errIfEnabled = function errIfEnabled(msg) {
   if (gIn.params.errToConsole) {
     return exports.err(msg);
   }
 };
 
-exports.passIfEnabled = function (msg) {
+exports.passIfEnabled = function passIfEnabled(msg) {
   if (gIn.params.logToConsole) {
     if (isChalkEnabled) {
       msg = chalk.green(msg);
@@ -135,7 +135,7 @@ exports.passIfEnabled = function (msg) {
   }
 };
 
-exports.failIfEnabled = function (msg) {
+exports.failIfEnabled = function failIfEnabled(msg) {
   if (gIn.params.logToConsole) {
     if (isChalkEnabled) {
       msg = chalk.red(msg);
@@ -146,7 +146,7 @@ exports.failIfEnabled = function (msg) {
 
 // =====================================
 
-exports.logBold = function (msg) {
+exports.logBold = function logBold(msg) {
   if (gIn.params.logToConsole) {
     if (isChalkEnabled) {
       msg = chalk.bold(msg);

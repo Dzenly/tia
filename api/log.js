@@ -4,34 +4,34 @@
 
 var ok = 'OK: ';
 var okLn = ok + '\n';
-var fail = 'FAIL: ';
-var failLn = fail + '\n';
+const FAIL = 'FAIL: ';
+var failLn = FAIL + '\n';
 
 /**
  * Logs the specifiied msg.
  */
-exports.print = function (msg) {
+exports.print = function print(msg) {
   gIn.logger.log(msg);
 };
 
 /**
  * Logs the msg and EOL.
  */
-exports.println = function (msg) {
+exports.println = function println(msg) {
   gIn.logger.logln(msg);
 };
 
 /**
  * Logs separator.
  */
-exports.sep = function () {
+exports.sep = function sep() {
   gIn.logger.logln('==========');
 };
 
 /**
  * Logs End of Line.
  */
-exports.eol = function () {
+exports.eol = function eol() {
   gIn.logger.log('\n');
 };
 
@@ -40,9 +40,9 @@ exports.eol = function () {
  * Increases fails count.
  * @param [msg] - message to print.
  */
-exports.fail = function (msg) {
+exports.fail = function fail(msg) {
   if (typeof msg !== 'undefined') {
-    gIn.logger.fail(fail + msg + '\n');
+    gIn.logger.fail(FAIL + msg + '\n');
   }
   gIn.tInfo.addFail();
 };
@@ -55,7 +55,7 @@ exports.fail = function (msg) {
  * @param {Boolean} [mode.passSilently] - do not show message.
  * @param {Boolean} [mode.noPassIncrement] - do not increment pass counter.
  */
-exports.pass = function (msg, mode) {
+exports.pass = function pass(msg, mode) {
   mode = mode || {passSilently: false, noPassIncrement: false};
   if (typeof msg !== 'undefined' && !mode.passSilently) {
     if (gIn.tInfo.isPassPrintingEnabled) {
