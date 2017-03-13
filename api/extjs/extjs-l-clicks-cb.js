@@ -2,9 +2,39 @@
 /* globals gT: true */
 /* globals gIn: true */
 
+// gT.sOrig.key.ARROW_DOWN
+
 function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, logAction) {
 
-  return function clickCb(inputEl, count, noPrint) {
+  return function clickCb(inputEl, noPrint) {
+    return inputEl.sendKeys(gT.sOrig.key.ARROW_DOWN)
+      .then(function () {
+        gIn.tracer.msg3('Before wait after cb inputEl click');
+        return gT.sOrig.driver.wait(
+          function () {
+            return gT.s.browser.executeScriptWrapper(jsWaitBoundList);
+          }, gT.engineConsts.cbBoundListTimeout
+        )
+          .catch(function (err) { // Catch for bound list wait.
+            let errMsg = 'Error at wait for bound list';
+            gIn.tracer.err(errMsg);
+            gIn.tracer.exc(err);
+            throw new Error(errMsg);
+          });
+      })
+      .then(function () {
+        gIn.tracer.msg3('Before get list item');
+        return gT.s.browser.executeScript(jsGetListItem, false);
+      })
+      .then(function (el) {
+        return gT.e.lClick.createFuncPrintTextDelayClick(isDblClick, noPrint, logAction)(el);
+      })
+  };
+}
+
+function createFuncClickCbByInputEl1(jsWaitBoundList, jsGetListItem, isDblClick, logAction) {
+
+  return function clickCb1(inputEl, count, noPrint) {
     var cancel = false;
     count = count || 0;
     if (count > gT.engineConsts.cbRetryClicksCount) {
