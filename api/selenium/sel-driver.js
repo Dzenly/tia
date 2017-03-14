@@ -64,6 +64,7 @@ exports.init = function init(cleanProfile, logAction) {
       case 'chrome':
         options = new gT.sOrig.chrome.Options();
         options.addArguments('--dns-prefetch-disable');
+        options.addArguments('--no-sandbox'); // Without this there is a fail with xvfb on Ubuntu 16.
 
         if (gIn.config.selProfilePath) {
           options.addArguments('--user-data-dir=' + profileAbsPath);
