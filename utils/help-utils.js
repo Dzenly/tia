@@ -34,11 +34,11 @@ exports.usage = function () {
       800 - info, 900 - warnings. 1000 - severe errors.
 
       --debug-avg - equals to --log-to-console --log-err-to-console --keep-browser-at-error --trace-level 2
-      Though --trace-level option can be used to set up needed value in spite of --debug-avg.
+      Though --trace-level option can be used to override tracing level.
       Note: --debug-max have precedence over --debug-avg.
 
       --debug-max - equals to --log-to-console --log-err-to-console --keep-browser-at-error --force-log-actions --trace-level 3
-      Though --trace-level option can be used to set up needed value in spite of --debug-max.
+      Though --trace-level option can be used to override tracing level.
 
       --def-host <host:port> - sets default host and port.
       E.g. --def-host http://localhost:1338
@@ -49,8 +49,8 @@ exports.usage = function () {
 
       --disable-email - disables email.
 
-      --driver-log-level <level> - 0 - 1000 (default ${gT.engineConsts.defaultDriverLogLevel}). 0 means to log all, 1000 - only severe errors.
-      800 - info, 900 - warnings. 1000 - severe errors.
+      --driver-log-level <level> - 0 - 1000 (default ${gT.engineConsts.defaultDriverLogLevel}).
+      0 means to log everything, 800 - info, 900 - warnings. 1000 - severe errors.
 
       --ej-explore - Just sets global variable gIn.params.ejExplore to true.
       Your tests may use this flag to conditionally call the gT.e.explore.init().
@@ -65,6 +65,7 @@ exports.usage = function () {
 
       --email-cfg-path <path> - path to email config. See tia/doc/mail-cfg-example.json for example.
       See tia/config/default-suite-config.js for more details.
+      Note: ${gT.engineConsts.emailCfgPathEnvVarName} environment variable can be used for the same purpose.
 
       --err-to-console print all errors to console.
 
@@ -113,8 +114,6 @@ exports.usage = function () {
       It there is no --tests-dir, tia will check ${gT.engineConsts.testsDirEnvVarName} environment variable.
       Note: browser profile root is created as sibling to tests directory.
 
-      Note: ${gT.engineConsts.emailCfgPathEnvVarName} environment variable can be used for the same purpose.
-
       --too-long-time <duration>. If tests running exceeded the specified milliseconds amount. Email subject will
       have 'TOO_LONG' prefix.
 
@@ -135,7 +134,7 @@ exports.usage = function () {
 
     Examples:
         tia --tests-dir <path_to_my-tests-dir>
-        node --harmony bin/tia.js --tests-dir <path_to_my-tests-dir>
+        node bin/tia.js --tests-dir <path_to_my-tests-dir>
     If there is no diffs, 0 is returned, otherwise 1 is returned.
 
     This utility uses external utilities: diff, rm.
