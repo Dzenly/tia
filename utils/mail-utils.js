@@ -13,6 +13,7 @@ var smtpTransport = require('nodemailer-smtp-transport');
 function getSmtpTransporter() {
   return nodemailer.createTransport(
     smtpTransport({
+      // service: 'tia',
       host: gT.suiteConfig.mailSmtpHost,
       secure: true,
       //secure : false,
@@ -31,9 +32,9 @@ function getSmtpTransporter() {
 // All text fields (e-mail addresses, plaintext body, html body) use UTF-8 as the encoding.
 // Attachments are streamed as binary.
 var mailOptions = {
-  from: 'AutoTest <build@rvision.pro>',
-  to: '', // list of receivers
-  subject: '',
+  // from: '',
+  // to: '', // list of receivers
+  // subject: '',
   text: '', // plaintext body
   //html: '', // html body
   //attachments: [{
@@ -41,7 +42,6 @@ var mailOptions = {
   //  path: '', // filename derived from path.
   //  contentType: 'text/plain' // by default derive from path.
   //}]
-
 };
 
 /**
@@ -57,7 +57,15 @@ exports.send = function send(subj, txtAttachments, zipAttachments) {
     gIn.tracer.err('Mail list is empty.');
     return;
   }
+
   mailOptions.subject = subj;
+
+  if (gT.suiteConfig.mailFrom) {
+    mailOptions.from = gT.suiteConfig.mailFrom;
+  } else {
+    mailOptions.from = gT.suiteConfig.mailUser;
+  }
+
   mailOptions.to = gT.suiteConfig.mailRecipientList;
   mailOptions.attachments = txtAttachments.filter(val => Boolean(val)).map(val => ({path: val, contentType: 'text/plain'}));
 
