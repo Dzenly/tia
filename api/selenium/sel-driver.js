@@ -65,11 +65,22 @@ exports.init = function init(cleanProfile, logAction) {
         options = new gT.sOrig.chrome.Options();
         options.addArguments('--dns-prefetch-disable');
         options.addArguments('--no-sandbox'); // Without this there is a fail with xvfb on Ubuntu 16.
+        options.addArguments('--disable-infobars');
+        // options.addArguments('--start-maximized');
 
         if (gIn.config.selProfilePath) {
           options.addArguments('--user-data-dir=' + profileAbsPath);
         }
+
+        // options.excludeSwitches();
+
+        options.setUserPreferences({
+          credentials_enable_service: false,
+          'profile.password_manager_enabled': false,
+        });
+
         capabilities = options.toCapabilities(gT.sOrig.wdModule.Capabilities.chrome());
+
         break;
       case 'phantomjs':
         capabilities = gT.sOrig.wdModule.Capabilities.phantomjs();
@@ -108,8 +119,6 @@ exports.init = function init(cleanProfile, logAction) {
         break;
     }
 
-    gIn.tracer.msg3(util.inspect(capabilities));
-
     var prefs = new gT.sOrig.wdModule.logging.Preferences();
     // TODO: this parameter correctly works only for chrome.
     // phantomjs gets all messages, independent on choosen level.
@@ -118,6 +127,8 @@ exports.init = function init(cleanProfile, logAction) {
     prefs.setLevel(gT.sOrig.driverLogType, gIn.params.driverLogLevel);
 
     capabilities.setLoggingPrefs(prefs);
+
+    gIn.tracer.msg3(util.inspect(capabilities, {depth: 4}));
 
     if (gIn.params.useRemoteDriver) {
 
