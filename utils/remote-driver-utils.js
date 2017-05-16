@@ -59,12 +59,15 @@ exports.start = function start() {
 
   return new gT.sOrig.promise.Promise(function (resolve, reject) {
 
+    // http://stackoverflow.com/questions/37427360/parent-process-kills-child-process-even-though-detached-is-set-to-true
+    // https://github.com/nodejs/node/issues/7269#issuecomment-225698625
+
     var child = spawn(
       gIn.chromeDriverPath,
       ['--port=' + gT.suiteConfig.remoteDriverPort],
       {
-        detached: true
-        , stdio: 'ignore'
+        detached: true,
+        stdio: ['ignore', 'ignore', 'ignore'],
       });
     savePid(child.pid);
     child.unref();
