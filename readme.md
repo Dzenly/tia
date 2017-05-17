@@ -417,7 +417,7 @@ it can speed up your debugging.
   `browser-part` subdirectories contain scripts to be executed in browsers.
 * inner-docs - my inner documentation, TODOs, current thoughts, design decisions, etc.
   https://github.com/Dzenly/tia/tree/master/inner-docs
-* engine - the heard of the TIA.
+* engine - the heart of the TIA.
 * log-viewer - Here is the prototype for Web client for logs exploration.
 * tests - self tests for TIA.
     * tia - tests for non - GUI part.
@@ -436,6 +436,9 @@ it can speed up your debugging.
 ----------------------------------
 
 ## Known issues and bugs
+
+* WebStorm often kill detached child process when it stops debugging.
+  So --use-remote-driver TIA option sometimes does not leave chromedriver running.
 
 * Browser profiles do not save on Windows after browser closing.
   I.e. you can use predefined profiles, but it will not be updated after selenium tests.

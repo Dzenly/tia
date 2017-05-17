@@ -69,8 +69,8 @@ exports.start = function start() {
         detached: true,
         stdio: ['ignore', 'ignore', 'ignore'],
       });
-    savePid(child.pid);
     child.unref();
+    savePid(child.pid);
     gIn.tracer.msg3('Starting remote driver');
     setTimeout(function () {
       resolve(true);
