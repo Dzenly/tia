@@ -27,7 +27,7 @@ exports.createFuncPrintTextDelayClick = function createFuncPrintTextDelayClick(i
   if (noPrint) {
     return function (webEl) {
       return exports.delayClickAndWaitForAjaxFinish(webEl, isDblClick);
-    }
+    };
   }
   return function (webEl) {
     return webEl.getText()
@@ -62,7 +62,8 @@ function createFuncPrintTextAndClickTableRow(logAction) {
 exports.tableItemByIndex = function tableItemByIndex(tableId, tableName, itemIndex, logAction) {
   return gIn.wrap(`Click table '${tableName}' item by index '${itemIndex}'`, logAction, function () {
     return gT.s.browser.executeScript(`return tiaEJ.hEById.getTableItemByIndex('${tableId}', ${itemIndex});`, false)
-      .then(createFuncPrintTextAndClickTableRow(logAction));
+      .then(createFuncPrintTextAndClickTableRow(logAction))
+      .then(gT.s.driver.getStupidSleepFunc()); // Stupid assurance.;
   });
 };
 
@@ -73,7 +74,8 @@ exports.tableItemByField = function tableItemByField(tableId, tableName, fieldVa
       return gT.s.browser.executeScript(
         `return tiaEJ.hEById.getTableItemByField('${tableId}', ${gT.s.browser.valueToParameter(fieldValue)}, '${fieldName}');`
         , false
-      ).then(createFuncPrintTextAndClickTableRow(logAction));
+      ).then(createFuncPrintTextAndClickTableRow(logAction))
+        .then(gT.s.driver.getStupidSleepFunc()); // Stupid assurance.
     });
 };
 
@@ -84,7 +86,8 @@ exports.tableItemByFieldLocKey = function tableItemByFieldLocKey(tableId, tableN
       return gT.s.browser.executeScript(
         `return tiaEJ.hEById.getTableItemByFieldLocKey('${tableId}', '${fieldValueKey}', '${fieldName}');`
         , false
-      ).then(createFuncPrintTextAndClickTableRow(logAction));
+      ).then(createFuncPrintTextAndClickTableRow(logAction))
+        .then(gT.s.driver.getStupidSleepFunc()); // Stupid assurance.
     });
 };
 
@@ -94,7 +97,8 @@ exports.tableItemByFieldId = function tableItemByFieldId(tableId, tableName, id,
     return gT.s.browser.executeScript(
       `return tiaEJ.hEById.getTableItemByField('${tableId}', ${gT.s.browser.valueToParameter(id)}, 'id');`
       , false
-    ).then(createFuncPrintTextAndClickTableRow(logAction));
+    ).then(createFuncPrintTextAndClickTableRow(logAction))
+      .then(gT.s.driver.getStupidSleepFunc()); // Stupid assurance.
   });
 };
 

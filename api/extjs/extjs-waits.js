@@ -53,3 +53,25 @@ exports.formFieldDisabled = function formFieldDisabled(formId, name, timeout, lo
       .then(logFormFieldInfo(formId, name, logAction));
   });
 };
+
+exports.isReady = function isReady(timeout, logAction) {
+  timeout = timeout || gT.engineConsts.defaultWaitTimeout;
+  return gIn.wrap('Waiting for Ext.isReady ... ', logAction, function () {
+    return gT.sOrig.driver.wait(function () {
+      return gT.s.browser.executeScriptWrapper('return Ext.isReady;');
+    }, timeout);
+  });
+};
+
+exports.isCmpRendered = function isCmpRendered(id, timeout, logAction) {
+  timeout = timeout || gT.engineConsts.defaultWaitTimeout;
+  return gIn.wrap(`Waiting for cmp (id: ${id}) rendered ... `, logAction, function () {
+    return gT.sOrig.driver.wait(function () {
+      return gT.s.browser.executeScriptWrapper(`return Ext.getCmp('${id}') && Ext.getCmp('${id}').rendered;`);
+        // .then(function (res) {
+        //   console.log('IS RENDERED: ' + res);
+        //   return res;
+        // });
+    }, timeout);
+  });
+};

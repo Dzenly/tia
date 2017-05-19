@@ -215,6 +215,18 @@ exports.sleep = function sleep(ms, logAction) {
   });
 };
 
+
+const stupidSleep = 400;
+/**
+ * This function creates function for stupid sleep.
+ * It is stupid sleep instead of smart waiting for something.
+ */
+exports.getStupidSleepFunc = function getStupidSleepFunc() {
+  return function () {
+    return exports.sleep(stupidSleep, false);
+  };
+};
+
 /**
  * Quit from the browser.
  * @param [logAction]

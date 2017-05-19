@@ -162,8 +162,10 @@
 
         formFieldArr.push(this.consts.tinySep);
 
-        var store = field.getStore();
-        formFieldArr = formFieldArr.concat(this.getStoreContent(store));
+        if (field.getStore) {
+          var store = field.getStore();
+          formFieldArr = formFieldArr.concat(this.getStoreContent(store));
+        }
       }
 
       formFieldArr.push(this.consts.avgSep);
