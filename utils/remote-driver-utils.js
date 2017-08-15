@@ -5,7 +5,9 @@
 
 var fs = require('fs');
 var path = require('path');
-var spawn = require('child_process').spawn;
+const cp = require('child_process');
+
+var spawn = cp.spawn;
 
 function getPidPath() {
   return path.join(gIn.params.testsParentDir, gT.engineConsts.remoteChromeDriverPid);
@@ -47,11 +49,46 @@ exports.getSid = function getSid() {
   }
 };
 
+exports.start = function start1() {
+
+  return new gT.sOrig.promise.Promise(function (resolve, reject) {
+
+    gIn.tracer.msg3('Starting remote driver');
+
+    try {
+
+      const child = cp.spawn(
+        `${process.execPath}`,
+        [`${__dirname}/remote-driver-utils-inner.js`],
+        // [
+        //   gIn.chromeDriverPath,
+        //   getPidPath(),
+        //   gT.suiteConfig.remoteDriverPort
+        // ],
+        {
+          stdio: ['ignore', 'ignore', 'ignore'/*, 'ipc'*/],
+        }
+      );
+
+      // child.disconnect();
+      child.unref();
+      console.log('Child PID: ' + child.pid);
+    } catch (e) {
+      console.log(e);
+    }
+
+    setTimeout(function () {
+      reject(true);
+    }, gT.engineConsts.remoteDriverStartTime);
+  });
+};
+
+// TODO: it is temporary. Fix it.
 /**
  * starts remote chromedriver
  * @returns {Promise}
  */
-exports.start = function start() {
+exports.start1 = function start2() {
   if (getPid()) {
     gIn.tracer.msg3('Remote driver is already started');
     return gT.sOrig.promise.Promise.resolve(true);

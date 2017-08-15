@@ -1,21 +1,24 @@
 # Time Is All (log driven test engine with ExtJs support)
 
 This is an engine for `[massive]` regression testing automation.
+It allows any types of testing: unit testing, functional testing, etc.
+Both assertion-driven and logs-driven testing are supported.
+
 The engine supports Web sites testing using Selenium WebDriver
 and provides API for work with ExtJs components.
 Xvfb is supported.
 
-*Note: since the 0.12.0 version - the minimum supported Node.js version is 6.9.0.*
+*Note: since the 0.12.15 tia version - the minimum supported Node.js version is 8*
 
 The engine is in development stage, but well tested and ready to use.
 
-To don't blow up versions for now I am not following SEMVER rules.
-I change the 'patch' version part at adding new functionality and bug fixes,
-and change the 'minor' version part at changes which break backward compatibility.
+To don't blow up versions for now TIA is not following SEMVER rules.
+The 'patch' version part is changed at adding new functionality and bug fixes,
+and the 'minor' version part is changed at commits which break backward compatibility.
 
 After 1.0.0 version I will follow SEMVER strictly.
 
-Some TODO for near future:
+Some TODO for 1.0.0:
 
 * more wrappers for Selenium actions.
 * more API for ExtJs actions.
@@ -27,9 +30,15 @@ Some TODO for near future:
 * more assertions.
 * more compatibility with continuous integration systems.
 
-----------------------------------
+## Examples
+
+The engine has tests for itself, they can be used as examples.
+https://github.com/Dzenly/tia/tree/master/tests
 
 ## Selenium WebDriver notes
+
+There are wrappers for Selenium API, but sometimes one needs to know Selenium.
+*sOrig* global object provides Selenium objects (listed below).
 
 GUI part is created on top of the official JS selenium-webdriver binding:
 
@@ -37,42 +46,39 @@ http://seleniumhq.github.io/selenium/docs/api/javascript/index.html
 
 It is good to know following Selenium terms: 
 
-WebElement:
+### WebElement
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_WebElement.html
 
-Actions:
+### Actions
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/actions_exports_ActionSequence.html
 
-By
+### By
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_By.html
 
-until
+### until
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/until.html
 
-chrome webdriver
+## chrome webdriver
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/chrome_exports_Driver.html
 
-Key
+## Key
 
 http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_Key.html
 
 After install one can find examples of (non TIA) selenium tests here:
 `tia/node_modules/selenium-webdriver/test` 
 
-I create wrappers for Selenium API, but for now for complex tests one needs to know selenium.
-*sOrig* global object provides Selenium objects (listed above).
-
 ### Common workflow for tests using Selenium Webdriver
 
 * Go to some URL. (see s.browser.loadPage(url)).
 * Wait for some event like HTML element appearance, some JS object state, title value, etc.
-  (see s.wait* functions) (If you are assured that element exists you can find element without wait).
-* Send various events from mouse or keyboard to the found element
+  (see s.wait* functions) (If you are assured that element exists you can work with an element without wait).
+* Send various mouse or keyboard events to the found element
   (s.click*, s.sendKeys*).
 * Read some data from the HTML element.
 * Read some data from JS objects. (s.browser.executeScript()).
@@ -80,9 +86,11 @@ I create wrappers for Selenium API, but for now for complex tests one needs to k
 
 ### Notes about ExtJs
 
+* To save your time for autotests creation and to make tests faster, it is strongly recommended to develop some design of id naming in your project, and use id everywhere.
+
 * For dynamically generated id you need to get id of HTML elements using TIA API or s.browser.executeScript, and then send user actions to this id.
 
-* Also you can use s.browser.executeScript to access ExtJs objects using your way and return JS DOM for further interactions by TIA API and selenium-webdriver API.
+* Also you can use s.browser.executeScript to access ExtJs objects your way and return JS DOM for further interactions by TIA API and selenium-webdriver API.
 
 ## Terms
 
@@ -97,8 +105,8 @@ JavaScript file, located inside test suite directory.
 This file is executed by TIA and can use all global objects, exposed by TIA (see below).
 Test file should create a *test log* by TIA API.
 
-All `*.js` files are considered as tests except config.js and suite-config.js which
-are considered as config files.
+All `*.js` files are considered as tests except `config.js` and `suite-config.js`
+which are considered as config files.
 
 #### Global objects exposed by TIA, which test can use
 
@@ -111,7 +119,7 @@ They are defined in following files:
 You can explore 'gT' global object to find them all.
 You can use 'gIn' global object to extend TIA's API.
 
-Global objects have short aliases (see sources in files listed above).
+Global objects have short aliases (see details in files listed above).
 
 ### Test log
 
@@ -124,10 +132,14 @@ logs from browser console (if such option is enabled).
 
 The log file name is equal to the test file name, but the log has the `.log` extension (instead of `.js`).
 
+Test logs are not commited to VCS.
+
 ### Etalon test log
 
-When the test author finished test creating he should run it, check the test log and mark it as
+When the test author finished test creation, he should run it, check the test log and mark it as
 etalon (reference) log by renaming `.log` to `.et`.
+
+Etalon logs are commited to VCS.
 
 ### Meta log (suite log)
 
@@ -137,9 +149,17 @@ The meta log is sent to emails (if --email option is specified and there is a co
 
 NOTE: The meta log is also affected with the `sectionTitle` option in `config.js` files.
 
+`*.mlog` files are not commited to VCS.
+
+### Etalon meta log
+
+They are etalons for `*.mlog`, and have `.et` extension.
+
+`*.et` files are commited to VCS.
+
 ### Browser profiles
 
-The `br-profiles` directory is created as a sibling to the tests directory.
+The `br-profiles` directory is created as a sibling to the `tests` directory.
 (see --tests-dir option or TIA_TESTS_DIR environment variable description) and keeps browser profiles.
 
 See also the `selProfilePath` option in the `config/default-suite-config.js`.
@@ -149,10 +169,7 @@ See also the `selProfilePath` option in the `config/default-suite-config.js`.
 ## Prerequisites
 
 * diff, rm, zip utililies (you can use Cygwin on Windows)
-* Node.js 4.x.
-  TIA uses ECMA Script 2015 features, so `bin/tia.js` contains a shebang string to use
-  node --harmony when tia.js is used as an executable file.
-  But if you use it as a JavaScript (as parameter for `node`), you must use --harmony Node.js option.
+* Node.js 8+.
 * Xvfb (if you wish to run tests under Linux without GUI).
 	How to start:
 	 $ Xvfb :1 -screen 5 2560x1440x24
@@ -167,9 +184,8 @@ See also the `selProfilePath` option in the `config/default-suite-config.js`.
 $ npm install tia
 
 Now in the project you can use `node_modules/tia/bin/tia.js` as start script for node.js.
-Use --harmony parameter for Node.js if your Node.js version is less then 6.x.x, because TIA uses string templates and other features from ES 2015.
 
-Probably your IDE will support some autocompletion for TIA API.
+If you are lucky, your IDE will support some autocompletion for TIA API.
 
 ## Installation for daily tests run
 
@@ -179,8 +195,6 @@ $ npm install -g tia
 
 $ tia --run-self-tests
 
-----------------------------------
-
 ## Creating / debugging tests
 
 $ mkdir my-prj
@@ -189,9 +203,11 @@ $ npm init
 $ mkdir tests
 $ npm install tia
 
-In your debug confiuration you can use
+In your debug configuration you can use
 
-node --harmony mode_modules/tia/bin/tia.js
+`node mode_modules/tia/bin/tia.js`
+
+as engine.
 
 ### Using typings
 
@@ -203,10 +219,10 @@ $ typings install selenium-webdriver --ambient --save
 
 ### Speed up test creation/debugging using connection to the existing browser session 
 
-If you are testing some heavy application and application start requires noticeable time, you can
-use the '--use-remote-driver' option. In this case TIA will use existing browser session for all test runs.
-You can use the `gT.firstRunWithRemoteDriver` global variable to distinct very first run (when you need some
-browser sessin initialization) from following runs (for which you need just use the existing session). 
+If you are testing some heavy application and application start requires noticeable time,
+you can use the '--use-remote-driver' option. In this case TIA will use existing browser session for all test runs.
+Inside your code you can use the `gT.firstRunWithRemoteDriver` global variable
+to distinct very first run (when you need some browser session initialization) from following runs (for which you need just use the existing session). 
 
 Use `tia --help` to see the help for the following things: 
 
@@ -222,8 +238,7 @@ Use `tia --help` to see the help for the following things:
 
 #### suite-config.js
 
-If the root tests dir contains this file it will override parameters from
-`config/default-suite-config.js` (see this file for parameter details).
+If the root tests dir contains `suite-config.js` file, it will override parameters from `config/default-suite-config.js` (see this file for parameter details).
 
 An example:
  
@@ -235,8 +250,8 @@ An example:
 
 #### config.js
 
-If some directory contains this file it will override parameters from
-`config/default-dir-config.js` (see this file for parameter details).
+If some directory contains `config.js` file, it will override parameters
+from `config/default-dir-config.js` (see this file for parameter details).
 
 Also config.js from the current directory overrides config.js from parent directory
 (except sectionTitle parameter).
@@ -260,7 +275,7 @@ TIA does `require` this config and
 options are merged to default suite config, see `config/default-suite-config.js`.
 If the `mailRecipientList` field in the config is empty, email will be disabled.
 
-#### With suite-config.js
+#### suite-config.js
 
 Email options also can be defined in `suite-config.js` (see above).
 Settings from `suite-config.js` will override cmd line and env variable settings.
@@ -299,14 +314,14 @@ $ tia --help
 
 To show help for local installation:
 
-$ node --harmony bin/tia.js --help
+$ node bin/tia.js --help
 
 ----------------------------------
 
 ## Order of tests execution
 
 Tests are executed in the alphabet order, so it is recommended to prefix your folders and tests by
-numbers, like 00_CheckingSomeStuff.js.
+numbers, like `00_CheckingSomeStuff.js`.
 
 ----------------------------------
 
@@ -315,31 +330,31 @@ numbers, like 00_CheckingSomeStuff.js.
 ### How the engine works and how different files are created
 
 TIA does recursively walks the tests directory.
-suite-config.js from the root tests directory is used to setup parameters for the whole test bunch. 
-config.js from any directory is used to setup parameters for the given directory and its subdirectories
+`suite-config.js` from the root tests directory is used to setup parameters for the whole test bunch.
+`config.js` from any directory is used to setup parameters for the given directory and its subdirectories
 (with exception of sectionTitle parameter).
 
 Other `*.js` files are executed by TIA and should use TIA API to create logs.
 For each test there should be an etalon log, which is thoroughly checked by the author,
 and is saved as `*.et` file. 
 
-After a test run its current log is compared with its etalon log.
+After a test finish, its current log is compared with its etalon log.
 If there is a difference it is saved as `*.dif` file.
-Note: All diffs are made as diff newOut oldOut, so as error or difference will be on top of log.
+Note: All diffs are made as `diff newOut oldOut`, so as error or difference will be on top of log.
 
 There is an ability to create expected diff files (`*.edif`).
 If the current `*.dif` is equal to `*.edif` it is not counted as a diffed one.
 
 ### If there will be some error, the test log will contain:
 
-* info about the error
+Info about the error, and if test uses selenium:
 * browser console output
 * browser exceptions
 * path to the screenshot made immediately after the error (`*.png` file)
 
-### Meta logs
+### Meta logs details (also see above for meta log descriptions)
 
-Logs with statistics info for the whole test bunch.
+Logs with statistics info for the whole test bunch. They have `*.mlog` extension
 These logs are sent to email (if corresponding options is enabled).
 
 #### Email subject has following notations
@@ -374,8 +389,8 @@ Meta log contains two parts: short (contains diffed tests only) and long (contai
 
 TIA returns 0 if all tests are passed as expected, or 1 if there are unexpected diffs.
 
-The 'true' value for the suite-config.js option 'metaLogToStdout' prints meta log to stdout
-(see config/default-dir-config.js for more details).
+The 'true' value for the `suite-config.js` option `metaLogToStdout` prints meta log to stdout
+(see `config/default-dir-config.js` for more details).
 
 See also the `--log-to-console` option description in the `tia --help` output.
 
@@ -387,7 +402,7 @@ The `api` directory contains functions (with JSDoc documentation), which
 perform users action emulation, assertion checking, logging and other actions.
 
 ----------------------------------
-## FAQ and life hacks
+## FAQ and lifehacks
 
 * xvfb analog for Windows.
 
@@ -427,18 +442,22 @@ it can speed up your debugging.
   See xvfb/readme.md for more details.
 
 ### File types:
+
 * `*.log` - test log
 * `*.mlog` - meta log for directory with tests
 * `*.mlog.json` - meta log as JSON (to use with HTML log-viewer (it is in my TODO list for now))
 * `*.mlog.notime` - meta log without time measurements
 * `*.mlog.notime.prev` - previous meta log without time measurements
+* `*.et` - etalon logs and etalon meta logs
+* `*.js` - tests or configs
+* `*.json` - configs.
 
 ----------------------------------
 
 ## Known issues and bugs
 
 * WebStorm often kill detached child process when it stops debugging.
-  So --use-remote-driver TIA option sometimes does not leave chromedriver running.
+  So --use-remote-driver TIA option sometimes does not keep chromedriver running.
 
 * Browser profiles do not save on Windows after browser closing.
   I.e. you can use predefined profiles, but it will not be updated after selenium tests.
@@ -482,5 +501,3 @@ https://github.com/Dzenly/tia/blob/master/donations-info.md
 My TODO lists are in 'inner-docs' project directory:
 https://github.com/Dzenly/tia/tree/master/inner-docs.
 After 1.0.0 release I am planning to create a github wiki page and create the site containing engine documentation with search ability.
-
-When I will finish to implement my general ideas about this engine I will create a tool like TestLink based on Node.js.
