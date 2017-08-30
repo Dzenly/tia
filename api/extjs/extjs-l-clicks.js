@@ -37,7 +37,7 @@ exports.createFuncPrintTextDelayClick = function createFuncPrintTextDelayClick(i
         },
         function (err) {
           gIn.tracer.err(err);
-          return gT.sOrig.promise.Promise.reject(gT.engineConsts.elGetTextFail);
+          return gT.sOrig.promise.rejected(gT.engineConsts.elGetTextFail);
         })
       .then(function () {
         return exports.delayClickAndWaitForAjaxFinish(webEl, isDblClick);

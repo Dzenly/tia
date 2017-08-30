@@ -359,7 +359,7 @@ exports.screenshot = function screenshot(logAction) {
       gIn.tracer.msg2('Inside screenshot function 3.');
       if (gIn.tInfo.data.screenShotCounter > 99) {
         // TODO: place the constant to config (but code must be changed also)?
-        return gT.sOrig.promise.Promise.reject('Too many screenshoots');
+        return gT.sOrig.promise.rejected('Too many screenshoots');
       }
       var shotPath = nextScreenShotPath();
       gT.l.print(shotPath + ' ... ');

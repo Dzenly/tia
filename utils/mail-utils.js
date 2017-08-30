@@ -77,7 +77,7 @@ exports.send = function send(subj, txtAttachments, zipAttachments) {
     );
   }
 
-  return new gT.sOrig.promise.Promise(function (resolve, reject) {
+  return gT.sOrig.promise.createPromise(function (resolve, reject) {
 
     var attemptCounter = gT.engineConsts.mailAttemptsCount;
 

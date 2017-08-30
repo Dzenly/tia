@@ -251,7 +251,7 @@ module.exports = function runner(suiteRoot) {
     return 'Just removing of remove driver';
   }
 
-  var result = gT.sOrig.promise.Promise.resolve(true);
+  var result = gT.sOrig.promise.fulfilled(true);
 
   if (gIn.params.useRemoteDriver) {
     result = result.then(function () {

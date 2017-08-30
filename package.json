@@ -36,12 +36,12 @@
   "homepage": "https://github.com/Dzenly/tia#readme",
   "dependencies": {
     "camelcase-keys": "^4.1.0",
-    "chalk": "^1.1.1",
-    "chromedriver": "^2.29.0",
+    "chalk": "^2.1.0",
+    "chromedriver": "^2.31.0",
     "co": "^4.6.0",
     "minimist": "^1.2.0",
-    "nodemailer": "^4.0.1",
+    "nodemailer": "^4.1.0",
     "nodemailer-smtp-transport": "^2.7.4",
-    "selenium-webdriver": "^3.4.0"
+    "selenium-webdriver": "^3.5.0"
   }
 }

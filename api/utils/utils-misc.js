@@ -48,6 +48,6 @@ gT.u.setHangTimeout = function setHangTimeout(newTimeout) {
 
 // gT.s.fail = function (url, logAction) {
 //   return gIn.wrap('Intentional fail for debug: ... ', logAction, function () {
-//     return promise.Promise.reject('Intentional fail');
+//     return promise.rejected('Intentional fail');
 //   });
 // };

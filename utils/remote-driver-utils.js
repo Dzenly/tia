@@ -51,7 +51,7 @@ exports.getSid = function getSid() {
 
 exports.start = function start1() {
 
-  return new gT.sOrig.promise.Promise(function (resolve, reject) {
+  return gT.sOrig.promise.createPromise(function (resolve, reject) {
 
     gIn.tracer.msg3('Starting remote driver');
 
@@ -91,10 +91,10 @@ exports.start = function start1() {
 exports.start1 = function start2() {
   if (getPid()) {
     gIn.tracer.msg3('Remote driver is already started');
-    return gT.sOrig.promise.Promise.resolve(true);
+    return gT.sOrig.promise.fulfilled(true);
   }
 
-  return new gT.sOrig.promise.Promise(function (resolve, reject) {
+  return gT.sOrig.promise.createPromise(function (resolve, reject) {
 
     // http://stackoverflow.com/questions/37427360/parent-process-kills-child-process-even-though-detached-is-set-to-true
     // https://github.com/nodejs/node/issues/7269#issuecomment-225698625

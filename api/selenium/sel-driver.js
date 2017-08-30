@@ -30,7 +30,7 @@ exports.init = function init(cleanProfile, logAction) {
   if (!gIn.config.selProfilePath && gIn.params.shareBrowser) {
     if (gIn.sharedBrowserInitiated) {
       gIn.tracer.msg3('Initialization is not needed');
-      return gT.sOrig.promise.Promise.resolve('Initialization is not needed');
+      return gT.sOrig.promise.fulfilled('Initialization is not needed');
     } else {
       gIn.sharedBrowserInitiated = true;
     }
@@ -237,14 +237,14 @@ exports.getStupidSleepFunc = function getStupidSleepFunc() {
 exports.quit = function quit(logAction) {
   if (gIn.params.ejExplore) {
     gIn.tracer.msg3('quit: ejExplore, no quit');
-    return gT.sOrig.promise.Promise.resolve('ejExplore, no quit');
+    return gT.sOrig.promise.fulfilled('ejExplore, no quit');
   }
   if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
     logAction = false;
   }
   if (gIn.sharedBrowserInitiated) {
     gIn.tracer.msg3('quit: Shared browser, no quit');
-    return gT.sOrig.promise.Promise.resolve('Shared browser, no quit');
+    return gT.sOrig.promise.fulfilled('Shared browser, no quit');
   }
   return gIn.wrap('Quiting ... ', logAction, function () {
     return gT.sOrig.driver.quit().then(function () {
@@ -260,7 +260,7 @@ exports.quit = function quit(logAction) {
 exports.quitIfInited = function quitIfInited() {
   if (gIn.params.ejExplore) {
     gIn.tracer.msg3('quitIfInited: ejExplore, no quit');
-    return gT.sOrig.promise.Promise.resolve('ejExplore, no quit');
+    return gT.sOrig.promise.fulfilled('ejExplore, no quit');
   }
   if (gT.sOrig.driver) {
     gIn.tracer.msg3('quitIfInited: before quit call');
@@ -270,7 +270,7 @@ exports.quitIfInited = function quitIfInited() {
     });
   }
   gIn.tracer.msg3('quitIfInited: no driver, no quit');
-  return gT.sOrig.promise.Promise.resolve('No driver, no quit');
+  return gT.sOrig.promise.fulfilled('No driver, no quit');
 };
 
 exports.printSelDriverLogs = function printSelDriverLogs(minValue) {
