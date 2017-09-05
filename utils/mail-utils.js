@@ -77,7 +77,7 @@ exports.send = function send(subj, txtAttachments, zipAttachments) {
     );
   }
 
-  return gT.sOrig.promise.createPromise(function (resolve, reject) {
+  return new Bluebird(function (resolve, reject) {
 
     var attemptCounter = gT.engineConsts.mailAttemptsCount;
 

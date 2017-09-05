@@ -40,7 +40,7 @@ function createFuncClickCbByInputEl1(jsWaitBoundList, jsGetListItem, isDblClick,
     if (count > gT.engineConsts.cbRetryClicksCount) {
       var errStr = 'Exceeded count of attempts to click combobox, wait condition: ' + jsWaitBoundList;
       gIn.tracer.err(errStr);
-      return gT.sOrig.promise.rejected(new Error(errStr));
+      return Bluebird.reject(new Error(errStr));
     }
     return gT.e.lClick.clickAndWaitForAjaxFinish(inputEl)
       .then(function () {

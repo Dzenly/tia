@@ -31,19 +31,19 @@ global.idToIdObj = gT.idToIdObj = function(id) {
 
 // gT.s.dummyPromiseFulfilled = function (msg) {
 //   return gIn.wrap('Dummy promise fulfilled: "' + msg, logAction, function () {
-//     return promise.fulfilled('Fulfilled');
+//     return Bluebird.resolve('Fulfilled');
 //   });
 // };
 //
 // gT.s.dummyPromiseRejected = function (msg) {
 //   return gIn.wrap('Dummy promise rejected: "' + msg, logAction, function () {
-//     return promise.rejected('Rejected');
+//     return Bluebird.reject('Rejected');
 //   });
 // };
 //
 // gT.s.dummyPromiseThrowed = function (msg) {
 //   return gIn.wrap('Dummy promise rejected: "' + msg, logAction, function () {
-//     return promise.rejected('Rejected');
+//     return Bluebird.reject('Rejected');
 //   });
 // };
 

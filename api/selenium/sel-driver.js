@@ -5,8 +5,6 @@
 
 var mpath = require('path');
 var util = require('util');
-var promise = gT.sOrig.promise;
-// var flow = gT.sOrig.flow;
 
 /**
  * Initiates webdriver.
@@ -30,7 +28,7 @@ exports.init = function init(cleanProfile, logAction) {
   if (!gIn.config.selProfilePath && gIn.params.shareBrowser) {
     if (gIn.sharedBrowserInitiated) {
       gIn.tracer.msg3('Initialization is not needed');
-      return gT.sOrig.promise.fulfilled('Initialization is not needed');
+      return Bluebird.resolve('Initialization is not needed');
     } else {
       gIn.sharedBrowserInitiated = true;
     }
@@ -197,7 +195,7 @@ exports.init = function init(cleanProfile, logAction) {
 
     // Trying to fix chromedriver issue 817 by delay.
     // https://bugs.chromium.org/p/chromedriver/issues/detail?id=817#c21
-    return promise.delayed(gT.engineConsts.defaultDelayAfterDriverCreate);
+    return Bluebird.delay(gT.engineConsts.defaultDelayAfterDriverCreate);
   });
 };
 
@@ -211,7 +209,7 @@ exports.init = function init(cleanProfile, logAction) {
  */
 exports.sleep = function sleep(ms, logAction) {
   return gIn.wrap('Sleep ' + ms + ' ms ... ', logAction, function () {
-    return gT.sOrig.flow.timeout(ms);
+    return Bluebird.delay(ms, true);
   });
 };
 
@@ -237,14 +235,14 @@ exports.getStupidSleepFunc = function getStupidSleepFunc() {
 exports.quit = function quit(logAction) {
   if (gIn.params.ejExplore) {
     gIn.tracer.msg3('quit: ejExplore, no quit');
-    return gT.sOrig.promise.fulfilled('ejExplore, no quit');
+    return Bluebird.resolve('ejExplore, no quit');
   }
   if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
     logAction = false;
   }
   if (gIn.sharedBrowserInitiated) {
     gIn.tracer.msg3('quit: Shared browser, no quit');
-    return gT.sOrig.promise.fulfilled('Shared browser, no quit');
+    return Bluebird.resolve('Shared browser, no quit');
   }
   return gIn.wrap('Quiting ... ', logAction, function () {
     return gT.sOrig.driver.quit().then(function () {
@@ -260,7 +258,7 @@ exports.quit = function quit(logAction) {
 exports.quitIfInited = function quitIfInited() {
   if (gIn.params.ejExplore) {
     gIn.tracer.msg3('quitIfInited: ejExplore, no quit');
-    return gT.sOrig.promise.fulfilled('ejExplore, no quit');
+    return Bluebird.resolve('ejExplore, no quit');
   }
   if (gT.sOrig.driver) {
     gIn.tracer.msg3('quitIfInited: before quit call');
@@ -270,7 +268,7 @@ exports.quitIfInited = function quitIfInited() {
     });
   }
   gIn.tracer.msg3('quitIfInited: no driver, no quit');
-  return gT.sOrig.promise.fulfilled('No driver, no quit');
+  return Bluebird.resolve('No driver, no quit');
 };
 
 exports.printSelDriverLogs = function printSelDriverLogs(minValue) {

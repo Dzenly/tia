@@ -7,9 +7,6 @@ const fs = require('fs');
 const path = require('path');
 const nodeUtils = require('../utils/nodejs-utils');
 
-// var flow = gT.sOrig.flow;
-// var promise = gT.sOrig.promise;
-
 function getOs() {
   var os = require('os');
   return os.platform() + '_' + os.release();

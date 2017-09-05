@@ -35,7 +35,7 @@ var commonUtils = [
  */
 exports.initTiaBrHelpers = function initTiaBrHelpers(logAction) {
   return gIn.wrap('Initialization of TIA helpers ... ', logAction, function () {
-    return gT.sOrig.promise.consume(function*() {
+    return gT.u.execGen(function*() {
       for (const fName of brHelpers) {
         let fPath = mPath.join(__dirname, 'browser-part', fName);
         yield exports.executeScriptFromFile(fPath);
@@ -359,7 +359,7 @@ exports.screenshot = function screenshot(logAction) {
       gIn.tracer.msg2('Inside screenshot function 3.');
       if (gIn.tInfo.data.screenShotCounter > 99) {
         // TODO: place the constant to config (but code must be changed also)?
-        return gT.sOrig.promise.rejected('Too many screenshoots');
+        return Bluebird.reject('Too many screenshoots');
       }
       var shotPath = nextScreenShotPath();
       gT.l.print(shotPath + ' ... ');
@@ -431,7 +431,7 @@ exports.getCookie = function getCookie(name, logAction) {
  */
 exports.cleanProfile = function cleanProfile(logAction) {
   return gIn.wrap('Cleaning profile: "' + gIn.config.selProfilePath + '" ... ', logAction, function () {
-    return gT.sOrig.flow.execute(function () {
+    return Bluebird.try(function () {
       if (gIn.config.selProfilePath) {
         gIn.fileUtils.emptyDir(mPath.join(gIn.params.profileRootPath, gIn.config.selProfilePath));
       }

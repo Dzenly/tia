@@ -88,6 +88,6 @@ gT.u.setHangTimeout = function setHangTimeout(newTimeout) {
 
 // gT.s.fail = function (url, logAction) {
 //   return gIn.wrap('Intentional fail for debug: ... ', logAction, function () {
-//     return promise.rejected('Intentional fail');
+//     return Bluebird.reject('Intentional fail');
 //   });
 // };

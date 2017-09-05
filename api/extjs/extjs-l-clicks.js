@@ -37,7 +37,7 @@ exports.createFuncPrintTextDelayClick = function createFuncPrintTextDelayClick(i
         },
         function (err) {
           gIn.tracer.err(err);
-          return gT.sOrig.promise.rejected(gT.engineConsts.elGetTextFail);
+          return Bluebird.reject(gT.engineConsts.elGetTextFail);
         })
       .then(function () {
         return exports.delayClickAndWaitForAjaxFinish(webEl, isDblClick);

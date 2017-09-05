@@ -23,21 +23,15 @@ process.env.PATH = process.env.PATH + path.delimiter + path.dirname(process.exec
 
 process.env.SELENIUM_PROMISE_MANAGER = 0;
 
-// Tests use promise and control flow from selenium-webdriver module.
 // It is non GUI stuff.
 gT.sOrig.wdModule = require('selenium-webdriver');
 
 // TODO: remove these strings after test.
 // const logging = gT.sOrig.wdModule.logging;
 // logging.installConsoleHandler();
-// logging.getLogger('promise.ControlFlow').setLevel(logging.Level.ALL);
-// logging.getLogger('promise').setLevel(logging.Level.ALL);
 
 gT.sOrig.driverLogType = gT.sOrig.wdModule.logging.Type.DRIVER;
 gT.sOrig.browserLogType = gT.sOrig.wdModule.logging.Type.BROWSER;
-
-gT.sOrig.promise = gT.sOrig.wdModule.promise; // TODO: to remove.
-gT.sOrig.flow = gT.sOrig.promise.controlFlow(); // TODO: to remove.
 
 gIn.configUtils = require('../utils/config-utils');
 

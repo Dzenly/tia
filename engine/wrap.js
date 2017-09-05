@@ -5,8 +5,6 @@ var inspect = require('util').inspect;
 /* globals gIn: true */
 /* globals gT: true */
 
-var promise = gT.sOrig.promise;
-
 /**
  * Starts the timer to track action time.
  *
@@ -80,11 +78,11 @@ function handleErrAtErrorHandling(msg) {
       gIn.suiteErrRecursionCount++;
       if (gIn.suiteErrRecursionCount > gT.engineConsts.maxTestCountWithRecursiveError) {
         gIn.cancelSuite = true;
-        return gT.sOrig.promise.rejected(CANCELLING_THE_SUITE);
+        return Bluebird.reject(CANCELLING_THE_SUITE);
       }
     }
   }
-  return gT.sOrig.promise.rejected(CANCELLING_THE_TEST);
+  return Bluebird.reject(CANCELLING_THE_TEST);
 }
 
 /**
@@ -183,7 +181,7 @@ module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
             gIn.tracer.msg1('sOrig.driver deletion');
             delete gT.sOrig.driver;
             // yield will generate exception with this object.
-            return promise.rejected('Error in action (sel. driver was existed)');
+            return Bluebird.reject('Error in action (sel. driver was existed)');
           }).catch(function (err) {
             return handleErrAtErrorHandling('Error at quit');
           });

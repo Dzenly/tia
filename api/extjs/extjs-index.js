@@ -41,7 +41,7 @@ var brHelpers = [
  */
 gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
   return gIn.wrap('Initialization of TIA ExtJs helpers ... ', logAction, function () {
-    return gT.sOrig.promise.consume(function* () {
+    return gT.u.execGen(function* () {
       for (const fName of brHelpers) {
         let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part', fName), 'utf8');
         yield gT.s.browser.executeScriptWrapper(scriptStr);
