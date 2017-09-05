@@ -1,7 +1,7 @@
 =================
 Title: Test for generator runner
-undefined
-undefined
+value1
+value2
 Success
 Safe Generator caught error: Intentionaly rejected promise
  No stack trace

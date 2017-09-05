@@ -26,4 +26,4 @@ function *test() {
   // yield s.driver.quit();
 }
 
-u.execGen(test);
+u.execGenSafe(test);

@@ -3,12 +3,12 @@
 /* globals gT: true */
 /* globals gIn: true */
 
-var fs = require('fs');
-var path = require('path');
-var nodeUtils = require('../utils/nodejs-utils');
+const fs = require('fs');
+const path = require('path');
+const nodeUtils = require('../utils/nodejs-utils');
 
-var flow = gT.sOrig.flow;
-var promise = gT.sOrig.promise;
+// var flow = gT.sOrig.flow;
+// var promise = gT.sOrig.promise;
 
 function getOs() {
   var os = require('os');
@@ -23,7 +23,7 @@ function runTestFile(file) {
   gIn.cancelThisTest = false;
 
   try {
-    nodeUtils.requireEx(file, true);
+    return nodeUtils.requireEx(file, true).result;
   } catch (e) {
     // TODO: why did I disable exceptions to console here?
     gIn.logger.exception('Exception in runner: ', e);
@@ -32,7 +32,7 @@ function runTestFile(file) {
   }
 }
 
-function *handleTestFile(file, dirConfig) {
+function* handleTestFile(file, dirConfig) {
 
   // Restore the state which could be damaged by previous test and any other initialization.
   gIn.tInfo.isPassCountingEnabled = gT.engineConsts.defIsPassCountingEnabled;
@@ -71,8 +71,8 @@ function *handleTestFile(file, dirConfig) {
 
   var startTime = gT.timeUtils.startTimer();
 
-  yield flow.execute(function () { // gIn.tInfo.data
-    runTestFile(file);
+  yield Bluebird.try(function () { // gIn.tInfo.data
+    return runTestFile(file);
   });
 
   gIn.logger.testSummary();
@@ -114,7 +114,7 @@ function handleDirConfig(dir, files, prevDirConfig) {
  * @param dir
  * @param prevDirConfig
  */
-function *handleTestDir(dir, prevDirConfig) {
+function* handleTestDir(dir, prevDirConfig) {
   gIn.tracer.msg3('handleDir Dir: ' + dir);
   var files = fs.readdirSync(dir);
   var dirConfig = handleDirConfig(dir, files, prevDirConfig);
@@ -131,13 +131,13 @@ function *handleTestDir(dir, prevDirConfig) {
     }
     var innerCurInfo;
     if (stat.isFile() && path.extname(fileOrDirPath) === '.js') {
-      innerCurInfo = yield *handleTestFile(fileOrDirPath, dirConfig);
+      innerCurInfo = yield* handleTestFile(fileOrDirPath, dirConfig);
     } else if (stat.isDirectory()) {
       if (fileOrDir === gT.engineConsts.profileRootDir) {
         gIn.tracer.msg3('Skipping directory, because it is browser profile');
         continue;
       }
-      innerCurInfo = yield *handleTestDir(fileOrDirPath, dirConfig);
+      innerCurInfo = yield* handleTestDir(fileOrDirPath, dirConfig);
     } else {
       continue;
     }
@@ -158,7 +158,7 @@ function *handleTestDir(dir, prevDirConfig) {
   return dirInfo;
 }
 
-function *runTestSuite(dir) {
+function* runTestSuite(dir) {
   //console.log('runAsync Dir: ' + dir);
   var log = dir + '.mlog'; // Summary log.
   var procInfoFilePath = dir + '.procInfo';
@@ -204,7 +204,7 @@ function *runTestSuite(dir) {
     gIn.tracer.msg3('metaLogEtDifRes: ' + metaLogEtDifResBool);
     etMlogInfo = metaLogEtDifResBool ? 'DIF_MLOG, ' : 'ET_MLOG, ';
     etMlogInfoCons = metaLogEtDifResBool ? gIn.cLogger.chalkWrap('red', 'DIF_MLOG') + ', ' :
-    gIn.cLogger.chalkWrap('green', 'ET_MLOG') + ', ';
+      gIn.cLogger.chalkWrap('green', 'ET_MLOG') + ', ';
   }
 
   let subjTimeMark = dirInfo.time > gIn.params.tooLongTime ? ', TOO_LONG' : '';
@@ -251,7 +251,7 @@ module.exports = function runner(suiteRoot) {
     return 'Just removing of remove driver';
   }
 
-  var result = gT.sOrig.promise.fulfilled(true);
+  let result = Bluebird.resolve(true);
 
   if (gIn.params.useRemoteDriver) {
     result = result.then(function () {
@@ -266,20 +266,19 @@ module.exports = function runner(suiteRoot) {
         fs.mkdirSync(gIn.params.profileRootPath);
       } catch (e) {
       }
-      return flow.execute(function () {
-        return promise.consume(runTestSuite, null, suiteRoot);
-      }).then(
-        function (exitStatus) {
-          process.exitCode = exitStatus;
-        },
-        function (err) {
-          gIn.tracer.err('Runner ERR: ' + gIn.textUtils.excToStr(err));
-          process.exitCode = 1;
-        }
-      );
-        // .then(function () {
-        //   process.exit();
-        // });
-    });
+      return gT.u.iterate(runTestSuite(suiteRoot));
+    }).then(
+    function (exitStatus) {
+      process.exitCode = exitStatus;
+    },
+    function (err) {
+      gIn.tracer.err('Runner ERR: ' + gIn.textUtils.excToStr(err));
+      process.exitCode = 1;
+    }
+  );
+  // .then(function () {
+  //   process.exit();
+  // });
 };
+
 

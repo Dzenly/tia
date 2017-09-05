@@ -254,7 +254,7 @@ exports.exception = function exception(func, expExc, mode) {
  * @return {Promise}
  */
 exports.exceptionAsync = function exceptionAsync(yieldable, expExc, mode) {
-  return co(yieldable)
+  return gT.u.execGen(yieldable)
     .then(function (res) {
       console.log('GOOD');
       var msg;

@@ -75,3 +75,10 @@ Node version info: ${inspect(process.versions)}
 ` + exports.getResourcesUsage();
   return str;
 };
+
+exports.isPromise = function isPromise(p) {
+  if (_.isObject(p) && _.isFunction(p.then)) {
+    return true;
+  }
+  return false;
+};

@@ -7,6 +7,11 @@
 
 var path = require('path');
 
+global.Bluebird = require('bluebird');
+global._ = require('lodash');
+// global.co = require('co');
+// Bluebird.cancellation = true;
+
 global.gT = {}; // Global object as namespace for objects which user (test writer) can use.
 global.gIn = {}; // Global object as namespace for inner objects.
 
@@ -16,7 +21,7 @@ global.sOrig = gT.sOrig;
 // Chromedriver needs nodejs.
 process.env.PATH = process.env.PATH + path.delimiter + path.dirname(process.execPath);
 
-process.env.SELENIUM_PROMISE_MANAGER = 1;
+process.env.SELENIUM_PROMISE_MANAGER = 0;
 
 // Tests use promise and control flow from selenium-webdriver module.
 // It is non GUI stuff.
@@ -31,8 +36,8 @@ gT.sOrig.wdModule = require('selenium-webdriver');
 gT.sOrig.driverLogType = gT.sOrig.wdModule.logging.Type.DRIVER;
 gT.sOrig.browserLogType = gT.sOrig.wdModule.logging.Type.BROWSER;
 
-gT.sOrig.promise = gT.sOrig.wdModule.promise;
-gT.sOrig.flow = gT.sOrig.promise.controlFlow();
+gT.sOrig.promise = gT.sOrig.wdModule.promise; // TODO: to remove.
+gT.sOrig.flow = gT.sOrig.promise.controlFlow(); // TODO: to remove.
 
 gIn.configUtils = require('../utils/config-utils');
 

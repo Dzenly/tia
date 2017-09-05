@@ -88,7 +88,7 @@ exports.errorln = function errorln(msg) {
 exports.exception = function exception(msg, e) {
   msg = gIn.loggerCfg.excPrefix + msg;
   gIn.cLogger.errIfEnabled(msg + ' ' + gIn.textUtils.excToStr(e) + '\n');
-  logToFile(msg + ' ' + gIn.textUtils.excToStr(e, true) + '\n');
+  logToFile(msg + ' ' + gIn.textUtils.excToStr(e, !Boolean(gIn.params.stackToLog)) + '\n');
 };
 
 /**

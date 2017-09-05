@@ -10,7 +10,8 @@ exports.removeSelSid = function removeSelSid(str) {
 exports.filterStack = function filterStack(strStack) {
   var stArr = strStack.split('\n');
   var newArr = stArr.filter(function (el, index, arr) {
-    return el.indexOf('node_modules') === -1;
+    let startingFrom = el.indexOf('/tia/');
+    return el.indexOf('node_modules', startingFrom) === -1;
   });
   return newArr.join('\n');
 };
@@ -20,7 +21,7 @@ exports.excToStr = function excToStr(err, noStack) {
     return '\nNo Exception info\n';
   }
   var errStr = err.toString();//(typeof err.message === 'undefined') ? err : err.message;
-  if (gIn.params.stackToLog || !noStack) {
+  if (/*gIn.params.stackToLog || */!noStack) {
     if (typeof err.stack !== 'undefined') {
       errStr += '\n' + exports.filterStack(err.stack);
     } else {
