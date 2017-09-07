@@ -205,6 +205,8 @@ if (gIn.params.traceLevel > 3) {
 
 gIn.tracer.msg2('Browsers profile root: ' + gIn.params.profileRootPath);
 
+gIn.tracer.msg2('chromedriver path: ' + gIn.chromeDriverPath);
+
 gIn.params.minPathSearchIndex = testsDir.length + 1; // Minumum index for path search.
 
 if (args.requireModules) {

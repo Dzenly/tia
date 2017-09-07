@@ -55,7 +55,7 @@ module.exports = {
   // all tests will be cancelled.
   maxTestCountWithRecursiveError: 2,
 
-  // Comboboxes have a glitch, at one left click they can open bouldList and immediately close it.
+  // Comboboxes have a glitch, at one left click they can open boundList and immediately close it.
   // This constant sets how many times tia will retry to click comboboxes if bound List is not opened.
   // If retry count is 0 the only one attempt to click combobox will be performed.
   cbRetryClicksCount: 2,
@@ -88,5 +88,12 @@ module.exports = {
 
   // https://bugs.chromium.org/p/chromedriver/issues/detail?id=817#c21
   // TODO: use this if --dns-prefetch-disable will not work.
-  defaultDelayAfterDriverCreate: 2000 // Delay after webdriver create to avoid error.
+  defaultDelayAfterDriverCreate: 2000, // Delay after webdriver create to avoid error.
+
+  // Error message for force test case cancelling.
+  CANCELLING_THE_TEST: 'Force cancelling the test',
+
+  // Error message for force test suite cancelling.
+  CANCELLING_THE_SUITE: 'Force cancelling the suite'
+
 };

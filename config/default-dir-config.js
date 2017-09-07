@@ -59,7 +59,8 @@ module.exports = {
   // Адрес сервера. Полезно менять при одновременной работе нескольких тестеров на одной машине.
   // В логах адрес будет заменяться на $(host).
   // В функциях, принимающих URL строка $(host) заменяется на этот полный адрес.
-  // Этот параметр нужно перегружать в локальном config.js.
+  // Этот параметр можно перегружать в локальном config.js.
+  // Также, этот параметр можно перегружать через --def-host опцию.
   selHost: 'http://localhost:1338',
 
   resUsagePrintAtErrors: true // Print resource usage at error. Makes sense to disable for tests for errors testing.

@@ -1,8 +1,9 @@
 'use strict';
 
-var inspect = require('util').inspect;
+let inspect = require('util').inspect;
 
 /* globals gIn: true */
+
 /* globals gT: true */
 
 /**
@@ -25,7 +26,7 @@ function startTimer() {
  */
 function stopTimer(startTime) {
   if (gIn.config.enableTimings) {
-    var diff = process.hrtime(startTime);
+    let diff = process.hrtime(startTime);
     return ' (' + (diff[0] * 1000 + diff[1] / 1e6) + ' ms)';
   }
   return '';
@@ -47,7 +48,7 @@ function* pause() {
  * @param noConsoleAndExceptions
  */
 function* pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
-  var timeDiff = stopTimer(startTime);
+  let timeDiff = stopTimer(startTime);
   yield* pause();
   yield gIn.logger.logIfNotDisabled('OK' + timeDiff + '\n', logAction);
 
@@ -65,9 +66,6 @@ function* pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
   yield s.driver.printSelDriverLogs(900);
 }
 
-const CANCELLING_THE_TEST = 'Cancelling the test due to hanging';
-const CANCELLING_THE_SUITE = 'Cancelling the suite due to hanging';
-
 function handleErrAtErrorHandling(msg) {
   gIn.logger.errorln(`${msg} at error handling. The test will be canceled.`);
   gIn.cancelThisTest = true;
@@ -78,11 +76,79 @@ function handleErrAtErrorHandling(msg) {
       gIn.suiteErrRecursionCount++;
       if (gIn.suiteErrRecursionCount > gT.engineConsts.maxTestCountWithRecursiveError) {
         gIn.cancelSuite = true;
-        return Bluebird.reject(CANCELLING_THE_SUITE);
+        throw new Error(gT.engineConsts.CANCELLING_THE_SUITE);
       }
     }
   }
-  return Bluebird.reject(CANCELLING_THE_TEST);
+  throw new Error(gT.engineConsts.CANCELLING_THE_TEST);
+}
+
+/**
+ *
+ * @return {Promise.<TResult>}
+ */
+function quitDriver() {
+  if (gT.sOrig.driver) {
+    if (!gIn.params.keepBrowserAtError) {
+      gIn.tracer.msg1('A.W.: Driver quit');
+      return gT.s.driver.quit(true)
+        .then(function () {
+          // gIn.logger.errorln('========== Err Info End ==========');
+          gIn.tracer.msg1('A.W.: Driver deletion');
+          delete gT.sOrig.driver;
+          // yield will generate exception with this object.
+          throw new Error('A.W.: Force throw error (sel. driver was existed)');
+        }).catch(function (err) {
+          gIn.logger.errorln('A.W.: catch for driver quit or deletion: ' + err);
+          return handleErrAtErrorHandling('Error at quit');
+        });
+    }
+  } else {
+    gIn.tracer.msg1('A.W.: quitDriver: Driver is absent');
+  }
+}
+
+/**
+ * Handles an error when webdriver exists and recursion count is zero.
+ * Reports various info about the error and quits the driver if there is not
+ * keepBrowserAtError flag. Also see gT.s.driver.quit code for conditions when driver
+ * will not quit.
+ * Then tries to stop the current test case by throwing according error.
+ */
+function* handleErrorWhenDriverExistsAndRecCountZero() {
+
+  gIn.errRecursionCount = 1; // To prevent recursive error report on error report.
+  /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
+  gIn.tracer.msg1('A.W.: Error report: printSelDriverLogs');
+  yield s.driver.printSelDriverLogs(900).catch(function (err) {
+    gIn.tracer.msg1('Error at printSelDriverLogs at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
+  });
+
+  if (!gIn.brHelpersInitiated) {
+    gIn.tracer.msg1('A.W.: Error report: initTiaBrHelpers');
+    yield gT.s.browser.initTiaBrHelpers(true).catch(function (err) {
+      gIn.tracer.msg1('Error at initTiaBrHelpers at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
+    });
+  }
+
+  gIn.tracer.msg1('A.W.: Error report: printCaughtExceptions');
+  yield gT.s.browser.printCaughtExceptions(true).catch(function (err) {
+    gIn.tracer.msg1('Error at logExceptions at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
+  });
+
+  gIn.tracer.msg1('A.W.: Error report: printSelBrowserLogs');
+  yield gT.s.browser.printSelBrowserLogs().catch(function (err) {
+    gIn.tracer.msg1('Error at logConsoleContent at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
+  });
+
+  gIn.tracer.msg1('A.W.: Error report: screenshot');
+  yield gT.s.browser.screenshot().catch(function (err) {
+    gIn.tracer.msg1('Error at screenshot at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
+  });
+
+  yield quitDriver();
+
+  throw new Error(gT.engineConsts.CANCELLING_THE_TEST);
 }
 
 /**
@@ -107,13 +173,14 @@ module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
   gIn.tracer.msg3('Inside wrapper, after start timer, msg: ' + msg);
 
   if (gIn.cancelThisTest) {
-    gIn.tracer.msg1('Cancelling action using gIn.cancelThisTest flag');
-    throw new Error(CANCELLING_THE_TEST);
+    gIn.tracer.msg1('Cancelling action due to gIn.cancelThisTest flag');
+    throw new Error(gT.engineConsts.CANCELLING_THE_TEST);
   }
 
   if (gIn.cancelSuite) {
-    gIn.tracer.msg1('Cancelling action using gIn.cancelSuite flag');
-    throw new Error(CANCELLING_THE_SUITE);
+    gIn.tracer.msg1('Cancelling suite action due to gIn.cancelSuite flag');
+    // No process.exit(1), we need to create metalog, send e-mails, etc..
+    throw new Error(gT.engineConsts.gT.engineConsts.CANCELLING_THE_SUITE);
   }
 
   gIn.tracer.msg3('Inside wrapper, before act() call,  msg: ' + msg);
@@ -122,102 +189,60 @@ module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
     .try(act)
     .timeout(gIn.params.hangTimeout)
     .catch(Bluebird.TimeoutError, function (err) {
-      gIn.logger.errorln('Hanged action detected');
+      gIn.logger.errorln('A.W.: Hanged action detected');
       if (!gIn.screenShotScheduled) {
         gIn.screenShotScheduled = true;
-        gIn.tracer.msg1('Getting a screenshot for hanged action.');
+        gIn.tracer.msg1('A.W.: Getting a screenshot for hanged action.');
         return gT.s.browser.screenshot().catch(function (err) {
-          gIn.tracer.err('Error at screenshot for hanged action.');
+          gIn.tracer.err('A.W.: Error at screenshot for hanged action.');
         });
       }
-      throw 'Timeout expired, your action is considered as hanged.';
+      throw 'A.W.: Timeout expired, your action is considered as hanged.';
       // TODO: Try to cancel promise returned by act() ??.
     })
     .tap(function (val) {
-      gIn.tracer.msg3('Wrapper: after action execute, msg: ' + msg);
-      gIn.tracer.msg3('Wrapper: after action execute, val: ' + val);
+      gIn.tracer.msg3('A.W.: after action execute, msg: ' + msg);
+      gIn.tracer.msg3('A.W.: after action execute, val: ' + val);
       return gT.u.iterate(pauseAndLogOk(logAction, startTime, noConsoleAndExceptions));
     })
     .catch(function (err) {
       gIn.tInfo.addFail();
-      gIn.logger.errorln('Act.Wrapper.FAIL' + stopTimer(startTime));
-      gIn.logger.errorln('========== Err Info Begin ==========');
-      gIn.logger.errorln('Msg was: ' + msg);
-      gIn.logger.exception('Exception in wrapper: ', err);
-      gIn.logger.exception('Exception stack: ', err.stack);
+      gIn.logger.errorln('A.W.: FAIL' + stopTimer(startTime));
+      gIn.logger.errorln('A.W.: ========== Err Info Begin ==========');
+      gIn.logger.errorln('A.W.: Msg was: ' + msg);
+      gIn.logger.exception('A.W.: Exception in wrapper: ', err);
+      gIn.logger.exception('A.W.: Exception stack: ', err.stack);
 
       gIn.logger.logResourcesUsage();
 
       if (gT.sOrig.driver && !gIn.errRecursionCount) {
-        gIn.errRecursionCount = 1; // To prevent recursive error report on error report.
-        /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
-        gIn.tracer.msg1('Act.Wrapper: scheduling screenshot, browser exceptions and browser console logs.');
 
-        s.driver.printSelDriverLogs(900).catch(function (err) {
-          gIn.tracer.msg1('Error at printSelDriverLogs at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
-        });
+        return gT.u.execGen(handleErrorWhenDriverExistsAndRecCountZero);
 
-        if (!gIn.brHelpersInitiated) {
-          gT.s.browser.initTiaBrHelpers(true).catch(function (err) {
-            gIn.tracer.msg1('Error at initTiaBrHelpers at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
-          });
-        }
-
-        gT.s.browser.printCaughtExceptions(true).catch(function (err) {
-          gIn.tracer.msg1('Error at logExceptions at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
-        });
-
-        gT.s.browser.printSelBrowserLogs().catch(function (err) {
-          gIn.tracer.msg1('Error at logConsoleContent at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
-        });
-
-        gT.s.browser.screenshot().catch(function (err) {
-          gIn.tracer.msg1('Error at screenshot at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
-        });
-
-        if (!gIn.params.keepBrowserAtError) {
-          return gT.s.driver.quit(true).then(function () {
-            gIn.logger.errorln('========== Err Info End ==========');
-            gIn.tracer.msg1('sOrig.driver deletion');
-            delete gT.sOrig.driver;
-            // yield will generate exception with this object.
-            return Bluebird.reject('Error in action (sel. driver was existed)');
-          }).catch(function (err) {
-            return handleErrAtErrorHandling('Error at quit');
-          });
-        }
-      } else {
-        if (!gIn.errRecursionCount) {
-          gIn.errRecursionCount = 1;
-        } else {
-          gIn.errRecursionCount++;
-          if (gIn.errRecursionCount > gT.engineConsts.maxRecursiveErrCountForTest) {
-            return handleErrAtErrorHandling('Recursive error');
-          }
-        }
-        //gIn.logger.errorln('Info: No selenium driver');
-        gIn.logger.errorln('========== Err Info End ==========');
-        let driverExisted = Boolean(gT.sOrig.driver);
-        if (gT.sOrig.driver) {
-          if (!gIn.params.keepBrowserAtError) {
-            return gT.s.driver.quit(true)
-              .then(function () {
-                gIn.tracer.msg2('sOrig.driver deletion (error at error handling)');
-                delete gT.sOrig.driver;
-              }).catch(function (err) {
-                return handleErrAtErrorHandling('Error at quit');
-              });
-          }
-        }
-        // yield will generate exception with this object.
-        throw new Error('Error in action. Sel. driver existed: ' + Boolean(driverExisted) +
-          ', Error recursion at error handling: ' + gIn.errRecursionCount);
       }
 
-      // return; // If we will return smth here, it will be returned from yield.
-      // It can be used for continue testing after fail. It is quite an exotic situation and logs will be undetermined.
+      let driverExisted = Boolean(gT.sOrig.driver);
 
-      // Unsafe tests will break test engine.
-      // Safe tests silently catch this object. See execGen implementation below for safe tests example.
+      // No driver, or non zero errRecursionCount.
+      if (!driverExisted) { // No driver.
+        gIn.errRecursionCount = 1;
+        throw new Error(gT.engineConsts.CANCELLING_THE_TEST);
+      }
+
+      // Driver exists and recursion count not zero.
+
+      gIn.errRecursionCount++;
+      if (gIn.errRecursionCount > gT.engineConsts.maxRecursiveErrCountForTest) {
+        return handleErrAtErrorHandling('A.W.: Recursive error');
+      }
+
+      // gIn.logger.errorln('Info: No selenium driver');
+      // gIn.logger.errorln('A.W.: ========== Err Info End ==========');
+
+      return quitDriver();
+
+      // yield will generate exception with this object.
+      // throw new Error('Error in action. Sel. driver existed: ' + Boolean(driverExisted) +
+      //   ', Error recursion at error handling: ' + gIn.errRecursionCount);
     });
 };

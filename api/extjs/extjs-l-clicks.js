@@ -1,25 +1,34 @@
 'use strict';
 /* globals gT: true */
+
 /* globals gIn: true */
+
+function delayIfNeeded() {
+  if (gT.engineConsts.extJsClickDelay) {
+    return gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
+  }
+  return Bluebird.resolve();
+}
 
 exports.clickAndWaitForAjaxFinish = function clickAndWaitForAjaxFinish(webEl, waitTimeout) {
   waitTimeout = waitTimeout || gT.engineConsts.ajaxTimeoutAfterClick;
-  if (gT.engineConsts.extJsClickDelay) {
-    gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
-  }
-  return webEl.click().then(function () {
-    return gT.e.wait.ajaxRequestsFinish(waitTimeout, false);
-  });
+  return delayIfNeeded()
+    .then(function () {
+      return webEl.click()
+        .then(function () {
+          return gT.e.wait.ajaxRequestsFinish(waitTimeout, false);
+        });
+    });
 };
 
 exports.delayClickAndWaitForAjaxFinish = function delayClickAndWaitForAjaxFinish(webEl, isDblClick) {
-  if (gT.engineConsts.extJsClickDelay) {
-    gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
-  }
-  gIn.tracer.msg3('delayAndClick: before click');
-  return (isDblClick ? (new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform()) : webEl.click())
+  return delayIfNeeded()
     .then(function () {
-      gT.e.wait.ajaxRequestsFinish(undefined, false);
+      gIn.tracer.msg3('delayAndClick: before click');
+      return (isDblClick ? (new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform()) : webEl.click())
+        .then(function () {
+          return gT.e.wait.ajaxRequestsFinish(undefined, false);
+        });
     });
 };
 
@@ -37,7 +46,7 @@ exports.createFuncPrintTextDelayClick = function createFuncPrintTextDelayClick(i
         },
         function (err) {
           gIn.tracer.err(err);
-          return Bluebird.reject(gT.engineConsts.elGetTextFail);
+          throw new Error(gT.engineConsts.elGetTextFail);
         })
       .then(function () {
         return exports.delayClickAndWaitForAjaxFinish(webEl, isDblClick);
@@ -49,11 +58,11 @@ function createFuncPrintTextAndClickTableRow(logAction) {
   return function (webEl) {
     return webEl.findElement(gT.sOrig.by.css('.x-tree-node-text'))
       .then(function (el) {
-        el.getText()
+        return el.getText()
           .then(function (text) { // Using of selenium queue, so not then.then.
             gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
+            return exports.delayClickAndWaitForAjaxFinish(el);
           });
-        return exports.delayClickAndWaitForAjaxFinish(el);
       });
   };
 }

@@ -38,7 +38,7 @@
     "bluebird": "^3.5.0",
     "camelcase-keys": "^4.1.0",
     "chalk": "^2.1.0",
-    "chromedriver": "^2.31.0",
+    "chromedriver": "^2.32.1",
     "co": "^4.6.0",
     "lodash": "^4.17.4",
     "minimist": "^1.2.0",

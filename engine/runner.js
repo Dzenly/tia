@@ -8,7 +8,7 @@ const path = require('path');
 const nodeUtils = require('../utils/nodejs-utils');
 
 function getOs() {
-  var os = require('os');
+  let os = require('os');
   return os.platform() + '_' + os.release();
 }
 
@@ -66,7 +66,7 @@ function* handleTestFile(file, dirConfig) {
     gIn.fileUtils.safeUnlink(gIn.params.extLog);
   }
 
-  var startTime = gT.timeUtils.startTimer();
+  let startTime = gT.timeUtils.startTimer();
 
   yield Bluebird.try(function () { // gIn.tInfo.data
     return runTestFile(file);
@@ -86,8 +86,8 @@ function* handleTestFile(file, dirConfig) {
 }
 
 function handleDirConfig(dir, files, prevDirConfig) {
-  var index = files.indexOf(gT.engineConsts.configName);
-  var config;
+  let index = files.indexOf(gT.engineConsts.configName);
+  let config;
   if (index < 0) {
     config = {};
   } else {
@@ -113,20 +113,20 @@ function handleDirConfig(dir, files, prevDirConfig) {
  */
 function* handleTestDir(dir, prevDirConfig) {
   gIn.tracer.msg3('handleDir Dir: ' + dir);
-  var files = fs.readdirSync(dir);
-  var dirConfig = handleDirConfig(dir, files, prevDirConfig);
-  var dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
-  var startTime = gT.timeUtils.startTimer();
+  let files = fs.readdirSync(dir);
+  let dirConfig = handleDirConfig(dir, files, prevDirConfig);
+  let dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
+  let startTime = gT.timeUtils.startTimer();
 
-  for (var fileOrDir of files) {
-    var fileOrDirPath = path.join(dir, fileOrDir);
-    var stat;
+  for (let fileOrDir of files) {
+    let fileOrDirPath = path.join(dir, fileOrDir);
+    let stat;
     try {
       stat = fs.statSync(fileOrDirPath);
     } catch (e) {
       continue; // We remove some files in process.
     }
-    var innerCurInfo;
+    let innerCurInfo;
     if (stat.isFile() && path.extname(fileOrDirPath) === '.js') {
       innerCurInfo = yield* handleTestFile(fileOrDirPath, dirConfig);
     } else if (stat.isDirectory()) {
@@ -157,19 +157,19 @@ function* handleTestDir(dir, prevDirConfig) {
 
 function* runTestSuite(dir) {
   //console.log('runAsync Dir: ' + dir);
-  var log = dir + '.mlog'; // Summary log.
-  var procInfoFilePath = dir + '.procInfo';
-  var txtAttachments = [log];
-  var noTimeLog = log + '.notime';
-  var prevDif = noTimeLog + '.prev.dif';
-  var etDif = noTimeLog + '.et.dif';
-  var noTimeLogPrev = noTimeLog + '.prev';
+  let log = dir + '.mlog'; // Summary log.
+  let procInfoFilePath = dir + '.procInfo';
+  let txtAttachments = [log];
+  let noTimeLog = log + '.notime';
+  let prevDif = noTimeLog + '.prev.dif';
+  let etDif = noTimeLog + '.et.dif';
+  let noTimeLogPrev = noTimeLog + '.prev';
   gIn.fileUtils.safeUnlink(log);
   gIn.fileUtils.safeUnlink(prevDif);
   gIn.fileUtils.safeUnlink(etDif);
   gIn.fileUtils.safeRename(noTimeLog, noTimeLogPrev);
 
-  var dirInfo = yield* handleTestDir(dir, gT.dirConfigDefault);
+  let dirInfo = yield* handleTestDir(dir, gT.dirConfigDefault);
 
   if (!gIn.params.useRemoteDriver) {
     yield gT.s.driver.quitIfInited();
@@ -180,16 +180,16 @@ function* runTestSuite(dir) {
   // dirInfo.title = path.basename(dir);
   gIn.logger.saveSuiteLog(dirInfo, noTimeLog, true);
 
-  var noPrevMLog = gIn.fileUtils.isAbsent(noTimeLogPrev);
-  var metaLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeLog, noTimeLogPrev);
-  var metaLogPrevDifResBool = Boolean(metaLogPrevDifRes);
+  let noPrevMLog = gIn.fileUtils.isAbsent(noTimeLogPrev);
+  let metaLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeLog, noTimeLogPrev);
+  let metaLogPrevDifResBool = Boolean(metaLogPrevDifRes);
   if (metaLogPrevDifResBool) {
     fs.writeFileSync(prevDif, metaLogPrevDifRes, {encoding: gT.engineConsts.logEncoding});
     txtAttachments.push(prevDif);
   }
 
-  var etMlogInfo = '';
-  var etMlogInfoCons = '';
+  let etMlogInfo = '';
+  let etMlogInfoCons = '';
 
   if (gIn.params.etMlog) {
     let metaLogEtDifRes = gIn.diffUtils.getDiff('.', noTimeLog, gIn.params.etMlog);
@@ -206,25 +206,25 @@ function* runTestSuite(dir) {
 
   let subjTimeMark = dirInfo.time > gIn.params.tooLongTime ? ', TOO_LONG' : '';
 
-  var changedDiffs = gIn.diffUtils.changedDiffs ? '(' + gIn.diffUtils.changedDiffs + ' diff(s) changed)' : '';
-  var emailSubj = (noPrevMLog ? 'NO PREV' : (metaLogPrevDifResBool ? 'DIF FROM PREV' : ('AS PREV' + changedDiffs))) +
+  let changedDiffs = gIn.diffUtils.changedDiffs ? '(' + gIn.diffUtils.changedDiffs + ' diff(s) changed)' : '';
+  let emailSubj = (noPrevMLog ? 'NO PREV' : (metaLogPrevDifResBool ? 'DIF FROM PREV' : ('AS PREV' + changedDiffs))) +
     subjTimeMark +
     ', ' + gIn.logger.saveSuiteLog(dirInfo, log) + ', ' + getOs();
-  var emailSubjCons = etMlogInfoCons + emailSubj;
+  let emailSubjCons = etMlogInfoCons + emailSubj;
   emailSubj = etMlogInfo + emailSubj;
 
   dirInfo.metaLogDiff = metaLogPrevDifResBool;
   dirInfo.os = getOs();
   gIn.fileUtils.saveJson(dirInfo, log + '.json');
 
-  var arcName = gIn.fileUtils.archiveSuiteDir(dirInfo);
+  let arcName = gIn.fileUtils.archiveSuiteDir(dirInfo);
 
-  var procInfo = nodeUtils.getProcInfo();
+  let procInfo = nodeUtils.getProcInfo();
   fs.writeFileSync(procInfoFilePath, procInfo, {encoding: gT.engineConsts.logEncoding});
   txtAttachments.push(procInfoFilePath);
 
   yield gIn.mailUtils.send(emailSubj, txtAttachments, [arcName]);
-  var status = dirInfo.diffed ? 1 : 0;
+  let status = dirInfo.diffed ? 1 : 0;
   gIn.cLogger.msg('\n' + emailSubjCons + '\n');
   if (gT.suiteConfig.metaLogToStdout) {
     gIn.logger.printSuiteLog(dirInfo);
