@@ -8,9 +8,7 @@ The engine supports Web sites testing using Selenium WebDriver
 and provides API for work with ExtJs components.
 Xvfb is supported.
 
-*Note: since the 0.12.15 tia version - the minimum supported Node.js version is 6.10*
-
-The engine is in development stage, but well tested and ready to use.
+*Note: since the 0.12.15 tia version - the minimal supported Node.js version is 6.10*
 
 To don't blow up versions for now TIA is not following SEMVER rules.
 The 'patch' version part is changed at adding new functionality and bug fixes,
@@ -197,11 +195,11 @@ $ tia --run-self-tests
 
 ## Creating / debugging tests
 
-$ mkdir my-prj
-$ cd my-prj
-$ npm init
-$ mkdir tests
-$ npm install tia
+* $ mkdir my-prj
+* $ cd my-prj
+* $ npm init
+* $ mkdir tests
+* $ npm install tia
 
 In your debug configuration you can use
 
@@ -488,11 +486,12 @@ Thank you, "R-Vision", for initial sponsorship and for allowance to open the sou
 
 ## Donations
 
-More then 10 years I have been involved in auto-testing. I very like it and I have many ideas to implement.
+Since year 2004 I have been involved in auto-testing. I very like it and I have many ideas to implement.
 So I develop this test engine, dedicating most of my free time to this, using all my experience and best practices.
-Main goals of this project is to create a good tool for ExtJs applications testing, and to fasten autotesting in common, using the log comparison paradigm (and not the assertion paradigm, though assertions are also supported).
+Main goals of this project is to create a good tool for ExtJs applications testing, and to fasten autotesting in common,
+using the log comparison paradigm (and not the assertion paradigm, though assertions are also supported).
 
-If you like my work, you can to star my project on github:
+If you like this test engine, you can to star my project on github:
 https://github.com/Dzenly/tia.
 
 If you wish to support the project with moneys, here is an info about my accounts for donations:
