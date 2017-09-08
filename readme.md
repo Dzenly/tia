@@ -8,7 +8,7 @@ The engine supports Web sites testing using Selenium WebDriver
 and provides API for work with ExtJs components.
 Xvfb is supported.
 
-*Note: since the 0.12.15 tia version - the minimum supported Node.js version is 8*
+*Note: since the 0.12.15 tia version - the minimum supported Node.js version is 6.10*
 
 The engine is in development stage, but well tested and ready to use.
 
@@ -169,7 +169,7 @@ See also the `selProfilePath` option in the `config/default-suite-config.js`.
 ## Prerequisites
 
 * diff, rm, zip utililies (you can use Cygwin on Windows)
-* Node.js 8+.
+* Node.js 6.10+.
 * Xvfb (if you wish to run tests under Linux without GUI).
 	How to start:
 	 $ Xvfb :1 -screen 5 2560x1440x24
