@@ -72,7 +72,7 @@ module.exports = {
 
   defLLLogAction: true, // Default value for low level actions logging.
 
-  remoteDriverStartTime: 2000, // The time for remote driver to start.
+  remoteDriverStartDelay: 2000, // The time for remote driver to start.
 
   mailWaitTimeout: 20, // Seconds. If we failed to send mail we will wait this amount of seconds and retry.
 

@@ -253,7 +253,10 @@ module.exports = function runner(suiteRoot) {
   if (gIn.params.useRemoteDriver) {
     result = result.then(function () {
       return gIn.remoteDriverUtils.start();
-    });
+    })
+      .catch(function (err) {
+        let asdf = 5;
+      });
   }
 
   // Return value is not needed.
