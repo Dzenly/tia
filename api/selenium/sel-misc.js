@@ -1,22 +1,24 @@
 'use strict';
+
 /* globals gT: true */
 
-global.idToIdObj = gT.idToIdObj = function(id) {
-  var res;
+global.idToIdObj = gT.idToIdObj = function (id) {
+  let res;
   if (typeof id === 'object') {
     if (id.logStr) { // Already converted.
       return id;
     }
     res = {
       id: id.id,
-      logStr: `(${id.nameForLog})`
+      logStr: `(${id.nameForLog})`,
     };
   } else {
     res = {
-      id: id,
-      logStr: `(id: ${id})`
+      id,
+      logStr: `(id: ${id})`,
     };
   }
+
   // res.valueOf = function () {
   //   return this.logStr;
   // };

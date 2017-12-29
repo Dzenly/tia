@@ -8,7 +8,7 @@ The engine supports Web sites testing using Selenium WebDriver
 and provides API for work with ExtJs components.
 Xvfb is supported.
 
-*Note: since the 0.12.15 tia version - the minimal supported Node.js version is 6.10*
+*Note: since the 0.12.15 tia version - the minimal supported Node.js version is 8.6*
 
 To don't blow up versions for now TIA is not following SEMVER rules.
 The 'patch' version part is changed at adding new functionality and bug fixes,

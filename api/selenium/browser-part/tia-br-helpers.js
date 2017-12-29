@@ -2,23 +2,24 @@
 /* Test helper for all pages */
 (function () {
   'use strict';
+
   window.tia = {
 
     exceptionsArr: [],
 
-    //hasExceptions: function() {
+    // hasExceptions: function() {
     //	return this.exceptionsArr.length > 0;
-    //},
+    // },
 
-    cleanExceptions: function (cleanExtAjaxFailures) {
+    cleanExceptions(cleanExtAjaxFailures) {
       this.exceptionsArr = [];
       if (cleanExtAjaxFailures && tiaEJ) {
         tiaEJ.cleanAjaxFailures();
       }
     },
 
-    getExceptions: function (addExtJsAjaxFailures) {
-      var tmp = this.exceptionsArr.concat(
+    getExceptions(addExtJsAjaxFailures) {
+      const tmp = this.exceptionsArr.concat(
         (addExtJsAjaxFailures && (typeof tiaEJ !== 'undefined')) ? tiaEJ.getAjaxFailures() : []
       );
       this.cleanExceptions();
@@ -26,32 +27,32 @@
     },
 
     // For testing purpose.
-    issueException: function () {
-      setTimeout(function () {
+    issueException() {
+      setTimeout(() => {
         DsgwDwd3 += 8;
       }, 0);
     },
 
-    getScreenResolution: function () {
+    getScreenResolution() {
       return {
         width: screen.width,
-        height: screen.height
+        height: screen.height,
       };
     },
 
-    cU : {}, // common utility functions, will be added later by other browser javascripts.
+    cU: {}, // common utility functions, will be added later by other browser javascripts.
 
-    cC : {}, // common constants, will be added later by other browser javascripts.
+    cC: {}, // common constants, will be added later by other browser javascripts.
 
-    debugMode: false // To print more info about elements (including ExtJs ones).
+    debugMode: false, // To print more info about elements (including ExtJs ones).
   };
 
-  //console.log('TestHelper loaded');
+  // console.log('TestHelper loaded');
 
   // MDN: When the function returns true, this prevents the firing of the default event handler.
-  var onError = function (msg, url, line, col, error) {
-    tia.exceptionsArr.push('TIA onerror exception: Msg: ' + msg + ', Url: ' + url + ', Line: ' + line +
-      ', col: ' + col + ', error: ' + error);
+  const onError = function (msg, url, line, col, error) {
+    tia.exceptionsArr.push(`TIA onerror exception: Msg: ${msg}, Url: ${url}, Line: ${line
+    }, col: ${col}, error: ${error}`);
     if (tia.debugMode) {
       console.error(tia.getExceptions());
       if (error && error.stack) {
@@ -60,5 +61,5 @@
     }
   };
   window.onerror = onError;
-})();
+}());
 

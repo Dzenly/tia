@@ -2,10 +2,10 @@
 
 /* globals gIn: true */
 
-var ok = 'OK: ';
-var okLn = ok + '\n';
+const ok = 'OK: ';
+const okLn = `${ok}\n`;
 const FAIL = 'FAIL: ';
-var failLn = FAIL + '\n';
+const failLn = `${FAIL}\n`;
 
 /**
  * Logs the specifiied msg.
@@ -42,7 +42,7 @@ exports.eol = function eol() {
  */
 exports.fail = function fail(msg) {
   if (typeof msg !== 'undefined') {
-    gIn.logger.fail(FAIL + msg + '\n');
+    gIn.logger.fail(`${FAIL + msg}\n`);
   }
   gIn.tInfo.addFail();
 };
@@ -56,10 +56,10 @@ exports.fail = function fail(msg) {
  * @param {Boolean} [mode.noPassIncrement] - do not increment pass counter.
  */
 exports.pass = function pass(msg, mode) {
-  mode = mode || {passSilently: false, noPassIncrement: false};
+  mode = mode || { passSilently: false, noPassIncrement: false };
   if (typeof msg !== 'undefined' && !mode.passSilently) {
     if (gIn.tInfo.isPassPrintingEnabled) {
-      gIn.logger.pass(ok + msg + '\n');
+      gIn.logger.pass(`${ok + msg}\n`);
     } else if (gIn.params.forceLogActions) {
       gIn.cLogger.passIfEnabled(msg);
     }

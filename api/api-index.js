@@ -19,6 +19,7 @@
  * @type {{}}
  */
 gT.l = require('./log.js');
+
 global.l = gT.l; // Alias. If your IDE does not autocomplete log. you can use gT.l.
 
 // ==================================================
@@ -28,6 +29,7 @@ global.l = gT.l; // Alias. If your IDE does not autocomplete log. you can use gT
  * @type {{}}
  */
 gT.lL = require('./low-level.js');
+
 global.lL = gT.lL;
 
 // ==================================================
@@ -38,6 +40,7 @@ global.lL = gT.lL;
  * @type {{}}
  */
 gT.t = require('./test.js');
+
 global.t = gT.t;
 
 // ==================================================
@@ -52,6 +55,7 @@ gIn.wrap = require('./../engine/wrap.js');
  * @type {{}}
  */
 gT.a = require('./assertions.js');
+
 global.a = gT.a;
 
 // ==================================================

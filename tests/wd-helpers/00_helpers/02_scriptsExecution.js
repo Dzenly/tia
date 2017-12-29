@@ -1,15 +1,15 @@
 'use strict';
 
-function *test() {
+async function test() {
   t.setTitle('Test for client exceptions');
-  yield s.driver.init();
-  yield s.browser.loadPage('http://google.com');
+  await s.driver.init();
+  await s.browser.loadPage('http://google.com');
 
-  var res = yield s.browser.executeScript('return 5;');
-  l.println('Result of script execution: ' + res);
+  const res = await s.browser.executeScript('return 5;');
+  l.println(`Result of script execution: ${res}`);
 
-  // yield s.browser.close();
-  yield s.driver.quit();
+  // await s.browser.close();
+  await s.driver.quit();
 }
 
-module.exports = u.execGenSafe(test);
+module.exports = test();

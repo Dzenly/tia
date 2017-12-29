@@ -1,6 +1,6 @@
 'use strict';
 
-var co = require('co');
+const co = require('co');
 
 /* globals gT: true */
 /* globals gIn: true */
@@ -11,7 +11,7 @@ var co = require('co');
  I.e. the map which remembers if there was some error for current name.
  */
 
-var resultAccumulators = {};
+const resultAccumulators = {};
 
 function checkAccName(name) {
   if (typeof name !== 'string') {
@@ -65,14 +65,13 @@ function failWrapper(msg, mode) {
  * @param condition
  * @param msg - message to describe the entity which you expect.
  */
-exports.true = function true1(condition, msg, mode) {
-  if (Boolean(condition)) {
+exports.true = function checkIfTrue(condition, msg, mode) {
+  if (condition) {
     gT.l.pass(msg, mode);
     return true;
-  } else {
-    failWrapper(msg, mode);
-    return false;
   }
+  failWrapper(msg, mode);
+  return false;
 };
 
 /**
@@ -81,8 +80,8 @@ exports.true = function true1(condition, msg, mode) {
  * @param msg - message to describe the entity which you expect.
  * param {Object} mode - see 'true' assertin description.
  */
-exports.false = function false1(condition, msg, mode) {
-  return exports.true(!Boolean(condition), msg, mode);
+exports.false = function checkIfFalse(condition, msg, mode) {
+  return exports.true(!condition, msg, mode);
 };
 
 /**
@@ -95,25 +94,23 @@ exports.false = function false1(condition, msg, mode) {
 exports.value = function value(actVal, expVal, msg, mode) {
   if (typeof msg !== 'undefined') {
     if (actVal === expVal) {
-      gT.l.pass(msg + ': ' + actVal, mode);
+      gT.l.pass(`${msg}: ${actVal}`, mode);
       return true;
-    } else {
-      msg += '\nAct: ' + actVal + '\nExp: ' + expVal;
-      failWrapper(msg, mode);
-      return false;
     }
-  } else {
-    if (actVal === expVal) {
-      msg = 'Act: "' + actVal + '" = Exp: "' + expVal + '"';
-      // TODO: (Yellow color ??) It is strange situation to compare smth without message.
-      gT.l.pass(msg, mode);
-      return true;
-    } else {
-      msg = 'Equality checking:\nAct: ' + actVal + '\nExp: ' + expVal;
-      failWrapper(msg, mode);
-      return false;
-    }
+    msg += `\nAct: ${actVal}\nExp: ${expVal}`;
+    failWrapper(msg, mode);
+    return false;
   }
+  if (actVal === expVal) {
+    msg = `Act: "${actVal}" = Exp: "${expVal}"`;
+
+    // TODO: (Yellow color ??) It is strange situation to compare smth without message.
+    gT.l.pass(msg, mode);
+    return true;
+  }
+  msg = `Equality checking:\nAct: ${actVal}\nExp: ${expVal}`;
+  failWrapper(msg, mode);
+  return false;
 };
 
 /**
@@ -164,10 +161,9 @@ exports.valueBool = function valueBool(actVal, expVal, msg, mode) {
  * @returns {boolean}
  */
 exports.valueDeep = function valueDeep(actVal, expVal, msg, mode) {
-
   function handleVals(actVal, expVal, path) {
-    let actType = typeof actVal;
-    let expType = typeof expVal;
+    const actType = typeof actVal;
+    const expType = typeof expVal;
 
     if (actType !== expType) {
       msg += `\nPath: '${path}', Act type: ${actType}, 'Exp type: ${expType}`;
@@ -176,8 +172,8 @@ exports.valueDeep = function valueDeep(actVal, expVal, msg, mode) {
     }
 
     if (actType === 'object' && actVal !== null && expVal !== null) {
-      let actProps = Object.getOwnPropertyNames(actVal).sort();
-      let expProps = Object.getOwnPropertyNames(expVal).sort();
+      const actProps = Object.getOwnPropertyNames(actVal).sort();
+      const expProps = Object.getOwnPropertyNames(expVal).sort();
 
       if (actProps.length !== expProps.length) {
         msg += `\nDifferent property counts, \nPath: '${path}', \nAct props: ${actProps}\nExp props: ${expProps}`;
@@ -185,9 +181,9 @@ exports.valueDeep = function valueDeep(actVal, expVal, msg, mode) {
         return false;
       }
 
-      for (var i = 0, len = actProps.length; i < len; i++) {
-        let actSubProp = actProps[i];
-        let expSubProp = expProps[i];
+      for (let i = 0, len = actProps.length; i < len; i++) {
+        const actSubProp = actProps[i];
+        const expSubProp = expProps[i];
 
         if (actSubProp !== expSubProp) {
           msg += `\nPath: '${path}', Property names are different: Act : ${actSubProp}, Exp : ${expSubProp}`;
@@ -195,21 +191,19 @@ exports.valueDeep = function valueDeep(actVal, expVal, msg, mode) {
           return false;
         }
 
-        if (!handleVals(actVal[actSubProp], expVal[expSubProp], path + '/' + actSubProp)) {
+        if (!handleVals(actVal[actSubProp], expVal[expSubProp], `${path}/${actSubProp}`)) {
           return false;
         }
       }
-    } else {
-      if (actVal !== expVal) {
-        msg += `\nPath: ${path}, \nAct val: ${actVal}\nExp val: ${expVal}`;
-        failWrapper(msg, mode);
-        return false;
-      }
+    } else if (actVal !== expVal) {
+      msg += `\nPath: ${path}, \nAct val: ${actVal}\nExp val: ${expVal}`;
+      failWrapper(msg, mode);
+      return false;
     }
     return true;
   }
 
-  var res = handleVals(actVal, expVal, '');
+  const res = handleVals(actVal, expVal, '');
   if (res) {
     gT.l.pass(msg, mode); // There is no sense to print [object Object].
     return true;
@@ -217,10 +211,17 @@ exports.valueDeep = function valueDeep(actVal, expVal, msg, mode) {
   return false;
 };
 
+/**
+ * Checks that given func will throw given exception.
+ * @param func
+ * @param expExc
+ * @param mode
+ * @return {boolean}
+ */
 exports.exception = function exception(func, expExc, mode) {
   try {
     func();
-    var msg;
+    let msg;
     if (typeof expExc === 'undefined') {
       msg = 'There is not any exception';
     } else {
@@ -229,7 +230,7 @@ exports.exception = function exception(func, expExc, mode) {
     failWrapper(msg, mode);
     return false;
   } catch (e) {
-    var str = e.toString();
+    const str = e.toString();
 
     if (typeof expExc === 'undefined') {
       gT.l.pass(`Expected any exception: '${str}'`, mode);
@@ -242,7 +243,6 @@ exports.exception = function exception(func, expExc, mode) {
     }
     failWrapper(`Actual Exception vs Expected one:\n'${str}'\n'${expExc}'`, mode);
     return false;
-
   }
 };
 
@@ -255,9 +255,9 @@ exports.exception = function exception(func, expExc, mode) {
  */
 exports.exceptionAsync = function exceptionAsync(yieldable, expExc, mode) {
   return gT.u.execGen(yieldable)
-    .then(function (res) {
+    .then((res) => {
       console.log('GOOD');
-      var msg;
+      let msg;
       if (typeof expExc === 'undefined') {
         msg = 'There is not any exception';
       } else {
@@ -265,9 +265,9 @@ exports.exceptionAsync = function exceptionAsync(yieldable, expExc, mode) {
       }
       failWrapper(msg, mode);
       return false;
-    }, function (e) {
-      var str = e.toString();
-      console.log('BAD: ' + str);
+    }, (e) => {
+      const str = e.toString();
+      console.log(`BAD: ${str}`);
       if (typeof expExc === 'undefined') {
         gT.l.pass(`Expected any exception: '${str}'`, mode);
         return true;
@@ -284,15 +284,14 @@ exports.exceptionAsync = function exceptionAsync(yieldable, expExc, mode) {
 exports.equal = function equal(val1, val2, msg1, msg2, doNotShowValues, mode) {
   if (val1 === val2) {
     if (doNotShowValues) {
-      gT.l.pass(msg1 + ' === ' + msg2, mode);
+      gT.l.pass(`${msg1} === ${msg2}`, mode);
       return true;
     }
-    gT.l.pass(msg1 + ': ' + val1 + ' === ' + msg2 + ': ' + val2, mode);
+    gT.l.pass(`${msg1}: ${val1} === ${msg2}: ${val2}`, mode);
     return true;
-  } else {
-    failWrapper(msg1 + ': ' + val1 + ' !== ' + msg2 + ': ' + val2, mode);
-    return false;
   }
+  failWrapper(`${msg1}: ${val1} !== ${msg2}: ${val2}`, mode);
+  return false;
 };
 
 exports.equalBool = function equalBool(val1, val2, msg1, msg2, doNotShowValues, mode) {
@@ -300,15 +299,14 @@ exports.equalBool = function equalBool(val1, val2, msg1, msg2, doNotShowValues, 
   val2 = Boolean(val2);
   if (val1 === val2) {
     if (doNotShowValues) {
-      gT.l.pass(msg1 + ' === ' + msg2, mode);
+      gT.l.pass(`${msg1} === ${msg2}`, mode);
       return true;
     }
-    gT.l.pass(msg1 + ' === ' + msg2 + ' === ' + val1, mode);
+    gT.l.pass(`${msg1} === ${msg2} === ${val1}`, mode);
     return true;
-  } else {
-    failWrapper(msg1 + ': ' + val1 + ' !== ' + msg2 + ': ' + val2, mode);
-    return false;
   }
+  failWrapper(`${msg1}: ${val1} !== ${msg2}: ${val2}`, mode);
+  return false;
 };
 
 exports.notEqualBool = function notEqualBool(val1, val2, msg1, msg2, doNotShowValues, mode) {
@@ -316,15 +314,14 @@ exports.notEqualBool = function notEqualBool(val1, val2, msg1, msg2, doNotShowVa
   val2 = Boolean(val2);
   if (val1 !== val2) {
     if (doNotShowValues) {
-      gT.l.pass(msg1 + ' !== ' + msg2, mode);
+      gT.l.pass(`${msg1} !== ${msg2}`, mode);
       return true;
     }
-    gT.l.pass(msg1 + ': ' + val1 + ' !== ' + msg2 + ': ' + val2, mode);
+    gT.l.pass(`${msg1}: ${val1} !== ${msg2}: ${val2}`, mode);
     return true;
-  } else {
-    failWrapper(msg1 + ' === ' + msg2 + ' === ' + val1, mode);
-    return false;
   }
+  failWrapper(`${msg1} === ${msg2} === ${val1}`, mode);
+  return false;
 };
 
 // Silent pass.

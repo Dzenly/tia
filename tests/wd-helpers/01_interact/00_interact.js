@@ -1,14 +1,14 @@
 'use strict';
 
-function *test() {
+async function test() {
   t.setTitle('Test for client interaction with a browser');
-  yield s.driver.init();
+  await s.driver.init();
 
   if (gT.firstRunWithRemoteDriver) {
-    yield s.browser.loadPage('http://google.com');
+    await s.browser.loadPage('http://google.com');
   } else {
-    //yield s.browser.loadPage('http://yandex.ru');
-    yield s.browser.executeScript('alert("asdf");');
+    // yield s.browser.loadPage('http://yandex.ru');
+    await s.browser.executeScript('alert("asdf");');
   }
 
   // yield s.driver.sleep(35000);
@@ -26,4 +26,4 @@ function *test() {
   // yield s.driver.quit();
 }
 
-u.execGenSafe(test);
+module.exports = test();

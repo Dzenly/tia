@@ -1,10 +1,12 @@
 'use strict';
+
 /* globals gT: true */
 /* globals gIn: true */
 
-var path = require('path');
+const path = require('path');
 
-var chromeDriverPath = require('chromedriver').path;
+const chromeDriverPath = require('chromedriver').path;
+
 process.env.PATH = chromeDriverPath + path.delimiter + process.env.PATH;
 gIn.chromeDriverPath = chromeDriverPath;
 

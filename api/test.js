@@ -13,5 +13,5 @@
 exports.setTitle = function (title) {
   gIn.tInfo.data.title = title; // From global sandbox.
   gIn.logger.logln('=================');
-  gIn.logger.logBold('Title: ' + title + '\n');
+  gIn.logger.logBold(`Title: ${title}\n`);
 };

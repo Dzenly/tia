@@ -13,8 +13,6 @@ interface EJAPI {
     getByFormIdName: Object;
     msgBox: Object;
     hL: Object;
-    lClick: Object;
-    lClick: EJCBAPI;
     wait: Object;
 }
 

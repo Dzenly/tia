@@ -11,7 +11,7 @@
  * Can be used for debug.
  */
 exports.setPassed = function setPassed(newCount) {
-  gIn.tracer.msg3('Changing passed tests count to ' + newCount);
+  gIn.tracer.msg3(`Changing passed tests count to ${newCount}`);
   gIn.tInfo.data.passed = newCount;
 };
 
@@ -20,7 +20,7 @@ exports.setPassed = function setPassed(newCount) {
  * Can be used for debug.
  */
 exports.setFailed = function setFailed(newCount) {
-  gIn.tracer.msg3('Changing failed tests count to ' + newCount);
+  gIn.tracer.msg3(`Changing failed tests count to ${newCount}`);
   gIn.tInfo.data.failed = newCount;
 };
 
@@ -49,13 +49,13 @@ exports.getFailed = function getFailed() {
  * @returns {boolean} - old pass counting value.
  */
 exports.setLlPassCounting = function setLlPassCounting(enable) {
-  var old = gIn.tInfo.isPassCountingEnabled;
+  const old = gIn.tInfo.isPassCountingEnabled;
   gIn.tInfo.isPassCountingEnabled = enable;
   return old;
 };
 
 exports.setLlPassPrinting = function setLlPassPrinting(enable) {
-  var old = gIn.tInfo.isPassPrintingEnabled;
+  const old = gIn.tInfo.isPassPrintingEnabled;
   gIn.tInfo.isPassPrintingEnabled = enable;
   return old;
 };
@@ -68,7 +68,7 @@ exports.setLlPassPrinting = function setLlPassPrinting(enable) {
  * @returns {boolean} - old Log Action value.
  */
 exports.setDefaultLlLogAction = function setDefaultLlLogAction(enable) {
-  var old = gIn.loggerCfg.defLLLogAction;
+  const old = gIn.loggerCfg.defLLLogAction;
   gIn.loggerCfg.defLLLogAction = enable;
   return old;
 };

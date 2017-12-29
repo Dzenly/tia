@@ -1,38 +1,41 @@
 #!/usr/bin/env bash
-':' //# comment; exec /usr/bin/env node "$0" "$@"
+
+':'; // # comment; exec /usr/bin/env node "$0" "$@"
 'use strict';
+
+
 // --harmony
 
 // http://sambal.org/2014/02/passing-options-node-shebang-line/
 
-var majVersion = process.version.match(/\d+/)[0];
+const majVersion = process.version.match(/\d+/)[0];
 if (majVersion < 4) {
-  console.error('Node.js less then 4.x.x is not supported, your version: ' + process.version);
+  console.error(`Node.js less then 4.x.x is not supported, your version: ${process.version}`);
   process.exit(1);
 }
 
 /* globals gIn: true, gT */
-var nodeUtil = require('util');
+const nodeUtil = require('util');
 
 require('../engine/init-global-objects.js');
-var helpUtils = require('../utils/help-utils.js');
+const helpUtils = require('../utils/help-utils.js');
 
 gT.browsers = [
   'chrome', // First browser is default.
   'phantomjs',
-  'firefox'
+  'firefox',
 ];
 
 function unknownOption(option) {
   if (option && option.substr(0, 1) === '-') {
-    gIn.cLogger.errln('Unknown option: "' + option + '"\n');
+    gIn.cLogger.errln(`Unknown option: "${option}"\n`);
     helpUtils.usage();
     process.exit(1);
   }
   return true;
 }
 
-var opts = {
+const opts = {
   // trace is number, numbers implied by default in minimist.
   string: [
     'browser',
@@ -47,7 +50,7 @@ var opts = {
     'require-modules',
     'tests-dir',
     'too-long-time',
-    'trace-level'
+    'trace-level',
   ],
   boolean: [ // 'logs-to-mail',
     'debug-avg',
@@ -70,24 +73,27 @@ var opts = {
     'use-remote-driver',
     'v',
     'version',
-    'xvfb'
+    'xvfb',
   ],
   default: {
     browser: gT.browsers[0],
+
     // l: false,
     'browser-log-level': gT.engineConsts.defaultBrowserLogLevel,
     'driver-log-level': gT.engineConsts.defaultDriverLogLevel,
     'hang-timeout': gT.engineConsts.hangTimeout,
     'too-long-time': gT.engineConsts.tooLongTime,
     'trace-level': -1,
+
     // , 'ignore-skip-flag': false
   },
-  unknown: unknownOption
+  unknown: unknownOption,
 };
 
-var args = require('minimist')(process.argv.slice(2), opts);
+let args = require('minimist')(process.argv.slice(2), opts);
 
 const camelcaseKeys = require('camelcase-keys');
+
 args = camelcaseKeys(args);
 
 if (args.h || args.help) {
@@ -100,7 +106,7 @@ if (args.v || args.version) {
   process.exit(0);
 }
 
-var path = require('path');
+const path = require('path');
 
 if (args.runSelfTests) {
   args.testsDir = path.resolve(path.join(__dirname, '..', 'tests'));
@@ -127,22 +133,23 @@ if (args.debugMax) {
   }
 }
 
-var browser = args.browser;
+const browser = args.browser;
 if (gT.browsers.indexOf(browser) === -1) {
-  gIn.cLogger.errln('Invalid browser: ' + browser);
-  gIn.cLogger.errln('Supported browsers are: ' + gT.browsers.join(', '));
+  gIn.cLogger.errln(`Invalid browser: ${browser}`);
+  gIn.cLogger.errln(`Supported browsers are: ${gT.browsers.join(', ')}`);
   process.exit(1);
 }
 
 // TODO: support windows separators also.
 
-var testsDir = args.testsDir;
+let testsDir = args.testsDir;
 
 if (!testsDir) {
   testsDir = process.env[gT.engineConsts.testsDirEnvVarName];
   if (!testsDir) {
     gIn.cLogger.errln('Tests directory is not specified');
     process.exit(1);
+
     // testsDir = process.cwd();
   }
 } else {
@@ -167,7 +174,7 @@ if (!gIn.params.emailCfgPath) {
 
 if (gIn.params.emailCfgPath) {
   gIn.params.emailCfgPath = path.resolve(gIn.params.emailCfgPath);
-  gIn.tracer.msg3('Email cfg path: ' + gIn.params.emailCfgPath);
+  gIn.tracer.msg3(`Email cfg path: ${gIn.params.emailCfgPath}`);
   gT.suiteConfigDefault = gIn.configUtils.mergeConfigs(gT.suiteConfigDefault, require(gIn.params.emailCfgPath));
 } else {
   gIn.tracer.msg3('No email cfg path');
@@ -179,15 +186,15 @@ if (!gIn.params.extLog) {
 
 if (gIn.params.extLog) {
   gIn.params.extLog = path.resolve(gIn.params.extLog);
-  gIn.tracer.msg3('External log path: ' + gIn.params.extLog);
+  gIn.tracer.msg3(`External log path: ${gIn.params.extLog}`);
 } else {
   gIn.tracer.msg3('No external log path');
 }
 
 gIn.params.testsParentDir = path.dirname(testsDir);
 
-gIn.tracer.msg3('Tests Dir: ' + testsDir);
-gIn.tracer.msg3('Tests Parent Dir: ' + gIn.params.testsParentDir);
+gIn.tracer.msg3(`Tests Dir: ${testsDir}`);
+gIn.tracer.msg3(`Tests Parent Dir: ${gIn.params.testsParentDir}`);
 
 gIn.params.profileRootPath = path.join(gIn.params.testsParentDir, gT.engineConsts.profileRootDir);
 
@@ -195,7 +202,7 @@ if (gIn.params.etMlog && !path.isAbsolute(gIn.params.etMlog)) {
   gIn.params.etMlog = path.join(gIn.params.testsParentDir, gIn.params.etMlog);
 }
 
-gIn.tracer.msg3('Etalon Metalog path: ' + gIn.params.etMlog);
+gIn.tracer.msg3(`Etalon Metalog path: ${gIn.params.etMlog}`);
 
 // TODO: support several paths for pattern?
 
@@ -203,15 +210,15 @@ if (gIn.params.traceLevel > 3) {
   gIn.params.traceLevel = 3;
 }
 
-gIn.tracer.msg2('Browsers profile root: ' + gIn.params.profileRootPath);
+gIn.tracer.msg2(`Browsers profile root: ${gIn.params.profileRootPath}`);
 
-gIn.tracer.msg2('chromedriver path: ' + gIn.chromeDriverPath);
+gIn.tracer.msg2(`chromedriver path: ${gIn.chromeDriverPath}`);
 
 gIn.params.minPathSearchIndex = testsDir.length + 1; // Minumum index for path search.
 
 if (args.requireModules) {
-  let arr = args.requireModules.split(/\s*,\s*/);
-  for (let reqPath of arr) {
+  const arr = args.requireModules.split(/\s*,\s*/);
+  for (const reqPath of arr) {
     require(path.resolve(reqPath));
   }
 }
@@ -234,6 +241,6 @@ if (gIn.params.ejExplore) {
   gIn.params.keepBrowserAtError = true;
 }
 
-gIn.tracer.msg3('Parameters: ' + nodeUtil.inspect(gIn.params));
+gIn.tracer.msg3(`Parameters: ${nodeUtil.inspect(gIn.params)}`);
 
 require('../engine/runner.js')(testsDir);

@@ -8,13 +8,12 @@ const path = require('path');
 const nodeUtils = require('../utils/nodejs-utils');
 
 function getOs() {
-  let os = require('os');
-  return os.platform() + '_' + os.release();
+  const os = require('os');
+  return `${os.platform()}_${os.release()}`;
 }
 
 function runTestFile(file) {
-
-  gIn.tracer.msg2('Starting new test: ' + file);
+  gIn.tracer.msg2(`Starting new test: ${file}`);
 
   gIn.errRecursionCount = 0;
   gIn.cancelThisTest = false;
@@ -29,8 +28,7 @@ function runTestFile(file) {
   }
 }
 
-function* handleTestFile(file, dirConfig) {
-
+async function handleTestFile(file, dirConfig) {
   // Restore the state which could be damaged by previous test and any other initialization.
   gIn.tInfo.isPassCountingEnabled = gT.engineConsts.defIsPassCountingEnabled;
   gIn.loggerCfg.defLLLogAction = gT.engineConsts.defLLLogAction;
@@ -39,7 +37,7 @@ function* handleTestFile(file, dirConfig) {
   // It is not safe to create such structure in the test and return it from test,
   // because test can be terminated with exception.
 
-  //console.log('File: ' + file);
+  // console.log('File: ' + file);
   if (gIn.params.pattern && file.lastIndexOf(gIn.params.pattern) < gIn.params.minPathSearchIndex) {
     return null;
   }
@@ -66,16 +64,16 @@ function* handleTestFile(file, dirConfig) {
     gIn.fileUtils.safeUnlink(gIn.params.extLog);
   }
 
-  let startTime = gT.timeUtils.startTimer();
+  const startTime = gT.timeUtils.startTimer();
 
-  yield Bluebird.try(function () { // gIn.tInfo.data
-    return runTestFile(file);
-  });
+  await Bluebird.try(() => // gIn.tInfo.data
+    runTestFile(file)
+  );
 
   gIn.logger.testSummary();
 
   if (gIn.params.extLog) {
-    let extLog = gIn.fileUtils.safeReadFile(gIn.params.extLog);
+    const extLog = gIn.fileUtils.safeReadFile(gIn.params.extLog);
     gIn.logger.log(extLog);
   }
 
@@ -111,15 +109,15 @@ function handleDirConfig(dir, files, prevDirConfig) {
  * @param dir
  * @param prevDirConfig
  */
-function* handleTestDir(dir, prevDirConfig) {
-  gIn.tracer.msg3('handleDir Dir: ' + dir);
-  let files = fs.readdirSync(dir);
-  let dirConfig = handleDirConfig(dir, files, prevDirConfig);
-  let dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
-  let startTime = gT.timeUtils.startTimer();
+async function handleTestDir(dir, prevDirConfig) {
+  gIn.tracer.msg3(`handleDir Dir: ${dir}`);
+  const files = fs.readdirSync(dir);
+  const dirConfig = handleDirConfig(dir, files, prevDirConfig);
+  const dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
+  const startTime = gT.timeUtils.startTimer();
 
-  for (let fileOrDir of files) {
-    let fileOrDirPath = path.join(dir, fileOrDir);
+  for (const fileOrDir of files) {
+    const fileOrDirPath = path.join(dir, fileOrDir);
     let stat;
     try {
       stat = fs.statSync(fileOrDirPath);
@@ -128,17 +126,18 @@ function* handleTestDir(dir, prevDirConfig) {
     }
     let innerCurInfo;
     if (stat.isFile() && path.extname(fileOrDirPath) === '.js') {
-      innerCurInfo = yield* handleTestFile(fileOrDirPath, dirConfig);
+      innerCurInfo = await handleTestFile(fileOrDirPath, dirConfig);
     } else if (stat.isDirectory()) {
       if (fileOrDir === gT.engineConsts.profileRootDir) {
         gIn.tracer.msg3('Skipping directory, because it is browser profile');
         continue;
       }
-      innerCurInfo = yield* handleTestDir(fileOrDirPath, dirConfig);
+      innerCurInfo = await handleTestDir(fileOrDirPath, dirConfig);
     } else {
       continue;
     }
-    //console.log('handleDir, innerCurInfo: ' + innerCurInfo);
+
+    // console.log('handleDir, innerCurInfo: ' + innerCurInfo);
 
     if (innerCurInfo) {
       dirInfo.handled += innerCurInfo.handled;
@@ -155,24 +154,24 @@ function* handleTestDir(dir, prevDirConfig) {
   return dirInfo;
 }
 
-function* runTestSuite(dir) {
-  //console.log('runAsync Dir: ' + dir);
-  let log = dir + '.mlog'; // Summary log.
-  let procInfoFilePath = dir + '.procInfo';
-  let txtAttachments = [log];
-  let noTimeLog = log + '.notime';
-  let prevDif = noTimeLog + '.prev.dif';
-  let etDif = noTimeLog + '.et.dif';
-  let noTimeLogPrev = noTimeLog + '.prev';
+async function runTestSuite(dir) {
+  // console.log('runAsync Dir: ' + dir);
+  const log = `${dir}.mlog`; // Summary log.
+  const procInfoFilePath = `${dir}.procInfo`;
+  const txtAttachments = [log];
+  const noTimeLog = `${log}.notime`;
+  const prevDif = `${noTimeLog}.prev.dif`;
+  const etDif = `${noTimeLog}.et.dif`;
+  const noTimeLogPrev = `${noTimeLog}.prev`;
   gIn.fileUtils.safeUnlink(log);
   gIn.fileUtils.safeUnlink(prevDif);
   gIn.fileUtils.safeUnlink(etDif);
   gIn.fileUtils.safeRename(noTimeLog, noTimeLogPrev);
 
-  let dirInfo = yield* handleTestDir(dir, gT.dirConfigDefault);
+  const dirInfo = await handleTestDir(dir, gT.dirConfigDefault);
 
   if (!gIn.params.useRemoteDriver) {
-    yield gT.s.driver.quitIfInited();
+    await gT.s.driver.quitIfInited();
   } else {
     gIn.tracer.msg3('No force driver.quit() for the last test, due to useRemoteDriver option');
   }
@@ -180,11 +179,11 @@ function* runTestSuite(dir) {
   // dirInfo.title = path.basename(dir);
   gIn.logger.saveSuiteLog(dirInfo, noTimeLog, true);
 
-  let noPrevMLog = gIn.fileUtils.isAbsent(noTimeLogPrev);
-  let metaLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeLog, noTimeLogPrev);
-  let metaLogPrevDifResBool = Boolean(metaLogPrevDifRes);
+  const noPrevMLog = gIn.fileUtils.isAbsent(noTimeLogPrev);
+  const metaLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeLog, noTimeLogPrev);
+  const metaLogPrevDifResBool = Boolean(metaLogPrevDifRes);
   if (metaLogPrevDifResBool) {
-    fs.writeFileSync(prevDif, metaLogPrevDifRes, {encoding: gT.engineConsts.logEncoding});
+    fs.writeFileSync(prevDif, metaLogPrevDifRes, { encoding: gT.engineConsts.logEncoding });
     txtAttachments.push(prevDif);
   }
 
@@ -192,44 +191,45 @@ function* runTestSuite(dir) {
   let etMlogInfoCons = '';
 
   if (gIn.params.etMlog) {
-    let metaLogEtDifRes = gIn.diffUtils.getDiff('.', noTimeLog, gIn.params.etMlog);
-    let metaLogEtDifResBool = Boolean(metaLogEtDifRes);
+    const metaLogEtDifRes = gIn.diffUtils.getDiff('.', noTimeLog, gIn.params.etMlog);
+    const metaLogEtDifResBool = Boolean(metaLogEtDifRes);
     if (metaLogEtDifResBool) {
-      fs.writeFileSync(etDif, metaLogEtDifRes, {encoding: gT.engineConsts.logEncoding});
+      fs.writeFileSync(etDif, metaLogEtDifRes, { encoding: gT.engineConsts.logEncoding });
       txtAttachments.push(etDif);
     }
-    gIn.tracer.msg3('metaLogEtDifRes: ' + metaLogEtDifResBool);
+    gIn.tracer.msg3(`metaLogEtDifRes: ${metaLogEtDifResBool}`);
     etMlogInfo = metaLogEtDifResBool ? 'DIF_MLOG, ' : 'ET_MLOG, ';
-    etMlogInfoCons = metaLogEtDifResBool ? gIn.cLogger.chalkWrap('red', 'DIF_MLOG') + ', ' :
-      gIn.cLogger.chalkWrap('green', 'ET_MLOG') + ', ';
+    etMlogInfoCons = metaLogEtDifResBool ? `${gIn.cLogger.chalkWrap('red', 'DIF_MLOG')}, ` :
+      `${gIn.cLogger.chalkWrap('green', 'ET_MLOG')}, `;
   }
 
-  let subjTimeMark = dirInfo.time > gIn.params.tooLongTime ? ', TOO_LONG' : '';
+  const subjTimeMark = dirInfo.time > gIn.params.tooLongTime ? ', TOO_LONG' : '';
 
-  let changedDiffs = gIn.diffUtils.changedDiffs ? '(' + gIn.diffUtils.changedDiffs + ' diff(s) changed)' : '';
-  let emailSubj = (noPrevMLog ? 'NO PREV' : (metaLogPrevDifResBool ? 'DIF FROM PREV' : ('AS PREV' + changedDiffs))) +
-    subjTimeMark +
-    ', ' + gIn.logger.saveSuiteLog(dirInfo, log) + ', ' + getOs();
-  let emailSubjCons = etMlogInfoCons + emailSubj;
+  const changedDiffs = gIn.diffUtils.changedDiffs ? `(${gIn.diffUtils.changedDiffs} diff(s) changed)` : '';
+  let emailSubj = `${(noPrevMLog ? 'NO PREV' : (metaLogPrevDifResBool ? 'DIF FROM PREV' : (`AS PREV${changedDiffs}`))) +
+    subjTimeMark
+  }, ${gIn.logger.saveSuiteLog(dirInfo, log)}, ${getOs()}`;
+  const emailSubjCons = etMlogInfoCons + emailSubj;
   emailSubj = etMlogInfo + emailSubj;
 
   dirInfo.metaLogDiff = metaLogPrevDifResBool;
   dirInfo.os = getOs();
-  gIn.fileUtils.saveJson(dirInfo, log + '.json');
+  gIn.fileUtils.saveJson(dirInfo, `${log}.json`);
 
-  let arcName = gIn.fileUtils.archiveSuiteDir(dirInfo);
+  const arcName = gIn.fileUtils.archiveSuiteDir(dirInfo);
 
-  let procInfo = nodeUtils.getProcInfo();
-  fs.writeFileSync(procInfoFilePath, procInfo, {encoding: gT.engineConsts.logEncoding});
+  const procInfo = nodeUtils.getProcInfo();
+  fs.writeFileSync(procInfoFilePath, procInfo, { encoding: gT.engineConsts.logEncoding });
   txtAttachments.push(procInfoFilePath);
 
-  yield gIn.mailUtils.send(emailSubj, txtAttachments, [arcName]);
-  let status = dirInfo.diffed ? 1 : 0;
-  gIn.cLogger.msg('\n' + emailSubjCons + '\n');
+  await gIn.mailUtils.send(emailSubj, txtAttachments, [arcName]);
+  const status = dirInfo.diffed ? 1 : 0;
+  gIn.cLogger.msg(`\n${emailSubjCons}\n`);
   if (gT.suiteConfig.metaLogToStdout) {
     gIn.logger.printSuiteLog(dirInfo);
     gIn.cLogger.msgln(procInfo);
-    //gIn.fileUtils.fileToStdout(log);
+
+    // gIn.fileUtils.fileToStdout(log);
   }
 
   if (gT.suiteConfig.removeZipAfterSend) {
@@ -251,34 +251,32 @@ module.exports = function runner(suiteRoot) {
   let result = Bluebird.resolve(true);
 
   if (gIn.params.useRemoteDriver) {
-    result = result.then(function () {
-      return gIn.remoteDriverUtils.start();
-    })
-      .catch(function (err) {
-        let asdf = 5;
+    result = result.then(() => gIn.remoteDriverUtils.start())
+      .catch((err) => {
+        const asdf = 5;
       });
   }
 
   // Return value is not needed.
   result
-    .then(function () {
+    .then(() => {
       try {
         fs.mkdirSync(gIn.params.profileRootPath);
       } catch (e) {
       }
-      return gT.u.iterate(runTestSuite(suiteRoot));
+      return runTestSuite(suiteRoot);
     }).then(
-    function (exitStatus) {
-      process.exitCode = exitStatus;
-    },
-    function (err) {
-      gIn.tracer.err('Runner ERR: ' + gIn.textUtils.excToStr(err));
-      process.exitCode = 1;
-    }
-  );
+      (exitStatus) => {
+        process.exitCode = exitStatus;
+      },
+      (err) => {
+        gIn.tracer.err(`Runner ERR: ${gIn.textUtils.excToStr(err)}`);
+        process.exitCode = 1;
+      }
+    );
+
   // .then(function () {
   //   process.exit();
   // });
 };
-
 

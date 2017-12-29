@@ -3,8 +3,8 @@
 /* globals gT: true */
 /* globals gIn: true */
 
-var mpath = require('path');
-var util = require('util');
+const mpath = require('path');
+const util = require('util');
 
 /**
  * Initiates webdriver.
@@ -21,42 +21,40 @@ exports.init = function init(cleanProfile, logAction) {
     logAction = false;
   }
 
-  gIn.tracer.msg3('selProfilePath: ' + gIn.config.selProfilePath);
-  gIn.tracer.msg3('shareBrowser: ' + gIn.params.shareBrowser);
-  gIn.tracer.msg3('sharedBrowserInitiated: ' + gIn.sharedBrowserInitiated);
+  gIn.tracer.msg3(`selProfilePath: ${gIn.config.selProfilePath}`);
+  gIn.tracer.msg3(`shareBrowser: ${gIn.params.shareBrowser}`);
+  gIn.tracer.msg3(`sharedBrowserInitiated: ${gIn.sharedBrowserInitiated}`);
 
   if (!gIn.config.selProfilePath && gIn.params.shareBrowser) {
     if (gIn.sharedBrowserInitiated) {
       gIn.tracer.msg3('Initialization is not needed');
       return Bluebird.resolve('Initialization is not needed');
-    } else {
-      gIn.sharedBrowserInitiated = true;
     }
+    gIn.sharedBrowserInitiated = true;
   }
 
-  var profileInfo;
+  let profileInfo;
   if (gIn.config.selProfilePath) {
-    profileInfo = '(with user defined ' + (cleanProfile ? 'empty' : 'saved') + ' profile)';
+    profileInfo = `(with user defined ${cleanProfile ? 'empty' : 'saved'} profile)`;
   } else {
     profileInfo = '(with default empty profile)';
   }
 
-  return gIn.wrap('Initialization ' + profileInfo + ' ... ', logAction, function () {
-
+  return gIn.wrap(`Initialization ${profileInfo} ... `, logAction, () => {
     if (cleanProfile) {
       gT.s.cleanProfile(false);
     }
 
-    var capabilities;
+    let capabilities;
 
-    var profileAbsPath;
+    let profileAbsPath;
 
     if (gIn.config.selProfilePath) {
       profileAbsPath = mpath.resolve(mpath.join(gIn.params.profileRootPath, gIn.config.selProfilePath));
-      gIn.tracer.msg2('Profile path: ' + profileAbsPath);
+      gIn.tracer.msg2(`Profile path: ${profileAbsPath}`);
     }
 
-    var options;
+    let options;
 
     switch (gIn.params.browser) {
       case 'chrome':
@@ -64,10 +62,11 @@ exports.init = function init(cleanProfile, logAction) {
         options.addArguments('--dns-prefetch-disable');
         options.addArguments('--no-sandbox'); // Without this there is a fail with xvfb on Ubuntu 16.
         options.addArguments('--disable-infobars');
+
         // options.addArguments('--start-maximized');
 
         if (gIn.config.selProfilePath) {
-          options.addArguments('--user-data-dir=' + profileAbsPath);
+          options.addArguments(`--user-data-dir=${profileAbsPath}`);
         }
 
         // options.excludeSwitches();
@@ -83,7 +82,7 @@ exports.init = function init(cleanProfile, logAction) {
       case 'phantomjs':
         capabilities = gT.sOrig.wdModule.Capabilities.phantomjs();
         capabilities.set('phantomjs.cli.args', '--webdriver-loglevel=ERROR'); // Undocumented ability.
-        //capabilities.set('phantomjs.binary.path', '/home/alexey/bin/phantomjs'); // Undocumented ability.
+        // capabilities.set('phantomjs.binary.path', '/home/alexey/bin/phantomjs'); // Undocumented ability.
         break;
       case 'firefox':
         options = new gT.sOrig.firefox.Options();
@@ -91,7 +90,7 @@ exports.init = function init(cleanProfile, logAction) {
         if (gIn.config.selProfilePath) {
           // Profile name should be alphanumeric only.
           // Checked on linux. It does set -profile option.
-          //binary.addArguments('-profile "' + profileAbsPath + '"');
+          // binary.addArguments('-profile "' + profileAbsPath + '"');
           options.setProfile(profileAbsPath); // Checked on linux. Does NOT set -profile option.
 
           // http://selenium.googlecode.com/git/docs/api/javascript/module_selenium-webdriver_firefox.html
@@ -108,7 +107,6 @@ exports.init = function init(cleanProfile, logAction) {
           // browser.sessionstore.resume_from_crash
 
           // writeToDisk ?
-
         }
         options.setBinary(binary);
 
@@ -117,7 +115,8 @@ exports.init = function init(cleanProfile, logAction) {
         break;
     }
 
-    var prefs = new gT.sOrig.wdModule.logging.Preferences();
+    const prefs = new gT.sOrig.wdModule.logging.Preferences();
+
     // TODO: this parameter correctly works only for chrome.
     // phantomjs gets all messages, independent on choosen level.
     // Mozilla gets no messages.
@@ -126,42 +125,41 @@ exports.init = function init(cleanProfile, logAction) {
 
     capabilities.setLoggingPrefs(prefs);
 
-    gIn.tracer.msg3(util.inspect(capabilities, {depth: 4}));
+    gIn.tracer.msg3(util.inspect(capabilities, { depth: 4 }));
 
     if (gIn.params.useRemoteDriver) {
+      const sid = gIn.remoteDriverUtils.getSid();
 
-      let sid = gIn.remoteDriverUtils.getSid();
-
-      var remoteDriverConnectionStr = gT.suiteConfig.remoteDriverUrl + ':' + gT.suiteConfig.remoteDriverPort;
+      const remoteDriverConnectionStr = `${gT.suiteConfig.remoteDriverUrl}:${gT.suiteConfig.remoteDriverPort}`;
 
       if (sid) {
         gIn.tracer.msg3('There is current SID');
         gT.firstRunWithRemoteDriver = false;
 
-        var client = new gT.sOrig.Client(remoteDriverConnectionStr);
-        var executor = new gT.sOrig.Executor(client);
+        const client = new gT.sOrig.Client(remoteDriverConnectionStr);
+        const executor = new gT.sOrig.Executor(client);
 
         gT.sOrig.driver = gT.sOrig.wdModule.WebDriver.attachToSession(
           executor,
           sid);
-
       } else {
         gIn.tracer.msg3('There is not current SID');
         gT.firstRunWithRemoteDriver = true;
         gT.sOrig.driver = new gT.sOrig.wdModule.Builder()
           .forBrowser(gIn.params.browser)
           .withCapabilities(capabilities)
+
           // As an alternative to this method, you may also set the SELENIUM_REMOTE_URL environment variable.
           // TODO: magic constant.
           .usingServer(remoteDriverConnectionStr)
           .build();
 
         gT.sOrig.driver.getSession()
-          .then(function (res) {
-            let sid = gIn.remoteDriverUtils.saveSid(res.getId());
-            gIn.tracer.msg3('Saved session id: ' + sid);
+          .then((res) => {
+            const sid = gIn.remoteDriverUtils.saveSid(res.getId());
+            gIn.tracer.msg3(`Saved session id: ${sid}`);
           })
-          .catch(function (e) {
+          .catch((e) => {
             gIn.logger.exception('Error at getSession: ', e);
           });
       }
@@ -185,7 +183,6 @@ exports.init = function init(cleanProfile, logAction) {
       //     });
       // };
       // ==============================
-
     } else { // Temporary driver
       gT.sOrig.driver = new gT.sOrig.wdModule.Builder().forBrowser(gIn.params.browser)
         .withCapabilities(capabilities).build();
@@ -208,13 +205,12 @@ exports.init = function init(cleanProfile, logAction) {
  * @returns {Promise}
  */
 exports.sleep = function sleep(ms, logAction) {
-  return gIn.wrap('Sleep ' + ms + ' ms ... ', logAction, function () {
-    return Bluebird.delay(ms, true);
-  });
+  return gIn.wrap(`Sleep ${ms} ms ... `, logAction, () => Bluebird.delay(ms, true));
 };
 
 
 const stupidSleep = 400;
+
 /**
  * This function creates function for stupid sleep.
  * It is stupid sleep instead of smart waiting for something.
@@ -244,12 +240,10 @@ exports.quit = function quit(logAction) {
     gIn.tracer.msg3('quit: Shared browser, no quit');
     return Bluebird.resolve('Shared browser, no quit');
   }
-  return gIn.wrap('Quiting ... ', logAction, function () {
-    return gT.sOrig.driver.quit().then(function () {
-      gIn.tracer.msg3('Quit: Driver is deleted');
-      delete gT.sOrig.driver;
-    });
-  }, true);
+  return gIn.wrap('Quiting ... ', logAction, () => gT.sOrig.driver.quit().then(() => {
+    gIn.tracer.msg3('Quit: Driver is deleted');
+    delete gT.sOrig.driver;
+  }), true);
 };
 
 /**
@@ -262,7 +256,7 @@ exports.quitIfInited = function quitIfInited() {
   }
   if (gT.sOrig.driver) {
     gIn.tracer.msg3('quitIfInited: before quit call');
-    return gT.sOrig.driver.quit().then(function () {
+    return gT.sOrig.driver.quit().then(() => {
       delete gT.sOrig.driver;
       gIn.tracer.msg3('quitIfInited: Driver is deleted');
     });
@@ -273,11 +267,11 @@ exports.quitIfInited = function quitIfInited() {
 
 exports.printSelDriverLogs = function printSelDriverLogs(minValue) {
   return gT.sOrig.logs.get(gT.sOrig.driverLogType).then(
-    function (entries) {
+    (entries) => {
       gIn.tracer.msg3('Start of printSelDriverLogs');
-      for (var entry of entries) {
+      for (const entry of entries) {
         if (entry.level.value >= minValue) {
-          let logStr = `SEL.DR.LOG: ${entry.level.name} (${entry.level.value}), Message:\n ${entry.message}`;
+          const logStr = `SEL.DR.LOG: ${entry.level.name} (${entry.level.value}), Message:\n ${entry.message}`;
           gIn.logger.logln(logStr);
         }
       }

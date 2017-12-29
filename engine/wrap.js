@@ -1,6 +1,6 @@
 'use strict';
 
-let inspect = require('util').inspect;
+const inspect = require('util').inspect;
 
 /* globals gIn: true */
 
@@ -26,8 +26,8 @@ function startTimer() {
  */
 function stopTimer(startTime) {
   if (gIn.config.enableTimings) {
-    let diff = process.hrtime(startTime);
-    return ' (' + (diff[0] * 1000 + diff[1] / 1e6) + ' ms)';
+    const diff = process.hrtime(startTime);
+    return ` (${diff[0] * 1000 + diff[1] / 1e6} ms)`;
   }
   return '';
 }
@@ -35,9 +35,9 @@ function stopTimer(startTime) {
 /**
  * Pause. Time interval is specified in config.
  */
-function* pause() {
+async function pause() {
   if (gIn.config.selActionsDelay !== 0) {
-    yield Bluebird.delay(gIn.config.selActionsDelay);
+    await Bluebird.delay(gIn.config.selActionsDelay);
   }
 }
 
@@ -47,23 +47,23 @@ function* pause() {
  * @param startTime
  * @param noConsoleAndExceptions
  */
-function* pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
-  let timeDiff = stopTimer(startTime);
-  yield* pause();
-  yield gIn.logger.logIfNotDisabled('OK' + timeDiff + '\n', logAction);
+async function pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
+  const timeDiff = stopTimer(startTime);
+  await pause();
+  await gIn.logger.logIfNotDisabled(`OK${timeDiff}\n`, logAction);
 
   if (noConsoleAndExceptions) {
     return;
   }
   if (gIn.config.selPrintClExcAfterEachCommand) {
-    yield gT.s.browser.printCaughtExceptions();
+    await gT.s.browser.printCaughtExceptions();
   }
 
   if (gIn.config.selPrintClConsoleAfterEachCommand) {
-    yield gT.s.browser.printSelBrowserLogs();
+    await gT.s.browser.printSelBrowserLogs();
   }
 
-  yield s.driver.printSelDriverLogs(900);
+  await s.driver.printSelDriverLogs(900);
 }
 
 function handleErrAtErrorHandling(msg) {
@@ -92,14 +92,15 @@ function quitDriver() {
     if (!gIn.params.keepBrowserAtError) {
       gIn.tracer.msg1('A.W.: Driver quit');
       return gT.s.driver.quit(true)
-        .then(function () {
+        .then(() => {
           // gIn.logger.errorln('========== Err Info End ==========');
           gIn.tracer.msg1('A.W.: Driver deletion');
           delete gT.sOrig.driver;
-          // yield will generate exception with this object.
+
+          // await will generate exception with this object.
           throw new Error('A.W.: Force throw error (sel. driver was existed)');
-        }).catch(function (err) {
-          gIn.logger.errorln('A.W.: catch for driver quit or deletion: ' + err);
+        }).catch((err) => {
+          gIn.logger.errorln(`A.W.: catch for driver quit or deletion: ${err}`);
           return handleErrAtErrorHandling('Error at quit');
         });
     }
@@ -115,38 +116,37 @@ function quitDriver() {
  * will not quit.
  * Then tries to stop the current test case by throwing according error.
  */
-function* handleErrorWhenDriverExistsAndRecCountZero() {
-
+async function handleErrorWhenDriverExistsAndRecCountZero() {
   gIn.errRecursionCount = 1; // To prevent recursive error report on error report.
   /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
   gIn.tracer.msg1('A.W.: Error report: printSelDriverLogs');
-  yield s.driver.printSelDriverLogs(900).catch(function (err) {
-    gIn.tracer.msg1('Error at printSelDriverLogs at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
+  await s.driver.printSelDriverLogs(900).catch((err) => {
+    gIn.tracer.msg1(`Error at printSelDriverLogs at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`);
   });
 
   if (!gIn.brHelpersInitiated) {
     gIn.tracer.msg1('A.W.: Error report: initTiaBrHelpers');
-    yield gT.s.browser.initTiaBrHelpers(true).catch(function (err) {
-      gIn.tracer.msg1('Error at initTiaBrHelpers at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
+    await gT.s.browser.initTiaBrHelpers(true).catch((err) => {
+      gIn.tracer.msg1(`Error at initTiaBrHelpers at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`);
     });
   }
 
   gIn.tracer.msg1('A.W.: Error report: printCaughtExceptions');
-  yield gT.s.browser.printCaughtExceptions(true).catch(function (err) {
-    gIn.tracer.msg1('Error at logExceptions at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
+  await gT.s.browser.printCaughtExceptions(true).catch((err) => {
+    gIn.tracer.msg1(`Error at logExceptions at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`);
   });
 
   gIn.tracer.msg1('A.W.: Error report: printSelBrowserLogs');
-  yield gT.s.browser.printSelBrowserLogs().catch(function (err) {
-    gIn.tracer.msg1('Error at logConsoleContent at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
+  await gT.s.browser.printSelBrowserLogs().catch((err) => {
+    gIn.tracer.msg1(`Error at logConsoleContent at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`);
   });
 
   gIn.tracer.msg1('A.W.: Error report: screenshot');
-  yield gT.s.browser.screenshot().catch(function (err) {
-    gIn.tracer.msg1('Error at screenshot at error handling, driver exists: ' + Boolean(gT.sOrig.driver));
+  await gT.s.browser.screenshot().catch((err) => {
+    gIn.tracer.msg1(`Error at screenshot at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`);
   });
 
-  yield quitDriver();
+  await quitDriver();
 
   throw new Error(gT.engineConsts.CANCELLING_THE_TEST);
 }
@@ -165,12 +165,12 @@ function* handleErrorWhenDriverExistsAndRecCountZero() {
  * @throws - Various errors.
  */
 module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
-  gIn.tracer.msg3('Inside wrapper, before start timer,  msg: ' + msg);
+  gIn.tracer.msg3(`Inside wrapper, before start timer,  msg: ${msg}`);
   let startTime;
 
   gIn.logger.logIfNotDisabled(msg, logAction);
   startTime = startTimer();
-  gIn.tracer.msg3('Inside wrapper, after start timer, msg: ' + msg);
+  gIn.tracer.msg3(`Inside wrapper, after start timer, msg: ${msg}`);
 
   if (gIn.cancelThisTest) {
     gIn.tracer.msg1('Cancelling action due to gIn.cancelThisTest flag');
@@ -179,49 +179,49 @@ module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
 
   if (gIn.cancelSuite) {
     gIn.tracer.msg1('Cancelling suite action due to gIn.cancelSuite flag');
+
     // No process.exit(1), we need to create metalog, send e-mails, etc..
     throw new Error(gT.engineConsts.gT.engineConsts.CANCELLING_THE_SUITE);
   }
 
-  gIn.tracer.msg3('Inside wrapper, before act() call,  msg: ' + msg);
+  gIn.tracer.msg3(`Inside wrapper, before act() call,  msg: ${msg}`);
 
   return Bluebird
     .try(act)
     .timeout(gIn.params.hangTimeout)
-    .catch(Bluebird.TimeoutError, function (err) {
+    .catch(Bluebird.TimeoutError, (err) => {
       gIn.logger.errorln('A.W.: Hanged action detected');
       if (!gIn.screenShotScheduled) {
         gIn.screenShotScheduled = true;
         gIn.tracer.msg1('A.W.: Getting a screenshot for hanged action.');
-        return gT.s.browser.screenshot().catch(function (err) {
+        return gT.s.browser.screenshot().catch((err) => {
           gIn.tracer.err('A.W.: Error at screenshot for hanged action.');
         });
       }
       throw 'A.W.: Timeout expired, your action is considered as hanged.';
+
       // TODO: Try to cancel promise returned by act() ??.
     })
-    .tap(function (val) {
-      gIn.tracer.msg3('A.W.: after action execute, msg: ' + msg);
-      gIn.tracer.msg3('A.W.: after action execute, val: ' + val);
-      return gT.u.iterate(pauseAndLogOk(logAction, startTime, noConsoleAndExceptions));
+    .tap((val) => {
+      gIn.tracer.msg3(`A.W.: after action execute, msg: ${msg}`);
+      gIn.tracer.msg3(`A.W.: after action execute, val: ${val}`);
+      return pauseAndLogOk(logAction, startTime, noConsoleAndExceptions);
     })
-    .catch(function (err) {
+    .catch((err) => {
       gIn.tInfo.addFail();
-      gIn.logger.errorln('A.W.: FAIL' + stopTimer(startTime));
+      gIn.logger.errorln(`A.W.: FAIL${stopTimer(startTime)}`);
       gIn.logger.errorln('A.W.: ========== Err Info Begin ==========');
-      gIn.logger.errorln('A.W.: Msg was: ' + msg);
+      gIn.logger.errorln(`A.W.: Msg was: ${msg}`);
       gIn.logger.exception('A.W.: Exception in wrapper: ', err);
       gIn.logger.exception('A.W.: Exception stack: ', err.stack);
 
       gIn.logger.logResourcesUsage();
 
       if (gT.sOrig.driver && !gIn.errRecursionCount) {
-
         return gT.u.execGen(handleErrorWhenDriverExistsAndRecCountZero);
-
       }
 
-      let driverExisted = Boolean(gT.sOrig.driver);
+      const driverExisted = Boolean(gT.sOrig.driver);
 
       // No driver, or non zero errRecursionCount.
       if (!driverExisted) { // No driver.
@@ -241,7 +241,7 @@ module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
 
       return quitDriver();
 
-      // yield will generate exception with this object.
+      // await will generate exception with this object.
       // throw new Error('Error in action. Sel. driver existed: ' + Boolean(driverExisted) +
       //   ', Error recursion at error handling: ' + gIn.errRecursionCount);
     });
