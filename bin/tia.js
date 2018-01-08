@@ -5,8 +5,8 @@
 // http://sambal.org/2014/02/passing-options-node-shebang-line/
 
 const majVersion = process.version.match(/\d+/)[0];
-if (majVersion < 4) {
-  console.error(`Node.js less then 4.x.x is not supported, your version: ${process.version}`);
+if (majVersion < 8) {
+  console.error(`Node.js less then 8.x.x is not supported, your version: ${process.version}`);
   process.exit(1);
 }
 

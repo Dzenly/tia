@@ -13,7 +13,9 @@ module.exports = {
       },
     ],
 
-    ['spaced-comment']: ["error", "always", { "markers": ["#"] }],
+    ['spaced-comment']: ['error', 'always', { 'markers': ['#'] }],
+
+    ['lines-around-comment']: ['error', { 'ignorePattern': '(# comment|env bash)'}],
 
     ['comma-dangle']: [
       'error', {
