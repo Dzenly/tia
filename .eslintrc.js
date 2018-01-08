@@ -13,6 +13,8 @@ module.exports = {
       },
     ],
 
+    ['spaced-comment']: ["error", "always", { "markers": ["#"] }],
+
     ['comma-dangle']: [
       'error', {
         arrays: 'always-multiline',
