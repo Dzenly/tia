@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
-
 ':'; // # comment; exec /usr/bin/env node "$0" "$@"
 'use strict';
-
-
-// --harmony
 
 // http://sambal.org/2014/02/passing-options-node-shebang-line/
 
