@@ -1,3 +1,64 @@
+* Инкрементально ли добавляется coverage.
+
+
+* suiteLog ? - То, что раньше было металогом.
+* metaLog ? - Теперь это обобщающий лог для всех suiteLogs.
+
+* Что делать с парентом теперь ? Ведь не там будут выходные файлы и эталонные логи.
+Вообще парент - неинформативное название. Может results ?
+
+* Хорошо бы каждый suite имел эталонный металог.
+* Но, где его хранить ?
+
+* __tia__ рядом с каждой __tests__ ??
+* Содержит эталонные металоги без времени. Текущий металог, с таймингами. Металог в JSON формате,
+для отображения через сервер.
+
+* tia.
+
+* Как называть металог? 
+
+
+* Захожу в папку с проектом. Говорю tia.
+
+* Он ищет все __tests__. Запускает в них тесты.
+
+* Где лежит эталонный металог ?
+
+* 
+
+
+* Завернуть все выводы в одну директорию, которая лежит в руте проекта.
+Всякие металоги. Временные файлы, архивы для подготовки отсылки по емейл.
+
+* Металоги. Отдельные для каждого сьюта или нет ? Или один общий для всех сюьтов металог ?
+* Или ввести промежуточные металоги ?
+
+ 
+
+* Поддержать тесты, лежащие близко к сорцам. Т.е. не предполагать,
+что в директории лежат только тесты. Сделать это через указание 
+
+root-dir
+tests-dir
+
+
+
+tests-suffix - если указан, значит брать только эти файлы.
+зачем нужен, если есть pattern ?
+
+
+
+
+
+Как быть с конфигами ?
+Они не должны подхватываться Jestом.
+Они и не подхватываются.
+
+
+Как объединить репорты coverage от tia и jest.
+
+
 
 Если позиционировать как систему для юнит тестов для идемпотентных функций -, то нужно сделать параллельное исполнение тестов. Сейчас параллельное исполнение тестов можно сделать, через запуск tia для отдельных директорий и эталонные мета - логи для этих директорий.
 
@@ -267,14 +328,14 @@ form.findField('name')
 ```js
 function showFirstClientRect(elt) {
     // Note: the overlay will be out of place if the user resizes or zooms.
-    var rect = elt.getClientRects()[0];
+    let rect = elt.getClientRects()[0];
     
-        var rect = rects[i];
-        var tableRectDiv = document.createElement('div');
+        let rect = rects[i];
+        let tableRectDiv = document.createElement('div');
         tableRectDiv.style.position = 'absolute';
         tableRectDiv.style.border = '1px solid red';
-        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        let scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
         tableRectDiv.style.margin = tableRectDiv.style.padding = '0';
         tableRectDiv.style.top = (rect.top + scrollTop) + 'px';
         tableRectDiv.style.left = (rect.left + scrollLeft) + 'px';
@@ -562,8 +623,8 @@ cascadeBy
 findChildBy
 child.data.text
 
-var rn = panel.getRootNode() - какого типа return value?
-var c = rn.findChild("text","Also ASP.net",true); // Возможно ищет только в экспанднутом дереве?
+let rn = panel.getRootNode() - какого типа return value?
+let c = rn.findChild("text","Also ASP.net",true); // Возможно ищет только в экспанднутом дереве?
 c.expand();
 
 а ещё есть node id и есть getNodeById.
@@ -574,12 +635,12 @@ c.expand();
 
 ```js
 
-  var panel = me.up('panel'),
+  let panel = me.up('panel'),
                     rn = panel.getRootNode(),
                     regex = new RegExp("ASP.net");
 
   rn.findChildBy(function (child) {
-                    var text = child.data.text;
+                    let text = child.data.text;
                     if (regex.test(text) === true) {
                         console.warn("selecting child", child);
                         panel.getSelectionModel().select(child, true);
@@ -844,10 +905,10 @@ if (ctx in traceCtx).
 function binaryIndexOf(searchElement) {
     'use strict';
  
-    var minIndex = 0;
-    var maxIndex = this.length - 1;
-    var currentIndex;
-    var currentElement;
+    let minIndex = 0;
+    let maxIndex = this.length - 1;
+    let currentIndex;
+    let currentElement;
  
     while (minIndex <= maxIndex) {
         currentIndex = (minIndex + maxIndex) / 2 | 0;
@@ -983,10 +1044,10 @@ flow.execute(function() {
 Проверить пример
 
 ```js
-var d1 = promise.defer();
+let d1 = promise.defer();
 d1.promise.then(() => console.log('A'));
 
-var d2 = promise.defer();
+let d2 = promise.defer();
 d2.promise.then(() => console.log('B'));
 
 flow.execute(function() {

@@ -5,11 +5,10 @@
 // Test engine init.
 // Fills the gT global object, which will be used in all tests and in the test engine.
 
-var path = require('path');
+const path = require('path');
 
 global.Bluebird = require('bluebird');
 global._ = require('lodash');
-// global.co = require('co');
 // Bluebird.cancellation = true;
 
 global.gT = {}; // Global object as namespace for objects which user (test writer) can use.

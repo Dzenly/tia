@@ -273,7 +273,7 @@ wrapper around WebDriverEventListener
 //				.pollingEvery(5, SECONDS)
 //				.ignoring(NoSuchElementException.class);
 
-//var drvr = new webdriver.Builder()
+//let drvr = new webdriver.Builder()
 //		.forBrowser('firefox')
 //		.usingServer('http://localhost:4444/wd/hub')
 //		.build();

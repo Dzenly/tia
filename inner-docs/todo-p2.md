@@ -60,9 +60,9 @@ http://stackoverflow.com/questions/8344776/can-selenium-interact-with-an-existin
 
 // Second, create the driver like this:
 
-var webdriver = require('selenium-webdriver');
+let webdriver = require('selenium-webdriver');
 
-var driver = new webdriver.Builder()
+let driver = new webdriver.Builder()
    .withCapabilities(webdriver.Capabilities.chrome())
    // As an alternative to this method, you may also set the SELENIUM_REMOTE_URL environment variable.
    .usingServer('http://localhost:9515')

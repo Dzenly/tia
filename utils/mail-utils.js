@@ -1,8 +1,8 @@
 'use strict';
 /* globals gIn: true */
 
-var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-smtp-transport');
+let nodemailer = require('nodemailer');
+let smtpTransport = require('nodemailer-smtp-transport');
 
 /* globals gT: true */
 
@@ -31,7 +31,7 @@ function getSmtpTransporter() {
 
 // All text fields (e-mail addresses, plaintext body, html body) use UTF-8 as the encoding.
 // Attachments are streamed as binary.
-var mailOptions = {
+let mailOptions = {
   // from: '',
   // to: '', // list of receivers
   // subject: '',
@@ -79,7 +79,7 @@ exports.send = function send(subj, txtAttachments, zipAttachments) {
 
   return new Bluebird(function (resolve, reject) {
 
-    var attemptCounter = gT.engineConsts.mailAttemptsCount;
+    let attemptCounter = gT.engineConsts.mailAttemptsCount;
 
     function sendMail() {
       getSmtpTransporter().sendMail(mailOptions, function (err, info) {

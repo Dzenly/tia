@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var container;
+  let container;
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     container = exports;
@@ -16,8 +16,8 @@
   }
 
   container.copyObject = function copyObject(obj) {
-    var result = {};
-    for (var prop in obj) {
+    let result = {};
+    for (let prop in obj) {
       result[prop] = obj[prop];
     }
     return result;
@@ -41,15 +41,15 @@
    *
    */
   container.mergeOptions = function mergeOptions(src, def) {
-    var dst = def();
+    let dst = def();
 
     if (typeof dst !== 'object' && typeof src === 'undefined') {
       return dst;
     }
 
     function handleObj(src, dst) {
-      var props = Object.getOwnPropertyNames(src);
-      for (var prop of props) {
+      let props = Object.getOwnPropertyNames(src);
+      for (let prop of props) {
         if (typeof src[prop] === 'undefined') {
           continue;
         }
@@ -101,24 +101,24 @@
     if (typeof dstArr === 'undefined' || dstArr === null) {
       dstArr = [];
     }
-    var actualPropPathArr;
-    var actPropPathStr;
+    let actualPropPathArr;
+    let actPropPathStr;
     try {
       outerLoop:
-        for (var i = 0, len1 = propPaths.length; i < len1; i++) {
-          var propPath = propPaths[i];
+        for (let i = 0, len1 = propPaths.length; i < len1; i++) {
+          let propPath = propPaths[i];
 
-          var argsArr = void(0);
+          let argsArr = void(0);
           if (typeof propPath === 'object') {
             argsArr = propPath.args;
             propPath = propPath.path;
           }
-          var subPropNames = propPath.split('.');
-          var propPathVal = obj;
-          var argsIndex = 0;
+          let subPropNames = propPath.split('.');
+          let propPathVal = obj;
+          let argsIndex = 0;
           actualPropPathArr = [];
-          for (var j = 0, len2 = subPropNames.length; j < len2; j++) {
-            var subPropName = subPropNames[j];
+          for (let j = 0, len2 = subPropNames.length; j < len2; j++) {
+            let subPropName = subPropNames[j];
 
             if (!propPathVal) {
               if (errMode === container.dumpObjErrMode.showNA) {
@@ -130,12 +130,12 @@
               }
             }
 
-            var braceCount = (subPropName.match(/\(\)/g) || []).length;
+            let braceCount = (subPropName.match(/\(\)/g) || []).length;
 
             if (braceCount) {
 
-              var funcName = subPropName.slice(0, subPropName.indexOf('('));
-              var thisObj = propPathVal;
+              let funcName = subPropName.slice(0, subPropName.indexOf('('));
+              let thisObj = propPathVal;
               propPathVal = propPathVal[funcName];
 
               actPropPathStr = funcName;
@@ -152,12 +152,12 @@
                   }
                 }
 
-                var args = void(0);
+                let args = void(0);
                 if (argsArr) {
                   args = argsArr[argsIndex];
                   argsIndex++;
                 }
-                var argsStr = '';
+                let argsStr = '';
                 if (typeof args !== 'undefined' && args !== null) {
                   argsStr = JSON.stringify(args).slice(1, -1);
                 }

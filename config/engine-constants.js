@@ -3,7 +3,16 @@
 // Конфиги для всех test suites. Не перегружаются нигде.
 module.exports = {
 
-  testsDirEnvVarName: 'TIA_TESTS_DIR',
+  rootDirEnvVarName: 'TIA_ROOT_DIR',
+
+  // Directory name for tests suite. Only tests from this directory are launched.
+  // The project can contain many test suites.
+  suiteDirName: '__tests__',
+
+  // Name for directory that keeps the suite meta information. Suite etalog log. Current suite logs in various formats.
+  // The project root is also contains such directory. If project root contains '__tests__' directory,
+  // then '__tia__' directory contains both suite and project level meta info.
+  suiteMetaDirName: '__tia__',
 
   requireModulesEnvVarName: 'TIA_REQUIRE_MODULES',
 
@@ -18,7 +27,7 @@ module.exports = {
   suiteConfigName: 'suite-config.js',
 
   // Корневая директория, где лежат профайлы. Не перегружается в локальных конфигах.
-  profileRootDir: 'br-profiles',
+  profileRootDir: 'browser-profiles',
 
   // Дефолтный дисплей для GUI тестов.
   // Сохраняем состояние в момент старта.
@@ -33,7 +42,7 @@ module.exports = {
   // File name for PID for remote chrome driver.
   remoteChromeDriverSid: 'cd.sid',
 
-  logEncoding: 'utf8',  // ascii
+  logEncoding: 'utf8', // ascii
 
   selfTestsEtMLog: 'tests.et',
 
@@ -94,6 +103,6 @@ module.exports = {
   CANCELLING_THE_TEST: 'Force cancelling the test',
 
   // Error message for force test suite cancelling.
-  CANCELLING_THE_SUITE: 'Force cancelling the suite'
+  CANCELLING_THE_SUITE: 'Force cancelling the suite',
 
 };

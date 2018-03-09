@@ -35,15 +35,15 @@
   },
   "homepage": "https://github.com/Dzenly/tia#readme",
   "dependencies": {
-    "bluebird": "^3.5.0",
-    "camelcase-keys": "^4.1.0",
-    "chalk": "^2.1.0",
-    "chromedriver": "^2.32.1",
-    "co": "^4.6.0",
-    "lodash": "^4.17.4",
+    "bluebird": "^3.5.1",
+    "camelcase-keys": "^4.2.0",
+    "chalk": "^2.3.2",
+    "chromedriver": "^2.36.0",
+    "debug-assert": "^0.2.1",
+    "lodash": "^4.17.5",
     "minimist": "^1.2.0",
-    "nodemailer": "^4.1.0",
+    "nodemailer": "^4.6.2",
     "nodemailer-smtp-transport": "^2.7.4",
-    "selenium-webdriver": "^3.5.0"
+    "selenium-webdriver": "^3.6.0"
   }
 }

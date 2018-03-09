@@ -1,7 +1,8 @@
 'use strict';
-var fs = require('fs');
-var path = require('path');
-var child_process = require('child_process');
+
+const fs = require('fs');
+const path = require('path');
+const child_process = require('child_process');
 
 /* globals gT: true */
 
@@ -10,9 +11,9 @@ var child_process = require('child_process');
 // Права на запись у него будут только в его home.
 // Перед тестом (после подключения всех require), юзер процесса будет подменяться (process.setuid(id)).
 // Весь test suite будет копироваться в директорию юзера и работать оттуда.
-//gT.fileUtilsCheckPath = function(path){
+// gT.fileUtilsCheckPath = function(path){
 //
-//};
+// };
 
 /**
  * Checks that file or directory absent by statSync, without checking for catch reason (ENOENT or no).
@@ -38,7 +39,7 @@ exports.safeUnlink = function safeUnlink(path) {
 };
 
 exports.safeReadFile = function safeReadFile(path) {
-  var res = '';
+  let res = '';
   try {
     res = fs.readFileSync(path, gT.engineConsts.logEncoding);
   } catch (e) {
@@ -49,7 +50,7 @@ exports.safeReadFile = function safeReadFile(path) {
 
 exports.backupDif = function backupDif(path) {
   try {
-    fs.renameSync(path, path + '.old');
+    fs.renameSync(path, `${path}.old`);
   } catch (e) {
     // No handling intentionaly.
   }
@@ -57,23 +58,23 @@ exports.backupDif = function backupDif(path) {
 
 exports.rmPngs = function rmPngs(jsPath) {
   try {
-    child_process.execSync('rm ' + gIn.textUtils.changeExt(jsPath, '*.png'), {stdio: [null, null, null]});
+    child_process.execSync(`rm ${gIn.textUtils.changeExt(jsPath, '*.png')}`, { stdio: [null, null, null] });
   } catch (e) {
     // No handling intentionaly.
   }
 };
 
 exports.rmDir = function rmDir(dir, removeSelf) {
-  var files;
+  let files;
   try {
     files = fs.readdirSync(dir);
   } catch (e) {
     return;
   }
   if (files.length > 0) {
-    for (var i = 0; i < files.length; i++) {
-      var filePath = path.join(dir, files[i]);
-      var fdata = fs.lstatSync(filePath);
+    for (let i = 0; i < files.length; i++) {
+      const filePath = path.join(dir, files[i]);
+      const fdata = fs.lstatSync(filePath);
       try {
         if (fdata.isSymbolicLink()) {
           fs.unlinkSync(filePath);
@@ -82,7 +83,7 @@ exports.rmDir = function rmDir(dir, removeSelf) {
           fs.unlinkSync(filePath);
         }
       } catch (e) {
-        gIn.tracer.err('rmDir: ' + gIn.textUtils.excToStr(e));
+        gIn.tracer.err(`rmDir: ${gIn.textUtils.excToStr(e)}`);
       }
       if (fdata.isDirectory()) {
         exports.rmDir(filePath, true);
@@ -118,33 +119,30 @@ exports.createEmptyLog = function createEmptyLog(path) {
 };
 
 exports.fileToStdout = function fileToStdout(file) {
-  console.log(fs.readFileSync(file, {encoding: gT.engineConsts.logEncoding}));
+  console.log(fs.readFileSync(file, { encoding: gT.engineConsts.logEncoding }));
 };
 
 exports.fileToStderr = function fileToStderr(file) {
   // console.error(fs.readFileSync(file, {encoding: gT.engineConsts.logEncoding}));
-  gIn.cLogger.errln(fs.readFileSync(file, {encoding: gT.engineConsts.logEncoding}));
+  gIn.cLogger.errln(fs.readFileSync(file, { encoding: gT.engineConsts.logEncoding }));
 };
 
 exports.saveJson = function saveJson(obj, file) {
-  fs.writeFileSync(file, JSON.stringify(obj), {encoding: gT.engineConsts.logEncoding});
+  fs.writeFileSync(file, JSON.stringify(obj), { encoding: gT.engineConsts.logEncoding });
 };
 
 function collectArcPaths(dirInfo, arcPaths) {
-
   if (!dirInfo.diffed) {
     return;
   }
 
   // Absense of 'children' property says that it is test and not directory,
   // we should not allow to use this function for not directory.
-  for (let curInfo of dirInfo.children) {
+  for (const curInfo of dirInfo.children) {
     if (curInfo.hasOwnProperty('children')) {
       collectArcPaths(curInfo, arcPaths);
-    } else {
-      if (curInfo.diffed) {
-        arcPaths.push(gIn.textUtils.changeExt(curInfo.path, ''));
-      }
+    } else if (curInfo.diffed) {
+      arcPaths.push(gIn.textUtils.changeExt(curInfo.path, ''));
     }
   }
 }
@@ -153,21 +151,21 @@ exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
   if (gIn.params.disableEmail || !gT.suiteConfig.attachArchiveToMail || !gT.suiteConfig.mailRecipientList) {
     return null;
   }
-  var arcName = new Date().toISOString().slice(0, 19).replace(/:/g, '_') + '.zip';
+  let arcName = `${new Date().toISOString().slice(0, 19).replace(/:/g, '_')}.zip`;
   arcName = path.resolve(arcName); // TODO shorten paths in zip?
   if (!gT.suiteConfig.attachOnlyDiffs) {
     // TODO: can throw, is this ok?
     try {
-      child_process.execSync(`cd ${gIn.params.testsDir} && zip -r ` + arcName + ' ' + '*', {stdio: [null, null, null]});
+      child_process.execSync(`cd ${gIn.params.rootDir} && zip -r ${arcName} ` + '*', { stdio: [null, null, null] });
     } catch (e) {
-      gIn.tracer.err('zip stderr: ' + e.stderr.toString());
-      gIn.tracer.err('zip stdout: ' + e.stdout.toString());
-      throw(new Error('Error with zip'));
+      gIn.tracer.err(`zip stderr: ${e.stderr.toString()}`);
+      gIn.tracer.err(`zip stdout: ${e.stdout.toString()}`);
+      throw (new Error('Error with zip'));
     }
     return arcName;
   }
 
-  var arr = [];
+  let arr = [];
 
   collectArcPaths(dirInfo, arr);
 
@@ -176,17 +174,17 @@ exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
     return null;
   }
 
-  arr = arr.map(function (item ) {
-    let newItem = '"' + path.relative(gIn.params.testsDir, item) + '"*';
+  arr = arr.map((item) => {
+    const newItem = `"${path.relative(gIn.params.rootDir, item)}"*`;
     return newItem;
   });
 
   try {
-    child_process.execSync(`cd ${gIn.params.testsDir} && zip ` + arcName + ' ' + arr.join(' '), {stdio: [null, null, null]});
+    child_process.execSync(`cd ${gIn.params.rootDir} && zip ${arcName} ${arr.join(' ')}`, { stdio: [null, null, null] });
   } catch (e) {
-    gIn.tracer.err('zip stderr: ' + e.stderr.toString());
-    gIn.tracer.err('zip stdout: ' + e.stdout.toString());
-    throw(new Error('Error with zip'));
+    gIn.tracer.err(`zip stderr: ${e.stderr.toString()}`);
+    gIn.tracer.err(`zip stdout: ${e.stdout.toString()}`);
+    throw (new Error('Error with zip'));
   }
 
   return arcName;

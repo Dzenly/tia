@@ -94,8 +94,8 @@ After install one can find examples of (non TIA) selenium tests here:
 
 ### Test suite
 
-A set of tests located in some directory.
-This directory is specified by --tests-dir cmd line option or by TIA_TESTS_DIR environment variable.
+A set of tests located in ```__tests__``` directory.
+```__tests__``` directories are located in project root directory specified by --root-dir cmd line option or by TIA_ROOT_DIR environment variable.
 
 ### Test
 
@@ -141,8 +141,8 @@ Etalon logs are commited to VCS.
 
 ### Meta log (suite log)
 
-This is a log with statistics for all tests from the tests directory.
-The name of a meta log consists of the tests directory name and `.mlog` extension.
+This is a log with statistics for all tests from the project root directory.
+The name of a meta log consists of the project root directory name and `.mlog` extension.
 The meta log is sent to emails (if --email option is specified and there is a correct email config).
 
 NOTE: The meta log is also affected with the `sectionTitle` option in `config.js` files.
@@ -158,7 +158,7 @@ They are etalons for `*.mlog`, and have `.et` extension.
 ### Browser profiles
 
 The `br-profiles` directory is created as a sibling to the `tests` directory.
-(see --tests-dir option or TIA_TESTS_DIR environment variable description) and keeps browser profiles.
+(see --root-dir option or TIA_ROOT_DIR environment variable description) and keeps browser profiles.
 
 See also the `selProfilePath` option in the `config/default-suite-config.js`.
 
@@ -299,7 +299,7 @@ Use JSON here because JS files (except config.js, suite-config.js) are runned as
 
 ## Environment variables
 
-See TIA_TESTS_DIR, TIA_REQUIRE_MODULES, TIA_EXTERNAL_LOG descriptions in `tia --help`.
+See TIA_ROOT_DIR, TIA_REQUIRE_MODULES, TIA_EXTERNAL_LOG descriptions in `tia --help`.
 Use TIA_NO_COLORS - to disable ANSI colors.
 
 ----------------------------------

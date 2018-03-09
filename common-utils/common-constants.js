@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var container;
+  let container;
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     container = exports;

@@ -1,0 +1,7 @@
+=================
+Title: Test for client exceptions
+Loading a page with URL: "http://google.com" ... OK
+Script execution ... OK
+Result of script execution: 5
+=================
+Pass: 0, Fail: 0

@@ -39,7 +39,7 @@ ExtJs приложения.
 Может быть какой-то такой колбэк организовать,
 получение одного текста по другому и обратно?
 
-var items = Ext.getCmp('r-main').getTabBar().items;
+let items = Ext.getCmp('r-main').getTabBar().items;
 items.findBy(function (item) { return item.text === R.lang.settings; });
 form.down('[fieldLabel=Тип риска]').inputEl
 

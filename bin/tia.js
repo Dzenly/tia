@@ -1,17 +1,14 @@
 #!/usr/bin/env bash
-":" //# comment; exec /usr/bin/env node "$0" "$@"
+
+':'; //# comment; exec /usr/bin/env node "$0" "$@"
 'use strict';
 
 // http://sambal.org/2014/02/passing-options-node-shebang-line/
 
-const majVersion = process.version.match(/\d+/)[0];
-if (majVersion < 8) {
-  console.error(`Node.js less then 8.x.x is not supported, your version: ${process.version}`);
-  process.exit(1);
-}
-
 /* globals gIn: true, gT */
-const nodeUtil = require('util');
+const { inspect } = require('util');
+const tiaArgsUtils = require('utils/tia-arguments-utils.js');
+const nodeUtils = require('utils/nodejs-utils.js');
 
 require('../engine/init-global-objects.js');
 const helpUtils = require('../utils/help-utils.js');
@@ -44,7 +41,7 @@ const opts = {
     'hang-timeout',
     'pattern',
     'require-modules',
-    'tests-dir',
+    'root-dir',
     'too-long-time',
     'trace-level',
   ],
@@ -104,8 +101,8 @@ if (args.v || args.version) {
 
 const path = require('path');
 
-if (args.runSelfTests) {
-  args.testsDir = path.resolve(path.join(__dirname, '..', 'tests'));
+if (args.runSelfTests) { // Tests for the engine.
+  args.rootDir = path.resolve(path.join(__dirname, '..'));
   args.etMlog = gT.engineConsts.selfTestsEtMLog;
   args.extLog = gT.engineConsts.selfTestsExtLog;
 }
@@ -136,33 +133,19 @@ if (gT.browsers.indexOf(browser) === -1) {
   process.exit(1);
 }
 
-// TODO: support windows separators also.
-
-let testsDir = args.testsDir;
-
-if (!testsDir) {
-  testsDir = process.env[gT.engineConsts.testsDirEnvVarName];
-  if (!testsDir) {
-    gIn.cLogger.errln('Tests directory is not specified');
-    process.exit(1);
-
-    // testsDir = process.cwd();
-  }
-} else {
-  testsDir = path.resolve(testsDir);
-}
-
-// Make sure that there is no trailing separator.
-if (testsDir[testsDir.length - 1] === '/') {
-  testsDir = testsDir.slice(0, -1);
-}
+const rootDir = tiaArgsUtils.resolveMandatoryPathOption({
+  cmdLineArgsPath: args.rootDir,
+  envVarName: gT.engineConsts.rootDirEnvVarName,
+  description: 'Root directory',
+  cutLastDirSep: true,
+});
 
 if (!args.requireModules) {
   args.requireModules = process.env[gT.engineConsts.requireModulesEnvVarName];
 }
 
 gIn.params = args;
-gIn.params.testsDir = testsDir;
+gIn.params.rootDir = rootDir;
 
 if (!gIn.params.emailCfgPath) {
   gIn.params.emailCfgPath = process.env[gT.engineConsts.emailCfgPathEnvVarName];
@@ -187,12 +170,15 @@ if (gIn.params.extLog) {
   gIn.tracer.msg3('No external log path');
 }
 
-gIn.params.testsParentDir = path.dirname(testsDir);
+gIn.params.testsParentDir = path.dirname(rootDir);
 
-gIn.tracer.msg3(`Tests Dir: ${testsDir}`);
 gIn.tracer.msg3(`Tests Parent Dir: ${gIn.params.testsParentDir}`);
 
-gIn.params.profileRootPath = path.join(gIn.params.testsParentDir, gT.engineConsts.profileRootDir);
+gIn.params.profileRootPath = path.join(
+  gIn.params.testsParentDir,
+  gT.engineConsts.suiteMetaDirName,
+  gT.engineConsts.profileRootDir
+);
 
 if (gIn.params.etMlog && !path.isAbsolute(gIn.params.etMlog)) {
   gIn.params.etMlog = path.join(gIn.params.testsParentDir, gIn.params.etMlog);
@@ -210,7 +196,7 @@ gIn.tracer.msg2(`Browsers profile root: ${gIn.params.profileRootPath}`);
 
 gIn.tracer.msg2(`chromedriver path: ${gIn.chromeDriverPath}`);
 
-gIn.params.minPathSearchIndex = testsDir.length + 1; // Minumum index for path search.
+gIn.params.minPathSearchIndex = rootDir.length + 1; // Minimum index for path search.
 
 if (args.requireModules) {
   const arr = args.requireModules.split(/\s*,\s*/);
@@ -237,6 +223,6 @@ if (gIn.params.ejExplore) {
   gIn.params.keepBrowserAtError = true;
 }
 
-gIn.tracer.msg3(`Parameters: ${nodeUtil.inspect(gIn.params)}`);
+gIn.tracer.msg3(`Parameters: ${inspect(gIn.params)}`);
 
-require('../engine/runner.js')(testsDir);
+require('../engine/runner.js')(rootDir);

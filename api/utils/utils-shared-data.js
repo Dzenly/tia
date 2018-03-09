@@ -1,6 +1,6 @@
 'use strict';
 
-var shared = {};
+let shared = {};
 
 //  TODO shared data - sd.
 

@@ -81,7 +81,7 @@ gT.u.execGen = function execGen(gen, param1, param2) {
 };
 
 gT.u.setHangTimeout = function setHangTimeout(newTimeout) {
-  var oldTimeout = gIn.params.hangTimeout;
+  let oldTimeout = gIn.params.hangTimeout;
   gIn.params.hangTimeout = newTimeout;
   return oldTimeout;
 };

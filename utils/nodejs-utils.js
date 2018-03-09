@@ -1,7 +1,7 @@
 'use strict';
 
-var path = require('path');
-var inspect = require('util').inspect;
+let path = require('path');
+let inspect = require('util').inspect;
 
 /**
  * Clears 'require' cache for specified node module.
@@ -22,7 +22,7 @@ exports.clearRequireCache = function clearRequireCache(resolvedModulePath) {
 exports.requireEx = function requireEx(modPath, clearCache) {
 
   let absFilePath = path.resolve(modPath);
-  var res = {
+  let res = {
     result: require(absFilePath),
     resolvedModPath: require.resolve(absFilePath) // Can be used later for clear require cache.
   };
@@ -44,13 +44,13 @@ function toMs(val) {
 }
 
 exports.getResourcesUsage = function getResourcesUsage() {
-  var mem = process.memoryUsage();
+  let mem = process.memoryUsage();
   mem.rss = toMb(mem.rss);
   mem.heapTotal = toMb(mem.heapTotal);
   mem.heapUsed = toMb(mem.heapUsed);
-  var str = 'Memory MB: ' + inspect(mem);
+  let str = 'Memory MB: ' + inspect(mem);
   if (process.cpuUsage) {
-    var cpuU = process.cpuUsage();
+    let cpuU = process.cpuUsage();
     cpuU.user = toMs(cpuU.user);
     cpuU.system = toMs(cpuU.system);
     str += '\nCPU ms: ' + inspect(cpuU);
@@ -61,7 +61,7 @@ exports.getResourcesUsage = function getResourcesUsage() {
 exports.getProcInfo = function () {
 
   // Env: ${inspect(process.env)}
-  var str = `
+  let str = `
 Arch: ${process.arch}
 Cwd: ${process.cwd()}
 Proc Exec: ${process.execPath}
@@ -82,3 +82,12 @@ exports.isPromise = function isPromise(p) {
   }
   return false;
 };
+
+
+exports.checkNodeJsVersion = function checkNodeJsVersion() {
+  const majVersion = process.version.match(/\d+/)[0];
+  if (majVersion < 8) {
+    console.error(`Node.js less then 8.x.x is not supported, your version: ${process.version}`);
+    process.exit(1);
+  }
+}

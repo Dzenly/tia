@@ -1,14 +1,14 @@
 'use strict';
 
-var util = require('util');
-var fileUtils = require('dz-file-utils');
-var dirUtils = require('dz-dir-utils');
-var timer = require('dz-timer-utils');
-var dateUtils = require('dz-date-utils');
+let util = require('util');
+let fileUtils = require('dz-file-utils');
+let dirUtils = require('dz-dir-utils');
+let timer = require('dz-timer-utils');
+let dateUtils = require('dz-date-utils');
 process.env.FORCE_COLOR = '1';
-var chalk = require('chalk');
+let chalk = require('chalk');
 
-var cfg = {
+let cfg = {
   throwAtFail: false,
   colorsEnabled: false,
   passStr: 'PASS',
@@ -22,7 +22,7 @@ var cfg = {
   indent: '      '
 };
 
-var inner = {
+let inner = {
   passCnt: 0,
   failCnt: 0
 };
@@ -32,7 +32,7 @@ inner.logDiff = function (actVal, expVal) {
 };
 
 exports.eq = function (actVal, expVal, msg, colorFunc) {
-  var res = actVal === expVal;
+  let res = actVal === expVal;
   if (res) {
     exports.pass(msg, colorFunc);
     return true;
@@ -48,16 +48,16 @@ exports.eqDays = function (date1, date2, msg) {
 };
 
 exports.eqObjects = function (obj1, obj2, msg) {
-  var aProps = Object.getOwnPropertyNames(obj1);
-  var bProps = Object.getOwnPropertyNames(obj2);
+  let aProps = Object.getOwnPropertyNames(obj1);
+  let bProps = Object.getOwnPropertyNames(obj2);
 
   if (aProps.length != bProps.length) {
     exports.fail(msg + ': Objects comparison: different property counts');
     return false;
   }
 
-  for (var i = 0; i < aProps.length; i++) {
-    var propName = aProps[i];
+  for (let i = 0; i < aProps.length; i++) {
+    let propName = aProps[i];
 
     if (obj1[propName] !== obj2[propName]) {
       exports.fail(msg + ': Objects comparison: different values for property: ' + propName +
@@ -72,7 +72,7 @@ exports.eqObjects = function (obj1, obj2, msg) {
 
 // Returns value, returned by the func, or undefined (it function throws an error).
 exports.doesThrow = function (func, msg, arrArg) {
-  var res;
+  let res;
   try {
     res = func.apply(null, arrArg);
     exports.fail(msg + ' Unexpected no throw.');
@@ -84,7 +84,7 @@ exports.doesThrow = function (func, msg, arrArg) {
 
 // Returns value, returned by the func, or undefined (it function throws an error).
 exports.doesNotThrow = function (func, msg, arrArg) {
-  var res;
+  let res;
   try {
     res = func.apply(null, arrArg);
     exports.pass(msg + ' Expected no throw.');
@@ -96,7 +96,7 @@ exports.doesNotThrow = function (func, msg, arrArg) {
 
 exports.checkSubstr = function (str, substr, msg) {
   cfg.logMsg(cfg.indent + 'Checking for substring: "' + substr + '"');
-  var ind = str.search(substr);
+  let ind = str.search(substr);
   if (ind === -1) {
     cfg.logErr('No expression: "' + substr + '" found in string: \n' + str);
     exports.fail(msg);
@@ -156,9 +156,9 @@ exports.pass = function (msg, colorFunc) {
 
 exports.total = function () {
   cfg.logMsg('=================');
-  var msg = 'Passes: ' + inner.passCnt + ', Fails: ' + inner.failCnt;
+  let msg = 'Passes: ' + inner.passCnt + ', Fails: ' + inner.failCnt;
   msg = colorMsg(inner.failCnt > 0 ? chalk.red : chalk.green, msg);
-  var timeMsg = timer.timeDiffStr(inner.totStartTime);
+  let timeMsg = timer.timeDiffStr(inner.totStartTime);
   cfg.logMsg(msg + ', Duration: ' + timeMsg);
 };
 
@@ -174,7 +174,7 @@ exports.stopTimer = function (timerObj) {
   if (!timerObj) {
     return;
   }
-  var msg = timer.stopTimer(timerObj, true);
+  let msg = timer.stopTimer(timerObj, true);
   cfg.logMsg(colorMsg(chalk.blue, cfg.indent + msg));
 };
 
@@ -185,7 +185,7 @@ exports.checkFileExist = function (file) {
 };
 
 exports.checkFilesExist = function (files) {
-  for (var i = 0, len = files.length; i < len; i++) {
+  for (let i = 0, len = files.length; i < len; i++) {
     exports.checkFileExist(files[i]);
   }
 };
@@ -197,7 +197,7 @@ exports.checkFileExistAndNonEmpty = function (file) {
 };
 
 exports.checkFilesExistAndNonEmpty = function (files) {
-  for (var i = 0, len = files.length; i < len; i++) {
+  for (let i = 0, len = files.length; i < len; i++) {
     exports.checkFileExistAndNonEmpty(files[i]);
   }
 };
@@ -209,7 +209,7 @@ exports.checkFileAbsent = function (file) {
 };
 
 exports.checkFilesAbsent = function (files) {
-  for (var i = 0, len = files.length; i < len; i++) {
+  for (let i = 0, len = files.length; i < len; i++) {
     exports.checkFileAbsent(files[i]);
   }
 };
@@ -221,7 +221,7 @@ exports.checkDirExist = function (dir) {
 };
 
 exports.checkDirsExist = function (dirs) {
-  for (var i = 0, len = dirs.length; i < len; i++) {
+  for (let i = 0, len = dirs.length; i < len; i++) {
     exports.checkDirExist(dirs[i]);
   }
 };
@@ -233,7 +233,7 @@ exports.checkDirAbsent = function (dir) {
 };
 
 exports.checkDirsAbsent = function (dirs) {
-  for (var i = 0, len = dirs.length; i < len; i++) {
+  for (let i = 0, len = dirs.length; i < len; i++) {
     exports.checkDirAbsent(dirs[i]);
   }
 };

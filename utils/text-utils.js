@@ -3,13 +3,13 @@
 /* globals gT: true */
 
 exports.removeSelSid = function removeSelSid(str) {
-  var re = /\?_dc=\d+/g;
+  let re = /\?_dc=\d+/g;
   return str.replace(re, '');
 };
 
 exports.filterStack = function filterStack(strStack) {
-  var stArr = strStack.split('\n');
-  var newArr = stArr.filter(function (el, index, arr) {
+  let stArr = strStack.split('\n');
+  let newArr = stArr.filter(function (el, index, arr) {
     let startingFrom = el.indexOf('/tia/');
     return el.indexOf('node_modules', startingFrom) === -1;
   });
@@ -20,7 +20,7 @@ exports.excToStr = function excToStr(err, noStack) {
   if (typeof err === 'undefined') {
     return '\nNo Exception info\n';
   }
-  var errStr = err.toString();//(typeof err.message === 'undefined') ? err : err.message;
+  let errStr = err.toString();//(typeof err.message === 'undefined') ? err : err.message;
   if (/*gIn.params.stackToLog || */!noStack) {
     if (typeof err.stack !== 'undefined') {
       errStr += '\n' + exports.filterStack(err.stack);
@@ -65,7 +65,7 @@ exports.collapseHost = function collapseHost(str) {
 //}
 //
 //exports.prepareHostRE = function(){
-//	var str = escapeRegExp(gIn.config.selHost);
+//	let str = escapeRegExp(gIn.config.selHost);
 //	exports.hostRe = new RegExp(str, g);
 //};
 

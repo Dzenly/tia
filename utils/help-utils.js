@@ -1,9 +1,8 @@
 'use strict';
 
 function dedent(callSite, ...params) {
-
   function format(str) {
-    return str.replace(/\n    /g, '\n');
+    return str.replace(/\n {4}/g, '\n');
   }
 
   if (typeof callSite === 'string') {
@@ -14,7 +13,7 @@ function dedent(callSite, ...params) {
     return (...args) => format(callSite(...args));
   }
 
-  let output = callSite
+  const output = callSite
     .slice(0, params.length + 1)
     .map((text, i) => (i === 0 ? '' : params[i - 1]) + text)
     .join('');
@@ -69,7 +68,7 @@ exports.usage = function () {
 
       --err-to-console print all errors to console.
 
-      --et-mlog - filepath for etalog meta-log (absolute or relative to parent of tests directory).
+      --et-mlog - filepath for etalog meta-log (absolute or relative to parent of project root directory).
       If exists, - it is used for meta logs comparison and writing info such as
       ET_MLOG / DIF_MLOG to the head of output.
 
@@ -100,7 +99,7 @@ exports.usage = function () {
       Forces tia to require listed files as Node.js modules.
       ${gT.engineConsts.requireModulesEnvVarName} environment variable also can be used for this.
 
-      --run-self-tests - Run tests for the engine (from tia/tests directory).
+      --run-self-tests - Run tests for the engine (from tia/__tests__ directory).
       
       --share-browser - Try to share the browser between tests within one node.js process.
       In this case 'init' call is performed only for the first test and 'quit' call only for the last one.
@@ -110,9 +109,9 @@ exports.usage = function () {
 
       --stop-remote-driver - (for chromedriver only) shuts down the remote driver.
 
-      --tests-dir <Tests Root Directory> - root directory for test suite (can be relative to current working dir).
-      It there is no --tests-dir, tia will check ${gT.engineConsts.testsDirEnvVarName} environment variable.
-      Note: browser profile root is created as sibling to tests directory.
+      --root-dir <Root Directory to find tests> - root directory to test (can be relative to current working dir).
+      It there is no --root-dir, tia will check ${gT.engineConsts.rootDirEnvVarName} environment variable.
+      Note: browser profile root is created as sibling to root directory.
 
       --too-long-time <duration>. If tests running exceeded the specified milliseconds amount. Email subject will
       have 'TOO_LONG' prefix.
@@ -133,8 +132,8 @@ exports.usage = function () {
       --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).
 
     Examples:
-        tia --tests-dir <path_to_my-tests-dir>
-        node bin/tia.js --tests-dir <path_to_my-tests-dir>
+        tia --root-dir <path-to-my-root-dir>
+        node bin/tia.js --root-dir <path-to-my-root-dir>
     If there is no diffs, 0 is returned, otherwise 1 is returned.
 
     This utility uses external utilities: diff, rm.

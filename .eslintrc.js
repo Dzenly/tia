@@ -4,20 +4,17 @@ module.exports = {
   rules: {
     strict: 0,
 
-    ['lines-around-comment']: [
-      'error', {
-        beforeLineComment: true,
-        allowBlockStart: true,
-        allowObjectStart: true,
-        allowArrayStart: true,
-      },
-    ],
+    'spaced-comment': ['error', 'always', { markers: ['#'] }],
 
-    ['spaced-comment']: ['error', 'always', { 'markers': ['#'] }],
+    'lines-around-comment': ['error', {
+      ignorePattern: '(# comment|env bash)',
+      beforeLineComment: true,
+      allowBlockStart: true,
+      allowObjectStart: true,
+      allowArrayStart: true,
+    }],
 
-    ['lines-around-comment']: ['error', { 'ignorePattern': '(# comment|env bash)'}],
-
-    ['comma-dangle']: [
+    'comma-dangle': [
       'error', {
         arrays: 'always-multiline',
         objects: 'always-multiline',
@@ -27,7 +24,8 @@ module.exports = {
       },
     ],
     'function-paren-newline': 0,
-    ['no-plusplus']: 'off',
+    'no-plusplus': 'off',
+    'no-console': 'off',
   },
   globals: {
     Ext: true,
@@ -37,5 +35,5 @@ module.exports = {
     node: true,
     es6: true,
     commonjs: true,
-  }
-}
+  },
+};

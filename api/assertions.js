@@ -1,7 +1,5 @@
 'use strict';
 
-const co = require('co');
-
 /* globals gT: true */
 /* globals gIn: true */
 

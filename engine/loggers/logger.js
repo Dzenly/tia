@@ -7,10 +7,10 @@
  Inner utils for logging.
  */
 
-var isVerbose;
+let isVerbose;
 
-var fs = require('fs');
-var nodeUtils = require('../../utils/nodejs-utils.js');
+let fs = require('fs');
+let nodeUtils = require('../../utils/nodejs-utils.js');
 
 // Must be called only before handleDir for root test directory, like engine, app, etc..
 // TODO: what it is ?
@@ -143,7 +143,7 @@ function writeStrToStdout(str, diffed, isDif) {
   }
 }
 
-var writeLogStr = writeStrToFile;
+let writeLogStr = writeStrToFile;
 
 function writeToSuiteLog(str, diffed, isDif) {
   writeLogStr(str, diffed, isDif);
@@ -164,9 +164,9 @@ function saveDirInfo(dirInfo, indent, verbose, noTime) {
   indent = gIn.loggerCfg.indentation + indent;
   // If directory is empty there will be empty array.
   // Absense of 'children' property says that it is test and not directory, we should not allow to use this function for not directory.
-  var len = dirInfo.children.length;
-  for (var i = 0; i < len; i++) {
-    var curInfo = dirInfo.children[i];
+  let len = dirInfo.children.length;
+  for (let i = 0; i < len; i++) {
+    let curInfo = dirInfo.children[i];
     if (curInfo.diffed || verbose) {
       if (curInfo.hasOwnProperty('children')) {
         saveDirInfo(curInfo, indent, verbose, noTime);
@@ -191,8 +191,8 @@ function saveDirInfo(dirInfo, indent, verbose, noTime) {
 
 function saveSuiteLogPart(verbose, dirInfo, noTime) {
   isVerbose = verbose;
-  var title = verbose ? 'Verbose' : 'Short';
-  var decor = '====================';
+  let title = verbose ? 'Verbose' : 'Short';
+  let decor = '====================';
   writeToSuiteLog(decor + '    ' + title + ' Log BEGIN:    ' + decor + '\n');
   saveDirInfo(dirInfo, '', verbose, noTime);
   writeToSuiteLog(decor + '    ' + title + ' Log END.    ' + decor + '\n');

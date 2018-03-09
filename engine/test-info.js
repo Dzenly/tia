@@ -2,7 +2,7 @@
 
 /* globals gT: true */
 
-var mPath = require('path');
+let mPath = require('path');
 exports.isPassCountingEnabled = true;
 exports.isPassPrintingEnabled = true;
 
@@ -24,7 +24,7 @@ function formLogPart(str, count) {
  * @returns {string}
  */
 exports.testInfoToString = function testInfoToString(curInfo, isDir, verbose, noTime, noTitle) {
-  var path, title, diffed, failed, ediffed, skipped, passed, time;
+  let path, title, diffed, failed, ediffed, skipped, passed, time;
   if (isDir) {
     path = '';
     diffed = formLogPart('Dif', curInfo.diffed);
@@ -42,10 +42,10 @@ exports.testInfoToString = function testInfoToString(curInfo, isDir, verbose, no
   failed = formLogPart('Fail', curInfo.failed);
   time = noTime ? '' : curInfo.time.toFixed(2) + ' ms';
 
-  var arr = verbose ? [path, diffed, failed, ediffed, skipped, passed, time, title] :
+  let arr = verbose ? [path, diffed, failed, ediffed, skipped, passed, time, title] :
     [path, diffed, failed];
 
-  var res = arr.filter(function (val) {
+  let res = arr.filter(function (val) {
       return val;
     }).join(', ') + '\n'; // join only non-empty strings.
 
@@ -57,7 +57,7 @@ exports.testInfoToString = function testInfoToString(curInfo, isDir, verbose, no
  * @param isDir - true - directory, false - file.
  */
 exports.createTestInfo = function createTestInfo(isDir, title, path) {
-  var info = {
+  let info = {
     path: gIn.textUtils.winToUnixSep(path), // For uniform logging.
     title: title,
     handled: 0,

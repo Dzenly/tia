@@ -1,8 +1,8 @@
 'use strict';
 
-var child_process = require('child_process');
-var path = require('path');
-var fs = require('fs');
+let child_process = require('child_process');
+let path = require('path');
+let fs = require('fs');
 
 /* globals gT: true */
 /* globals gIn: true */
@@ -20,7 +20,7 @@ exports.changedDiffs = 0;
  */
 exports.getDiff = function getDiff(dir, oldFile, newFile) {
   // TODO: check utf8 support.
-  var diffRes = child_process.spawnSync('diff', [oldFile, newFile], {cwd: dir, encoding: gT.engineConsts.logEncoding});
+  let diffRes = child_process.spawnSync('diff', [oldFile, newFile], {cwd: dir, encoding: gT.engineConsts.logEncoding});
   return diffRes.stdout + diffRes.stderr;
 };
 
@@ -35,11 +35,11 @@ exports.getDiff = function getDiff(dir, oldFile, newFile) {
  * @param jsTest - path to js file, for which just created *.log to be diffed with *.eth.
  */
 exports.diff = function diff(jsTest) {
-  var dir = path.dirname(jsTest);
-  var base = path.basename(jsTest, '.js');
-  var out = exports.getDiff(dir, base + '.log', base + '.et');
-  var diffPath = path.join(dir, base + '.dif');
-  var diffed = out ? 1 : 0;
+  let dir = path.dirname(jsTest);
+  let base = path.basename(jsTest, '.js');
+  let out = exports.getDiff(dir, base + '.log', base + '.et');
+  let diffPath = path.join(dir, base + '.dif');
+  let diffed = out ? 1 : 0;
   if (!diffed) {
     gIn.fileUtils.safeUnlink(diffPath);
     return; // No gIn.tInfo.data changes. gIn.tInfo.data.diffed and gIn.tInfo.data.expDiffed are zeroes.
@@ -48,7 +48,7 @@ exports.diff = function diff(jsTest) {
   gIn.fileUtils.backupDif(diffPath);
 
   fs.writeFileSync(diffPath, out, {encoding: gT.engineConsts.logEncoding});
-  // var oldOut = out;
+  // let oldOut = out;
 
   // Check for expected diff.
   out = exports.getDiff(dir, base + '.dif', base + '.edif');

@@ -1,0 +1,7 @@
+=================
+Title: Tests for mergeOptions function
+OK: Src with non default values
+OK: Empty src
+OK: Expected exception: 'TypeError: Cannot convert undefined or null to object'
+=================
+Pass: 3, Fail: 0

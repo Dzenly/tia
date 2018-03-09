@@ -261,6 +261,7 @@ module.exports = function runner(suiteRoot) {
   result
     .then(() => {
       try {
+        // TODO: make it lazy.
         fs.mkdirSync(gIn.params.profileRootPath);
       } catch (e) {
       }

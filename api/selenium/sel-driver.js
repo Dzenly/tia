@@ -86,7 +86,7 @@ exports.init = function init(cleanProfile, logAction) {
         break;
       case 'firefox':
         options = new gT.sOrig.firefox.Options();
-        var binary = new gT.sOrig.firefox.Binary();
+        let binary = new gT.sOrig.firefox.Binary();
         if (gIn.config.selProfilePath) {
           // Profile name should be alphanumeric only.
           // Checked on linux. It does set -profile option.
@@ -167,11 +167,11 @@ exports.init = function init(cleanProfile, logAction) {
       // ==============================
       // TODO:
       // Using undocumented property to trace all selenium commands.
-      // var executorRef = gT.sOrig.driver.executor_;
+      // let executorRef = gT.sOrig.driver.executor_;
       // executorRef.executeOrig = executorRef.execute;
       // executorRef.execute = function (command) {
       //   gIn.tracer.trace3('COMMAND: ' + command.getName());
-      //   // TODO: tracing, var params = command.getParameters();
+      //   // TODO: tracing, let params = command.getParameters();
       //   return executorRef.executeOrig(command)
       //     .then(function (res) {
       //       // TODO: tracing, command result.

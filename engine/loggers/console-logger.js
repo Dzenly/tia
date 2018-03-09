@@ -1,8 +1,8 @@
 'use strict';
 /* globals gIn: true */
 
-var chalk;
-var isChalkEnabled = false; // Just to speed up checking boolean instead of Boolean(object).
+let chalk;
+let isChalkEnabled = false; // Just to speed up checking boolean instead of Boolean(object).
 
 if (!process.env.TIA_NO_COLORS) {
   process.env.FORCE_COLOR = '1';
