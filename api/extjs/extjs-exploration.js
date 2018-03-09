@@ -1,8 +1,8 @@
 'use strict';
 /* globals gT, gIn */
 
-var fs = require('fs');
-var path = require('path');
+let fs = require('fs');
+let path = require('path');
 
 /**
  * Initializes TIA ExtJs exploration helpers.

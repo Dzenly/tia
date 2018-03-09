@@ -56,7 +56,7 @@ exports.checkCheckboxAffects = function * checkCheckboxAffects(formId, checkBoxN
       'Checkbox state changed after click', {passSilently: true, noPassIncrement: true, accName: resAccName});
   }
 
-  var res = yield *gT.hL.wrapGenerator(
+  let res = yield *gT.hL.wrapGenerator(
     checkCBAffects,
     `Check checkbox (name: ${checkBoxName}) affects for form ${formId.logStr}`, {passLlPrinting: true});
 

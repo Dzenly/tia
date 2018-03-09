@@ -2,7 +2,7 @@
 
 t.setTitle('Tests for "exception" assertion');
 
-var tableName = 'My Exception';
+let tableName = 'My Exception';
 
 l.println('Any exception');
 a.exception(

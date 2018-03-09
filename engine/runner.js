@@ -6,6 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 const nodeUtils = require('../utils/nodejs-utils');
+const _ = require('lodash');
 
 function getOs() {
   const os = require('os');
@@ -33,7 +34,7 @@ async function handleTestFile(file, dirConfig) {
   gIn.tInfo.isPassCountingEnabled = gT.engineConsts.defIsPassCountingEnabled;
   gIn.loggerCfg.defLLLogAction = gT.engineConsts.defLLLogAction;
 
-  gIn.config = gIn.configUtils.copyConfig(dirConfig); // Config for current test, can be changed by test.
+  gIn.config = _.cloneDeep(dirConfig); // Config for current test, can be changed by test.
   // It is not safe to create such structure in the test and return it from test,
   // because test can be terminated with exception.
 
@@ -99,7 +100,7 @@ function handleDirConfig(dir, files, prevDirConfig) {
     files.splice(index, 1);
   }
 
-  return gIn.configUtils.mergeConfigs(prevDirConfig, config);
+  return _.merge(_.cloneDeep(prevDirConfig), config);
 }
 
 /**

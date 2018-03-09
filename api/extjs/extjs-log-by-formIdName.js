@@ -1,7 +1,7 @@
 'use strict';
 /* globals gT, gIn */
 
-var util = require('util');
+let util = require('util');
 
 // TODO: support different range options.
 // TODO: function for convertation object to its text representation (smth, like JSON).

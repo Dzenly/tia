@@ -21,13 +21,13 @@ module.exports = {
   externalLogEnvVarName: 'TIA_EXTERNAL_LOG',
 
   // Имя файла для локального конфига.
-  configName: 'config.js',
+  configName: 'tia-dir-config.js',
 
   // Имя файла для конфига пакета тестов (test suite), перегружающего настройки по умолчанию.
-  suiteConfigName: 'suite-config.js',
+  suiteConfigName: 'tia-suite-config.js',
 
   // Корневая директория, где лежат профайлы. Не перегружается в локальных конфигах.
-  profileRootDir: 'browser-profiles',
+  profileRootDir: 'tia-browser-profiles',
 
   // Дефолтный дисплей для GUI тестов.
   // Сохраняем состояние в момент старта.

@@ -10,6 +10,8 @@ const { inspect } = require('util');
 const tiaArgsUtils = require('utils/tia-arguments-utils.js');
 const nodeUtils = require('utils/nodejs-utils.js');
 
+nodeUtils.checkNodeJsVersion();
+
 require('../engine/init-global-objects.js');
 const helpUtils = require('../utils/help-utils.js');
 
@@ -154,7 +156,7 @@ if (!gIn.params.emailCfgPath) {
 if (gIn.params.emailCfgPath) {
   gIn.params.emailCfgPath = path.resolve(gIn.params.emailCfgPath);
   gIn.tracer.msg3(`Email cfg path: ${gIn.params.emailCfgPath}`);
-  gT.suiteConfigDefault = gIn.configUtils.mergeConfigs(gT.suiteConfigDefault, require(gIn.params.emailCfgPath));
+  gT.suiteConfigDefault = _.merge(_.cloneDeep(gT.suiteConfigDefault), require(gIn.params.emailCfgPath));
 } else {
   gIn.tracer.msg3('No email cfg path');
 }

@@ -1,7 +1,8 @@
 'use strict';
 
-let path = require('path');
-let inspect = require('util').inspect;
+const path = require('path');
+const { inspect } = require('util');
+const _ = require('lodash');
 
 /**
  * Clears 'require' cache for specified node module.
@@ -20,11 +21,10 @@ exports.clearRequireCache = function clearRequireCache(resolvedModulePath) {
  * @throws {*} - Exceptions from 'require' calls.
  */
 exports.requireEx = function requireEx(modPath, clearCache) {
-
-  let absFilePath = path.resolve(modPath);
-  let res = {
+  const absFilePath = path.resolve(modPath);
+  const res = {
     result: require(absFilePath),
-    resolvedModPath: require.resolve(absFilePath) // Can be used later for clear require cache.
+    resolvedModPath: require.resolve(absFilePath), // Can be used later for clear require cache.
   };
 
   if (clearCache) {
@@ -44,24 +44,23 @@ function toMs(val) {
 }
 
 exports.getResourcesUsage = function getResourcesUsage() {
-  let mem = process.memoryUsage();
+  const mem = process.memoryUsage();
   mem.rss = toMb(mem.rss);
   mem.heapTotal = toMb(mem.heapTotal);
   mem.heapUsed = toMb(mem.heapUsed);
-  let str = 'Memory MB: ' + inspect(mem);
+  let str = `Memory MB: ${inspect(mem)}`;
   if (process.cpuUsage) {
-    let cpuU = process.cpuUsage();
+    const cpuU = process.cpuUsage();
     cpuU.user = toMs(cpuU.user);
     cpuU.system = toMs(cpuU.system);
-    str += '\nCPU ms: ' + inspect(cpuU);
+    str += `\nCPU ms: ${inspect(cpuU)}`;
   }
   return str;
 };
 
-exports.getProcInfo = function () {
-
+exports.getProcInfo = function getProcInfo() {
   // Env: ${inspect(process.env)}
-  let str = `
+  const str = `
 Arch: ${process.arch}
 Cwd: ${process.cwd()}
 Proc Exec: ${process.execPath}
@@ -72,7 +71,7 @@ Proc Title: ${process.title}
 Proc Uptime: ${process.uptime()}
 Node release info: ${inspect(process.release)}
 Node version info: ${inspect(process.versions)}
-` + exports.getResourcesUsage();
+${exports.getResourcesUsage()}`;
   return str;
 };
 
@@ -83,11 +82,10 @@ exports.isPromise = function isPromise(p) {
   return false;
 };
 
-
 exports.checkNodeJsVersion = function checkNodeJsVersion() {
   const majVersion = process.version.match(/\d+/)[0];
   if (majVersion < 8) {
     console.error(`Node.js less then 8.x.x is not supported, your version: ${process.version}`);
     process.exit(1);
   }
-}
+};

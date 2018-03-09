@@ -7,8 +7,8 @@
  * @returns {string}
  */
 exports.getLocKeysByText = function getLocKeysByText(text) {
-  var res = [];
-  for (var key in gT.e.locale) {
+  let res = [];
+  for (let key in gT.e.locale) {
     if (gT.e.locale.hasOwnProperty(key)) {
       if (text === gT.e.locale[key]) {
         res.push(key);

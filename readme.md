@@ -281,7 +281,7 @@ See `config/default-suite-config.js` for email option descriptions.
 To keep credentials secret you can have `suite-config.js` like:
 
 ```js
-var suiteConfig = {};
+let suiteConfig = {};
 
 try {
   suiteConfig = require('./mail-settings.nogit.json');

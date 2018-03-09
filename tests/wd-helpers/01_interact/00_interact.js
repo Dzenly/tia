@@ -14,12 +14,12 @@ async function test() {
   // yield s.driver.sleep(35000);
 
   // yield s.browser.setDbgOnMouseDown(`
-  // var el = Ext.dom.Element.fromPoint(e.clientX, e.clientY);
+  // let el = Ext.dom.Element.fromPoint(e.clientX, e.clientY);
   // alert(el);
   // `
   // );
 
-  // var res = yield s.browser.executeScript('return 5;');
+  // let res = yield s.browser.executeScript('return 5;');
   // l.println('Result of script execution: ' + res);
 
   // yield s.browser.close();

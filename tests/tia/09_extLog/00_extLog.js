@@ -1,6 +1,6 @@
 'use strict';
 
-var fs = require('fs');
+let fs = require('fs');
 
 t.setTitle('Test for external log');
 

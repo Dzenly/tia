@@ -1,6 +1,6 @@
 'use strict';
 
-var util = require('util');
+let util = require('util');
 
 
 t.setTitle('Checking config and suite-config work.');

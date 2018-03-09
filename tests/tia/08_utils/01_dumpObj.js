@@ -2,7 +2,7 @@
 
 t.setTitle('Tests for dumpObj function');
 
-var obj = {
+let obj = {
   a: {
     b: 'a.b',
     c: {
@@ -58,10 +58,10 @@ var obj = {
   }
 };
 
-var eMode = gT.commonMiscUtils.dumpObjErrMode;
+let eMode = gT.commonMiscUtils.dumpObjErrMode;
 
 function testExistingArrException(propPaths) {
-  var arr = [];
+  let arr = [];
   gT.commonMiscUtils.dumpObj(obj, propPaths, arr, eMode.exception);
   if (arr.length) {
     l.println(arr.join('\n'));
@@ -69,35 +69,35 @@ function testExistingArrException(propPaths) {
 }
 
 function testNewArrException(propPaths) {
-  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, eMode.exception);
+  let arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, eMode.exception);
   if (arr.length) {
     l.println(arr.join('\n'));
   }
 }
 
 function testNewArrNA(propPaths) {
-  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, eMode.showNA);
+  let arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, eMode.showNA);
   if (arr.length) {
     l.println(arr.join('\n'));
   }
 }
 
 function testNewArrNADef(propPaths) {
-  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths);
+  let arr = gT.commonMiscUtils.dumpObj(obj, propPaths);
   if (arr.length) {
     l.println(arr.join('\n'));
   }
 }
 
 function testNewArrOmitStr(propPaths) {
-  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, eMode.omitString);
+  let arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, eMode.omitString);
   if (arr.length) {
     l.println(arr.join('\n'));
   }
 }
 
 function testNewArrOmitStrIfUndefined(propPaths) {
-  var arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, eMode.omitStringIfUndefined);
+  let arr = gT.commonMiscUtils.dumpObj(obj, propPaths, null, eMode.omitStringIfUndefined);
   if (arr.length) {
     l.println(arr.join('\n'));
   }

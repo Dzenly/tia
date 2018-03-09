@@ -2,15 +2,15 @@
 
 t.setTitle('Tests for equalDeep assertion');
 
-var number1 = 5;
-var number2 = 5;
-var number3 = 4;
+let number1 = 5;
+let number2 = 5;
+let number3 = 4;
 
-var string1 = 'a';
-var string2 = 'a';
-var string3 = 'b';
+let string1 = 'a';
+let string2 = 'a';
+let string3 = 'b';
 
-var objNoSubObj1 = {
+let objNoSubObj1 = {
   a: 3,
   b: 'Some string',
   c: true,
@@ -18,7 +18,7 @@ var objNoSubObj1 = {
   e: void(0)
 };
 
-var objNoSubObj2 = {
+let objNoSubObj2 = {
   a: 3,
   b: 'Some string',
   c: true,
@@ -26,7 +26,7 @@ var objNoSubObj2 = {
   e: void(0)
 };
 
-var objNoSubObj3 = {
+let objNoSubObj3 = {
   a: 4,
   b: 'Some string',
   c: true,
@@ -34,7 +34,7 @@ var objNoSubObj3 = {
   e: void(0)
 };
 
-var obj1 = {
+let obj1 = {
   a: 3,
   b: 'Some string',
   c: true,
@@ -49,7 +49,7 @@ var obj1 = {
   }
 };
 
-var obj2 = {
+let obj2 = {
   a: 3,
   b: 'Some string',
   c: true,
@@ -64,7 +64,7 @@ var obj2 = {
   }
 };
 
-var obj3 = {
+let obj3 = {
   a: 3,
   b: 'Some string',
   c: true,
@@ -79,7 +79,7 @@ var obj3 = {
   }
 };
 
-var res;
+let res;
 
 function checkGood(act, exp, msg) {
   res = a.valueDeep(act, exp, msg);

@@ -1,6 +1,6 @@
 'use strict';
-var path = require('path');
-var fs = require('fs');
+let path = require('path');
+let fs = require('fs');
 
 /* globals gT: true, gIn */
 
@@ -21,7 +21,7 @@ global.e = gT.e;
 // sa - script Actions.
 
 // for gT.e.initTiaExtJsBrHelpers
-var brHelpers = [
+let brHelpers = [
   'e-br.js',
   'e-br-search.js',
   'e-br-content.js',
@@ -60,7 +60,7 @@ gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
  */
 gT.e.setLocaleObject = function setLocaleObject(objExpression, logAction) {
   return gIn.wrap('setLocaleObject ... ', logAction, function () {
-    var scriptStr = `
+    let scriptStr = `
         tiaEJ.locale = ${objExpression};
         return tiaEJ.locale;
     `;

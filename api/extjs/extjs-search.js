@@ -1,6 +1,6 @@
 'use strict';
 
-var inspect = require('util').inspect;
+let inspect = require('util').inspect;
 
 exports.byIdCompQuery = function byIdCompQuery(id, compQuery, logAction) {
   id = idToIdObj(id);

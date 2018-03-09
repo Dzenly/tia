@@ -1,7 +1,7 @@
 'use strict';
 /* globals gT, gIn */
 
-var util = require('util');
+let util = require('util');
 
 exports.logTitle = function logTitle(logAction) {
   return gIn.wrap(`Log title of message box: `, logAction, function () {

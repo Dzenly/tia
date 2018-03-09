@@ -2,7 +2,7 @@
 
 t.setTitle('Tests for mergeOptions function');
 
-var src = {
+let src = {
   a: {
     b: 4,
     c: {
@@ -27,7 +27,7 @@ function def() {
   };
 }
 
-var dst1 = {
+let dst1 = {
   a: {
     b: 4,
     c: {
@@ -40,7 +40,7 @@ var dst1 = {
   }
 };
 
-var dst = gT.commonMiscUtils.mergeOptions(src, def);
+let dst = gT.commonMiscUtils.mergeOptions(src, def);
 a.valueDeep(dst, dst1, 'Src with non default values');
 
 dst = gT.commonMiscUtils.mergeOptions({}, def);
