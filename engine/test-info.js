@@ -1,53 +1,66 @@
 'use strict';
 
-/* globals gT: true */
+/* globals gT, gIn */
 
-let mPath = require('path');
+const mPath = require('path');
+
 exports.isPassCountingEnabled = true;
 exports.isPassPrintingEnabled = true;
 
+// TODO: Unclear logic.
 function formLogPart(str, count) {
   if (!count) {
     str = str.toLowerCase();
   }
-  str += ': ' + count;
+  str += `: ${count}`;
   return str;
 }
 
 /**
  * Forms the string for test statistics for tests and for directories.
- * @param curInfo - Directory info or Test info structure.
- * @param isDir
- * @param verbose
- * @param noTime
- * @param noTitle
- * @returns {string}
+ * @param parameters
+ * @param parameters.curInfo - Directory info or Test info structure.
+ * @param parameters.isDir
+ * @param parameters.verbose
+ * @param parameters.noTime
+ * @param parameters.noTitle
+ * @returns {String}
  */
-exports.testInfoToString = function testInfoToString(curInfo, isDir, verbose, noTime, noTitle) {
-  let path, title, diffed, failed, ediffed, skipped, passed, time;
+exports.testInfoToString = function testInfoToString(parameters) {
+  const {
+    curInfo, isDir, verbose, noTime, noTitle,
+  } = parameters;
+  let filePath;
+  let diffed;
+  let ediffed;
+  let skipped;
   if (isDir) {
-    path = '';
+    filePath = '';
     diffed = formLogPart('Dif', curInfo.diffed);
     ediffed = formLogPart('EDif', curInfo.expDiffed);
     skipped = formLogPart('Skip', curInfo.skipped);
   } else {
-    path = '';
-    diffed = curInfo.diffed ? 'DIF' : curInfo.expDiffed ? 'EDIF' : 'OK';
+    filePath = '';
+    if (curInfo.diffed) {
+      diffed = 'DIF';
+    } else if (curInfo.expDiffed) {
+      diffed = 'EDIF';
+    } else {
+      diffed = 'OK';
+    }
     ediffed = '';
     skipped = curInfo.skipped ? 'SKIP' : '';
   }
-  path += '"' + mPath.basename(curInfo.path) + '"';
-  title = noTitle ? '' : '"' + curInfo.title + '"';
-  passed = formLogPart('Pass', curInfo.passed);
-  failed = formLogPart('Fail', curInfo.failed);
-  time = noTime ? '' : curInfo.time.toFixed(2) + ' ms';
+  filePath += `"${mPath.basename(curInfo.path)}"`;
+  const title = noTitle ? '' : `"${curInfo.title}"`;
+  const passed = formLogPart('Pass', curInfo.passed);
+  const failed = formLogPart('Fail', curInfo.failed);
+  const time = noTime ? '' : `${curInfo.time.toFixed(2)} ms`;
 
-  let arr = verbose ? [path, diffed, failed, ediffed, skipped, passed, time, title] :
-    [path, diffed, failed];
+  const arr = verbose ? [filePath, diffed, failed, ediffed, skipped, passed, time, title] :
+    [filePath, diffed, failed];
 
-  let res = arr.filter(function (val) {
-      return val;
-    }).join(', ') + '\n'; // join only non-empty strings.
+  const res = `${arr.filter(val => val).join(', ')}\n`; // join only non-empty strings.
 
   return res;
 };
@@ -57,9 +70,9 @@ exports.testInfoToString = function testInfoToString(curInfo, isDir, verbose, no
  * @param isDir - true - directory, false - file.
  */
 exports.createTestInfo = function createTestInfo(isDir, title, path) {
-  let info = {
+  const info = {
     path: gIn.textUtils.winToUnixSep(path), // For uniform logging.
-    title: title,
+    title,
     handled: 0,
     passed: 0,
     failed: 0,
@@ -67,7 +80,8 @@ exports.createTestInfo = function createTestInfo(isDir, title, path) {
     expDiffed: 0, // expectedly diffed (e.g. for purpose of testing).
     time: 0, // Execution time in milliseconds.
     skipped: 0,
-    screenShotCounter: 0
+    screenShotCounter: 0,
+
     // TODO: To investigate the need for throws count.
   };
   if (isDir) {

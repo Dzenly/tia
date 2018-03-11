@@ -6,11 +6,13 @@
 // http://sambal.org/2014/02/passing-options-node-shebang-line/
 
 /* globals gIn: true, gT */
-const { inspect } = require('util');
-const tiaArgsUtils = require('utils/tia-arguments-utils.js');
-const nodeUtils = require('utils/nodejs-utils.js');
+const nodeUtils = require('../utils/nodejs-utils.js');
 
 nodeUtils.checkNodeJsVersion();
+
+const { inspect } = require('util');
+const tiaArgsUtils = require('../utils/tia-arguments-utils.js');
+const _ = require('lodash');
 
 require('../engine/init-global-objects.js');
 const helpUtils = require('../utils/help-utils.js');
@@ -128,7 +130,7 @@ if (args.debugMax) {
   }
 }
 
-const browser = args.browser;
+const { browser } = args;
 if (gT.browsers.indexOf(browser) === -1) {
   gIn.cLogger.errln(`Invalid browser: ${browser}`);
   gIn.cLogger.errln(`Supported browsers are: ${gT.browsers.join(', ')}`);
@@ -202,9 +204,9 @@ gIn.params.minPathSearchIndex = rootDir.length + 1; // Minimum index for path se
 
 if (args.requireModules) {
   const arr = args.requireModules.split(/\s*,\s*/);
-  for (const reqPath of arr) {
+  arr.forEach((reqPath) => {
     require(path.resolve(reqPath));
-  }
+  });
 }
 
 if (gIn.params.defHost) {

@@ -1,4 +1,5 @@
 'use strict';
+
 /* globals gT: true */
 /* globals gIn: true */
 
@@ -9,6 +10,7 @@ const path = require('path');
 
 global.Bluebird = require('bluebird');
 global._ = require('lodash');
+
 // Bluebird.cancellation = true;
 
 global.gT = {}; // Global object as namespace for objects which user (test writer) can use.

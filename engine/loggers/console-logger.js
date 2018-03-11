@@ -1,5 +1,6 @@
 'use strict';
-/* globals gIn: true */
+
+/* globals gT, gIn */
 
 let chalk;
 let isChalkEnabled = false; // Just to speed up checking boolean instead of Boolean(object).
@@ -29,22 +30,23 @@ function trackEOL(msg) {
 }
 
 /**
- * Writes msg to stdout as is.
- * @param msg
+ * Writes message to stdout as is.
+ * @param message
  */
-exports.msg = function msg(msg) {
-  process.stdout.write(msg);
-  trackEOL(msg);
+exports.msg = function msg(message) {
+  process.stdout.write(message);
+  trackEOL(message);
 };
 
 exports.msgln = function msgln(msg) {
-  exports.msg(msg + '\n');
+  exports.msg(`${msg}\n`);
 };
 
 exports.logResourcesUsage = function logResourcesUsage(prefix) {
   // if (gIn.config.resUsagePrintAtErrors) {
   prefix = prefix || '';
   exports.msgln(prefix + gT.nodeUtils.getResourcesUsage());
+
   // }
 };
 
@@ -55,16 +57,17 @@ exports.logResourcesUsage = function logResourcesUsage(prefix) {
  * @returns {*}
  */
 exports.chalkWrap = function chalkWrap(chalkProps, msg) {
+  let resMsg = msg;
   if (isChalkEnabled) {
     if (typeof chalkProps === 'string') {
-      msg = chalk[chalkProps](msg);
+      resMsg = chalk[chalkProps](resMsg);
     } else {
-      for (let prop of chalkProps) {
-        msg = chalk[prop](msg);
+      for (const prop of chalkProps) {
+        resMsg = chalk[prop](resMsg);
       }
     }
   }
-  return msg;
+  return resMsg;
 };
 
 /**
@@ -81,7 +84,7 @@ exports.msgDifStr = function msgDifStr(msg) {
  * @param msg
  */
 exports.msgDbg = function msgDbg(msg) {
-  process.stdout.write(exports.chalkWrap(['cyan', 'bold'], msg) + '\n');
+  process.stdout.write(`${exports.chalkWrap(['cyan', 'bold'], msg)}\n`);
   trackEOL(true);
 };
 
@@ -90,16 +93,17 @@ exports.msgDbg = function msgDbg(msg) {
  * @param msg
  */
 exports.err = function err(msg) {
+  let resMsg = msg;
   if (isChalkEnabled) {
-    msg = chalk.red(msg);
+    resMsg = chalk.red(resMsg);
   }
-  process.stdout.write(msg);
-  trackEOL(msg);
+  process.stdout.write(resMsg);
+  trackEOL(resMsg);
 };
 
 
 exports.errln = function errln(msg) {
-  exports.err(msg + '\n');
+  exports.err(`${msg}\n`);
 };
 
 // =====================================
@@ -127,30 +131,33 @@ exports.errIfEnabled = function errIfEnabled(msg) {
 };
 
 exports.passIfEnabled = function passIfEnabled(msg) {
+  let resMsg = msg;
   if (gIn.params.logToConsole) {
     if (isChalkEnabled) {
-      msg = chalk.green(msg);
+      resMsg = chalk.green(resMsg);
     }
-    exports.msg(gIn.loggerCfg.consoleLogPrefix + msg);
+    exports.msg(gIn.loggerCfg.consoleLogPrefix + resMsg);
   }
 };
 
 exports.failIfEnabled = function failIfEnabled(msg) {
+  let resMsg = msg;
   if (gIn.params.logToConsole) {
     if (isChalkEnabled) {
-      msg = chalk.red(msg);
+      resMsg = chalk.red(resMsg);
     }
-    exports.msg(gIn.loggerCfg.consoleLogPrefix + msg);
+    exports.msg(gIn.loggerCfg.consoleLogPrefix + resMsg);
   }
 };
 
 // =====================================
 
 exports.logBold = function logBold(msg) {
+  let resMsg = msg;
   if (gIn.params.logToConsole) {
     if (isChalkEnabled) {
-      msg = chalk.bold(msg);
+      resMsg = chalk.bold(resMsg);
     }
-    exports.msg(gIn.loggerCfg.consoleLogPrefix + msg);
+    exports.msg(gIn.loggerCfg.consoleLogPrefix + resMsg);
   }
 };

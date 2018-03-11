@@ -1,8 +1,0 @@
-=================
-Title: Checking config and suite-config work.
-OK: Dir config check: configDirDummyOption
-OK: Root dir config check: dummyExpectedRootDirConfigOption
-OK: Suite config Expected value check: dummyGoodSuitConfigOption
-OK: Suite config Unexpected value check: undefined
-=================
-Pass: 4, Fail: 0

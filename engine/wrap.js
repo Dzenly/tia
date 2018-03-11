@@ -1,10 +1,10 @@
 'use strict';
 
-const inspect = require('util').inspect;
+// const { inspect } = require('util');
 
-/* globals gIn: true */
+/* globals gIn, gT: true */
 
-/* globals gT: true */
+const Bluebird = require('bluebird');
 
 /**
  * Starts the timer to track action time.
@@ -63,7 +63,7 @@ async function pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
     await gT.s.browser.printSelBrowserLogs();
   }
 
-  await s.driver.printSelDriverLogs(900);
+  await gT.s.driver.printSelDriverLogs(900);
 }
 
 function handleErrAtErrorHandling(msg) {
@@ -120,14 +120,18 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
   gIn.errRecursionCount = 1; // To prevent recursive error report on error report.
   /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
   gIn.tracer.msg1('A.W.: Error report: printSelDriverLogs');
-  await s.driver.printSelDriverLogs(900).catch((err) => {
-    gIn.tracer.msg1(`Error at printSelDriverLogs at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`);
+  await gT.s.driver.printSelDriverLogs(900).catch((err) => {
+    gIn.tracer.msg1(
+      `Error at printSelDriverLogs at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`
+    );
   });
 
   if (!gIn.brHelpersInitiated) {
     gIn.tracer.msg1('A.W.: Error report: initTiaBrHelpers');
     await gT.s.browser.initTiaBrHelpers(true).catch((err) => {
-      gIn.tracer.msg1(`Error at initTiaBrHelpers at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`);
+      gIn.tracer.msg1(
+        `Error at initTiaBrHelpers at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`
+      );
     });
   }
 
@@ -164,12 +168,14 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
  * @returns {*} - Promise will be resolved to value or to exception.
  * @throws - Various errors.
  */
-module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
+module.exports = function wrap(parameters) {
+  const {
+    msg, logAction, act, noConsoleAndExceptions,
+  } = parameters;
   gIn.tracer.msg3(`Inside wrapper, before start timer,  msg: ${msg}`);
-  let startTime;
 
   gIn.logger.logIfNotDisabled(msg, logAction);
-  startTime = startTimer();
+  const startTime = startTimer();
   gIn.tracer.msg3(`Inside wrapper, after start timer, msg: ${msg}`);
 
   if (gIn.cancelThisTest) {
@@ -198,7 +204,7 @@ module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
           gIn.tracer.err('A.W.: Error at screenshot for hanged action.');
         });
       }
-      throw 'A.W.: Timeout expired, your action is considered as hanged.';
+      throw new Error('A.W.: Timeout expired, your action is considered as hanged.');
 
       // TODO: Try to cancel promise returned by act() ??.
     })

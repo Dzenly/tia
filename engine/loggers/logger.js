@@ -160,7 +160,7 @@ function saveDirInfo(dirInfo, indent, verbose, noTime) {
     return;
   }
   writeToSuiteLog(indent);
-  writeToSuiteLog(gIn.tInfo.testInfoToString(dirInfo, true, verbose, noTime), dirInfo.diffed);
+  writeToSuiteLog(gIn.tInfo.testInfoToString({curInfo: dirInfo, isDir: true, verbose: verbose, noTime: noTime}), dirInfo.diffed);
   indent = gIn.loggerCfg.indentation + indent;
   // If directory is empty there will be empty array.
   // Absense of 'children' property says that it is test and not directory, we should not allow to use this function for not directory.
@@ -172,7 +172,7 @@ function saveDirInfo(dirInfo, indent, verbose, noTime) {
         saveDirInfo(curInfo, indent, verbose, noTime);
       } else {
         writeToSuiteLog(indent);
-        writeToSuiteLog(gIn.tInfo.testInfoToString(curInfo, false, verbose, noTime), curInfo.diffed);
+        writeToSuiteLog(gIn.tInfo.testInfoToString({curInfo: curInfo, isDir: false, verbose: verbose, noTime: noTime}), curInfo.diffed);
         if (curInfo.diffed && gIn.params.diffsToMlog && !isVerbose) {
           let difPath = gIn.textUtils.jsToDif(curInfo.path);
           let dif = fs.readFileSync(difPath, gT.engineConsts.logEncoding);
@@ -212,7 +212,7 @@ exports.saveSuiteLog = function saveSuiteLog(dirInfo, log, noTime) {
   fs.writeSync(exports.fd, '\n', null, gT.engineConsts.logEncoding);
   saveSuiteLogPart(true, dirInfo, noTime);
   fs.closeSync(exports.fd);
-  return gIn.tInfo.testInfoToString(dirInfo, true, true, noTime, true);
+  return gIn.tInfo.testInfoToString({curInfo: dirInfo, isDir: true, verbose: true, noTime: noTime, noTitle: true});
 };
 
 /* Prints expected tests results to stdout and unexpected to stderr */

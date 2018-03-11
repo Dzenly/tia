@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const nodeUtils = require('../utils/nodejs-utils');
 const _ = require('lodash');
+const Bluebird = require('bluebird');
 
 function getOs() {
   const os = require('os');
@@ -207,9 +208,17 @@ async function runTestSuite(dir) {
   const subjTimeMark = dirInfo.time > gIn.params.tooLongTime ? ', TOO_LONG' : '';
 
   const changedDiffs = gIn.diffUtils.changedDiffs ? `(${gIn.diffUtils.changedDiffs} diff(s) changed)` : '';
-  let emailSubj = `${(noPrevMLog ? 'NO PREV' : (metaLogPrevDifResBool ? 'DIF FROM PREV' : (`AS PREV${changedDiffs}`))) +
-    subjTimeMark
-  }, ${gIn.logger.saveSuiteLog(dirInfo, log)}, ${getOs()}`;
+
+  let emailSubj;
+  if (noPrevMLog) {
+    emailSubj = 'NO PREV';
+  } else if (metaLogPrevDifResBool) {
+    emailSubj = 'DIF FROM PREV';
+  } else {
+    emailSubj = `AS PREV${changedDiffs}`;
+  }
+  emailSubj = `${emailSubj}${subjTimeMark},${gIn.logger.saveSuiteLog(dirInfo, log)}, ${getOs()}`;
+
   const emailSubjCons = etMlogInfoCons + emailSubj;
   emailSubj = etMlogInfo + emailSubj;
 

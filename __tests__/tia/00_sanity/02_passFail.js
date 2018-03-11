@@ -17,7 +17,13 @@ a.value(5, 5);
 a.value(lL.getPassed(), 6, 'Passed tests count');
 
 l.println('Freshly inited test info, real title, verbose:');
-l.println(gIn.tInfo.testInfoToString(gIn.tInfo.data, false, true, false, false));
+l.println(gIn.tInfo.testInfoToString({
+  curInfo: gIn.tInfo.data,
+  isDir: false,
+  verbose: true,
+  noTime: false,
+  noTitle: false
+}));
 
 lL.setFailed(0);
 a.value(lL.getFailed(), 0, 'After setFailed(0), failed tests count');
