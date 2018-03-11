@@ -12,6 +12,8 @@ suiteMetaDirName
 
 * Multiple threads.
 
+* Сделать, чтобы объекты, инжектированные в global.
+
 
 
  
