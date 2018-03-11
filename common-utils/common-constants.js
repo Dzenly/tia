@@ -1,4 +1,5 @@
-(function () {
+/* global window */
+(function injectCommonConstants() {
   'use strict';
 
   let container;
@@ -23,15 +24,14 @@
     rowBody: '  Row body: ',
     defEmptyCellText: '&#160;',
     qTipAttr: 'data-qtip',
-    getVisibility: function (cond) {
+    getVisibility(cond) {
       return cond ? this.visible : this.notVisible;
     },
-    wrap: function (str) {
+    wrap(str) {
       return this.contentStart + str + this.contentFinish;
     },
-    wrapEx: function (indent, str) {
+    wrapEx(indent, str) {
       return indent + this.contentStart + str + indent + this.contentFinish;
-    }
+    },
   };
-
-})();
+}());

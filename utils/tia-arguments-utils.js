@@ -1,5 +1,7 @@
 'use strict';
 
+/* global gIn */
+
 const path = require('path');
 
 /**

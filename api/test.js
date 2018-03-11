@@ -10,7 +10,7 @@
  * Sets the test title.
  * @param title
  */
-exports.setTitle = function (title) {
+exports.setTitle = function setTitle(title) {
   gIn.tInfo.data.title = title; // From global sandbox.
   gIn.logger.logln('=================');
   gIn.logger.logBold(`Title: ${title}\n`);

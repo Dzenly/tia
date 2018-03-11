@@ -1,13 +1,13 @@
 'use strict';
+
 /* globals gIn: true, gT */
 
 // TODO: Move to engine?
 
 const fs = require('fs');
 const path = require('path');
-const cp = require('child_process');
-
-const spawn = cp.spawn;
+const { spawn } = require('child_process');
+const Bluebird = require('bluebird');
 
 function getPidPath() {
   return path.join(gIn.params.testsParentDir, gT.engineConsts.remoteChromeDriverPid);
@@ -53,9 +53,7 @@ const ALREADY_STARTED = 'Remote driver is already started';
 const SHOULD_BE_ONLINE = 'Remote driver should be online';
 
 exports.start = function start1() {
-
-  return new Bluebird(function (resolve, reject) {
-
+  return new Bluebird(((resolve) => {
     gIn.tracer.msg3('Starting remote driver');
 
     const data = {
@@ -66,8 +64,7 @@ exports.start = function start1() {
     };
 
     try {
-
-      const child = cp.spawn(
+      const child = spawn(
         `${process.execPath}`,
         [`${__dirname}/remote-driver-utils-inner.js`],
         {
@@ -77,19 +74,16 @@ exports.start = function start1() {
 
       child.send(data);
 
-      child.on('message', function (msg) {
-
-        gIn.tracer.msg3('Message from child proc: ' + msg);
+      child.on('message', (msg) => {
+        gIn.tracer.msg3(`Message from child proc: ${msg}`);
         gIn.tracer.msg3(SHOULD_BE_ONLINE);
 
         resolve(SHOULD_BE_ONLINE);
       });
-
     } catch (e) {
       console.log(e);
     }
-
-  });
+  }));
 };
 
 // TODO: it is temporary. Fix it.
@@ -103,14 +97,13 @@ exports.startOld = function startOld() {
     return Bluebird.resolve(ALREADY_STARTED);
   }
 
-  return new Bluebird(function (resolve, reject) {
-
+  return new Bluebird(((resolve) => {
     // http://stackoverflow.com/questions/37427360/parent-process-kills-child-process-even-though-detached-is-set-to-true
     // https://github.com/nodejs/node/issues/7269#issuecomment-225698625
 
     const child = spawn(
       gIn.chromeDriverPath,
-      ['--port=' + gT.suiteConfig.remoteDriverPort],
+      [`--port=${gT.suiteConfig.remoteDriverPort}`],
       {
         detached: true,
         stdio: ['ignore', 'ignore', 'ignore'],
@@ -118,17 +111,19 @@ exports.startOld = function startOld() {
 
     savePid(child.pid);
 
-    setTimeout(function () {
+    setTimeout(() => {
       child.unref();
+
       // TODO: may be check remote chromedriver somehow ? instead o sleep.
       gIn.tracer.msg3(SHOULD_BE_ONLINE);
       resolve(SHOULD_BE_ONLINE);
     }, gT.engineConsts.remoteDriverStartDelay);
+
     // child.stdout.on('data', (data) => {
     //   gIn.tracer.trace2('Output from chromedriver: ' + data);
     // });
     // child.disconnect();
-  });
+  }));
 };
 
 /**

@@ -5,7 +5,8 @@
 module.exports = {
 
   // API - функции могут писать информацию о своем вызове в лог.
-  // По-умолчанию, low level функции пишут о своём вызове в лог, а high level функции пишут укороченную информацию,
+  // По-умолчанию, low level функции пишут о своём вызове в лог,
+  // а high level функции пишут укороченную информацию,
   // отключая логи для low level функций, составляющих high level функцию.
   // Многие low level функции принимают параметр logAction, который позволяет управлять логированием.
   // Если этот параметр не используется, используется дефолтное значение для разрешения логирования.
@@ -46,7 +47,8 @@ module.exports = {
   // пустая строка - дефолтный DISPLAY.
   DISPLAY: ':1.5',
 
-  // Путь к профайлу пользователя относительно gIn.params.profileRootPath (пока реализована поддержка только для Chrome).
+  // Путь к профайлу пользователя относительно gIn.params.profileRootPath
+  // (пока реализована поддержка только для Chrome).
   // Пустая строка - путь по умолчанию, он уничтожается при закрытии браузера,
   // а значит при закрытии браузера уничтожаются и все данные (сессии, куки, настройки, и т.д.).
   // Используйте очень осторожно, т.к. функции очистки профайла выполняют удаление директории на диске.
@@ -63,14 +65,15 @@ module.exports = {
   // Также, этот параметр можно перегружать через --def-host опцию.
   selHost: 'http://localhost:1338',
 
-  resUsagePrintAtErrors: true // Print resource usage at error. Makes sense to disable for tests for errors testing.
+  // Print resource usage at error. Makes sense to disable for tests for errors testing.
+  resUsagePrintAtErrors: true,
 
   // TODO ?:
-  //stopTestsIfThrow: false, // Can be overriden in tests for test engine.
-  //stopTestsIfFail: false, // Can be overriden in tests for test engine.
-  //stopTestsIfDiff: false, // Can be overriden in tests for test engine.
-  //logVerboseResults: true, // Show results for non-diffed *.js tests in metaLog.
-  //logSubItemIndent: ' ', // Indent for subsection or for *.js inside section.
+  // stopTestsIfThrow: false, // Can be overriden in tests for test engine.
+  // stopTestsIfFail: false, // Can be overriden in tests for test engine.
+  // stopTestsIfDiff: false, // Can be overriden in tests for test engine.
+  // logVerboseResults: true, // Show results for non-diffed *.js tests in metaLog.
+  // logSubItemIndent: ' ', // Indent for subsection or for *.js inside section.
   // If false - there will not be section with detailed results.
 };
 

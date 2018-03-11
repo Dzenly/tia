@@ -1,8 +1,8 @@
 'use strict';
 
-let child_process = require('child_process');
-let path = require('path');
-let fs = require('fs');
+const childProcess = require('child_process');
+const path = require('path');
+const fs = require('fs');
 
 /* globals gT: true */
 /* globals gIn: true */
@@ -12,7 +12,8 @@ exports.changedDiffs = 0;
 /**
  * Returns result of running external diff utility, i.e. stdout + stderr.
  * NOTE: this function requires external diff utility.
- * Both files must be ended by newline, otherwise there will be 'No newline at end of file' messages in resulting diff.
+ * Both files must be ended by newline, otherwise there will be 'No newline at end of file' messages
+ * in resulting diff.
  *
  * @param dir - working dir
  * @param oldFile - basename for file 1
@@ -20,7 +21,11 @@ exports.changedDiffs = 0;
  */
 exports.getDiff = function getDiff(dir, oldFile, newFile) {
   // TODO: check utf8 support.
-  let diffRes = child_process.spawnSync('diff', [oldFile, newFile], {cwd: dir, encoding: gT.engineConsts.logEncoding});
+  const diffRes = childProcess.spawnSync(
+    'diff',
+    [oldFile, newFile],
+    { cwd: dir, encoding: gT.engineConsts.logEncoding }
+  );
   return diffRes.stdout + diffRes.stderr;
 };
 
@@ -30,16 +35,17 @@ exports.getDiff = function getDiff(dir, oldFile, newFile) {
  * If diff is not empty it is placed to (*.diff) file.
  *
  * NOTE: this function requires external diff utility.
- * Both logs must be ended by newline, otherwise there will be 'No newline at end of file' messages in resulting diff.
+ * Both logs must be ended by newline, otherwise there will be 'No newline at end of file' messages
+ * in resulting diff.
  *
  * @param jsTest - path to js file, for which just created *.log to be diffed with *.eth.
  */
 exports.diff = function diff(jsTest) {
-  let dir = path.dirname(jsTest);
-  let base = path.basename(jsTest, '.js');
-  let out = exports.getDiff(dir, base + '.log', base + '.et');
-  let diffPath = path.join(dir, base + '.dif');
-  let diffed = out ? 1 : 0;
+  const dir = path.dirname(jsTest);
+  const base = path.basename(jsTest, '.js');
+  let out = exports.getDiff(dir, `${base}.log`, `${base}.et`);
+  const diffPath = path.join(dir, `${base}.dif`);
+  const diffed = out ? 1 : 0;
   if (!diffed) {
     gIn.fileUtils.safeUnlink(diffPath);
     return; // No gIn.tInfo.data changes. gIn.tInfo.data.diffed and gIn.tInfo.data.expDiffed are zeroes.
@@ -47,15 +53,16 @@ exports.diff = function diff(jsTest) {
 
   gIn.fileUtils.backupDif(diffPath);
 
-  fs.writeFileSync(diffPath, out, {encoding: gT.engineConsts.logEncoding});
+  fs.writeFileSync(diffPath, out, { encoding: gT.engineConsts.logEncoding });
+
   // let oldOut = out;
 
   // Check for expected diff.
-  out = exports.getDiff(dir, base + '.dif', base + '.edif');
+  out = exports.getDiff(dir, `${base}.dif`, `${base}.edif`);
   if (out) {
     // gIn.tracer.trace1(`${base} DIFF: \n ${oldOut}`);
     gIn.tInfo.data.diffed = 1;
-    out = exports.getDiff(dir, base + '.dif', base + '.dif.old');
+    out = exports.getDiff(dir, `${base}.dif`, `${base}.dif.old`);
     if (out) {
       exports.changedDiffs++;
     }
@@ -63,5 +70,5 @@ exports.diff = function diff(jsTest) {
     gIn.tInfo.data.expDiffed = 1;
   }
 
-  gIn.fileUtils.safeUnlink(diffPath + '.old');
+  gIn.fileUtils.safeUnlink(`${diffPath}.old`);
 };

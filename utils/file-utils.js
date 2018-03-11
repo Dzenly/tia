@@ -2,9 +2,9 @@
 
 const fs = require('fs');
 const path = require('path');
-const child_process = require('child_process');
+const childProcess = require('child_process');
 
-/* globals gT: true */
+/* globals gT, gIn */
 
 // TODO: сделать так, чтобы тесты работали под правами специально заведеного юзера.
 // У этого юзера будет доступ к тестовой директории только на чтение.
@@ -18,39 +18,39 @@ const child_process = require('child_process');
 /**
  * Checks that file or directory absent by statSync, without checking for catch reason (ENOENT or no).
  *
- * @param path
+ * @param fileOrDirPath
  * @returns {boolean}
  */
-exports.isAbsent = function isAbsent(path) {
+exports.isAbsent = function isAbsent(fileOrDirPath) {
   try {
-    fs.statSync(path);
+    fs.statSync(fileOrDirPath);
   } catch (e) {
     return true;
   }
   return false;
 };
 
-exports.safeUnlink = function safeUnlink(path) {
+exports.safeUnlink = function safeUnlink(fileOrDirPath) {
   try {
-    fs.unlinkSync(path);
+    fs.unlinkSync(fileOrDirPath);
   } catch (e) {
     // No handling intentionaly.
   }
 };
 
-exports.safeReadFile = function safeReadFile(path) {
+exports.safeReadFile = function safeReadFile(fileOrDirPath) {
   let res = '';
   try {
-    res = fs.readFileSync(path, gT.engineConsts.logEncoding);
+    res = fs.readFileSync(fileOrDirPath, gT.engineConsts.logEncoding);
   } catch (e) {
     // No handling intentionaly.
   }
   return res;
 };
 
-exports.backupDif = function backupDif(path) {
+exports.backupDif = function backupDif(fileOrDirPath) {
   try {
-    fs.renameSync(path, `${path}.old`);
+    fs.renameSync(fileOrDirPath, `${fileOrDirPath}.old`);
   } catch (e) {
     // No handling intentionaly.
   }
@@ -58,7 +58,7 @@ exports.backupDif = function backupDif(path) {
 
 exports.rmPngs = function rmPngs(jsPath) {
   try {
-    child_process.execSync(`rm ${gIn.textUtils.changeExt(jsPath, '*.png')}`, { stdio: [null, null, null] });
+    childProcess.execSync(`rm ${gIn.textUtils.changeExt(jsPath, '*.png')}`, { stdio: [null, null, null] });
   } catch (e) {
     // No handling intentionaly.
   }
@@ -109,12 +109,12 @@ exports.safeRename = function safeRename(oldPath, newPath) {
 };
 
 // Removes file, if exists.
-exports.createEmptyFileSync = function createEmptyFileSync(path) {
-  fs.closeSync(fs.openSync(path, 'w'));
+exports.createEmptyFileSync = function createEmptyFileSync(fileOrDirPath) {
+  fs.closeSync(fs.openSync(fileOrDirPath, 'w'));
 };
 
-exports.createEmptyLog = function createEmptyLog(path) {
-  gIn.logger.logFile = gIn.textUtils.jsToLog(path);
+exports.createEmptyLog = function createEmptyLog(fileOrDirPath) {
+  gIn.logger.logFile = gIn.textUtils.jsToLog(fileOrDirPath);
   exports.createEmptyFileSync(gIn.logger.logFile);
 };
 
@@ -138,8 +138,8 @@ function collectArcPaths(dirInfo, arcPaths) {
 
   // Absense of 'children' property says that it is test and not directory,
   // we should not allow to use this function for not directory.
-  for (const curInfo of dirInfo.children) {
-    if (curInfo.hasOwnProperty('children')) {
+  for (const curInfo of dirInfo.children) { // eslint-disable-line no-restricted-syntax
+    if (Object.prototype.hasOwnProperty.call(curInfo, 'children')) {
       collectArcPaths(curInfo, arcPaths);
     } else if (curInfo.diffed) {
       arcPaths.push(gIn.textUtils.changeExt(curInfo.path, ''));
@@ -156,7 +156,10 @@ exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
   if (!gT.suiteConfig.attachOnlyDiffs) {
     // TODO: can throw, is this ok?
     try {
-      child_process.execSync(`cd ${gIn.params.rootDir} && zip -r ${arcName} ` + '*', { stdio: [null, null, null] });
+      childProcess.execSync(
+        `cd ${gIn.params.rootDir} && zip -r ${arcName} *`,
+        { stdio: [null, null, null] }
+      );
     } catch (e) {
       gIn.tracer.err(`zip stderr: ${e.stderr.toString()}`);
       gIn.tracer.err(`zip stdout: ${e.stdout.toString()}`);
@@ -180,7 +183,10 @@ exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
   });
 
   try {
-    child_process.execSync(`cd ${gIn.params.rootDir} && zip ${arcName} ${arr.join(' ')}`, { stdio: [null, null, null] });
+    childProcess.execSync(
+      `cd ${gIn.params.rootDir} && zip ${arcName} ${arr.join(' ')}`,
+      { stdio: [null, null, null] }
+    );
   } catch (e) {
     gIn.tracer.err(`zip stderr: ${e.stderr.toString()}`);
     gIn.tracer.err(`zip stdout: ${e.stdout.toString()}`);

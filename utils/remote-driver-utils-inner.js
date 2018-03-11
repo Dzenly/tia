@@ -4,18 +4,17 @@
 // when stops debugging.
 
 const fs = require('fs');
-const spawn = require('child_process').spawn;
+const { spawn } = require('child_process');
 
 const errorReportFilePath = '/home/alexey/projects/work/tia-tests/fname';
 
-process.on('message', function (data) {
-
+process.on('message', (data) => {
   let child;
 
   try {
     child = spawn(
       data.chromeDriverPath,
-      ['--port=' + data.port],
+      [`--port=${data.port}`],
       {
         detached: true,
         stdio: ['ignore', 'ignore', 'ignore'],
@@ -23,19 +22,18 @@ process.on('message', function (data) {
 
     // Save the pid.
     fs.writeFileSync(data.pidPath, child.pid, 'utf8');
-
   } catch (err) {
-    fs.appendFileSync(errorReportFilePath, err + '\n', 'utf8');
+    fs.appendFileSync(errorReportFilePath, `${err}\n`, 'utf8');
   }
 
-  setTimeout(function () {
+  setTimeout(() => {
     try {
       child.unref();
       process.send('chromedriver started');
       process.disconnect();
       process.exit(0);
     } catch (err) {
-      fs.appendFileSync(errorReportFilePath, err + '\n', 'utf8');
+      fs.appendFileSync(errorReportFilePath, `${err}\n`, 'utf8');
     }
   }, data.waitAfterStart);
 });

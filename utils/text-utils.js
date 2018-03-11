@@ -1,16 +1,16 @@
 'use strict';
 
-/* globals gT: true */
+/* globals gIn */
 
 exports.removeSelSid = function removeSelSid(str) {
-  let re = /\?_dc=\d+/g;
+  const re = /\?_dc=\d+/g;
   return str.replace(re, '');
 };
 
 exports.filterStack = function filterStack(strStack) {
-  let stArr = strStack.split('\n');
-  let newArr = stArr.filter(function (el, index, arr) {
-    let startingFrom = el.indexOf('/tia/');
+  const stArr = strStack.split('\n');
+  const newArr = stArr.filter((el) => {
+    const startingFrom = el.indexOf('/tia/');
     return el.indexOf('node_modules', startingFrom) === -1;
   });
   return newArr.join('\n');
@@ -20,10 +20,10 @@ exports.excToStr = function excToStr(err, noStack) {
   if (typeof err === 'undefined') {
     return '\nNo Exception info\n';
   }
-  let errStr = err.toString();//(typeof err.message === 'undefined') ? err : err.message;
-  if (/*gIn.params.stackToLog || */!noStack) {
+  let errStr = err.toString();// (typeof err.message === 'undefined') ? err : err.message;
+  if (/* gIn.params.stackToLog || */!noStack) {
     if (typeof err.stack !== 'undefined') {
-      errStr += '\n' + exports.filterStack(err.stack);
+      errStr += `\n${exports.filterStack(err.stack)}`;
     } else {
       errStr += '\n No stack trace\n';
     }
@@ -60,19 +60,19 @@ exports.collapseHost = function collapseHost(str) {
   return str.replace(gIn.config.selHost, '$(host)');
 };
 
-//function escapeRegExp(string) {
-//	return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-//}
+// function escapeRegExp(string) {
+//   return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+// }
 //
-//exports.prepareHostRE = function(){
-//	let str = escapeRegExp(gIn.config.selHost);
-//	exports.hostRe = new RegExp(str, g);
-//};
+// exports.prepareHostRE = function(){
+//  let str = escapeRegExp(gIn.config.selHost);
+//  exports.hostRe = new RegExp(str, g);
+// };
 
-//// Multi-line version.
-//exports.collapseHostML = function(str){
-//	// TODO: optimize, this function should be called only if gIn.config.selHost is changed.
-//	// For now there are not even such use cases.
-//	exports.prepareHostRE();
-//	return str.replace(exports.hostRe, '$(host)');
-//};
+//  // Multi-line version.
+// exports.collapseHostML = function(str){
+//  // TODO: optimize, this function should be called only if gIn.config.selHost is changed.
+//  // For now there are not even such use cases.
+//  exports.prepareHostRE();
+//  return str.replace(exports.hostRe, '$(host)');
+//  };

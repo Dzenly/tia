@@ -9,7 +9,8 @@ module.exports = {
   // The project can contain many test suites.
   suiteDirName: '__tests__',
 
-  // Name for directory that keeps the suite meta information. Suite etalog log. Current suite logs in various formats.
+  // Name for directory that keeps the suite meta information. Suite etalog log.
+  // Current suite logs in various formats.
   // The project root is also contains such directory. If project root contains '__tests__' directory,
   // then '__tia__' directory contains both suite and project level meta info.
   suiteMetaDirName: '__tia__',
@@ -73,7 +74,8 @@ module.exports = {
 
   // milliseconds for waiting of ajax requests after clicks.
   // This is actual for lazy loading some stuff at clicking.
-  ajaxTimeoutAfterClick: 15000, // TODO: increase after good debugging. For now low value is needed to detect unstable parts.
+  // TODO: increase after good debugging. For now low value is needed to detect unstable parts.
+  ajaxTimeoutAfterClick: 15000,
 
   elGetTextFail: 'ElGetTextFail', // The error message for getText fail for Web Element.
 

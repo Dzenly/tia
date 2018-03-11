@@ -4,32 +4,31 @@
 
 /* globals gIn: true */
 
+const Bluebird = require('bluebird');
+
 /**
  * Safely runs generator.
  * All exceptions are catched and logged.
  *
  * @param gen
  */
-function* safeGen(gen) {
-  try {
-    yield* gen();
-  } catch (e) {
-    if (gIn.params.errToConsole) {
-      gIn.tracer.err('Safe Generator caught error: ' + gIn.textUtils.excToStr(e));
-    }
-    gT.l.println('Safe Generator caught error: ' + gIn.textUtils.excToStr(e));
-  }
-}
+// function* safeGen(gen) {
+//   try {
+//     yield* gen();
+//   } catch (e) {
+//     if (gIn.params.errToConsole) {
+//       gIn.tracer.err(`Safe Generator caught error: ${gIn.textUtils.excToStr(e)}`);
+//     }
+//     gT.l.println(`Safe Generator caught error: ${gIn.textUtils.excToStr(e)}`);
+//   }
+// }
 
 // Return promise from generator is not supported, i.e. will not be waited.
-gT.u.iterate = function (iterator) {
-
-  return new Bluebird(function (resolve, reject) {
-
+gT.u.iterate = function iterate1(iterator) {
+  return new Bluebird(((resolve, reject) => {
     let obj;
 
     function iterate(ret) {
-
       obj = iterator.next(ret);
 
       // TODO: check if obj.value is Promise. Improve test for generators.
@@ -40,32 +39,31 @@ gT.u.iterate = function (iterator) {
 
       if (gT.nodeUtils.isPromise(obj.value)) {
         obj.value
-          .then(function (res) {
+          .then((res) => {
             iterate(res);
           })
-          .catch(function (err) {
-            gIn.tracer.err('Iterate error: ' + err);
+          .catch((err) => {
+            gIn.tracer.err(`Iterate error: ${err}`);
             reject(err);
           });
       } else {
-        setTimeout(function () {
+        setTimeout(() => {
           iterate(obj.value);
         }, 0);
-
       }
     }
 
     iterate();
-  });
+  }));
 };
 
-gT.u.execGenSafe = function (gen, param1, param2) {
+gT.u.execGenSafe = function execGenSafe(gen, param1, param2) {
   return gT.u.iterate(gen(param1, param2))
-    .catch(function (e) {
+    .catch((e) => {
       if (gIn.params.errToConsole) {
-        gIn.tracer.err('Safe Generator caught error: ' + gIn.textUtils.excToStr(e));
+        gIn.tracer.err(`Safe Generator caught error: ${gIn.textUtils.excToStr(e)}`);
       }
-      gT.l.println('Safe Generator caught error: ' + gIn.textUtils.excToStr(e));
+      gT.l.println(`Safe Generator caught error: ${gIn.textUtils.excToStr(e)}`);
     });
 };
 
@@ -81,7 +79,7 @@ gT.u.execGen = function execGen(gen, param1, param2) {
 };
 
 gT.u.setHangTimeout = function setHangTimeout(newTimeout) {
-  let oldTimeout = gIn.params.hangTimeout;
+  const oldTimeout = gIn.params.hangTimeout;
   gIn.params.hangTimeout = newTimeout;
   return oldTimeout;
 };

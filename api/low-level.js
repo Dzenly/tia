@@ -1,6 +1,6 @@
 'use strict';
 
-/* globals gT: true */
+/* globals gIn: true */
 
 /*
  Low level utilities for tests.

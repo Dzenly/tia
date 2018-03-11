@@ -9,8 +9,8 @@
 
 let isVerbose;
 
-let fs = require('fs');
-let nodeUtils = require('../../utils/nodejs-utils.js');
+const fs = require('fs');
+const nodeUtils = require('../../utils/nodejs-utils.js');
 
 // Must be called only before handleDir for root test directory, like engine, app, etc..
 // TODO: what it is ?
@@ -20,12 +20,12 @@ let nodeUtils = require('../../utils/nodejs-utils.js');
 
 function logToFile(msg) {
   // TODO: check how diff work for unicode.
-  fs.appendFileSync(exports.logFile, msg, {encoding: gT.engineConsts.logEncoding});
+  fs.appendFileSync(exports.logFile, msg, { encoding: gT.engineConsts.logEncoding });
 }
 
-function logToFileLn(msg) {
-  return logToFile(msg + '\n');
-}
+// function logToFileLn(msg) {
+//   return logToFile(`${msg}\n`);
+// }
 
 /**
  * Logs to file and writes to console (if console output is enabled).
@@ -41,12 +41,11 @@ exports.log = function log(msg, dontWriteToFile) {
 };
 
 exports.logln = function logln(msg) {
-  exports.log(msg + '\n');
+  exports.log(`${msg}\n`);
 };
 
-exports.logResourcesUsage = function logResourcesUsage(prefix) {
+exports.logResourcesUsage = function logResourcesUsage(prefix = '') {
   if (gIn.config.resUsagePrintAtErrors) {
-    prefix = prefix || '';
     exports.logln(prefix + nodeUtils.getResourcesUsage());
   }
 };
@@ -71,13 +70,13 @@ exports.pass = function pass(msg) {
  * @param msg
  */
 exports.error = function error(msg) {
-  msg = gIn.loggerCfg.errPrefix + msg;
-  gIn.cLogger.errIfEnabled(msg);
-  logToFile(msg);
+  const msgNew = gIn.loggerCfg.errPrefix + msg;
+  gIn.cLogger.errIfEnabled(msgNew);
+  logToFile(msgNew);
 };
 
 exports.errorln = function errorln(msg) {
-  return exports.error(msg + '\n');
+  return exports.error(`${msg}\n`);
 };
 
 /**
@@ -86,9 +85,9 @@ exports.errorln = function errorln(msg) {
  * @param e
  */
 exports.exception = function exception(msg, e) {
-  msg = gIn.loggerCfg.excPrefix + msg;
-  gIn.cLogger.errIfEnabled(msg + ' ' + gIn.textUtils.excToStr(e) + '\n');
-  logToFile(msg + ' ' + gIn.textUtils.excToStr(e, !Boolean(gIn.params.stackToLog)) + '\n');
+  const msgNew = gIn.loggerCfg.excPrefix + msg;
+  gIn.cLogger.errIfEnabled(`${msgNew} ${gIn.textUtils.excToStr(e)}\n`);
+  logToFile(`${msgNew} ${gIn.textUtils.excToStr(e, !gIn.params.stackToLog)}\n`);
 };
 
 /**
@@ -112,10 +111,7 @@ exports.logIfEnabled = function logIfEnabled(msg, enable) {
  * @param {Boolean} [enable = gIn.loggerCfg.defLLLogAction] - If false - log is disabled,
  * otherwise - log is enabled.
  */
-exports.logIfNotDisabled = function logIfNotDisabled(msg, enable) {
-  if (typeof enable === 'undefined') {
-    enable = gIn.loggerCfg.defLLLogAction;
-  }
+exports.logIfNotDisabled = function logIfNotDisabled(msg, enable = gIn.loggerCfg.defLLLogAction) {
   let dontWriteToFile = false;
   if (!enable && gIn.params.forceLogActions) {
     dontWriteToFile = true;
@@ -125,7 +121,7 @@ exports.logIfNotDisabled = function logIfNotDisabled(msg, enable) {
   }
 };
 
-function writeStrToFile(str, diffed, isDif) {
+function writeStrToFile(str/* , diffed, isDif*/) {
   fs.writeSync(exports.fd, str, null, gT.engineConsts.logEncoding);
 }
 
@@ -134,12 +130,10 @@ function writeStrToStdout(str, diffed, isDif) {
   // str += '\n';
   if (diffed) {
     gIn.cLogger.err(str);
+  } else if (isDif) {
+    gIn.cLogger.msgDifStr(str);
   } else {
-    if (isDif) {
-      gIn.cLogger.msgDifStr(str);
-    } else {
-      gIn.cLogger.msg(str);
-    }
+    gIn.cLogger.msg(str);
   }
 }
 
@@ -151,38 +145,48 @@ function writeToSuiteLog(str, diffed, isDif) {
 
 exports.testSummary = function testSummary() {
   exports.log('=================\n');
-  exports.log('Pass: ' + gIn.tInfo.data.passed + ', Fail: ' + gIn.tInfo.data.failed + '\n');
+  exports.log(`Pass: ${gIn.tInfo.data.passed}, Fail: ${gIn.tInfo.data.failed}\n`);
 };
 
-function saveDirInfo(dirInfo, indent, verbose, noTime) {
-  gIn.tracer.msg3(dirInfo.path + ', dirInfo.handled: ' + dirInfo.handled);
+function saveDirInfo(parameters) {
+  let { indent } = parameters;
+  const { dirInfo, verbose, noTime } = parameters;
+  gIn.tracer.msg3(`${dirInfo.path}, dirInfo.handled: ${dirInfo.handled}`);
   if (!dirInfo.handled && !gT.suiteConfig.emptyDirToSuiteLog) {
     return;
   }
   writeToSuiteLog(indent);
-  writeToSuiteLog(gIn.tInfo.testInfoToString({curInfo: dirInfo, isDir: true, verbose: verbose, noTime: noTime}), dirInfo.diffed);
+  writeToSuiteLog(gIn.tInfo.testInfoToString({
+    curInfo: dirInfo, isDir: true, verbose, noTime,
+  }), dirInfo.diffed);
   indent = gIn.loggerCfg.indentation + indent;
+
   // If directory is empty there will be empty array.
-  // Absense of 'children' property says that it is test and not directory, we should not allow to use this function for not directory.
-  let len = dirInfo.children.length;
+  // Absense of 'children' property says that it is test and not directory,
+  // we should not allow to use this function for not directory.
+  const len = dirInfo.children.length;
   for (let i = 0; i < len; i++) {
-    let curInfo = dirInfo.children[i];
+    const curInfo = dirInfo.children[i];
     if (curInfo.diffed || verbose) {
-      if (curInfo.hasOwnProperty('children')) {
-        saveDirInfo(curInfo, indent, verbose, noTime);
+      if (Object.prototype.hasOwnProperty.call(curInfo, 'children')) {
+        saveDirInfo({
+          dirInfo: curInfo, indent, verbose, noTime,
+        });
       } else {
         writeToSuiteLog(indent);
-        writeToSuiteLog(gIn.tInfo.testInfoToString({curInfo: curInfo, isDir: false, verbose: verbose, noTime: noTime}), curInfo.diffed);
+        writeToSuiteLog(gIn.tInfo.testInfoToString({
+          curInfo, isDir: false, verbose, noTime,
+        }), curInfo.diffed);
         if (curInfo.diffed && gIn.params.diffsToMlog && !isVerbose) {
-          let difPath = gIn.textUtils.jsToDif(curInfo.path);
-          let dif = fs.readFileSync(difPath, gT.engineConsts.logEncoding);
-          writeToSuiteLog(indent + '============== DIF ============== \n');
-          let diffStrs = dif.split('\n');
-          for (let str of diffStrs) {
+          const difPath = gIn.textUtils.jsToDif(curInfo.path);
+          const dif = fs.readFileSync(difPath, gT.engineConsts.logEncoding);
+          writeToSuiteLog(`${indent}============== DIF ============== \n`);
+          const diffStrs = dif.split('\n');
+          diffStrs.forEach((str) => {
             writeToSuiteLog(indent);
-            writeToSuiteLog(str + '\n', false, true);
-          }
-          writeToSuiteLog(indent + '========== END OF DIF  ========== \n');
+            writeToSuiteLog(`${str}\n`, false, true);
+          });
+          writeToSuiteLog(`${indent}========== END OF DIF  ========== \n`);
         }
       }
     }
@@ -191,11 +195,13 @@ function saveDirInfo(dirInfo, indent, verbose, noTime) {
 
 function saveSuiteLogPart(verbose, dirInfo, noTime) {
   isVerbose = verbose;
-  let title = verbose ? 'Verbose' : 'Short';
-  let decor = '====================';
-  writeToSuiteLog(decor + '    ' + title + ' Log BEGIN:    ' + decor + '\n');
-  saveDirInfo(dirInfo, '', verbose, noTime);
-  writeToSuiteLog(decor + '    ' + title + ' Log END.    ' + decor + '\n');
+  const title = verbose ? 'Verbose' : 'Short';
+  const decor = '====================';
+  writeToSuiteLog(`${decor}    ${title} Log BEGIN:    ${decor}\n`);
+  saveDirInfo({
+    dirInfo, indent: '', verbose, noTime,
+  });
+  writeToSuiteLog(`${decor}    ${title} Log END.    ${decor}\n`);
 }
 
 /**
@@ -212,7 +218,9 @@ exports.saveSuiteLog = function saveSuiteLog(dirInfo, log, noTime) {
   fs.writeSync(exports.fd, '\n', null, gT.engineConsts.logEncoding);
   saveSuiteLogPart(true, dirInfo, noTime);
   fs.closeSync(exports.fd);
-  return gIn.tInfo.testInfoToString({curInfo: dirInfo, isDir: true, verbose: true, noTime: noTime, noTitle: true});
+  return gIn.tInfo.testInfoToString({
+    curInfo: dirInfo, isDir: true, verbose: true, noTime, noTitle: true,
+  });
 };
 
 /* Prints expected tests results to stdout and unexpected to stderr */
@@ -221,6 +229,7 @@ exports.printSuiteLog = function printSuiteLog(dirInfo) {
   saveSuiteLogPart(false, dirInfo, false);
   writeToSuiteLog('\n');
   saveSuiteLogPart(true, dirInfo, false);
+
   // saveDirInfo(dirInfo, '', false, false);
   // saveDirInfo(dirInfo, '', true, false);
 };

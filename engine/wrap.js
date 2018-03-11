@@ -120,15 +120,16 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
   gIn.errRecursionCount = 1; // To prevent recursive error report on error report.
   /* Here we use selenium GUI stuff when there was gT.s.driver.init call  */
   gIn.tracer.msg1('A.W.: Error report: printSelDriverLogs');
-  await gT.s.driver.printSelDriverLogs(900).catch((err) => {
-    gIn.tracer.msg1(
-      `Error at printSelDriverLogs at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`
-    );
-  });
+  await gT.s.driver.printSelDriverLogs(900)
+    .catch(() => {
+      gIn.tracer.msg1(
+        `Error at printSelDriverLogs at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`
+      );
+    });
 
   if (!gIn.brHelpersInitiated) {
     gIn.tracer.msg1('A.W.: Error report: initTiaBrHelpers');
-    await gT.s.browser.initTiaBrHelpers(true).catch((err) => {
+    await gT.s.browser.initTiaBrHelpers(true).catch(() => {
       gIn.tracer.msg1(
         `Error at initTiaBrHelpers at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`
       );
@@ -136,17 +137,17 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
   }
 
   gIn.tracer.msg1('A.W.: Error report: printCaughtExceptions');
-  await gT.s.browser.printCaughtExceptions(true).catch((err) => {
+  await gT.s.browser.printCaughtExceptions(true).catch(() => {
     gIn.tracer.msg1(`Error at logExceptions at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`);
   });
 
   gIn.tracer.msg1('A.W.: Error report: printSelBrowserLogs');
-  await gT.s.browser.printSelBrowserLogs().catch((err) => {
+  await gT.s.browser.printSelBrowserLogs().catch(() => {
     gIn.tracer.msg1(`Error at logConsoleContent at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`);
   });
 
   gIn.tracer.msg1('A.W.: Error report: screenshot');
-  await gT.s.browser.screenshot().catch((err) => {
+  await gT.s.browser.screenshot().catch(() => {
     gIn.tracer.msg1(`Error at screenshot at error handling, driver exists: ${Boolean(gT.sOrig.driver)}`);
   });
 
@@ -195,12 +196,12 @@ module.exports = function wrap(parameters) {
   return Bluebird
     .try(act)
     .timeout(gIn.params.hangTimeout)
-    .catch(Bluebird.TimeoutError, (err) => {
+    .catch(Bluebird.TimeoutError, () => {
       gIn.logger.errorln('A.W.: Hanged action detected');
       if (!gIn.screenShotScheduled) {
         gIn.screenShotScheduled = true;
         gIn.tracer.msg1('A.W.: Getting a screenshot for hanged action.');
-        return gT.s.browser.screenshot().catch((err) => {
+        return gT.s.browser.screenshot().catch(() => {
           gIn.tracer.err('A.W.: Error at screenshot for hanged action.');
         });
       }

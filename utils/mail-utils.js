@@ -1,8 +1,10 @@
 'use strict';
+
 /* globals gIn: true */
 
-let nodemailer = require('nodemailer');
-let smtpTransport = require('nodemailer-smtp-transport');
+const nodemailer = require('nodemailer');
+const smtpTransport = require('nodemailer-smtp-transport');
+const Bluebird = require('bluebird');
 
 /* globals gT: true */
 
@@ -16,32 +18,34 @@ function getSmtpTransporter() {
       // service: 'tia',
       host: gT.suiteConfig.mailSmtpHost,
       secure: true,
-      //secure : false,
-      //port: 25,
+
+      // secure : false,
+      // port: 25,
       auth: {
         user: gT.suiteConfig.mailUser,
-        pass: gT.suiteConfig.mailPassword
-      }
-      //, tls: {
+        pass: gT.suiteConfig.mailPassword,
+      },
+
+      // , tls: {
       //  rejectUnauthorized: false
-      //}
+      // }
     })
   );
 }
 
 // All text fields (e-mail addresses, plaintext body, html body) use UTF-8 as the encoding.
 // Attachments are streamed as binary.
-let mailOptions = {
+const mailOptions = {
   // from: '',
   // to: '', // list of receivers
   // subject: '',
   text: '', // plaintext body
-  //html: '', // html body
-  //attachments: [{
+  // html: '', // html body
+  // attachments: [{
   //  // can be URL, i.e. we can save our logs history and access it by http.
   //  path: '', // filename derived from path.
   //  contentType: 'text/plain' // by default derive from path.
-  //}]
+  // }]
 };
 
 /**
@@ -67,38 +71,38 @@ exports.send = function send(subj, txtAttachments, zipAttachments) {
   }
 
   mailOptions.to = gT.suiteConfig.mailRecipientList;
-  mailOptions.attachments = txtAttachments.filter(val => Boolean(val)).map(val => ({path: val, contentType: 'text/plain'}));
+  mailOptions.attachments = txtAttachments
+    .filter(val => Boolean(val)).map(val => ({ path: val, contentType: 'text/plain' }));
 
-  /*{path: gT.engineConsts.gitPullLog}, */
+  /* {path: gT.engineConsts.gitPullLog}, */
 
   if (zipAttachments) {
     mailOptions.attachments = mailOptions.attachments.concat(
-      zipAttachments.filter(val => Boolean(val)).map(val => ({path: val, contentType: 'application/zip'}))
+      zipAttachments.filter(val => Boolean(val)).map(val => ({ path: val, contentType: 'application/zip' }))
     );
   }
 
-  return new Bluebird(function (resolve, reject) {
-
+  return new Bluebird(((resolve, reject) => {
     let attemptCounter = gT.engineConsts.mailAttemptsCount;
 
     function sendMail() {
-      getSmtpTransporter().sendMail(mailOptions, function (err, info) {
+      getSmtpTransporter().sendMail(mailOptions, (err, info) => {
         if (err) {
-          gIn.tracer.err('sendMail ERR: ' + err);
+          gIn.tracer.err(`sendMail ERR: ${err}`);
           if (attemptCounter) {
             attemptCounter--;
-            gIn.tracer.msg1('sendMail: retry, attemptCounter' + attemptCounter);
-            setTimeout(sendMail, gT.engineConsts.mailWaitTimeout * 1000)
+            gIn.tracer.msg1(`sendMail: retry, attemptCounter${attemptCounter}`);
+            setTimeout(sendMail, gT.engineConsts.mailWaitTimeout * 1000);
           } else {
             gIn.tracer.err('sendMail ERR: no more attempts');
             reject(err);
           }
         } else {
-          gIn.tracer.msg3('sendMail Info: ' + info);
+          gIn.tracer.msg3(`sendMail Info: ${info}`);
           resolve(info);
         }
       });
     }
     sendMail();
-  });
+  }));
 };

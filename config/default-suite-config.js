@@ -30,10 +30,13 @@ module.exports = {
 
   // Кому рассылать результаты. Список мейлов через запятую.
   mailRecipientList: '',
+
   // smtp host, e.g. smtp.yandex.ru
   mailSmtpHost: '',
+
   // user to send mail on behalf of.
   mailUser: '',
+
   // password of the user to send mail on behalf of.
-  mailPassword: ''
+  mailPassword: '',
 };

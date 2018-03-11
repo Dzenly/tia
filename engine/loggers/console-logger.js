@@ -42,9 +42,8 @@ exports.msgln = function msgln(msg) {
   exports.msg(`${msg}\n`);
 };
 
-exports.logResourcesUsage = function logResourcesUsage(prefix) {
+exports.logResourcesUsage = function logResourcesUsage(prefix = '') {
   // if (gIn.config.resUsagePrintAtErrors) {
-  prefix = prefix || '';
   exports.msgln(prefix + gT.nodeUtils.getResourcesUsage());
 
   // }
@@ -62,9 +61,9 @@ exports.chalkWrap = function chalkWrap(chalkProps, msg) {
     if (typeof chalkProps === 'string') {
       resMsg = chalk[chalkProps](resMsg);
     } else {
-      for (const prop of chalkProps) {
+      chalkProps.forEach((prop) => {
         resMsg = chalk[prop](resMsg);
-      }
+      });
     }
   }
   return resMsg;

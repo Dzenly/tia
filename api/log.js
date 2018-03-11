@@ -3,9 +3,11 @@
 /* globals gIn: true */
 
 const ok = 'OK: ';
-const okLn = `${ok}\n`;
+
+// const okLn = `${ok}\n`;
 const FAIL = 'FAIL: ';
-const failLn = `${FAIL}\n`;
+
+// const failLn = `${FAIL}\n`;
 
 /**
  * Logs the specifiied msg.
@@ -55,8 +57,7 @@ exports.fail = function fail(msg) {
  * @param {Boolean} [mode.passSilently] - do not show message.
  * @param {Boolean} [mode.noPassIncrement] - do not increment pass counter.
  */
-exports.pass = function pass(msg, mode) {
-  mode = mode || { passSilently: false, noPassIncrement: false };
+exports.pass = function pass(msg, mode = { passSilently: false, noPassIncrement: false }) {
   if (typeof msg !== 'undefined' && !mode.passSilently) {
     if (gIn.tInfo.isPassPrintingEnabled) {
       gIn.logger.pass(`${ok + msg}\n`);

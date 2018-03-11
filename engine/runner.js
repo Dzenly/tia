@@ -118,7 +118,7 @@ async function handleTestDir(dir, prevDirConfig) {
   const dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
   const startTime = gT.timeUtils.startTimer();
 
-  for (const fileOrDir of files) {
+  for (const fileOrDir of files) { // eslint-disable-line no-restricted-syntax
     const fileOrDirPath = path.join(dir, fileOrDir);
     let stat;
     try {
@@ -255,25 +255,24 @@ module.exports = function runner(suiteRoot) {
 
   if (gIn.params.stopRemoteDriver) {
     gIn.remoteDriverUtils.stop();
-    return 'Just removing of remove driver';
+    return 'Just removing of remote driver';
   }
 
-  let result = Bluebird.resolve(true);
-
-  if (gIn.params.useRemoteDriver) {
-    result = result.then(() => gIn.remoteDriverUtils.start())
-      .catch((err) => {
-        const asdf = 5;
-      });
-  }
-
-  // Return value is not needed.
-  result
+  return Bluebird.try(() => {
+    if (gIn.params.useRemoteDriver) {
+      return gIn.remoteDriverUtils.start()
+        .catch((err) => {
+          gIn.tracer.err(`Runner ERR, remoteDriverUtils.start: ${err}`);
+        });
+    }
+    return true;
+  })
     .then(() => {
       try {
         // TODO: make it lazy.
         fs.mkdirSync(gIn.params.profileRootPath);
-      } catch (e) {
+      } catch (err) {
+        gIn.tracer.err(`Runner ERR, mkdirSync: ${gIn.params.profileRootPath}, ${err}`);
       }
       return runTestSuite(suiteRoot);
     }).then(

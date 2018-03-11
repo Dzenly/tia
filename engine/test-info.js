@@ -1,6 +1,6 @@
 'use strict';
 
-/* globals gT, gIn */
+/* globals gIn */
 
 const mPath = require('path');
 
@@ -9,11 +9,12 @@ exports.isPassPrintingEnabled = true;
 
 // TODO: Unclear logic.
 function formLogPart(str, count) {
+  let strNew = str;
   if (!count) {
-    str = str.toLowerCase();
+    strNew = strNew.toLowerCase();
   }
-  str += `: ${count}`;
-  return str;
+  strNew += `: ${count}`;
+  return strNew;
 }
 
 /**

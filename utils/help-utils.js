@@ -1,5 +1,7 @@
 'use strict';
 
+/* global gT */
+
 function dedent(callSite, ...params) {
   function format(str) {
     return str.replace(/\n {4}/g, '\n');
@@ -21,7 +23,7 @@ function dedent(callSite, ...params) {
   return format(output);
 }
 
-exports.usage = function () {
+exports.usage = function usage() {
   console.log(
     dedent`Usage: tia [options]
     , where options:
@@ -29,14 +31,16 @@ exports.usage = function () {
       --browser <browser> (default: ${gT.browsers[0]}) browser to run tests for.
       Supported browsers are: ${gT.browsers.join(', ')}
 
-      --browser-log-level <level> - 0 - 1000 (default ${gT.engineConsts.defaultBrowserLogLevel}). 0 means to log all, 1000 - only severe errors.
+      --browser-log-level <level> - 0 - 1000 (default ${gT.engineConsts.defaultBrowserLogLevel}).
+      0 means to log all, 1000 - only severe errors.
       800 - info, 900 - warnings. 1000 - severe errors.
 
       --debug-avg - equals to --log-to-console --log-err-to-console --keep-browser-at-error --trace-level 2
       Though --trace-level option can be used to override tracing level.
       Note: --debug-max have precedence over --debug-avg.
 
-      --debug-max - equals to --log-to-console --log-err-to-console --keep-browser-at-error --force-log-actions --trace-level 3
+      --debug-max - equals to --log-to-console --log-err-to-console --keep-browser-at-error
+      --force-log-actions --trace-level 3
       Though --trace-level option can be used to override tracing level.
 
       --def-host <host:port> - sets default host and port.
@@ -66,13 +70,14 @@ exports.usage = function () {
       See tia/config/default-suite-config.js for more details.
       Note: ${gT.engineConsts.emailCfgPathEnvVarName} environment variable can be used for the same purpose.
 
-      --err-to-console print all errors to console.
+      --err-to-console - print all errors to console.
 
       --et-mlog - filepath for etalog meta-log (absolute or relative to parent of project root directory).
       If exists, - it is used for meta logs comparison and writing info such as
       ET_MLOG / DIF_MLOG to the head of output.
 
-      --ext-log <external_log_path> - before each test this file is removed, and after each test this file content
+      --ext-log <external_log_path> - before each test this file is removed,
+      and after each test this file content
       is added to test log. This allows to track some unexpected server side errors.
       ${gT.engineConsts.externalLogEnvVarName} environment variable also can be used for this.
 
@@ -109,14 +114,16 @@ exports.usage = function () {
 
       --stop-remote-driver - (for chromedriver only) shuts down the remote driver.
 
-      --root-dir <Root Directory to find tests> - root directory to test (can be relative to current working dir).
+      --root-dir <Root Directory to find tests> - root directory to test
+      (can be relative to current working dir).
       It there is no --root-dir, tia will check ${gT.engineConsts.rootDirEnvVarName} environment variable.
       Note: browser profile root is created as sibling to root directory.
 
-      --too-long-time <duration>. If tests running exceeded the specified milliseconds amount. Email subject will
-      have 'TOO_LONG' prefix.
+      --too-long-time <duration>. If tests running exceeded the specified milliseconds amount.
+      Email subject will have 'TOO_LONG' prefix.
 
-      --trace-level <level> enables tracing (1 | 2 | 3 ) (1 - less verbose, 3 - maximum verbosity, 0 - forbids tracing).
+      --trace-level <level> enables tracing (1 | 2 | 3 )
+      (1 - less verbose, 3 - maximum verbosity, 0 - forbids tracing).
 
       --use-remote-driver - (for chromedriver only). Starts the browser driver (if it is not already started),
       and forces s.driver.init() to use this external driver.

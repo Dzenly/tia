@@ -1,8 +1,7 @@
 'use strict';
 
 /* globals gT: true */
-/* globals gIn: true */
-
+/* eslint-disable max-params, no-param-reassign */
 
 /*
  Assertions can use results accumulators.
@@ -46,7 +45,7 @@ exports.mergeResultToAccumulator = function mergeResultToAccumulator(res, name) 
 function failWrapper(msg, mode) {
   gT.l.fail(msg);
   if (mode && mode.accName) {
-    mode.accName = false;
+    mode.accName = false; // eslint-disable-line no-param-reassign
   }
 }
 
@@ -55,7 +54,8 @@ function failWrapper(msg, mode) {
  * @param {Object} [mode] the mode for pass case.
  * @param {Boolean} [mode.passSilently] - do not show message.
  * @param {Boolean} [mode.noPassIncrement] - do not increment pass counter.
- * @param {Boolean} [mode.accName] - the name for result accumulator which will be falsed if some assertion is failed.
+ * @param {Boolean} [mode.accName] - the name for result accumulator which will be falsed
+ * if some assertion is failed.
  * /
 
  /**
@@ -159,9 +159,9 @@ exports.valueBool = function valueBool(actVal, expVal, msg, mode) {
  * @returns {boolean}
  */
 exports.valueDeep = function valueDeep(actVal, expVal, msg, mode) {
-  function handleVals(actVal, expVal, path) {
-    const actType = typeof actVal;
-    const expType = typeof expVal;
+  function handleVals(actualValue, expectedValue, path) {
+    const actType = typeof actualValue;
+    const expType = typeof expectedValue;
 
     if (actType !== expType) {
       msg += `\nPath: '${path}', Act type: ${actType}, 'Exp type: ${expType}`;
@@ -169,11 +169,12 @@ exports.valueDeep = function valueDeep(actVal, expVal, msg, mode) {
       return false;
     }
 
-    if (actType === 'object' && actVal !== null && expVal !== null) {
-      const actProps = Object.getOwnPropertyNames(actVal).sort();
-      const expProps = Object.getOwnPropertyNames(expVal).sort();
+    if (actType === 'object' && actualValue !== null && expectedValue !== null) {
+      const actProps = Object.getOwnPropertyNames(actualValue).sort();
+      const expProps = Object.getOwnPropertyNames(expectedValue).sort();
 
       if (actProps.length !== expProps.length) {
+        // eslint-disable-next-line max-len
         msg += `\nDifferent property counts, \nPath: '${path}', \nAct props: ${actProps}\nExp props: ${expProps}`;
         failWrapper(msg, mode);
         return false;
@@ -189,12 +190,12 @@ exports.valueDeep = function valueDeep(actVal, expVal, msg, mode) {
           return false;
         }
 
-        if (!handleVals(actVal[actSubProp], expVal[expSubProp], `${path}/${actSubProp}`)) {
+        if (!handleVals(actualValue[actSubProp], expectedValue[expSubProp], `${path}/${actSubProp}`)) {
           return false;
         }
       }
-    } else if (actVal !== expVal) {
-      msg += `\nPath: ${path}, \nAct val: ${actVal}\nExp val: ${expVal}`;
+    } else if (actualValue !== expectedValue) {
+      msg += `\nPath: ${path}, \nAct val: ${actualValue}\nExp val: ${expectedValue}`;
       failWrapper(msg, mode);
       return false;
     }
@@ -253,7 +254,7 @@ exports.exception = function exception(func, expExc, mode) {
  */
 exports.exceptionAsync = function exceptionAsync(yieldable, expExc, mode) {
   return gT.u.execGen(yieldable)
-    .then((res) => {
+    .then(() => {
       console.log('GOOD');
       let msg;
       if (typeof expExc === 'undefined') {
