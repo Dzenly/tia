@@ -5,7 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const nodeUtils = require('../utils/nodejs-utils');
+const nodeUtils = require('../utils/nodejs-utils.js');
 const _ = require('lodash');
 const Bluebird = require('bluebird');
 
@@ -249,8 +249,7 @@ async function runTestSuite(dir) {
   return status;// Process exit status.
 }
 
-// Returns subject for email.
-module.exports = function runner(suiteRoot) {
+function prepareAndRunTestSuite(suiteRoot) {
   gIn.configUtils.handleSuiteConfig();
 
   if (gIn.params.stopRemoteDriver) {
@@ -288,5 +287,79 @@ module.exports = function runner(suiteRoot) {
   // .then(function () {
   //   process.exit();
   // });
-};
+}
 
+
+function getTestSuitePaths() {
+  const suitePaths = [];
+
+  function walkSubDirs(dir) {
+    const dirs = fs.readdirSync(dir).filter((fileName) => {
+      const fullPath = path.join(dir, fileName);
+      if (!gIn.fileUtils.isDirectory(fullPath)) {
+        return false;
+      }
+
+      for (const pattern of gT.engineConsts.patternsToIgnore) { // eslint-disable-line no-restricted-syntax
+        if (pattern.test(fileName)) {
+          return false;
+        }
+      }
+
+      if (fileName === gT.engineConsts.suiteDirName) {
+        suitePaths.push(fullPath);
+        return false;
+      }
+
+      return fileName !== gT.engineConsts.suiteMetaDirName;
+    });
+
+    dirs.forEach((subDir) => {
+      const fullPath = path.join(dir, subDir);
+      walkSubDirs(fullPath);
+    });
+  }
+
+  walkSubDirs(gIn.params.rootDir);
+
+  return suitePaths;
+}
+
+
+// function () {
+
+// gIn.tracer.msg3(`handleDir Dir: ${dir}`);
+//
+// const dirConfig = handleDirConfig(dir, files, prevDirConfig);
+// const dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
+// const startTime = gT.timeUtils.startTimer();
+//
+// for (const fileOrDir of files) { // eslint-disable-line no-restricted-syntax
+//   const fileOrDirPath = path.join(dir, fileOrDir);
+//   let stat;
+//   try {
+//     stat = fs.statSync(fileOrDirPath);
+//   } catch (e) {
+//     continue; // We remove some files in process.
+//   }
+//   let innerCurInfo;
+//   if (stat.isFile() && path.extname(fileOrDirPath) === '.js') {
+//     innerCurInfo = await handleTestFile(fileOrDirPath, dirConfig);
+//   } else if (stat.isDirectory()) {
+//     if (fileOrDir === gT.engineConsts.profileRootDir) {
+//       gIn.tracer.msg3('Skipping directory, because it is browser profile');
+//       continue;
+//     }
+//     innerCurInfo = await handleTestDir(fileOrDirPath, dirConfig);
+//   } else {
+//     co
+// }
+
+// Returns subject for email.
+module.exports = function runTestSuites() {
+  const suitePaths = getTestSuitePaths();
+
+  console.log(suitePaths);
+
+  const asdf = 5;
+};

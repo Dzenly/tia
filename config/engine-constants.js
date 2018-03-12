@@ -17,6 +17,9 @@ module.exports = {
 
   requireModulesEnvVarName: 'TIA_REQUIRE_MODULES',
 
+  // These patterns are ignored.
+  patternsToIgnore: [/^\./, /^node_modules$/],
+
   emailCfgPathEnvVarName: 'TIA_EMAIL_CFG_PATH',
 
   externalLogEnvVarName: 'TIA_EXTERNAL_LOG',

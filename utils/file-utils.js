@@ -195,3 +195,14 @@ exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
 
   return arcName;
 };
+
+exports.isDirectory = function isDirectory(fileOrDirPath) {
+  let stat;
+  try {
+    stat = fs.statSync(fileOrDirPath);
+  } catch (e) {
+    return false;
+  }
+
+  return stat.isDirectory();
+};

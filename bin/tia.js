@@ -39,7 +39,7 @@ const opts = {
     'browser-log-level',
     'def-host',
     'driver-log-level',
-    'et-mlog',
+    // 'et-mlog',
     'email-cfg-path',
     'ext-log',
     'hang-timeout',
@@ -137,6 +137,8 @@ if (gT.browsers.indexOf(browser) === -1) {
   process.exit(1);
 }
 
+gIn.params = args;
+
 const rootDir = tiaArgsUtils.resolveMandatoryPathOption({
   cmdLineArgsPath: args.rootDir,
   envVarName: gT.engineConsts.rootDirEnvVarName,
@@ -144,12 +146,11 @@ const rootDir = tiaArgsUtils.resolveMandatoryPathOption({
   cutLastDirSep: true,
 });
 
+gIn.params.rootDir = rootDir;
+
 if (!args.requireModules) {
   args.requireModules = process.env[gT.engineConsts.requireModulesEnvVarName];
 }
-
-gIn.params = args;
-gIn.params.rootDir = rootDir;
 
 if (!gIn.params.emailCfgPath) {
   gIn.params.emailCfgPath = process.env[gT.engineConsts.emailCfgPathEnvVarName];
@@ -178,11 +179,11 @@ gIn.params.testsParentDir = path.dirname(rootDir);
 
 gIn.tracer.msg3(`Tests Parent Dir: ${gIn.params.testsParentDir}`);
 
-gIn.params.profileRootPath = path.join(
-  gIn.params.testsParentDir,
-  gT.engineConsts.suiteMetaDirName,
-  gT.engineConsts.profileRootDir
-);
+// gIn.params.profileRootPath = path.join(
+//   gIn.params.testsParentDir,
+//   gT.engineConsts.suiteMetaDirName,
+//   gT.engineConsts.profileRootDir
+// );
 
 if (gIn.params.etMlog && !path.isAbsolute(gIn.params.etMlog)) {
   gIn.params.etMlog = path.join(gIn.params.testsParentDir, gIn.params.etMlog);
@@ -196,7 +197,7 @@ if (gIn.params.traceLevel > 3) {
   gIn.params.traceLevel = 3;
 }
 
-gIn.tracer.msg2(`Browsers profile root: ${gIn.params.profileRootPath}`);
+// gIn.tracer.msg2(`Browsers profile root: ${gIn.params.profileRootPath}`);
 
 gIn.tracer.msg2(`chromedriver path: ${gIn.chromeDriverPath}`);
 
@@ -217,11 +218,11 @@ if (gIn.params.defHost) {
 // TODO: now profile creates in current working directory.
 // Replace it with testSuiteRoot directory ?
 
-process.on('uncaughtException', (err) => {
-  gIn.logger.errorln('TIA: uncaughtException:');
-  gIn.logger.exception(err);
-  throw err;
-});
+// process.on('uncaughtException', (err) => {
+//   gIn.logger.errorln('TIA: uncaughtException:');
+//   gIn.logger.exception(err);
+//   throw err;
+// });
 
 if (gIn.params.ejExplore) {
   gIn.params.keepBrowserAtError = true;
