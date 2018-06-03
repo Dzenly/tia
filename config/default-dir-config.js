@@ -72,7 +72,7 @@ module.exports = {
   // stopTestsIfThrow: false, // Can be overriden in tests for test engine.
   // stopTestsIfFail: false, // Can be overriden in tests for test engine.
   // stopTestsIfDiff: false, // Can be overriden in tests for test engine.
-  // logVerboseResults: true, // Show results for non-diffed *.js tests in metaLog.
+  // logVerboseResults: true, // Show results for non-diffed *.js tests in suiteLog.
   // logSubItemIndent: ' ', // Indent for subsection or for *.js inside section.
   // If false - there will not be section with detailed results.
 };

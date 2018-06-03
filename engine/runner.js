@@ -107,7 +107,7 @@ function handleDirConfig(dir, files, prevDirConfig) {
 
 /**
  * Read directory. Create test info. Start Timer.
- * Goes into subdirs recursively, runs test files, collects info for meta log.
+ * Goes into subdirs recursively, runs test files, collects info for suite log.
  *
  * @param dir
  * @param prevDirConfig
@@ -169,7 +169,7 @@ async function handleTestDir(dir, prevDirConfig) {
 
 async function runTestSuite(dir, suiteData) {
   // console.log('runAsync Dir: ' + dir);
-  const log = `${dir}.mlog`; // Summary log.
+  const log = `${dir}.slog`; // Summary log. TODO: to constants.
   const procInfoFilePath = `${dir}.procInfo`;
   const txtAttachments = [log];
   const noTimeLog = `${log}.notime`;
@@ -192,28 +192,28 @@ async function runTestSuite(dir, suiteData) {
   // dirInfo.title = path.basename(dir);
   gIn.logger.saveSuiteLog(dirInfo, noTimeLog, true);
 
-  const noPrevMLog = fileUtils.isAbsent(noTimeLogPrev);
-  const metaLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeLog, noTimeLogPrev);
-  const metaLogPrevDifResBool = Boolean(metaLogPrevDifRes);
-  if (metaLogPrevDifResBool) {
-    fs.writeFileSync(prevDif, metaLogPrevDifRes, { encoding: gT.engineConsts.logEncoding });
+  const noPrevSLog = fileUtils.isAbsent(noTimeLogPrev);
+  const suiteLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeLog, noTimeLogPrev);
+  const suiteLogPrevDifResBool = Boolean(suiteLogPrevDifRes);
+  if (suiteLogPrevDifResBool) {
+    fs.writeFileSync(prevDif, suiteLogPrevDifRes, { encoding: gT.engineConsts.logEncoding });
     txtAttachments.push(prevDif);
   }
 
-  let etMlogInfo = '';
-  let etMlogInfoCons = '';
+  let etSlogInfo = '';
+  let etSlogInfoCons = '';
 
-  if (gIn.params.etMlog) {
-    const metaLogEtDifRes = gIn.diffUtils.getDiff('.', noTimeLog, gIn.params.etMlog);
-    const metaLogEtDifResBool = Boolean(metaLogEtDifRes);
-    if (metaLogEtDifResBool) {
-      fs.writeFileSync(etDif, metaLogEtDifRes, { encoding: gT.engineConsts.logEncoding });
+  if (gIn.params.etSlog) {
+    const suiteLogEtDifRes = gIn.diffUtils.getDiff('.', noTimeLog, gIn.params.etSLog);
+    const suiteLogEtDifResBool = Boolean(suiteLogEtDifRes);
+    if (suiteLogEtDifResBool) {
+      fs.writeFileSync(etDif, suiteLogEtDifRes, { encoding: gT.engineConsts.logEncoding });
       txtAttachments.push(etDif);
     }
-    gIn.tracer.msg3(`metaLogEtDifRes: ${metaLogEtDifResBool}`);
-    etMlogInfo = metaLogEtDifResBool ? 'DIF_MLOG, ' : 'ET_MLOG, ';
-    etMlogInfoCons = metaLogEtDifResBool ? `${gIn.cLogger.chalkWrap('red', 'DIF_MLOG')}, ` :
-      `${gIn.cLogger.chalkWrap('green', 'ET_MLOG')}, `;
+    gIn.tracer.msg3(`suiteLogEtDifRes: ${suiteLogEtDifResBool}`);
+    etSlogInfo = suiteLogEtDifResBool ? 'DIF_SLOG, ' : 'ET_SLOG, ';
+    etSlogInfoCons = suiteLogEtDifResBool ? `${gIn.cLogger.chalkWrap('red', 'DIF_SLOG')}, ` :
+      `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, `;
   }
 
   const subjTimeMark = dirInfo.time > gIn.params.tooLongTime ? ', TOO_LONG' : '';
@@ -221,19 +221,19 @@ async function runTestSuite(dir, suiteData) {
   const changedDiffs = gIn.diffUtils.changedDiffs ? `(${gIn.diffUtils.changedDiffs} diff(s) changed)` : '';
 
   let emailSubj;
-  if (noPrevMLog) {
+  if (noPrevSLog) {
     emailSubj = 'NO PREV';
-  } else if (metaLogPrevDifResBool) {
+  } else if (suiteLogPrevDifResBool) {
     emailSubj = 'DIF FROM PREV';
   } else {
     emailSubj = `AS PREV${changedDiffs}`;
   }
   emailSubj = `${emailSubj}${subjTimeMark},${gIn.logger.saveSuiteLog(dirInfo, log)}, ${getOs()}`;
 
-  const emailSubjCons = etMlogInfoCons + emailSubj;
-  emailSubj = etMlogInfo + emailSubj;
+  const emailSubjCons = etSLogInfoCons + emailSubj;
+  emailSubj = etSLogInfo + emailSubj;
 
-  dirInfo.metaLogDiff = metaLogPrevDifResBool;
+  dirInfo.suiteLogDiff = suiteLogPrevDifResBool;
   dirInfo.os = getOs();
   fileUtils.saveJson(dirInfo, `${log}.json`);
 
@@ -246,7 +246,7 @@ async function runTestSuite(dir, suiteData) {
   await gIn.mailUtils.send(emailSubj, txtAttachments, [arcName]);
   const status = dirInfo.diffed ? 1 : 0;
   gIn.cLogger.msg(`\n${emailSubjCons}\n`);
-  if (gT.suiteConfig.metaLogToStdout) {
+  if (gT.suiteConfig.suiteLogToStdout) {
     gIn.logger.printSuiteLog(dirInfo);
     gIn.cLogger.msgln(procInfo);
 
@@ -323,7 +323,7 @@ function getTestSuitePaths() {
         return false;
       }
 
-      return fileName !== gT.engineConsts.suiteMetaDirName;
+      return fileName !== gT.engineConsts.resultsDirName;
     });
 
     dirs.forEach((subDir) => {

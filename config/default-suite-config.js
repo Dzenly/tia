@@ -9,7 +9,7 @@ module.exports = {
   emptyDirToSuiteLog: false,
 
   // Если true, подробный лог с таймингами будет распечатан в stdout.
-  metaLogToStdout: true,
+  suiteLogToStdout: true,
 
   // Нужно ли аттачить к письму архив тестовой директории.
   attachArchiveToMail: true,

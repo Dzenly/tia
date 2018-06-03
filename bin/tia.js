@@ -53,7 +53,7 @@ const opts = {
   boolean: [ // 'logs-to-mail',
     'debug-avg',
     'debug-max',
-    'diffs-to-mlog',
+    'diffs-to-slog',
     'disable-email',
     'ej-explore',
     'err-to-console',
@@ -108,7 +108,7 @@ const path = require('path');
 
 if (args.runSelfTests) { // Tests for the engine.
   args.rootDir = path.resolve(path.join(__dirname, '..'));
-  args.etMlog = gT.engineConsts.selfTestsEtMLog;
+  args.etSLog = gT.engineConsts.selfTestsEtSLog;
   args.extLog = gT.engineConsts.selfTestsExtLog;
 }
 
@@ -182,15 +182,15 @@ gIn.tracer.msg3(`Tests Parent Dir: ${gIn.params.testsParentDir}`);
 
 // gIn.params.profileRootPath = path.join(
 //   gIn.params.testsParentDir,
-//   gT.engineConsts.suiteMetaDirName,
+//   gT.engineConsts.suiteDirName,
 //   gT.engineConsts.profileRootDir
 // );
 
-if (gIn.params.etMlog && !path.isAbsolute(gIn.params.etMlog)) {
-  gIn.params.etMlog = path.join(gIn.params.testsParentDir, gIn.params.etMlog);
+if (gIn.params.etSLog && !path.isAbsolute(gIn.params.etSLog)) {
+  gIn.params.etSLog = path.join(gIn.params.testsParentDir, gIn.params.etSLog);
 }
 
-gIn.tracer.msg3(`Etalon Metalog path: ${gIn.params.etMlog}`);
+gIn.tracer.msg3(`Etalon suite log path: ${gIn.params.etSLog}`);
 
 // TODO: support several paths for pattern?
 

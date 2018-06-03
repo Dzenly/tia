@@ -9,11 +9,11 @@ module.exports = {
   // The project can contain many test suites.
   suiteDirName: '__tests__',
 
-  // Name for directory that keeps the suite meta information. Suite etalog log.
+  // Name for directory that keeps the suite results. Suite etalog log.
   // Current suite logs in various formats.
   // The project root is also contains such directory. If project root contains '__tests__' directory,
-  // then '__tia__' directory contains both suite and project level meta info.
-  suiteMetaDirName: '__tia__',
+  // then '__tia__' directory contains both suite and project level results.
+  resultsDirName: '__tia__',
 
   requireModulesEnvVarName: 'TIA_REQUIRE_MODULES',
 
@@ -48,7 +48,7 @@ module.exports = {
 
   logEncoding: 'utf8', // ascii
 
-  selfTestsEtMLog: 'tests.et',
+  selfTestsEtSLog: 'tests.et',
 
   selfTestsExtLog: 'ext-log.log',
 

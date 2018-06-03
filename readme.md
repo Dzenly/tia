@@ -139,20 +139,28 @@ etalon (reference) log by renaming `.log` to `.et`.
 
 Etalon logs are commited to VCS.
 
-### Meta log (suite log)
+### Suite log
 
-This is a log with statistics for all tests from the project root directory.
-The name of a meta log consists of the project root directory name and `.mlog` extension.
-The meta log is sent to emails (if --email option is specified and there is a correct email config).
+This is a log with statistics for all tests from a test suite directory (`__tests__`).
+The name of a suite log is `suite.log`.
+The suite log is sent to emails (if --email option is specified and there is a correct email config).
+NOTE: The suite log is also affected with the `sectionTitle` option in `config.js` files.
+`*.slog` files are not commited to VCS.
 
-NOTE: The meta log is also affected with the `sectionTitle` option in `config.js` files.
+### Etalon suite log
 
-`*.mlog` files are not commited to VCS.
+Etalon log, it has `.et` extension.
+`*.et` files are commited to VCS.
 
-### Etalon meta log
+### Root log
 
-They are etalons for `*.mlog`, and have `.et` extension.
+This is a log with statistics for all tests from the project root directory. It is named `root.log`.
+The log is sent to emails (if --email option is specified and there is a correct email config).
+This file is not commited to VCS.
 
+### Etalon root log
+
+Etalog suite log is named as `root.et`.
 `*.et` files are commited to VCS.
 
 ### Browser profiles
@@ -350,17 +358,17 @@ Info about the error, and if test uses selenium:
 * browser exceptions
 * path to the screenshot made immediately after the error (`*.png` file)
 
-### Meta logs details (also see above for meta log descriptions)
+### Suite logs details (also see above for suite log descriptions)
 
-Logs with statistics info for the whole test bunch. They have `*.mlog` extension
+Logs with statistics info for the whole test bunch. They have name `suite.log`.
 These logs are sent to email (if corresponding options is enabled).
 
 #### Email subject has following notations
 
-[ET_MLOG/DIF_MLOG, ]linux_3.16.0-4-amd64, [AS PREV/AS PREV (8 diff(s) changed)/DIF FROM PREV], "testsWdHelpers", Dif: 0, Fail: 0, EDif: 0, Skip: 0, Pass: 4, 19203.05 ms
+[ET_SLOG/DIF_SLOG, ]linux_3.16.0-4-amd64, [AS PREV/AS PREV (8 diff(s) changed)/DIF FROM PREV], "testsWdHelpers", Dif: 0, Fail: 0, EDif: 0, Skip: 0, Pass: 4, 19203.05 ms
 
-* ET_MLOG - the current meta log is equal to the etalon meta log
-* DIF_MLOG - the current meta log is different from the etalon meta log
+* ET_SLOG - the current suite log is equal to the etalon suite log
+* DIF_SLOG - the current suite log is different from the etalon suite log
 * TOO_LONG - tests duration is exceeded --too-long-time parameter
 * linux_3.16.0-4 - OS.
 * amd64 - Platform.
@@ -376,18 +384,18 @@ These logs are sent to email (if corresponding options is enabled).
 * Pass: 4, - 4 assertions in the whole test bunch passed.
 * 19203.05 ms - tests duration.
 
-#### Meta log notations
+#### Suite log notations
 
 They are almost the same as for Email subject notations.
-Meta log contains statistics info for each directory.
+Suite log contains statistics info for each directory.
 
-Meta log contains two parts: short (contains diffed tests only) and long (contains all the tests).
+Suite log contains two parts: short (contains diffed tests only) and long (contains all the tests).
 
 ### Process exit code and stdout
 
 TIA returns 0 if all tests are passed as expected, or 1 if there are unexpected diffs.
 
-The 'true' value for the `suite-config.js` option `metaLogToStdout` prints meta log to stdout
+The 'true' value for the `suite-config.js` option `suiteLogToStdout` prints suite log to stdout
 (see `config/default-dir-config.js` for more details).
 
 See also the `--log-to-console` option description in the `tia --help` output.
@@ -442,11 +450,11 @@ it can speed up your debugging.
 ### File types:
 
 * `*.log` - test log
-* `*.mlog` - meta log for directory with tests
-* `*.mlog.json` - meta log as JSON (to use with HTML log-viewer (it is in my TODO list for now))
-* `*.mlog.notime` - meta log without time measurements
-* `*.mlog.notime.prev` - previous meta log without time measurements
-* `*.et` - etalon logs and etalon meta logs
+* `*.slog` - suite log for directory with tests
+* `*.slog.json` - suite log as JSON (to use with HTML log-viewer (it is in my TODO list for now))
+* `*.slog.notime` - suite log without time measurements
+* `*.slog.notime.prev` - previous suite log without time measurements
+* `*.et` - etalon logs and etalon suite logs
 * `*.js` - tests or configs
 * `*.json` - configs.
 

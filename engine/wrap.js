@@ -187,7 +187,7 @@ module.exports = function wrap(parameters) {
   if (gIn.cancelSuite) {
     gIn.tracer.msg1('Cancelling suite action due to gIn.cancelSuite flag');
 
-    // No process.exit(1), we need to create metalog, send e-mails, etc..
+    // No process.exit(1), we need to create suitelog, send e-mails, etc..
     throw new Error(gT.engineConsts.gT.engineConsts.CANCELLING_THE_SUITE);
   }
 

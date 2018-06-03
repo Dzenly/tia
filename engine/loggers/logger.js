@@ -14,8 +14,8 @@ const nodeUtils = require('../../utils/nodejs-utils.js');
 
 // Must be called only before handleDir for root test directory, like engine, app, etc..
 // TODO: what it is ?
-// exports.setSuiteLog = function (metaLog) {
-//   exports.metaLog = metaLog;
+// exports.setSuiteLog = function (suiteLog) {
+//   exports.suiteLog = suiteLog;
 // };
 
 function logToFile(msg) {
@@ -177,7 +177,7 @@ function saveDirInfo(parameters) {
         writeToSuiteLog(gIn.tInfo.testInfoToString({
           curInfo, isDir: false, verbose, noTime,
         }), curInfo.diffed);
-        if (curInfo.diffed && gIn.params.diffsToMlog && !isVerbose) {
+        if (curInfo.diffed && gIn.params.diffsToSlog && !isVerbose) { // TODO: Check Slog or SLog ?
           const difPath = gIn.textUtils.jsToDif(curInfo.path);
           const dif = fs.readFileSync(difPath, gT.engineConsts.logEncoding);
           writeToSuiteLog(`${indent}============== DIF ============== \n`);

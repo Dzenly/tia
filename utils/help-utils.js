@@ -48,7 +48,7 @@ exports.usage = function usage() {
       This parameter allows to use the '$(host)' string in your tests.
       See more details in selHost option description in config/default-dir-config.js.
 
-      --diffs-to-mlog - forces diffs to be printed to short meta log.
+      --diffs-to-slog - forces diffs to be printed to short suite log.
 
       --disable-email - disables email.
 

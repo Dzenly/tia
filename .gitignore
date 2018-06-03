@@ -47,14 +47,30 @@ SyncToy*
 
 # Diffs in tests.
 *.dif
+
+# Logs
 *.log.notime
 *.log.notime.prev
 *.log.json
 
+
+# Previous versin of suite logs.
 *.mlog
 *.mlog.notime
 *.mlog.notime.prev
 *.mlog.json
+
+# Suite logs.
+*.slog
+*.slog.notime
+*.slog.notime.prev
+*.slog.json
+
+# Root logs.
+*.rlog
+*.rlog.notime
+*.rlog.notime.prev
+*.rlog.json
 
 *.pid
 *.sid
