@@ -13,6 +13,7 @@ nodeUtils.checkNodeJsVersion();
 const { inspect } = require('util');
 const tiaArgsUtils = require('../utils/tia-arguments-utils.js');
 const _ = require('lodash');
+const { runTestSuites } = require('../engine/runner.js');
 
 require('../engine/init-global-objects.js');
 const helpUtils = require('../utils/help-utils.js');
@@ -39,7 +40,7 @@ const opts = {
     'browser-log-level',
     'def-host',
     'driver-log-level',
-    // 'et-mlog',
+
     'email-cfg-path',
     'ext-log',
     'hang-timeout',
@@ -230,4 +231,7 @@ if (gIn.params.ejExplore) {
 
 gIn.tracer.msg3(`Parameters: ${inspect(gIn.params)}`);
 
-require('../engine/runner.js')(rootDir);
+runTestSuites()
+  .then((res) => {
+
+  });

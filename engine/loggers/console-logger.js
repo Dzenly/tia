@@ -14,7 +14,7 @@ if (!process.env.TIA_NO_COLORS) {
 // exports.chalk = chalk;
 // exports.isChalkEnabled = isChalkEnabled;
 
-gIn.tracePref = '';
+gIn.tracePrefix = '';
 
 /**
  * Tracks EOL of last message printed to console.
@@ -23,9 +23,9 @@ gIn.tracePref = '';
  */
 function trackEOL(msg) {
   if (msg === true || Boolean(msg.match(/(\n|\r)$/))) {
-    gIn.tracePref = '';
+    gIn.tracePrefix = '';
   } else {
-    gIn.tracePref = '\n';
+    gIn.tracePrefix = '\n';
   }
 }
 

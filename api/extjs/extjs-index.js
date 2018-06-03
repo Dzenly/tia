@@ -41,12 +41,12 @@ let brHelpers = [
  */
 gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
   return gIn.wrap('Initialization of TIA ExtJs helpers ... ', logAction, function () {
-    return gT.u.execGen(function* () {
-      for (const fName of brHelpers) {
-        let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part', fName), 'utf8');
-        yield gT.s.browser.executeScriptWrapper(scriptStr);
+    return (async function initTiaExtJsBrHelpersInner() {
+      for (const fName of brHelpers) { // eslint-disable-line no-restricted-syntax
+        const scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part', fName), 'utf8');
+        await gT.s.browser.executeScriptWrapper(scriptStr);
       }
-    });
+    }());
   });
 };
 

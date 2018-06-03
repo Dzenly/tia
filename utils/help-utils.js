@@ -72,10 +72,6 @@ exports.usage = function usage() {
 
       --err-to-console - print all errors to console.
 
-      --et-mlog - filepath for etalog meta-log (absolute or relative to parent of project root directory).
-      If exists, - it is used for meta logs comparison and writing info such as
-      ET_MLOG / DIF_MLOG to the head of output.
-
       --ext-log <external_log_path> - before each test this file is removed,
       and after each test this file content
       is added to test log. This allows to track some unexpected server side errors.
