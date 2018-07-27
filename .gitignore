@@ -187,3 +187,5 @@ br-profiles/
 ext-log.log
 
 *.procInfo
+
+package-lock.json
