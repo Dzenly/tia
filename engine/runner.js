@@ -85,15 +85,21 @@ async function handleTestFile(file, dirConfig) {
   return gIn.tInfo.data; // Return value to be uniform in handleDir.
 }
 
-// Removes config from files.
-function handleDirConfig(dir, files, prevDirConfig) {
-  let index = files.indexOf(gT.engineConsts.configName);
+/**
+ * Removes config from files. Merges current config to parrent config.
+ * @param {String} dir
+ * @param {Array<String>} files
+ * @param {Object} parentDirConfig
+ * @return {Object} directory config.
+ */
+function handleDirConfig(dir, files, parentDirConfig) {
   let config;
+  let index = files.indexOf(gT.engineConsts.dirConfigName);
   if (index < 0) {
     config = {};
   } else {
     files.splice(index, 1);
-    config = nodeUtils.requireEx(path.join(dir, gT.engineConsts.configName), true).result;
+    config = nodeUtils.requireEx(path.join(dir, gT.engineConsts.dirConfigName), true).result;
   }
 
   // Remove suite-config.js from list (it is already handled by the module entry point).
@@ -102,7 +108,12 @@ function handleDirConfig(dir, files, prevDirConfig) {
     files.splice(index, 1);
   }
 
-  return _.merge(_.cloneDeep(prevDirConfig), config);
+  index = files.indexOf(gT.engineConsts.resultsSubDirName);
+  if (index > -1) {
+    files.splice(index, 1);
+  }
+
+  return _.merge(_.cloneDeep(parentDirConfig), config);
 }
 
 /**
@@ -110,12 +121,12 @@ function handleDirConfig(dir, files, prevDirConfig) {
  * Goes into subdirs recursively, runs test files, collects info for suite log.
  *
  * @param dir
- * @param prevDirConfig
+ * @param parentDirConfig
  */
-async function handleTestDir(dir, prevDirConfig) {
+async function handleTestDir(dir, parentDirConfig) {
   gIn.tracer.msg3(`handleDir Dir: ${dir}`);
 
-  const files = fs.readdirSync(dir).filter((fileName) => {
+  const filesOrDirs = fs.readdirSync(dir).filter((fileName) => {
     for (const pattern of gT.engineConsts.patternsToIgnore) { // eslint-disable-line no-restricted-syntax
       if (pattern.test(fileName)) {
         return false;
@@ -124,12 +135,11 @@ async function handleTestDir(dir, prevDirConfig) {
     return true;
   });
 
-  const dirConfig = handleDirConfig(dir, files, prevDirConfig);
+  const dirConfig = handleDirConfig(dir, filesOrDirs, parentDirConfig);
   const dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
   const startTime = gT.timeUtils.startTimer();
 
-
-  for (const fileOrDir of files) { // eslint-disable-line no-restricted-syntax
+  for (const fileOrDir of filesOrDirs) { // eslint-disable-line no-restricted-syntax
     const fileOrDirPath = path.join(dir, fileOrDir);
     let stat;
     try {
@@ -141,7 +151,7 @@ async function handleTestDir(dir, prevDirConfig) {
     if (stat.isFile() && path.extname(fileOrDirPath) === '.js') {
       innerCurInfo = await handleTestFile(fileOrDirPath, dirConfig);
     } else if (stat.isDirectory()) {
-      if (fileOrDir === gT.engineConsts.profileRootDir) {
+      if (fileOrDir === gT.engineConsts.browserProfileRootDirName) {
         gIn.tracer.msg3('Skipping directory, because it is browser profile');
         continue;
       }
@@ -167,21 +177,28 @@ async function handleTestDir(dir, prevDirConfig) {
   return dirInfo;
 }
 
-async function runTestSuite(dir, suiteData) {
+async function runTestSuite(suiteData) {
+  const { suiteRoot } = suiteData;
+
   // console.log('runAsync Dir: ' + dir);
-  const log = `${dir}.slog`; // Summary log. TODO: to constants.
-  const procInfoFilePath = `${dir}.procInfo`;
-  const txtAttachments = [log];
-  const noTimeLog = `${log}.notime`;
+  const suiteLog = path.join(
+    suiteRoot,
+    gT.engineConsts.resultsSubDirName,
+    gT.engineConsts.suiteLogName + gT.engineConsts.logExtension
+  );
+  const procInfoFilePath = `${suiteRoot}.procInfo`;
+  const txtAttachments = [suiteLog];
+  const noTimeLog = `${suiteLog}.notime`;
   const prevDif = `${noTimeLog}.prev.dif`;
   const etDif = `${noTimeLog}.et.dif`;
   const noTimeLogPrev = `${noTimeLog}.prev`;
-  fileUtils.safeUnlink(log);
+
+  fileUtils.safeUnlink(suiteLog);
   fileUtils.safeUnlink(prevDif);
   fileUtils.safeUnlink(etDif);
   fileUtils.safeRename(noTimeLog, noTimeLogPrev);
 
-  const dirInfo = await handleTestDir(dir, gT.dirConfigDefault);
+  const dirInfo = await handleTestDir(suiteRoot, gT.dirConfigDefault);
 
   if (!gIn.params.useRemoteDriver) {
     await gT.s.driver.quitIfInited();
@@ -200,8 +217,8 @@ async function runTestSuite(dir, suiteData) {
     txtAttachments.push(prevDif);
   }
 
-  let etSlogInfo = '';
-  let etSlogInfoCons = '';
+  let etSLogInfo = '';
+  let etSLogInfoCons = '';
 
   if (gIn.params.etSlog) {
     const suiteLogEtDifRes = gIn.diffUtils.getDiff('.', noTimeLog, gIn.params.etSLog);
@@ -211,8 +228,8 @@ async function runTestSuite(dir, suiteData) {
       txtAttachments.push(etDif);
     }
     gIn.tracer.msg3(`suiteLogEtDifRes: ${suiteLogEtDifResBool}`);
-    etSlogInfo = suiteLogEtDifResBool ? 'DIF_SLOG, ' : 'ET_SLOG, ';
-    etSlogInfoCons = suiteLogEtDifResBool ? `${gIn.cLogger.chalkWrap('red', 'DIF_SLOG')}, ` :
+    etSLogInfo = suiteLogEtDifResBool ? 'DIF_SLOG, ' : 'ET_SLOG, ';
+    etSLogInfoCons = suiteLogEtDifResBool ? `${gIn.cLogger.chalkWrap('red', 'DIF_SLOG')}, ` :
       `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, `;
   }
 
@@ -228,14 +245,14 @@ async function runTestSuite(dir, suiteData) {
   } else {
     emailSubj = `AS PREV${changedDiffs}`;
   }
-  emailSubj = `${emailSubj}${subjTimeMark},${gIn.logger.saveSuiteLog(dirInfo, log)}, ${getOs()}`;
+  emailSubj = `${emailSubj}${subjTimeMark},${gIn.logger.saveSuiteLog(dirInfo, suiteLog)}, ${getOs()}`;
 
   const emailSubjCons = etSLogInfoCons + emailSubj;
   emailSubj = etSLogInfo + emailSubj;
 
   dirInfo.suiteLogDiff = suiteLogPrevDifResBool;
   dirInfo.os = getOs();
-  fileUtils.saveJson(dirInfo, `${log}.json`);
+  fileUtils.saveJson(dirInfo, `${suiteLog}.json`);
 
   const arcName = fileUtils.archiveSuiteDir(dirInfo);
 
@@ -276,16 +293,21 @@ async function prepareAndRunTestSuite(suiteRoot) {
     // });
   }
 
-  try {
-    // TODO: make it lazy.
-    fs.mkdirSync(gIn.params.profileRootPath);
-  } catch (err) {
-    gIn.tracer.err(`Runner ERR, mkdirSync: ${gIn.params.profileRootPath}, ${err}`);
-  }
+  const browserProfilePath = path.resolve(suiteRoot, gT.engineConsts.browserProfileRootDirName);
 
-  const suiteData = {};
+  // try {
+  //   // TODO: make it lazy.
+  //   fs.mkdirSync();
+  // } catch (err) {
+  //   gIn.tracer.err(`Runner ERR, mkdirSync: ${gIn.params.profileRootPath}, ${err}`);
+  // }
 
-  const exitStatus = await runTestSuite(suiteRoot, suiteData)
+  const suiteData = {
+    suiteRoot,
+    browserProfilePath,
+  };
+
+  const exitStatus = await runTestSuite(suiteData)
     .catch((err) => {
       gIn.tracer.err(`Runner ERR: ${gIn.textUtils.excToStr(err)}`);
       process.exitCode = 1;
@@ -323,7 +345,7 @@ function getTestSuitePaths() {
         return false;
       }
 
-      return fileName !== gT.engineConsts.resultsDirName;
+      return fileName !== gT.engineConsts.resultsSubDirName;
     });
 
     dirs.forEach((subDir) => {
@@ -358,7 +380,7 @@ function getTestSuitePaths() {
 //   if (stat.isFile() && path.extname(fileOrDirPath) === '.js') {
 //     innerCurInfo = await handleTestFile(fileOrDirPath, dirConfig);
 //   } else if (stat.isDirectory()) {
-//     if (fileOrDir === gT.engineConsts.profileRootDir) {
+//     if (fileOrDir === gT.engineConsts.browserProfileRootDirName) {
 //       gIn.tracer.msg3('Skipping directory, because it is browser profile');
 //       continue;
 //     }

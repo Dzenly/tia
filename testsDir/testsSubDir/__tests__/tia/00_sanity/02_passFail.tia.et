@@ -10,7 +10,7 @@ There will be equal without message
 OK: Act: "5" = Exp: "5"
 OK: Passed tests count: 6
 Freshly inited test info, real title, verbose:
-"02_passFail.js", OK, Fail: 2, Pass: 7, 0.00 ms, "Check for pass and fail work"
+"02_passFail.tia.js", OK, Fail: 2, Pass: 7, 0.00 ms, "Check for pass and fail work"
 
 OK: After setFailed(0), failed tests count: 0
 OK: After setPassed(1), passed test count: 1

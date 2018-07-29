@@ -9,11 +9,19 @@ module.exports = {
   // The project can contain many test suites.
   suiteDirName: '__tests__',
 
-  // Name for directory that keeps the suite results. Suite etalog log.
-  // Current suite logs in various formats.
-  // The project root is also contains such directory. If project root contains '__tests__' directory,
-  // then '__tia__' directory contains both suite and project level results.
-  resultsDirName: '__tia__',
+  // Name for subdirectory inside <suiteDirName> directory that keeps the suite results:
+  // * Suite etalog log.
+  // * Current suite logs in various formats.
+  // The <project root>/__tests__ also contains such a directory with project level results.
+  resultsSubDirName: '__tia__',
+
+  logExtension: '.log',
+
+  etalonExtension: '.et',
+
+  suiteLogName: 'suite',
+
+  rootLogName: 'root',
 
   requireModulesEnvVarName: 'TIA_REQUIRE_MODULES',
 
@@ -25,13 +33,13 @@ module.exports = {
   externalLogEnvVarName: 'TIA_EXTERNAL_LOG',
 
   // Имя файла для локального конфига.
-  configName: 'tia-dir-config.js',
+  dirConfigName: 'tia-dir-config.js',
 
   // Имя файла для конфига пакета тестов (test suite), перегружающего настройки по умолчанию.
   suiteConfigName: 'tia-suite-config.js',
 
   // Корневая директория, где лежат профайлы. Не перегружается в локальных конфигах.
-  profileRootDir: 'tia-browser-profiles',
+  browserProfileRootDirName: 'tia-browser-profiles',
 
   // Дефолтный дисплей для GUI тестов.
   // Сохраняем состояние в момент старта.
@@ -48,9 +56,9 @@ module.exports = {
 
   logEncoding: 'utf8', // ascii
 
-  selfTestsEtSLog: 'tests.et',
+  selfTestsEtSLog: 'tests.et', // TODO
 
-  selfTestsExtLog: 'ext-log.log',
+  selfTestsExtLog: 'ext-log.log', // TODO
 
   hangTimeout: 60000, // Timeout (ms) after which action function considered as hanging.
 

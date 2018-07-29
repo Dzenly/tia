@@ -183,7 +183,7 @@ gIn.tracer.msg3(`Tests Parent Dir: ${gIn.params.testsParentDir}`);
 // gIn.params.profileRootPath = path.join(
 //   gIn.params.testsParentDir,
 //   gT.engineConsts.suiteDirName,
-//   gT.engineConsts.profileRootDir
+//   gT.engineConsts.browserProfileRootDirName
 // );
 
 if (gIn.params.etSLog && !path.isAbsolute(gIn.params.etSLog)) {
@@ -233,5 +233,5 @@ gIn.tracer.msg3(`Parameters: ${inspect(gIn.params)}`);
 
 runTestSuites()
   .then((res) => {
-
+    const asdf = 5;
   });
