@@ -169,10 +169,10 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
  * @returns {*} - Promise will be resolved to value or to exception.
  * @throws - Various errors.
  */
-module.exports = function wrap(parameters) {
-  const {
-    msg, logAction, act, noConsoleAndExceptions,
-  } = parameters;
+module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
+  // const { // TODO
+  //   msg, logAction, act, noConsoleAndExceptions,
+  // } = parameters;
   gIn.tracer.msg3(`Inside wrapper, before start timer,  msg: ${msg}`);
 
   gIn.logger.logIfNotDisabled(msg, logAction);

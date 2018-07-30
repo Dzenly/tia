@@ -186,7 +186,7 @@ async function runTestSuite(suiteData) {
     gT.engineConsts.resultsSubDirName,
     gT.engineConsts.suiteLogName + gT.engineConsts.logExtension
   );
-  const procInfoFilePath = `${suiteRoot}.procInfo`;
+  const procInfoFilePath = `${suiteRoot}/${gT.engineConsts.resultsSubDirName}/.procInfo`;
   const txtAttachments = [suiteLog];
   const noTimeLog = `${suiteLog}.notime`;
   const prevDif = `${noTimeLog}.prev.dif`;
