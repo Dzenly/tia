@@ -162,7 +162,7 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
  * time measurement purposes.
  * inserts pauses between actions for testing purpose.
  *
- * @param msg - a message to log.
+ * @param {Object|String} msg - a message to log. String msg is deprecated.
  * @param logAction - is logging enabled.
  * @param act - function.
  * @param noConsoleAndExceptions
@@ -170,9 +170,10 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
  * @throws - Various errors.
  */
 module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
-  // const { // TODO
-  //   msg, logAction, act, noConsoleAndExceptions,
-  // } = parameters;
+  if (typeof msg === 'object') {
+    ({msg, logAction, act, noConsoleAndExceptions} = msg});
+  }
+
   gIn.tracer.msg3(`Inside wrapper, before start timer,  msg: ${msg}`);
 
   gIn.logger.logIfNotDisabled(msg, logAction);

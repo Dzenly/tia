@@ -186,6 +186,10 @@ async function runTestSuite(suiteData) {
     gT.engineConsts.resultsSubDirName,
     gT.engineConsts.suiteLogName + gT.engineConsts.logExtension
   );
+
+  suiteData.suiteLog = suiteLog; // eslint-disable-line no-param-reassign
+  gIn.suiteData = suiteData;
+
   const procInfoFilePath = `${suiteRoot}/${gT.engineConsts.resultsSubDirName}/.procInfo`;
   const txtAttachments = [suiteLog];
   const noTimeLog = `${suiteLog}.notime`;
@@ -293,14 +297,11 @@ async function prepareAndRunTestSuite(suiteRoot) {
     // });
   }
 
-  const browserProfilePath = path.resolve(suiteRoot, gT.engineConsts.browserProfileRootDirName);
-
-  // try {
-  //   // TODO: make it lazy.
-  //   fs.mkdirSync();
-  // } catch (err) {
-  //   gIn.tracer.err(`Runner ERR, mkdirSync: ${gIn.params.profileRootPath}, ${err}`);
-  // }
+  const browserProfilePath = path.resolve(
+    suiteRoot,
+    gT.engineConsts.resultsSubDirName,
+    gT.engineConsts.browserProfileRootDirName
+  );
 
   const suiteData = {
     suiteRoot,
@@ -359,35 +360,6 @@ function getTestSuitePaths() {
   return suitePaths;
 }
 
-
-// function () {
-
-// gIn.tracer.msg3(`handleDir Dir: ${dir}`);
-//
-// const dirConfig = handleDirConfig(dir, files, prevDirConfig);
-// const dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
-// const startTime = gT.timeUtils.startTimer();
-//
-// for (const fileOrDir of files) { // eslint-disable-line no-restricted-syntax
-//   const fileOrDirPath = path.join(dir, fileOrDir);
-//   let stat;
-//   try {
-//     stat = fs.statSync(fileOrDirPath);
-//   } catch (e) {
-//     continue; // We remove some files in process.
-//   }
-//   let innerCurInfo;
-//   if (stat.isFile() && path.extname(fileOrDirPath) === '.js') {
-//     innerCurInfo = await handleTestFile(fileOrDirPath, dirConfig);
-//   } else if (stat.isDirectory()) {
-//     if (fileOrDir === gT.engineConsts.browserProfileRootDirName) {
-//       gIn.tracer.msg3('Skipping directory, because it is browser profile');
-//       continue;
-//     }
-//     innerCurInfo = await handleTestDir(fileOrDirPath, dirConfig);
-//   } else {
-//     co
-// }
 
 // Returns subject for email.
 exports.runTestSuites = async function runTestSuites() {

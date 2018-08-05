@@ -5,6 +5,11 @@
 
 const mpath = require('path');
 const util = require('util');
+const fileUtils = require('../../utils/file-utils.js');
+
+function createBrowserProfile() {
+  fileUtils.mkdir(gIn.suiteData.browserProfilePath);
+}
 
 /**
  * Initiates webdriver.
@@ -20,6 +25,8 @@ exports.init = function init(cleanProfile, logAction) {
   if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
     logAction = false;
   }
+
+  createBrowserProfile();
 
   gIn.tracer.msg3(`selProfilePath: ${gIn.config.selProfilePath}`);
   gIn.tracer.msg3(`shareBrowser: ${gIn.params.shareBrowser}`);
@@ -50,7 +57,7 @@ exports.init = function init(cleanProfile, logAction) {
     let profileAbsPath;
 
     if (gIn.config.selProfilePath) {
-      profileAbsPath = mpath.resolve(mpath.join(gIn.params.profileRootPath, gIn.config.selProfilePath));
+      profileAbsPath = mpath.resolve(mpath.join(gIn.suiteData.browserProfilePath, gIn.config.selProfilePath));
       gIn.tracer.msg2(`Profile path: ${profileAbsPath}`);
     }
 

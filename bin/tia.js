@@ -180,12 +180,6 @@ gIn.params.testsParentDir = path.dirname(rootDir);
 
 gIn.tracer.msg3(`Tests Parent Dir: ${gIn.params.testsParentDir}`);
 
-// gIn.params.profileRootPath = path.join(
-//   gIn.params.testsParentDir,
-//   gT.engineConsts.suiteDirName,
-//   gT.engineConsts.browserProfileRootDirName
-// );
-
 if (gIn.params.etSLog && !path.isAbsolute(gIn.params.etSLog)) {
   gIn.params.etSLog = path.join(gIn.params.testsParentDir, gIn.params.etSLog);
 }
@@ -197,8 +191,6 @@ gIn.tracer.msg3(`Etalon suite log path: ${gIn.params.etSLog}`);
 if (gIn.params.traceLevel > 3) {
   gIn.params.traceLevel = 3;
 }
-
-// gIn.tracer.msg2(`Browsers profile root: ${gIn.params.profileRootPath}`);
 
 gIn.tracer.msg2(`chromedriver path: ${gIn.chromeDriverPath}`);
 
@@ -214,10 +206,6 @@ if (args.requireModules) {
 if (gIn.params.defHost) {
   gT.dirConfigDefault.selHost = gIn.params.defHost;
 }
-
-// gIn.params.profileRootPath
-// TODO: now profile creates in current working directory.
-// Replace it with testSuiteRoot directory ?
 
 // process.on('uncaughtException', (err) => {
 //   gIn.logger.errorln('TIA: uncaughtException:');

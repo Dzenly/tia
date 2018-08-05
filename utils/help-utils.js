@@ -113,7 +113,6 @@ exports.usage = function usage() {
       --root-dir <Root Directory to find tests> - root directory to test
       (can be relative to current working dir).
       It there is no --root-dir, tia will check ${gT.engineConsts.rootDirEnvVarName} environment variable.
-      Note: browser profile root is created as sibling to root directory.
 
       --too-long-time <duration>. If tests running exceeded the specified milliseconds amount.
       Email subject will have 'TOO_LONG' prefix.

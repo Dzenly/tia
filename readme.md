@@ -166,9 +166,7 @@ Etalog suite log is located in `<prjRoot>/__tests__/__tia__/root.et`.
 
 ### Browser profiles
 
-The `br-profiles` directory is created as a sibling to the `tests` directory.
-(see --root-dir option or TIA_ROOT_DIR environment variable description) and keeps browser profiles.
-
+Browser profiles are located in  `__tests__/__tia__/tia-browser-profiles` directories.
 See also the `selProfilePath` option in the `config/default-suite-config.js`.
 
 ----------------------------------

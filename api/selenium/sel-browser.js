@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 const mPath = require('path');
+const Bluebird = require('bluebird');
 
 function nextScreenShotPath() {
   const jsPath = gIn.tInfo.data.path;
@@ -398,7 +399,7 @@ exports.getCookie = function getCookie(name, logAction) {
 exports.cleanProfile = function cleanProfile(logAction) {
   return gIn.wrap(`Cleaning profile: "${gIn.config.selProfilePath}" ... `, logAction, () => Bluebird.try(() => {
     if (gIn.config.selProfilePath) {
-      gIn.fileUtils.emptyDir(mPath.join(gIn.params.profileRootPath, gIn.config.selProfilePath));
+      gIn.fileUtils.emptyDir(mPath.join(gIn.suiteData.browserProfilePath, gIn.config.selProfilePath));
     }
   }));
 };

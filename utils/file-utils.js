@@ -206,3 +206,9 @@ exports.isDirectory = function isDirectory(fileOrDirPath) {
 
   return stat.isDirectory();
 };
+
+exports.mkdir = function mkdir(dirPath) {
+  try {
+    fs.mkdirSync(dirPath);
+  } catch () {};
+};
