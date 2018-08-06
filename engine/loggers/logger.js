@@ -12,12 +12,6 @@ let isVerbose;
 const fs = require('fs');
 const nodeUtils = require('../../utils/nodejs-utils.js');
 
-// Must be called only before handleDir for root test directory, like engine, app, etc..
-// TODO: what it is ?
-// exports.setSuiteLog = function (suiteLog) {
-//   exports.suiteLog = suiteLog;
-// };
-
 function logToFile(msg) {
   // TODO: check how diff work for unicode.
   fs.appendFileSync(exports.logFile, msg, { encoding: gT.engineConsts.logEncoding });

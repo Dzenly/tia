@@ -178,31 +178,23 @@ async function handleTestDir(dir, parentDirConfig) {
 }
 
 async function runTestSuite(suiteData) {
-  const { suiteRoot } = suiteData;
+  const { root, log } = suiteData;
 
   // console.log('runAsync Dir: ' + dir);
-  const suiteLog = path.join(
-    suiteRoot,
-    gT.engineConsts.resultsSubDirName,
-    gT.engineConsts.suiteLogName + gT.engineConsts.logExtension
-  );
 
-  suiteData.suiteLog = suiteLog; // eslint-disable-line no-param-reassign
-  gIn.suiteData = suiteData;
-
-  const procInfoFilePath = `${suiteRoot}/${gT.engineConsts.resultsSubDirName}/.procInfo`;
-  const txtAttachments = [suiteLog];
-  const noTimeLog = `${suiteLog}.notime`;
+  const procInfoFilePath = `${root}/${gT.engineConsts.resultsSubDirName}/.procInfo`;
+  const txtAttachments = [log];
+  const noTimeLog = `${log}.notime`;
   const prevDif = `${noTimeLog}.prev.dif`;
   const etDif = `${noTimeLog}.et.dif`;
   const noTimeLogPrev = `${noTimeLog}.prev`;
 
-  fileUtils.safeUnlink(suiteLog);
+  fileUtils.safeUnlink(log);
   fileUtils.safeUnlink(prevDif);
   fileUtils.safeUnlink(etDif);
   fileUtils.safeRename(noTimeLog, noTimeLogPrev);
 
-  const dirInfo = await handleTestDir(suiteRoot, gT.dirConfigDefault);
+  const dirInfo = await handleTestDir(root, gT.dirConfigDefault);
 
   if (!gIn.params.useRemoteDriver) {
     await gT.s.driver.quitIfInited();
@@ -249,14 +241,14 @@ async function runTestSuite(suiteData) {
   } else {
     emailSubj = `AS PREV${changedDiffs}`;
   }
-  emailSubj = `${emailSubj}${subjTimeMark},${gIn.logger.saveSuiteLog(dirInfo, suiteLog)}, ${getOs()}`;
+  emailSubj = `${emailSubj}${subjTimeMark},${gIn.logger.saveSuiteLog(dirInfo, log)}, ${getOs()}`;
 
   const emailSubjCons = etSLogInfoCons + emailSubj;
   emailSubj = etSLogInfo + emailSubj;
 
   dirInfo.suiteLogDiff = suiteLogPrevDifResBool;
   dirInfo.os = getOs();
-  fileUtils.saveJson(dirInfo, `${suiteLog}.json`);
+  fileUtils.saveJson(dirInfo, `${log}.json`);
 
   const arcName = fileUtils.archiveSuiteDir(dirInfo);
 
@@ -281,7 +273,34 @@ async function runTestSuite(suiteData) {
   return status;// Process exit status.
 }
 
-async function prepareAndRunTestSuite(suiteRoot) {
+async function prepareAndRunTestSuite(root) {
+
+  const browserProfilePath = path.resolve(
+    root,
+    gT.engineConsts.resultsSubDirName,
+    gT.engineConsts.browserProfileRootDirName
+  );
+
+  const log = path.join(
+    root,
+    gT.engineConsts.resultsSubDirName,
+    gT.engineConsts.suiteLogName + gT.engineConsts.logExtension
+  );
+
+  const configPath = path.join(
+    root,
+    gT.engineConsts.suiteConfigName
+  );
+
+  const suiteData = {
+    root,
+    browserProfilePath,
+    log,
+    configPath,
+  };
+
+  gIn.suiteData = suiteData;
+
   gIn.configUtils.handleSuiteConfig();
 
   if (gIn.params.stopRemoteDriver) {
@@ -296,17 +315,6 @@ async function prepareAndRunTestSuite(suiteRoot) {
     //   gIn.tracer.err(`Runner ERR, remoteDriverUtils.start: ${err}`);
     // });
   }
-
-  const browserProfilePath = path.resolve(
-    suiteRoot,
-    gT.engineConsts.resultsSubDirName,
-    gT.engineConsts.browserProfileRootDirName
-  );
-
-  const suiteData = {
-    suiteRoot,
-    browserProfilePath,
-  };
 
   const exitStatus = await runTestSuite(suiteData)
     .catch((err) => {

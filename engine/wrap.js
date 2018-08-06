@@ -171,7 +171,8 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
  */
 module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
   if (typeof msg === 'object') {
-    ({msg, logAction, act, noConsoleAndExceptions} = msg});
+    // esling-disable-next-line no-param-reassign
+    ({msg, logAction, act, noConsoleAndExceptions} = msg);
   }
 
   gIn.tracer.msg3(`Inside wrapper, before start timer,  msg: ${msg}`);
