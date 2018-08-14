@@ -38,12 +38,14 @@
     "bluebird": "^3.5.0",
     "camelcase-keys": "^4.1.0",
     "chalk": "^2.4.1",
-    "chromedriver": "^2.32.1",
     "co": "^4.6.0",
     "lodash": "^4.17.4",
     "minimist": "^1.2.0",
     "nodemailer": "^4.1.0",
     "nodemailer-smtp-transport": "^2.7.4",
-    "selenium-webdriver": "^3.5.0"
+    "selenium-webdriver": "^3.6.0"
+  },
+  "optionalDependencies": {
+    "chromedriver": "^2.41.0"
   }
 }
