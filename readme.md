@@ -10,12 +10,6 @@ Xvfb is supported.
 
 *Note: since the 0.12.15 tia version - the minimal supported Node.js version is 8.6*
 
-To don't blow up versions for now TIA is not following SEMVER rules.
-The 'patch' version part is changed at adding new functionality and bug fixes,
-and the 'minor' version part is changed at commits which break backward compatibility.
-
-After 1.0.0 version I will follow SEMVER strictly.
-
 Some TODO for 1.0.0:
 
 * more wrappers for Selenium actions.
@@ -506,4 +500,3 @@ https://github.com/Dzenly/tia/blob/master/donations-info.md
 
 My TODO lists are in 'inner-docs' project directory:
 https://github.com/Dzenly/tia/tree/master/inner-docs.
-After 1.0.0 release I am planning to create a github wiki page and create the site containing engine documentation with search ability.
