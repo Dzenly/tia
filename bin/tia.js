@@ -157,10 +157,24 @@ if (!gIn.params.emailCfgPath) {
   gIn.params.emailCfgPath = process.env[gT.engineConsts.emailCfgPathEnvVarName];
 }
 
+gT.rootTestsDirPath = path.join(gIn.params.rootDir, gT.engineConsts.suiteDirName);
+
+const rootSuiteConfig = nodeUtils.requireIfExists(path.join(
+  gT.rootTestsDirPath,
+  gT.engineConsts.suiteRootConfigName
+));
+gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.suiteConfigDefault), rootSuiteConfig);
+
+const rootDirConfig = nodeUtils.requireIfExists(path.join(
+  gT.rootTestsDirPath,
+  gT.engineConsts.dirRootConfigName
+));
+gT.rootDirConfig = _.merge(_.cloneDeep(gT.dirConfigDefault), rootDirConfig);
+
 if (gIn.params.emailCfgPath) {
   gIn.params.emailCfgPath = path.resolve(gIn.params.emailCfgPath);
   gIn.tracer.msg3(`Email cfg path: ${gIn.params.emailCfgPath}`);
-  gT.suiteConfigDefault = _.merge(_.cloneDeep(gT.suiteConfigDefault), require(gIn.params.emailCfgPath));
+  gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), require(gIn.params.emailCfgPath));
 } else {
   gIn.tracer.msg3('No email cfg path');
 }

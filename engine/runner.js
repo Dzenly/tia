@@ -194,7 +194,7 @@ async function runTestSuite(suiteData) {
   fileUtils.safeUnlink(etDif);
   fileUtils.safeRename(noTimeLog, noTimeLogPrev);
 
-  const dirInfo = await handleTestDir(root, gT.dirConfigDefault);
+  const dirInfo = await handleTestDir(root, gT.rootDirConfig);
 
   if (!gIn.params.useRemoteDriver) {
     await gT.s.driver.quitIfInited();

@@ -86,8 +86,9 @@ After install one can find examples of (non TIA) selenium tests here:
 
 ### Test suite
 
-A set of tests located in ```__tests__``` directory.
-```__tests__``` directories are located in project root directory specified by --root-dir cmd line option or by TIA_ROOT_DIR environment variable.
+A set of tests located in `__tests__` directory.
+Your project root directory can contain many `__tests__` directories and subdirectories of some directories.
+Project root directory is specified by --root-dir cmd line option or by TIA_ROOT_DIR environment variable.
 
 ### Test
 

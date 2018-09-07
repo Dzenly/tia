@@ -32,11 +32,19 @@ module.exports = {
 
   externalLogEnvVarName: 'TIA_EXTERNAL_LOG',
 
-  // Имя файла для локального конфига.
+  // File name for directory configs.
   dirConfigName: 'tia-dir-config.js',
 
-  // Имя файла для конфига пакета тестов (test suite), перегружающего настройки по умолчанию.
+  // File name for the root directory config.
+  // There is the only such file and it must be located in <rootDir>/__tests__ directory.
+  dirRootConfigName: 'tia-root-dir-config.js',
+
+  // File name for suite configs.
   suiteConfigName: 'tia-suite-config.js',
+
+  // File name for the root suite config.
+  // There is the only such file and it must be located in <rootDir>/__tests__ directory.
+  suiteRootConfigName: 'tia-root-suite-config.js',
 
   // Корневая директория, где лежат профайлы. Не перегружается в локальных конфигах.
   browserProfileRootDirName: 'tia-browser-profiles',

@@ -1,5 +1,7 @@
 'use strict';
 
+/* global gIn */
+
 const path = require('path');
 const { inspect } = require('util');
 const _ = require('lodash');
@@ -15,7 +17,7 @@ exports.clearRequireCache = function clearRequireCache(resolvedModulePath) {
 /**
  * Wrapper for 'require'. Allows to clean cache.
  *
- * @param {String} modPath
+ * @param {String} modPath - path to module.
  * @param {Boolean} clearCache - Set to true if cache should be deleted immediately.
  * @returns {{res: *, resolvedModPath: String}}
  * @throws {*} - Exceptions from 'require' calls.
@@ -32,6 +34,21 @@ exports.requireEx = function requireEx(modPath, clearCache) {
   }
 
   return res;
+};
+
+/**
+ * Wrapper for require,  do not generate exception if path is absent.
+ * @param modPath - path to module.
+ * @return {*} - exports from existing module or empty object if module is absent.
+ */
+exports.requireIfExists = function requireIfExists(modPath) {
+
+  try {
+    return require(modPath);
+  } catch (e) {
+    gIn.tracer.msg3(`requireIfExists: There is no module: ${modPath}.`);
+    return {};
+  }
 };
 
 function toMb(val) {
