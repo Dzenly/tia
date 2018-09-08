@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  dummyExpectedRootDirConfigOption: 'dummyExpectedRootDirConfigOption',
-  sectionTitle: 'The whole tests bunch for TIA'
+  existingSubDirConfigOption: 'existingSubDirConfigOption',
+  sectionTitle: 'The subdir tests bunch for TIA'
 };
 

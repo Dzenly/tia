@@ -94,24 +94,20 @@ async function handleTestFile(file, dirConfig) {
  */
 function handleDirConfig(dir, files, parentDirConfig) {
   let config;
-  let index = files.indexOf(gT.engineConsts.dirConfigName);
-  if (index < 0) {
-    config = {};
-  } else {
-    files.splice(index, 1);
+  if (files.includes(gT.engineConsts.dirConfigName)) {
     config = nodeUtils.requireEx(path.join(dir, gT.engineConsts.dirConfigName), true).result;
+  } else {
+    config = {};
   }
 
-  // Remove suite-config.js from list (it is already handled by the module entry point).
-  index = files.indexOf(gT.engineConsts.suiteConfigName);
-  if (index > -1) {
-    files.splice(index, 1);
-  }
-
-  index = files.indexOf(gT.engineConsts.resultsSubDirName);
-  if (index > -1) {
-    files.splice(index, 1);
-  }
+  // TODO: some error when suite configs or root configs is met in wrong places.
+  _.pullAll(files, [
+    gT.engineConsts.suiteConfigName,
+    gT.engineConsts.dirConfigName,
+    gT.engineConsts.resultsSubDirName,
+    gT.engineConsts.dirRootConfigName,
+    gT.engineConsts.suiteRootConfigName,
+  ]);
 
   return _.merge(_.cloneDeep(parentDirConfig), config);
 }
@@ -274,7 +270,6 @@ async function runTestSuite(suiteData) {
 }
 
 async function prepareAndRunTestSuite(root) {
-
   const browserProfilePath = path.resolve(
     root,
     gT.engineConsts.resultsSubDirName,

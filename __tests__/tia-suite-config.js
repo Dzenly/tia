@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-  dummyGoodSuitConfigOption : 'dummyGoodSuitConfigOption'
+  existingSuitConfigOptionInPrjRoot: 'existingSuitConfigOptionInPrjRoot',
 };

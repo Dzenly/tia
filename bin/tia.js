@@ -218,7 +218,7 @@ if (args.requireModules) {
 }
 
 if (gIn.params.defHost) {
-  gT.dirConfigDefault.selHost = gIn.params.defHost;
+  gT.rootDirConfig.selHost = gIn.params.defHost;
 }
 
 // process.on('uncaughtException', (err) => {

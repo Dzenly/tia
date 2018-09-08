@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  dummyExpectedRootDirConfigOption: 'dummyExpectedRootDirConfigOption',
-  sectionTitle: 'The whole tests bunch for TIA'
+  existingDirConfigOptionInPrjRoot: 'existingDirConfigOptionInPrjRoot',
+  sectionTitle: 'Tests from prj root dir.',
 };
 
