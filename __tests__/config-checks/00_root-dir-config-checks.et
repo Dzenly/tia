@@ -1,0 +1,10 @@
+=================
+Title: Root dir: Checking config and suite-config work.
+OK: Root dir config check: existingRootDirConfigOption
+OK: Root suite config check: existingRootSuiteConfigOption
+OK: Option from root dir config should be existing: existingDirConfigOptionInPrjRoot
+OK: Option from root suite config should be existing.: existingSuitConfigOptionInPrjRoot
+OK: Check for intermix of options.: undefined
+OK: Check for intermix of options.: undefined
+=================
+Pass: 6, Fail: 0
