@@ -29,19 +29,17 @@ function formLogPart(str, count) {
  */
 exports.testInfoToString = function testInfoToString(parameters) {
   const {
-    curInfo, isDir, verbose, noTime, noTitle,
+    curInfo, isDir, isSuiteRoot, verbose, noTime, noTitle,
   } = parameters;
   let filePath;
   let diffed;
   let ediffed;
   let skipped;
   if (isDir) {
-    filePath = '';
     diffed = formLogPart('Dif', curInfo.diffed);
     ediffed = formLogPart('EDif', curInfo.expDiffed);
     skipped = formLogPart('Skip', curInfo.skipped);
   } else {
-    filePath = '';
     if (curInfo.diffed) {
       diffed = 'DIF';
     } else if (curInfo.expDiffed) {
@@ -52,7 +50,9 @@ exports.testInfoToString = function testInfoToString(parameters) {
     ediffed = '';
     skipped = curInfo.skipped ? 'SKIP' : '';
   }
-  filePath += `"${mPath.basename(curInfo.path)}"`;
+
+  filePath = curInfo.isSuiteRoot ? `"${mPath.relative(gIn.params.rootDir, curInfo.path)}"` :
+    `"${mPath.basename(curInfo.path)}"`;
   const title = noTitle ? '' : `"${curInfo.title}"`;
   const passed = formLogPart('Pass', curInfo.passed);
   const failed = formLogPart('Fail', curInfo.failed);

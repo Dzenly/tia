@@ -8,7 +8,6 @@ const path = require('path');
 const nodeUtils = require('../utils/nodejs-utils.js');
 const fileUtils = require('../utils/file-utils.js');
 const _ = require('lodash');
-const Bluebird = require('bluebird');
 
 function getOs() {
   const os = require('os');
@@ -191,6 +190,7 @@ async function runTestSuite(suiteData) {
   fileUtils.safeRename(noTimeLog, noTimeLogPrev);
 
   const dirInfo = await handleTestDir(root, gT.rootDirConfig);
+  dirInfo.isSuiteRoot = true;
 
   if (!gIn.params.useRemoteDriver) {
     await gT.s.driver.quitIfInited();
@@ -209,16 +209,16 @@ async function runTestSuite(suiteData) {
     txtAttachments.push(prevDif);
   }
 
-  const suiteLogEtDifRes = gIn.diffUtils.getDiff('.', noTimeLog, gIn.suite.etLog);
-  const suiteLogEtDifResBool = Boolean(suiteLogEtDifRes);
-  if (suiteLogEtDifResBool) {
-    fs.writeFileSync(etDif, suiteLogEtDifRes, { encoding: gT.engineConsts.logEncoding });
+  const suiteLogEtDifResStr = gIn.diffUtils.getDiff('.', noTimeLog, gIn.suite.etLog);
+  const equalToEtalon = !suiteLogEtDifResStr;
+  if (!equalToEtalon) {
+    fs.writeFileSync(etDif, suiteLogEtDifResStr, { encoding: gT.engineConsts.logEncoding });
     txtAttachments.push(etDif);
   }
-  gIn.tracer.msg3(`suiteLogEtDifRes: ${suiteLogEtDifResBool}`);
-  const etSLogInfo = suiteLogEtDifResBool ? 'DIF_SLOG, ' : 'ET_SLOG, ';
-  const etSLogInfoCons = suiteLogEtDifResBool ? `${gIn.cLogger.chalkWrap('red', 'DIF_SLOG')}, ` :
-    `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, `;
+  gIn.tracer.msg3(`equalToEtalon: ${equalToEtalon}`);
+  const etSLogInfo = equalToEtalon ? 'ET_SLOG, ' : 'DIF_SLOG, ';
+  const etSLogInfoCons = equalToEtalon ? `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, ` :
+    `${gIn.cLogger.chalkWrap('red', 'DIF_SLOG')}, `;
 
   const subjTimeMark = dirInfo.time > gIn.params.tooLongTime ? ', TOO_LONG' : '';
 
@@ -248,7 +248,7 @@ async function runTestSuite(suiteData) {
   txtAttachments.push(procInfoFilePath);
 
   await gIn.mailUtils.send(emailSubj, txtAttachments, [arcName]);
-  const status = dirInfo.diffed ? 1 : 0;
+  const { diffed } = dirInfo;
   gIn.cLogger.msg(`\n${emailSubjCons}\n`);
   if (gT.suiteConfig.suiteLogToStdout) {
     gIn.logger.printSuiteLog(dirInfo);
@@ -261,7 +261,12 @@ async function runTestSuite(suiteData) {
     fileUtils.safeUnlink(arcName);
   }
 
-  return status;// Process exit status.
+  return {
+    equalToEtalon,
+    diffed,
+    emailSubj,
+    emailSubjCons,
+  };
 }
 
 async function prepareAndRunTestSuite(root) {
@@ -313,20 +318,17 @@ async function prepareAndRunTestSuite(root) {
     // });
   }
 
-  const exitStatus = await runTestSuite(suite)
+  const suiteResult = await runTestSuite(suite)
     .catch((err) => {
       gIn.tracer.err(`Runner ERR: ${gIn.textUtils.excToStr(err)}`);
-      process.exitCode = 1;
+      return {
+        err,
+      };
     });
 
-  if (exitStatus !== 0) { // 0 is returned only if all suites pass correctly.
-    process.exitCode = exitStatus;
-  }
+  suiteResult.path = path.relative(gIn.params.rootDir, root);
 
-
-  // .then(function () {
-  //   process.exit();
-  // });
+  return suiteResult;
 }
 
 
@@ -368,15 +370,44 @@ function getTestSuitePaths() {
 
 // Returns subject for email.
 exports.runTestSuites = async function runTestSuites() {
+  fileUtils.safeUnlink(gT.rootLog);
+
   const suitePaths = getTestSuitePaths();
 
   gIn.tracer.msg3(`Following suite paths are found: ${suitePaths}`);
 
   process.exitCode = 0;
 
+  const results = [];
+
   for (const suitePath of suitePaths) { // eslint-disable-line no-restricted-syntax
-    const result = await prepareAndRunTestSuite(suitePath);
+    results.push(await prepareAndRunTestSuite(suitePath));
   }
 
-  const asdf = 5;
+  const wasError = results.some(result => !result || result.diffed || !result.equalToEtalon);
+
+  const resumeFileStr = wasError ? 'FAILED' : 'PASSED';
+  const resumeConsoleStr = gIn.cLogger.chalkWrap(wasError ? 'red' : 'green', resumeFileStr);
+
+  const head = '<<<< Summary of tests results: >>>>';
+  fs.appendFileSync(gT.rootLog, `${head} \n`);
+  gIn.cLogger.msgln(head);
+
+  fs.appendFileSync(gT.rootLog, `${resumeFileStr}\n`);
+  gIn.cLogger.msgln(resumeConsoleStr);
+
+  results.forEach((result) => {
+    if (result.err) {
+      fs.appendFileSync(gT.rootLog, `${result.err}\n`);
+      gIn.cLogger.errln(result.err);
+      return;
+    }
+
+    fs.appendFileSync(gT.rootLog, `${result.emailSubj}\n`);
+    gIn.cLogger.msgln(result.emailSubjCons);
+  });
+
+  const tail = '<<<< ===================== >>>>';
+  fs.appendFileSync(gT.rootLog, `${tail} \n`);
+  gIn.cLogger.msgln(tail);
 };

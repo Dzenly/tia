@@ -170,6 +170,12 @@ const rootDirConfig = nodeUtils.requireIfExists(path.join(
 ));
 gT.rootDirConfig = _.merge(_.cloneDeep(gT.dirConfigDefault), rootDirConfig);
 
+gT.rootLog = path.join(
+  gT.rootTestsDirPath,
+  gT.engineConsts.resultsSubDirName,
+  gT.engineConsts.rootLogName + gT.engineConsts.logExtension
+);
+
 if (gIn.params.emailCfgPath) {
   gIn.params.emailCfgPath = path.resolve(gIn.params.emailCfgPath);
   gIn.tracer.msg3(`Email cfg path: ${gIn.params.emailCfgPath}`);

@@ -128,7 +128,7 @@ exports.fileToStderr = function fileToStderr(file) {
 };
 
 exports.saveJson = function saveJson(obj, file) {
-  fs.writeFileSync(file, JSON.stringify(obj), { encoding: gT.engineConsts.logEncoding });
+  fs.writeFileSync(file, JSON.stringify(obj, null, 2), { encoding: gT.engineConsts.logEncoding });
 };
 
 function collectArcPaths(dirInfo, arcPaths) {

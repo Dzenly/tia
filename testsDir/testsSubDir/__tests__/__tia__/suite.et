@@ -1,9 +1,9 @@
 ====================    Short Log BEGIN:    ====================
-"__tests__", dif: 0, Fail: 31
+"testsDir/testsSubDir/__tests__", dif: 0, Fail: 31
 ====================    Short Log END.    ====================
 
 ====================    Verbose Log BEGIN:    ====================
-"__tests__", dif: 0, Fail: 31, EDif: 1, Skip: 4, Pass: 67, "The subdir tests bunch for TIA"
+"testsDir/testsSubDir/__tests__", dif: 0, Fail: 31, EDif: 1, Skip: 4, Pass: 67, "The subdir tests bunch for TIA"
 | "tia", dif: 0, Fail: 31, EDif: 1, Skip: 4, Pass: 67, "The subdir tests bunch for TIA"
 | | "00_sanity", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 10, "The subdir tests bunch for TIA"
 | | | "00_checkForGlobals.tia.js", OK, fail: 0, Pass: 5, "Checking that all global variables are exist and correct."
