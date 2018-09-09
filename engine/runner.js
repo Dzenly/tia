@@ -209,21 +209,16 @@ async function runTestSuite(suiteData) {
     txtAttachments.push(prevDif);
   }
 
-  let etSLogInfo = '';
-  let etSLogInfoCons = '';
-
-  if (gIn.params.etSlog) {
-    const suiteLogEtDifRes = gIn.diffUtils.getDiff('.', noTimeLog, gIn.params.etSLog);
-    const suiteLogEtDifResBool = Boolean(suiteLogEtDifRes);
-    if (suiteLogEtDifResBool) {
-      fs.writeFileSync(etDif, suiteLogEtDifRes, { encoding: gT.engineConsts.logEncoding });
-      txtAttachments.push(etDif);
-    }
-    gIn.tracer.msg3(`suiteLogEtDifRes: ${suiteLogEtDifResBool}`);
-    etSLogInfo = suiteLogEtDifResBool ? 'DIF_SLOG, ' : 'ET_SLOG, ';
-    etSLogInfoCons = suiteLogEtDifResBool ? `${gIn.cLogger.chalkWrap('red', 'DIF_SLOG')}, ` :
-      `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, `;
+  const suiteLogEtDifRes = gIn.diffUtils.getDiff('.', noTimeLog, gIn.suite.etLog);
+  const suiteLogEtDifResBool = Boolean(suiteLogEtDifRes);
+  if (suiteLogEtDifResBool) {
+    fs.writeFileSync(etDif, suiteLogEtDifRes, { encoding: gT.engineConsts.logEncoding });
+    txtAttachments.push(etDif);
   }
+  gIn.tracer.msg3(`suiteLogEtDifRes: ${suiteLogEtDifResBool}`);
+  const etSLogInfo = suiteLogEtDifResBool ? 'DIF_SLOG, ' : 'ET_SLOG, ';
+  const etSLogInfoCons = suiteLogEtDifResBool ? `${gIn.cLogger.chalkWrap('red', 'DIF_SLOG')}, ` :
+    `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, `;
 
   const subjTimeMark = dirInfo.time > gIn.params.tooLongTime ? ', TOO_LONG' : '';
 
@@ -282,19 +277,26 @@ async function prepareAndRunTestSuite(root) {
     gT.engineConsts.suiteLogName + gT.engineConsts.logExtension
   );
 
+  const etLog = path.join(
+    root,
+    gT.engineConsts.resultsSubDirName,
+    gT.engineConsts.suiteLogName + gT.engineConsts.etalonExtension
+  );
+
   const configPath = path.join(
     root,
     gT.engineConsts.suiteConfigName
   );
 
-  const suiteData = {
+  const suite = {
     root,
     browserProfilePath,
     log,
+    etLog,
     configPath,
   };
 
-  gIn.suiteData = suiteData;
+  gIn.suite = suite;
 
   gIn.configUtils.handleSuiteConfig();
 
@@ -311,7 +313,7 @@ async function prepareAndRunTestSuite(root) {
     // });
   }
 
-  const exitStatus = await runTestSuite(suiteData)
+  const exitStatus = await runTestSuite(suite)
     .catch((err) => {
       gIn.tracer.err(`Runner ERR: ${gIn.textUtils.excToStr(err)}`);
       process.exitCode = 1;

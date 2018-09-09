@@ -124,7 +124,7 @@ exports.usage = function usage() {
       and forces s.driver.init() to use this external driver.
       This is convenient for test debugging.
       This option allows to use the same page opened in the browser for different node.js processes.
-      I.e. one process ("node tia" run) - does load needed page, performs some actions with the page, exit.
+      I.e. in the first run you can load needed page, performs some actions with the page, exits.
       The next process ("node tia"  run) - performs other actions. Etc.
       The variable gT.firstRunWithRemoteDriver is true when the current run is the first run for which
       the remote driver was initialized.

@@ -108,7 +108,6 @@ const path = require('path');
 
 if (args.runSelfTests) { // Tests for the engine.
   args.rootDir = path.resolve(path.join(__dirname, '..'));
-  args.etSLog = gT.engineConsts.selfTestsEtSLog;
   args.extLog = gT.engineConsts.selfTestsExtLog;
 }
 
@@ -193,12 +192,6 @@ if (gIn.params.extLog) {
 gIn.params.testsParentDir = path.dirname(rootDir);
 
 gIn.tracer.msg3(`Tests Parent Dir: ${gIn.params.testsParentDir}`);
-
-if (gIn.params.etSLog && !path.isAbsolute(gIn.params.etSLog)) {
-  gIn.params.etSLog = path.join(gIn.params.testsParentDir, gIn.params.etSLog);
-}
-
-gIn.tracer.msg3(`Etalon suite log path: ${gIn.params.etSLog}`);
 
 // TODO: support several paths for pattern?
 

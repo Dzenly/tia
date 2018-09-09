@@ -399,7 +399,7 @@ exports.getCookie = function getCookie(name, logAction) {
 exports.cleanProfile = function cleanProfile(logAction) {
   return gIn.wrap(`Cleaning profile: "${gIn.config.selProfilePath}" ... `, logAction, () => Bluebird.try(() => {
     if (gIn.config.selProfilePath) {
-      gIn.fileUtils.emptyDir(mPath.join(gIn.suiteData.browserProfilePath, gIn.config.selProfilePath));
+      gIn.fileUtils.emptyDir(mPath.join(gIn.suite.browserProfilePath, gIn.config.selProfilePath));
     }
   }));
 };

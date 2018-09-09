@@ -64,8 +64,6 @@ module.exports = {
 
   logEncoding: 'utf8', // ascii
 
-  selfTestsEtSLog: 'tests.et', // TODO
-
   selfTestsExtLog: 'ext-log.log', // TODO
 
   hangTimeout: 60000, // Timeout (ms) after which action function considered as hanging.

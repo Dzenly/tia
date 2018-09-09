@@ -8,7 +8,7 @@ const util = require('util');
 const fileUtils = require('../../utils/file-utils.js');
 
 function createBrowserProfile() {
-  fileUtils.mkdir(gIn.suiteData.browserProfilePath);
+  fileUtils.mkdir(gIn.suite.browserProfilePath);
 }
 
 /**
@@ -57,7 +57,7 @@ exports.init = function init(cleanProfile, logAction) {
     let profileAbsPath;
 
     if (gIn.config.selProfilePath) {
-      profileAbsPath = mpath.resolve(mpath.join(gIn.suiteData.browserProfilePath, gIn.config.selProfilePath));
+      profileAbsPath = mpath.resolve(mpath.join(gIn.suite.browserProfilePath, gIn.config.selProfilePath));
       gIn.tracer.msg2(`Profile path: ${profileAbsPath}`);
     }
 

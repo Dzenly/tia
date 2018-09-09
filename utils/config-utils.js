@@ -12,10 +12,10 @@ exports.handleSuiteConfig = function handleSuiteConfig() {
 
   // TODO: current suite dir.
   try {
-    localSuiteConfig = nodeUtils.requireEx(gIn.suiteData.configPath, true).result;
+    localSuiteConfig = nodeUtils.requireEx(gIn.suite.configPath, true).result;
   } catch (e) {
     gIn.tracer.msg2(e);
-    gIn.tracer.msg2(`There is no Suite Config: ${gIn.suiteData.configPath}`);
+    gIn.tracer.msg2(`There is no Suite Config: ${gIn.suite.configPath}`);
   }
   gT.suiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), localSuiteConfig);
 };
