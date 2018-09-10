@@ -338,29 +338,32 @@ async function prepareAndRunTestSuite(root) {
 function getTestSuitePaths() {
   const suitePaths = [];
 
-  function walkSubDirs(dir) {
-    const dirs = fs.readdirSync(dir).filter((fileName) => {
-      const fullPath = path.join(dir, fileName);
+  function walkSubDirs(parentDir) {
+    const dirs = fs.readdirSync(parentDir).filter((childDir) => {
+      const fullPath = path.join(parentDir, childDir);
       if (!fileUtils.isDirectory(fullPath)) {
         return false;
       }
 
       for (const pattern of gT.engineConsts.patternsToIgnore) { // eslint-disable-line no-restricted-syntax
-        if (pattern.test(fileName)) {
+        if (pattern.test(childDir)) {
           return false;
         }
       }
 
-      if (fileName === gT.engineConsts.suiteDirName) {
-        suitePaths.push(fullPath);
+      if (childDir === gT.engineConsts.suiteDirName) {
+        if (fileUtils.isDirectory(path.join(fullPath, gT.engineConsts.resultsSubDirName))) {
+          suitePaths.push(fullPath);
+        }
+        gIn.tracer.msg1(`Directory ${fullPath} is ignored because does not contain TIA results subdirectory.`);
         return false;
       }
 
-      return fileName !== gT.engineConsts.resultsSubDirName;
+      return childDir !== gT.engineConsts.resultsSubDirName;
     });
 
     dirs.forEach((subDir) => {
-      const fullPath = path.join(dir, subDir);
+      const fullPath = path.join(parentDir, subDir);
       walkSubDirs(fullPath);
     });
   }
@@ -377,7 +380,7 @@ exports.runTestSuites = async function runTestSuites() {
 
   const suitePaths = getTestSuitePaths();
 
-  gIn.tracer.msg3(`Following suite paths are found: ${suitePaths}`);
+  gIn.tracer.msg1(`Following suite paths are found: ${suitePaths}`);
 
 
   const results = [];
