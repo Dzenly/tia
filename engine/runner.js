@@ -249,6 +249,7 @@ async function runTestSuite(suiteData) {
   txtAttachments.push(procInfoFilePath);
 
   await gIn.mailUtils.send(emailSubj, txtAttachments, [arcName]);
+
   const { diffed } = dirInfo;
   gIn.cLogger.msg(`\n${emailSubjCons}\n`);
   if (gT.suiteConfig.suiteLogToStdout) {

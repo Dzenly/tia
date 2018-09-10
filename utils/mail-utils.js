@@ -57,7 +57,12 @@ const mailOptions = {
  * @returns {Promise<T>}
  */
 exports.send = function send(subj, txtAttachments, zipAttachments) {
-  if (gIn.params.disableEmail || !gT.suiteConfig.mailRecipientList) {
+  if (gIn.params.disableEmail) {
+    gIn.tracer.msg2('Mail is disabled.');
+    return;
+  }
+
+  if (!gT.suiteConfig.mailRecipientList) {
     gIn.tracer.err('Mail list is empty.');
     return;
   }
