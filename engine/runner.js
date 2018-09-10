@@ -354,8 +354,11 @@ function getTestSuitePaths() {
       if (childDir === gT.engineConsts.suiteDirName) {
         if (fileUtils.isDirectory(path.join(fullPath, gT.engineConsts.resultsSubDirName))) {
           suitePaths.push(fullPath);
+        } else {
+          gIn.tracer.msg1(
+            `Directory ${fullPath} is ignored because does not contain TIA results subdirectory.`
+          );
         }
-        gIn.tracer.msg1(`Directory ${fullPath} is ignored because does not contain TIA results subdirectory.`);
         return false;
       }
 
