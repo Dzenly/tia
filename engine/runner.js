@@ -143,15 +143,16 @@ async function handleTestDir(dir, parentDirConfig) {
       continue; // We remove some files in process.
     }
     let innerCurInfo;
-    if (stat.isFile() && path.extname(fileOrDirPath) === '.js') {
+    if (stat.isFile() && fileOrDirPath.endsWith(gT.engineConsts.tiaSuffix)) {
       innerCurInfo = await handleTestFile(fileOrDirPath, dirConfig);
     } else if (stat.isDirectory()) {
       if (fileOrDir === gT.engineConsts.browserProfileRootDirName) {
-        gIn.tracer.msg3('Skipping directory, because it is browser profile');
+        gIn.tracer.msg3(`Skipping directory ${fileOrDirPath}, because it is browser profile`);
         continue;
       }
       innerCurInfo = await handleTestDir(fileOrDirPath, dirConfig);
     } else {
+      gIn.tracer.msg3(`Skipping file: ${fileOrDirPath}, because it is not TIA test.`);
       continue;
     }
 
