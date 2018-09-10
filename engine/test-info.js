@@ -29,9 +29,8 @@ function formLogPart(str, count) {
  */
 exports.testInfoToString = function testInfoToString(parameters) {
   const {
-    curInfo, isDir, isSuiteRoot, verbose, noTime, noTitle,
+    curInfo, isDir, verbose, noTime, noTitle, noEol,
   } = parameters;
-  let filePath;
   let diffed;
   let ediffed;
   let skipped;
@@ -51,7 +50,7 @@ exports.testInfoToString = function testInfoToString(parameters) {
     skipped = curInfo.skipped ? 'SKIP' : '';
   }
 
-  filePath = curInfo.isSuiteRoot ? `"${mPath.relative(gIn.params.rootDir, curInfo.path)}"` :
+  const filePath = curInfo.isSuiteRoot ? `"${mPath.relative(gIn.params.rootDir, curInfo.path)}"` :
     `"${mPath.basename(curInfo.path)}"`;
   const title = noTitle ? '' : `"${curInfo.title}"`;
   const passed = formLogPart('Pass', curInfo.passed);
@@ -61,7 +60,11 @@ exports.testInfoToString = function testInfoToString(parameters) {
   const arr = verbose ? [filePath, diffed, failed, ediffed, skipped, passed, time, title] :
     [filePath, diffed, failed];
 
-  const res = `${arr.filter(val => val).join(', ')}\n`; // join only non-empty strings.
+  let res = `${arr.filter(val => val).join(', ')}`; // join only non-empty strings.
+
+  if (!noEol) {
+    res += '\n';
+  }
 
   return res;
 };

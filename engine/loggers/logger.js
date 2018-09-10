@@ -199,7 +199,7 @@ function saveSuiteLogPart(verbose, dirInfo, noTime) {
 }
 
 /**
- * Saves main log.
+ * Saves suite log.
  * @param dirInfo
  * @param log
  * @parem noTime
@@ -213,7 +213,7 @@ exports.saveSuiteLog = function saveSuiteLog(dirInfo, log, noTime) {
   saveSuiteLogPart(true, dirInfo, noTime);
   fs.closeSync(exports.fd);
   return gIn.tInfo.testInfoToString({
-    curInfo: dirInfo, isDir: true, verbose: true, noTime, noTitle: true,
+    curInfo: dirInfo, isDir: true, verbose: true, noTime, noTitle: true, noEol: true,
   });
 };
 
