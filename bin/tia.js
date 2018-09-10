@@ -141,11 +141,12 @@ if (gT.browsers.indexOf(browser) === -1) {
 
 gIn.params = args;
 
-const rootDir = tiaArgsUtils.resolveMandatoryPathOption({
+const rootDir = tiaArgsUtils.resolvePathOption({
   cmdLineArgsPath: args.rootDir,
   envVarName: gT.engineConsts.rootDirEnvVarName,
   description: 'Root directory',
   cutLastDirSep: true,
+  mandatory: false,
 });
 
 gIn.params.rootDir = rootDir;

@@ -9,15 +9,19 @@ const path = require('path');
  * @param {Object} argsObj
  * @return {String} - resolved path.
  */
-exports.resolveMandatoryPathOption = function resolveMandatoryPathOption(argsObj) {
+exports.resolvePathOption = function resolvePathOption(argsObj) {
   const {
-    cmdLineArgsPath, envVarName, description, cutLastDirSep,
+    cmdLineArgsPath, envVarName, description, cutLastDirSep, mandatory,
   } = argsObj;
 
   let myPath = cmdLineArgsPath || process.env[envVarName];
   if (!myPath) {
-    gIn.cLogger.errln(`${description} is not specified`);
-    process.exit(1); // TODO: change to debug-assert ??
+    if (mandatory) {
+      gIn.cLogger.errln(`${description} is not specified`);
+      process.exit(1); // TODO: change to debug-assert ??
+    } else {
+      myPath = process.cwd();
+    }
   }
 
   myPath = path.resolve(myPath);
