@@ -95,6 +95,8 @@ exports.usage = function usage() {
       --pattern <pattern> - pattern for tests to run.
       , any test which file path (relative to <testSuiteRoot>) contains <pathToDirOrTest> substring will run.
       By default, tests from all directories (recursively) will run.
+      
+      --print-proc-info print process info to console for each suite log.
 
       --require-modules <paths_separated_by_comma>
       Forces tia to require listed files as Node.js modules.
@@ -129,7 +131,7 @@ exports.usage = function usage() {
       The next process ("node tia"  run) - performs other actions. Etc.
       The variable gT.firstRunWithRemoteDriver is true when the current run is the first run for which
       the remote driver was initialized.
-       
+      
        -v, --version - shot the version of tia engine.
 
       --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).

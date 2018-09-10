@@ -253,9 +253,11 @@ async function runTestSuite(suiteData) {
   gIn.cLogger.msg(`\n${emailSubjCons}\n`);
   if (gT.suiteConfig.suiteLogToStdout) {
     gIn.logger.printSuiteLog(dirInfo);
-    gIn.cLogger.msgln(procInfo);
 
     // fileUtils.fileToStdout(log);
+  }
+  if (gIn.params.printProcInfo) {
+    gIn.cLogger.msgln(procInfo);
   }
 
   if (gT.suiteConfig.removeZipAfterSend) {
@@ -376,7 +378,6 @@ exports.runTestSuites = async function runTestSuites() {
   const suitePaths = getTestSuitePaths();
 
   gIn.tracer.msg3(`Following suite paths are found: ${suitePaths}`);
-
 
 
   const results = [];
