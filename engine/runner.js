@@ -377,7 +377,7 @@ exports.runTestSuites = async function runTestSuites() {
 
   gIn.tracer.msg3(`Following suite paths are found: ${suitePaths}`);
 
-  process.exitCode = 0;
+
 
   const results = [];
 
@@ -386,6 +386,8 @@ exports.runTestSuites = async function runTestSuites() {
   }
 
   const wasError = results.some(result => !result || result.diffed || !result.equalToEtalon);
+
+  process.exitCode = wasError ? 1 : 0;
 
   const resumeFileStr = wasError ? 'FAILED' : 'PASSED';
   const resumeConsoleStr = gIn.cLogger.chalkWrap(wasError ? 'red' : 'green', resumeFileStr);

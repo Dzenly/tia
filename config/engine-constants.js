@@ -13,7 +13,7 @@ module.exports = {
   // * Suite etalog log.
   // * Current suite logs in various formats.
   // The <project root>/__tests__ also contains such a directory with project level results.
-  resultsSubDirName: '__tia__',
+  resultsSubDirName: '_tia',
 
   logExtension: '.log',
 
