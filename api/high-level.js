@@ -49,3 +49,32 @@ exports.wrapGenerator = function* wrapGenerator(gen, msg, options) {
   return res;
 };
 
+exports.wrapAsync = async function wrapAsync(func, msg, options) {
+  const opts = gT.commonMiscUtils.mergeOptions(options, defaultOptions);
+
+  if (opts.logHl) {
+    gT.l.println(`BEGIN: "${msg}"`);
+  }
+
+  // In case of fail, the state will be restored before next test.
+  const oldLogLl = gT.lL.setDefaultLlLogAction(opts.logLl);
+  const oldPassLl = gT.lL.setLlPassCounting(opts.passLl);
+  const oldPassLlPrinting = gT.lL.setLlPassPrinting(opts.passLlPrinting);
+
+  const res = await func();
+
+  gT.lL.setDefaultLlLogAction(oldLogLl);
+  gT.lL.setLlPassCounting(oldPassLl);
+  gT.lL.setLlPassPrinting(oldPassLlPrinting);
+
+  if (opts.logHl) {
+    gT.l.println(`END: "${msg}"`);
+  }
+
+  if (opts.passHl) {
+    gIn.tInfo.addPassForce();
+  }
+
+  return res;
+};
+
