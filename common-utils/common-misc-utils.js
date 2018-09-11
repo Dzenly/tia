@@ -2,8 +2,6 @@
 (function runCommonMiscUtils() {
   'use strict';
 
-  console.log('runCommonMiscUtils');
-
   let container;
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
@@ -12,6 +10,7 @@
       return false;
     };
   } else {
+    console.log('runCommonMiscUtils');
     container = window.tia.cU;
     container.getDebugMode = function getDebugMode() {
       return window.tia.debugMode;

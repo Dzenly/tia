@@ -2,13 +2,12 @@
 (function injectCommonConstants() {
   'use strict';
 
-  console.log('injectCommonConstants');
-
   let container;
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     container = exports;
   } else {
+    console.log('injectCommonConstants');
     container = window.tia.cC;
   }
 
