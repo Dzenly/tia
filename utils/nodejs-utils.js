@@ -106,3 +106,11 @@ exports.checkNodeJsVersion = function checkNodeJsVersion() {
     process.exit(1);
   }
 };
+
+exports.requireArray = function requireArray(modules) {
+  modules.forEach((modulePath) => {
+    const modPath = path.resolve(gIn.params.rootDir, modulePath);
+    gIn.tracer.msg1(`Requiring module: ${modPath}`);
+    require(modPath);
+  });
+};

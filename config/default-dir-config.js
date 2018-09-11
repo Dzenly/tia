@@ -30,6 +30,10 @@ module.exports = {
   // Может использоваться для тестирования движка тестов, или при написании high level функций.
   ignorePassAndFailCounters: false,
 
+  // Array of absolute paths or paths relative to root dir.
+  // They will be required before all dir tests.
+  require: [],
+
   // Игнорировать ли все тесты из директории в которой лежит tia-dir-config.js.
   // Если надо пропустить один тест, можно переименовать его, чтобы расширение стало не .js.
   skip: false,

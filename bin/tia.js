@@ -216,9 +216,7 @@ gIn.params.minPathSearchIndex = rootDir.length + 1; // Minimum index for path se
 
 if (args.requireModules) {
   const arr = args.requireModules.split(/\s*,\s*/);
-  arr.forEach((reqPath) => {
-    require(path.resolve(reqPath));
-  });
+  nodeUtils.requireArray(arr);
 }
 
 if (gIn.params.defHost) {

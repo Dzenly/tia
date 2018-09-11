@@ -108,6 +108,10 @@ function handleDirConfig(dir, files, parentDirConfig) {
     gT.engineConsts.suiteRootConfigName,
   ]);
 
+  if (config.require) {
+    nodeUtils.requireArray(config.require);
+  }
+
   return _.merge(_.cloneDeep(parentDirConfig), config);
 }
 
