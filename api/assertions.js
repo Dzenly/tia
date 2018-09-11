@@ -245,6 +245,8 @@ exports.exception = function exception(func, expExc, mode) {
   }
 };
 
+// TODO exception in async func.
+
 /**
  *
  * @param yieldable

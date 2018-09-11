@@ -228,7 +228,7 @@ module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
       gIn.logger.logResourcesUsage();
 
       if (gT.sOrig.driver && !gIn.errRecursionCount) {
-        return gT.u.execGen(handleErrorWhenDriverExistsAndRecCountZero);
+        return handleErrorWhenDriverExistsAndRecCountZero();
       }
 
       const driverExisted = Boolean(gT.sOrig.driver);
