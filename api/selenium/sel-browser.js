@@ -36,17 +36,20 @@ const commonUtils = [
  * @returns a promise which will be resolved with script return value.
  */
 exports.initTiaBrHelpers = function initTiaBrHelpers(logAction) {
-  return gIn.wrap('Initialization of TIA helpers ... ', logAction, () => async function () {
-    for (const fName of brHelpers) {
-      const fPath = mPath.join(__dirname, 'browser-part', fName);
-      await exports.executeScriptFromFile(fPath);
-    }
-    for (const fName of commonUtils) {
-      const fPath = mPath.join(__dirname, '..', '..', 'common-utils', fName);
-      await exports.executeScriptFromFile(fPath);
-    }
-    gIn.brHelpersInitiated = true;
-  });
+  return gIn.wrap(
+    'Initialization of TIA helpers ... ',
+    logAction,
+    async () => {
+      for (const fName of brHelpers) {
+        const fPath = mPath.join(__dirname, 'browser-part', fName);
+        await exports.executeScriptFromFile(fPath);
+      }
+      for (const fName of commonUtils) {
+        const fPath = mPath.join(__dirname, '..', '..', 'common-utils', fName);
+        await exports.executeScriptFromFile(fPath);
+      }
+      gIn.brHelpersInitiated = true;
+    });
 };
 
 /**

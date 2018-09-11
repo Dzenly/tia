@@ -1,8 +1,10 @@
 // jscs:ignore
 // TODO: by label, by object data (like linkedItem), form navigations.
 /* globals tia */
-(function () {
+(function setEBrContent() {
   'use strict';
+
+  console.log('setEBrContent');
 
   window.tiaEJ.ctSelectors = {
     rowBody: '.x-grid-rowbody-tr',

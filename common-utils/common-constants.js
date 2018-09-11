@@ -2,6 +2,8 @@
 (function injectCommonConstants() {
   'use strict';
 
+  console.log('injectCommonConstants');
+
   let container;
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {

@@ -1,5 +1,5 @@
 // jscs:ignore
-(function () {
+(function setExplorationMode() {
   'use strict';
 
   window.tiaEJExp = {

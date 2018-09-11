@@ -1,7 +1,9 @@
 /* globals window: true, screen: true, DsgwDwd3: true, tia: true, tiaEJ: true */
 /* Test helper for all pages */
-(function () {
+(function setTiaBrHelpers() {
   'use strict';
+
+  console.log('setTiaBrHelpers');
 
   window.tia = {
 

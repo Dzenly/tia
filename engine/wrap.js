@@ -214,6 +214,7 @@ module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
     .tap((val) => {
       gIn.tracer.msg3(`A.W.: after action execute, msg: ${msg}`);
       gIn.tracer.msg3(`A.W.: after action execute, val: ${val}`);
+      gIn.tracer.msg3(`A.W.: after action execute, act: ${act}`);
       return pauseAndLogOk(logAction, startTime, noConsoleAndExceptions);
     })
     .catch((err) => {

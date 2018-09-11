@@ -2,6 +2,8 @@
 (function runCommonMiscUtils() {
   'use strict';
 
+  console.log('runCommonMiscUtils');
+
   let container;
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {

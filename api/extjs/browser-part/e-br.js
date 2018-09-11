@@ -1,6 +1,8 @@
 // jscs:ignore
-(function () {
+(function setEBr() {
   'use strict';
+
+  console.log('setEBr');
 
   window.tiaEJ = {
 

@@ -1,7 +1,9 @@
 // jscs:ignore
 /* globals tia */
-(function () {
+(function setEBrMsgbox() {
   'use strict';
+
+  console.log('setEBrMsgbox');
 
   // TODO: prompt editor, system cancel menu (chest in right top corner).
 

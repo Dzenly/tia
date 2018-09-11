@@ -1,8 +1,11 @@
 // jscs:ignore
 // TODO: by label, by object data (like linkedItem), form navigations.
 
-(function () {
+(function setEBrSearch() {
   'use strict';
+
+  console.log('setEBrSearch');
+
   window.tiaEJ.search = {
 
     /* searches the first parent with isPanel === true */

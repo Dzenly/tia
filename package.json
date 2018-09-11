@@ -35,14 +35,14 @@
   },
   "homepage": "https://github.com/Dzenly/tia#readme",
   "dependencies": {
-    "bluebird": "^3.5.1",
+    "bluebird": "^3.5.2",
     "camelcase-keys": "^4.2.0",
     "chalk": "^2.4.1",
     "chromedriver": "^2.40.0",
     "debug-assert": "^0.2.3",
     "lodash": "^4.17.10",
     "minimist": "^1.2.0",
-    "nodemailer": "^4.6.7",
+    "nodemailer": "^4.6.8",
     "nodemailer-smtp-transport": "^2.7.4",
     "selenium-webdriver": "^3.6.0"
   }

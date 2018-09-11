@@ -1,7 +1,9 @@
 // jscs:ignore
 /* globals tia tiaEJ */
-(function () {
+(function setEBrGetHtmlEls() {
   'use strict';
+
+  console.log('setEBrGetHtmlEls');
 
   window.tiaEJ.hEByObj = {
 

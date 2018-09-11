@@ -35,11 +35,11 @@ exports.usage = function usage() {
       0 means to log all, 1000 - only severe errors.
       800 - info, 900 - warnings. 1000 - severe errors.
 
-      --debug-avg - equals to --log-to-console --log-err-to-console --keep-browser-at-error --trace-level 2
+      --debug-avg - equals to --log-to-console --err-to-console --keep-browser-at-error --trace-level 2
       Though --trace-level option can be used to override tracing level.
       Note: --debug-max have precedence over --debug-avg.
 
-      --debug-max - equals to --log-to-console --log-err-to-console --keep-browser-at-error
+      --debug-max - equals to --log-to-console --err-to-console --keep-browser-at-error
       --force-log-actions --trace-level 3
       Though --trace-level option can be used to override tracing level.
 

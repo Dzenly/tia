@@ -1,5 +1,8 @@
-(function () {
+(function setEBrCheck() {
   'use strict';
+
+  console.log('setEBrCheck');
+
   // Class to get dynamic id's.
   window.tiaEJ.check = {
 
