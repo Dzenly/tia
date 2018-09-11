@@ -3,11 +3,11 @@
 ====================    Short Log END.    ====================
 
 ====================    Verbose Log BEGIN:    ====================
-"__tests__", dif: 0, fail: 0, edif: 0, Skip: 1, pass: 0, "Tests from prj root dir."
-| "non-tia-tests-check", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, "Tests from prj root dir."
-| | "tia-test.tia.js", OK, fail: 0, pass: 0, "Tia test, must be handled by TIA."
-| "wd-helpers", dif: 0, fail: 0, edif: 0, Skip: 1, pass: 0, "Tests from prj root dir."
-| | "00_helpers", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, "Tests from prj root dir."
+"__tests__", dif: 0, fail: 0, edif: 0, Skip: 1, pass: 0, Run: 4, "Tests from prj root dir."
+| "non-tia-tests-check", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, Run: 1, "Tests from prj root dir."
+| | "tia-test.tia.js", OK, fail: 0, pass: 0, "Tia test, must be run by TIA."
+| "wd-helpers", dif: 0, fail: 0, edif: 0, Skip: 1, pass: 0, Run: 3, "Tests from prj root dir."
+| | "00_helpers", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, Run: 3, "Tests from prj root dir."
 | | | "00_generators.tia.js", OK, fail: 0, pass: 0, "Test for generator runner"
 | | | "01_clientExceptions.tia.js", OK, fail: 0, pass: 0, "Test for client exceptions"
 | | | "02_scriptsExecution.tia.js", OK, fail: 0, pass: 0, "Test for client exceptions"

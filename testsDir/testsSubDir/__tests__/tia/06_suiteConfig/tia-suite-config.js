@@ -1,4 +1,4 @@
-// This file must not be handled at all.
+// This file must not be run at all.
 'use strict';
 
 module.exports = {

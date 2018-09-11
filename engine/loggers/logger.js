@@ -145,8 +145,8 @@ exports.testSummary = function testSummary() {
 function saveDirInfo(parameters) {
   let { indent } = parameters;
   const { dirInfo, verbose, noTime } = parameters;
-  gIn.tracer.msg3(`${dirInfo.path}, dirInfo.handled: ${dirInfo.handled}`);
-  if (!dirInfo.handled && !gT.suiteConfig.emptyDirToSuiteLog) {
+  gIn.tracer.msg3(`${dirInfo.path}, dirInfo.run: ${dirInfo.run}`);
+  if (!dirInfo.run && !gT.suiteConfig.emptyDirToSuiteLog) {
     return;
   }
   writeToSuiteLog(indent);

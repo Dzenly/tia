@@ -51,7 +51,7 @@ async function handleTestFile(file, dirConfig) {
     return gIn.tInfo.data;
   }
 
-  gIn.tInfo.data.handled = 1;
+  gIn.tInfo.data.run = 1;
 
   if (gIn.config.DISPLAY && gIn.params.xvfb) {
     process.env.DISPLAY = gIn.config.DISPLAY;
@@ -159,7 +159,7 @@ async function handleTestDir(dir, parentDirConfig) {
     // console.log('handleDir, innerCurInfo: ' + innerCurInfo);
 
     if (innerCurInfo) {
-      dirInfo.handled += innerCurInfo.handled;
+      dirInfo.run += innerCurInfo.run;
       dirInfo.passed += innerCurInfo.passed;
       dirInfo.failed += innerCurInfo.failed;
       dirInfo.diffed += innerCurInfo.diffed;
@@ -251,8 +251,10 @@ async function runTestSuite(suiteData) {
   await gIn.mailUtils.send(emailSubj, txtAttachments, [arcName]);
 
   const { diffed } = dirInfo;
-  gIn.cLogger.msg(`\n${emailSubjCons}\n`);
-  if (gT.suiteConfig.suiteLogToStdout) {
+
+  const suiteNotEmpty = dirInfo.run + dirInfo.skipped;
+  if (gT.suiteConfig.suiteLogToStdout && (!gIn.params.ignoreEmptySuites || suiteNotEmpty)) {
+    gIn.cLogger.msg(`\n${emailSubjCons}\n`);
     gIn.logger.printSuiteLog(dirInfo);
 
     // fileUtils.fileToStdout(log);

@@ -66,6 +66,7 @@ const opts = {
     'keep-browser-at-error',
     'log-err-to-console',
     'log-to-console',
+    'ignore-empty-suites',
     'print-proc-info',
     'run-self-tests',
     'share-browser',

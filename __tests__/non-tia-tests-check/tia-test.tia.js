@@ -1,3 +1,3 @@
 'use strict';
 
-t.setTitle('Tia test, must be handled by TIA.');
+t.setTitle('Tia test, must be run by TIA.');

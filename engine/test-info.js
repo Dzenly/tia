@@ -34,10 +34,12 @@ exports.testInfoToString = function testInfoToString(parameters) {
   let diffed;
   let ediffed;
   let skipped;
+  let run;
   if (isDir) {
     diffed = formLogPart('Dif', curInfo.diffed);
     ediffed = formLogPart('EDif', curInfo.expDiffed);
     skipped = formLogPart('Skip', curInfo.skipped);
+    run = formLogPart('Run', curInfo.run);
   } else {
     if (curInfo.diffed) {
       diffed = 'DIF';
@@ -57,10 +59,10 @@ exports.testInfoToString = function testInfoToString(parameters) {
   const failed = formLogPart('Fail', curInfo.failed);
   const time = noTime ? '' : `${curInfo.time.toFixed(2)} ms`;
 
-  const arr = verbose ? [filePath, diffed, failed, ediffed, skipped, passed, time, title] :
+  const arr = verbose ? [filePath, diffed, failed, ediffed, skipped, passed, run, time, title] :
     [filePath, diffed, failed];
 
-  let res = `${arr.filter(val => val).join(', ')}`; // join only non-empty strings.
+  let res = `${arr.filter(Boolean).join(', ')}`; // join only non-empty strings.
 
   if (!noEol) {
     res += '\n';
@@ -77,7 +79,7 @@ exports.createTestInfo = function createTestInfo(isDir, title, path) {
   const info = {
     path: gIn.textUtils.winToUnixSep(path), // For uniform logging.
     title,
-    handled: 0,
+    run: 0,
     passed: 0,
     failed: 0,
     diffed: 0, // For dir this can be > 1, for file it can be 0 or 1.

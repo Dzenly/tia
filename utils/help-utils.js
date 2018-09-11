@@ -84,6 +84,10 @@ exports.usage = function usage() {
       
       --hang-timeout <timeout> - timeout in milliseconds after which some action considered as hanged one,
       a screenshot is saved and an error is generated. ${gT.engineConsts.hangTimeout} milliseconds by default.
+      
+      --ignore-empty-suites - By default, if a suite (${gT.engineConsts.suiteDirName} directory)
+      does not contain any run or skipped tests, there anyway will be test report.
+      This option prevents such reports for empty suites. 
 
       --ignore-skip-flag - ignore 'skip' config option in config.js files.
 
