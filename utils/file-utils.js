@@ -148,7 +148,7 @@ function collectArcPaths(dirInfo, arcPaths) {
 }
 
 exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
-  if (gIn.params.disableEmail || !gT.suiteConfig.attachArchiveToMail || !gT.suiteConfig.mailRecipientList) {
+  if (!gIn.params.enableEmail || !gT.suiteConfig.attachArchiveToMail || !gT.suiteConfig.mailRecipientList) {
     return null;
   }
   let arcName = `${new Date().toISOString().slice(0, 19).replace(/:/g, '_')}.zip`;

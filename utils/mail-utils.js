@@ -57,7 +57,7 @@ const mailOptions = {
  * @returns {Promise<T>}
  */
 exports.send = function send(subj, txtAttachments, zipAttachments) {
-  if (gIn.params.disableEmail) {
+  if (!gIn.params.enableEmail) {
     gIn.tracer.msg2('Mail is disabled.');
     return;
   }

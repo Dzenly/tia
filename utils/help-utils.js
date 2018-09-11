@@ -50,8 +50,6 @@ exports.usage = function usage() {
 
       --diffs-to-slog - forces diffs to be printed to short suite log.
 
-      --disable-email - disables email.
-
       --driver-log-level <level> - 0 - 1000 (default ${gT.engineConsts.defaultDriverLogLevel}).
       0 means to log everything, 800 - info, 900 - warnings. 1000 - severe errors.
 
@@ -69,6 +67,8 @@ exports.usage = function usage() {
       --email-cfg-path <path> - path to email config. See tia/doc/mail-cfg-example.json for example.
       See tia/config/default-suite-config.js for more details.
       Note: ${gT.engineConsts.emailCfgPathEnvVarName} environment variable can be used for the same purpose.
+      
+      --enable-email - enaables email.
 
       --err-to-console - print all errors to console.
 
@@ -85,10 +85,6 @@ exports.usage = function usage() {
       --hang-timeout <timeout> - timeout in milliseconds after which some action considered as hanged one,
       a screenshot is saved and an error is generated. ${gT.engineConsts.hangTimeout} milliseconds by default.
       
-      --ignore-empty-suites - By default, if a suite (${gT.engineConsts.suiteDirName} directory)
-      does not contain any run or skipped tests, there anyway will be test report.
-      This option prevents such reports for empty suites. 
-
       --ignore-skip-flag - ignore 'skip' config option in config.js files.
 
       --keep-browser-at-error - prevents browser quit at errors.
@@ -111,6 +107,10 @@ exports.usage = function usage() {
       --share-browser - Try to share the browser between tests within one node.js process.
       In this case 'init' call is performed only for the first test and 'quit' call only for the last one.
       Note, that --use-remote-driver option prevents the last test from automatically quit.
+      
+      --show-empty-suites - By default, if a suite (${gT.engineConsts.suiteDirName} directory)
+      does not contain any run or skipped tests, there will not be test report to console.
+      This option enables such reports for empty suites. 
 
       --stack-to-log print stack trace to test logs.
 

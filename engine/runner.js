@@ -253,7 +253,7 @@ async function runTestSuite(suiteData) {
   const { diffed } = dirInfo;
 
   const suiteNotEmpty = dirInfo.run + dirInfo.skipped;
-  if (gT.suiteConfig.suiteLogToStdout && (!gIn.params.ignoreEmptySuites || suiteNotEmpty)) {
+  if (gT.suiteConfig.suiteLogToStdout && (gIn.params.showEmptySuites || suiteNotEmpty)) {
     gIn.cLogger.msg(`\n${emailSubjCons}\n`);
     gIn.logger.printSuiteLog(dirInfo);
 
