@@ -13,8 +13,26 @@
  */
 exports.ajaxRequestsFinish = function ajaxRequestsFinish(timeout, logAction) {
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
-  return gIn.wrap('Waiting for AJAX requests finish ... ', logAction, () => gT.sOrig.driver.wait(() => gT.s.browser.executeScriptWrapper('return tiaEJ.isThereActiveAjaxCalls();')
-    .then(res => !res), timeout));
+  return gIn.wrap(
+    'Waiting for AJAX requests finish ... ',
+    logAction,
+    () => gT.sOrig.driver.wait(
+      () => gT.s.browser.executeScriptWrapper('return tiaEJ.isThereActiveAjaxCalls();').then(res => !res),
+      timeout)
+  );
+};
+
+exports.idle = function idle(timeout = gT.engineConsts.defaultWaitTimeout, logAction) {
+  return gIn.wrap(
+    'Waiting for idle ... ',
+    logAction,
+    async () => {
+      await gT.s.browser.executeScriptWrapper('tia.resetIdle();tiaEJ.resetExtJsIdle();');
+      await gT.sOrig.driver.wait(
+        () => gT.s.browser.executeScriptWrapper('return tiaEJ.isExtJsIdle();'),
+        timeout
+      );
+    });
 };
 
 // TODO: redundant call to webdriver ?

@@ -19,7 +19,7 @@ exports.checkCheckboxAffects = function * checkCheckboxAffects(formId, checkBoxN
     const resAccName = 'checkCBAffects';
     a.initResultsAccumulator(resAccName);
 
-    yield e.wait.ajaxRequestsFinish();
+    yield e.wait.idle();
 
     let isSet = yield e.getByFormIdName.rawValue(formId, checkBoxName);
 

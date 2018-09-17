@@ -6,14 +6,29 @@
 
   window.tiaEJ = {
 
+    ejIdle: false, //
+
     // It if returns true there is not a bad chance that ExtJs application is ready to use.
     // Deprecated.
-    isExtJsReady: function () {
+    isExtJsReady: function isExtJsReady() {
       if (typeof Ext === 'undefined' || !Ext.isReady || typeof Ext.onReady === 'undefined' ||
         typeof Ext.Ajax === 'undefined' || typeof Ext.Ajax.on === 'undefined') {
         return false;
       }
       return true;
+    },
+
+    isExtJsIdle: function isExtJsIdle() {
+      return this.isExtJsReady() && !this.isThereActiveAjaxCalls() && this.ejIdle && tia.isIdle();
+    },
+
+    resetExtJsIdle: function resetExtJsIdle() {
+      function idleHandler() {
+        window.tiaEJ.ejIdle = true;
+      }
+
+      Ext.on({ idle: { fn: idleHandler, scope: this, single: true, } });
+      this.ejIdle = false;
     },
 
     ajaxFailuresArr: [],
@@ -101,5 +116,4 @@
       requestexception: onAjaxError
     });
   });
-
 })();

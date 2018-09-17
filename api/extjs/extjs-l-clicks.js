@@ -16,7 +16,7 @@ exports.clickAndWaitForAjaxFinish = function clickAndWaitForAjaxFinish(webEl, wa
     .then(function () {
       return webEl.click()
         .then(function () {
-          return gT.e.wait.ajaxRequestsFinish(waitTimeout, false);
+          return gT.e.wait.idle(waitTimeout, false);
         });
     });
 };
@@ -27,7 +27,7 @@ exports.delayClickAndWaitForAjaxFinish = function delayClickAndWaitForAjaxFinish
       gIn.tracer.msg3('delayAndClick: before click');
       return (isDblClick ? (new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform()) : webEl.click())
         .then(function () {
-          return gT.e.wait.ajaxRequestsFinish(undefined, false);
+          return gT.e.wait.idle(undefined, false);
         });
     });
 };

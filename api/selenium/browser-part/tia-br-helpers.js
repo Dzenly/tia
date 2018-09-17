@@ -7,6 +7,25 @@
 
   window.tia = {
 
+    idle: false,
+
+    isIdle: function isIdle(){
+      return this.idle;
+    },
+
+    resetIdle: function resetIdle() {
+      this.idle = false;
+      this.idleReset = true;
+
+      if (window.requestIdleCallback) {
+        function idleHandler() {
+          window.tia.idleReset = false;
+          window.tia.idle = true;
+        }
+        window.requestIdleCallback(idleHandler);
+      }
+    },
+
     exceptionsArr: [],
 
     // hasExceptions: function() {
@@ -63,5 +82,16 @@
     }
   };
   window.onerror = onError;
+
+  if (!window.requestIdleCallback) {
+    setInterval(function () {
+      if (window.tia.idleReset) {
+        return;
+      }
+      window.tia.idleReset = false;
+      window.tia.idle = true;
+    }, 800);
+  };
+
 }());
 
