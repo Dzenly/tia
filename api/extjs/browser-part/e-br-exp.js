@@ -239,11 +239,11 @@
       var textStr = '';
       if (comp.getText) {
         textStr = 'getText(): ' + comp.getText();
-        localeKeys = tiaEJ.getLocKeysByText(textStr);
+        localeKeys = tiaEJ.getLocKeysByText(comp.getText());
       } else {
         if (comp.text) {
           textStr = 'text:' + comp.text;
-          localeKeys = tiaEJ.getLocKeysByText(textStr);
+          localeKeys = tiaEJ.getLocKeysByText(comp.text);
         }
       }
 
@@ -299,7 +299,10 @@
         {path: 'isVisible()', args: [[true]]},
         'isHidden()',
         'isDisabled()',
-        'isSuspended()'
+        'isSuspended()',
+        'isMasked()',
+        'isFocusable()',
+        'rendered',
       ], outArr);
 
       if (comp.isFormField) {
