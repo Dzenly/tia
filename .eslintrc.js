@@ -39,6 +39,8 @@ module.exports = {
   globals: {
     Ext: true,
     log: true,
+    gT: true,
+    gIn: true,
   },
   env: {
     node: true,

@@ -2,7 +2,8 @@
 
 /* globals gT: true */
 
-global.idToIdObj = gT.idToIdObj = function (id) {
+
+global.idToIdObj = gT.idToIdObj = function idToIdObj(id) {
   let res;
   if (typeof id === 'object') {
     if (id.logStr) { // Already converted.

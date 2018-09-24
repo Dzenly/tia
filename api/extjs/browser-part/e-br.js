@@ -80,6 +80,18 @@
       return res;
     },
 
+    /**
+     * Replaces 'l"locale_key"' by '"text"', where text is the locale value for the given key.
+     * @param {String} str - input string.
+     * @return {String} - string with replaced text.
+     */
+    replaceLocKey: function replaceLocKey(str) {
+      const re = /l"(.*?)"/g;
+      return str.replace(re, function (m, key) {
+        return `"${tiaEJ.locale[key]}"`;
+      });
+    },
+
     showMsgBox: function showMsgBox(msg, title) {
       var msgBox = Ext.Msg.show({
         title: 'TIA ExtJs exploration: ' + title,

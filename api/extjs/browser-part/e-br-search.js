@@ -85,7 +85,14 @@
       return res;
     },
 
+    /**
+     *
+     * @param id
+     * @param {String} compQuery - substrings like 'l"locale_key"' will be replaced by '"value_for_key"',
+     * i.e. '[text=l"settings"]' will be changed to '[text="Настройки"] for russian locale.
+     */
     byIdCompQuery: function byIdCompQuery(id, compQuery) {
+      compQuery = tiaEJ.replaceLocKey(compQuery);
       var cmp = this.byId(id).down(compQuery);
       if (!cmp) {
         throw new Error('Component not found for container id: ' + id + ', compQuery: ' + compQuery);
