@@ -70,6 +70,11 @@ exports.init = function init(cleanProfile, logAction) {
         options.addArguments('--no-sandbox'); // Without this there is a fail with xvfb on Ubuntu 16.
         options.addArguments('--disable-infobars');
 
+        if (gIn.params.headless) {
+          options.addArguments('--headless');
+          options.addArguments('--disable-gpu'); // Temporary fix for Windows.
+        }
+
         // options.addArguments('--start-maximized');
 
         if (gIn.config.selProfilePath) {

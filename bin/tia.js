@@ -64,6 +64,7 @@ const opts = {
     'force-log-actions',
     'ignore-skip-flag',
     'h',
+    'headless',
     'help',
     'keep-browser-at-error',
     'log-err-to-console',

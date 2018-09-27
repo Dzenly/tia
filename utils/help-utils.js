@@ -85,6 +85,8 @@ exports.usage = function usage() {
       --hang-timeout <timeout> - timeout in milliseconds after which some action considered as hanged one,
       a screenshot is saved and an error is generated. ${gT.engineConsts.hangTimeout} milliseconds by default.
       
+      --headless, - use headless browser (chrome only).
+
       --ignore-skip-flag - ignore 'skip' config option in config.js files.
 
       --keep-browser-at-error - prevents browser quit at errors.
