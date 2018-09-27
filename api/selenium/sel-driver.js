@@ -107,6 +107,10 @@ exports.init = function init(cleanProfile, logAction) {
           // binary.addArguments('-profile "' + profileAbsPath + '"');
           options.setProfile(profileAbsPath); // Checked on linux. Does NOT set -profile option.
 
+          if (gIn.params.headless) {
+            options.addArguments('-headless');
+          }
+
           // http://selenium.googlecode.com/git/docs/api/javascript/module_selenium-webdriver_firefox.html
           // "The FirefoxDriver will never modify a pre-existing profile; instead it will create
           // a copy for it to modify."
@@ -114,7 +118,8 @@ exports.init = function init(cleanProfile, logAction) {
           // http://stackoverflow.com/questions/6787095/how-to-stop-selenium-from-creating-temporary-firefox-profiles-using-web-driver
           // webdriver.firefox.profile (name of the profile).
 
-          // Also there is info thatgT.sOrig.driver.quit() deletes tmp profile, butgT.sOrig.driver.close() - does not.
+          // Also there is info that gT.sOrig.driver.quit() deletes tmp profile, butgT.sOrig.driver.close()
+          // - does not.
 
           // profile.setPreference ?
 
