@@ -72,7 +72,9 @@ exports.init = function init(cleanProfile, logAction) {
 
         if (gIn.params.headless) {
           options.addArguments('--headless');
-          options.addArguments('--disable-gpu'); // Temporary fix for Windows.
+          if (gT.u.isWindows()) {
+            options.addArguments('--disable-gpu'); // Temporary fix for Windows.
+          }
         }
 
         // options.addArguments('--start-maximized');

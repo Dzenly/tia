@@ -5,6 +5,7 @@
 /* globals gIn: true */
 
 const Bluebird = require('bluebird');
+const path = require('path');
 
 /**
  * Safely runs generator.
@@ -82,6 +83,10 @@ gT.u.setHangTimeout = function setHangTimeout(newTimeout) {
   const oldTimeout = gIn.params.hangTimeout;
   gIn.params.hangTimeout = newTimeout;
   return oldTimeout;
+};
+
+gT.u.isWindows = function isWindows() {
+  return path.sep === '\\';
 };
 
 // gT.s.fail = function (url, logAction) {
