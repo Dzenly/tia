@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-':' //# comment; exec /usr/bin/env node "$0" "$@"
+':'; //# comment; exec /usr/bin/env node "$0" "$@"
 'use strict';
 
 process.env.SELENIUM_PROMISE_MANAGER = 0;
@@ -10,17 +10,15 @@ process.env.SELENIUM_PROMISE_MANAGER = 0;
 // http://sambal.org/2014/02/passing-options-node-shebang-line/
 
 /* globals gIn: true, gT */
-const nodeUtils = require('../utils/nodejs-utils.js');
 
 nodeUtils.checkNodeJsVersion();
 
 const { inspect } = require('util');
-const tiaArgsUtils = require('../utils/tia-arguments-utils.js');
 const _ = require('lodash');
-const { runTestSuites } = require('../engine/runner.js');
 
 require('../engine/init-global-objects.js');
-const helpUtils = require('../utils/help-utils.js');
+
+gT.version = require('../package.json').version;
 
 gT.browsers = [
   'chrome', // First browser is default.
@@ -106,12 +104,17 @@ if (args.h || args.help) {
   process.exit(0);
 }
 
+console.log(gT.version);
+
 if (args.v || args.version) {
-  console.log(require('../package.json').version);
   process.exit(0);
 }
 
 const path = require('path');
+const helpUtils = require('../utils/help-utils.js');
+const { runTestSuites } = require('../engine/runner.js');
+const tiaArgsUtils = require('../utils/tia-arguments-utils.js');
+const nodeUtils = require('../utils/nodejs-utils.js');
 
 if (args.runSelfTests) { // Tests for the engine.
   args.rootDir = path.resolve(path.join(__dirname, '..'));

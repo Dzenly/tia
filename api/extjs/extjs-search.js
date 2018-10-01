@@ -2,6 +2,45 @@
 
 const inspect = require('util').inspect;
 
+// These methods I think would be most often used.
+
+exports.byCompQuery = function byCompQuery(compQuery, logAction) {
+  return gIn.wrap(
+    `Searching id by compQuery: ${compQuery} ... `,
+    logAction,
+    () => gT.s.browser.executeScriptWrapper(
+      `return tiaEJ.searchId.byCompQuery('${compQuery}')`
+    )
+      .then((foundId) => {
+        gIn.tracer.msg3(`byCompQuery, found id: ${foundId}`);
+        return foundId;
+      }));
+};
+
+exports.byParentAndCompQuery = function byParentAndCompQuery(compQuery, logAction) {
+  return gIn.wrap(
+    `Searching id by preseted parent container, compQuery: ${compQuery} ... `,
+    logAction,
+    () => gT.s.browser.executeScriptWrapper(
+      `return tiaEJ.searchId.byParentAndCompQuery('${compQuery}')`
+    )
+      .then((foundId) => {
+        gIn.tracer.msg3(`byParentAndCompQuery, found id: ${foundId}`);
+        return foundId;
+      }));
+};
+
+exports.byIdRef = function byIdRef(id, ref, logAction) {
+  id = idToIdObj(id);
+  return gIn.wrap(`Searching id by container ${id.logStr}, reference: ${ref} ... `, logAction, () => gT.s.browser.executeScriptWrapper(`return tiaEJ.searchId.byIdRef('${id.id}', '${ref}')`)
+    .then((foundId) => {
+      gIn.tracer.msg3(`byIdRef, found id: ${foundId}`);
+      return foundId;
+    }));
+};
+
+// ============================
+
 exports.byIdCompQuery = function byIdCompQuery(id, compQuery, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(
@@ -26,15 +65,6 @@ exports.byFormIdName = function byFormIdName(id, name, logAction) {
         gIn.tracer.msg3(`byFormIdName, found id: ${foundId}`);
         return foundId;
       }));
-};
-
-exports.byIdRef = function byIdRef(id, ref, logAction) {
-  id = idToIdObj(id);
-  return gIn.wrap(`Searching id by container ${id.logStr}, reference: ${ref} ... `, logAction, () => gT.s.browser.executeScriptWrapper(`return tiaEJ.searchId.byIdRef('${id.id}', '${ref}')`)
-    .then((foundId) => {
-      gIn.tracer.msg3(`byIdRef, found id: ${foundId}`);
-      return foundId;
-    }));
 };
 
 exports.inputByIdCompQuery = function inputByIdCompQuery(id, compQuery, logAction) {

@@ -8,6 +8,21 @@
 
   window.tiaEJ.search = {
 
+    /**
+     * Settings for search.
+     */
+    settings: {
+      /**
+       * Container relative to which queryFromParent will work.
+       * like Container.query in ExtJs.
+       */
+      parentContainer: null,
+
+      setParentContainer: function setParentContainer(id) {
+        this.parentContainer = Ext.getCmp(id);
+      },
+    },
+
     /* searches the first parent with isPanel === true */
     parentPanel: function parentPanel(comp) {
       return comp.findParentBy(function (container) {
@@ -86,16 +101,62 @@
     },
 
     /**
-     *
-     * @param id
-     * @param {String} compQuery - substrings like 'l"locale_key"' will be replaced by '"value_for_key"',
+     * Search the Component by https://docs.sencha.com/extjs/6.5.3/modern/Ext.ComponentQuery.html#method-query
+     * @param {String} selector - substrings like 'l"locale_key"' will be replaced by '"value_for_key"',
      * i.e. '[text=l"settings"]' will be changed to '[text="Настройки"] for russian locale.
+     * Also id like '##idKey' will be replaced by '#realId' from tiaEJ.idMap.
+     * @return {Ext.Component} - component.
      */
-    byIdCompQuery: function byIdCompQuery(id, compQuery) {
-      compQuery = tiaEJ.replaceLocKey(compQuery);
-      var cmp = this.byId(id).down(compQuery);
+    byCompQuery: function byCompQuery(selector) {
+      var actualSelector = tiaEJ.replaceAll(selector);
+      var cmp = Ext.ComponentQuery.query(actualSelector);
+
       if (!cmp) {
-        throw new Error('Component not found for container id: ' + id + ', compQuery: ' + compQuery);
+        throw new Error(
+          'Component not found for selector: ' + selector + ' , actualSelector: ' + actualSelector
+        );
+      }
+      return cmp;
+    },
+
+    /**
+     * Search the Component by https://docs.sencha.com/extjs/6.5.3/modern/Ext.Container.html#method-down
+     * @param {String} selector - substrings like 'l"locale_key"' will be replaced by '"value_for_key"',
+     * i.e. '[text=l"settings"]' will be changed to '[text="Настройки"] for russian locale.
+     * Also id like '##idKey' will be replaced by '#realId' from tiaEJ.idMap.
+     * @return {Ext.Component} - component.
+     */
+    byParentAndCompQuery: function byParentAndCompQuery(selector) {
+      var actualSelector = tiaEJ.replaceAll(selector);
+      var cmp = tiaEJ.settings.parentContainer;
+      if (!cmp) {
+        throw new Error('You are not set parent container');
+      }
+
+      cmp = cmp.down(actualSelector);
+      if (!cmp) {
+        throw new Error(
+          'Component not found for parent container, selector: ' + selector + ' , actualSelector: ' + actualSelector
+        );
+      }
+      return cmp;
+    },
+
+    /**
+     * Search by container id and selector.
+     * https://docs.sencha.com/extjs/6.5.3/modern/Ext.Container.html#method-down
+     * @param id - container id.
+     * @param {String} selector - substrings like 'l"locale_key"' will be replaced by '"value_for_key"',
+     * i.e. '[text=l"settings"]' will be changed to '[text="Настройки"] for russian locale.
+     * Also id like '##idKey' will be replaced by '#realId' from tiaEJ.idMap.
+     */
+    byIdCompQuery: function byIdCompQuery(id, selector) {
+      var actualSelector = tiaEJ.replaceAll(selector);
+      var cmp = this.byId(id).down(actualSelector);
+      if (!cmp) {
+        throw new Error(
+          'Component not found for container id: ' + id + ', selector: ' + selector + ' , actualSelector: ' + actualSelector
+        );
       }
       return cmp;
     },
@@ -120,29 +181,50 @@
     tabByIdLocKey: function tabByIdLocKey(id, key) {
       var text = tiaEJ.locale[key];
       return this.tabByIdText(id, text);
-    }
+    },
   };
 
-  var searchProps = Object.getOwnPropertyNames(tiaEJ.search);
+  var searchFuncs = Object
+    .getOwnPropertyNames(tiaEJ.search)
+    .filter(function (prop) {
+      return typeof prop === 'function';
+    });
 
+  //
   window.tiaEJ.searchId = {};
+
   window.tiaEJ.searchFieldId = {};
+
   window.tiaEJ.searchInputId = {};
 
-  searchProps.forEach(function (fName) {
-    tiaEJ.searchId[fName] = function (param1, param2, param3, param4, param5) {
-      var cmp = tiaEJ.search[fName](param1, param2, param3, param4, param5);
+  window.tiaEJ.searchAndWrap = {};
+
+  searchFuncs.forEach(function (fName) {
+
+    tia.EJ.searchAndWrap[fName] = function() {
+      var cmp = tiaEJ.search[fName].apply(tiaEJ.search, arguments);
+
+      var cmpData = {
+        args: arguments, // arguments used for search.
+        fName: fName,
+      };
+
+      return tiaEJ.wrapCmp(cmpData, cmp);
+    };
+
+    tiaEJ.searchId[fName] = function () {
+      var cmp = tiaEJ.search[fName].apply(tiaEJ.search, arguments);
       return cmp.getId();
     };
 
-    tiaEJ.searchFieldId[fName] = function (param1, param2, param3, param4, param5) {
-      var cmp = tiaEJ.search[fName](param1, param2, param3, param4, param5);
+    tiaEJ.searchFieldId[fName] = function () {
+      var cmp = tiaEJ.search[fName].apply(tiaEJ.search, arguments);
       var nameForLog = tiaEJ.ctByObj.getLabelsAndText(cmp);
       return {id: cmp.getId(), nameForLog: nameForLog};
     };
 
-    tiaEJ.searchInputId[fName] = function (param1, param2, param3, param4, param5) {
-      var cmp = tiaEJ.search[fName](param1, param2, param3, param4, param5);
+    tiaEJ.searchInputId[fName] = function () {
+      var cmp = tiaEJ.search[fName].apply(tiaEJ.search, arguments);
       var nameForLog = tiaEJ.ctByObj.getNameAndLabels(cmp, false);
       return {id: cmp.getInputId(), nameForLog: nameForLog};
     };

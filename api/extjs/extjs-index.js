@@ -1,6 +1,7 @@
 'use strict';
-let path = require('path');
-let fs = require('fs');
+
+const path = require('path');
+const fs = require('fs');
 
 /* globals gT: true, gIn */
 
@@ -21,13 +22,14 @@ global.e = gT.e;
 // sa - script Actions.
 
 // for gT.e.initTiaExtJsBrHelpers
-let brHelpers = [
+const brHelpers = [
   'e-br.js',
   'e-br-search.js',
   'e-br-content.js',
   'e-br-check.js',
   'e-br-get-html-els.js',
-  'e-br-msgbox.js'
+  'e-br-msgbox.js',
+  'e-br-acts.js',
 ];
 
 /**
@@ -40,14 +42,12 @@ let brHelpers = [
  * @returns a promise which will be resolved with script return value.
  */
 gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
-  return gIn.wrap('Initialization of TIA ExtJs helpers ... ', logAction, function () {
-    return (async function initTiaExtJsBrHelpersInner() {
-      for (const fName of brHelpers) { // eslint-disable-line no-restricted-syntax
-        const scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part', fName), 'utf8');
-        await gT.s.browser.executeScriptWrapper(scriptStr);
-      }
-    }());
-  });
+  return gIn.wrap('Initialization of TIA ExtJs helpers ... ', logAction, () => (async function initTiaExtJsBrHelpersInner() {
+    for (const fName of brHelpers) { // eslint-disable-line no-restricted-syntax
+      const scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part', fName), 'utf8');
+      await gT.s.browser.executeScriptWrapper(scriptStr);
+    }
+  }()));
 };
 
 /**
@@ -59,13 +59,13 @@ gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
  * @returns a promise which will be resolved with script return value.
  */
 gT.e.setLocaleObject = function setLocaleObject(objExpression, logAction) {
-  return gIn.wrap('setLocaleObject ... ', logAction, function () {
-    let scriptStr = `
+  return gIn.wrap('setLocaleObject ... ', logAction, () => {
+    const scriptStr = `
         tiaEJ.locale = ${objExpression};
         return tiaEJ.locale;
     `;
     return gT.s.browser.executeScriptWrapper(scriptStr)
-      .then(function (res) {
+      .then((res) => {
         gT.e.locale = res;
       });
   });

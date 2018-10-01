@@ -138,7 +138,7 @@ exports.usage = function usage() {
       The variable gT.firstRunWithRemoteDriver is true when the current run is the first run for which
       the remote driver was initialized.
       
-       -v, --version - show the version of tia engine.
+       -v, --version - Just show TIA version and exit.
 
       --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).
 
