@@ -1,100 +1,48 @@
 # Time Is All (log driven test engine with ExtJs support)
 
-This is an engine for `[massive]` regression testing automation.
-It allows any types of testing: unit testing, functional testing, etc.
+This is an engine for testing automation.
+It allows any types of testing: unit testing, functional testing, GUI testing, etc.
 Both assertion-driven and logs-driven testing are supported.
 
 The engine supports Web sites testing using Selenium WebDriver
-and provides API for work with ExtJs components.
-Xvfb is supported.
+and provides API for work with `ExtJs` components.
+You can run GUI autotests using `Xvfb` or headless chrome.
 
-*Note: since the 0.12.15 tia version - the minimal supported Node.js version is 8.6*
-
-Some TODO for 1.0.0:
-
-* more wrappers for Selenium actions.
-* more API for ExtJs actions.
-* API refactoring (before 1.0.0 release).
-* some global variables usage refactoring.
-* typings definitions.
-* better documentation with examples.
-* more means for exploration of ExtJs applications.
-* more assertions.
-* more compatibility with continuous integration systems.
+> Note: since the 0.12.15 tia version - the minimal supported Node.js version is 8.6.0
 
 ## Examples
 
 The engine has tests for itself, they can be used as examples.
 https://github.com/Dzenly/tia/tree/master/tests
 
-## Selenium WebDriver notes
-
-There are wrappers for Selenium API, but sometimes one needs to know Selenium.
-*sOrig* global object provides Selenium objects (listed below).
-
-GUI part is created on top of the official JS selenium-webdriver binding:
-
-http://seleniumhq.github.io/selenium/docs/api/javascript/index.html
-
-It is good to know following Selenium terms: 
-
-### WebElement
-
-http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_WebElement.html
-
-### Actions
-
-http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/actions_exports_ActionSequence.html
-
-### By
-
-http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_By.html
-
-### until
-
-http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/until.html
-
-## chrome webdriver
-
-http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/chrome_exports_Driver.html
-
-## Key
-
-http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_Key.html
-
-After install one can find examples of (non TIA) selenium tests here:
-`tia/node_modules/selenium-webdriver/test` 
-
-### Common workflow for tests using Selenium Webdriver
-
-* Go to some URL. (see s.browser.loadPage(url)).
-* Wait for some event like HTML element appearance, some JS object state, title value, etc.
-  (see s.wait* functions) (If you are assured that element exists you can work with an element without wait).
-* Send various mouse or keyboard events to the found element
-  (s.click*, s.sendKeys*).
-* Read some data from the HTML element.
-* Read some data from JS objects. (s.browser.executeScript()).
-* Check that values are equal to expected ones by various assertions (see 'a' global object), or just logging results.
-
-### Notes about ExtJs
-
-* To save your time for autotests creation and to make tests faster, it is strongly recommended to develop some design of id naming in your project, and use id everywhere. In complex cases you should use itemId. You should not rely on XPath, attributes, css styles, etc.
-
-* Also you can use s.browser.executeScript to access ExtJs objects your way and return JS DOM for further interactions by TIA API and selenium-webdriver API.
-
 ## Terms
+
+### Project root directory
+
+This is the directory with your project.
+I can contain many test suites (see below) at any level.
+
+By default the current directory will be used as the project root directory,
+but you can change it by:
+
+* `--root-dir` cmd line option.
+*  `TIA_ROOT_DIR` environment variable.
 
 ### Test suite
 
-A set of tests located in `__tests__` directory.
-Your project root directory can contain many `__tests__` directories and subdirectories of some directories.
-Project root directory is specified by --root-dir cmd line option or by TIA_ROOT_DIR environment variable.
+A set of tests located in some `__tests__` directory, e.g.:
+
+* `<prjRoot>/__tests__`
+* `<prjRoot>/subDir/subSubDir/__tests__`
+
+Note: don't nest `__tests__` to `__tests__`.
 
 ### Test
 
-JavaScript file, located inside test suite directory.
+JavaScript files, which end by `.tia.js` suffix (e.g. `00_my-test.tia.js`),
+which located inside some test suite directory at any level.
 This file is executed by TIA and can use all global objects, exposed by TIA (see below).
-Test file should create a *test log* by TIA API.
+Test file should create a *Test log* (see below) by TIA API.
 
 All `*.js` files are considered as tests except `config.js` and `suite-config.js`
 which are considered as config files.
@@ -215,14 +163,14 @@ But there is DTS for selenium-webdriver (it is pretty out of date, but helpful).
 $ npm i -g typings
 $ typings install selenium-webdriver --ambient --save
 
-### Speed up test creation/debugging using connection to the existing browser session 
+### Speed up test creation/debugging using connection to the existing browser session
 
 If you are testing some heavy application and application start requires noticeable time,
 you can use the '--use-remote-driver' option. In this case TIA will use existing browser session for all test runs.
 Inside your code you can use the `gT.firstRunWithRemoteDriver` global variable
-to distinct very first run (when you need some browser session initialization) from following runs (for which you need just use the existing session). 
+to distinct very first run (when you need some browser session initialization) from following runs (for which you need just use the existing session).
 
-Use `tia --help` to see the help for the following things: 
+Use `tia --help` to see the help for the following things:
 
 * --use-remote-driver cmd line option.
 * --stop-remote-driver cmd line option.
@@ -239,7 +187,7 @@ Use `tia --help` to see the help for the following things:
 If the root tests dir contains `suite-config.js` file, it will override parameters from `config/default-suite-config.js` (see this file for parameter details).
 
 An example:
- 
+
 ```js
  module.exports = {
    mailRecipientList: "vasya@pupkin.ru",
@@ -269,7 +217,7 @@ There are two ways how to use email settings.
 #### --email-cfg-path cmd line option and TIA_EMAIL_CFG_PATH environment variables.
 
 You can specify path to some `*.js` or `*.json` file.
-TIA does `require` this config and 
+TIA does `require` this config and
 options are merged to default suite config, see `config/default-suite-config.js`.
 If the `mailRecipientList` field in the config is empty, email will be disabled.
 
@@ -334,7 +282,7 @@ TIA does recursively walks the tests directory.
 
 Other `*.js` files are executed by TIA and should use TIA API to create logs.
 For each test there should be an etalon log, which is thoroughly checked by the author,
-and is saved as `*.et` file. 
+and is saved as `*.et` file.
 
 After a test finish, its current log is compared with its etalon log.
 If there is a difference it is saved as `*.dif` file.
@@ -404,7 +352,7 @@ perform users action emulation, assertion checking, logging and other actions.
 
 * xvfb analog for Windows.
 
-See the `desktops` utility for creation alternative desktops. 
+See the `desktops` utility for creation alternative desktops.
 https://technet.microsoft.com/en-us/library/cc817881.aspx
 
 * How to subscribe to updates:
@@ -412,7 +360,7 @@ https://technet.microsoft.com/en-us/library/cc817881.aspx
 You can use this link in your RSS feed client:
 
 https://github.com/Dzenly/tia/releases.atom
-	
+
 * Autocompletion in IDE.
 If your IDE does not automatically suggest autocompletion for short named global objects 's', 't', 'l', etc.,
 you could try 'gT.s', 'gT.t', etc.
@@ -420,7 +368,7 @@ Also you can use break points and explore these global objects.
 
 * You can copy `.jshintrc`, `.jscsrc` files from TIA to your project and use them,
 it can speed up your debugging.
- 
+
 ----------------------------------
 
 ## Files description
@@ -463,13 +411,13 @@ it can speed up your debugging.
   save changes to initial profile, it uses initial profile as a template to create some tmp profile.
   Firefox's `--profile` option does not work with Selenium.
   For now I did not use tests which preserve cookies and sessions between browser restarts.  
- 
+
 * On Linux, browser profiles do correctly save for chrome.
   Firefox on linux has the same behaviour as for Windows.
 
-* If you will change input focuses during some selenium test work, there can be errors in this test. 
+* If you will change input focuses during some selenium test work, there can be errors in this test.
 
-* On Windows selenium sometimes incorrectly returns old page title. 
+* On Windows selenium sometimes incorrectly returns old page title.
 
 ----------------------------------
 
@@ -477,10 +425,18 @@ it can speed up your debugging.
 
 ----------------------------------
 
-## Words of gratitude 
+## Words of gratitude
 
 The engine was started to develop in the "R-Vision" company (https://rvision.pro/).
-Thank you, "R-Vision", for initial sponsorship and for allowance to open the sources. 
+Thank you, "R-Vision", for initial sponsorship and for allowance to open the sources.
+
+----------------------------------
+
+## Links
+
+* readme-todos-for-1.0.0.md
+* readme-selenium-webdriver.md
+* readme-extjs.md
 
 ----------------------------------
 

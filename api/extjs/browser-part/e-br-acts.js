@@ -64,7 +64,7 @@
 
     // Button:
     // menu, getText, tooltip, tooltipType, value, isButton, !!click!!,
-    // getEl, getId, getMenu, getText, getValue,   
+    // getEl, getId, getMenu, getText, getValue,
     //
 
     return cmpData;

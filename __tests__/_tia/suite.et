@@ -3,7 +3,9 @@
 ====================    Short Log END.    ====================
 
 ====================    Verbose Log BEGIN:    ====================
-"__tests__", dif: 0, fail: 0, edif: 0, Skip: 1, pass: 0, Run: 4, "Tests from prj root dir."
+"__tests__", dif: 0, fail: 0, edif: 0, Skip: 1, Pass: 6, Run: 5, "Tests from prj root dir."
+| "config-checks", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 6, Run: 1, "Tests from prj root dir."
+| | "00_root-dir-config-checks.tia.js", OK, fail: 0, Pass: 6, "Root dir: Checking config and suite-config work."
 | "non-tia-tests-check", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, Run: 1, "Tests from prj root dir."
 | | "tia-test.tia.js", OK, fail: 0, pass: 0, "Tia test, must be run by TIA."
 | "wd-helpers", dif: 0, fail: 0, edif: 0, Skip: 1, pass: 0, Run: 3, "Tests from prj root dir."

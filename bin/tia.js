@@ -1,20 +1,28 @@
-#!/usr/bin/env bash
+#!/usr/bin/env node
 
-':'; //# comment; exec /usr/bin/env node "$0" "$@"
+//':' //# comment; exec /usr/bin/env node "$0" "$@"
+// Don't allow eslint to set semicolon after ':' above.
+// http://sambal.org/2014/02/passing-options-node-shebang-line/
+
 'use strict';
 
 process.env.SELENIUM_PROMISE_MANAGER = 0;
 
-// Don't allow eslint to set semicolon after ':' above.
-
-// http://sambal.org/2014/02/passing-options-node-shebang-line/
+const path = require('path');
 
 /* globals gIn: true, gT */
 
-nodeUtils.checkNodeJsVersion();
-
+const camelcaseKeys = require('camelcase-keys');
+const createArgs = require('minimist');
 const { inspect } = require('util');
 const _ = require('lodash');
+
+const nodeUtils = require('../utils/nodejs-utils');
+const helpUtils = require('../utils/help-utils.js');
+const { runTestSuites } = require('../engine/runner.js');
+const tiaArgsUtils = require('../utils/tia-arguments-utils.js');
+
+nodeUtils.checkNodeJsVersion();
 
 require('../engine/init-global-objects.js');
 
@@ -93,9 +101,7 @@ const opts = {
   unknown: unknownOption,
 };
 
-let args = require('minimist')(process.argv.slice(2), opts);
-
-const camelcaseKeys = require('camelcase-keys');
+let args = createArgs(process.argv.slice(2), opts);
 
 args = camelcaseKeys(args);
 
@@ -109,12 +115,6 @@ console.log(gT.version);
 if (args.v || args.version) {
   process.exit(0);
 }
-
-const path = require('path');
-const helpUtils = require('../utils/help-utils.js');
-const { runTestSuites } = require('../engine/runner.js');
-const tiaArgsUtils = require('../utils/tia-arguments-utils.js');
-const nodeUtils = require('../utils/nodejs-utils.js');
 
 if (args.runSelfTests) { // Tests for the engine.
   args.rootDir = path.resolve(path.join(__dirname, '..'));
