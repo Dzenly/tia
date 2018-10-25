@@ -8,7 +8,7 @@ The engine supports Web sites testing using Selenium WebDriver
 and provides API for work with `ExtJs` components.
 You can run GUI autotests using `Xvfb` or headless chrome.
 
-> Note: since the 0.12.15 tia version - the minimal supported Node.js version is 8.6.0
+> Note: The minimal supported Node.js version is 8.6.0
 
 ## Examples
 
@@ -434,9 +434,9 @@ Thank you, "R-Vision", for initial sponsorship and for allowance to open the sou
 
 ## Links
 
-* readme-todos-for-1.0.0.md
-* readme-selenium-webdriver.md
-* readme-extjs.md
+* [TODO for 1.0.0 version](readme-todos-for-1.0.0.md)
+* [Selenium Webdriver usage in TIA](readme-selenium-webdriver.md)
+* [How to test ExtJs applications](readme-extjs.md)
 
 ----------------------------------
 
