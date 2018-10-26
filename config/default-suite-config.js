@@ -1,23 +1,22 @@
 'use strict';
 
-// Конфиг для сьюта по умолчанию. Suite - директория, содержащая тесты.
-// Эти опции не_перегружаются локальными конфигами директорий.
+// Default suite config.
+// These options are not overrided by directories configs.
 module.exports = {
 
-  // Нужно ли писать в summary log информацию о директории, в которой не было тестов
-  // (либо там нет тестов, либо для директории выставлен skip: true).
+  // Should TIA write info about directories without tests (or with skip: true) into summary log.
   emptyDirToSuiteLog: false,
 
-  // Если true, подробный лог с таймингами будет распечатан в stdout.
+  // IF true - TIA prints detailed log with timings to stdout.
   suiteLogToStdout: true,
 
-  // Нужно ли аттачить к письму архив тестовой директории.
+  // Need you to attach zip with test dir to the mail
   attachArchiveToMail: true,
 
-  // Должен ли архив содержать только тесты с дифами.
+  // Only diffs in attachment ?
   attachOnlyDiffs: true,
 
-  // Удалять ли zip после отправки.,
+  // Remove zip after sending mail.
   removeZipAfterSend: true,
 
   // The URL for remote web driver.
@@ -26,9 +25,9 @@ module.exports = {
   // The Port for remote web driver.
   remoteDriverPort: 9515,
 
-  // Если пользуетесь рассылкой писем - обязательно перегрузить mail* параметры в suite-config.js.
+  // Note: use tia-suite-config.js to specify email parameters.
 
-  // Кому рассылать результаты. Список мейлов через запятую.
+  // To whom TIA should send emails.
   mailRecipientList: '',
 
   // smtp host, e.g. smtp.yandex.ru
