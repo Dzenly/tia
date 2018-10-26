@@ -19,14 +19,19 @@ https://github.com/Dzenly/tia/tree/master/tests
 
 ### Project root directory
 
-This is the directory with your project.
-I can contain many test suites (see below) at any level.
-
-By default the current directory will be used as the project root directory,
+The directory containing your project.
+In general it is the root of your VCS repository.
+It can contain many [Test suites](#Test-suite) (`__tests__`, see below) at any level.
+By default the current working directory will be used as the project root directory,
 but you can change it by:
 
 * `--root-dir` cmd line option.
 *  `TIA_ROOT_DIR` environment variable.
+
+If both are specified `--root-dir` will be used.
+I.e. always cmd line option take precedence over env var.
+
+Hereinafter the *Project root directory* will be denoted as `<prjRoot>`.
 
 ### Test suite
 
@@ -37,15 +42,17 @@ A set of tests located in some `__tests__` directory, e.g.:
 
 Note: don't nest `__tests__` to `__tests__`.
 
+When you run TIA, it will perform all test suites from the [Project root directory](#Project-root-directory)
+
 ### Test
 
-JavaScript files, which end by `.tia.js` suffix (e.g. `00_my-test.tia.js`),
-which located inside some test suite directory at any level.
-This file is executed by TIA and can use all global objects, exposed by TIA (see below).
-Test file should create a *Test log* (see below) by TIA API.
+JavaScript file, which name ends by `.tia.js` suffix (e.g. `00_my-test.tia.js`).
+Tests can be located inside some [Test suite](#Test-suite) directory at any level.
+Test are executed by TIA and can use all global objects, exposed by TIA (see below).
+Test file should create a [Test log](#Test-log) (see below) by TIA API.
 
-All `*.js` files are considered as tests except `config.js` and `suite-config.js`
-which are considered as config files.
+So if you use both `TIA` and [Jest](https://jestjs.io/), you should use `.jest.js` suffix for Jest tests
+and set up according pattern in Jest config. 
 
 #### Global objects exposed by TIA, which test can use
 
@@ -55,73 +62,84 @@ They are defined in following files:
 * api/selenium/sel-index.js
 * api/extjs/extjs-index.js
 
-You can explore 'gT' global object to find them all.
-You can use 'gIn' global object to extend TIA's API.
+You can explore `gT` (global Test helpers) global object to find them all.
+The `gIn` (global Inner test helpers) contain low level helper functions,
+you can use them to extend TIA's API.
 
 Global objects have short aliases (see details in files listed above).
 
 ### Test log
 
-This is a text file which is created by TIA API calls
-(actions with logging, assertions, etc.) in a test JS file.
-The file reflects the test scenario and should be very similar with the according test case section.
+This is a text file which is created by TIA API calls from [Test](#Test).
+TIA has API for interactions with browser (using webdriver and ExtJs API).
+This API write info about actions into the *Test log*.
+Assertions also write results into the *Test log*.
+And user can write to *Test log*.
 
-At the end of the log TIA writes statistics info about the test and adds
-logs from browser console (if such option is enabled).
+The file reflects the test scenario and should be very similar to the according test case section.
 
-The log file name is equal to the test file name, but the log has the `.log` extension (instead of `.js`).
+At the end of the *Test log* TIA writes statistics info about the test and adds
+logs from browser console for browser tests (if such option is enabled).
 
-Test logs are not commited to VCS.
+The *Test log* file name is equal to the [Test](#Test) file name,
+but the log has the `.tia.log` extension (instead of `.tia.js`).
+
+**Test logs are not commited to VCS.**
 
 ### Etalon test log
 
-When the test author finished test creation, he should run it, check the test log and mark it as
-etalon (reference) log by renaming `.log` to `.et`.
+When the test author finished [Test](#Test) creation, he should run it, check the [Test log](#Test-log) and mark it as
+etalon (reference) log by renaming `.tia.log` to `.tia.et`.
 
-Etalon logs are commited to VCS.
+**Etalon test logs are commited to VCS**.
 
 ### Suite log
 
-This is a log with statistics for all tests from a test suite directory (`__tests__`).
-This log is located in the `__tests__/__tia__/suite.log` file.
-The suite log is sent to emails (if --email option is specified and there is a correct email config).
-NOTE: The suite log is also affected with the `sectionTitle` option from `config.js` files.
-`suite.log` files are not commited to VCS.
+This is a log with statistics for all [Tests](#Test) from a [Test suite](#Test-suite) directory.
+*Suite log* is located in the `__tests__/__tia__/suite.log` file.
+The *Suite log* is sent to email addresses of subscribers (if --email option is specified and there is a correct email config).
+NOTE: The *Suite log* is also affected with the `sectionTitle` option from `tia-dir-config.js` files.
+
+**`suite.log` files are not commited to VCS.**
 
 ### Etalon suite log
 
-Etalon log, located in it the `__tests__/__tia__/suite.et` file.
-`*.et` files are commited to VCS.
+Etalon suite log, located in it the `__tests__/__tia__/suite.et` file.
+**`*.et` files are commited to VCS.**
 
 ### Root log
 
-This is a log with statistics for all tests from the project root directory.
+This is a log with statistics for all [Tests](#Test) from the [Project root directory](#Project-root-directory).
 It is located in `<prjRoot>/__tests__/__tia__/root.log`.
-The log is sent to emails (if --email option is specified and there is a correct email config).
-This file is not commited to VCS.
+The *Root log* is sent to emails (if --email option is specified and there is a correct email config).
+
+**Not commited to VCS.**
 
 ### Etalon root log
 
-Etalog suite log is located in `<prjRoot>/__tests__/__tia__/root.et`.
-`*.et` files are commited to VCS.
+*Etalon root log* is located in `<prjRoot>/__tests__/__tia__/root.et`.
+
+**`*.et` files are commited to VCS.**
 
 ### Browser profiles
 
 Browser profiles are located in  `__tests__/__tia__/tia-browser-profiles` directories.
-See also the `selProfilePath` option in the `config/default-suite-config.js`.
+See also the `selProfilePath` option in the
+[config/default-suite-config.js](https://github.com/Dzenly/tia/blob/master/config/default-suite-config.js).
 
 ----------------------------------
 
 ## Prerequisites
 
-* diff, rm, zip utililies (you can use Cygwin on Windows)
-* Node.js 6.10+.
-* Xvfb (if you wish to run tests under Linux without GUI).
+* `diff`, `rm`, `zip` utililies (you can use Cygwin on Windows)
+* `Node.js` 8.6.0+
+* `Xvfb` (if you wish to run tests under Linux without GUI).
 	How to start:
 	 $ Xvfb :1 -screen 5 2560x1440x24
 	How to stop:
 	 $ killall Xvfb
 * The 'xvfb' directory contains the script for using as `/etc/init.d/xvfb` and readme.md.
+* Note: that there is headless chrome and firefox, which are supported by the `--headless` command line option. 
 
 ----------------------------------
 
@@ -129,7 +147,7 @@ See also the `selProfilePath` option in the `config/default-suite-config.js`.
 
 $ npm install tia
 
-Now in the project you can use `node_modules/tia/bin/tia.js` as start script for node.js.
+Now in the project you can use `node_modules/tia/bin/tia.js` as a start script for node.js.
 
 If you are lucky, your IDE will support some autocompletion for TIA API.
 
