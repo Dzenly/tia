@@ -1,6 +1,6 @@
 'use strict';
 
-// Конфиги для всех test suites. Не перегружаются нигде.
+// This config is used by all Test suites. They are not overloaded.
 module.exports = {
 
   rootDirEnvVarName: 'TIA_ROOT_DIR',

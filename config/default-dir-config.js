@@ -4,71 +4,70 @@
 // Options can be overloaded in directory configs.
 module.exports = {
 
-  // API - функции могут писать информацию о своем вызове в лог.
-  // По-умолчанию, low level функции пишут о своём вызове в лог,
-  // а high level функции пишут укороченную информацию,
-  // отключая логи для low level функций, составляющих high level функцию.
-  // Многие low level функции принимают параметр logAction, который позволяет управлять логированием.
-  // Если этот параметр не используется, используется дефолтное значение для разрешения логирования.
-  // Чтобы выключить лог для какой-то функции,нужно передать false в качестве logAction.
-  // Чтобы временно поменять дефолтное разрешение логирования, можно юзать gT.lL.setDefaultLlLogAction.
-  // См. также gT.lL.setLlPassCounting.
+  // Some functions can write some info to the Test log.
 
-  // milliseconds, Задержка между low level вызовами для selenium действий со страницей,
-  // можно использовать для визуализации процесса тестирования.
-  // В боевом режиме используйте 0.
+  // By default, low level functions writes info to the Test log.
+  // But high level functions disable logs from low level functions they called,
+  // using logAction = false.
+  // Default value for logAction for low level functions is defined in gT.engineConstants.defLLLogAction.
+  // See also gT.lL.setDefaultLlLogAction and gT.lL.setLlPassCounting.
+
+  // milliseconds between selenium low level calls. Just for visualization at tests writting.
+  // Use 0 for CI tests.
   selActionsDelay: 0,
 
-  // Можно включать вывод таймингов для каждой low level команды. Это приведет к дифам в логах.
-  // Поэтому, в боевом режиме - используйте false.
+  // Enables timings output for low level functions.
+  // It creates diffs in Test logs, so don't use this in CI tests.
   enableTimings: false,
 
-  // Этот параметр может/должен перегружаться локальными конфигами директорий, чтобы задавать название секции.
+  // Should be overridden by tia-dir-config.js to specify section title.
   sectionTitle: '',
 
-  // Если true - перестанут считаться Pass и Fail счетчики.
-  // Может использоваться для тестирования движка тестов, или при написании high level функций.
+  // true - disables pass and fail counters incrementation.
+  // Can be used to test the TIA and for high level functions.
   ignorePassAndFailCounters: false,
 
   // Array of absolute paths or paths relative to root dir.
   // They will be required before all dir tests.
   require: [],
 
-  // Игнорировать ли все тесты из директории в которой лежит tia-dir-config.js.
-  // Если надо пропустить один тест, можно переименовать его, чтобы расширение стало не .js.
+  // If overridden in tia-dir-config.js, all tests from according directory will be skipped.
+  // To skip one test - just rename it to don't have `.tia.js` extension.
   skip: false,
 
-  // Печатать в лог все исключения браузера, произошедшие во время выполнения low level фукнции.
+  // Print Browser exceptions which occurred during low level function calls.
   selPrintClExcAfterEachCommand: false,
 
-  // Печатать в лог содержимое консоли браузера, добавленное за время выполнения low level функции.
   // TODO: перенести в константы и cmd line?
   // TODO: включать при отладке?
+  // Print Browser console output which occurred during low level function calls.
   selPrintClConsoleAfterEachCommand: false,
 
-  // Выбор дисплея, например ':1.5' чтобы тесты работали без видимого GUI
-  // (если Xvfb запущена, как "Xvfb :1 -screen 5 2560x1440x24"),
+  // Display for non-GUI mode.
+  // E.g. you can run Xvfb as "Xvfb :1 -screen 5 2560x1440x24"), and use `DISPLAY: ':1.5`.
   // пустая строка - дефолтный DISPLAY.
   DISPLAY: ':1.5',
 
-  // Путь к профайлу пользователя относительно __tia__ поддиректории текущего сьюта,
-  // в коде поддиректорию текущего сьюта хранится в gIn.suite.browserProfilePath.
-  // Пока реализована поддержка только для Chrome.
-  // Пустая строка - путь по умолчанию, он уничтожается при закрытии браузера,
-  // а значит при закрытии браузера уничтожаются и все данные (сессии, куки, настройки, и т.д.).
-  // Используйте очень осторожно, т.к. функции очистки профайла выполняют удаление директории на диске.
+  // Browser profile path relative to __tia__ subdirectory of the current Test suite.
+  // You can access the full path by gIn.suite.browserProfilePath.
+  // For now profiles are supported for chrome only.
+  // If this config value is empty - default path will be used and it will be deleted at browser closing,
+  // so all cookies, etc. will be destroyed.
+  // Please, use carefully, because `rm -rf` will be used for the browser profiles.
   selProfilePath: '',
 
+  // TODO
   // Уровень сообщений, отлавливаемых в консоли браузера. SEVERE или WARNING.
   // Из-за этих сообщений могут быть дифы. Ближе к релизу можно ставить WARNING.
   // selConsoleReportLevel: 'SEVERE',
 
-  // Адрес сервера. Полезно менять при одновременной работе нескольких тестеров на одной машине.
-  // В логах адрес будет заменяться на $(host).
-  // В функциях, принимающих URL строка $(host) заменяется на этот полный адрес.
-  // Этот параметр можно перегружать в локальном config.js.
-  // Также, этот параметр можно перегружать через --def-host опцию.
-  selHost: 'http://localhost:1338',
+  // Host for selenium tests (including ExtJs tests).
+  // In general you use --sel-host=http://myhost:myport.
+  // But you can specify this value in tia-dir-config.js.
+  // When URLs are written to Test logs this string will be replaced by `$(host)`.
+  // And vice versa, in functions which take URL, the '$(host)' will be replaced
+  // by this value.
+  selHost: 'http://localhost:1337',
 
   // Print resource usage at error. Makes sense to disable for tests for errors testing.
   resUsagePrintAtErrors: true,
