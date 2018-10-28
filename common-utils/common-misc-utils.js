@@ -2,7 +2,7 @@
 (function runCommonMiscUtils() {
   'use strict';
 
-  let container;
+  var container;
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     container = exports;
@@ -91,7 +91,7 @@
    * {
    *   path: <path>,
    *   args: <array of arrays of arguments> Note - only arrays are supported.
-   *   when function is met in path, next arguments array is used.
+   *   when function is met in path, next argument from args array is used.
    * }
    * @param dstArr - Destination array to place strings to.
    * @param [errMode] - see dumpObjErrMode
@@ -103,23 +103,23 @@
     if (typeof dstArr === 'undefined' || dstArr === null) {
       dstArr = [];
     }
-    let actualPropPathArr;
-    let actPropPathStr;
+    var actualPropPathArr;
+    var actPropPathStr;
     try {
       outerLoop:
-      for (let i = 0, len1 = propPaths.length; i < len1; i++) {
-        let propPath = propPaths[i];
+      for (var i = 0, len1 = propPaths.length; i < len1; i++) {
+        var propPath = propPaths[i];
 
-        let argsArr = void (0);
+        var argsArr = void (0);
         if (typeof propPath === 'object') {
           argsArr = propPath.args;
           propPath = propPath.path;
         }
         const subPropNames = propPath.split('.');
-        let propPathVal = obj;
-        let argsIndex = 0;
+        var propPathVal = obj;
+        var argsIndex = 0;
         actualPropPathArr = [];
-        for (let j = 0, len2 = subPropNames.length; j < len2; j++) {
+        for (var j = 0, len2 = subPropNames.length; j < len2; j++) {
           const subPropName = subPropNames[j];
 
           if (!propPathVal) {
@@ -132,11 +132,11 @@
             }
           }
 
-          let braceCount = (subPropName.match(/\(\)/g) || []).length;
+          var braceCount = (subPropName.match(/\(\)/g) || []).length;
 
           if (braceCount) {
             const funcName = subPropName.slice(0, subPropName.indexOf('('));
-            let thisObj = propPathVal;
+            var thisObj = propPathVal;
             propPathVal = propPathVal[funcName];
 
             actPropPathStr = funcName;
@@ -152,12 +152,12 @@
                 }
               }
 
-              let args = void (0);
+              var args = void (0);
               if (argsArr) {
                 args = argsArr[argsIndex];
                 argsIndex++;
               }
-              let argsStr = '';
+              var argsStr = '';
               if (typeof args !== 'undefined' && args !== null) {
                 argsStr = JSON.stringify(args).slice(1, -1);
               }
@@ -192,4 +192,29 @@
     }
     return dstArr;
   };
+
+  // Gets object property by path.
+  // If some property is function - it will be called without arguments.
+  container.result = function result(val, path, defaultValue) {
+    if (val == null) {
+      return defaultValue;
+    }
+
+    var pathArr = path.split('.');
+    var len = pathArr.length;
+
+    for (var i = 0; i < len; i++) {
+      var key = pathArr[i];
+
+      val = val[key];
+      if (typeof val === 'function') {
+        val = val.call(null);
+      } else if (typeof val === 'undefined') {
+        return defaultValue;
+      }
+    }
+
+    return val;
+  };
+
 }());

@@ -1,9 +1,19 @@
 'use strict';
 
-const inspect = require('util').inspect;
+const { inspect } = require('util');
 
 // These methods I think would be most often used.
 
+/**
+ * Search the Component by https://docs.sencha.com/extjs/6.5.3/modern/Ext.ComponentQuery.html#method-query
+ * @param {String} compQuery - substrings like 'l"locale_key"' will be replaced by '"value_for_key"',
+ * i.e. '[text=l"settings"]' will be changed to '[text="Настройки"] for russian locale.
+ * Also id like '##idKey' will be replaced by '#realId' from tiaEJ.idMap.
+ * @param compQuery - ExtJs component query.
+ * But
+ * @param logAction
+ * @return {*}
+ */
 exports.byCompQuery = function byCompQuery(compQuery, logAction) {
   return gIn.wrap(
     `Searching id by compQuery: ${compQuery} ... `,
@@ -17,6 +27,12 @@ exports.byCompQuery = function byCompQuery(compQuery, logAction) {
       }));
 };
 
+/**
+ * Set current parent before using this function.
+ * @param compQuery
+ * @param logAction
+ * @return {*}
+ */
 exports.byParentAndCompQuery = function byParentAndCompQuery(compQuery, logAction) {
   return gIn.wrap(
     `Searching id by preseted parent container, compQuery: ${compQuery} ... `,
