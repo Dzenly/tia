@@ -3,7 +3,7 @@
 (function setEBrMsgbox() {
   'use strict';
 
-  console.log('setEBrMsgbox');
+  console.log('TIA: setEBrMsgbox');
 
   // TODO: prompt editor, system cancel menu (chest in right top corner).
 

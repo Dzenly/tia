@@ -6,13 +6,13 @@ const obj = {
   a: {
     b: {
       c() {
-        return 'a b c func result';
+        return 'a.b.c func result';
       }
     }
   },
   d: [
-    'd0',
-    'd1'
+    'd[0]',
+    'd[1]'
   ],
   e: 'e',
 };

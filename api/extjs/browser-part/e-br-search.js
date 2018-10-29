@@ -4,7 +4,7 @@
 (function setEBrSearch() {
   'use strict';
 
-  console.log('setEBrSearch');
+  console.log('TIA: setEBrSearch');
 
   window.tiaEJ.search = {
 
@@ -199,32 +199,26 @@
 
   window.tiaEJ.searchAndWrap = {};
 
-  searchFuncs.forEach(function (fName) {
+  searchFuncs.forEach(function (funcName) {
 
-    tia.EJ.searchAndWrap[fName] = function() {
-      var cmp = tiaEJ.search[fName].apply(tiaEJ.search, arguments);
-
-      var cmpData = {
-        args: arguments, // arguments used for search.
-        fName: fName,
-      };
-
-      return tiaEJ.wrapCmp(cmpData, cmp);
+    tia.EJ.searchAndWrap[funcName] = function() {
+      var cmp = tiaEJ.search[funcName].apply(tiaEJ.search, arguments);
+      return tiaEJ.wrapCmp(cmp, arguments, funcName);
     };
 
-    tiaEJ.searchId[fName] = function () {
-      var cmp = tiaEJ.search[fName].apply(tiaEJ.search, arguments);
+    tiaEJ.searchId[funcName] = function () {
+      var cmp = tiaEJ.search[funcName].apply(tiaEJ.search, arguments);
       return cmp.getId();
     };
 
-    tiaEJ.searchFieldId[fName] = function () {
-      var cmp = tiaEJ.search[fName].apply(tiaEJ.search, arguments);
+    tiaEJ.searchFieldId[funcName] = function () {
+      var cmp = tiaEJ.search[funcName].apply(tiaEJ.search, arguments);
       var nameForLog = tiaEJ.ctByObj.getLabelsAndText(cmp);
       return {id: cmp.getId(), nameForLog: nameForLog};
     };
 
-    tiaEJ.searchInputId[fName] = function () {
-      var cmp = tiaEJ.search[fName].apply(tiaEJ.search, arguments);
+    tiaEJ.searchInputId[funcName] = function () {
+      var cmp = tiaEJ.search[funcName].apply(tiaEJ.search, arguments);
       var nameForLog = tiaEJ.ctByObj.getNameAndLabels(cmp, false);
       return {id: cmp.getInputId(), nameForLog: nameForLog};
     };

@@ -30,6 +30,7 @@ const brHelpers = [
   'e-br-get-html-els.js',
   'e-br-msgbox.js',
   'e-br-acts.js',
+  'e-br-cmp-wrappers.js',
 ];
 
 /**
@@ -88,3 +89,9 @@ gT.e.lClick = require('./extjs-l-clicks.js');
 gT.e.lClick.cb = require('./extjs-l-clicks-cb.js');
 
 gT.e.wait = require('./extjs-waits.js');
+
+gT.e.query = require('./extjs-query.js');
+gT.e.queryFromParent = require('./extjs-query-from-parent.js');
+
+gT.e.q = gT.e.query;
+gT.e.qp = gT.e.queryFromParent;

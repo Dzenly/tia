@@ -4,7 +4,7 @@
 (function setEBrContent() {
   'use strict';
 
-  console.log('setEBrContent');
+  console.log('TIA: setEBrContent');
 
   window.tiaEJ.ctSelectors = {
     rowBody: '.x-grid-rowbody-tr',

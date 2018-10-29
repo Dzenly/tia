@@ -2,7 +2,7 @@
 (function setEBr() {
   'use strict';
 
-  console.log('setEBr');
+  console.log('TIA: setEBr');
 
   window.tiaEJ = {
 

@@ -1,7 +1,7 @@
 =================
 Title: result() from common-misc-utils.js
-a b c func result
-d0
+a.b.c func result
+d[0]
 e
 default for e.f
 default for g.f

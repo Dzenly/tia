@@ -3,7 +3,7 @@
 (function setEBrGetHtmlEls() {
   'use strict';
 
-  console.log('setEBrGetHtmlEls');
+  console.log('TIA: setEBrGetHtmlEls');
 
   window.tiaEJ.hEByObj = {
 
