@@ -115,11 +115,13 @@ The *Root log* is sent to emails (if --email option is specified and there is a 
 
 **Not commited to VCS.**
 
-### Etalon root log
+### Etalon root log?
 
-*Etalon root log* is located in `<prjRoot>/__tests__/__tia__/root.et`.
+Nope. There is no such a log type, cause it makes no sense.
 
-**`*.et` files are commited to VCS.**
+### Diff (TBD)
+
+### Expected diff (TBD)
 
 ### Browser profiles
 
