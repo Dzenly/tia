@@ -24,13 +24,12 @@ global.e = gT.e;
 // for gT.e.initTiaExtJsBrHelpers
 const brHelpers = [
   'e-br.js',
-  'e-br-search.js',
-  'e-br-content.js',
   'e-br-check.js',
+  'e-br-cmp-wrappers.js',
+  'e-br-content.js',
   'e-br-get-html-els.js',
   'e-br-msgbox.js',
-  'e-br-acts.js',
-  'e-br-cmp-wrappers.js',
+  'e-br-search.js',
 ];
 
 /**

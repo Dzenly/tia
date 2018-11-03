@@ -285,7 +285,7 @@
         if (text === col.emptyCellText) {
           text = '<emptyCellText>';
         }
-        var info = col.getXType() + ': "' + text + '"';
+        var info = col.getConfig('xtype') + ': "' + text + '"';
         var toolTip = col.getConfig().toolTip;
         if (toolTip) {
           info += ', toolTip: ' + toolTip;
@@ -293,7 +293,7 @@
         // if (col.items) {
         //   info += ', items: ' + JSON.stringify(col.items);
         // }
-        // if (col.getXType() === 'actioncolumn') {
+        // if (col.getConfig('xtype') === 'actioncolumn') { //
         //   console.dir(col);
         //   window.c2 = col;
         // }
@@ -450,7 +450,7 @@
       }
       var str = indent;
       var strArr = tia.cU.dumpObj(comp, [
-        'getXType()',
+        { path: 'getConfig()', args: [['xtype']] },
         'getName()',
         'getFieldLabel()',
         'boxLabel',
@@ -631,7 +631,7 @@
             textContent = '<emptyCellText>';
           }
 
-          if (extCol.getXType() === 'actioncolumn') {
+          if (extCol.getConfig('xtype') === 'actioncolumn') {
 
             var actArr = [
               '\n------',

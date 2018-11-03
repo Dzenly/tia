@@ -6,7 +6,7 @@ let path = require('path');
 
 /**
  * Initializes TIA ExtJs exploration helpers.
- * Loads and runs the e-br-exp.js script in context of current browser window.
+ * Loads and runs the e-br-explore.js script in context of current browser window.
  *
  * Sets default handlers for debug and explorations.
  * Ctrl/Meta + Alt + LClick - shows info about ExtJs component under mouse cursor.
@@ -23,7 +23,7 @@ let path = require('path');
  */
 exports.init = function init(logAction) {
   return gIn.wrap('Initialization of TIA ExtJs Exp helpers ... ', logAction, function () {
-    let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/e-br-exp.js'), 'utf8');
+    let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/e-br-explore.js'), 'utf8');
     // gIn.tracer.msg3('init: script: ' + scriptStr);
     return gT.s.browser.executeScriptWrapper(scriptStr);
   }).then(function () {

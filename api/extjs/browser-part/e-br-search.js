@@ -186,11 +186,10 @@
 
   var searchFuncs = Object
     .getOwnPropertyNames(tiaEJ.search)
-    .filter(function (prop) {
-      return typeof prop === 'function';
+    .filter(function (propName) {
+      return typeof tiaEJ.search[propName] === 'function';
     });
 
-  //
   window.tiaEJ.searchId = {};
 
   window.tiaEJ.searchFieldId = {};
@@ -201,7 +200,7 @@
 
   searchFuncs.forEach(function (funcName) {
 
-    tia.EJ.searchAndWrap[funcName] = function() {
+    tiaEJ.searchAndWrap[funcName] = function() {
       var cmp = tiaEJ.search[funcName].apply(tiaEJ.search, arguments);
       return tiaEJ.wrapCmp(cmp, arguments, funcName);
     };

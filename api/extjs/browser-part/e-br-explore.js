@@ -2,6 +2,8 @@
 (function setExplorationMode() {
   'use strict';
 
+  console.log('TIA: setEBrExplore');
+
   window.tiaEJExp = {
 
     consts: {
@@ -87,8 +89,9 @@
       var view = controller.getView();
       var viewStr = '';
       if (view) {
-        viewStr += 'view.$className: ' + view.$className + ', xtype: ' + view.getXType() + ', ' +
-          this.formGetIdStr(view, '16px');
+        viewStr += 'view.$className: ' + view.$className
+          + ', getConfig("xtype"): ' + view.getConfig('xtype')
+          + this.formGetIdStr(view, '16px');
       }
 
       return res.concat([
@@ -181,8 +184,7 @@
         tia.cU.dumpObj(refHolder, [
           'isComponent',
           '$className',
-          'getXType()',
-          'getXTypes()'
+          { path: 'getConfig()', args: [['xtype']] },
         ], res, tia.cU.dumpObjErrMode.omitStringIfUndefined);
       }
 
@@ -253,7 +255,7 @@
 
       tia.cU.dumpObj(comp, [
         'ariaRole',
-        'getXType()',
+        { path: 'getConfig()', args: [['xtype']] },
         '$className',
         // 'initialConfig.id'
       ], outArr);
@@ -281,11 +283,6 @@
 
       // outArr.push('getConfig(itemId): ' + tiaEJ.ctByObj.safeGetConfig(comp, 'itemId'));
       outArr.push(textStr + ', Locale Keys: ' + localeKeys);
-
-      tia.cU.dumpObj(comp, [
-        'getXTypes()',
-        // 'initialConfig.itemSelector',
-      ], outArr);
 
       // outArr.push('isPanel:' + comp.isPanel + (comp.isPanel ? ' ! ! ! ! !' : ''));
 

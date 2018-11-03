@@ -42,8 +42,8 @@
 
         realId: cmp.getId(),
 
-        xtype: cmp.getXType(),
-        xtypes: cmp.getXTypes(),
+        xtype: cmp.getConfig('xtype'),
+        // xtypes: cmp.getXTypes(), // Buggy. Should be calculated with self.superclass.getConfig('xtype')
       },
       varProps: {
         text: getResult(cmp, 'getText'),
