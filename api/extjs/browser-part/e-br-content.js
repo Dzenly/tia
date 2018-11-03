@@ -449,7 +449,9 @@
         return '';
       }
       var str = indent;
-      var strArr = tia.cU.dumpObj(comp, [
+      var strArr = [];
+
+      tia.cU.dumpObj(comp, [
         { path: 'getConfig()', args: [['xtype']] },
         'getName()',
         'getFieldLabel()',

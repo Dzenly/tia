@@ -55,7 +55,8 @@ let obj = {
   p: {
     a: 5,
     b: 6
-  }
+  },
+  q: undefined
 };
 
 let eMode = gT.commonMiscUtils.dumpObjErrMode;
@@ -105,7 +106,7 @@ function testNewArrOmitStrIfUndefined(propPaths) {
 
 l.println('Separatedly: ');
 
-testNewArrOmitStrIfUndefined(['nnnn.mmmm', 'a.nnn.mmm', 'a.nnn()', 'g().a', 'g().a.b']);
+testNewArrOmitStrIfUndefined(['q', 'nnnn.mmmm', 'a.nnn.mmm', 'a.nnn()', 'g().a', 'g().a.b']);
 
 testExistingArrException(['a.b']);
 
@@ -129,6 +130,7 @@ l.println('Together: ');
 testNewArrException([
   'a.b', 'a.c.d', 'g()', 'f.h.j().i', {path: 'k()', args: [[1, 2, 3]]},
   {path: 'l().fun()', args: [[3, 4, 5], [6, 7]]},
+  {path: 'l().fun()', args: [[3, 4, 5], [6, 7]], alias: 'alias'},
   {path: 'l().fun1()()', args: [[3, 4, 5], [6, 7], [8, 9]]},
   'm()()', 'n()', 'o', 'p'
 ]);

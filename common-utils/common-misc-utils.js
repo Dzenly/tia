@@ -56,7 +56,8 @@
           continue;
         }
         if (typeof dst[prop] !== 'undefined' && typeof dst[prop] !== typeof src[prop]) {
-          throw Error(`Unexpected type for prop: ${prop}, expected: ${typeof dst[prop]}, actual: ${typeof src[prop]}`);
+          throw Error('Unexpected type for prop: ' + prop + ', expected: ' + typeof dst[prop]
+            + ', actual: ' + typeof src[prop]);
         }
         if (typeof dst[prop] === 'object') {
           handleObj(src[prop], dst[prop]);
@@ -92,6 +93,8 @@
    *   path: <path>,
    *   args: <array of arrays of arguments> Note - only arrays are supported.
    *   when function is met in path, next argument from args array is used.
+   *   alias: name to log, instead of funtName().
+   *
    * }
    * @param dstArr - Destination array to place strings to.
    * @param [errMode] - see dumpObjErrMode
@@ -111,8 +114,11 @@
         var propPath = propPaths[i];
 
         var argsArr = void (0);
+        var alias = void (0);
+
         if (typeof propPath === 'object') {
           argsArr = propPath.args;
+          alias = propPath.alias;
           propPath = propPath.path;
         }
         const subPropNames = propPath.split('.');
@@ -162,7 +168,7 @@
                 argsStr = JSON.stringify(args).slice(1, -1);
               }
 
-              actPropPathStr += `(${argsStr})`;
+              actPropPathStr += '(' + argsStr + ')';
               propPathVal = propPathVal.apply(thisObj, args);
               thisObj = propPathVal;
             }
@@ -180,11 +186,12 @@
         if (typeof propPathVal === 'undefined' && errMode === container.dumpObjErrMode.omitStringIfUndefined) {
           continue;
         }
-        dstArr.push(`${actualPropPathArr.join('.')}: ${propPathVal}`);
+
+        dstArr.push((alias ? alias : actualPropPathArr.join('.')) + ': ' + propPathVal);
       }
     } catch (e) {
       actualPropPathArr.push(actPropPathStr);
-      e.message += `; Path: ${actualPropPathArr.join('.')}`;
+      e.message += '; Path: ' + actualPropPathArr.join('.');
       if (container.getDebugMode()) {
         console.log(e.stack);
       }
