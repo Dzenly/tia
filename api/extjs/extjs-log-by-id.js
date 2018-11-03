@@ -78,6 +78,13 @@ exports.formSubmitValues = function formSubmitValues(id, logAction) {
   });
 };
 
+/**
+ *
+ * @param id
+ * @param includingStores - number 1, 2
+ * @param logAction
+ * @return {*}
+ */
 exports.form = function form(id, includingStores, logAction) {
   id = idToIdObj(id);
   return gIn.wrap(`Logging content of form ${id.logStr} ... `, logAction, function () {

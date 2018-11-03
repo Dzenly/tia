@@ -159,14 +159,14 @@
       var arr = [];
       for (var i = 0; i < fieldCount; i++) {
         var fieldName = fieldsToPrint[i];
-        var fieldValue = record.get(fieldName);
+        var fieldValue = tiaEJ.convertTextToFirstLocKey(record.get(fieldName));
         if (fieldName === 'checked' && fieldValue === null) {
           continue;
         }
         if (fieldName !== 'text') {
-          arr.push((printFieldName ? (fieldName + ': ') : '') + '"' + fieldValue + '"');
+          arr.push((printFieldName ? (fieldName + ': ') : '') + fieldValue);
         } else {
-          arr.push('"' + fieldValue + '"');
+          arr.push(fieldValue);
         }
       }
       return arr.join(', ');
