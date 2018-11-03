@@ -452,14 +452,18 @@
       var strArr = [];
 
       tia.cU.dumpObj(comp, [
-        { path: 'getConfig()', args: [['xtype']] },
-        'getName()',
-        'getFieldLabel()',
-        'boxLabel',
-        'getText()',
-        'title',
-        'getRawValue()'
-      ], null, tia.cU.dumpObjErrMode.omitStringIfUndefined);
+        { path: 'getConfig()', args: [['xtype']], alias: 'xtype' },
+      ], strArr, tia.cU.dumpObjErrMode.omitStringIfUndefined);
+
+      tiaEJ.funcResultToLocale(strArr, comp, 'getFieldLabel', 'label');
+      tiaEJ.propToLocale(strArr, comp, 'boxLabel');
+      tiaEJ.propToLocale(strArr, comp, 'title');
+      tiaEJ.funcResultToLocale(strArr, comp, 'getText', 'text');
+
+      tia.cU.dumpObj(comp, [
+        { path: 'getRawValue()', alias: 'value' , quotes: true },
+        { path: 'getName()', alias: 'name' },
+      ], strArr, tia.cU.dumpObjErrMode.omitStringIfUndefined);
 
       str += strArr.join(', ');
 

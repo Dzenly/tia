@@ -129,7 +129,8 @@ l.println('Together: ');
 
 testNewArrException([
   'a.b', 'a.c.d', 'g()', 'f.h.j().i', {path: 'k()', args: [[1, 2, 3]]},
-  {path: 'l().fun()', args: [[3, 4, 5], [6, 7]]},
+  {path: 'l().fun()', args: [[3, 4, 5], [6, 7]] },
+  {path: 'l().fun()', args: [[3, 4, 5], [6, 7]], quotes: true },
   {path: 'l().fun()', args: [[3, 4, 5], [6, 7]], alias: 'alias'},
   {path: 'l().fun1()()', args: [[3, 4, 5], [6, 7], [8, 9]]},
   'm()()', 'n()', 'o', 'p'

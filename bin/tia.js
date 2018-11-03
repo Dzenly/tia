@@ -63,6 +63,7 @@ const opts = {
   ],
   boolean: [ // 'logs-to-mail',
     'debug-avg',
+    'debug-locale',
     'debug-max',
     'diffs-to-slog',
     'ej-explore',

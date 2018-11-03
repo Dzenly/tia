@@ -33,21 +33,28 @@ const brHelpers = [
 ];
 
 /**
- * Initializes TIA ExtJs helpers.
+ * Initializes TIA ExtJs Browser helpers.
  * Loads and runs scripts from the extjs/browser-part directory in context of current browser window.
  * Adds some ExtJs helpers to window object.
  *
  * @param {boolean} [logAction=true] - is logging needed for this action.
  *
- * @returns a promise which will be resolved with script return value.
+ * @returns {Promise}.
  */
 gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
-  return gIn.wrap('Initialization of TIA ExtJs helpers ... ', logAction, () => (async function initTiaExtJsBrHelpersInner() {
-    for (const fName of brHelpers) { // eslint-disable-line no-restricted-syntax
-      const scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part', fName), 'utf8');
-      await gT.s.browser.executeScriptWrapper(scriptStr);
+  return gIn.wrap(
+    'Initialization of TIA ExtJs helpers ... ',
+    logAction,
+    async () => {
+      for (const fName of brHelpers) { // eslint-disable-line no-restricted-syntax
+        const scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part', fName), 'utf8');
+        await gT.s.browser.executeScriptWrapper(scriptStr);
+      }
+      if (gIn.params.debugLocale) {
+        await gT.e.utils.setDebugLocaleMode(true);
+      }
     }
-  }()));
+  );
 };
 
 /**

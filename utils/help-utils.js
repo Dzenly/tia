@@ -38,6 +38,12 @@ exports.usage = function usage() {
       --debug-avg - equals to --log-to-console --err-to-console --keep-browser-at-error --trace-level 2
       Though --trace-level option can be used to override tracing level.
       Note: --debug-max have precedence over --debug-avg.
+      
+      --debug-locale - if set, then native language text will be suffixed to localization keys,
+      By default, to avoid diffs for different locales of your product,
+      TIA does not print native language text in form labels, button texts, titles, boxLabels etc.
+      I.e. by default TIA prints localization keys only.
+      There is the setDebugLocaleMode() function to set this mode for the certain test.
 
       --debug-max - equals to --log-to-console --err-to-console --keep-browser-at-error
       --force-log-actions --trace-level 3

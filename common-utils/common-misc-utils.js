@@ -94,6 +94,7 @@
    *   args: <array of arrays of arguments> Note - only arrays are supported.
    *   when function is met in path, next argument from args array is used.
    *   alias: name to log, instead of funtName().
+   *   quotes: if true - values will be wrapped in double quotes.
    *
    * }
    * @param dstArr - Destination array to place strings to.
@@ -115,10 +116,12 @@
 
         var argsArr = void (0);
         var alias = void (0);
+        var quotes = void (0)
 
         if (typeof propPath === 'object') {
           argsArr = propPath.args;
           alias = propPath.alias;
+          quotes = propPath.quotes;
           propPath = propPath.path;
         }
         const subPropNames = propPath.split('.');
@@ -187,7 +190,10 @@
           continue;
         }
 
-        dstArr.push((alias ? alias : actualPropPathArr.join('.')) + ': ' + propPathVal);
+        dstArr.push(
+          (alias ? alias : actualPropPathArr.join('.')) + ': '
+          + (quotes ? ('"' + propPathVal + '"') : propPathVal)
+        );
       }
     } catch (e) {
       actualPropPathArr.push(actPropPathStr);

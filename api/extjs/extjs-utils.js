@@ -35,13 +35,29 @@ exports.setParentCmp = function setParentContainer(cmp, logAction) {
   );
 };
 
-
 exports.addFakeId = function addFakeId(fakeId, realId, logAction) {
   return gIn.wrap(
     `Add fake id '${fakeId}' to idMap`,
     logAction,
     () => gT.s.browser.executeScript(
       `return tiaEJ.idMap.add('${fakeId}', '${realId}');`,
+      false
+    )
+  );
+};
+
+/**
+ * The mode in which native language text is added after locale keys.
+ * @param newMode
+ * @param logAction
+ * @return {*}
+ */
+exports.setDebugLocaleMode = function setDebugLocaleMode(newMode, logAction) {
+  return gIn.wrap(
+    `Set debugLocale mode to '${newMode}'`,
+    logAction,
+    () => gT.s.browser.executeScript(
+      `return tiaEJ.setDebugLocaleMode(${newMode});`,
       false
     )
   );
