@@ -173,7 +173,7 @@
     },
 
     stringifyStore: function stringifyStore(store, fieldsToPrint, printFieldName) {
-      var res = ['Store dump: '];
+      var res = ['Store dump:'];
       for (var i = 0, len = store.getCount(); i < len; i++) {
         var record = store.getAt(i);
         res.push(this.stringifyRecord(record, fieldsToPrint, printFieldName));
