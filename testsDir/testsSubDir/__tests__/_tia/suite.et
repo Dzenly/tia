@@ -3,8 +3,8 @@
 ====================    Short Log END.    ====================
 
 ====================    Verbose Log BEGIN:    ====================
-"testsDir/testsSubDir/__tests__", dif: 0, Fail: 31, EDif: 1, Skip: 4, Pass: 67, Run: 18, "The subdir tests bunch for TIA"
-| "tia", dif: 0, Fail: 31, EDif: 1, Skip: 4, Pass: 67, Run: 18, "The subdir tests bunch for TIA"
+"testsDir/testsSubDir/__tests__", dif: 0, Fail: 31, EDif: 1, Skip: 4, Pass: 67, Run: 19, "The subdir tests bunch for TIA"
+| "tia", dif: 0, Fail: 31, EDif: 1, Skip: 4, Pass: 67, Run: 19, "The subdir tests bunch for TIA"
 | | "00_sanity", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 10, Run: 4, "The subdir tests bunch for TIA"
 | | | "00_checkForGlobals.tia.js", OK, fail: 0, Pass: 5, "Checking that all global variables are exist and correct."
 | | | "01_3msg3pass.tia.js", OK, fail: 0, Pass: 3, "2 messages and 3 passes."
@@ -32,9 +32,10 @@
 | | "07_assertions", dif: 0, Fail: 28, edif: 0, skip: 0, Pass: 35, Run: 2, "The subdir tests bunch for TIA"
 | | | "00_valueEqualValueDeep.tia.js", OK, Fail: 25, Pass: 33, "Tests for equalDeep assertion"
 | | | "01_exceptions.tia.js", OK, Fail: 3, Pass: 2, "Tests for "exception" assertion"
-| | "08_utils", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 13, Run: 2, "The subdir tests bunch for TIA"
+| | "08_utils", dif: 0, fail: 0, edif: 0, skip: 0, Pass: 13, Run: 3, "The subdir tests bunch for TIA"
 | | | "00_mergeOptions.tia.js", OK, fail: 0, Pass: 3, "Tests for mergeOptions function"
 | | | "01_dumpObj.tia.js", OK, fail: 0, Pass: 10, "Tests for dumpObj function"
+| | | "02_invertObj.tia.js", OK, fail: 0, pass: 0, "Tests for invertObj function"
 | | "09_extLog", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, Run: 1, "The subdir tests bunch for TIA"
 | | | "00_extLog.tia.js", OK, fail: 0, pass: 0, "Test for external log"
 ====================    Verbose Log END.    ====================

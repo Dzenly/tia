@@ -67,13 +67,12 @@ gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
  */
 gT.e.setLocaleObject = function setLocaleObject(objExpression, logAction) {
   return gIn.wrap('setLocaleObject ... ', logAction, () => {
-    const scriptStr = `
-        tiaEJ.locale = ${objExpression};
-        return tiaEJ.locale;
-    `;
+    const scriptStr = `return tiaEJ.setLocale(${objExpression});`;
     return gT.s.browser.executeScriptWrapper(scriptStr)
       .then((res) => {
-        gT.e.locale = res;
+        gT.e.locale = res.locale;
+        gT.e.invertedLocaleFirstKey = res.invertedLocaleFirstKey;
+        gT.e.invertedLocaleAllKeys = res.invertedLocaleAllKeys;
       });
   });
 };

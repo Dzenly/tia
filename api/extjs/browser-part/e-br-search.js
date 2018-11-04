@@ -179,7 +179,7 @@
     },
 
     tabByIdLocKey: function tabByIdLocKey(id, key) {
-      var text = tiaEJ.locale[key];
+      var text = tiaEJ.getLocaleValue(key);
       return this.tabByIdText(id, text);
     },
   };

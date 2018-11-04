@@ -230,4 +230,47 @@
     return val;
   };
 
+  /**
+   * Inverted object {'key': 'value'} -> {'value': 'key'}
+   * @param {Object} map
+   * @return {Object} - inverted maps.
+   * {
+   *   invertedMapFirst, - object where for not unique values of input object,
+   *   only first key will be used as a value.
+   *   invertedMapAll, object where for not unique values of input object,
+   *   all keys, separated by comma, will be used as a value.
+   * }
+   */
+  container.invertMapObj = function invertMapObj(map) {
+    var invertedMapFirstKey = Object.create(null);
+    var invertedMapArrAllKeys = Object.create(null); // temporary.
+
+    var mapEntries = Object.entries(map);
+
+    mapEntries.forEach(function (entry) {
+      var key = entry[0];
+      var value = entry[1];
+
+      if (typeof invertedMapFirstKey[value] === 'undefined') {
+        invertedMapFirstKey[value] = key;
+        invertedMapArrAllKeys[value] = [key];
+      } else {
+        invertedMapArrAllKeys[value].push(key);
+      }
+    });
+
+    var invertedMapAllKeys = Object.create(null);
+    var invertedMapEntries = Object.entries(invertedMapArrAllKeys);
+    invertedMapEntries.forEach(function (entry) {
+      var key = entry[0];
+      var value = entry[1];
+      invertedMapAllKeys[key] = value.join(', ');
+    });
+
+    return {
+      invertedMapFirstKey: invertedMapFirstKey,
+      invertedMapAllKeys: invertedMapAllKeys,
+    };
+  }
+
 }());

@@ -38,7 +38,7 @@
     },
 
     getTableItemByFieldLocKey: function getTableItemByFieldLocKey(table, fieldValueKey, fieldName) {
-      var index = this.indexOfField(table, tiaEJ.locale[fieldValueKey], fieldName);
+      var index = this.indexOfField(table, tiaEJ.getLocaleValue(fieldValueKey), fieldName);
       if (!index) {
         return null;
       }
