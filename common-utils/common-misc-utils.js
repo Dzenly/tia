@@ -10,7 +10,7 @@
       return false;
     };
   } else {
-    console.log('runCommonMiscUtils');
+    console.log('TIA: runCommonMiscUtils');
     container = window.tia.cU;
     container.getDebugMode = function getDebugMode() {
       return window.tia.debugMode;

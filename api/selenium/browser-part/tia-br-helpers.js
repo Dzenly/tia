@@ -3,7 +3,7 @@
 (function setTiaBrHelpers() {
   'use strict';
 
-  console.log('setTiaBrHelpers');
+  console.log('TIA: setTiaBrHelpers');
 
   window.tia = {
 

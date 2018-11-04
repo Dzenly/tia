@@ -7,7 +7,7 @@
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     container = exports;
   } else {
-    console.log('injectCommonConstants');
+    console.log('TIA: injectCommonConstants');
     container = window.tia.cC;
   }
 

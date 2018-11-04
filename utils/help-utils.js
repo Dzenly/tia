@@ -121,6 +121,7 @@ exports.usage = function usage() {
       This option enables such reports for empty suites. 
 
       --stack-to-log print stack trace to test logs.
+      This will lead to diffs for tests for which exceptions are expected.
 
       --stop-remote-driver - (for chromedriver only) shuts down the remote driver.
 

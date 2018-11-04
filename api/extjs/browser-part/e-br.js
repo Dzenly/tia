@@ -19,8 +19,6 @@
     invertedLocaleAllKeys: null, // all keys are keeped for non unique values
 
     setLocale: function setLocale(newLocale) {
-      console.log('New locale', newLocale);
-
       this.locale = newLocale;
       var invertedObjs = tia.cU.invertMapObj(newLocale);
 

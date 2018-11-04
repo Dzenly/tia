@@ -71,14 +71,10 @@
     // Store must contain at least one record.
     doesStoreContainField: function doesStoreContainField(store, fieldName) {
       var model = store.first();
-      var names = model.getFields().map(function (field) {
-        return field.getName();
-      });
-      var index = names.indexOf(fieldName);
-      if (index === -1) {
-        return false;
+      if (typeof model.get(fieldName) !== 'undefined') {
+        return true;
       }
-      return true;
+      return model.getField(fieldName) != null;
     },
 
     /**
@@ -120,16 +116,38 @@
       return options;
     },
 
-    stringifyAllRecord: function stringifyAllRecord(record, printFieldName) {
-      var fieldsToPrint = record.getFields();
-      var fieldCount = fieldsToPrint.length;
+    /**
+     * actually getFields returns not all fields. So these are names for additional fields.
+     * @param record
+     * @param extraNames
+     *
+     * @return {Array}
+     */
+    getAllRecordFieldNames: function(record, extraNames) {
+      var fieldNames = record.getFields().map(function (field) {
+        return field.getName();
+      });
+
+      if (extraNames) {
+        fieldNames = fieldNames.concat(extraNames);
+      }
+      return fieldNames;
+    },
+
+    /**
+     * @param record
+     * @param printFieldName
+     * @param extraFieldToPrint - actually getFields returns not all fields. So these are names for additional fields.
+     * @return {string}
+     */
+    stringifyAllRecord: function stringifyAllRecord(record, printFieldName, extraFieldsToPrint) {
+      var fieldsToPrint = this.getAllRecordFieldNames(record, extraFieldsToPrint);
       var arr = [];
-      for (var i = 0; i < fieldCount; i++) {
-        var field = fieldsToPrint[i];
-        var fieldName = field.getName();
+
+      fieldsToPrint.forEach(function (fieldName) {
         var fieldValue = record.get(fieldName);
         arr.push((printFieldName ? (fieldName + ': ') : '') + '"' + fieldValue + '"');
-      }
+      });
 
       arr.push('\n' + tia.cC.content.rowSep + '\n');
       var propsArr = [
@@ -151,10 +169,15 @@
     },
 
 
+    /**
+     *
+     * @param record
+     * @param fieldsToPrint
+     * @param printFieldName
+     * @return {string}
+     */
     stringifyRecord: function stringifyRecord(record, fieldsToPrint, printFieldName) {
-      fieldsToPrint = fieldsToPrint ? fieldsToPrint : record.getFields().map(function (val) {
-        return val.getName();
-      });
+      fieldsToPrint = fieldsToPrint ? fieldsToPrint : this.getAllRecordFieldNames(record);
       var fieldCount = fieldsToPrint.length;
       var arr = [];
       for (var i = 0; i < fieldCount; i++) {
@@ -172,11 +195,18 @@
       return arr.join(', ');
     },
 
+    /**
+     * @param store
+     * @param fieldsToPrint
+     * @param printFieldName
+     * @return {string[]}
+     */
     stringifyStore: function stringifyStore(store, fieldsToPrint, printFieldName) {
-      var res = ['Store dump:'];
+      var res = ['Store dump (rec.cnt: ' + store.getCount() + '):'];
       for (var i = 0, len = store.getCount(); i < len; i++) {
         var record = store.getAt(i);
-        res.push(this.stringifyRecord(record, fieldsToPrint, printFieldName));
+        var strRecord = this.stringifyRecord(record, fieldsToPrint, printFieldName);
+        res.push(strRecord);
       }
       return res;
     },
@@ -195,11 +225,11 @@
           'isFocusable()',
           'isSuspended()',
           'isLayoutSuspended()',
-          'isMasked()'
+          'isMasked()',
         ];
         var panelProps = [
           '_renderState',
-          'isConfiguring'
+          'isConfiguring',
         ];
 
         arr.push('Ext.isReady: ' + Ext.isReady);
