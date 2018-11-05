@@ -13,10 +13,10 @@ module.exports = {
   // configs and results:
   // * Suite etalog log.
   // * Current suite logs in various formats.
-  // The <project root>/__tests__ also contains such a directory with project level results.
+  // The <project root>/__tia-tests__ also contains such a directory with project level results.
   suiteSubDirName: '_tia-suite',
 
-  // __tests__/_tia-root keeps root.log, tia-root-dir-config.js, tia-root-suite-config.js.
+  // __tia-tests__/_tia-root keeps root.log, tia-root-dir-config.js, tia-root-suite-config.js.
   // This directory is created by the `tia [--root-dir=<yourPrjRootDir>] init` command
   rootSubDirName: '_tia-root',
 
@@ -43,15 +43,17 @@ module.exports = {
   dirConfigName: 'tia-dir-config.js',
 
   // File name for the root directory config.
-  // There is the only such file and it must be located in <rootDir>/__tests__ directory.
+  // There is the only such file and it must be located in <rootDir>/__tia-tests__ directory.
   dirRootConfigName: 'tia-root-dir-config.js',
 
   // File name for suite configs.
   suiteConfigName: 'tia-suite-config.js',
 
   // File name for the root suite config.
-  // There is the only such file and it must be located in <rootDir>/__tests__ directory.
+  // There is the only such file and it must be located in <rootDir>/__tia-tests__ directory.
   suiteRootConfigName: 'tia-root-suite-config.js',
+
+  globalConfigName: 'tia-global-config.js',
 
   // Корневая директория, где лежат профайлы. Не перегружается в локальных конфигах.
   browserProfileRootDirName: 'tia-browser-profiles',

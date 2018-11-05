@@ -1,14 +1,6 @@
 # Time Is All (log driven test engine with ExtJs support)
 
-> Warn: in 0.18.0 directory structure is changed to don't mess with other engines:
-> `__tests__` renamed to `__tia-tests`, `_tia` renamed to `_tia-suite`.
-> `sudo apt-get install rename`
-> `find -maxdepth 10 -type d -name "__tests__" -exec prename 's/__tests__/__tia-tests__/' {} \;`
-> `find -maxdepth 10 -type d -name "_tia" -exec prename 's/_tia/_tia-suite/' {} \;`
-> `<prjRoot>` now contains `__tia-tests__/_tia-root`.
-> `_tia/root.log` is moved to `_tia-root`.
-> `tia-root-suite-config.js`, `tia-root-dir-config.js` are also moved to `_tia-root`.
-> `tia-suite-config.js` is moved to `_tia-suite`.
+[See Change log for migration guides](docs/change-log.md)
 
 This is an engine for testing automation.
 It allows any types of testing: unit testing, functional testing, GUI testing, etc.
@@ -472,9 +464,9 @@ Thank you, "R-Vision", for initial sponsorship and for allowance to open the sou
 
 ## Links
 
-* [TODO for 1.0.0 version](readme-todos-for-1.0.0.md)
-* [Selenium Webdriver usage in TIA](readme-selenium-webdriver.md)
-* [How to test ExtJs applications](readme-extjs.md)
+* [TODO for 1.0.0 version](docs/readme-todos-for-1.0.0.md)
+* [Selenium Webdriver usage in TIA](docs/readme-selenium-webdriver.md)
+* [How to test ExtJs applications](docs/readme-extjs.md)
 
 ----------------------------------
 

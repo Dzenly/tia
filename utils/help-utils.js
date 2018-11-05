@@ -110,7 +110,7 @@ exports.usage = function usage() {
       Forces tia to require listed files as Node.js modules.
       ${gT.engineConsts.requireModulesEnvVarName} environment variable also can be used for this.
 
-      --run-self-tests - Run tests for the engine (from tia/__tests__ directory).
+      --run-self-tests - Run tests for the engine (from tia/__tia-tests__ directory).
       
       --share-browser - Try to share the browser between tests within one node.js process.
       In this case 'init' call is performed only for the first test and 'quit' call only for the last one.

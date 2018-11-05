@@ -17,7 +17,7 @@ suiteMetaDirName
 
 too-long-time - задавать в tia-suite-config, если это ещё не делается.
 
-Создавать профайл браузера при первом selenium init и создавать его в `__tests__/__tia__/<profilesRoot>/<profileName>`
+Создавать профайл браузера при первом selenium init и создавать его в `__tia-tests__/__tia__/<profilesRoot>/<profileName>`
 
 М.б. дать возможность тесту создавать для себя профайл, допустим, параметров в driver.init.
 
