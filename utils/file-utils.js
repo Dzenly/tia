@@ -147,53 +147,76 @@ function collectArcPaths(dirInfo, arcPaths) {
   }
 }
 
+exports.getDirectoryAlias = function (dirPath) {
+  const pathArr = dirPath.split(path.sep);
+  const last = pathArr.pop();
+  if (last !== gT.engineConsts.suiteDirName) {
+    throw new Error(`getDirectoryAlias: Incorrect path format: ${dirPath}`);
+  }
+  const alias = pathArr.pop();
+  if (!alias) {
+    throw new Error(`getDirectoryAlias: Incorrect path format: ${dirPath}`);
+  }
+  return alias;
+};
+
 exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
   if (!gIn.params.enableEmail || !gT.suiteConfig.attachArchiveToMail || !gT.suiteConfig.mailRecipientList) {
     return null;
   }
-  let arcName = `${new Date().toISOString().slice(0, 19).replace(/:/g, '_')}.zip`;
-  arcName = path.resolve(arcName); // TODO shorten paths in zip?
+
+  const alias = exports.getDirectoryAlias(dirInfo.path);
+
+  const arcName = `${alias}_${new Date().toISOString().slice(0, 19).replace(/:/g, '_')}.zip`;
+
+  const suitePathWOSuiteDirName = path.resolve(gIn.params.rootDir, dirInfo.path, '..');
+  const wholeSuiteArcRelPath = path.relative(suitePathWOSuiteDirName, dirInfo.path);
+  const resultArchivePath = path.resolve(suitePathWOSuiteDirName, arcName);
+
   if (!gT.suiteConfig.attachOnlyDiffs) {
-    // TODO: can throw, is this ok?
     try {
       childProcess.execSync(
-        `cd ${gIn.params.rootDir} && zip -r ${arcName} *`,
-        { stdio: [null, null, null] }
+        `cd ${suitePathWOSuiteDirName} && zip -r ${arcName} "${wholeSuiteArcRelPath}"/*`,
+        {
+          stdio: [null, null, null],
+          windowsHide: true,
+        }
       );
     } catch (e) {
       gIn.tracer.err(`zip stderr: ${e.stderr.toString()}`);
       gIn.tracer.err(`zip stdout: ${e.stdout.toString()}`);
-      throw (new Error('Error with zip'));
+      throw (new Error('Error with zip (whole)'));
     }
-    return arcName;
+    return resultArchivePath;
   }
 
-  let arr = [];
+  // Only diffs handling.
+  const diffedPathsToArc = [];
 
-  collectArcPaths(dirInfo, arr);
+  collectArcPaths(dirInfo, diffedPathsToArc);
 
-  if (arr.length === 0) {
+  if (diffedPathsToArc.length === 0) {
     gIn.tracer.msg3('Archieve: No diffs, no archieve');
     return null;
   }
 
-  arr = arr.map((item) => {
-    const newItem = `"${path.relative(gIn.params.rootDir, item)}"*`;
-    return newItem;
+  const diffedRelativePathsToArc = diffedPathsToArc.map((diffedArcPath) => {
+    const relativePath = `"${path.relative(suitePathWOSuiteDirName, diffedArcPath)}"*`;
+    return relativePath;
   });
 
   try {
     childProcess.execSync(
-      `cd ${gIn.params.rootDir} && zip ${arcName} ${arr.join(' ')}`,
+      `cd ${suitePathWOSuiteDirName} && zip -r ${arcName} ${diffedRelativePathsToArc.join(' ')}`,
       { stdio: [null, null, null] }
     );
   } catch (e) {
     gIn.tracer.err(`zip stderr: ${e.stderr.toString()}`);
     gIn.tracer.err(`zip stdout: ${e.stdout.toString()}`);
-    throw (new Error('Error with zip'));
+    throw (new Error('Error with zip (diffs only)'));
   }
 
-  return arcName;
+  return resultArchivePath;
 };
 
 exports.isDirectory = function isDirectory(fileOrDirPath) {

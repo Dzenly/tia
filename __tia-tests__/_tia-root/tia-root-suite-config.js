@@ -2,4 +2,5 @@
 
 module.exports = {
   existingRootSuiteConfigOption: 'existingRootSuiteConfigOption',
+  attachOnlyDiffs: true,
 };

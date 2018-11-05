@@ -247,13 +247,13 @@ async function runTestSuite(suiteData) {
   dirInfo.os = getOs();
   fileUtils.saveJson(dirInfo, `${log}.json`);
 
-  const arcName = fileUtils.archiveSuiteDir(dirInfo);
+  const arcPath = fileUtils.archiveSuiteDir(dirInfo);
 
   const procInfo = nodeUtils.getProcInfo();
   fs.writeFileSync(procInfoFilePath, procInfo, { encoding: gT.engineConsts.logEncoding });
   txtAttachments.push(procInfoFilePath);
 
-  await gIn.mailUtils.send(emailSubj, txtAttachments, [arcName]);
+  await gIn.mailUtils.send(emailSubj, txtAttachments, [arcPath]);
 
   const { diffed } = dirInfo;
 
@@ -269,7 +269,7 @@ async function runTestSuite(suiteData) {
   }
 
   if (gT.suiteConfig.removeZipAfterSend) {
-    fileUtils.safeUnlink(arcName);
+    fileUtils.safeUnlink(arcPath);
   }
 
   return {

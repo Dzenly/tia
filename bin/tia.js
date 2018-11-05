@@ -165,7 +165,7 @@ if (gT.browsers.indexOf(browser) === -1) {
 
 gIn.params = args;
 
-const rootDir = tiaArgsUtils.resolvePathOption({
+const rootDir = tiaArgsUtils.resolvePathOptionRelativeToCwd({
   cmdLineArgsPath: args.rootDir,
   envVarName: gT.engineConsts.rootDirEnvVarName,
   description: 'Root directory',
@@ -177,10 +177,6 @@ gIn.params.rootDir = rootDir;
 
 if (!args.requireModules) {
   args.requireModules = process.env[gT.engineConsts.requireModulesEnvVarName];
-}
-
-if (!gIn.params.emailCfgPath) {
-  gIn.params.emailCfgPath = process.env[gT.engineConsts.emailCfgPathEnvVarName];
 }
 
 gT.rootTestsDirPath = path.join(gIn.params.rootDir, gT.engineConsts.suiteDirName);
@@ -221,8 +217,14 @@ gT.rootLog = path.join(
 );
 
 // =====================
-if (gIn.params.emailCfgPath) {
-  gIn.params.emailCfgPath = path.resolve(gIn.params.emailCfgPath);
+if (!gIn.params.emailCfgPath) {
+  gIn.params.emailCfgPath = tiaArgsUtils.resolvePathOptionRelativeToRootDir({
+    cmdLineArgsPath: gIn.params.emailCfgPath,
+    envVarName: gT.engineConsts.emailCfgPathEnvVarName,
+    description: 'EMail cfg path',
+    cutLastDirSep: false,
+    mandatory: false,
+  });
   gIn.tracer.msg3(`Email cfg path: ${gIn.params.emailCfgPath}`);
   gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), require(gIn.params.emailCfgPath));
 } else {
