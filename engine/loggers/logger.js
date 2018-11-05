@@ -144,14 +144,19 @@ exports.testSummary = function testSummary() {
 
 function saveDirInfo(parameters) {
   let { indent } = parameters;
-  const { dirInfo, verbose, noTime } = parameters;
+  const {
+    dirInfo, verbose, noTime,
+  } = parameters;
   gIn.tracer.msg3(`${dirInfo.path}, dirInfo.run: ${dirInfo.run}`);
   if (!dirInfo.run && !gT.suiteConfig.emptyDirToSuiteLog) {
     return;
   }
   writeToSuiteLog(indent);
   writeToSuiteLog(gIn.tInfo.testInfoToString({
-    curInfo: dirInfo, isDir: true, verbose, noTime,
+    curInfo: dirInfo,
+    isDir: true,
+    verbose,
+    noTime,
   }), dirInfo.diffed);
   indent = gIn.loggerCfg.indentation + indent;
 
@@ -164,7 +169,10 @@ function saveDirInfo(parameters) {
     if (curInfo.diffed || verbose) {
       if (Object.prototype.hasOwnProperty.call(curInfo, 'children')) {
         saveDirInfo({
-          dirInfo: curInfo, indent, verbose, noTime,
+          dirInfo: curInfo,
+          indent,
+          verbose,
+          noTime,
         });
       } else {
         writeToSuiteLog(indent);
@@ -193,7 +201,10 @@ function saveSuiteLogPart(verbose, dirInfo, noTime) {
   const decor = '====================';
   writeToSuiteLog(`${decor}    ${title} Log BEGIN:    ${decor}\n`);
   saveDirInfo({
-    dirInfo, indent: '', verbose, noTime,
+    dirInfo,
+    indent: '',
+    verbose,
+    noTime,
   });
   writeToSuiteLog(`${decor}    ${title} Log END.    ${decor}\n`);
 }

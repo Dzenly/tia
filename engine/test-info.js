@@ -3,6 +3,7 @@
 /* globals gIn */
 
 const mPath = require('path');
+const fileUtils = require('../utils/file-utils.js');
 
 exports.isPassCountingEnabled = true;
 exports.isPassPrintingEnabled = true;
@@ -52,8 +53,14 @@ exports.testInfoToString = function testInfoToString(parameters) {
     skipped = curInfo.skipped ? 'SKIP' : '';
   }
 
-  const filePath = curInfo.isSuiteRoot ? `"${mPath.relative(gIn.params.rootDir, curInfo.path)}"` :
-    `"${mPath.basename(curInfo.path)}"`;
+  let filePath;
+
+  if (curInfo.isSuiteRoot) {
+    filePath = ` "${fileUtils.getDirectoryAlias(curInfo.path)}"`;
+  } else {
+    filePath = `"${mPath.basename(curInfo.path)}"`;
+  }
+
   const title = noTitle ? '' : `"${curInfo.title}"`;
   const passed = formLogPart('Pass', curInfo.passed);
   const failed = formLogPart('Fail', curInfo.failed);

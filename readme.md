@@ -1,6 +1,6 @@
 # Time Is All (log driven test engine with ExtJs support)
 
-[See Change log for migration guides](docs/change-log.md)
+[See Change log for migration guides](docs/changelog.md)
 
 This is an engine for testing automation.
 It allows any types of testing: unit testing, functional testing, GUI testing, etc.
