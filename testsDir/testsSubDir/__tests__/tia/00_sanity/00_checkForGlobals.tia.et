@@ -1,9 +1,0 @@
-=================
-Title: Checking that all global variables are exist and correct.
-OK: gT exists
-OK: gIn exists
-OK: gIn.config exists
-OK: gIn.tInfo exists
-OK: gIn.tInfo.data exists
-=================
-Pass: 5, Fail: 0

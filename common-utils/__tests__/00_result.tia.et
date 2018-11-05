@@ -1,9 +1,0 @@
-=================
-Title: result() from common-misc-utils.js
-a.b.c func result
-d[0]
-e
-default for e.f
-default for g.f
-=================
-Pass: 0, Fail: 0

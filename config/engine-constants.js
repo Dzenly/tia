@@ -7,13 +7,18 @@ module.exports = {
 
   // Directory name for tests suite. Only tests from this directory are launched.
   // The project can contain many test suites.
-  suiteDirName: '__tests__',
+  suiteDirName: '__tia-tests__',
 
-  // Name for subdirectory inside <suiteDirName> directory that keeps the suite results:
+  // Name for subdirectory inside <suiteDirName> directory that keeps the suite
+  // configs and results:
   // * Suite etalog log.
   // * Current suite logs in various formats.
   // The <project root>/__tests__ also contains such a directory with project level results.
-  resultsSubDirName: '_tia',
+  suiteSubDirName: '_tia-suite',
+
+  // __tests__/_tia-root keeps root.log, tia-root-dir-config.js, tia-root-suite-config.js.
+  // This directory is created by the `tia [--root-dir=<yourPrjRootDir>] init` command
+  rootSubDirName: '_tia-root',
 
   logExtension: '.log',
 

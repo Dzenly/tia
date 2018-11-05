@@ -60,6 +60,7 @@ const opts = {
     'root-dir',
     'too-long-time',
     'trace-level',
+    'check-logs',
   ],
   boolean: [ // 'logs-to-mail',
     'debug-avg',
@@ -109,6 +110,20 @@ args = camelcaseKeys(args);
 if (args.h || args.help) {
   helpUtils.usage();
   process.exit(0);
+}
+
+// args._ массив без -- или -.
+
+if (args.checkLogs) {
+  const allowedArr = [
+    'ignoreGood', // No diffs, no fails, no empty.
+    'expected',
+
+    // 'silent', // Do not ask for confirmation on diff applying.
+
+  ];
+
+  args.checkLogs = args.checkLogs.split(',');
 }
 
 console.log(gT.version);
@@ -172,19 +187,21 @@ gT.rootTestsDirPath = path.join(gIn.params.rootDir, gT.engineConsts.suiteDirName
 
 const rootSuiteConfig = nodeUtils.requireIfExists(path.join(
   gT.rootTestsDirPath,
+  gT.engineConsts.rootSubDirName,
   gT.engineConsts.suiteRootConfigName
 ));
 gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.suiteConfigDefault), rootSuiteConfig);
 
 const rootDirConfig = nodeUtils.requireIfExists(path.join(
   gT.rootTestsDirPath,
+  gT.engineConsts.rootSubDirName,
   gT.engineConsts.dirRootConfigName
 ));
 gT.rootDirConfig = _.merge(_.cloneDeep(gT.dirConfigDefault), rootDirConfig);
 
 gT.rootLog = path.join(
   gT.rootTestsDirPath,
-  gT.engineConsts.resultsSubDirName,
+  gT.engineConsts.rootSubDirName,
   gT.engineConsts.rootLogName + gT.engineConsts.logExtension
 );
 
@@ -245,4 +262,9 @@ gIn.tracer.msg3(`Parameters: ${inspect(gIn.params)}`);
 runTestSuites()
   .then((res) => {
     const asdf = 5;
+  })
+  .catch((e) => {
+    gIn.tracer.err(e);
+    gIn.tracer.err(e.stack);
+    throw e;
   });

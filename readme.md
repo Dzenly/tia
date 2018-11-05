@@ -1,5 +1,15 @@
 # Time Is All (log driven test engine with ExtJs support)
 
+> Warn: in 0.18.0 directory structure is changed to don't mess with other engines:
+> `__tests__` renamed to `__tia-tests`, `_tia` renamed to `_tia-suite`.
+> `sudo apt-get install rename`
+> `find -maxdepth 10 -type d -name "__tests__" -exec prename 's/__tests__/__tia-tests__/' {} \;`
+> `find -maxdepth 10 -type d -name "_tia" -exec prename 's/_tia/_tia-suite/' {} \;`
+> `<prjRoot>` now contains `__tia-tests__/_tia-root`.
+> `_tia/root.log` is moved to `_tia-root`.
+> `tia-root-suite-config.js`, `tia-root-dir-config.js` are also moved to `_tia-root`.
+> `tia-suite-config.js` is moved to `_tia-suite`.
+
 This is an engine for testing automation.
 It allows any types of testing: unit testing, functional testing, GUI testing, etc.
 Both assertion-driven and logs-driven testing are supported.
@@ -21,9 +31,15 @@ https://github.com/Dzenly/tia/tree/master/tests
 
 The directory containing your project.
 In general it is the root of your VCS repository.
-It can contain many [Test suites](#Test-suite) (`__tests__`, see below) at any level.
+Hereinafter the *Project root directory* will be denoted as `<prjRoot>`.
+
+It can contain many [Test suites](#Test-suite) (i.e `__tia-tests__` directories, see below) at any level.
+
+`<prjRoot>` contains at least one `__tia-tests__` directory.
+The `__tia-tests__` directory
+
 By default the current working directory will be used as the project root directory,
-but you can change it by:
+but you set it it by:
 
 * `--root-dir` cmd line option.
 *  `TIA_ROOT_DIR` environment variable.
@@ -31,16 +47,16 @@ but you can change it by:
 If both are specified `--root-dir` will be used.
 I.e. always cmd line option take precedence over env var.
 
-Hereinafter the *Project root directory* will be denoted as `<prjRoot>`.
+
 
 ### Test suite
 
-A set of tests located in some `__tests__` directory, e.g.:
+A set of tests located in some `__tia-tests__` directory, e.g.:
 
-* `<prjRoot>/__tests__`
-* `<prjRoot>/subDir/subSubDir/__tests__`
+* `<prjRoot>/__tia-tests__`
+* `<prjRoot>/subDir/subSubDir/__tia-tests__`
 
-Note: don't nest `__tests__` to `__tests__`.
+Note: don't nest `__tia-tests__` to `__tia-tests__`.
 
 When you run TIA, it will perform all test suites from the [Project root directory](#Project-root-directory)
 
@@ -96,7 +112,7 @@ etalon (reference) log by renaming `.tia.log` to `.tia.et`.
 ### Suite log
 
 This is a log with statistics for all [Tests](#Test) from a [Test suite](#Test-suite) directory.
-*Suite log* is located in the `__tests__/__tia__/suite.log` file.
+*Suite log* is located in the `__tia-tests__/__tia__/suite.log` file.
 The *Suite log* is sent to email addresses of subscribers (if --email option is specified and there is a correct email config).
 NOTE: The *Suite log* is also affected with the `sectionTitle` option from `tia-dir-config.js` files.
 
@@ -104,13 +120,13 @@ NOTE: The *Suite log* is also affected with the `sectionTitle` option from `tia-
 
 ### Etalon suite log
 
-Etalon suite log, located in it the `__tests__/__tia__/suite.et` file.
+Etalon suite log, located in it the `__tia-tests__/__tia__/suite.et` file.
 **`*.et` files are commited to VCS.**
 
 ### Root log
 
 This is a log with statistics for all [Tests](#Test) from the [Project root directory](#Project-root-directory).
-It is located in `<prjRoot>/__tests__/__tia__/root.log`.
+It is located in `<prjRoot>/__tia-tests__/__tia__/root.log`.
 The *Root log* is sent to emails (if --email option is specified and there is a correct email config).
 
 **Not commited to VCS.**
@@ -125,7 +141,7 @@ Nope. There is no such a log type, cause it makes no sense.
 
 ### Browser profiles
 
-Browser profiles are located in  `__tests__/__tia__/tia-browser-profiles` directories.
+Browser profiles are located in  `__tia-tests__/__tia__/tia-browser-profiles` directories.
 See also the `selProfilePath` option in the
 [config/default-suite-config.js](https://github.com/Dzenly/tia/blob/master/config/default-suite-config.js).
 
@@ -199,6 +215,8 @@ Use `tia --help` to see the help for the following things:
 ----------------------------------
 
 ## Config files
+
+TBD
 
 ### For engine
 
