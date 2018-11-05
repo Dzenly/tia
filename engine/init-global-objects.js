@@ -38,6 +38,7 @@ gIn.configUtils = require('../utils/config-utils');
 
 gT.engineConsts = require('../config/engine-constants.js');
 gT.suiteConfigDefault = require('../config/default-suite-config.js');
+gT.globalConfigDefault = require('../config/default-global-config.js');
 gT.dirConfigDefault = require('../config/default-dir-config.js');
 
 gIn.loggerCfg = require('./loggers/logger-cfg.js');

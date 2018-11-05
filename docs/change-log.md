@@ -18,6 +18,10 @@ so rootDirAlias option is added to tia-global-config.js.
 
 Also `__tests__` is removed from suite logs.
 
+Also added new config type - `__tia-tests__/_tia-root/tia-global-config.js`.
+Any global stuff can be saved here.
+See `config/default-global-config.js` for options used by TIA.
+
 # 0.16
 
 ## There are changes to make TIA a bit closer to Jest.

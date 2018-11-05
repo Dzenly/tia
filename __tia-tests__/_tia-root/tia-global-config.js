@@ -2,4 +2,5 @@
 
 module.exports = {
   existingGlobalSuiteConfigOption: 'existingGlobalSuiteConfigOption',
+  rootDirAlias: '-=TIA=-',
 };

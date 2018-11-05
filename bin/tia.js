@@ -192,6 +192,20 @@ const rootSuiteConfig = nodeUtils.requireIfExists(path.join(
 ));
 gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.suiteConfigDefault), rootSuiteConfig);
 
+//=====================
+const globalConfig = nodeUtils.requireIfExists(path.join(
+  gT.rootTestsDirPath,
+  gT.engineConsts.rootSubDirName,
+  gT.engineConsts.globalConfigName
+));
+gT.globalConfig = _.merge(_.cloneDeep(gT.globalConfigDefault), globalConfig);
+
+if (!gT.globalConfig.rootDirAlias) {
+  gT.globalConfig.rootDirAlias = path.basename(gIn.params.rootDir);
+}
+
+//=====================
+
 const rootDirConfig = nodeUtils.requireIfExists(path.join(
   gT.rootTestsDirPath,
   gT.engineConsts.rootSubDirName,
