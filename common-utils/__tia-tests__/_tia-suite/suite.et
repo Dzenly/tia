@@ -1,8 +1,8 @@
 ====================    Short Log BEGIN:    ====================
-"common-utils/__tia-tests__", dif: 0, fail: 0
+ "common-utils", dif: 0, fail: 0
 ====================    Short Log END.    ====================
 
 ====================    Verbose Log BEGIN:    ====================
-"common-utils/__tia-tests__", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, Run: 1, "This title must be overloaded."
+ "common-utils", dif: 0, fail: 0, edif: 0, skip: 0, pass: 0, Run: 1, "This title must be overloaded."
 | "00_result.tia.js", OK, fail: 0, pass: 0, "result() from common-misc-utils.js"
 ====================    Verbose Log END.    ====================
