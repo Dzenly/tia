@@ -40,7 +40,9 @@ exports.testInfoToString = function testInfoToString(parameters) {
     diffed = formLogPart('Dif', curInfo.diffed);
     ediffed = formLogPart('EDif', curInfo.expDiffed);
     skipped = formLogPart('Skip', curInfo.skipped);
-    run = formLogPart('Run', curInfo.run);
+    if (curInfo.isSuiteRoot) {
+      run = formLogPart('Run', curInfo.run);
+    }
   } else {
     if (curInfo.diffed) {
       diffed = 'DIF';
@@ -55,14 +57,14 @@ exports.testInfoToString = function testInfoToString(parameters) {
 
   let filePath;
 
-  if (curInfo.isSuiteRoot) {
+  if (isDir && curInfo.isSuiteRoot) {
     filePath = ` "${fileUtils.getDirectoryAlias(curInfo.path)}"`;
   } else {
     filePath = `"${mPath.basename(curInfo.path)}"`;
   }
 
   const title = noTitle ? '' : `"${curInfo.title}"`;
-  const passed = formLogPart('Pass', curInfo.passed);
+  const passed = (curInfo.isSuiteRoot || !isDir) ? formLogPart('Pass', curInfo.passed) : null;
   const failed = formLogPart('Fail', curInfo.failed);
   const time = noTime ? '' : `${curInfo.time.toFixed(2)} ms`;
 
