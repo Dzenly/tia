@@ -1,0 +1,7 @@
+=================
+Title: Root dir: Checking global config.
+OK: dummyOptionForTests: dummyOptionForTests
+OK: rootDirAlias: -=TIA=-
+OK: nonExistingOption: undefined
+=================
+Pass: 3, Fail: 0

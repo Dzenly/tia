@@ -185,6 +185,7 @@ if (!gIn.params.emailCfgPath) {
 
 gT.rootTestsDirPath = path.join(gIn.params.rootDir, gT.engineConsts.suiteDirName);
 
+// =====================
 const rootSuiteConfig = nodeUtils.requireIfExists(path.join(
   gT.rootTestsDirPath,
   gT.engineConsts.rootSubDirName,
@@ -192,7 +193,7 @@ const rootSuiteConfig = nodeUtils.requireIfExists(path.join(
 ));
 gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.suiteConfigDefault), rootSuiteConfig);
 
-//=====================
+// =====================
 const globalConfig = nodeUtils.requireIfExists(path.join(
   gT.rootTestsDirPath,
   gT.engineConsts.rootSubDirName,
@@ -204,8 +205,7 @@ if (!gT.globalConfig.rootDirAlias) {
   gT.globalConfig.rootDirAlias = path.basename(gIn.params.rootDir);
 }
 
-//=====================
-
+// =====================
 const rootDirConfig = nodeUtils.requireIfExists(path.join(
   gT.rootTestsDirPath,
   gT.engineConsts.rootSubDirName,
@@ -213,12 +213,14 @@ const rootDirConfig = nodeUtils.requireIfExists(path.join(
 ));
 gT.rootDirConfig = _.merge(_.cloneDeep(gT.dirConfigDefault), rootDirConfig);
 
+// =====================
 gT.rootLog = path.join(
   gT.rootTestsDirPath,
   gT.engineConsts.rootSubDirName,
   gT.engineConsts.rootLogName + gT.engineConsts.logExtension
 );
 
+// =====================
 if (gIn.params.emailCfgPath) {
   gIn.params.emailCfgPath = path.resolve(gIn.params.emailCfgPath);
   gIn.tracer.msg3(`Email cfg path: ${gIn.params.emailCfgPath}`);
@@ -227,6 +229,7 @@ if (gIn.params.emailCfgPath) {
   gIn.tracer.msg3('No email cfg path');
 }
 
+// =====================
 if (!gIn.params.extLog) {
   gIn.params.extLog = process.env[gT.engineConsts.externalLogEnvVarName];
 }
