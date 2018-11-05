@@ -1,0 +1,100 @@
+=================
+Title: Tests for equalDeep assertion
+Good cases
+OK: Numbers
+OK: Numbers
+OK: Strings
+OK: Strings
+OK: Object with no sub object
+OK: Object with no sub object
+OK: Object with sub object
+OK: Object with sub object
+==========
+Bad cases
+FAIL: null, undefined
+Path: '', Act type: object, 'Exp type: undefined
+OK: null, undefined
+FAIL: undefined, null
+Path: '', Act type: undefined, 'Exp type: object
+OK: undefined, null
+FAIL: null, object
+Path: , 
+Act val: null
+Exp val: [object Object]
+OK: null, object
+FAIL: object, null
+Path: , 
+Act val: [object Object]
+Exp val: null
+OK: object, null
+FAIL: object, string
+Path: '', Act type: object, 'Exp type: string
+OK: object, string
+FAIL: string, object
+Path: '', Act type: string, 'Exp type: object
+OK: string, object
+FAIL: object, number
+Path: '', Act type: object, 'Exp type: number
+OK: object, number
+FAIL: number, object
+Path: '', Act type: number, 'Exp type: object
+OK: number, object
+FAIL: number, string
+Path: '', Act type: number, 'Exp type: string
+OK: number, string
+FAIL: string, number
+Path: '', Act type: string, 'Exp type: number
+OK: string, number
+FAIL: Numbers
+Path: , 
+Act val: 5
+Exp val: 4
+OK: Numbers
+FAIL: Strings
+Path: , 
+Act val: a
+Exp val: b
+OK: Strings
+FAIL: Object with no sub object
+Path: /a, 
+Act val: 3
+Exp val: 4
+OK: Object with no sub object
+FAIL: Object with sub object
+Path: /sub/sub1/h, 
+Act val: 5
+Exp val: 6
+OK: Object with sub object
+FAIL: Different properties
+Path: '', Property names are different: Act : a, Exp : b
+OK: Different properties
+FAIL: Different property count
+Different property counts, 
+Path: '', 
+Act props: a
+Exp props: 
+OK: Different property count
+FAIL: Different property types: object, null
+Path: /a, 
+Act val: [object Object]
+Exp val: null
+OK: Different property types: object, null
+FAIL: Different property types: number, string
+Path: '/a', Act type: number, 'Exp type: string
+OK: Different property types: number, string
+OK: val1: 1 === val2: 1
+FAIL: val1: 1 !== val2: 2
+OK: val1 === val2 === true
+OK: val1 === val2 === true
+FAIL: val1: false !== val2: true
+FAIL: val1 === val2 === true
+FAIL: val1 === val2 === true
+OK: val1: true !== val2: false
+OK: val1 === val2
+OK: val1 === val2
+FAIL: val1: false !== val2: true
+FAIL: val1 === val2 === true
+FAIL: val1 === val2 === true
+OK: val1 !== val2
+=================
+Pass: 33, Fail: 25

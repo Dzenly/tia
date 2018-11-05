@@ -1,0 +1,29 @@
+=================
+Title: Tests for invertObj function
+
+Unique values: 
+{
+  "invertedMapFirstKey": {
+    "value1": "key1",
+    "value2": "key2"
+  },
+  "invertedMapAllKeys": {
+    "value1": "key1",
+    "value2": "key2"
+  }
+}
+Non unique values: 
+{
+  "invertedMapFirstKey": {
+    "value1": "key1",
+    "value2": "key2",
+    "value3": "key4"
+  },
+  "invertedMapAllKeys": {
+    "value1": "key1",
+    "value2": "key2, key3",
+    "value3": "key4"
+  }
+}
+=================
+Pass: 0, Fail: 0

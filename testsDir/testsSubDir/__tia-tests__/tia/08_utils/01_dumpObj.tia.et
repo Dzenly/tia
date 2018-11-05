@@ -1,0 +1,54 @@
+=================
+Title: Tests for dumpObj function
+Separatedly: 
+a.b: a.b
+l().fun3(): 5
+a.fun(): a.b
+nnnn: N/A
+a.nnn: N/A
+a.nnn: N/A
+g().a: undefined
+g().a: N/A
+nnnn: N/A
+a.nnn: N/A
+a.nnn: N/A
+g().a: undefined
+g().a: N/A
+g().a: undefined
+l(3,4,5).fun1(6,7)(8,9).a: undefined
+a.c.d: a.c.d
+g(): g()
+f.h.j().i: f.h.j().i
+==========
+Together: 
+a.b: a.b
+a.c.d: a.c.d
+g(): g()
+f.h.j().i: f.h.j().i
+k(1,2,3): 6
+l(3,4,5).fun(6,7): 25
+l(3,4,5).fun(6,7): "25"
+alias: 25
+l(3,4,5).fun1(6,7)(8,9): 42
+m()(): 27
+n(): null
+o: null
+p: {"a":5,"b":6}
+aaa: undefined
+bbb: N/A
+a.asdf: N/A
+: N/A
+: N/A
+aaa: undefined
+OK: Expected exception: 'TypeError: Cannot read property 'apply' of undefined; Path: www()'
+OK: Expected exception: 'TypeError: Cannot read property 'ggg' of undefined; Path: www.'
+OK: Expected exception: 'TypeError: Cannot read property 'apply' of undefined; Path: a.b.v()'
+OK: Expected exception: 'TypeError: propPathVal.apply is not a function; Path: a()'
+OK: Expected exception: 'TypeError: propPathVal.apply is not a function; Path: g()()'
+OK: Expected exception: 'TypeError: Cannot read property 'apply' of undefined; Path: l(3,4,5).fun2(6,7)'
+OK: Expected exception: 'TypeError: Cannot read property 'b' of undefined; Path: l(3,4,5).fun1(6,7)(8,9).a.'
+OK: Expected exception: 'TypeError: Cannot read property 'aaa' of undefined; Path: '
+OK: Expected exception: 'TypeError: Cannot read property 'aaa' of null; Path: '
+OK: Expected exception: 'TypeError: Cannot read property 'bbb' of undefined; Path: aaa.'
+=================
+Pass: 10, Fail: 0
