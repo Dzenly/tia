@@ -1,3 +1,11 @@
+# 0.19
+
+Changed work with new files.
+See `--new` option description in `tia -h`.
+
+And for future. If I will forget to describe smth, you could start
+using diff `tia -h` with previous version.
+
 # 0.18
 
 Directory structure is changed to don't mess with other engines:
