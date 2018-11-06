@@ -108,6 +108,7 @@ exports.usage = function usage() {
       --pattern <pattern> - pattern for tests to run.
       , any test which file path (relative to <testSuiteRoot>) contains <pathToDirOrTest> substring will run.
       By default, tests from all directories (recursively) will run.
+      Note: Tests whish are skipped due to the pattern is not calculated as skipped in suite logs.
       
       --print-proc-info print process info to console for each suite log.
 

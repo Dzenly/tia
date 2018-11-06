@@ -44,6 +44,11 @@ async function handleTestFile(file, dirConfig) {
     return null;
   }
 
+  if (fileUtils.isEtAbsent(file)) {
+    gIn.tracer.msg0(`Skipped new test: ${file}`);
+    return null;
+  }
+
   gIn.tInfo.data = gIn.tInfo.createTestInfo(false, '', file); // Test should change this title.
 
   if (dirConfig.skip && !gIn.params.ignoreSkipFlag) {

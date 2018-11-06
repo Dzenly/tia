@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const childProcess = require('child_process');
+const textUtils = require('./text-utils');
 
 /* globals gT, gIn */
 
@@ -24,6 +25,16 @@ const childProcess = require('child_process');
 exports.isAbsent = function isAbsent(fileOrDirPath) {
   try {
     fs.statSync(fileOrDirPath);
+  } catch (e) {
+    return true;
+  }
+  return false;
+};
+
+exports.isEtAbsent = function (jsPath) {
+  const etPath = textUtils.jsToEt(jsPath)
+  try {
+    fs.statSync(etPath);
   } catch (e) {
     return true;
   }

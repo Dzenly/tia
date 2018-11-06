@@ -33,6 +33,7 @@ module.exports = {
 
   // If overridden in tia-dir-config.js, all tests from according directory will be skipped.
   // To skip one test - just rename it to don't have `.tia.js` extension.
+  // Skipped tests are calculated in suite log.
   skip: false,
 
   // Print Browser exceptions which occurred during low level function calls.

@@ -39,6 +39,10 @@ exports.changeExt = function changeExt(jsPath, newExt) {
   return jsPath.substr(0, jsPath.length - 3) + newExt;
 };
 
+exports.jsToEt = function jsToEt(jsPath) {
+  return exports.changeExt(jsPath, '.et');
+};
+
 /**
  * Creates log path knowing js file path.
  * Just replaces two last symbols by 'log' at the end of string.
