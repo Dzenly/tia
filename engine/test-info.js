@@ -40,7 +40,7 @@ exports.testInfoToString = function testInfoToString(parameters) {
     diffed = formLogPart('Dif', curInfo.diffed);
     ediffed = formLogPart('EDif', curInfo.expDiffed);
     skipped = formLogPart('Skip', curInfo.skipped);
-    if (curInfo.isSuiteRoot) {
+    if (curInfo.isSuiteRoot && gIn.params.slogSubj.includes('run')) {
       run = formLogPart('Run', curInfo.run);
     }
   } else {
@@ -64,12 +64,14 @@ exports.testInfoToString = function testInfoToString(parameters) {
   }
 
   const title = noTitle ? '' : `"${curInfo.title}"`;
-  const passed = (curInfo.isSuiteRoot || !isDir) ? formLogPart('Pass', curInfo.passed) : null;
+  const passed = ((curInfo.isSuiteRoot && gIn.params.slogSubj.includes('pass')) || !isDir)
+    ? formLogPart('Pass', curInfo.passed)
+    : null;
   const failed = formLogPart('Fail', curInfo.failed);
   const time = noTime ? '' : `${curInfo.time.toFixed(2)} ms`;
 
-  const arr = verbose ? [filePath, diffed, failed, ediffed, skipped, passed, run, time, title] :
-    [filePath, diffed, failed];
+  const arr = verbose ? [filePath, diffed, failed, ediffed, skipped, passed, run, time, title]
+    : [filePath, diffed, failed];
 
   let res = `${arr.filter(Boolean).join(', ')}`; // join only non-empty strings.
 

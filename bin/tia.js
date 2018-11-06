@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // TODO: check how the starting shebang will work on windows.
-//':' //# comment; exec /usr/bin/env node "$0" "$@"
+// ':' //# comment; exec /usr/bin/env node "$0" "$@"
 // Don't allow eslint to set semicolon after ':' above.
 // http://sambal.org/2014/02/passing-options-node-shebang-line/
 
@@ -19,6 +19,7 @@ const { inspect } = require('util');
 const _ = require('lodash');
 
 const nodeUtils = require('../utils/nodejs-utils');
+const argConsts = require('../utils/arg-consts.js');
 const helpUtils = require('../utils/help-utils.js');
 const { runTestSuites } = require('../engine/runner.js');
 const tiaArgsUtils = require('../utils/tia-arguments-utils.js');
@@ -49,6 +50,7 @@ const opts = {
   string: [
     'browser',
     'browser-log-level',
+    'check-logs',
     'def-host',
     'driver-log-level',
 
@@ -58,9 +60,10 @@ const opts = {
     'pattern',
     'require-modules',
     'root-dir',
+    'slog-subj',
     'too-long-time',
     'trace-level',
-    'check-logs',
+
   ],
   boolean: [ // 'logs-to-mail',
     'debug-avg',
@@ -217,18 +220,16 @@ gT.rootLog = path.join(
 );
 
 // =====================
-if (!gIn.params.emailCfgPath) {
-  gIn.params.emailCfgPath = tiaArgsUtils.resolvePathOptionRelativeToRootDir({
-    cmdLineArgsPath: gIn.params.emailCfgPath,
-    envVarName: gT.engineConsts.emailCfgPathEnvVarName,
-    description: 'EMail cfg path',
-    cutLastDirSep: false,
-    mandatory: false,
-  });
-  gIn.tracer.msg3(`Email cfg path: ${gIn.params.emailCfgPath}`);
+gIn.params.emailCfgPath = tiaArgsUtils.resolvePathOptionRelativeToRootDir({
+  cmdLineArgsPath: gIn.params.emailCfgPath,
+  envVarName: gT.engineConsts.emailCfgPathEnvVarName,
+  description: 'EMail cfg path',
+  cutLastDirSep: false,
+  mandatory: false,
+});
+
+if (gIn.params.emailCfgPath) {
   gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), require(gIn.params.emailCfgPath));
-} else {
-  gIn.tracer.msg3('No email cfg path');
 }
 
 // =====================
@@ -243,6 +244,21 @@ if (gIn.params.extLog) {
   gIn.tracer.msg3('No external log path');
 }
 
+// =====================
+if (gIn.params.slogSubj) {
+  gIn.params.slogSubj = gIn.params.slogSubj.split(',');
+  for (const subjItem of gIn.params.slogSubj) {
+    if (!argConsts.allowedSlogSubj.includes(subjItem)) {
+      gIn.cLogger.errln(`Not supported subject item: ${subjItem}`);
+      gIn.cLogger.errln(`Supported items: ${argConsts.allowedSlogSubj.join(',')}`);
+      process.exit(1);
+    }
+  }
+} else {
+  gIn.params.slogSubj = [];
+}
+
+// =====================
 gIn.params.testsParentDir = path.dirname(rootDir);
 
 gIn.tracer.msg3(`Tests Parent Dir: ${gIn.params.testsParentDir}`);

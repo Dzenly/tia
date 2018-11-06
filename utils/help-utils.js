@@ -1,5 +1,7 @@
 'use strict';
 
+const argConsts = require('./arg-consts.js');
+
 /* global gT */
 
 function dedent(callSite, ...params) {
@@ -121,7 +123,11 @@ exports.usage = function usage() {
       
       --show-empty-suites - By default, if a suite (${gT.engineConsts.suiteDirName} directory)
       does not contain any run or skipped tests, there will not be test report to console.
-      This option enables such reports for empty suites. 
+      This option enables such reports for empty suites.
+      
+      --slog-subj=${argConsts.allowedSlogSubj.map(subjItem => `[${subjItem}]`).join(',')}
+      Add some info to suite log subject. This will lead to additional diffs
+      in suite logs, but can be useful for paranoid checking.
 
       --stack-to-log print stack trace to test logs.
       This will lead to diffs for tests for which exceptions are expected.

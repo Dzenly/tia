@@ -41,7 +41,7 @@ exports.resolvePathOptionRelativeToCwd = function resolvePathOptionRelativeToCwd
  * Resolves path specified by cmd line option or environment variable.
  * Relative paths resolved relative to gIn.params.rootDir.
  * @param {Object} argsObj
- * @return {String} - resolved path.
+ * @return {String} - resolved path or empty string.
  */
 exports.resolvePathOptionRelativeToRootDir = function resolvePathOptionRelativeToRootDir(argsObj) {
   const {
@@ -54,6 +54,8 @@ exports.resolvePathOptionRelativeToRootDir = function resolvePathOptionRelativeT
       gIn.cLogger.errln(`${description} is not specified`);
       process.exit(1); // TODO: change to debug-assert ??
     }
+    gIn.tracer.msg3(`${description} is not specified`);
+    return '';
   }
 
   if (!path.isAbsolute(myPath)) {

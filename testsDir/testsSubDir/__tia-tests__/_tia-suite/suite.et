@@ -3,7 +3,7 @@
 ====================    Short Log END.    ====================
 
 ====================    Verbose Log BEGIN:    ====================
- "testsSubDir", dif: 0, Fail: 31, EDif: 1, Skip: 4, Pass: 67, Run: 19, "The subdir tests bunch for TIA"
+ "testsSubDir", dif: 0, Fail: 31, EDif: 1, Skip: 4, "The subdir tests bunch for TIA"
 | "tia", dif: 0, Fail: 31, EDif: 1, Skip: 4, "The subdir tests bunch for TIA"
 | | "00_sanity", dif: 0, fail: 0, edif: 0, skip: 0, "The subdir tests bunch for TIA"
 | | | "00_checkForGlobals.tia.js", OK, fail: 0, Pass: 5, "Checking that all global variables are exist and correct."

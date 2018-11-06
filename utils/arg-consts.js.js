@@ -1,0 +1,4 @@
+exports.allowedSlogSubj = [
+  'run',
+  'pass',
+];

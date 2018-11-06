@@ -3,7 +3,7 @@
 ====================    Short Log END.    ====================
 
 ====================    Verbose Log BEGIN:    ====================
- "tia", dif: 0, fail: 0, edif: 0, Skip: 1, Pass: 9, Run: 6, "Tests from prj root dir."
+ "tia", dif: 0, fail: 0, edif: 0, Skip: 1, "Tests from prj root dir."
 | "config-checks", dif: 0, fail: 0, edif: 0, skip: 0, "Tests from prj root dir."
 | | "00_root-dir-config-checks.tia.js", OK, fail: 0, Pass: 6, "Root dir: Checking config and suite-config work."
 | | "01_global-config.tia.js", OK, fail: 0, Pass: 3, "Root dir: Checking global config."
