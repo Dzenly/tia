@@ -80,6 +80,7 @@ const opts = {
     'help',
     'keep-browser-at-error',
     'log-to-console',
+    'new',
     'print-proc-info',
     'run-self-tests',
     'share-browser',

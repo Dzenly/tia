@@ -31,7 +31,7 @@ exports.isAbsent = function isAbsent(fileOrDirPath) {
   return false;
 };
 
-exports.isEtAbsent = function (jsPath) {
+exports.isEtalonAbsent = function (jsPath) {
   const etPath = textUtils.jsToEt(jsPath)
   try {
     fs.statSync(etPath);

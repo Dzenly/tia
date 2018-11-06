@@ -45,15 +45,25 @@ async function handleTestFile(file, dirConfig) {
     return null;
   }
 
-  if (fileUtils.isEtAbsent(file) && (!dirConfig.skip || gIn.params.ignoreSkipFlag)) {
-    gIn.tracer.msg0(`Skipped new test: ${file}`);
-    suiteUtils.saveNewTestInfo(file);
+  const etalonAbsent = fileUtils.isEtalonAbsent(file);
+  if (gIn.params.new && !etalonAbsent) {
     return null;
+  }
+
+  const skippedDir = dirConfig.skip && !gIn.params.ignoreSkipFlag;
+  if (!skippedDir && etalonAbsent) {
+    if (gIn.params.new) {
+      gIn.tracer.msg0(`Found new test: ${file}`);
+    } else {
+      gIn.tracer.msg0(`Skipped new test: ${file}`);
+      suiteUtils.saveNewTestInfo(file);
+      return null;
+    }
   }
 
   gIn.tInfo.data = gIn.tInfo.createTestInfo(false, '', file); // Test should change this title.
 
-  if (dirConfig.skip && !gIn.params.ignoreSkipFlag) {
+  if (skippedDir) {
     gIn.tInfo.data.skipped = 1;
     return gIn.tInfo.data;
   }
@@ -86,7 +96,9 @@ async function handleTestFile(file, dirConfig) {
   }
 
   gIn.tInfo.data.time = gT.timeUtils.stopTimer(startTime);
-  gIn.diffUtils.diff(file);
+  if (!gIn.params.new) {
+    gIn.diffUtils.diff(file);
+  }
 
   return gIn.tInfo.data; // Return value to be uniform in handleDir.
 }
@@ -197,11 +209,13 @@ async function runTestSuite(suiteData) {
   const etDif = `${noTimeLog}.et.dif`;
   const noTimeLogPrev = `${noTimeLog}.prev`;
 
-  fileUtils.safeUnlink(log);
-  fileUtils.safeUnlink(prevDif);
-  fileUtils.safeUnlink(etDif);
-  fileUtils.safeRename(noTimeLog, noTimeLogPrev);
-  suiteUtils.rmNewTestsInfo();
+  if (!gIn.params.new) {
+    fileUtils.safeUnlink(log);
+    fileUtils.safeUnlink(prevDif);
+    fileUtils.safeUnlink(etDif);
+    fileUtils.safeRename(noTimeLog, noTimeLogPrev);
+    suiteUtils.rmNewTestsInfo();
+  }
 
   const dirInfo = await handleTestDir(root, gT.rootDirConfig);
   dirInfo.isSuiteRoot = true;
@@ -210,6 +224,10 @@ async function runTestSuite(suiteData) {
     await gT.s.driver.quitIfInited();
   } else {
     gIn.tracer.msg3('No force driver.quit() for the last test, due to useRemoteDriver option');
+  }
+
+  if (gIn.params.new) {
+    return {};
   }
 
   // dirInfo.title = path.basename(dir);
@@ -409,6 +427,12 @@ exports.runTestSuites = async function runTestSuites() {
 
   for (const suitePath of suitePaths) { // eslint-disable-line no-restricted-syntax
     results.push(await prepareAndRunTestSuite(suitePath));
+  }
+
+  if (gIn.params.new) {
+    gIn.cLogger.msgln('All new tests are finished.');
+    process.exitCode = 0;
+    return;
   }
 
   const wasError = results.some(result => !result || result.diffed || !result.equalToEtalon);
