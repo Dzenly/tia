@@ -1,0 +1,8 @@
+=================
+Title: Test for client interaction with a browser
+Script execution ... OK
+SEL.DR.LOG: WARNING (900), Message:
+ Unable to evaluate script: unexpected alert open
+
+=================
+Pass: 0, Fail: 0

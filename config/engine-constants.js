@@ -20,6 +20,8 @@ module.exports = {
   // This directory is created by the `tia [--root-dir=<yourPrjRootDir>] init` command
   rootSubDirName: '_tia-root',
 
+  noEtalonTests: 'no-etalon-tests.log',
+
   logExtension: '.log',
 
   etalonExtension: '.et',

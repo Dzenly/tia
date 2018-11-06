@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const nodeUtils = require('../utils/nodejs-utils.js');
 const fileUtils = require('../utils/file-utils.js');
+const suiteUtils = require('../utils/suite-utils.js');
 const _ = require('lodash');
 
 function getOs() {
@@ -44,8 +45,9 @@ async function handleTestFile(file, dirConfig) {
     return null;
   }
 
-  if (fileUtils.isEtAbsent(file)) {
+  if (fileUtils.isEtAbsent(file) && (!dirConfig.skip || gIn.params.ignoreSkipFlag)) {
     gIn.tracer.msg0(`Skipped new test: ${file}`);
+    suiteUtils.saveNewTestInfo(file);
     return null;
   }
 
@@ -199,6 +201,7 @@ async function runTestSuite(suiteData) {
   fileUtils.safeUnlink(prevDif);
   fileUtils.safeUnlink(etDif);
   fileUtils.safeRename(noTimeLog, noTimeLogPrev);
+  suiteUtils.rmNewTestsInfo();
 
   const dirInfo = await handleTestDir(root, gT.rootDirConfig);
   dirInfo.isSuiteRoot = true;
@@ -257,6 +260,8 @@ async function runTestSuite(suiteData) {
   const procInfo = nodeUtils.getProcInfo();
   fs.writeFileSync(procInfoFilePath, procInfo, { encoding: gT.engineConsts.logEncoding });
   txtAttachments.push(procInfoFilePath);
+
+  txtAttachments.push(suiteUtils.getNoEtalonTestsInfoPath());
 
   await gIn.mailUtils.send(emailSubj, txtAttachments, [arcPath]);
 

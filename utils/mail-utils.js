@@ -6,6 +6,8 @@ const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 const Bluebird = require('bluebird');
 
+const fileUtils = require('./file-utils');
+
 /* globals gT: true */
 
 // create reusable transporter object using SMTP transport
@@ -66,6 +68,10 @@ exports.send = function send(subj, txtAttachments, zipAttachments) {
     gIn.tracer.err('Mail list is empty.');
     return;
   }
+
+  txtAttachments = txtAttachments.filter((txtAttachment) => {
+    return !fileUtils.isAbsent(txtAttachment);
+  });
 
   mailOptions.subject = subj;
 
