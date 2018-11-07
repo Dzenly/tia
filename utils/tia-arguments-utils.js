@@ -10,7 +10,7 @@ const fileUtils = require('./file-utils');
 exports.containsSuite = function containsTiaTest(dir) {
   const suiteDir = path.join(
     dir,
-    gT.engineConsts.suiteDirName,
+    gT.engineConsts.suiteDirName
   );
 
   return fileUtils.isDirectory(suiteDir);
@@ -55,7 +55,6 @@ exports.resolveRootDirFromArgsAndEnv = function resolveRootDir(argsTiaRootDir) {
 };
 
 exports.findTiaRootInParents = function findTiaRootInParents(dir) {
-
   const systemRoot = path.parse(dir).root;
   let notFound = false;
 
@@ -118,7 +117,6 @@ exports.findTiaRootInChildren = function findTiaSuiteInChildren(dir) {
  * @return {String} - resolved path.
  */
 exports.resolveRootDirEx = function resolveRootDirEx(argsTiaRootDir) {
-
   let tiaRootDir = exports.resolveRootDirFromArgsAndEnv(argsTiaRootDir);
   if (tiaRootDir) {
     return tiaRootDir;
@@ -136,7 +134,6 @@ exports.resolveRootDirEx = function resolveRootDirEx(argsTiaRootDir) {
 };
 
 exports.initTiaSuite = function initTiaSuite() {
-
   // eslint-disable-next-line no-param-reassign
   const dir = process.cwd();
 
@@ -163,17 +160,19 @@ exports.initTiaSuite = function initTiaSuite() {
   gIn.tracer.msg0(`Root dir "${tiaRootInParents}" is found.`);
   gIn.tracer.msg0(`Suite dir "${dir}" is created successfully.`);
 
-  fs.mkdirSync(path.join(
-    dir,
-    gT.engineConsts.suiteDirName,
-    gT.engineConsts.suiteResDirName
-  ));
+  fs.mkdirSync(
+    path.join(
+      dir,
+      gT.engineConsts.suiteDirName,
+      gT.engineConsts.suiteResDirName
+    ),
+    { recursive: true }
+  );
 
   process.exit(0);
 };
 
 exports.initTiaRoot = function initTiaRoot(argsTiaRootDir) {
-
   const tiaRootCandidate = exports.resolveRootDirFromArgsAndEnv(argsTiaRootDir)
   || process.cwd();
 
@@ -197,11 +196,14 @@ exports.initTiaRoot = function initTiaRoot(argsTiaRootDir) {
     process.exit(1);
   }
 
-  fs.mkdirSync(path.join(
-    tiaRootCandidate,
-    gT.engineConsts.suiteDirName,
-    gT.engineConsts.rootResDirName
-  ));
+  fs.mkdirSync(
+    path.join(
+      tiaRootCandidate,
+      gT.engineConsts.suiteDirName,
+      gT.engineConsts.rootResDirName
+    ),
+    { recursive: true }
+  );
 
   gIn.tracer.msg0(`Root results is created successfully in "${tiaRootCandidate}"`);
 
