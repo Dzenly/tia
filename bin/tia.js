@@ -116,6 +116,20 @@ if (args.h || args.help) {
   process.exit(0);
 }
 
+console.log(gT.version);
+
+if (args.v || args.version) {
+  process.exit(0);
+}
+
+if (args._.includes('initRoot')) {
+  tiaArgsUtils.initTiaRoot(args.rootDir);
+}
+
+if (args._.includes('initSuite')) {
+  tiaArgsUtils.initTiaSuite(args.rootDir);
+}
+
 // args._ массив без -- или -.
 
 if (args.checkLogs) {
@@ -128,12 +142,6 @@ if (args.checkLogs) {
   ];
 
   args.checkLogs = args.checkLogs.split(',');
-}
-
-console.log(gT.version);
-
-if (args.v || args.version) {
-  process.exit(0);
 }
 
 if (args.runSelfTests) { // Tests for the engine.
@@ -169,14 +177,7 @@ if (gT.browsers.indexOf(browser) === -1) {
 
 gIn.params = args;
 
-const rootDir = tiaArgsUtils.resolvePathOptionRelativeToCwd({
-  cmdLineArgsPath: args.rootDir,
-  envVarName: gT.engineConsts.rootDirEnvVarName,
-  description: 'Root directory',
-  cutLastDirSep: true,
-  mandatory: false,
-});
-
+const rootDir = tiaArgsUtils.resolveRootDirEx(args.rootDir);
 gIn.params.rootDir = rootDir;
 
 if (!args.requireModules) {

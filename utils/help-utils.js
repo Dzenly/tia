@@ -27,7 +27,14 @@ function dedent(callSite, ...params) {
 
 exports.usage = function usage() {
   console.log(
-    dedent`Usage: tia [options]
+    dedent`Usage:
+    tia initRoot - to create project root TIA subdirectories and config stubs.
+
+    tia initSuite - to create suite TIA subdirectories and config stubs.
+    Note: initRoot performs initSuite.
+
+    tia [options] - to run tests.
+
     , where options:
 
       --browser <browser> (default: ${gT.browsers[0]}) browser to run tests for.

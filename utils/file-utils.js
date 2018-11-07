@@ -248,3 +248,10 @@ exports.mkdir = function mkdir(dirPath) {
 
   }
 };
+
+exports.rmLastDirSep = function rmLastDirSep(dir) {
+  if (dir[dir.length - 1] === path.sep) {
+    return dir.slice(0, -1);
+  }
+  return dir;
+};
