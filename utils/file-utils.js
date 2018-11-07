@@ -249,6 +249,14 @@ exports.mkdir = function mkdir(dirPath) {
   }
 };
 
+exports.mkDirRecursive = function mkDirRecursive(targetDir, subDirsArr) {
+  let curPath = targetDir;
+  subDirsArr.forEach((dir) => {
+    curPath = path.join(curPath, dir);
+    exports.mkdir(curPath);
+  });
+};
+
 exports.rmLastDirSep = function rmLastDirSep(dir) {
   if (dir[dir.length - 1] === path.sep) {
     return dir.slice(0, -1);

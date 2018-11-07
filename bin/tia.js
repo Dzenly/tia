@@ -122,14 +122,6 @@ if (args.v || args.version) {
   process.exit(0);
 }
 
-if (args._.includes('initRoot')) {
-  tiaArgsUtils.initTiaRoot(args.rootDir);
-}
-
-if (args._.includes('initSuite')) {
-  tiaArgsUtils.initTiaSuite();
-}
-
 // args._ массив без -- или -.
 
 if (args.checkLogs) {
@@ -176,6 +168,14 @@ if (gT.browsers.indexOf(browser) === -1) {
 }
 
 gIn.params = args;
+
+if (args._.includes('initRoot')) {
+  tiaArgsUtils.initTiaRoot(args.rootDir);
+}
+
+if (args._.includes('initSuite')) {
+  tiaArgsUtils.initTiaSuite();
+}
 
 const rootDir = tiaArgsUtils.resolveRootDirEx(args.rootDir);
 gIn.params.rootDir = rootDir;
