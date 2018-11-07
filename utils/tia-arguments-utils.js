@@ -161,8 +161,8 @@ exports.initTiaSuite = function initTiaSuite() {
     process.exit(1);
   }
 
-  gIn.tracer.msg0(`Root dir "${tiaRootInParents}" is found.`);
-  gIn.tracer.msg0(`Suite dir "${dir}" is created successfully.`);
+  gIn.cLogger.msgln(`Root dir "${tiaRootInParents}" is found.`);
+  gIn.cLogger.msgln(`Suite dir "${dir}" is created successfully.`);
 
   fileUtils.mkDirRecursive(dir, [
     gT.engineConsts.suiteDirName,
@@ -201,7 +201,7 @@ exports.initTiaRoot = function initTiaRoot(argsTiaRootDir) {
     gT.engineConsts.rootResDirName,
   ]);
 
-  gIn.tracer.msg0(`Root results is created successfully in "${tiaRootCandidate}"`);
+  gIn.cLogger.msgln(`Root results is created successfully in "${tiaRootCandidate}"`);
 
   process.exit(0);
 };
