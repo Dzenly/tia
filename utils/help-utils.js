@@ -31,7 +31,6 @@ exports.usage = function usage() {
     tia initRoot - to create project root TIA subdirectories and config stubs.
 
     tia initSuite - to create suite TIA subdirectories and config stubs.
-    Note: initRoot performs initSuite.
 
     tia [options] - to run tests.
 
@@ -47,7 +46,7 @@ exports.usage = function usage() {
       --debug-avg - equals to --log-to-console --err-to-console --keep-browser-at-error --trace-level 2
       Though --trace-level option can be used to override tracing level.
       Note: --debug-max have precedence over --debug-avg.
-      
+
       --debug-locale - if set, then native language text will be suffixed to localization keys,
       By default, to avoid diffs for different locales of your product,
       TIA does not print native language text in form labels, button texts, titles, boxLabels etc.
@@ -82,10 +81,10 @@ exports.usage = function usage() {
       --email-cfg-path <path> - path to email config. Either absolute or relative to root dir path.
       See tia/doc/mail-cfg-example.js for example.
       See tia/config/default-suite-config.js for more details.
-      Options from your email config will be merged into tia-root-suite-config.js, and so, 
+      Options from your email config will be merged into tia-root-suite-config.js, and so,
       merged into all tia-suite-config.js. But tia-suite-config.js can override options.
       Note: ${gT.engineConsts.emailCfgPathEnvVarName} environment variable can be used for the same purpose.
-      
+
       --enable-email - enables email.
 
       --err-to-console - print all errors to console.
@@ -99,10 +98,10 @@ exports.usage = function usage() {
       Does not affect file logs. Works only with --log-to-console option
 
       -h, --help - Print this help.
-      
+
       --hang-timeout <timeout> - timeout in milliseconds after which some action considered as hanged one,
       a screenshot is saved and an error is generated. ${gT.engineConsts.hangTimeout} milliseconds by default.
-      
+
       --headless, - use headless browser (chrome and firefox only).
 
       --ignore-skip-flag - ignore 'skip' config option in config.js files.
@@ -122,7 +121,7 @@ exports.usage = function usage() {
       Also there is no suite diff generation when this option is used.
       So you can analyze suite logs only.
       Email reports are also did not work with this option for now.
-      
+
       --print-proc-info print process info to console for each suite log.
 
       --require-modules <paths_separated_by_comma>
@@ -130,15 +129,15 @@ exports.usage = function usage() {
       ${gT.engineConsts.requireModulesEnvVarName} environment variable also can be used for this.
 
       --run-self-tests - Run tests for the engine (from tia/__tia-tests__ directory).
-      
+
       --share-browser - Try to share the browser between tests within one node.js process.
       In this case 'init' call is performed only for the first test and 'quit' call only for the last one.
       Note, that --use-remote-driver option prevents the last test from automatically quit.
-      
+
       --show-empty-suites - By default, if a suite (${gT.engineConsts.suiteDirName} directory)
       does not contain any run or skipped tests, there will not be test report to console.
       This option enables such reports for empty suites.
-      
+
       --slog-subj=${argConsts.allowedSlogSubj.map(subjItem => `[${subjItem}]`).join(',')}
       Add some info to suite log subject. This will lead to additional diffs
       in suite logs, but can be useful for paranoid checking.
@@ -167,7 +166,7 @@ exports.usage = function usage() {
       The next process ("node tia"  run) - performs other actions. Etc.
       The variable gT.firstRunWithRemoteDriver is true when the current run is the first run for which
       the remote driver was initialized.
-      
+
        -v, --version - Just show TIA version and exit.
 
       --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).
@@ -178,7 +177,7 @@ exports.usage = function usage() {
     If there is no diffs, 0 is returned, otherwise 1 is returned.
 
     This utility uses external utilities: diff, rm.
-    
+
     See readme.md for more details.`
   );
 };
