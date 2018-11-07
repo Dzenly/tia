@@ -125,8 +125,8 @@ function handleDirConfig(dir, files, parentDirConfig) {
   _.pullAll(files, [
     gT.engineConsts.suiteConfigName,
     gT.engineConsts.dirConfigName,
-    gT.engineConsts.suiteSubDirName,
-    gT.engineConsts.rootSubDirName,
+    gT.engineConsts.suiteResDirName,
+    gT.engineConsts.rootResDirName,
     gT.engineConsts.dirRootConfigName,
     gT.engineConsts.suiteRootConfigName,
   ]);
@@ -205,7 +205,7 @@ async function runTestSuite(suiteData) {
 
   // console.log('runAsync Dir: ' + dir);
 
-  const procInfoFilePath = `${root}/${gT.engineConsts.suiteSubDirName}/.procInfo`;
+  const procInfoFilePath = `${root}/${gT.engineConsts.suiteResDirName}/.procInfo`;
   const txtAttachments = [suiteLog];
   const noTimeSuiteLog = `${suiteLog}.notime`;
   const prevDif = `${noTimeSuiteLog}.prev.dif`;
@@ -314,25 +314,25 @@ async function runTestSuite(suiteData) {
 async function prepareAndRunTestSuite(root) {
   const browserProfilePath = path.resolve(
     root,
-    gT.engineConsts.suiteSubDirName,
+    gT.engineConsts.suiteResDirName,
     gT.engineConsts.browserProfileRootDirName
   );
 
   const log = path.join(
     root,
-    gT.engineConsts.suiteSubDirName,
+    gT.engineConsts.suiteResDirName,
     gT.engineConsts.suiteLogName + gT.engineConsts.logExtension
   );
 
   const etLog = path.join(
     root,
-    gT.engineConsts.suiteSubDirName,
+    gT.engineConsts.suiteResDirName,
     gT.engineConsts.suiteLogName + gT.engineConsts.etalonExtension
   );
 
   const configPath = path.join(
     root,
-    gT.engineConsts.suiteSubDirName,
+    gT.engineConsts.suiteResDirName,
     gT.engineConsts.suiteConfigName
   );
 
@@ -392,7 +392,7 @@ function getTestSuitePaths() {
       }
 
       if (childDir === gT.engineConsts.suiteDirName) {
-        if (fileUtils.isDirectory(path.join(fullPath, gT.engineConsts.suiteSubDirName))) {
+        if (fileUtils.isDirectory(path.join(fullPath, gT.engineConsts.suiteResDirName))) {
           suitePaths.push(fullPath);
         } else {
           gIn.tracer.msg1(
@@ -402,7 +402,7 @@ function getTestSuitePaths() {
         return false;
       }
 
-      return childDir !== gT.engineConsts.suiteSubDirName;
+      return childDir !== gT.engineConsts.suiteResDirName;
     });
 
     dirs.forEach((subDir) => {

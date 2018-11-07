@@ -127,7 +127,7 @@ if (args._.includes('initRoot')) {
 }
 
 if (args._.includes('initSuite')) {
-  tiaArgsUtils.initTiaSuite(args.rootDir);
+  tiaArgsUtils.initTiaSuite();
 }
 
 // args._ массив без -- или -.
@@ -189,7 +189,7 @@ gT.rootTestsDirPath = path.join(gIn.params.rootDir, gT.engineConsts.suiteDirName
 // =====================
 const rootSuiteConfig = nodeUtils.requireIfExists(path.join(
   gT.rootTestsDirPath,
-  gT.engineConsts.rootSubDirName,
+  gT.engineConsts.rootResDirName,
   gT.engineConsts.suiteRootConfigName
 ));
 gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.suiteConfigDefault), rootSuiteConfig);
@@ -197,7 +197,7 @@ gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.suiteConfigDefault), rootSuiteConfig
 // =====================
 const globalConfig = nodeUtils.requireIfExists(path.join(
   gT.rootTestsDirPath,
-  gT.engineConsts.rootSubDirName,
+  gT.engineConsts.rootResDirName,
   gT.engineConsts.globalConfigName
 ));
 gT.globalConfig = _.merge(_.cloneDeep(gT.globalConfigDefault), globalConfig);
@@ -209,7 +209,7 @@ if (!gT.globalConfig.rootDirAlias) {
 // =====================
 const rootDirConfig = nodeUtils.requireIfExists(path.join(
   gT.rootTestsDirPath,
-  gT.engineConsts.rootSubDirName,
+  gT.engineConsts.rootResDirName,
   gT.engineConsts.dirRootConfigName
 ));
 gT.rootDirConfig = _.merge(_.cloneDeep(gT.dirConfigDefault), rootDirConfig);
@@ -217,7 +217,7 @@ gT.rootDirConfig = _.merge(_.cloneDeep(gT.dirConfigDefault), rootDirConfig);
 // =====================
 gT.rootLog = path.join(
   gT.rootTestsDirPath,
-  gT.engineConsts.rootSubDirName,
+  gT.engineConsts.rootResDirName,
   gT.engineConsts.rootLogName + gT.engineConsts.logExtension
 );
 

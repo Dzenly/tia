@@ -14,11 +14,11 @@ module.exports = {
   // * Suite etalog log.
   // * Current suite logs in various formats.
   // The <project root>/__tia-tests__ also contains such a directory with project level results.
-  suiteSubDirName: '_tia-suite',
+  suiteResDirName: '_tia-suite',
 
   // __tia-tests__/_tia-root keeps root.log, tia-root-dir-config.js, tia-root-suite-config.js.
   // This directory is created by the `tia [--root-dir=<yourPrjRootDir>] init` command
-  rootSubDirName: '_tia-root',
+  rootResDirName: '_tia-root',
 
   noEtalonTests: 'no-etalon-tests.log',
 

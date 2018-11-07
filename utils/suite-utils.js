@@ -7,7 +7,7 @@ const fileUtils = require('./file-utils');
 exports.getNoEtalonTestsInfoPath = function getNoEtalonTestsInfoPath() {
   const noEtalonTestsPath = path.join(
     gIn.suite.root,
-    gT.engineConsts.suiteSubDirName,
+    gT.engineConsts.suiteResDirName,
     gT.engineConsts.noEtalonTests
   );
   return noEtalonTestsPath;
