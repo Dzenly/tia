@@ -1,6 +1,6 @@
 {
   "name": "tia",
-  "version": "0.19.6",
+  "version": "0.19.7",
   "description": "Time is All (logs driven test engine with ExtJs support)",
   "bin": {
     "tia": "bin/tia.js"
