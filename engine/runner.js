@@ -31,6 +31,7 @@ function runTestFile(file) {
   }
 }
 
+// return null - means skipped by --pattern or --new or due to etalon absence.
 async function handleTestFile(file, dirConfig) {
   // Restore the state which could be damaged by previous test and any other initialization.
   gIn.tInfo.isPassCountingEnabled = gT.engineConsts.defIsPassCountingEnabled;
@@ -56,7 +57,9 @@ async function handleTestFile(file, dirConfig) {
       gIn.tracer.msg0(`Found new test: ${file}`);
     } else {
       gIn.tracer.msg0(`Skipped new test: ${file}`);
-      suiteUtils.saveNewTestInfo(file);
+      if (!gIn.params.pattern) {
+        suiteUtils.saveNewTestInfo(file);
+      }
       return null;
     }
   }
@@ -198,50 +201,50 @@ async function handleTestDir(dir, parentDirConfig) {
 }
 
 async function runTestSuite(suiteData) {
-  const { root, log } = suiteData;
+  const { root, log: suiteLog } = suiteData;
 
   // console.log('runAsync Dir: ' + dir);
 
   const procInfoFilePath = `${root}/${gT.engineConsts.suiteSubDirName}/.procInfo`;
-  const txtAttachments = [log];
-  const noTimeLog = `${log}.notime`;
-  const prevDif = `${noTimeLog}.prev.dif`;
-  const etDif = `${noTimeLog}.et.dif`;
-  const noTimeLogPrev = `${noTimeLog}.prev`;
+  const txtAttachments = [suiteLog];
+  const noTimeSuiteLog = `${suiteLog}.notime`;
+  const prevDif = `${noTimeSuiteLog}.prev.dif`;
+  const etDif = `${noTimeSuiteLog}.et.dif`;
+  const noTimeSuiteLogPrev = `${noTimeSuiteLog}.prev`;
 
   if (!gIn.params.new) {
-    fileUtils.safeUnlink(log);
-    fileUtils.safeUnlink(prevDif);
-    fileUtils.safeUnlink(etDif);
-    fileUtils.safeRename(noTimeLog, noTimeLogPrev);
-    suiteUtils.rmNewTestsInfo();
+    fileUtils.safeUnlink(suiteLog);
+    if (!gIn.params.pattern) {
+      fileUtils.safeUnlink(prevDif);
+      fileUtils.safeUnlink(etDif);
+      fileUtils.safeRename(noTimeSuiteLog, noTimeSuiteLogPrev);
+      suiteUtils.rmNewTestsInfo();
+    }
   }
 
   const dirInfo = await handleTestDir(root, gT.rootDirConfig);
   dirInfo.isSuiteRoot = true;
-
-  if (!gIn.params.useRemoteDriver) {
-    await gT.s.driver.quitIfInited();
-  } else {
-    gIn.tracer.msg3('No force driver.quit() for the last test, due to useRemoteDriver option');
-  }
 
   if (gIn.params.new) {
     return {};
   }
 
   // dirInfo.title = path.basename(dir);
-  gIn.logger.saveSuiteLog(dirInfo, noTimeLog, true);
+  gIn.logger.saveSuiteLog(dirInfo, noTimeSuiteLog, true);
 
-  const noPrevSLog = fileUtils.isAbsent(noTimeLogPrev);
-  const suiteLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeLog, noTimeLogPrev);
+  if (gIn.params.pattern) {
+    return {};
+  }
+
+  const noPrevSLog = fileUtils.isAbsent(noTimeSuiteLogPrev);
+  const suiteLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeSuiteLog, noTimeSuiteLogPrev);
   const suiteLogPrevDifResBool = Boolean(suiteLogPrevDifRes);
   if (suiteLogPrevDifResBool) {
     fs.writeFileSync(prevDif, suiteLogPrevDifRes, { encoding: gT.engineConsts.logEncoding });
     txtAttachments.push(prevDif);
   }
 
-  const suiteLogEtDifResStr = gIn.diffUtils.getDiff('.', noTimeLog, gIn.suite.etLog);
+  const suiteLogEtDifResStr = gIn.diffUtils.getDiff('.', noTimeSuiteLog, gIn.suite.etLog);
   const equalToEtalon = !suiteLogEtDifResStr;
   if (!equalToEtalon) {
     fs.writeFileSync(etDif, suiteLogEtDifResStr, { encoding: gT.engineConsts.logEncoding });
@@ -264,14 +267,14 @@ async function runTestSuite(suiteData) {
   } else {
     emailSubj = `AS PREV${changedDiffs}`;
   }
-  emailSubj = `${emailSubj}${subjTimeMark},${gIn.logger.saveSuiteLog(dirInfo, log)}, ${getOs()}`;
+  emailSubj = `${emailSubj}${subjTimeMark},${gIn.logger.saveSuiteLog(dirInfo, suiteLog)}, ${getOs()}`;
 
   const emailSubjCons = etSLogInfoCons + emailSubj;
   emailSubj = etSLogInfo + emailSubj;
 
   dirInfo.suiteLogDiff = suiteLogPrevDifResBool;
   dirInfo.os = getOs();
-  fileUtils.saveJson(dirInfo, `${log}.json`);
+  fileUtils.saveJson(dirInfo, `${suiteLog}.json`);
 
   const arcPath = fileUtils.archiveSuiteDir(dirInfo);
 
@@ -427,6 +430,12 @@ exports.runTestSuites = async function runTestSuites() {
 
   for (const suitePath of suitePaths) { // eslint-disable-line no-restricted-syntax
     results.push(await prepareAndRunTestSuite(suitePath));
+  }
+
+  if (!gIn.params.useRemoteDriver) {
+    await gT.s.driver.quitIfInited();
+  } else {
+    gIn.tracer.msg3('No force driver.quit() for the last test, due to useRemoteDriver option');
   }
 
   if (gIn.params.new) {

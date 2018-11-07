@@ -112,6 +112,9 @@ exports.usage = function usage() {
       , any test which file path (relative to <testSuiteRoot>) contains <pathToDirOrTest> substring will run.
       By default, tests from all directories (recursively) will run.
       Note: Tests whish are skipped due to the pattern is not calculated as skipped in suite logs.
+      Also there is no suite diff generation when this option is used.
+      So you can analyze suite logs only.
+      Email reports are also did not work with this option for now.
       
       --print-proc-info print process info to console for each suite log.
 
