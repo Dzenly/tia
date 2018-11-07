@@ -107,7 +107,11 @@ exports.isTiaSuiteInParents = function isTiaSuiteInParents(dir) {
 };
 
 exports.findTiaRootInChildren = function findTiaSuiteInChildren(dir) {
-  return fileUtils.whichDirContain(dir, [gT.engineConsts.rootResDirName]);
+  return fileUtils.whichDirContain(
+    dir,
+    [gT.engineConsts.rootResDirName],
+    path.join(dir, gT.engineConsts.suiteDirName)
+  );
 };
 
 /**

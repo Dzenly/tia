@@ -265,17 +265,23 @@ exports.rmLastDirSep = function rmLastDirSep(dir) {
 };
 
 // One of filenames.
-exports.whichDirContain = function doesDirContain(base, fileNames) {
+exports.whichDirContain = function doesDirContain(base, fileNames, excludeThisBase) {
 
   const dirList = fs.readdirSync(base);
 
   for (const name of dirList) {
+    const newBase = path.join(base, name);
+
+    if (newBase === excludeThisBase) {
+      continue;
+    }
+
     if (fileNames.includes(name)) {
       return base;
     }
-    const newBase = path.join(base, name);
+
     if (fs.statSync(newBase).isDirectory()) {
-      const dir = exports.whichDirContain(newBase, fileNames);
+      const dir = exports.whichDirContain(newBase, fileNames, excludeThisBase);
       if (dir) {
         return dir;
       }
