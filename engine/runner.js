@@ -15,19 +15,28 @@ function getOs() {
   return `${os.platform()}_${os.release()}`;
 }
 
-function runTestFile(file) {
+function exceptionHandler(e) {
+// TODO: why did I disable exceptions to console here?
+  gIn.logger.exception('Exception in runner: ', e);
+  gIn.logger.logResourcesUsage();
+  gIn.tInfo.addFail();
+}
+
+async function runTestFile(file) {
   gIn.tracer.msg2(`Starting new test: ${file}`);
 
   gIn.errRecursionCount = 0;
   gIn.cancelThisTest = false;
 
   try {
-    return nodeUtils.requireEx(file, true).result;
+    const testObject = nodeUtils.requireEx(file, true).result;
+    if (typeof testObject === 'function') {
+      return await testObject();
+    } else {
+      await testObject;
+    }
   } catch (e) {
-    // TODO: why did I disable exceptions to console here?
-    gIn.logger.exception('Exception in runner: ', e);
-    gIn.logger.logResourcesUsage();
-    gIn.tInfo.addFail();
+    exceptionHandler(e);
   }
 }
 
