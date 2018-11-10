@@ -1,5 +1,6 @@
-module.exports = function *generator1() {
-	t.setTitle('Test for generator runner');
+function *generator1(a, b, c, d) {
+	t.setTitle('Test for generator runner, auto exec call');
+  l.println(`a: ${a}, b: ${b}, c: ${c}, d: ${d}`);
   l.println(yield Bluebird.delay(500, 'value1'));
   l.println(yield Bluebird.delay(500, 'value2'));
 	l.println(yield Bluebird.resolve("Success"));
@@ -9,4 +10,5 @@ module.exports = function *generator1() {
   yield 'Test done';
 }
 
+module.exports = u.execGenSafe(generator1, 'a', 'b', 'c', 'd');
 

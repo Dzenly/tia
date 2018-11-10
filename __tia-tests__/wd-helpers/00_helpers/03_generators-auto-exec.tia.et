@@ -1,0 +1,11 @@
+=================
+Title: Test for generator runner, auto exec call
+a: a, b: b, c: c, d: d
+value1
+value2
+Success
+Safe Generator runner caught error: Intentionaly rejected promise
+ No stack trace
+
+=================
+Pass: 0, Fail: 0

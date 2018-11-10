@@ -3,7 +3,7 @@ Title: Test for generator runner
 value1
 value2
 Success
-Safe Generator caught error: Intentionaly rejected promise
+Safe Iterator caught error: Intentionaly rejected promise
  No stack trace
 
 =================

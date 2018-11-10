@@ -4,7 +4,6 @@
 
 /* globals gIn: true */
 
-const Bluebird = require('bluebird');
 const path = require('path');
 
 /**
@@ -26,7 +25,7 @@ const path = require('path');
 
 // Return promise from generator is not supported, i.e. will not be waited.
 gT.u.iterate = function iterate1(iterator) {
-  return new Bluebird(((resolve, reject) => {
+  return new Promise(((resolve, reject) => {
     let obj;
 
     function iterate(ret) {
@@ -58,15 +57,29 @@ gT.u.iterate = function iterate1(iterator) {
   }));
 };
 
-gT.u.execGenSafe = function execGenSafe(gen, param1, param2) {
-  return gT.u.iterate(gen(param1, param2))
+gT.u.iterateSafe = function iterateSafe(iterator) {
+  return gT.u.iterate(iterator)
     .catch((e) => {
+      const strErr = `Safe Iterator caught error: ${gIn.textUtils.excToStr(e)}`;
       if (gIn.params.errToConsole) {
-        gIn.tracer.err(`Safe Generator caught error: ${gIn.textUtils.excToStr(e)}`);
+        gIn.tracer.err(strErr);
       }
-      gT.l.println(`Safe Generator caught error: ${gIn.textUtils.excToStr(e)}`);
+      gT.l.println(strErr);
     });
 };
+
+gT.u.execGenSafe = function execGenSafe(gen, ...params) {
+  return gT.u.iterate(gen(...params))
+    .catch((e) => {
+      const strErr = `Safe Generator runner caught error: ${gIn.textUtils.excToStr(e)}`;
+      if (gIn.params.errToConsole) {
+        gIn.tracer.err(strErr);
+      }
+      gT.l.println(strErr);
+    });
+};
+
+
 
 /**
  * Runs function - generator.

@@ -1,5 +1,7 @@
 'use strict';
 
+const {dirSep} = require('path');
+
 /* globals gIn */
 
 exports.removeSelSid = function removeSelSid(str) {
@@ -11,7 +13,7 @@ exports.filterStack = function filterStack(strStack) {
   const stArr = strStack.split('\n');
   const newArr = stArr.filter((el) => {
     const startingFrom = el.indexOf('/tia/');
-    return el.indexOf('node_modules', startingFrom) === -1;
+    return el.indexOf(`${dirSep}node_modules${dirSep}`, startingFrom) === -1;
   });
   return newArr.join('\n');
 };

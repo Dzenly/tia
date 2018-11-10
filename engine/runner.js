@@ -5,14 +5,24 @@
 
 const fs = require('fs');
 const path = require('path');
+const _ = require('lodash');
 const nodeUtils = require('../utils/nodejs-utils.js');
 const fileUtils = require('../utils/file-utils.js');
 const suiteUtils = require('../utils/suite-utils.js');
-const _ = require('lodash');
 
 function getOs() {
   const os = require('os');
   return `${os.platform()}_${os.release()}`;
+}
+
+function isIterator(result) {
+  const funcs = [
+    'next',
+    'return',
+    'throw',
+  ];
+
+  return funcs.every(func => typeof result[func] === 'function');
 }
 
 function exceptionHandler(e) {
@@ -31,7 +41,10 @@ async function runTestFile(file) {
   try {
     const testObject = nodeUtils.requireEx(file, true).result;
     if (typeof testObject === 'function') {
-      return await testObject();
+      const funcRes = await testObject(gT, gIn, gT.a); // TIA :) Test Inner Assertions.
+      if (isIterator(funcRes)) {
+        return gT.u.iterateSafe(funcRes);
+      }
     } else {
       await testObject;
     }
@@ -98,7 +111,10 @@ async function handleTestFile(file, dirConfig) {
   const startTime = gT.timeUtils.startTimer();
 
   // gIn.tInfo.data
-  await runTestFile(file); // Can be sync.
+  await runTestFile(file)
+    .catch((e) => {
+      const asdf = 5;
+    }); // Can be sync.
 
   gIn.logger.testSummary();
 
@@ -261,8 +277,8 @@ async function runTestSuite(suiteData) {
   }
   gIn.tracer.msg3(`equalToEtalon: ${equalToEtalon}`);
   const etSLogInfo = equalToEtalon ? 'ET_SLOG, ' : 'DIF_SLOG, ';
-  const etSLogInfoCons = equalToEtalon ? `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, ` :
-    `${gIn.cLogger.chalkWrap('red', 'DIF_SLOG')}, `;
+  const etSLogInfoCons = equalToEtalon ? `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, `
+    : `${gIn.cLogger.chalkWrap('red', 'DIF_SLOG')}, `;
 
   const subjTimeMark = dirInfo.time > gIn.params.tooLongTime ? ', TOO_LONG' : '';
 
