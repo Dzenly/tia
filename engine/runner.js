@@ -16,6 +16,9 @@ function getOs() {
 }
 
 function isIterator(result) {
+  if (!result) {
+    return false;
+  }
   const funcs = [
     'next',
     'return',
