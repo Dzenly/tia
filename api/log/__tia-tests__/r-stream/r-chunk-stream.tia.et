@@ -1,0 +1,9 @@
+=================
+Title: Test for readable stream to test log.
+String 1
+ERR: TypeError: Invalid non-string/buffer chunk
+String 2
+End Event.
+ERR: Error: stream.push() after EOF
+=================
+Pass: 0, Fail: 0

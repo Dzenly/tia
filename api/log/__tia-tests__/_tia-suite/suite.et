@@ -1,0 +1,12 @@
+====================    Short Log BEGIN:    ====================
+ "log", dif: 0, fail: 0
+====================    Short Log END.    ====================
+
+====================    Verbose Log BEGIN:    ====================
+ "log", dif: 0, fail: 0, edif: 0, skip: 0, "This title must be overloaded."
+| "r-stream", dif: 0, fail: 0, edif: 0, skip: 0, "This title must be overloaded."
+| | "r-chunk-stream.tia.js", OK, fail: 0, pass: 0, "Test for readable stream to test log."
+| | "r-obj-stream.tia.js", OK, fail: 0, pass: 0, "Test for readable stream to test log."
+| "winston-mock", dif: 0, fail: 0, edif: 0, skip: 0, "This title must be overloaded."
+| | "w-mock.tia.js", OK, fail: 0, pass: 0, ""
+====================    Verbose Log END.    ====================

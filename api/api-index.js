@@ -18,9 +18,7 @@
  * Utilities for logging.
  * @type {{}}
  */
-gT.l = require('./log.js');
-
-global.l = gT.l; // Alias. If your IDE does not autocomplete log. you can use gT.l.
+require('./log/log-index');
 
 // ==================================================
 

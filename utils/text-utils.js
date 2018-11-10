@@ -1,6 +1,8 @@
 'use strict';
 
-const {dirSep} = require('path');
+const util = require('util');
+
+const { dirSep } = require('path');
 
 /* globals gIn */
 
@@ -64,6 +66,13 @@ exports.expandHost = function expandHost(str) {
 
 exports.collapseHost = function collapseHost(str) {
   return str.replace(gIn.config.selHost, '$(host)');
+};
+
+exports.valToStr = function valToStr(value) {
+  if (Buffer.isBuffer(value)) {
+    return value.toString('utf8');
+  }
+  return util.inspect(value, { compact: false, sorted: true, depth: Infinity });
 };
 
 // function escapeRegExp(string) {

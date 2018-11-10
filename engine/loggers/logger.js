@@ -40,7 +40,7 @@ exports.logln = function logln(msg) {
 
 exports.logResourcesUsage = function logResourcesUsage(prefix = '') {
   if (gIn.config.resUsagePrintAtErrors) {
-    exports.logln(prefix + nodeUtils.getResourcesUsage());
+    exports.logln(prefix + nodeUtils.getResourcesUsage(true));
   }
 };
 

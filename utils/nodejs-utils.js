@@ -60,8 +60,15 @@ function toMs(val) {
   return (val / 1000).toFixed(3);
 }
 
-exports.getResourcesUsage = function getResourcesUsage() {
+exports.getResourcesUsage = function getResourcesUsage(isTestLog) {
+  // gIn.config.rssUsageThreshold
+
   const mem = process.memoryUsage();
+
+  if (isTestLog && mem.rss < (gIn.config.rssUsageThreshold * 1e6)) {
+    return '';
+  }
+
   mem.rss = toMb(mem.rss);
   mem.heapTotal = toMb(mem.heapTotal);
   mem.heapUsed = toMb(mem.heapUsed);

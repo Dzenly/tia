@@ -44,7 +44,7 @@ exports.msgln = function msgln(msg) {
 
 exports.logResourcesUsage = function logResourcesUsage(prefix = '') {
   // if (gIn.config.resUsagePrintAtErrors) {
-  exports.msgln(prefix + gT.nodeUtils.getResourcesUsage());
+  exports.msgln(prefix + gT.nodeUtils.getResourcesUsage(true));
 
   // }
 };

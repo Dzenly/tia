@@ -31,6 +31,10 @@ module.exports = {
   // They will be required before all dir tests.
   require: [],
 
+  // If some test is failed, info about memory usage will be printed to its log.
+  // But if RSS is less then this threshold in MegaBytes, then info will not be printed.
+  rssUsageThreshold: 500,
+
   // If overridden in tia-dir-config.js, all tests from according directory will be skipped.
   // To skip one test - just rename it to don't have `.tia.js` extension.
   // Skipped tests are calculated in suite log.
