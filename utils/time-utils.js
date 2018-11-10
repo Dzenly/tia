@@ -9,6 +9,6 @@ exports.startTimer = function startTimer() {
  * @param startTime - the data returned by startTimer.
  */
 exports.stopTimer = function stopTimer(startTime) {
-  const diff = process.hrtime(startTime);
-  return diff[0] * 1000 + diff[1] / 1e6;
+  const dif = process.hrtime(startTime);
+  return dif[0] * 1000 + dif[1] / 1e6;
 };

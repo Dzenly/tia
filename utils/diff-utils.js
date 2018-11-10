@@ -10,10 +10,10 @@ const fs = require('fs');
 exports.changedDiffs = 0;
 
 /**
- * Returns result of running external diff utility, i.e. stdout + stderr.
- * NOTE: this function requires external diff utility.
+ * Returns result of running external dif utility, i.e. stdout + stderr.
+ * NOTE: this function requires external dif utility.
  * Both files must be ended by newline, otherwise there will be 'No newline at end of file' messages
- * in resulting diff.
+ * in resulting dif.
  *
  * @param dir - working dir
  * @param oldFile - basename for file 1

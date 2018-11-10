@@ -179,7 +179,7 @@ function saveDirInfo(parameters) {
         writeToSuiteLog(gIn.tInfo.testInfoToString({
           curInfo, isDir: false, verbose, noTime,
         }), curInfo.diffed);
-        if (curInfo.diffed && gIn.params.diffsToSlog && !isVerbose) { // TODO: Check Slog or SLog ?
+        if (curInfo.diffed && gIn.params.difsToSlog && !isVerbose) { // TODO: Check Slog or SLog ?
           const difPath = gIn.textUtils.jsToDif(curInfo.path);
           const dif = fs.readFileSync(difPath, gT.engineConsts.logEncoding);
           writeToSuiteLog(`${indent}============== DIF ============== \n`);

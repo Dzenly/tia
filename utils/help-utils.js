@@ -48,7 +48,7 @@ exports.usage = function usage() {
       Note: --debug-max have precedence over --debug-avg.
 
       --debug-locale - if set, then native language text will be suffixed to localization keys,
-      By default, to avoid diffs for different locales of your product,
+      By default, to avoid difs for different locales of your product,
       TIA does not print native language text in form labels, button texts, titles, boxLabels etc.
       I.e. by default TIA prints localization keys only.
       There is the setDebugLocaleMode() function to set this mode for the certain test.
@@ -62,7 +62,7 @@ exports.usage = function usage() {
       This parameter allows to use the '$(host)' string in your tests.
       See more details in selHost option description in config/default-dir-config.js.
 
-      --diffs-to-slog - forces diffs to be printed to short suite log.
+      --difs-to-slog - forces difs to be printed to short suite log.
 
       --driver-log-level <level> - 0 - 1000 (default ${gT.engineConsts.defaultDriverLogLevel}).
       0 means to log everything, 800 - info, 900 - warnings. 1000 - severe errors.
@@ -118,7 +118,7 @@ exports.usage = function usage() {
       , any test which file path (relative to <testSuiteRoot>) contains <pathToDirOrTest> substring will run.
       By default, tests from all directories (recursively) will run.
       Note: Tests whish are skipped due to the pattern is not calculated as skipped in suite logs.
-      Also there is no suite diff generation when this option is used.
+      Also there is no suite dif generation when this option is used.
       So you can analyze suite logs only.
       Email reports are also did not work with this option for now.
 
@@ -139,11 +139,11 @@ exports.usage = function usage() {
       This option enables such reports for empty suites.
 
       --slog-subj=${argConsts.allowedSlogSubj.map(subjItem => `[${subjItem}]`).join(',')}
-      Add some info to suite log subject. This will lead to additional diffs
+      Add some info to suite log subject. This will lead to additional difs
       in suite logs, but can be useful for paranoid checking.
 
       --stack-to-log print stack trace to test logs.
-      This will lead to diffs for tests for which exceptions are expected.
+      This will lead to difs for tests for which exceptions are expected.
 
       --stop-remote-driver - (for chromedriver only) shuts down the remote driver.
 
@@ -174,9 +174,9 @@ exports.usage = function usage() {
     Examples:
         tia --root-dir <path-to-my-root-dir>
         node bin/tia.js --root-dir <path-to-my-root-dir>
-    If there is no diffs, 0 is returned, otherwise 1 is returned.
+    If there is no difs, 0 is returned, otherwise 1 is returned.
 
-    This utility uses external utilities: diff, rm.
+    This utility uses external utilities: dif, rm.
 
     See readme.md for more details.`
   );

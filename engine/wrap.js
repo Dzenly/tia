@@ -21,13 +21,13 @@ function startTimer() {
  * Stops the timer which tracks action time.
  *
  * @param startTime
- * @returns {*} - time diff in milliseconds
+ * @returns {*} - time dif in milliseconds
  * @private
  */
 function stopTimer(startTime) {
   if (gIn.config.enableTimings) {
-    const diff = process.hrtime(startTime);
-    return ` (${diff[0] * 1000 + diff[1] / 1e6} ms)`;
+    const dif = process.hrtime(startTime);
+    return ` (${dif[0] * 1000 + dif[1] / 1e6} ms)`;
   }
   return '';
 }

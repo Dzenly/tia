@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+// ':' //# comment; exec /usr/bin/env node "$0" "$@"
 // TODO: check how the starting shebang will work on windows.
 // ':' //# comment; exec /usr/bin/env node "$0" "$@"
 // Don't allow eslint to set semicolon after ':' above.
@@ -63,13 +64,13 @@ const opts = {
     'slog-subj',
     'too-long-time',
     'trace-level',
-
+    'update-logs',
   ],
   boolean: [ // 'logs-to-mail',
     'debug-avg',
     'debug-locale',
     'debug-max',
-    'diffs-to-slog',
+    'difs-to-slog',
     'ej-explore',
     'enable-email',
     'err-to-console',
@@ -126,10 +127,10 @@ if (args.v || args.version) {
 
 if (args.checkLogs) {
   const allowedArr = [
-    'ignoreGood', // No diffs, no fails, no empty.
+    'ignoreGood', // No difs, no fails, no empty.
     'expected',
 
-    // 'silent', // Do not ask for confirmation on diff applying.
+    // 'silent', // Do not ask for confirmation on dif applying.
 
   ];
 
