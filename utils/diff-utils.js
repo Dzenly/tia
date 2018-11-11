@@ -4,10 +4,13 @@ const childProcess = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
+const diff = require('diff');
+const colors = require('colors/safe');
+// const ansiToHtml = require('ansi-to-html')
+
+
 /* globals gT: true */
 /* globals gIn: true */
-
-exports.changedDiffs = 0;
 
 /**
  * Returns result of running external dif utility, i.e. stdout + stderr.
@@ -30,15 +33,17 @@ exports.getDiff = function getDiff(dir, oldFile, newFile) {
 };
 
 /**
- * Diffs current log (*.log) and etalon log (*.eth) files.
+ * Diffs current log (*.log) and etalon log (*.et) files.
  * Takes into account presence of .edif file.
- * If diff is not empty it is placed to (*.diff) file.
+ * If diff is not empty it is placed to (*.dif) file.
  *
  * NOTE: this function requires external diff utility.
- * Both logs must be ended by newline, otherwise there will be 'No newline at end of file' messages
+ * Both logs must be ended by newline, otherwise there
+ * will be 'No newline at end of file' messages
  * in resulting diff.
  *
- * @param jsTest - path to js file, for which just created *.log to be diffed with *.eth.
+ * @param jsTest - path to js file, for which just created *.log
+ * to be diffed with *.et.
  */
 exports.diff = function diff(jsTest) {
   const dir = path.dirname(jsTest);
@@ -64,7 +69,7 @@ exports.diff = function diff(jsTest) {
     gIn.tInfo.data.diffed = 1;
     out = exports.getDiff(dir, `${base}.dif`, `${base}.dif.old`);
     if (out) {
-      exports.changedDiffs++;
+      gIn.suite.changedEDiffs++;
     }
   } else {
     gIn.tInfo.data.expDiffed = 1;
@@ -72,3 +77,6 @@ exports.diff = function diff(jsTest) {
 
   gIn.fileUtils.safeUnlink(`${diffPath}.old`);
 };
+
+
+// exports.getWordDiffData

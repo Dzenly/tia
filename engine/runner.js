@@ -285,7 +285,7 @@ async function runTestSuite(suiteData) {
 
   const subjTimeMark = dirInfo.time > gIn.params.tooLongTime ? ', TOO_LONG' : '';
 
-  const changedDiffs = gIn.diffUtils.changedDiffs ? `(${gIn.diffUtils.changedDiffs} diff(s) changed)` : '';
+  const changedEDiffsStr = gIn.suite.changedEDiffs ? `(${gIn.suite.changedEDiffs} dif(s) changed)` : '';
 
   let emailSubj;
   if (noPrevSLog) {
@@ -293,7 +293,7 @@ async function runTestSuite(suiteData) {
   } else if (suiteLogPrevDifResBool) {
     emailSubj = 'DIF FROM PREV';
   } else {
-    emailSubj = `AS PREV${changedDiffs}`;
+    emailSubj = `AS PREV${changedEDiffsStr}`;
   }
   emailSubj = `${emailSubj}${subjTimeMark},${gIn.logger.saveSuiteLog(dirInfo, suiteLog)}, ${getOs()}`;
 
@@ -370,6 +370,7 @@ async function prepareAndRunTestSuite(root) {
     log,
     etLog,
     configPath,
+    changedEDiffs: 0,
   };
 
   gIn.suite = suite;

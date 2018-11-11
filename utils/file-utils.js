@@ -31,8 +31,8 @@ exports.isAbsent = function isAbsent(fileOrDirPath) {
   return false;
 };
 
-exports.isEtalonAbsent = function (jsPath) {
-  const etPath = textUtils.jsToEt(jsPath)
+exports.isEtalonAbsent = function isEtalonAbsent(jsPath) {
+  const etPath = textUtils.jsToEt(jsPath);
   try {
     fs.statSync(etPath);
   } catch (e) {
@@ -68,11 +68,14 @@ exports.backupDif = function backupDif(fileOrDirPath) {
 };
 
 exports.rmPngs = function rmPngs(jsPath) {
-  try {
-    childProcess.execSync(`rm ${gIn.textUtils.changeExt(jsPath, '*.png')}`, { stdio: [null, null, null] });
-  } catch (e) {
-    // No handling intentionaly.
-  }
+  const dir = path.dirname(jsPath);
+
+  fs.readdirSync(dir).forEach((fileName) => {
+    const filePath = path.join(dir, fileName);
+    if (!exports.isDirectory(filePath) && filePath.endsWith('.png')) {
+      exports.safeUnlink(filePath);
+    }
+  });
 };
 
 exports.rmDir = function rmDir(dir, removeSelf) {
@@ -158,7 +161,7 @@ function collectArcPaths(dirInfo, arcPaths) {
   }
 }
 
-exports.getDirectoryAlias = function (dirPath) {
+exports.getDirectoryAlias = function getDirectoryAlias(dirPath) {
   const pathArr = dirPath.split(path.sep);
   const last = pathArr.pop();
   if (last !== gT.engineConsts.suiteDirName) {
@@ -266,7 +269,6 @@ exports.rmLastDirSep = function rmLastDirSep(dir) {
 
 // One of filenames.
 exports.whichDirContain = function doesDirContain(base, fileNames, excludeThisBase) {
-
   const dirList = fs.readdirSync(base);
 
   for (const name of dirList) {

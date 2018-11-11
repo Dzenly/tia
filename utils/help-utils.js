@@ -176,7 +176,7 @@ exports.usage = function usage() {
         node bin/tia.js --root-dir <path-to-my-root-dir>
     If there is no difs, 0 is returned, otherwise 1 is returned.
 
-    This utility uses external utilities: dif, rm.
+    This utility uses following external utilities: zip.
 
     See readme.md for more details.`
   );
