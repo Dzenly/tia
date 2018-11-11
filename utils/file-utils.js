@@ -69,10 +69,13 @@ exports.backupDif = function backupDif(fileOrDirPath) {
 
 exports.rmPngs = function rmPngs(jsPath) {
   const dir = path.dirname(jsPath);
+  const start = path.basename(textUtils.changeExt(jsPath, ''));
 
   fs.readdirSync(dir).forEach((fileName) => {
     const filePath = path.join(dir, fileName);
-    if (!exports.isDirectory(filePath) && filePath.endsWith('.png')) {
+    if (!exports.isDirectory(filePath)
+      && filePath.endsWith('.png')
+      && fileName.startsWith(start)) {
       exports.safeUnlink(filePath);
     }
   });
