@@ -1,8 +1,0 @@
-4c4
-< ERR: TypeError [ERR_INVALID_ARG_TYPE]: The "chunk" argument must be one of type string, Buffer, or Uint8Array. Received type object
----
-> ERR: TypeError: Invalid non-string/buffer chunk
-7c7
-< ERR: Error [ERR_STREAM_PUSH_AFTER_EOF]: stream.push() after EOF
----
-> ERR: Error: stream.push() after EOF

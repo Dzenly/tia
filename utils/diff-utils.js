@@ -1,12 +1,14 @@
 'use strict';
 
-const childProcess = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
-const diff = require('diff');
+const diffJs = require('diff');
 const colors = require('colors/safe');
+
 // const ansiToHtml = require('ansi-to-html')
+
+const fileUtils = require('./file-utils');
 
 
 /* globals gT: true */
@@ -23,13 +25,36 @@ const colors = require('colors/safe');
  * @param newFile - basename for file 2
  */
 exports.getDiff = function getDiff(dir, oldFile, newFile) {
-  // TODO: check utf8 support.
-  const diffRes = childProcess.spawnSync(
-    'diff',
-    [oldFile, newFile],
-    { cwd: dir, encoding: gT.engineConsts.logEncoding }
-  );
-  return diffRes.stdout + diffRes.stderr;
+  const oldText = fileUtils.safeReadFile(path.resolve(dir, oldFile));
+  const newText = fileUtils.safeReadFile(path.resolve(dir, newFile));
+
+  const result = diffJs.structuredPatch(
+    oldFile,
+    newFile,
+    oldText,
+    newText,
+    '',
+    '',
+    { context: 0, newlineIsToken: false });
+
+  if (result.hunks.length === 0) {
+    return '';
+  }
+
+  const strArr = [
+    // `--- ${result.oldFileName}`,
+    // `+++ ${result.newFileName}`,
+  ];
+
+  result.hunks.forEach((hunk) => {
+    strArr.push(
+      `@@ -${hunk.oldStart},${hunk.oldLines} +${hunk.newStart},${hunk.newLines} @@`);
+    hunk.lines.forEach((line) => {
+      strArr.push(line);
+    });
+  });
+
+  return strArr.join('\n');
 };
 
 /**
