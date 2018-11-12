@@ -15,7 +15,7 @@ module.exports = {
   // Sometimes lazy programmers do not wait when event loop will be free before test exit.
   // It can be due to exception, rejection promise, etc.
   // If event handlers uses l.print(), it will write log to another test log.
-  // As a workaround for such unsage directories, you can set this option.
+  // As a workaround for such unsafe directories, you can set this option.
   delayAfterTest: 0,
 
   // milliseconds between selenium low level calls. Just for visualization at tests writting.
