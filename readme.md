@@ -60,7 +60,7 @@ Test are executed by TIA and can use all global objects, exposed by TIA (see bel
 Test file should create a [Test log](#Test-log) (see below) by TIA API.
 
 So if you use both `TIA` and [Jest](https://jestjs.io/), you should use `.jest.js` suffix for Jest tests
-and set up according pattern in Jest config. 
+and set up according pattern in Jest config.
 
 #### Global objects exposed by TIA, which test can use
 
@@ -149,7 +149,7 @@ See also the `selProfilePath` option in the
 	How to stop:
 	 $ killall Xvfb
 * The 'xvfb' directory contains the script for using as `/etc/init.d/xvfb` and readme.md.
-* Note: that there is headless chrome and firefox, which are supported by the `--headless` command line option. 
+* Note: that there is headless chrome and firefox, which are supported by the `--headless` command line option.
 
 ----------------------------------
 
@@ -481,7 +481,7 @@ If you like this test engine, you can to star my project on github:
 https://github.com/Dzenly/tia.
 
 If you wish to support the project with moneys, here is an info about my accounts for donations:
-https://github.com/Dzenly/tia/blob/master/donations-info.md
+https://github.com/Dzenly/tia/blob/master/docs/donations-info.md
 
 My TODO lists are in 'inner-docs' project directory:
 https://github.com/Dzenly/tia/tree/master/inner-docs.
