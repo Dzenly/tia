@@ -12,6 +12,12 @@ module.exports = {
   // Default value for logAction for low level functions is defined in gT.engineConstants.defLLLogAction.
   // See also gT.lL.setDefaultLlLogAction and gT.lL.setLlPassCounting.
 
+  // Sometimes lazy programmers do not wait when event loop will be free before test exit.
+  // It can be due to exception, rejection promise, etc.
+  // If event handlers uses l.print(), it will write log to another test log.
+  // As a workaround for such unsage directories, you can set this option.
+  delayAfterTest: 0,
+
   // milliseconds between selenium low level calls. Just for visualization at tests writting.
   // Use 0 for CI tests.
   selActionsDelay: 0,

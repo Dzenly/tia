@@ -46,7 +46,7 @@ async function runTestFile(file) {
     if (typeof testObject === 'function') {
       const funcRes = await testObject(gT, gIn, gT.a); // TIA :) Test Inner Assertions.
       if (isIterator(funcRes)) {
-        return gT.u.iterateSafe(funcRes);
+        await gT.u.iterateSafe(funcRes);
       }
     } else {
       await testObject;
@@ -54,6 +54,9 @@ async function runTestFile(file) {
   } catch (e) {
     exceptionHandler(e);
   }
+
+  // To allow test read events from event loop.
+  await gT.u.promise.delayed(gIn.config.delayAfterTest);
 }
 
 // return null - means skipped by --pattern or --new or due to etalon absence.
