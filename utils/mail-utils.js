@@ -41,7 +41,7 @@ const mailOptions = {
   // from: '',
   // to: '', // list of receivers
   // subject: '',
-  text: '', // plaintext body
+  // text: '', // plaintext body
   // html: '', // html body
   // attachments: [{
   //  // can be URL, i.e. we can save our logs history and access it by http.
@@ -58,7 +58,7 @@ const mailOptions = {
  * @param {Array of Strings} [zipAttachments]
  * @returns {Promise<T>}
  */
-exports.send = function send(subj, txtAttachments, zipAttachments) {
+exports.send = function send(subj, htmlDif, txtDif, txtAttachments, zipAttachments) {
   if (!gIn.params.enableEmail) {
     gIn.tracer.msg2('Mail is disabled.');
     return;
@@ -72,6 +72,9 @@ exports.send = function send(subj, txtAttachments, zipAttachments) {
   txtAttachments = txtAttachments.filter((txtAttachment) => {
     return !fileUtils.isAbsent(txtAttachment);
   });
+
+  mailOptions.html = htmlDif;
+  mailOptions.text = txtDif; // TODO: ansi colors, check that text mails support them.
 
   mailOptions.subject = subj;
 

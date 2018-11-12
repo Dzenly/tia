@@ -86,6 +86,7 @@ const opts = {
     'run-self-tests',
     'share-browser',
     'show-empty-suites',
+    'slog-dif-to-console',
     'stack-to-log',
     'stop-remote-driver',
     'use-remote-driver',

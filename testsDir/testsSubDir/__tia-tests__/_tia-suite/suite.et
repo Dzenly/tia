@@ -16,7 +16,7 @@
 | | | "03_undefined.tia.js", OK, Fail: 1, pass: 0, "Exception due to undefined variable"
 | | | "04_throwStr.tia.js", OK, Fail: 1, pass: 0, "Test throws "SomeErr" string"
 | | "02_expectedDiff", dif: 0, fail: 0, EDif: 1, skip: 0, "The subdir tests bunch for TIA"
-| | | "00_expectedDiff.tia.js", EDIF, fail: 0, pass: 0, "Expected diff test"
+| | | "00_expectedDiff.tia.js", EDIF, fail: 0, pass: 0, "Expected dif test"
 | | "03_config", dif: 0, fail: 0, edif: 0, Skip: 4, "Config testing"
 | | | "00_skippedTests", dif: 0, fail: 0, edif: 0, Skip: 4, "Skipped tests"
 | | | | "00_firstSkippedTest.tia.js", OK, fail: 0, SKIP, pass: 0, ""

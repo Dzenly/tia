@@ -189,3 +189,5 @@ ext-log.log
 *.procInfo
 
 package-lock.json
+*.dif.html
+*.notime.plus.difs

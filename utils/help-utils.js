@@ -138,6 +138,8 @@ exports.usage = function usage() {
       does not contain any run or skipped tests, there will not be test report to console.
       This option enables such reports for empty suites.
 
+      --slog-dif-to-console - Prints colorful dif between etalon slog and current slog to console.
+
       --slog-subj=${argConsts.allowedSlogSubj.map(subjItem => `[${subjItem}]`).join(',')}
       Add some info to suite log subject. This will lead to additional difs
       in suite logs, but can be useful for paranoid checking.

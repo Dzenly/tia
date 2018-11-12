@@ -142,8 +142,7 @@ exports.getDiff = function getDiff({
     eol = '<br>\n';
 
     if (htmlWrap) {
-      result = `
-<!DOCTYPE HTML>
+      result = `<!DOCTYPE HTML>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -157,10 +156,10 @@ ${strArr.join(eol)}
     } else {
       result = strArr.join(eol);
     }
-  } else if (highlight === 'ansi') {
+  } else if (highlight === 'ansi' || !highlight) {
     eol = '\n';
     result = strArr.join(eol);
-  } else if (highlight) {
+  } else {
     throw new Error(`Incorrect highlight: ${highlight}`);
   }
   return result;
@@ -179,13 +178,19 @@ ${strArr.join(eol)}
  * @param jsTest - path to js file, for which just created *.log
  * to be diffed with *.et.
  */
-exports.diff = function diff(jsTest) {
+exports.diff = function diff({
+  jsTest,
+  highlight,
+  htmlWrap,
+}) {
   const dir = path.dirname(jsTest);
   const base = path.basename(jsTest, '.js');
   let out = exports.getDiff({
     dir,
     oldFile: `${base}.log`,
     newFile: `${base}.et`,
+    highlight,
+    htmlWrap,
   });
   const diffPath = path.join(dir, `${base}.dif`);
   const diffed = out ? 1 : 0;
@@ -223,6 +228,3 @@ exports.diff = function diff(jsTest) {
 
   gIn.fileUtils.safeUnlink(`${diffPath}.old`);
 };
-
-
-// exports.getWordDiffData

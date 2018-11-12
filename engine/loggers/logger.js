@@ -6,7 +6,6 @@
 /*
  Inner utils for logging.
  */
-
 let isVerbose;
 
 const fs = require('fs');
@@ -142,8 +141,9 @@ exports.testSummary = function testSummary() {
   exports.log(`Pass: ${gIn.tInfo.data.passed}, Fail: ${gIn.tInfo.data.failed}\n`);
 };
 
-function saveDirInfo(parameters) {
+function saveDirInfoToSuiteLog(parameters) {
   let { indent } = parameters;
+  const { noTestDifs } = parameters;
   const {
     dirInfo, verbose, noTime,
   } = parameters;
@@ -168,18 +168,19 @@ function saveDirInfo(parameters) {
     const curInfo = dirInfo.children[i];
     if (curInfo.diffed || verbose) {
       if (Object.prototype.hasOwnProperty.call(curInfo, 'children')) {
-        saveDirInfo({
+        saveDirInfoToSuiteLog({
           dirInfo: curInfo,
           indent,
           verbose,
           noTime,
+          noTestDifs,
         });
       } else {
         writeToSuiteLog(indent);
         writeToSuiteLog(gIn.tInfo.testInfoToString({
           curInfo, isDir: false, verbose, noTime,
         }), curInfo.diffed);
-        if (curInfo.diffed && gIn.params.difsToSlog && !isVerbose) { // TODO: Check Slog or SLog ?
+        if (curInfo.diffed && gIn.params.difsToSlog && !isVerbose && !noTestDifs) {
           const difPath = gIn.textUtils.jsToDif(curInfo.path);
           const dif = fs.readFileSync(difPath, gT.engineConsts.logEncoding);
           writeToSuiteLog(`${indent}============== DIF ============== \n`);
@@ -195,16 +196,22 @@ function saveDirInfo(parameters) {
   }
 }
 
-function saveSuiteLogPart(verbose, dirInfo, noTime) {
+function saveSuiteLogPart({
+  verbose,
+  dirInfo,
+  noTime,
+  noTestDifs,
+}) {
   isVerbose = verbose;
   const title = verbose ? 'Verbose' : 'Short';
   const decor = '====================';
   writeToSuiteLog(`${decor}    ${title} Log BEGIN:    ${decor}\n`);
-  saveDirInfo({
+  saveDirInfoToSuiteLog({
     dirInfo,
     indent: '',
     verbose,
     noTime,
+    noTestDifs,
   });
   writeToSuiteLog(`${decor}    ${title} Log END.    ${decor}\n`);
 }
@@ -216,12 +223,21 @@ function saveSuiteLogPart(verbose, dirInfo, noTime) {
  * @parem noTime
  * @returns {string} - Verbose info for the root test directory.
  */
-exports.saveSuiteLog = function saveSuiteLog(dirInfo, log, noTime) {
+exports.saveSuiteLog = function saveSuiteLog({
+  dirInfo,
+  log,
+  noTime,
+  noTestDifs,
+}) {
   writeLogStr = writeStrToFile;
   exports.fd = fs.openSync(log, 'w');
-  saveSuiteLogPart(false, dirInfo, noTime);
+  saveSuiteLogPart({
+    verbose: false, dirInfo, noTime, noTestDifs,
+  });
   fs.writeSync(exports.fd, '\n', null, gT.engineConsts.logEncoding);
-  saveSuiteLogPart(true, dirInfo, noTime);
+  saveSuiteLogPart({
+    verbose: true, dirInfo, noTime, noTestDifs,
+  });
   fs.closeSync(exports.fd);
   return gIn.tInfo.testInfoToString({
     curInfo: dirInfo, isDir: true, verbose: true, noTime, noTitle: true, noEol: true,
@@ -229,12 +245,9 @@ exports.saveSuiteLog = function saveSuiteLog(dirInfo, log, noTime) {
 };
 
 /* Prints expected tests results to stdout and unexpected to stderr */
-exports.printSuiteLog = function printSuiteLog(dirInfo) {
+exports.printSuiteLog = function printSuiteLog(dirInfo, noTestDifs) {
   writeLogStr = writeStrToStdout;
-  saveSuiteLogPart(false, dirInfo, false);
+  saveSuiteLogPart({ verbose: false, dirInfo, noTime: false, noTestDifs });
   writeToSuiteLog('\n');
-  saveSuiteLogPart(true, dirInfo, false);
-
-  // saveDirInfo(dirInfo, '', false, false);
-  // saveDirInfo(dirInfo, '', true, false);
+  saveSuiteLogPart({ verbose: true, dirInfo, noTime: false, noTestDifs });
 };

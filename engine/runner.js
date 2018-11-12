@@ -128,7 +128,9 @@ async function handleTestFile(file, dirConfig) {
 
   gIn.tInfo.data.time = gT.timeUtils.stopTimer(startTime);
   if (!gIn.params.new) {
-    gIn.diffUtils.diff(file);
+    gIn.diffUtils.diff({
+      jsTest: file,
+    });
   }
 
   return gIn.tInfo.data; // Return value to be uniform in handleDir.
@@ -235,17 +237,20 @@ async function runTestSuite(suiteData) {
 
   const procInfoFilePath = `${root}/${gT.engineConsts.suiteResDirName}/.procInfo`;
   const txtAttachments = [suiteLog];
-  const noTimeSuiteLog = `${suiteLog}.notime`;
-  const prevDif = `${noTimeSuiteLog}.prev.dif`;
-  const etDif = `${noTimeSuiteLog}.et.dif`;
-  const noTimeSuiteLogPrev = `${noTimeSuiteLog}.prev`;
+  const noTimeSuiteLogFName = `${suiteLog}.notime`;
+  const noTimePlusTestDifsSuiteLogFName = `${suiteLog}.notime.plus.difs`;
+  const prevDifFName = `${noTimeSuiteLogFName}.prev.dif`;
+  const etDifHtmlFName = `${noTimeSuiteLogFName}.et.dif.html`;
+  const etDifTxtFName = `${noTimeSuiteLogFName}.et.dif`;
+  const noTimeSuiteLogPrevFName = `${noTimeSuiteLogFName}.prev`;
 
   if (!gIn.params.new) {
     fileUtils.safeUnlink(suiteLog);
     if (!gIn.params.pattern) {
-      fileUtils.safeUnlink(prevDif);
-      fileUtils.safeUnlink(etDif);
-      fileUtils.safeRename(noTimeSuiteLog, noTimeSuiteLogPrev);
+      fileUtils.safeUnlink(prevDifFName);
+      fileUtils.safeUnlink(etDifHtmlFName);
+      fileUtils.safeUnlink(etDifTxtFName);
+      fileUtils.safeRename(noTimeSuiteLogFName, noTimeSuiteLogPrevFName);
       suiteUtils.rmNewTestsInfo();
     }
   }
@@ -258,37 +263,66 @@ async function runTestSuite(suiteData) {
   }
 
   // dirInfo.title = path.basename(dir);
-  gIn.logger.saveSuiteLog(dirInfo, noTimeSuiteLog, true);
+  gIn.logger.saveSuiteLog({
+    dirInfo,
+    log: noTimePlusTestDifsSuiteLogFName,
+    noTime: true,
+  });
+
+  gIn.logger.saveSuiteLog({
+    dirInfo,
+    log: noTimeSuiteLogFName,
+    noTime: true,
+    noTestDifs: true,
+  });
 
   if (gIn.params.pattern) {
     return {};
   }
 
-  const noPrevSLog = fileUtils.isAbsent(noTimeSuiteLogPrev);
+  const noPrevSLog = fileUtils.isAbsent(noTimeSuiteLogPrevFName);
   const suiteLogPrevDifRes = gIn.diffUtils.getDiff({
     dir: '.',
-    oldFile: noTimeSuiteLog,
-    newFile: noTimeSuiteLogPrev,
+    oldFile: noTimeSuiteLogFName,
+    newFile: noTimeSuiteLogPrevFName,
   });
   const suiteLogPrevDifResBool = Boolean(suiteLogPrevDifRes);
   if (suiteLogPrevDifResBool) {
-    fs.writeFileSync(prevDif, suiteLogPrevDifRes, { encoding: gT.engineConsts.logEncoding });
-    txtAttachments.push(prevDif);
+    fs.writeFileSync(prevDifFName, suiteLogPrevDifRes, { encoding: gT.engineConsts.logEncoding });
+    txtAttachments.push(prevDifFName);
   }
 
+  let etDifTxt = '';
   const suiteLogEtDifResStr = gIn.diffUtils.getDiff({
     dir: '.',
-    oldFile: noTimeSuiteLog,
+    oldFile: noTimeSuiteLogFName,
     newFile: gIn.suite.etLog,
+    highlight: 'html',
+    htmlWrap: true,
   });
   const equalToEtalon = !suiteLogEtDifResStr;
   if (!equalToEtalon) {
-    fs.writeFileSync(etDif, suiteLogEtDifResStr, { encoding: gT.engineConsts.logEncoding });
-    txtAttachments.push(etDif);
+    fs.writeFileSync(
+      etDifHtmlFName,
+      suiteLogEtDifResStr,
+      { encoding: gT.engineConsts.logEncoding }
+    );
+
+    etDifTxt = gIn.diffUtils.getDiff({
+      dir: '.',
+      oldFile: noTimeSuiteLogFName,
+      newFile: gIn.suite.etLog,
+      highlight: 'ansi',
+    });
+    fs.writeFileSync(
+      etDifTxtFName,
+      etDifTxt,
+      { encoding: gT.engineConsts.logEncoding }
+    );
   }
   gIn.tracer.msg3(`equalToEtalon: ${equalToEtalon}`);
-  const etSLogInfo = equalToEtalon ? 'ET_SLOG, ' : 'DIF_SLOG, ';
-  const etSLogInfoCons = equalToEtalon ? `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, `
+  const etSLogInfoEmail = equalToEtalon ? 'ET_SLOG, ' : 'DIF_SLOG, ';
+  const etSLogInfoConsole = equalToEtalon ? `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, `
     : `${gIn.cLogger.chalkWrap('red', 'DIF_SLOG')}, `;
 
   const subjTimeMark = dirInfo.time > gIn.params.tooLongTime ? ', TOO_LONG' : '';
@@ -303,10 +337,10 @@ async function runTestSuite(suiteData) {
   } else {
     emailSubj = `AS PREV${changedEDiffsStr}`;
   }
-  emailSubj = `${emailSubj}${subjTimeMark},${gIn.logger.saveSuiteLog(dirInfo, suiteLog)}, ${getOs()}`;
+  emailSubj = `${emailSubj}${subjTimeMark},${gIn.logger.saveSuiteLog({ dirInfo, log: suiteLog })}, ${getOs()}`;
 
-  const emailSubjCons = etSLogInfoCons + emailSubj;
-  emailSubj = etSLogInfo + emailSubj;
+  const emailSubjConsole = etSLogInfoConsole + emailSubj;
+  emailSubj = etSLogInfoEmail + emailSubj;
 
   dirInfo.suiteLogDiff = suiteLogPrevDifResBool;
   dirInfo.os = getOs();
@@ -320,13 +354,19 @@ async function runTestSuite(suiteData) {
 
   txtAttachments.push(suiteUtils.getNoEtalonTestsInfoPath());
 
-  await gIn.mailUtils.send(emailSubj, txtAttachments, [arcPath]);
+  await gIn.mailUtils.send(emailSubj, suiteLogEtDifResStr, etDifTxt, txtAttachments, [arcPath]);
 
   const { diffed } = dirInfo;
 
   const suiteNotEmpty = dirInfo.run + dirInfo.skipped;
+
+  if (gIn.params.slogDifToConsole && etDifTxt && (gIn.params.showEmptySuites || suiteNotEmpty)) {
+    gIn.cLogger.msg(`\n${emailSubjConsole}\n`);
+    gIn.cLogger.msgln(etDifTxt);
+  }
+
   if (gT.suiteConfig.suiteLogToStdout && (gIn.params.showEmptySuites || suiteNotEmpty)) {
-    gIn.cLogger.msg(`\n${emailSubjCons}\n`);
+    gIn.cLogger.msg(`\n${emailSubjConsole}\n`);
     gIn.logger.printSuiteLog(dirInfo);
 
     // fileUtils.fileToStdout(log);
@@ -343,7 +383,7 @@ async function runTestSuite(suiteData) {
     equalToEtalon,
     diffed,
     emailSubj,
-    emailSubjCons,
+    emailSubjConsole,
   };
 }
 
@@ -384,19 +424,6 @@ async function prepareAndRunTestSuite(root) {
   gIn.suite = suite;
 
   gIn.configUtils.handleSuiteConfig();
-
-  if (gIn.params.stopRemoteDriver) {
-    gIn.remoteDriverUtils.stop();
-    return 'Just removing of remote driver';
-  }
-
-  if (gIn.params.useRemoteDriver) {
-    await gIn.remoteDriverUtils.start();
-
-    // .catch((err) => {
-    //   gIn.tracer.err(`Runner ERR, remoteDriverUtils.start: ${err}`);
-    // });
-  }
 
   const suiteResult = await runTestSuite(suite)
     .catch((err) => {
@@ -458,6 +485,19 @@ function getTestSuitePaths() {
 exports.runTestSuites = async function runTestSuites() {
   fileUtils.safeUnlink(gT.rootLog);
 
+  if (gIn.params.stopRemoteDriver) {
+    gIn.remoteDriverUtils.stop();
+    return 'Just removing of remote driver';
+  }
+
+  if (gIn.params.useRemoteDriver) {
+    await gIn.remoteDriverUtils.start();
+
+    // .catch((err) => {
+    //   gIn.tracer.err(`Runner ERR, remoteDriverUtils.start: ${err}`);
+    // });
+  }
+
   const suitePaths = getTestSuitePaths();
 
   gIn.tracer.msg1(`Following suite paths are found: ${suitePaths}`);
@@ -503,7 +543,7 @@ exports.runTestSuites = async function runTestSuites() {
     }
 
     fs.appendFileSync(gT.rootLog, `${result.emailSubj}\n`);
-    gIn.cLogger.msgln(result.emailSubjCons);
+    gIn.cLogger.msgln(result.emailSubjConsole);
   });
 
   const tail = '<<<< ===================== >>>>';
