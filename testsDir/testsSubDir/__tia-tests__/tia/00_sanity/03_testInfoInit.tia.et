@@ -6,6 +6,9 @@ Title: Test for testInfo init
 Freshly inited test info, real title, verbose:
 "03_testInfoInit.tia.js", OK, fail: 0, pass: 0, 0.00 ms, "Test for testInfo init"
 
+additional string in etalog.
+additional string in etalog.
+
 
 Freshly inited test info, no time, no title, short:
 "03_testInfoInit.tia.js", OK, fail: 0

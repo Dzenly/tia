@@ -30,3 +30,5 @@ l.println(gIn.tInfo.testInfoToString({
 }));
 
 l.println('This test does not touch pass and fail counters, so validity determined only with absense of dif');
+l.println('This test does not touch pass and fail counters, so validity determined only with absense of dif');
+l.println('This test does not touch pass and fail counters, so validity determined only with absense of dif');

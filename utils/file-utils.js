@@ -54,6 +54,7 @@ exports.safeReadFile = function safeReadFile(fileOrDirPath) {
   try {
     res = fs.readFileSync(fileOrDirPath, gT.engineConsts.logEncoding);
   } catch (e) {
+    const asd = 5;
     // No handling intentionaly.
   }
   return res;

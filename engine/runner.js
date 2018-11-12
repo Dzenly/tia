@@ -265,14 +265,22 @@ async function runTestSuite(suiteData) {
   }
 
   const noPrevSLog = fileUtils.isAbsent(noTimeSuiteLogPrev);
-  const suiteLogPrevDifRes = gIn.diffUtils.getDiff('.', noTimeSuiteLog, noTimeSuiteLogPrev);
+  const suiteLogPrevDifRes = gIn.diffUtils.getDiff({
+    dir: '.',
+    oldFile: noTimeSuiteLog,
+    newFile: noTimeSuiteLogPrev,
+  });
   const suiteLogPrevDifResBool = Boolean(suiteLogPrevDifRes);
   if (suiteLogPrevDifResBool) {
     fs.writeFileSync(prevDif, suiteLogPrevDifRes, { encoding: gT.engineConsts.logEncoding });
     txtAttachments.push(prevDif);
   }
 
-  const suiteLogEtDifResStr = gIn.diffUtils.getDiff('.', noTimeSuiteLog, gIn.suite.etLog);
+  const suiteLogEtDifResStr = gIn.diffUtils.getDiff({
+    dir: '.',
+    oldFile: noTimeSuiteLog,
+    newFile: gIn.suite.etLog,
+  });
   const equalToEtalon = !suiteLogEtDifResStr;
   if (!equalToEtalon) {
     fs.writeFileSync(etDif, suiteLogEtDifResStr, { encoding: gT.engineConsts.logEncoding });
