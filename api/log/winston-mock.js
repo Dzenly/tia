@@ -1,5 +1,7 @@
 'use strict';
 
+const _ = require('lodash');
+
 const funcs = [
   'error',
   'warn',
@@ -33,10 +35,15 @@ module.exports = function winstonMock(prefix) {
     const func = funcs[curLevel];
 
     logger[func] = (...args) => {
-      if (curLevel <= allowedLevel && args) {
-        args[0] = prefix + `${func}: ` + args[0];
-        for (const str of args) {
-          gT.l.println(gIn.textUtils.valToStr(str));
+      const localArgs = _.cloneDeep(args);
+      if (curLevel <= allowedLevel && localArgs) {
+        localArgs[0] = prefix + `${func}: ` + localArgs[0];
+        for (const str of localArgs) {
+          if (typeof str === 'string') {
+            gT.l.println(str);
+          } else {
+            gT.l.println(gIn.textUtils.valToStr(str));
+          }
         }
       }
     };

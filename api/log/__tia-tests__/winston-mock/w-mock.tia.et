@@ -1,26 +1,26 @@
 log: level: undefined
-'Prefix: error: error'
-'Prefix: warn: warn'
-'Prefix: info: info'
-'Prefix: verbose: verbose'
-'Prefix: debug: debug'
-'Prefix: silly: silly'
+Prefix: error: error
+Prefix: warn: warn
+Prefix: info: info
+Prefix: verbose: verbose
+Prefix: debug: debug
+Prefix: silly: silly
 ==========
 log: level: silly
-'Prefix: error: error'
-'Prefix: warn: warn'
-'Prefix: info: info'
-'Prefix: verbose: verbose'
-'Prefix: debug: debug'
-'Prefix: silly: silly'
+Prefix: error: error
+Prefix: warn: warn
+Prefix: info: info
+Prefix: verbose: verbose
+Prefix: debug: debug
+Prefix: silly: silly
 ==========
 log: level: info
-'Prefix: error: error'
-'Prefix: warn: warn'
-'Prefix: info: info'
+Prefix: error: error
+Prefix: warn: warn
+Prefix: info: info
 ==========
 log: level: error
-'Prefix: error: error'
+Prefix: error: error
 ==========
 =================
 Pass: 0, Fail: 0

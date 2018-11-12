@@ -1,8 +1,8 @@
 =================
 Title: Test for readable stream to test log.
-'String 1'
+String 1
 { a: 'a', b: 'b' }
-'String 2'
+String 2
 End Event.
 ERR: Error: stream.push() after EOF
 =================
