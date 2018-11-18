@@ -181,7 +181,7 @@ function handleDirConfig(dir, files, parentDirConfig) {
 async function handleTestDir(dir, parentDirConfig) {
   gIn.tracer.msg3(`handleDir Dir: ${dir}`);
 
-  const filesOrDirs = fs.readdirSync(dir).filter((fileName) => {
+  let filesOrDirs = fs.readdirSync(dir).filter((fileName) => {
     for (const pattern of gT.engineConsts.patternsToIgnore) { // eslint-disable-line no-restricted-syntax
       if (pattern.test(fileName)) {
         return false;
@@ -191,6 +191,11 @@ async function handleTestDir(dir, parentDirConfig) {
   });
 
   const dirConfig = handleDirConfig(dir, filesOrDirs, parentDirConfig);
+
+  if (gIn.dirArr && gIn.dirArr.length > 0) {
+    filesOrDirs = [gIn.dirArr.shift()];
+  }
+
   const dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
   const startTime = gT.timeUtils.startTimer();
 
@@ -247,21 +252,24 @@ async function runTestSuite(suiteData) {
   const etDifTxtFName = `${noTimeSuiteLogFName}.et.dif`;
   const noTimeSuiteLogPrevFName = `${noTimeSuiteLogFName}.prev`;
 
-  if (!gIn.params.new) {
+  if (!gIn.params.new && !gIn.params.dir && !gIn.params.pattern) {
     fileUtils.safeUnlink(suiteLog);
-    if (!gIn.params.pattern) {
-      fileUtils.safeUnlink(prevDifFName);
-      fileUtils.safeUnlink(etDifHtmlFName);
-      fileUtils.safeUnlink(etDifTxtFName);
-      fileUtils.safeRename(noTimeSuiteLogFName, noTimeSuiteLogPrevFName);
-      suiteUtils.rmNewTestsInfo();
-    }
+    fileUtils.safeUnlink(prevDifFName);
+    fileUtils.safeUnlink(etDifHtmlFName);
+    fileUtils.safeUnlink(etDifTxtFName);
+    fileUtils.safeRename(noTimeSuiteLogFName, noTimeSuiteLogPrevFName);
+    suiteUtils.rmNewTestsInfo();
   }
 
   const dirInfo = await handleTestDir(root, gT.rootDirConfig);
   dirInfo.isSuiteRoot = true;
 
-  if (gIn.params.new) {
+  if (gIn.params.dir) {
+    // gIn.cLogger.msgln(JSON.stringify(dirInfo, null, 2));
+    gIn.logger.printSuiteLog(dirInfo);
+  }
+
+  if (gIn.params.new || gIn.params.pattern || gIn.params.dir) {
     return {};
   }
 
@@ -278,10 +286,6 @@ async function runTestSuite(suiteData) {
     noTime: true,
     noTestDifs: true,
   });
-
-  if (gIn.params.pattern) {
-    return {};
-  }
 
   const noPrevSLog = fileUtils.isAbsent(noTimeSuiteLogPrevFName);
   const suiteLogPrevDifRes = gIn.diffUtils.getDiff({
@@ -519,6 +523,11 @@ exports.runTestSuites = async function runTestSuites() {
 
   if (gIn.params.new) {
     gIn.cLogger.msgln('All new tests are finished.');
+    process.exitCode = 0;
+    return;
+  }
+
+  if (gIn.params.dir) {
     process.exitCode = 0;
     return;
   }

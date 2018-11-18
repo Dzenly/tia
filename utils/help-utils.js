@@ -64,6 +64,10 @@ exports.usage = function usage() {
 
       --difs-to-slog - forces difs to be printed to short suite log.
 
+      --dir - Run tests from the current working directory only.
+      Not compatible with --suite.
+      You can use --difs-to-slog to print case difs to console.
+
       --driver-log-level <level> - 0 - 1000 (default ${gT.engineConsts.defaultDriverLogLevel}).
       0 means to log everything, 800 - info, 900 - warnings. 1000 - severe errors.
 
@@ -150,6 +154,7 @@ exports.usage = function usage() {
       --stop-remote-driver - (for chromedriver only) shuts down the remote driver.
 
       --suite - Run only the suite containing current working directory.
+      Not compatible with --dir.
 
       --root-dir <Root Directory to find tests> - root directory to test
       (can be relative to current working dir).

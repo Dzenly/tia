@@ -104,7 +104,7 @@ exports.findTiaRootInParents = function findTiaRootInParents(dir) {
 exports.getTiaSuiteFromParents = function getTiaSuiteFromParents(dir) {
   const startIndex = dir.indexOf(gT.engineConsts.suiteDirName);
   if (startIndex === -1) {
-    throw new Error(`No Suite in dir: ${dir}`);
+    throw new Error(`No suite found for directory: ${dir}`);
   }
 
   const result = dir.slice(0, startIndex + gT.engineConsts.suiteDirName.length);

@@ -71,6 +71,7 @@ const opts = {
     'debug-locale',
     'debug-max',
     'difs-to-slog',
+    'dir',
     'ej-explore',
     'enable-email',
     'err-to-console',
@@ -210,8 +211,19 @@ if (!gT.globalConfig.rootDirAlias) {
 }
 
 // =====================
-if (gIn.params.suite) {
+
+if (gIn.params.suite && gIn.params.dir) {
+  console.error('You can not use --dir and --suite simultaneously');
+  process.exit(1);
+}
+
+if (gIn.params.suite || gIn.params.dir) {
   gIn.params.suite = tiaArgsUtils.getTiaSuiteFromParents(process.cwd());
+}
+
+if (gIn.params.dir) {
+  gIn.params.dir = process.cwd();
+  gIn.dirArr = path.relative(gIn.params.suite, gIn.params.dir).split(path.sep);
 }
 
 // =====================
