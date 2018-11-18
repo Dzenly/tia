@@ -101,6 +101,16 @@ exports.findTiaRootInParents = function findTiaRootInParents(dir) {
 //   return dir;
 // };
 
+exports.getTiaSuiteFromParents = function getTiaSuiteFromParents(dir) {
+  const startIndex = dir.indexOf(gT.engineConsts.suiteDirName);
+  if (startIndex === -1) {
+    throw new Error(`No Suite in dir: ${dir}`);
+  }
+
+  const result = dir.slice(0, startIndex + gT.engineConsts.suiteDirName.length);
+  return result;
+};
+
 exports.isTiaSuiteInParents = function isTiaSuiteInParents(dir) {
   const dirArr = dir.split(path.sep);
   return dirArr.includes(gT.engineConsts.suiteDirName);

@@ -89,6 +89,7 @@ const opts = {
     'slog-dif-to-console',
     'stack-to-log',
     'stop-remote-driver',
+    'suite',
     'use-remote-driver',
     'v',
     'version',
@@ -172,11 +173,11 @@ if (gT.browsers.indexOf(browser) === -1) {
 gIn.params = args;
 
 if (args._.includes('initRoot')) {
-  tiaArgsUtils.initTiaRoot(args.rootDir);
+  tiaArgsUtils.initTiaRoot(args.rootDir); // function ends with process.exit().
 }
 
 if (args._.includes('initSuite')) {
-  tiaArgsUtils.initTiaSuite();
+  tiaArgsUtils.initTiaSuite(); // function ends with process.exit().
 }
 
 const rootDir = tiaArgsUtils.resolveRootDirEx(args.rootDir);
@@ -206,6 +207,11 @@ gT.globalConfig = _.merge(_.cloneDeep(gT.globalConfigDefault), globalConfig);
 
 if (!gT.globalConfig.rootDirAlias) {
   gT.globalConfig.rootDirAlias = path.basename(gIn.params.rootDir);
+}
+
+// =====================
+if (gIn.params.suite) {
+  gIn.params.suite = tiaArgsUtils.getTiaSuiteFromParents(process.cwd());
 }
 
 // =====================

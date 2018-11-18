@@ -55,16 +55,17 @@ module.exports = {
   // There is the only such file and it must be located in <rootDir>/__tia-tests__ directory.
   suiteRootConfigName: 'tia-root-suite-config.js',
 
+  // Some global configs. You can add any your options which will be used for all tests.
+  // See config/default-global-config.js for options used by TIA.
   globalConfigName: 'tia-global-config.js',
 
-  // Корневая директория, где лежат профайлы. Не перегружается в локальных конфигах.
+  // Browser profile directory. You can not override this path.
   browserProfileRootDirName: 'tia-browser-profiles',
 
-  // Дефолтный дисплей для GUI тестов.
-  // Сохраняем состояние в момент старта.
+  // Default display for GUI tests.
   defDisplay: process.env.DISPLAY,
 
-  // TODO: Имя лога для git pull, этот лог посылается на почту.
+  // TODO: Log name for git pull, this log will be sent to the email.
   gitPullLog: 'gitpull.log',
 
   // File name for PID for remote chrome driver.
@@ -75,7 +76,8 @@ module.exports = {
 
   logEncoding: 'utf8', // ascii
 
-  selfTestsExtLog: 'ext-log.log', // TODO
+  selfTestsExtLog: 'ext-log.log', // TODO: Should be in dir config or there should be
+  // function like t.setExternalLogs.
 
   hangTimeout: 60000, // Timeout (ms) after which action function considered as hanging.
 

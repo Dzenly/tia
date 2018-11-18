@@ -501,10 +501,9 @@ exports.runTestSuites = async function runTestSuites() {
     // });
   }
 
-  const suitePaths = getTestSuitePaths();
+  const suitePaths = gIn.params.suite ? [gIn.params.suite] : getTestSuitePaths();
 
   gIn.tracer.msg1(`Following suite paths are found: ${suitePaths}`);
-
 
   const results = [];
 

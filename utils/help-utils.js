@@ -149,6 +149,8 @@ exports.usage = function usage() {
 
       --stop-remote-driver - (for chromedriver only) shuts down the remote driver.
 
+      --suite - Run only the suite containing current working directory.
+
       --root-dir <Root Directory to find tests> - root directory to test
       (can be relative to current working dir).
       It there is no --root-dir, tia will check ${gT.engineConsts.rootDirEnvVarName} environment variable.
