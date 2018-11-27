@@ -62,7 +62,7 @@ exports.getStructuredPatch = function getStructuredPatch({
       } else if (line[0] === '+') {
         newArr.push(line.slice(1) + eol);
       } else {
-        throw new Error('Unexpected line prefix');
+        throw new Error(`Unexpected line prefix:\noldPath: ${oldPath}\nnewPath: ${newPath}`);
       }
     }
 

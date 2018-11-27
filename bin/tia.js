@@ -25,11 +25,14 @@ const helpUtils = require('../utils/help-utils.js');
 const { runTestSuites } = require('../engine/runner.js');
 const tiaArgsUtils = require('../utils/tia-arguments-utils.js');
 
+const { version } = require('../package.json');
+console.log(`TIA version: ${version}`);
+
 nodeUtils.checkNodeJsVersion();
 
 require('../engine/init-global-objects.js');
 
-gT.version = require('../package.json').version;
+gT.version = version;
 
 gT.browsers = [
   'chrome', // First browser is default.
@@ -119,8 +122,6 @@ if (args.h || args.help) {
   helpUtils.usage();
   process.exit(0);
 }
-
-console.log(gT.version);
 
 if (args.v || args.version) {
   process.exit(0);
