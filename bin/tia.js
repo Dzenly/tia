@@ -26,6 +26,7 @@ const { runTestSuites } = require('../engine/runner.js');
 const tiaArgsUtils = require('../utils/tia-arguments-utils.js');
 
 const { version } = require('../package.json');
+
 console.log(`TIA version: ${version}`);
 
 nodeUtils.checkNodeJsVersion();
@@ -130,6 +131,7 @@ if (args.v || args.version) {
 // args._ массив без -- или -.
 
 if (args.checkLogs) {
+  // TODO: Доделать.
   const allowedArr = [
     'ignoreGood', // No difs, no fails, no empty.
     'expected',

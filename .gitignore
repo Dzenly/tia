@@ -41,6 +41,7 @@
 
 #config/local.js
 
+*no-git*
 
 # data for a file syncronization tool.
 SyncToy*
@@ -191,3 +192,9 @@ ext-log.log
 package-lock.json
 *.dif.html
 *.notime.plus.difs
+
+.vscode/
+
+# typescript.
+dist/
+build/

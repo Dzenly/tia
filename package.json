@@ -6,7 +6,10 @@
     "tia": "bin/tia.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tia --run-self-tests",
+    "lint": "tslint './**/*.{ts}'",
+    "build": "tsc",
+    "prepublish": "build"
   },
   "repository": {
     "type": "git",
@@ -46,5 +49,10 @@
     "nodemailer": "^4.7.0",
     "nodemailer-smtp-transport": "^2.7.4",
     "selenium-webdriver": "^3.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.18",
+    "typescript": "^3.2.2",
+    "typescript-tslint-plugin": "^0.2.1"
   }
 }
