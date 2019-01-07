@@ -1,4 +1,5 @@
 'use strict';
+
 /* globals gT: true */
 /* globals gIn: true */
 
@@ -10,12 +11,10 @@
  * @param directFields - Fields which are enabled when the checkbox is set.
  * @param reverseFields - Fields which are enabled when the checkbox is reset.
  */
-exports.checkCheckboxAffects = function * checkCheckboxAffects(formId, checkBoxName, directFields, reverseFields, logActions) {
+exports.checkCheckboxAffects = function* checkCheckboxAffects(formId, checkBoxName, directFields, reverseFields, logActions) {
+  formId = gT.s.idToIdObj(formId);
 
-  formId = idToIdObj(formId);
-
-  function *checkCBAffects() {
-
+  function * checkCBAffects() {
     const resAccName = 'checkCBAffects';
     a.initResultsAccumulator(resAccName);
 
@@ -24,42 +23,41 @@ exports.checkCheckboxAffects = function * checkCheckboxAffects(formId, checkBoxN
     let isSet = yield e.getByFormIdName.rawValue(formId, checkBoxName);
 
     for (let i = 0, len = directFields.length; i < len; i++) {
-      let name = directFields[i];
-      let isDisabled = yield e.getByFormIdName.isDisabled(formId, name);
-      gT.a.true(isDisabled !== isSet, 'Direct check for "' + name + '"', {accName: resAccName});
+      const name = directFields[i];
+      const isDisabled = yield e.getByFormIdName.isDisabled(formId, name);
+      gT.a.true(isDisabled !== isSet, `Direct check for "${  name  }"`, { accName: resAccName });
     }
 
     for (let i = 0, len = reverseFields.length; i < len; i++) {
-      let name = reverseFields[i];
-      let isDisabled = yield e.getByFormIdName.isDisabled(formId, name);
-      gT.a.true(isDisabled === isSet, 'Reverse check for "' + name + '"', {accName: resAccName});
+      const name = reverseFields[i];
+      const isDisabled = yield e.getByFormIdName.isDisabled(formId, name);
+      gT.a.true(isDisabled === isSet, `Reverse check for "${  name  }"`, { accName: resAccName });
     }
 
     yield e.lClick.checkBoxByFormIdName(formId, checkBoxName);
     isSet = !isSet;
     a.true(isSet === (yield e.getByFormIdName.rawValue(formId, checkBoxName)),
-      'Checkbox state changed after click', {passSilently: true, noPassIncrement: true, accName: resAccName});
+      'Checkbox state changed after click', { passSilently: true, noPassIncrement: true, accName: resAccName });
 
     for (let i = 0, len = directFields.length; i < len; i++) {
-      let name = directFields[i];
+      const name = directFields[i];
       yield isSet ? e.wait.formFieldEnabled(formId, name) : e.wait.formFieldDisabled(formId, name);
     }
 
     for (let i = 0, len = reverseFields.length; i < len; i++) {
-      let name = reverseFields[i];
+      const name = reverseFields[i];
       yield !isSet ? e.wait.formFieldEnabled(formId, name) : e.wait.formFieldDisabled(formId, name);
     }
 
     yield e.lClick.checkBoxByFormIdName(formId, checkBoxName);
     isSet = !isSet;
     a.true(isSet === (yield e.getByFormIdName.rawValue(formId, checkBoxName)),
-      'Checkbox state changed after click', {passSilently: true, noPassIncrement: true, accName: resAccName});
+      'Checkbox state changed after click', { passSilently: true, noPassIncrement: true, accName: resAccName });
   }
 
-  let res = yield *gT.hL.wrapGenerator(
+  const res = yield*gT.hL.wrapGenerator(
     checkCBAffects,
-    `Check checkbox (name: ${checkBoxName}) affects for form ${formId.logStr}`, {passLlPrinting: true});
+    `Check checkbox (name: ${checkBoxName}) affects for form ${formId.logStr}`, { passLlPrinting: true });
 
   return res;
 };
-

@@ -1,7 +1,8 @@
 'use strict';
+
 /* globals gT, gIn */
 
-let util = require('util');
+const util = require('util');
 
 // TODO: support different range options.
 // TODO: function for convertation object to its text representation (smth, like JSON).
@@ -18,8 +19,8 @@ let util = require('util');
 // };
 
 exports.field = function field(id, name, includingStores, logAction) {
-  id = idToIdObj(id);
-  return gIn.wrap(`Logging content of form ${id.logStr} field (name: ${name}) ... `, logAction, function () {
+  id = gT.s.idToIdObj(id);
+  return gIn.wrap(`Logging content of form ${id.logStr} field (name: ${name}) ... `, logAction, () => {
     return gT.s.browser.executeScriptWrapper(
       `return tiaEJ.ctById.getFormChildByFormName('${id.id}', '${name}', ${includingStores});`
     )
@@ -30,8 +31,8 @@ exports.field = function field(id, name, includingStores, logAction) {
 };
 
 exports.fields = function fields(id, names, includingStores, logAction) {
-  id = idToIdObj(id);
-  return gIn.wrap(`Logging choosen fields of form ${id.logStr} fields ... `, logAction, function () {
+  id = gT.s.idToIdObj(id);
+  return gIn.wrap(`Logging choosen fields of form ${id.logStr} fields ... `, logAction, () => {
     let namesJson = JSON.stringify(names);
     return gT.s.browser.executeScriptWrapper(
       `return tiaEJ.ctById.getFormChildrenByFormNames('${id.id}', '${namesJson}', ${includingStores});`
@@ -44,8 +45,8 @@ exports.fields = function fields(id, names, includingStores, logAction) {
 };
 
 exports.fieldEnabledDisabledInfo = function fieldEnabledDisabledInfo(id, name, logAction) {
-  id = idToIdObj(id);
-  return gIn.wrap(`Enabled/Disabled info of form ${id.logStr} field: name: ${name}`, logAction, function () {
+  id = gT.s.idToIdObj(id);
+  return gIn.wrap(`Enabled/Disabled info of form ${id.logStr} field: name: ${name}`, logAction, () => {
     return gT.s.browser.executeScriptWrapper(
       `return tiaEJ.ctById.getFormFieldEnabledDisabledInfo('${id.id}', '${name}');`
     )
@@ -56,8 +57,8 @@ exports.fieldEnabledDisabledInfo = function fieldEnabledDisabledInfo(id, name, l
 };
 
 exports.fieldShortInfo = function fieldShortInfo(id, name, logAction) {
-  id = idToIdObj(id);
-  return gIn.wrap(`Info of form ${id.logStr} field: name: ${name}`, logAction, function () {
+  id = gT.s.idToIdObj(id);
+  return gIn.wrap(`Info of form ${id.logStr} field: name: ${name}`, logAction, () => {
     return gT.s.browser.executeScriptWrapper(
       `return tiaEJ.ctById.getFormFieldShortInfo('${id.id}', '${name}');`
     )
@@ -68,8 +69,8 @@ exports.fieldShortInfo = function fieldShortInfo(id, name, logAction) {
 };
 
 exports.fieldError = function fieldError(id, name, logAction) {
-  id = idToIdObj(id);
-  return gIn.wrap(`Error of form ${id.logStr} field (name: ${name}):`, logAction, function () {
+  id = gT.s.idToIdObj(id);
+  return gIn.wrap(`Error of form ${id.logStr} field (name: ${name}):`, logAction, () => {
     return gT.s.browser.executeScriptWrapper(
       `return tiaEJ.ctById.getFormFieldErrorByFormName('${id.id}', '${name}');`
     )

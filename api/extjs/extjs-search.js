@@ -3,7 +3,7 @@
 const { inspect } = require('util');
 
 exports.byIdRef = function byIdRef(id, ref, logAction) {
-  id = idToIdObj(id);
+  id = gT.s.idToIdObj(id);
   return gIn.wrap(`Searching id by container ${id.logStr}, reference: ${ref} ... `, logAction, () => gT.s.browser.executeScriptWrapper(`return tiaEJ.searchId.byIdRef('${id.id}', '${ref}')`)
     .then((foundId) => {
       gIn.tracer.msg3(`byIdRef, found id: ${foundId}`);
@@ -14,7 +14,7 @@ exports.byIdRef = function byIdRef(id, ref, logAction) {
 // ============================
 
 exports.byIdCompQuery = function byIdCompQuery(id, compQuery, logAction) {
-  id = idToIdObj(id);
+  id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching id by container ${id.logStr}, compQuery: ${compQuery} ... `,
     logAction,
@@ -28,7 +28,7 @@ exports.byIdCompQuery = function byIdCompQuery(id, compQuery, logAction) {
 };
 
 exports.byFormIdName = function byFormIdName(id, name, logAction) {
-  id = idToIdObj(id);
+  id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching id by form ${id.logStr}, name: ${name} ... `,
     logAction,
@@ -40,7 +40,7 @@ exports.byFormIdName = function byFormIdName(id, name, logAction) {
 };
 
 exports.inputByIdCompQuery = function inputByIdCompQuery(id, compQuery, logAction) {
-  id = idToIdObj(id);
+  id = gT.s.idToIdObj(id);
   return gIn.wrap(`Searching input id by container ${id.logStr}, compQuery: ${compQuery} ... `, logAction, () => gT.s.browser.executeScriptWrapper(`return tiaEJ.searchInputId.byIdCompQuery('${id.id}', '${compQuery}')`)
     .then((foundId) => {
       gIn.tracer.msg3(`inputByIdCompQuery, found id: ${inspect(foundId)}`);
@@ -49,7 +49,7 @@ exports.inputByIdCompQuery = function inputByIdCompQuery(id, compQuery, logActio
 };
 
 exports.inputByFormIdName = function inputByFormIdName(id, name, logAction) {
-  id = idToIdObj(id);
+  id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching input id by form ${id.logStr}, name: ${name} ... `,
     logAction,
@@ -63,7 +63,7 @@ exports.inputByFormIdName = function inputByFormIdName(id, name, logAction) {
 };
 
 exports.inputByIdRef = function inputByIdRef(id, ref, logAction) {
-  id = idToIdObj(id);
+  id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching input id by container ${id.logStr}, reference: ${ref} ... `,
     logAction,
@@ -77,7 +77,7 @@ exports.inputByIdRef = function inputByIdRef(id, ref, logAction) {
 };
 
 exports.fieldByIdCompQuery = function fieldByIdCompQuery(id, compQuery, logAction) {
-  id = idToIdObj(id);
+  id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching field id by container ${id.logStr}, compQuery: ${compQuery} ... `,
     logAction,
@@ -91,7 +91,7 @@ exports.fieldByIdCompQuery = function fieldByIdCompQuery(id, compQuery, logActio
 };
 
 exports.fieldByFormIdName = function fieldByFormIdName(id, name, logAction) {
-  id = idToIdObj(id);
+  id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching field id by form ${id.logStr}, name: ${name} ... `,
     logAction,
@@ -105,7 +105,7 @@ exports.fieldByFormIdName = function fieldByFormIdName(id, name, logAction) {
 };
 
 exports.fieldByIdRef = function fieldByIdRef(id, ref, logAction) {
-  id = idToIdObj(id);
+  id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching field id by container ${id.logStr}, reference: ${ref} ... `,
     logAction,

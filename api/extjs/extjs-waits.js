@@ -46,14 +46,14 @@ function logFormFieldInfo(formId, name, logAction) {
 }
 
 exports.formFieldEnabled = function formFieldEnabled(formId, name, timeout, logAction) {
-  formId = idToIdObj(formId);
+  formId = gT.s.idToIdObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap(`Waiting for enabling field (name: ${name}) on form ${formId.logStr}`, logAction, () => gT.sOrig.driver.wait(() => gT.s.browser.executeScriptWrapper(`return tiaEJ.check.formFieldEnabled('${formId.id}', '${name}');`), timeout)
     .then(logFormFieldInfo(formId, name, logAction)));
 };
 
 exports.formFieldDisabled = function formFieldDisabled(formId, name, timeout, logAction) {
-  formId = idToIdObj(formId);
+  formId = gT.s.idToIdObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap(`Waiting for disabling field (name: ${name}) onform ${formId.logStr}`, logAction, () => gT.sOrig.driver.wait(() => gT.s.browser.executeScriptWrapper(`return tiaEJ.check.formFieldDisabled('${formId.id}', '${name}');`), timeout)
     .then(logFormFieldInfo(formId, name, logAction)));
@@ -66,12 +66,11 @@ exports.isReady = function isReady(timeout, logAction) {
 
 exports.isCmpRendered = function isCmpRendered(id, timeout, logAction) {
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
-  return gIn.wrap(`Waiting for cmp (id: ${id}) rendered ... `, logAction, () => gT.sOrig.driver.wait(() =>
-    gT.s.browser.executeScriptWrapper(`return Ext.getCmp('${id}') && Ext.getCmp('${id}').rendered;`)
+  return gIn.wrap(`Waiting for cmp (id: ${id}) rendered ... `, logAction, () => gT.sOrig.driver.wait(() => gT.s.browser.executeScriptWrapper(`return Ext.getCmp('${id}') && Ext.getCmp('${id}').rendered;`),
 
     // .then(function (res) {
     //   console.log('IS RENDERED: ' + res);
     //   return res;
     // });
-    , timeout));
+     timeout));
 };

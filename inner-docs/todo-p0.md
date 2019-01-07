@@ -201,7 +201,7 @@ http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriv
 Потестить webElement, хранит ли он данные внутри, или при всякий get* командах обращается к вебдрайверу?
 Если хранит внутри - он бесполезен, разве что если у него есть команда update.
 
-Подумать, как  засунуть WebElement в idToIdObj.
+Подумать, как  засунуть WebElement в gT.s.idToIdObj.
 В принципе, актуально только для непосредственных кликов или sendKeys, clear,
 
 И ещё logStr - если это tab, или button.
@@ -221,7 +221,7 @@ exports.treeByDynId = function (id, treeName, options, logAction) {
 
 Чтобы добавить поддержку динамических id во все API.
 
-id = idToIdObj(id);
+id = gT.s.idToIdObj(id);
 
 ===================
 

@@ -1,4 +1,5 @@
 'use strict';
+
 /* globals gT: true */
 
 /* globals gIn: true */
@@ -12,7 +13,7 @@ function delayIfNeeded() {
 
 exports.clickAndWaitForAjaxFinish = function clickAndWaitForAjaxFinish(webEl, waitTimeout) {
   waitTimeout = waitTimeout || gT.engineConsts.ajaxTimeoutAfterClick;
-  return delayIfNeeded().then(function() {
+  return delayIfNeeded().then(() => {
     return webEl.click().then(function() {
       return gT.e.wait.idle(waitTimeout, false);
     });
@@ -23,7 +24,7 @@ exports.delayClickAndWaitForAjaxFinish = function delayClickAndWaitForAjaxFinish
   webEl,
   isDblClick
 ) {
-  return delayIfNeeded().then(function() {
+  return delayIfNeeded().then(() => {
     gIn.tracer.msg3('delayAndClick: before click');
     return (isDblClick
       ? new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform()
@@ -40,32 +41,32 @@ exports.createFuncPrintTextDelayClick = function createFuncPrintTextDelayClick(
   logAction
 ) {
   if (noPrint) {
-    return function(webEl) {
+    return function (webEl) {
       return exports.delayClickAndWaitForAjaxFinish(webEl, isDblClick);
     };
   }
-  return function(webEl) {
+  return function (webEl) {
     return webEl
       .getText()
       .then(
-        function(text) {
+        (text) => {
           // Using of selenium queue, so not then.then.
           gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
         },
-        function(err) {
+        (err) => {
           gIn.tracer.err(err);
           throw new Error(gT.engineConsts.elGetTextFail);
         }
       )
-      .then(function() {
+      .then(() => {
         return exports.delayClickAndWaitForAjaxFinish(webEl, isDblClick);
       });
   };
 };
 
 function createFuncPrintTextAndClickTableRow(logAction) {
-  return function(webEl) {
-    return webEl.findElement(gT.sOrig.by.css('.x-tree-node-text')).then(function(el) {
+  return function (webEl) {
+    return webEl.findElement(gT.sOrig.by.css('.x-tree-node-text')).then((el) => {
       return el.getText().then(function(text) {
         // Using of selenium queue, so not then.then.
         gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
@@ -77,7 +78,7 @@ function createFuncPrintTextAndClickTableRow(logAction) {
 
 // Note that for tree only expanded nodes are taking into account.
 exports.tableItemByIndex = function tableItemByIndex(tableId, tableName, itemIndex, logAction) {
-  return gIn.wrap(`Click table '${tableName}' item by index '${itemIndex}'`, logAction, function() {
+  return gIn.wrap(`Click table '${tableName}' item by index '${itemIndex}'`, logAction, () => {
     return gT.s.browser
       .executeScript(`return tiaEJ.hEById.getTableItemByIndex('${tableId}', ${itemIndex});`, false)
       .then(createFuncPrintTextAndClickTableRow(logAction))
@@ -92,13 +93,13 @@ exports.tableItemByField = function tableItemByField(
   fieldName,
   logAction
 ) {
-  fieldName = fieldName ? fieldName : 'name';
+  fieldName = fieldName || 'name';
   return gIn.wrap(
     `Click table '${tableName}' item, fieldValue: ${gT.s.browser.valueToParameter(
       fieldValue
     )}, fieldName: '${fieldName}'`,
     logAction,
-    function() {
+    () => {
       return gT.s.browser
         .executeScript(
           `return tiaEJ.hEById.getTableItemByField('${tableId}', ${gT.s.browser.valueToParameter(
@@ -119,11 +120,11 @@ exports.tableItemByFieldLocKey = function tableItemByFieldLocKey(
   fieldName,
   logAction
 ) {
-  fieldName = fieldName ? fieldName : 'name';
+  fieldName = fieldName || 'name';
   return gIn.wrap(
     `Click table '${tableName}' item, fieldValue: '${fieldValueKey}', fieldName: '${fieldName}'`,
     logAction,
-    function() {
+    () => {
       return gT.s.browser
         .executeScript(
           `return tiaEJ.hEById.getTableItemByFieldLocKey('${tableId}', '${fieldValueKey}', '${fieldName}');`,
@@ -137,7 +138,7 @@ exports.tableItemByFieldLocKey = function tableItemByFieldLocKey(
 
 // TODO: probably it is safe now to print tableId.
 exports.tableItemByFieldId = function tableItemByFieldId(tableId, tableName, id, logAction) {
-  return gIn.wrap(`Click table '${tableName}' item, with id: '${id}'`, logAction, function() {
+  return gIn.wrap(`Click table '${tableName}' item, with id: '${id}'`, logAction, () => {
     return gT.s.browser
       .executeScript(
         `return tiaEJ.hEById.getTableItemByField('${tableId}', ${gT.s.browser.valueToParameter(
@@ -154,7 +155,7 @@ exports.fieldByFormIdName = function fieldByFormIdName(formId, name, logAction) 
   return gIn.wrap(
     `Click form field item by formId: ${formId}, name: ${name} ... `,
     logAction,
-    function() {
+    () => {
       return gT.s.browser
         .executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
         .then(function(inputEl) {
@@ -165,11 +166,11 @@ exports.fieldByFormIdName = function fieldByFormIdName(formId, name, logAction) 
 };
 
 exports.checkBoxByFormIdName = function checkBoxByFormIdName(formId, name, logAction) {
-  formId = idToIdObj(formId);
+  formId = gT.s.idToIdObj(formId);
   return gIn.wrap(
     `Click checkBox (name: ${name}) on form ${formId.logStr} ... `,
     logAction,
-    function() {
+    () => {
       return gT.s.browser
         .executeScript(`return tiaEJ.hEById.getElByFormName('${formId.id}', '${name}');`, false)
         .then(exports.createFuncPrintTextDelayClick(false, false, logAction));
@@ -178,7 +179,7 @@ exports.checkBoxByFormIdName = function checkBoxByFormIdName(formId, name, logAc
 };
 
 function createFuncDelayAndClickById(callerName) {
-  return function(dynId) {
+  return function (dynId) {
     gIn.tracer.msg3(`${callerName}:, id of element: ${dynId}`);
     return exports.delayClickAndWaitForAjaxFinish(
       gT.sOrig.driver.findElement(gT.sOrig.by.id(dynId))
@@ -194,7 +195,7 @@ function createFuncDelayAndClickById(callerName) {
  * @returns {*}
  */
 exports.tabByIdItemId = function tabByIdItemId(id, itemId, logAction) {
-  return gIn.wrap(`Click on tab ${itemId} of component ${id} ... `, logAction, function() {
+  return gIn.wrap(`Click on tab ${itemId} of component ${id} ... `, logAction, () => {
     return gT.s.browser
       .executeScriptWrapper(`return tiaEJ.searchId.tabByIdItemId('${id}', '${itemId}')`)
       .then(createFuncDelayAndClickById('clickTabByIdItemId'));
@@ -211,7 +212,7 @@ exports.tabByIdItemId = function tabByIdItemId(id, itemId, logAction) {
  * Object: str for search, str for log.
  */
 exports.tabByIdText = function tabByIdText(id, text, logAction) {
-  return gIn.wrap(`Click on tab with text ${text} of component ${id} ... `, logAction, function() {
+  return gIn.wrap(`Click on tab with text ${text} of component ${id} ... `, logAction, () => {
     return gT.s.browser
       .executeScriptWrapper(`return tiaEJ.searchId.tabByIdText ('${id}', '${text}')`)
       .then(createFuncDelayAndClickById('clickTabByIdText'));
@@ -231,7 +232,7 @@ exports.tabByIdLocKey = function tabByIdLocKey(id, locKey, logAction) {
   return gIn.wrap(
     `Click on tab with locale key ${locKey} of component ${id} ... `,
     logAction,
-    function() {
+    () => {
       return gT.s.browser
         .executeScriptWrapper(`return tiaEJ.searchId.tabByIdLocKey('${id}', '${locKey}')`)
         .then(createFuncDelayAndClickById('clickTabByIdLocKey'));
@@ -252,7 +253,7 @@ exports.compByIdRefKey = function compByIdRefKey(id, ref, key, logAction) {
   return gIn.wrap(
     `Click on tab by id (${id}), reference (${ref}), key ${key} ... `,
     logAction,
-    function() {
+    () => {
       return gT.s.browser
         .executeScriptWrapper(`return tiaEJ.searchId.byIdRefKey('${id}', '${ref}', '${key}')`)
         .then(createFuncDelayAndClickById('clickByIdRefKey'));
