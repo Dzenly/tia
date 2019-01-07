@@ -53,7 +53,7 @@ const ALREADY_STARTED = 'Remote driver is already started';
 const SHOULD_BE_ONLINE = 'Remote driver should be online';
 
 exports.start = function start1() {
-  return new Bluebird(((resolve) => {
+  return new Bluebird(resolve => {
     gIn.tracer.msg3('Starting remote driver');
 
     const data = {
@@ -64,17 +64,13 @@ exports.start = function start1() {
     };
 
     try {
-      const child = spawn(
-        `${process.execPath}`,
-        [`${__dirname}/remote-driver-utils-inner.js`],
-        {
-          stdio: ['ipc'],
-        }
-      );
+      const child = spawn(`${process.execPath}`, [`${__dirname}/remote-driver-utils-inner.js`], {
+        stdio: ['ipc'],
+      });
 
       child.send(data);
 
-      child.on('message', (msg) => {
+      child.on('message', msg => {
         gIn.tracer.msg3(`Message from child proc: ${msg}`);
         gIn.tracer.msg3(SHOULD_BE_ONLINE);
 
@@ -83,7 +79,7 @@ exports.start = function start1() {
     } catch (e) {
       console.log(e);
     }
-  }));
+  });
 };
 
 // TODO: it is temporary. Fix it.
@@ -94,20 +90,17 @@ exports.start = function start1() {
 exports.startOld = function startOld() {
   if (getPid()) {
     gIn.tracer.msg3(ALREADY_STARTED);
-    return Bluebird.resolve(ALREADY_STARTED);
+    return Promise.resolve(ALREADY_STARTED);
   }
 
-  return new Bluebird(((resolve) => {
+  return new Bluebird(resolve => {
     // http://stackoverflow.com/questions/37427360/parent-process-kills-child-process-even-though-detached-is-set-to-true
     // https://github.com/nodejs/node/issues/7269#issuecomment-225698625
 
-    const child = spawn(
-      gIn.chromeDriverPath,
-      [`--port=${gT.suiteConfig.remoteDriverPort}`],
-      {
-        detached: true,
-        stdio: ['ignore', 'ignore', 'ignore'],
-      });
+    const child = spawn(gIn.chromeDriverPath, [`--port=${gT.suiteConfig.remoteDriverPort}`], {
+      detached: true,
+      stdio: ['ignore', 'ignore', 'ignore'],
+    });
 
     savePid(child.pid);
 
@@ -123,7 +116,7 @@ exports.startOld = function startOld() {
     //   gIn.tracer.trace2('Output from chromedriver: ' + data);
     // });
     // child.disconnect();
-  }));
+  });
 };
 
 /**

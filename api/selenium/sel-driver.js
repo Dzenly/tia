@@ -35,7 +35,7 @@ exports.init = function init(cleanProfile, logAction) {
   if (!gIn.config.selProfilePath && gIn.params.shareBrowser) {
     if (gIn.sharedBrowserInitiated) {
       gIn.tracer.msg3('Initialization is not needed');
-      return Bluebird.resolve('Initialization is not needed');
+      return Promise.resolve('Initialization is not needed');
     }
     gIn.sharedBrowserInitiated = true;
   }
@@ -255,14 +255,14 @@ exports.getStupidSleepFunc = function getStupidSleepFunc() {
 exports.quit = function quit(logAction) {
   if (gIn.params.ejExplore) {
     gIn.tracer.msg3('quit: ejExplore, no quit');
-    return Bluebird.resolve('ejExplore, no quit');
+    return Promise.resolve('ejExplore, no quit');
   }
   if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
     logAction = false;
   }
   if (gIn.sharedBrowserInitiated) {
     gIn.tracer.msg3('quit: Shared browser, no quit');
-    return Bluebird.resolve('Shared browser, no quit');
+    return Promise.resolve('Shared browser, no quit');
   }
   return gIn.wrap(
     'Quiting ... ',
@@ -282,7 +282,7 @@ exports.quit = function quit(logAction) {
 exports.quitIfInited = function quitIfInited() {
   if (gIn.params.ejExplore) {
     gIn.tracer.msg3('quitIfInited: ejExplore, no quit');
-    return Bluebird.resolve('ejExplore, no quit');
+    return Promise.resolve('ejExplore, no quit');
   }
   if (gT.sOrig.driver) {
     gIn.tracer.msg3('quitIfInited: before quit call');
@@ -292,7 +292,7 @@ exports.quitIfInited = function quitIfInited() {
     });
   }
   gIn.tracer.msg3('quitIfInited: no driver, no quit');
-  return Bluebird.resolve('No driver, no quit');
+  return Promise.resolve('No driver, no quit');
 };
 
 exports.printSelDriverLogs = function printSelDriverLogs(minValue) {

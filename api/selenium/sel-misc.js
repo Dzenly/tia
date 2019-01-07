@@ -2,11 +2,11 @@
 
 /* globals gT: true */
 
-
 global.idToIdObj = gT.idToIdObj = function idToIdObj(id) {
   let res;
   if (typeof id === 'object') {
-    if (id.logStr) { // Already converted.
+    if (id.logStr) {
+      // Already converted.
       return id;
     }
     res = {
@@ -34,7 +34,7 @@ global.idToIdObj = gT.idToIdObj = function idToIdObj(id) {
 
 // gT.s.dummyPromiseFulfilled = function (msg) {
 //   return gIn.wrap('Dummy promise fulfilled: "' + msg, logAction, function () {
-//     return Bluebird.resolve('Fulfilled');
+//     return Promise.resolve('Fulfilled');
 //   });
 // };
 //
