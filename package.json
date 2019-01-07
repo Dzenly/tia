@@ -11,6 +11,8 @@
     "build": "tsc",
     "prepublish": "build"
   },
+  "types": "build",
+  "typings": "build",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Dzenly/tia.git"

@@ -57,7 +57,9 @@ exports.init = function init(cleanProfile, logAction) {
     let profileAbsPath;
 
     if (gIn.config.selProfilePath) {
-      profileAbsPath = mpath.resolve(mpath.join(gIn.suite.browserProfilePath, gIn.config.selProfilePath));
+      profileAbsPath = mpath.resolve(
+        mpath.join(gIn.suite.browserProfilePath, gIn.config.selProfilePath)
+      );
       gIn.tracer.msg2(`Profile path: ${profileAbsPath}`);
     }
 
@@ -149,7 +151,9 @@ exports.init = function init(cleanProfile, logAction) {
     if (gIn.params.useRemoteDriver) {
       const sid = gIn.remoteDriverUtils.getSid();
 
-      const remoteDriverConnectionStr = `${gT.suiteConfig.remoteDriverUrl}:${gT.suiteConfig.remoteDriverPort}`;
+      const remoteDriverConnectionStr = `${gT.suiteConfig.remoteDriverUrl}:${
+        gT.suiteConfig.remoteDriverPort
+      }`;
 
       if (sid) {
         gIn.tracer.msg3('There is current SID');
@@ -158,9 +162,7 @@ exports.init = function init(cleanProfile, logAction) {
         const client = new gT.sOrig.Client(remoteDriverConnectionStr);
         const executor = new gT.sOrig.Executor(client);
 
-        gT.sOrig.driver = gT.sOrig.wdModule.WebDriver.attachToSession(
-          executor,
-          sid);
+        gT.sOrig.driver = gT.sOrig.wdModule.WebDriver.attachToSession(executor, sid);
       } else {
         gIn.tracer.msg3('There is not current SID');
         gT.firstRunWithRemoteDriver = true;
@@ -173,12 +175,13 @@ exports.init = function init(cleanProfile, logAction) {
           .usingServer(remoteDriverConnectionStr)
           .build();
 
-        gT.sOrig.driver.getSession()
-          .then((res) => {
+        gT.sOrig.driver
+          .getSession()
+          .then(res => {
             const sid = gIn.remoteDriverUtils.saveSid(res.getId());
             gIn.tracer.msg3(`Saved session id: ${sid}`);
           })
-          .catch((e) => {
+          .catch(e => {
             gIn.logger.exception('Error at getSession: ', e);
           });
       }
@@ -202,16 +205,19 @@ exports.init = function init(cleanProfile, logAction) {
       //     });
       // };
       // ==============================
-    } else { // Temporary driver
-      gT.sOrig.driver = new gT.sOrig.wdModule.Builder().forBrowser(gIn.params.browser)
-        .withCapabilities(capabilities).build();
+    } else {
+      // Temporary driver
+      gT.sOrig.driver = new gT.sOrig.wdModule.Builder()
+        .forBrowser(gIn.params.browser)
+        .withCapabilities(capabilities)
+        .build();
     }
 
     gT.sOrig.logs = gT.sOrig.driver.manage().logs();
 
     // Trying to fix chromedriver issue 817 by delay.
     // https://bugs.chromium.org/p/chromedriver/issues/detail?id=817#c21
-    return Bluebird.delay(gT.engineConsts.defaultDelayAfterDriverCreate);
+    return gT.u.promise.delayed(gT.engineConsts.defaultDelayAfterDriverCreate);
   });
 };
 
@@ -224,9 +230,8 @@ exports.init = function init(cleanProfile, logAction) {
  * @returns {Promise}
  */
 exports.sleep = function sleep(ms, logAction) {
-  return gIn.wrap(`Sleep ${ms} ms ... `, logAction, () => Bluebird.delay(ms, true));
+  return gIn.wrap(`Sleep ${ms} ms ... `, logAction, () => gT.u.promise.delayed(ms, true));
 };
-
 
 const stupidSleep = 400;
 
@@ -235,7 +240,7 @@ const stupidSleep = 400;
  * It is stupid sleep instead of smart waiting for something.
  */
 exports.getStupidSleepFunc = function getStupidSleepFunc() {
-  return function () {
+  return function() {
     return exports.sleep(stupidSleep, false);
   };
 };
@@ -259,10 +264,16 @@ exports.quit = function quit(logAction) {
     gIn.tracer.msg3('quit: Shared browser, no quit');
     return Bluebird.resolve('Shared browser, no quit');
   }
-  return gIn.wrap('Quiting ... ', logAction, () => gT.sOrig.driver.quit().then(() => {
-    gIn.tracer.msg3('Quit: Driver is deleted');
-    delete gT.sOrig.driver;
-  }), true);
+  return gIn.wrap(
+    'Quiting ... ',
+    logAction,
+    () =>
+      gT.sOrig.driver.quit().then(() => {
+        gIn.tracer.msg3('Quit: Driver is deleted');
+        delete gT.sOrig.driver;
+      }),
+    true
+  );
 };
 
 /**
@@ -285,15 +296,16 @@ exports.quitIfInited = function quitIfInited() {
 };
 
 exports.printSelDriverLogs = function printSelDriverLogs(minValue) {
-  return gT.sOrig.logs.get(gT.sOrig.driverLogType).then(
-    (entries) => {
-      gIn.tracer.msg3('Start of printSelDriverLogs');
-      for (const entry of entries) {
-        if (entry.level.value >= minValue) {
-          const logStr = `SEL.DR.LOG: ${entry.level.name} (${entry.level.value}), Message:\n ${entry.message}`;
-          gIn.logger.logln(logStr);
-        }
+  return gT.sOrig.logs.get(gT.sOrig.driverLogType).then(entries => {
+    gIn.tracer.msg3('Start of printSelDriverLogs');
+    for (const entry of entries) {
+      if (entry.level.value >= minValue) {
+        const logStr = `SEL.DR.LOG: ${entry.level.name} (${entry.level.value}), Message:\n ${
+          entry.message
+        }`;
+        gIn.logger.logln(logStr);
       }
-      gIn.tracer.msg3('End of printSelDriverLogs');
-    });
+    }
+    gIn.tracer.msg3('End of printSelDriverLogs');
+  });
 };

@@ -1,5 +1,5 @@
 'use strict';
 
-exports.delayed = function (ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+exports.delayed = function delayed(ms, value) {
+  return new Promise(resolve => setTimeout(() => resolve(value), ms));
 };
