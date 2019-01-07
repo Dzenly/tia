@@ -4,8 +4,6 @@
 
 /* globals gIn, gT: true */
 
-const Bluebird = require('bluebird');
-
 /**
  * Starts the timer to track action time.
  *
@@ -101,7 +99,7 @@ function quitDriver() {
           // await will generate exception with this object.
           throw new Error('A.W.: Force throw error (sel. driver was existed)');
         })
-        .catch(err => {
+        .catch((err) => {
           gIn.logger.errorln(`A.W.: catch for driver quit or deletion: ${err}`);
           return handleErrAtErrorHandling('Error at quit');
         });
@@ -176,10 +174,14 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
  * @returns {*} - Promise will be resolved to value or to exception.
  * @throws - Various errors.
  */
-module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
+// eslint-disable-next-line max-params
+module.exports = async function wrap(msg, logAction, act, noConsoleAndExceptions) {
   if (typeof msg === 'object') {
     // esling-disable-next-line no-param-reassign
-    ({ msg, logAction, act, noConsoleAndExceptions } = msg);
+    ({
+      // eslint-disable-next-line no-param-reassign
+      msg, logAction, act, noConsoleAndExceptions,
+    } = msg);
   }
 
   gIn.tracer.msg3(`Inside wrapper, before start timer,  msg: ${msg}`);
@@ -202,9 +204,14 @@ module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
 
   gIn.tracer.msg3(`Inside wrapper, before act() call,  msg: ${msg}`);
 
-  return Bluebird.try(act)
-    .timeout(gIn.params.hangTimeout)
-    .catch(Bluebird.TimeoutError, () => {
+  const actResultPromise = act();
+
+  let result; // Return value from wrapped function.
+
+  try {
+    result = gT.u.promise.wait(actResultPromise, gIn.params.hangTimeout);
+  } catch (err) {
+    if (err === gT.u.promise.timeoutError) {
       gIn.logger.errorln('A.W.: Hanged action detected');
       if (!gIn.screenShotScheduled) {
         gIn.screenShotScheduled = true;
@@ -214,52 +221,47 @@ module.exports = function wrap(msg, logAction, act, noConsoleAndExceptions) {
         });
       }
       throw new Error('A.W.: Timeout expired, your action is considered as hanged.');
+    }
 
-      // TODO: Try to cancel promise returned by act() ??.
-    })
-    .tap(val => {
-      gIn.tracer.msg3(`A.W.: after action execute, msg: ${msg}`);
-      gIn.tracer.msg3(`A.W.: after action execute, val: ${val}`);
-      gIn.tracer.msg3(`A.W.: after action execute, act: ${act}`);
-      return pauseAndLogOk(logAction, startTime, noConsoleAndExceptions);
-    })
-    .catch(err => {
-      gIn.tInfo.addFail();
-      gIn.logger.errorln(`A.W.: FAIL${stopTimer(startTime)}`);
-      gIn.logger.errorln('A.W.: ========== Err Info Begin ==========');
-      gIn.logger.errorln(`A.W.: Msg was: ${msg}`);
-      gIn.logger.exception('A.W.: Exception in wrapper: ', err);
-      gIn.logger.exception('A.W.: Exception stack: ', err.stack);
+    gIn.tInfo.addFail();
+    gIn.logger.errorln(`A.W.: FAIL${stopTimer(startTime)}`);
+    gIn.logger.errorln('A.W.: ========== Err Info Begin ==========');
+    gIn.logger.errorln(`A.W.: Msg was: ${msg}`);
+    gIn.logger.exception('A.W.: Exception in wrapper: ', err);
+    gIn.logger.exception('A.W.: Exception stack: ', err.stack);
 
-      gIn.logger.logResourcesUsage();
+    gIn.logger.logResourcesUsage();
 
-      if (gT.sOrig.driver && !gIn.errRecursionCount) {
-        return handleErrorWhenDriverExistsAndRecCountZero();
-      }
+    if (gT.sOrig.driver && !gIn.errRecursionCount) {
+      return handleErrorWhenDriverExistsAndRecCountZero();
+    }
 
-      const driverExisted = Boolean(gT.sOrig.driver);
+    const driverExisted = Boolean(gT.sOrig.driver);
 
-      // No driver, or non zero errRecursionCount.
-      if (!driverExisted) {
-        // No driver.
-        gIn.errRecursionCount = 1;
-        throw new Error(gT.engineConsts.CANCELLING_THE_TEST);
-      }
+    // No driver, or non zero errRecursionCount.
+    if (!driverExisted) {
+      // No driver.
+      gIn.errRecursionCount = 1;
+      throw new Error(gT.engineConsts.CANCELLING_THE_TEST);
+    }
 
-      // Driver exists and recursion count not zero.
+    // Driver exists and recursion count not zero.
 
-      gIn.errRecursionCount++;
-      if (gIn.errRecursionCount > gT.engineConsts.maxRecursiveErrCountForTest) {
-        return handleErrAtErrorHandling('A.W.: Recursive error');
-      }
+    gIn.errRecursionCount++;
+    if (gIn.errRecursionCount > gT.engineConsts.maxRecursiveErrCountForTest) {
+      return handleErrAtErrorHandling('A.W.: Recursive error');
+    }
 
-      // gIn.logger.errorln('Info: No selenium driver');
-      // gIn.logger.errorln('A.W.: ========== Err Info End ==========');
+    gIn.logger.errorln('A.W.: ========== Err Info End ==========');
 
-      return quitDriver();
+    await quitDriver();
 
-      // await will generate exception with this object.
-      // throw new Error('Error in action. Sel. driver existed: ' + Boolean(driverExisted) +
-      //   ', Error recursion at error handling: ' + gIn.errRecursionCount);
-    });
+    throw new Error(`Error in action. Sel. driver existed: ${Boolean(driverExisted)}`
+    + `, Error recursion count at error handling: ${gIn.errRecursionCount}`);
+  }
+
+  gIn.tracer.msg3(`A.W.: after action execute, msg: ${msg}`);
+  gIn.tracer.msg3(`A.W.: after action execute, val: ${result}`);
+  gIn.tracer.msg3(`A.W.: after action execute, act: ${act}`);
+  return pauseAndLogOk(logAction, startTime, noConsoleAndExceptions);
 };

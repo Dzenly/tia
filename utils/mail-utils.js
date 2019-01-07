@@ -4,7 +4,6 @@
 
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
-const Bluebird = require('bluebird');
 
 const fileUtils = require('./file-utils');
 
@@ -69,9 +68,7 @@ exports.send = function send(subj, htmlDif, txtDif, txtAttachments, zipAttachmen
     return;
   }
 
-  txtAttachments = txtAttachments.filter((txtAttachment) => {
-    return !fileUtils.isAbsent(txtAttachment);
-  });
+  txtAttachments = txtAttachments.filter(txtAttachment => !fileUtils.isAbsent(txtAttachment));
 
   mailOptions.html = htmlDif;
   mailOptions.text = txtDif; // TODO: ansi colors, check that text mails support them.
@@ -96,7 +93,7 @@ exports.send = function send(subj, htmlDif, txtDif, txtAttachments, zipAttachmen
     );
   }
 
-  return new Bluebird(((resolve, reject) => {
+  return new Promise(((resolve, reject) => {
     let attemptCounter = gT.engineConsts.mailAttemptsCount;
 
     function sendMail() {

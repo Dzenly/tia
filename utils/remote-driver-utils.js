@@ -7,7 +7,6 @@
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
-const Bluebird = require('bluebird');
 
 function getPidPath() {
   return path.join(gIn.params.testsParentDir, gT.engineConsts.remoteChromeDriverPid);
@@ -53,7 +52,7 @@ const ALREADY_STARTED = 'Remote driver is already started';
 const SHOULD_BE_ONLINE = 'Remote driver should be online';
 
 exports.start = function start1() {
-  return new Bluebird(resolve => {
+  return new Promise((resolve) => {
     gIn.tracer.msg3('Starting remote driver');
 
     const data = {
@@ -70,7 +69,7 @@ exports.start = function start1() {
 
       child.send(data);
 
-      child.on('message', msg => {
+      child.on('message', (msg) => {
         gIn.tracer.msg3(`Message from child proc: ${msg}`);
         gIn.tracer.msg3(SHOULD_BE_ONLINE);
 
@@ -93,7 +92,7 @@ exports.startOld = function startOld() {
     return Promise.resolve(ALREADY_STARTED);
   }
 
-  return new Bluebird(resolve => {
+  return new Promise((resolve) => {
     // http://stackoverflow.com/questions/37427360/parent-process-kills-child-process-even-though-detached-is-set-to-true
     // https://github.com/nodejs/node/issues/7269#issuecomment-225698625
 

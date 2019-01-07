@@ -8,10 +8,7 @@
 
 const path = require('path');
 
-global.Bluebird = require('bluebird');
 global._ = require('lodash');
-
-// Bluebird.cancellation = true;
 
 global.gT = {}; // Global object as namespace for objects which user (test writer) can use.
 global.gIn = {}; // Global object as namespace for inner objects.
@@ -70,4 +67,3 @@ gT.nodeUtils = require('../utils/nodejs-utils.js');
 gIn.wrap = require('./wrap.js');
 
 require('../api/api-index.js');
-

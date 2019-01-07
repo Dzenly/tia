@@ -5,7 +5,6 @@
 
 const fs = require('fs');
 const mPath = require('path');
-const Bluebird = require('bluebird');
 
 function nextScreenShotPath() {
   const jsPath = gIn.tInfo.data.path;
@@ -95,8 +94,7 @@ exports.close = function close(logAction) {
  * @returns {*}
  */
 exports.setBodyClicker = function setBodyClicker(logAction) {
-  return gIn.wrap('Set body clicker to keep session active ... ', logAction, () =>
-    exports.executeScriptWrapper(`
+  return gIn.wrap('Set body clicker to keep session active ... ', logAction, () => exports.executeScriptWrapper(`
     setInterval(function() {
       document.body.click();
     }
@@ -125,8 +123,7 @@ exports.executeScriptWrapper = function executeScriptWrapper(scriptStr) {
  * @returns a promise which will be resolved with script return value.
  */
 exports.executeScript = function executeScript(scriptStr, logAction) {
-  return gIn.wrap('Script execution ... ', logAction, () =>
-    exports.executeScriptWrapper(scriptStr)
+  return gIn.wrap('Script execution ... ', logAction, () => exports.executeScriptWrapper(scriptStr)
   );
 };
 
@@ -182,8 +179,7 @@ exports.setDbgOnClick = function setDbgOnClick(funcBody, logAction) {
  * @returns {*}
  */
 exports.setDebugMode = function setDebugMode(logAction) {
-  return gIn.wrap('Set debug mode ... ', logAction, () =>
-    exports.executeScriptWrapper('tia.debugMode = true;')
+  return gIn.wrap('Set debug mode ... ', logAction, () => exports.executeScriptWrapper('tia.debugMode = true;')
   );
 };
 
@@ -193,18 +189,16 @@ exports.setDebugMode = function setDebugMode(logAction) {
  * @param logAction
  * @returns {*}
  */
-exports.resetDebugMode = function(logAction) {
-  return gIn.wrap('Reset debug mode ... ', logAction, () =>
-    exports.executeScriptWrapper('tia.debugMode = false;')
+exports.resetDebugMode = function (logAction) {
+  return gIn.wrap('Reset debug mode ... ', logAction, () => exports.executeScriptWrapper('tia.debugMode = false;')
   );
 };
 
 exports.getDebugMode = function getDebugMode(logAction) {
-  return gIn.wrap('Get debug mode ... ', logAction, () =>
-    exports.executeScriptWrapper('return tia.debugMode;').then(res => {
-      gIn.logger.logIfNotDisabled(`${res} ... `, logAction);
-      return res;
-    })
+  return gIn.wrap('Get debug mode ... ', logAction, () => exports.executeScriptWrapper('return tia.debugMode;').then((res) => {
+    gIn.logger.logIfNotDisabled(`${res} ... `, logAction);
+    return res;
+  })
   );
 };
 
@@ -214,8 +208,7 @@ exports.getDebugMode = function getDebugMode(logAction) {
  * @returns {*}
  */
 exports.getCurUrl = function getCurUrl(logAction) {
-  return gIn.wrap('Getting URL ... ', logAction, () =>
-    gT.sOrig.driver.getCurrentUrl().then(res => gIn.textUtils.collapseHost(res))
+  return gIn.wrap('Getting URL ... ', logAction, () => gT.sOrig.driver.getCurrentUrl().then(res => gIn.textUtils.collapseHost(res))
   );
 };
 
@@ -225,11 +218,10 @@ exports.getCurUrl = function getCurUrl(logAction) {
  * @returns {*}
  */
 exports.getTitle = function getTitle(logAction) {
-  return gIn.wrap('Getting title ... ', logAction, () =>
-    gT.sOrig.driver.getTitle().then(res => {
-      gIn.tracer.msg3(`Title is : ${res}`);
-      return res;
-    })
+  return gIn.wrap('Getting title ... ', logAction, () => gT.sOrig.driver.getTitle().then((res) => {
+    gIn.tracer.msg3(`Title is : ${res}`);
+    return res;
+  })
   );
 };
 
@@ -245,7 +237,7 @@ exports.getTitle = function getTitle(logAction) {
  * @returns {Promise.<TResult>}
  */
 exports.printSelBrowserLogs = function printSelBrowserLogs() {
-  return gT.sOrig.logs.get(gT.sOrig.browserLogType).then(entries => {
+  return gT.sOrig.logs.get(gT.sOrig.browserLogType).then((entries) => {
     gIn.tracer.msg3('Begin of printSelBrowserLogs');
     for (const entry of entries) {
       const logStr = `SEL.BR.LOG: ${entry.level.name}: ${gIn.textUtils.collapseHost(
@@ -262,7 +254,7 @@ exports.printCaughtExceptions = function printCaughtExceptions(extAjaxFailures) 
     .executeScriptWrapper(
       `if (window.tia) return tia.getExceptions(${extAjaxFailures}); else return [];`
     )
-    .then(arr => {
+    .then((arr) => {
       gIn.tracer.msg3('Begin of printCaughtExceptions');
       for (const str of arr) {
         const logStr = `CAUGHT.BR.EXC: ${gIn.textUtils.removeSelSid(str)}`;
@@ -281,8 +273,7 @@ exports.printCaughtExceptions = function printCaughtExceptions(extAjaxFailures) 
  */
 // No log action intentionaly.
 exports.cleanExceptions = function cleanExceptions(extAjaxFailures, logAction) {
-  return gIn.wrap('Cleaning client exceptions: ... ', logAction, () =>
-    exports.executeScriptWrapper(`if (window.tia) tia.cleanExceptions(${extAjaxFailures});`)
+  return gIn.wrap('Cleaning client exceptions: ... ', logAction, () => exports.executeScriptWrapper(`if (window.tia) tia.cleanExceptions(${extAjaxFailures});`)
   );
 };
 
@@ -296,11 +287,10 @@ exports.cleanExceptions = function cleanExceptions(extAjaxFailures, logAction) {
  * @return {Promise}
  */
 exports.setWindowPosition = function setWindowPosition(x, y, logAction) {
-  return gIn.wrap(`Set Window Position: (${x}, ${y}) ... `, logAction, () =>
-    gT.sOrig.driver
-      .manage()
-      .window()
-      .setPosition(x, y)
+  return gIn.wrap(`Set Window Position: (${x}, ${y}) ... `, logAction, () => gT.sOrig.driver
+    .manage()
+    .window()
+    .setPosition(x, y)
   );
 };
 
@@ -313,11 +303,10 @@ exports.setWindowPosition = function setWindowPosition(x, y, logAction) {
  * @return {Promise}
  */
 exports.setWindowSize = function setWindowSize(width, height, logAction) {
-  return gIn.wrap(`Set Window Size: (${width}, ${height}) ... `, logAction, () =>
-    gT.sOrig.driver
-      .manage()
-      .window()
-      .setSize(width, height)
+  return gIn.wrap(`Set Window Size: (${width}, ${height}) ... `, logAction, () => gT.sOrig.driver
+    .manage()
+    .window()
+    .setSize(width, height)
   );
 };
 
@@ -327,13 +316,12 @@ exports.setWindowSize = function setWindowSize(width, height, logAction) {
  * @returns {*}
  */
 exports.getScreenResolution = function getScreenResolution(logAction) {
-  return gIn.wrap('Get screen resolution ... ', logAction, () =>
-    exports.executeScriptWrapper('return tia.getScreenResolution()').then(res => {
-      // Save resolution to emulate maximize.
-      gT.s.browser.screenWidth = res.width;
-      gT.s.browser.screenHeight = res.height;
-      return res;
-    })
+  return gIn.wrap('Get screen resolution ... ', logAction, () => exports.executeScriptWrapper('return tia.getScreenResolution()').then((res) => {
+    // Save resolution to emulate maximize.
+    gT.s.browser.screenWidth = res.width;
+    gT.s.browser.screenHeight = res.height;
+    return res;
+  })
   );
 };
 
@@ -361,7 +349,7 @@ exports.screenshot = function screenshot(logAction) {
   gIn.tracer.msg2('Inside screenshot function 1.');
   return gIn.wrap('Screenshot: ', logAction, () => {
     gIn.tracer.msg2('Inside screenshot function 2.');
-    return gT.sOrig.driver.takeScreenshot().then(str => {
+    return gT.sOrig.driver.takeScreenshot().then((str) => {
       gIn.tracer.msg2('Inside screenshot function 3.');
       if (gIn.tInfo.data.screenShotCounter > 99) {
         // TODO: place the constant to config (but code must be changed also)?
@@ -382,8 +370,7 @@ exports.screenshot = function screenshot(logAction) {
  * @returns {Promise.<TResult>}
  */
 exports.addCookie = function addCookie(name, value, logAction) {
-  return gIn.wrap(`Add cookie: "${name}": "${value}" ... `, logAction, () =>
-    gT.sOrig.driver.manage().addCookie(name, value)
+  return gIn.wrap(`Add cookie: "${name}": "${value}" ... `, logAction, () => gT.sOrig.driver.manage().addCookie(name, value)
   );
 };
 
@@ -421,8 +408,7 @@ exports.addCookieEx = function addCookieEx(
  * @returns {Promise.<TResult>}
  */
 exports.deleteCookie = function deleteCookie(name, logAction) {
-  return gIn.wrap(`Delete cookie: "${name}" ... `, logAction, () =>
-    gT.sOrig.driver.manage().deleteCookie(name)
+  return gIn.wrap(`Delete cookie: "${name}" ... `, logAction, () => gT.sOrig.driver.manage().deleteCookie(name)
   );
 };
 
@@ -433,8 +419,7 @@ exports.deleteCookie = function deleteCookie(name, logAction) {
  * @returns {Object} - JSON object.
  */
 exports.getCookie = function getCookie(name, logAction) {
-  return gIn.wrap(`Get cookie: "${name}" ... `, logAction, () =>
-    gT.sOrig.driver.manage().getCookie(name)
+  return gIn.wrap(`Get cookie: "${name}" ... `, logAction, () => gT.sOrig.driver.manage().getCookie(name)
   );
 };
 
@@ -444,11 +429,9 @@ exports.getCookie = function getCookie(name, logAction) {
  * @returns {Promise.<TResult>}
  */
 exports.cleanProfile = function cleanProfile(logAction) {
-  return gIn.wrap(`Cleaning profile: "${gIn.config.selProfilePath}" ... `, logAction, () =>
-    Bluebird.try(() => {
-      if (gIn.config.selProfilePath) {
-        gIn.fileUtils.emptyDir(mPath.join(gIn.suite.browserProfilePath, gIn.config.selProfilePath));
-      }
-    })
-  );
+  return gIn.wrap(`Cleaning profile: "${gIn.config.selProfilePath}" ... `, logAction, async () => {
+    if (gIn.config.selProfilePath) {
+      await gIn.fileUtils.emptyDir(mPath.join(gIn.suite.browserProfilePath, gIn.config.selProfilePath));
+    }
+  });
 };
