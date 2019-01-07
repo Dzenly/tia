@@ -40,13 +40,13 @@ global.idToIdObj = gT.idToIdObj = function idToIdObj(id) {
 //
 // gT.s.dummyPromiseRejected = function (msg) {
 //   return gIn.wrap('Dummy promise rejected: "' + msg, logAction, function () {
-//     return Bluebird.reject('Rejected');
+//     return Promise.reject('Rejected');
 //   });
 // };
 //
 // gT.s.dummyPromiseThrowed = function (msg) {
 //   return gIn.wrap('Dummy promise rejected: "' + msg, logAction, function () {
-//     return Bluebird.reject('Rejected');
+//     return Promise.reject('Rejected');
 //   });
 // };
 
