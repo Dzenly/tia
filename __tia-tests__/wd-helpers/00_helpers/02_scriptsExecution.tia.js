@@ -1,5 +1,7 @@
 'use strict';
 
+const { t, l, s } = gT;
+
 async function test() {
   t.setTitle('Test for client exceptions');
   await s.driver.init();

@@ -8,8 +8,6 @@
 
 const path = require('path');
 
-global._ = require('lodash');
-
 global.gT = {}; // Global object as namespace for objects which user (test writer) can use.
 global.gIn = {}; // Global object as namespace for inner objects.
 

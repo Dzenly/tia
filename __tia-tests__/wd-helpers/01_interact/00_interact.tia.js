@@ -1,5 +1,7 @@
 'use strict';
 
+const { t, l, s } = gT;
+
 async function test() {
   t.setTitle('Test for client interaction with a browser');
   await s.driver.init();

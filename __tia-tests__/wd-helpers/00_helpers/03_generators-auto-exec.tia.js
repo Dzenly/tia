@@ -1,3 +1,5 @@
+const { t, l, s } = gT;
+
 function* generator1(a, b, c, d) {
   t.setTitle('Test for generator runner, auto exec call');
   l.println(`a: ${a}, b: ${b}, c: ${c}, d: ${d}`);

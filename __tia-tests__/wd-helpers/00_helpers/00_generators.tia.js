@@ -1,4 +1,5 @@
 module.exports = function* generator1() {
+  const { t, l } = gT;
   t.setTitle('Test for generator runner');
   l.println(yield gT.u.promise.delayed(500, 'value1'));
   l.println(yield gT.u.promise.delayed(500, 'value2'));

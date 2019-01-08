@@ -28,8 +28,6 @@ require('./log/log-index');
  */
 gT.lL = require('./low-level.js');
 
-global.lL = gT.lL;
-
 // ==================================================
 
 /**
@@ -38,8 +36,6 @@ global.lL = gT.lL;
  * @type {{}}
  */
 gT.t = require('./test.js');
-
-global.t = gT.t;
 
 // ==================================================
 
@@ -54,8 +50,6 @@ gIn.wrap = require('./../engine/wrap.js');
  */
 gT.a = require('./assertions.js');
 
-global.a = gT.a;
-
 // ==================================================
 
 /**
@@ -63,7 +57,6 @@ global.a = gT.a;
  * @type {{}}
  */
 gT.s = {};
-global.s = gT.s;
 
 require('./selenium/sel-index.js');
 
@@ -74,7 +67,6 @@ require('./selenium/sel-index.js');
  * @type {{}}
  */
 gT.u = {};
-global.u = gT.u;
 
 require('./utils/utils-index.js');
 

@@ -1,3 +1,5 @@
+const { t, l, s } = gT;
+
 function issueClientException(logAction) {
   return s.browser.executeScript('setTimeout(function() { DsgwDwd3 += 8;}, 0)');
 }

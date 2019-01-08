@@ -11,7 +11,6 @@ const fs = require('fs');
  * @type {{}}
  */
 gT.e = {};
-global.e = gT.e;
 
 // Find.
 // Wait.

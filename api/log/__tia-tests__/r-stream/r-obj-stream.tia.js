@@ -1,5 +1,7 @@
 'use strict';
 
+const { t, l, s } = gT;
+
 const { Readable } = require('stream');
 
 module.exports = async function test() {
