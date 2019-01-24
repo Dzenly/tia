@@ -1,5 +1,7 @@
 'use strict';
 
+const { t, a, l } = gT;
+
 t.setTitle('Tests for equalDeep assertion');
 
 let number1 = 5;

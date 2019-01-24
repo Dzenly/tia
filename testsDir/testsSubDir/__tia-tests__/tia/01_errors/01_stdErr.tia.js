@@ -1,3 +1,5 @@
+const { t, a, l } = gT;
+
 t.setTitle('TODO (LOW PRIORITY): catch messages from stderr');
 
 l.println('This log should contain message from stderr');

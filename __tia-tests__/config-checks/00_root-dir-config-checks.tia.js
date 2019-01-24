@@ -1,6 +1,6 @@
 'use strict';
 
-t.setTitle('Root dir: Checking config and suite-config work.');
+gT.t.setTitle('Root dir: Checking config and suite-config work.');
 
 gT.a.value(gIn.config.existingRootDirConfigOption, 'existingRootDirConfigOption', 'Root dir config check');
 gT.a.value(gT.suiteConfig.existingRootSuiteConfigOption, 'existingRootSuiteConfigOption', 'Root suite config check');

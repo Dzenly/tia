@@ -209,7 +209,7 @@ module.exports = async function wrap(msg, logAction, act, noConsoleAndExceptions
   let result; // Return value from wrapped function.
 
   try {
-    result = gT.u.promise.wait(actResultPromise, gIn.params.hangTimeout);
+    result = await gT.u.promise.wait(actResultPromise, gIn.params.hangTimeout);
   } catch (err) {
     if (err === gT.u.promise.timeoutError) {
       gIn.logger.errorln('A.W.: Hanged action detected');
@@ -263,5 +263,6 @@ module.exports = async function wrap(msg, logAction, act, noConsoleAndExceptions
   gIn.tracer.msg3(`A.W.: after action execute, msg: ${msg}`);
   gIn.tracer.msg3(`A.W.: after action execute, val: ${result}`);
   gIn.tracer.msg3(`A.W.: after action execute, act: ${act}`);
-  return pauseAndLogOk(logAction, startTime, noConsoleAndExceptions);
+  await pauseAndLogOk(logAction, startTime, noConsoleAndExceptions);
+  return result;
 };

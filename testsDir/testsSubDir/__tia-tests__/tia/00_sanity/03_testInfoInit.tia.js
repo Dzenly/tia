@@ -1,3 +1,5 @@
+const { t, a, l } = gT;
+
 l.println('Freshly inited test info, empty title, verbose:');
 l.println(gIn.tInfo.testInfoToString({
   curInfo: gIn.tInfo.data,

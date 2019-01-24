@@ -1,3 +1,5 @@
+const { t, a, l } = gT;
+
 t.setTitle('2 messages and 3 passes.');
 
 l.println('Message 1 of 2');

@@ -1,3 +1,5 @@
+const { t, a } = gT;
+
 t.setTitle('Checking that all global variables are exist and correct.');
 
 a.true(typeof gT !== 'undefined', 'gT exists');

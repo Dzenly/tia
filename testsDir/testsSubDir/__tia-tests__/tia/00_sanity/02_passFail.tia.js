@@ -1,3 +1,5 @@
+const { t, a, l, lL } = gT;
+
 t.setTitle('Check for pass and fail work');
 
 l.fail();

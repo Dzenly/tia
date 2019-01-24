@@ -1,3 +1,5 @@
+const { t, a, l } = gT;
+
 t.setTitle('Test for ignorePassAndFailCounters config option');
 
 l.pass();

@@ -1,3 +1,5 @@
+const { t, a, l } = gT;
+
 t.setTitle('Expected dif test');
 
 l.println('This string exists in etalon log');

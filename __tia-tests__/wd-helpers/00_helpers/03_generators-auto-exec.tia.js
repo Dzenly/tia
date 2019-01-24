@@ -1,4 +1,4 @@
-const { t, l, s } = gT;
+const { t, l, s, u } = gT;
 
 function* generator1(a, b, c, d) {
   t.setTitle('Test for generator runner, auto exec call');

@@ -1,6 +1,7 @@
 'use strict';
 
 const { result } = require('../common-misc-utils.js');
+const { t, l } = gT;
 
 const obj = {
   a: {
