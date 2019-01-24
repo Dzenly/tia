@@ -100,7 +100,7 @@ module.exports = {
   // If retry count is 0 the only one attempt to click combobox will be performed.
   cbRetryClicksCount: 2,
 
-  cbBoundListTimeout: 5000, // milliseconds for waiting of bound list to be opened after click on combobox.
+  cbBoundListTimeout: 7000, // milliseconds for waiting of bound list to be opened after click on combobox.
 
   // milliseconds for waiting of ajax requests after clicks.
   // This is actual for lazy loading some stuff at clicking.

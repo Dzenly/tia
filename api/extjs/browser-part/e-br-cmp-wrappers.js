@@ -81,7 +81,10 @@
     // getEl, getId, getMenu, getText, getValue,
     //
 
-    return wrappedCmp;
+    return {
+      cmp: cmp,
+      cmpInfo: wrappedCmp
+    };
 
     // TODO: только это надо сделать в серверной части.
     // return {

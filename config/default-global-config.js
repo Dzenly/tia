@@ -6,5 +6,11 @@ module.exports = {
   // To unify project name in logs you can use this option.
   // rootDirAlias: 'rootDirAlias',
 
+  // The URL for remote web driver.
+  remoteDriverUrl: 'http://localhost',
+
+  // The Port for remote web driver.
+  remoteDriverPort: 9515,
+
   dummyOptionForTests: 'dummyOptionForTests',
 };

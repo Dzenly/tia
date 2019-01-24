@@ -194,17 +194,21 @@ if (!args.requireModules) {
 gT.rootTestsDirPath = path.join(gIn.params.rootDir, gT.engineConsts.suiteDirName);
 
 // =====================
-const rootSuiteConfig = nodeUtils.requireIfExists(path.join(
+gT.rootResultsDir = path.join(
   gT.rootTestsDirPath,
-  gT.engineConsts.rootResDirName,
+  gT.engineConsts.rootResDirName
+);
+
+// =====================
+const rootSuiteConfig = nodeUtils.requireIfExists(path.join(
+  gT.rootResultsDir,
   gT.engineConsts.suiteRootConfigName
 ));
 gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.suiteConfigDefault), rootSuiteConfig);
 
 // =====================
 const globalConfig = nodeUtils.requireIfExists(path.join(
-  gT.rootTestsDirPath,
-  gT.engineConsts.rootResDirName,
+  gT.rootResultsDir,
   gT.engineConsts.globalConfigName
 ));
 gT.globalConfig = _.merge(_.cloneDeep(gT.globalConfigDefault), globalConfig);
@@ -231,16 +235,14 @@ if (gIn.params.dir) {
 
 // =====================
 const rootDirConfig = nodeUtils.requireIfExists(path.join(
-  gT.rootTestsDirPath,
-  gT.engineConsts.rootResDirName,
+  gT.rootResultsDir,
   gT.engineConsts.dirRootConfigName
 ));
 gT.rootDirConfig = _.merge(_.cloneDeep(gT.dirConfigDefault), rootDirConfig);
 
 // =====================
 gT.rootLog = path.join(
-  gT.rootTestsDirPath,
-  gT.engineConsts.rootResDirName,
+  gT.rootResultsDir,
   gT.engineConsts.rootLogName + gT.engineConsts.logExtension
 );
 

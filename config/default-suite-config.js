@@ -19,12 +19,6 @@ module.exports = {
   // Remove zip after sending mail.
   removeZipAfterSend: true,
 
-  // The URL for remote web driver.
-  remoteDriverUrl: 'http://localhost',
-
-  // The Port for remote web driver.
-  remoteDriverPort: 9515,
-
   // Note: use tia-suite-config.js to specify email parameters.
 
   // To whom TIA should send emails.

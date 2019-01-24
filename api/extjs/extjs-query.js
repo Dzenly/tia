@@ -31,7 +31,7 @@ exports.any = function any(compQuery, logAction) {
     `Searching id by compQuery: ${compQuery} ... `,
     logAction,
     () => gT.s.browser.executeScriptWrapper(
-      `return tiaEJ.search.byCompQuery('${compQuery}')`
+      `return tiaEJ.searchAndWrap.byCompQuery('${compQuery}')`
     )
       .then(wrap)
   );

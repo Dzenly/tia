@@ -116,7 +116,7 @@ exports.usage = function usage() {
       --log-to-console print test logs to console.
 
       --new Run only new tests. I.e. tests without etalon logs. Just to debug them and get their logs.
-      Note: Tests without etalog logs are ignored without this option.
+      Note: Tests without etalon logs are ignored without this option.
 
       --pattern <pattern> - pattern for tests to run.
       , any test which file path (relative to <testSuiteRoot>) contains <pathToDirOrTest> substring will run.

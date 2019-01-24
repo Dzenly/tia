@@ -9,7 +9,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 
 function getPidPath() {
-  return path.join(gIn.params.testsParentDir, gT.engineConsts.remoteChromeDriverPid);
+  return path.join(gT.rootResultsDir, gT.engineConsts.remoteChromeDriverPid);
 }
 
 function savePid(pid) {
@@ -29,7 +29,7 @@ function getPid() {
 }
 
 function getSidPath() {
-  return path.join(gIn.params.testsParentDir, gT.engineConsts.remoteChromeDriverSid);
+  return path.join(gT.rootResultsDir, gT.engineConsts.remoteChromeDriverSid);
 }
 
 exports.saveSid = function saveSid(sid) {
@@ -51,14 +51,20 @@ exports.getSid = function getSid() {
 const ALREADY_STARTED = 'Remote driver is already started';
 const SHOULD_BE_ONLINE = 'Remote driver should be online';
 
-exports.start = function start1() {
+exports.start = async function startNew() {
+
+  if (getPid()) {
+    gIn.tracer.msg3(ALREADY_STARTED);
+    return ALREADY_STARTED;
+  }
+
   return new Promise((resolve) => {
     gIn.tracer.msg3('Starting remote driver');
 
     const data = {
       chromeDriverPath: gIn.chromeDriverPath,
       pidPath: getPidPath(),
-      port: gT.suiteConfig.remoteDriverPort,
+      port: gT.globalConfig.remoteDriverPort,
       waitAfterStart: gT.engineConsts.remoteDriverStartDelay,
     };
 
@@ -81,22 +87,23 @@ exports.start = function start1() {
   });
 };
 
-// TODO: it is temporary. Fix it.
+// TODO: The same problem still here.
+// https://stackoverflow.com/questions/38207590/nodejs-detached-child-process-killed-when-parent-process-is-killed
 /**
  * starts remote chromedriver
  * @returns {Promise}
  */
-exports.startOld = function startOld() {
+exports.startOld = async function startOld() {
   if (getPid()) {
     gIn.tracer.msg3(ALREADY_STARTED);
-    return Promise.resolve(ALREADY_STARTED);
+    return ALREADY_STARTED;
   }
 
   return new Promise((resolve) => {
     // http://stackoverflow.com/questions/37427360/parent-process-kills-child-process-even-though-detached-is-set-to-true
     // https://github.com/nodejs/node/issues/7269#issuecomment-225698625
 
-    const child = spawn(gIn.chromeDriverPath, [`--port=${gT.suiteConfig.remoteDriverPort}`], {
+    const child = spawn(gIn.chromeDriverPath, [`--port=${gT.globalConfig.remoteDriverPort}`], {
       detached: true,
       stdio: ['ignore', 'ignore', 'ignore'],
     });
@@ -105,6 +112,7 @@ exports.startOld = function startOld() {
 
     setTimeout(() => {
       child.unref();
+      // child.disconnect();
 
       // TODO: may be check remote chromedriver somehow ? instead o sleep.
       gIn.tracer.msg3(SHOULD_BE_ONLINE);
@@ -114,7 +122,6 @@ exports.startOld = function startOld() {
     // child.stdout.on('data', (data) => {
     //   gIn.tracer.trace2('Output from chromedriver: ' + data);
     // });
-    // child.disconnect();
   });
 };
 

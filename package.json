@@ -6,13 +6,8 @@
     "tia": "bin/tia.js"
   },
   "scripts": {
-    "test": "tia --run-self-tests",
-    "lint": "tslint './**/*.{ts}'",
-    "build": "tsc",
-    "prepublish": "build"
+    "test": "tia --run-self-tests"
   },
-  "types": "build",
-  "typings": "build",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Dzenly/tia.git"

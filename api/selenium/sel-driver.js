@@ -151,8 +151,8 @@ exports.init = function init(cleanProfile, logAction) {
     if (gIn.params.useRemoteDriver) {
       const sid = gIn.remoteDriverUtils.getSid();
 
-      const remoteDriverConnectionStr = `${gT.suiteConfig.remoteDriverUrl}:${
-        gT.suiteConfig.remoteDriverPort
+      const remoteDriverConnectionStr = `${gT.globalConfig.remoteDriverUrl}:${
+        gT.globalConfig.remoteDriverPort
       }`;
 
       if (sid) {
