@@ -99,7 +99,7 @@
       if (boundList.isXType('tablepanel')) {
         boundList = boundList.getView();
       }
-      window.c3 = boundList;
+      // window.c3 = boundList;
       var res = boundList.getNode(index);
       if (!res) {
         throw new Error('getCBItemByIndex: can not find node with index: ' + index);

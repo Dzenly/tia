@@ -191,7 +191,7 @@
     },
 
     getRefHolderInfo: function getRefHolderInfo(comp) {
-      var refHolder = comp.lookupReferenceHolder();
+      var refHolder = comp.lookupReferenceHolder(false);
       var res = [
         this.consts.avgSep,
         'lookupReferenceHolder() info: '];
@@ -293,7 +293,7 @@
       // getController?
 
       // Private member.
-      // var refHolder = comp.lookupReferenceHolder();
+      // var refHolder = comp.lookupReferenceHolder(false);
       // alert(refHolder.$className);
 
       var getReferencesStr = '';

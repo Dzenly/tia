@@ -4,20 +4,15 @@
 
 /* globals gIn: true */
 
-function delayIfNeeded() {
+async function delayIfNeeded() {
   if (gT.engineConsts.extJsClickDelay) {
-    return gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
+    await gT.s.driver.sleep(gT.engineConsts.extJsClickDelay, false);
   }
-  return Promise.resolve();
 }
 
 exports.clickAndWaitForAjaxFinish = function clickAndWaitForAjaxFinish(webEl, waitTimeout) {
   waitTimeout = waitTimeout || gT.engineConsts.ajaxTimeoutAfterClick;
-  return delayIfNeeded().then(() => {
-    return webEl.click().then(function() {
-      return gT.e.wait.idle(waitTimeout, false);
-    });
-  });
+  return delayIfNeeded().then(() => webEl.click().then(() => gT.e.wait.idle(waitTimeout, false)));
 };
 
 exports.delayClickAndWaitForAjaxFinish = function delayClickAndWaitForAjaxFinish(
@@ -29,9 +24,7 @@ exports.delayClickAndWaitForAjaxFinish = function delayClickAndWaitForAjaxFinish
     return (isDblClick
       ? new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform()
       : webEl.click()
-    ).then(function() {
-      return gT.e.wait.idle(undefined, false);
-    });
+    ).then(() => gT.e.wait.idle(undefined, false));
   });
 };
 
@@ -41,7 +34,7 @@ exports.createFuncPrintTextDelayClick = function createFuncPrintTextDelayClick(
   logAction
 ) {
   if (noPrint) {
-    return function (webEl) {
+    return function delayClickAndWaitForAjaxFinishWrapper(webEl) {
       return exports.delayClickAndWaitForAjaxFinish(webEl, isDblClick);
     };
   }
@@ -51,39 +44,34 @@ exports.createFuncPrintTextDelayClick = function createFuncPrintTextDelayClick(
       .then(
         (text) => {
           // Using of selenium queue, so not then.then.
-          gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
+          gIn.logger.logIfNotDisabled(`, Item text: "${text}" ... `, logAction);
         },
         (err) => {
           gIn.tracer.err(err);
           throw new Error(gT.engineConsts.elGetTextFail);
         }
       )
-      .then(() => {
-        return exports.delayClickAndWaitForAjaxFinish(webEl, isDblClick);
-      });
+      .then(() => exports.delayClickAndWaitForAjaxFinish(webEl, isDblClick));
   };
 };
 
 function createFuncPrintTextAndClickTableRow(logAction) {
   return function (webEl) {
-    return webEl.findElement(gT.sOrig.by.css('.x-tree-node-text')).then((el) => {
-      return el.getText().then(function(text) {
-        // Using of selenium queue, so not then.then.
-        gIn.logger.logIfNotDisabled(', Item text: "' + text + '" ... ', logAction);
-        return exports.delayClickAndWaitForAjaxFinish(el);
-      });
-    });
+    return webEl.findElement(gT.sOrig.by.css('.x-tree-node-text')).then(el => el.getText().then((text) => {
+      // Using of selenium queue, so not then.then.
+      gIn.logger.logIfNotDisabled(`, Item text: "${text}" ... `, logAction);
+      return exports.delayClickAndWaitForAjaxFinish(el);
+    }));
   };
 }
 
 // Note that for tree only expanded nodes are taking into account.
 exports.tableItemByIndex = function tableItemByIndex(tableId, tableName, itemIndex, logAction) {
-  return gIn.wrap(`Click table '${tableName}' item by index '${itemIndex}'`, logAction, () => {
-    return gT.s.browser
-      .executeScript(`return tiaEJ.hEById.getTableItemByIndex('${tableId}', ${itemIndex});`, false)
-      .then(createFuncPrintTextAndClickTableRow(logAction))
-      .then(gT.s.driver.getStupidSleepFunc()); // Stupid assurance.;
-  });
+  return gIn.wrap(`Click table '${tableName}' item by index '${itemIndex}'`, logAction, () => gT.s.browser
+    .executeScript(`return tiaEJ.hEById.getTableItemByIndex('${tableId}', ${itemIndex});`, false)
+    .then(createFuncPrintTextAndClickTableRow(logAction))
+    .then(gT.s.driver.getStupidSleepFunc()) // Stupid assurance.;
+  );
 };
 
 exports.tableItemByField = function tableItemByField(
@@ -99,17 +87,16 @@ exports.tableItemByField = function tableItemByField(
       fieldValue
     )}, fieldName: '${fieldName}'`,
     logAction,
-    () => {
-      return gT.s.browser
-        .executeScript(
-          `return tiaEJ.hEById.getTableItemByField('${tableId}', ${gT.s.browser.valueToParameter(
-            fieldValue
-          )}, '${fieldName}');`,
-          false
-        )
-        .then(createFuncPrintTextAndClickTableRow(logAction))
-        .then(gT.s.driver.getStupidSleepFunc()); // Stupid assurance.
-    }
+    () => gT.s.browser
+      .executeScript(
+        `return tiaEJ.hEById.getTableItemByField('${tableId}', ${gT.s.browser.valueToParameter(
+          fieldValue
+        )}, '${fieldName}');`,
+        false
+      )
+      .then(createFuncPrintTextAndClickTableRow(logAction))
+      .then(gT.s.driver.getStupidSleepFunc()) // Stupid assurance.
+
   );
 };
 
@@ -124,44 +111,38 @@ exports.tableItemByFieldLocKey = function tableItemByFieldLocKey(
   return gIn.wrap(
     `Click table '${tableName}' item, fieldValue: '${fieldValueKey}', fieldName: '${fieldName}'`,
     logAction,
-    () => {
-      return gT.s.browser
-        .executeScript(
-          `return tiaEJ.hEById.getTableItemByFieldLocKey('${tableId}', '${fieldValueKey}', '${fieldName}');`,
-          false
-        )
-        .then(createFuncPrintTextAndClickTableRow(logAction))
-        .then(gT.s.driver.getStupidSleepFunc()); // Stupid assurance.
-    }
+    () => gT.s.browser
+      .executeScript(
+        `return tiaEJ.hEById.getTableItemByFieldLocKey('${tableId}', '${fieldValueKey}', '${fieldName}');`,
+        false
+      )
+      .then(createFuncPrintTextAndClickTableRow(logAction))
+      .then(gT.s.driver.getStupidSleepFunc()) // Stupid assurance.
+
   );
 };
 
 // TODO: probably it is safe now to print tableId.
 exports.tableItemByFieldId = function tableItemByFieldId(tableId, tableName, id, logAction) {
-  return gIn.wrap(`Click table '${tableName}' item, with id: '${id}'`, logAction, () => {
-    return gT.s.browser
-      .executeScript(
-        `return tiaEJ.hEById.getTableItemByField('${tableId}', ${gT.s.browser.valueToParameter(
-          id
-        )}, 'id');`,
-        false
-      )
-      .then(createFuncPrintTextAndClickTableRow(logAction))
-      .then(gT.s.driver.getStupidSleepFunc()); // Stupid assurance.
-  });
+  return gIn.wrap(`Click table '${tableName}' item, with id: '${id}'`, logAction, () => gT.s.browser
+    .executeScript(
+      `return tiaEJ.hEById.getTableItemByField('${tableId}', ${gT.s.browser.valueToParameter(
+        id
+      )}, 'id');`,
+      false
+    )
+    .then(createFuncPrintTextAndClickTableRow(logAction))
+    .then(gT.s.driver.getStupidSleepFunc()) // Stupid assurance.
+  );
 };
 
 exports.fieldByFormIdName = function fieldByFormIdName(formId, name, logAction) {
   return gIn.wrap(
     `Click form field item by formId: ${formId}, name: ${name} ... `,
     logAction,
-    () => {
-      return gT.s.browser
-        .executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
-        .then(function(inputEl) {
-          return exports.delayClickAndWaitForAjaxFinish(inputEl);
-        });
-    }
+    () => gT.s.browser
+      .executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
+      .then(inputEl => exports.delayClickAndWaitForAjaxFinish(inputEl))
   );
 };
 
@@ -170,11 +151,9 @@ exports.checkBoxByFormIdName = function checkBoxByFormIdName(formId, name, logAc
   return gIn.wrap(
     `Click checkBox (name: ${name}) on form ${formId.logStr} ... `,
     logAction,
-    () => {
-      return gT.s.browser
-        .executeScript(`return tiaEJ.hEById.getElByFormName('${formId.id}', '${name}');`, false)
-        .then(exports.createFuncPrintTextDelayClick(false, false, logAction));
-    }
+    () => gT.s.browser
+      .executeScript(`return tiaEJ.hEById.getElByFormName('${formId.id}', '${name}');`, false)
+      .then(exports.createFuncPrintTextDelayClick(false, false, logAction))
   );
 };
 
@@ -195,11 +174,9 @@ function createFuncDelayAndClickById(callerName) {
  * @returns {*}
  */
 exports.tabByIdItemId = function tabByIdItemId(id, itemId, logAction) {
-  return gIn.wrap(`Click on tab ${itemId} of component ${id} ... `, logAction, () => {
-    return gT.s.browser
-      .executeScriptWrapper(`return tiaEJ.searchId.tabByIdItemId('${id}', '${itemId}')`)
-      .then(createFuncDelayAndClickById('clickTabByIdItemId'));
-  });
+  return gIn.wrap(`Click on tab ${itemId} of component ${id} ... `, logAction, () => gT.s.browser
+    .executeScriptWrapper(`return tiaEJ.searchId.tabByIdItemId('${id}', '${itemId}')`)
+    .then(createFuncDelayAndClickById('clickTabByIdItemId')));
 };
 
 /**
@@ -212,11 +189,9 @@ exports.tabByIdItemId = function tabByIdItemId(id, itemId, logAction) {
  * Object: str for search, str for log.
  */
 exports.tabByIdText = function tabByIdText(id, text, logAction) {
-  return gIn.wrap(`Click on tab with text ${text} of component ${id} ... `, logAction, () => {
-    return gT.s.browser
-      .executeScriptWrapper(`return tiaEJ.searchId.tabByIdText ('${id}', '${text}')`)
-      .then(createFuncDelayAndClickById('clickTabByIdText'));
-  });
+  return gIn.wrap(`Click on tab with text ${text} of component ${id} ... `, logAction, () => gT.s.browser
+    .executeScriptWrapper(`return tiaEJ.searchId.tabByIdText ('${id}', '${text}')`)
+    .then(createFuncDelayAndClickById('clickTabByIdText')));
 };
 
 /**
@@ -232,11 +207,9 @@ exports.tabByIdLocKey = function tabByIdLocKey(id, locKey, logAction) {
   return gIn.wrap(
     `Click on tab with locale key ${locKey} of component ${id} ... `,
     logAction,
-    () => {
-      return gT.s.browser
-        .executeScriptWrapper(`return tiaEJ.searchId.tabByIdLocKey('${id}', '${locKey}')`)
-        .then(createFuncDelayAndClickById('clickTabByIdLocKey'));
-    }
+    () => gT.s.browser
+      .executeScriptWrapper(`return tiaEJ.searchId.tabByIdLocKey('${id}', '${locKey}')`)
+      .then(createFuncDelayAndClickById('clickTabByIdLocKey'))
   );
 };
 
@@ -251,12 +224,10 @@ exports.tabByIdLocKey = function tabByIdLocKey(id, locKey, logAction) {
  */
 exports.compByIdRefKey = function compByIdRefKey(id, ref, key, logAction) {
   return gIn.wrap(
-    `Click on tab by id (${id}), reference (${ref}), key ${key} ... `,
+    `Click component by id (${id}), reference (${ref}), key ${key} ... `,
     logAction,
-    () => {
-      return gT.s.browser
-        .executeScriptWrapper(`return tiaEJ.searchId.byIdRefKey('${id}', '${ref}', '${key}')`)
-        .then(createFuncDelayAndClickById('clickByIdRefKey'));
-    }
+    () => gT.s.browser
+      .executeScriptWrapper(`return tiaEJ.searchId.byIdRefKey('${id}', '${ref}', '${key}')`)
+      .then(createFuncDelayAndClickById('clickByIdRefKey'))
   );
 };

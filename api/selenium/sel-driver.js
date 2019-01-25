@@ -21,7 +21,7 @@ function createBrowserProfile() {
  * But default value if false if there is not custom user profile.
  * There is an issue with custom profile on Windows. Profile is not saved after browser closing.
  */
-exports.init = function init(cleanProfile, logAction) {
+exports.init = async function init(cleanProfile, logAction) {
   if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
     logAction = false;
   }
@@ -47,7 +47,7 @@ exports.init = function init(cleanProfile, logAction) {
     profileInfo = '(with default empty profile)';
   }
 
-  return gIn.wrap(`Initialization ${profileInfo} ... `, logAction, () => {
+  return gIn.wrap(`Initialization ${profileInfo} ... `, logAction, async () => {
     if (cleanProfile) {
       gT.s.cleanProfile(false);
     }
@@ -214,6 +214,10 @@ exports.init = function init(cleanProfile, logAction) {
     }
 
     gT.sOrig.logs = gT.sOrig.driver.manage().logs();
+
+    if (gIn.params.useRemoteDriver) {
+      return;
+    }
 
     // Trying to fix chromedriver issue 817 by delay.
     // https://bugs.chromium.org/p/chromedriver/issues/detail?id=817#c21

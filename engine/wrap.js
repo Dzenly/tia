@@ -170,7 +170,7 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
  * @param {Object|String} msg - a message to log. String msg is deprecated.
  * @param logAction - is logging enabled.
  * @param act - function.
- * @param noConsoleAndExceptions
+ * @param noConsoleAndExceptions (?? for error handling inside error handling ?)
  * @returns {*} - Promise will be resolved to value or to exception.
  * @throws - Various errors.
  */

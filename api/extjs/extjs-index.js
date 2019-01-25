@@ -94,8 +94,15 @@ gT.e.lClick.cb = require('./extjs-l-clicks-cb.js');
 
 gT.e.wait = require('./extjs-waits.js');
 
-gT.e.query = require('./extjs-query.js');
+gT.e.query = require('./query/extjs-query.js');
+
+gT.e.query.search = require('./query/selenium-search');
+gT.e.query.actions = require('./query/selenium-actions');
+
 gT.e.queryFromParent = require('./extjs-query-from-parent.js');
 
 gT.e.q = gT.e.query;
 gT.e.qp = gT.e.queryFromParent;
+
+gT.e.q.s = gT.e.query.search;
+gT.e.q.a = gT.e.query.actions;

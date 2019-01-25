@@ -4,7 +4,10 @@ const { inspect } = require('util');
 
 exports.byIdRef = function byIdRef(id, ref, logAction) {
   id = gT.s.idToIdObj(id);
-  return gIn.wrap(`Searching id by container ${id.logStr}, reference: ${ref} ... `, logAction, () => gT.s.browser.executeScriptWrapper(`return tiaEJ.searchId.byIdRef('${id.id}', '${ref}')`)
+  return gIn.wrap(
+    `Searching id by container ${id.logStr}, reference: ${ref} ... `,
+    logAction,
+    () => gT.s.browser.executeScriptWrapper(`return tiaEJ.searchId.byIdRef('${id.id}', '${ref}')`)
     .then((foundId) => {
       gIn.tracer.msg3(`byIdRef, found id: ${foundId}`);
       return foundId;

@@ -44,13 +44,29 @@
       return cmp;
     },
 
+    byFakeId: function byFakeId(fakeId) {
+      var realId = tiaEJ.idMap.getRealId(fakeId);
+      if (!realId) {
+        throw new Error('No realId for fakeId: ' + fakeId);
+      }
+      var cmp = Ext.getCmp(realId); // good getCmp using.
+      if (typeof cmp === 'undefined') {
+        var err = new Error('Component not found for fakeId: ' + fakeId + ', realId: ' + realId);
+        throw err;
+      }
+      if (cmp === null) {
+        throw new Error('Class was found instead of component for fakeId: ' + fakeId + ', realId: ' + realId);
+      }
+      return cmp;
+    },
+
     /**
      * Gets component using id and reference.
      * @param id - component HTML id.
      * @param ref - reference inside component found by id.
      */
     byIdRef: function byIdRef(id, ref) {
-      var cmp = this.byId(id).lookupReferenceHolder().lookupReference(ref);
+      var cmp = this.byId(id).lookupReferenceHolder(false).lookupReference(ref);
       if (!cmp) {
         throw new Error('Component not found for container id: ' + id + ', reference: ' + ref);
       }
