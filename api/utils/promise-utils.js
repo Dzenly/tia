@@ -17,7 +17,13 @@ exports.timeoutError = 'timeoutError';
 exports.wait = function wait(promiseToWait, ms) {
   let rejectBecauseTimeout = true;
   return new Promise((resolve, reject) => {
+
+    let timeoutId = null;
+
     promiseToWait.then((result) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
       rejectBecauseTimeout = false;
       resolve(result);
     }).catch((err) => {
@@ -25,10 +31,11 @@ exports.wait = function wait(promiseToWait, ms) {
       reject(err);
     });
 
-    setTimeout(() => {
+    timeoutId = setTimeout(() => {
       if (rejectBecauseTimeout) {
         reject(exports.timeoutError);
       }
     }, ms);
+
   });
 };
