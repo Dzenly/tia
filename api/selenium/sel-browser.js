@@ -353,7 +353,7 @@ exports.screenshot = function screenshot(logAction) {
       gIn.tracer.msg2('Inside screenshot function 3.');
       if (gIn.tInfo.data.screenShotCounter > 99) {
         // TODO: place the constant to config (but code must be changed also)?
-        return Promise.reject('Too many screenshoots');
+        throw new Error('Too many screenshoots');
       }
       const shotPath = nextScreenShotPath();
       gT.l.print(`${shotPath} ... `);
@@ -370,7 +370,10 @@ exports.screenshot = function screenshot(logAction) {
  * @returns {Promise.<TResult>}
  */
 exports.addCookie = function addCookie(name, value, logAction) {
-  return gIn.wrap(`Add cookie: "${name}": "${value}" ... `, logAction, () => gT.sOrig.driver.manage().addCookie(name, value)
+  return gIn.wrap(
+    `Add cookie: "${name}": "${value}" ... `,
+    logAction,
+    () => gT.sOrig.driver.manage().addCookie(name, value)
   );
 };
 

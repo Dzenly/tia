@@ -167,16 +167,18 @@ exports.usage = function usage() {
       --trace-level <level> enables tracing (1 | 2 | 3 )
       (1 - less verbose, 3 - maximum verbosity, 0 - forbids tracing).
 
-      --use-remote-driver - (for chromedriver only). Starts the browser driver (if it is not already started),
+      --use-remote-driver - (for chromedriver only).
+      Starts the browser driver in a separate process (if it is not already started),
       and forces s.driver.init() to use this external driver.
       This is convenient for test debugging.
       This option allows to use the same page opened in the browser for different node.js processes.
-      I.e. in the first run you can load needed page, performs some actions with the page, exits.
-      The next process ("node tia"  run) - performs other actions. Etc.
-      The variable gT.firstRunWithRemoteDriver is true when the current run is the first run for which
+      I.e. in the first run you can load needed page, perform some actions with the page, and exit your process.
+      The separate chromedriver process will still work in background.
+      Then you can modify your code and run "node tia" one more time to perform other actions, etc.
+      The gT.firstRunWithRemoteDriver property is true when the current run is the first run for which
       the remote driver was initialized.
 
-       -v, --version - Just show TIA version and exit.
+      -v, --version - Just show TIA version and exit.
 
       --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).
 

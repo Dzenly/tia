@@ -27,6 +27,9 @@ exports.wait = function wait(promiseToWait, ms) {
       rejectBecauseTimeout = false;
       resolve(result);
     }).catch((err) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
       rejectBecauseTimeout = false;
       reject(err);
     });
