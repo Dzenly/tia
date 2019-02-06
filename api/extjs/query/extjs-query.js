@@ -1,19 +1,23 @@
 'use strict';
 
-const methodToFunc = {
-  query: 'byCompQuery',
-  id: 'byId',
-  fakeId: 'byFakeId',
-};
-
 /**
- * Search the Component by https://docs.sencha.com/extjs/6.5.3/modern/Ext.ComponentQuery.html#method-query
+ * Search the Component by TEQ search string.
  * and performing specified action on the component found.
- * @param {String} searchStr - ComponentQuery, id, of fakeId.
- * In component queries substrings like 'l"locale_key"' will be replaced by '"value_for_key"',
+ *
+ * @param tEQ - the TEQ search string.
+ * The TEQ is a mix of following two abilities:
+ * https://docs.sencha.com/extjs/6.5.3/classic/Ext.ComponentQuery.html#method-query
+ * https://docs.sencha.com/extjs/6.5.3/classic/Ext.Component.html#cfg-reference
+ *
+ * In the component queries, substrings like 'l"locale_key"' will be replaced by '"value_for_key"',
  * i.e. '[text=l"settings"]' will be changed to '[text="Настройки"] for russian locale.
  * Also id like '##idKey' will be replaced by '#realId' from tiaEJ.idMap.
- * For fakeId the prefix '##' is not used, as for ExtJs.getCmp.
+ *
+ * References can be specified using '&' prefix. Say if your TEQ string is:
+ * '#someId &someReference someXType', then the function will search the component with id 'someId',
+ * then it will be equal to:
+ * Ext.ComponentQuery('#someId).lookupReference('someReference').query(someXType)
+ *
  * @param action {string} - action to perform.
  * @param [elNameForLog=null] {string} - element name for log (if there is no id).
  * @param [method='query'] {string} (allowed values are: 'query', 'id', 'fakeId')
@@ -22,20 +26,19 @@ const methodToFunc = {
  * @return {*} - Defined by your action.
  */
 exports.queryAndAction = async function queryAndAction({
-  searchStr,
+  tEQ,
   action,
   elNameForLog = null,
-  method = 'query', // 'id', 'fakeId'
   logAction,
 }) {
   // Waiting for all ExtJs inner processes are finished and component is ready to work with.
   await gT.e.wait.idle(undefined, false);
 
   return gIn.wrap({
-    msg: `Searching ExtJs cmp ${elNameForLog} by ${method}: ${searchStr} ... `,
+    msg: `Searching ExtJs cmp ${elNameForLog} by TEQ: ${tEQ} ... `,
     logAction,
     act: () => gT.s.browser.executeScriptWrapper(
-      `const { cmp, cmpInfo } = tiaEJ.searchAndWrap.${methodToFunc[method]}('${searchStr}')`
+      `const { cmp, cmpInfo } = tiaEJ.searchAndWrap.byTeq('${tEQ}')`
       + `${action};`
     ),
   });

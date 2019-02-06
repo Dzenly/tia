@@ -58,10 +58,10 @@
         this.realToFake.set(realId, fakeId);
       },
       getFakeId: function getFakeId(realId) {
-        return this.realToFake(realId);
+        return this.realToFake.get(realId);
       },
       getRealId: function getRealId(fakeId) {
-        return this.fakeToReal(fakeId);
+        return this.fakeToReal.get(fakeId);
       },
       remove: function remove(fakeId) {
         var realId = this.fakeToReal.get(fakeId);

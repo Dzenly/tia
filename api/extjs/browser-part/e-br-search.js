@@ -6,6 +6,48 @@
 
   console.log('TIA: setEBrSearch');
 
+  /**
+   * Parses search string into tokens with query and reference.
+   * @param str
+   * @return {Array}
+   */
+  function parseSearchString(str) {
+    const re = /&(\w|\d|_|-)+/g;
+
+    const searchData = [];
+    let prevLastIndex = 0;
+
+    while (true) {
+      const reResult = re.exec(str);
+
+      if (reResult === null) {
+        // Only query string.
+        const query = str.slice(prevLastIndex).trim();
+        if (query) {
+          searchData.push({
+            query: query,
+          });
+        }
+        return searchData;
+      }
+
+      const query = str.slice(prevLastIndex, reResult.index).trim();
+      const reference = str.slice(reResult.index + 1, re.lastIndex).trim();
+      prevLastIndex = re.lastIndex;
+
+      if (query) {
+        searchData.push({
+          query: query,
+        });
+      }
+
+      searchData.push({
+        reference: reference,
+      });
+
+    }
+  }
+
   window.tiaEJ.search = {
 
     /**
@@ -124,6 +166,7 @@
      * @return {Ext.Component} - component.
      */
     byCompQuery: function byCompQuery(selector) {
+
       var actualSelector = tiaEJ.replaceAll(selector);
       var cmp = Ext.ComponentQuery.query(actualSelector);
 
@@ -132,6 +175,74 @@
           'Component not found for selector: ' + selector + ' , actualSelector: ' + actualSelector
         );
       }
+
+      if (!cmp.length > 1) {
+        throw new Error(
+          cmp.length + 'components found for selector:' + selector + ' , actualSelector: ' + actualSelector
+        );
+      }
+
+      return cmp;
+    },
+
+    /**
+     * Searches ExtJS component by Tia ExjJS Query (TEQ).
+     *
+     * @param tEQ - the TEQ search string.
+     * The TEQ is a mix of following two abilities:
+     * https://docs.sencha.com/extjs/6.5.3/classic/Ext.ComponentQuery.html#method-query
+     * https://docs.sencha.com/extjs/6.5.3/classic/Ext.Component.html#cfg-reference
+     *
+     * In the component queries, substrings like 'l"locale_key"' will be replaced by '"value_for_key"',
+     * i.e. '[text=l"settings"]' will be changed to '[text="Настройки"] for russian locale.
+     * Also id like '##idKey' will be replaced by '#realId' from tiaEJ.idMap.
+     *
+     * References can be specified using '&' prefix. Say if your TEQ string is:
+     * '#someId &someReference someXType', then the function will search the component with id 'someId',
+     * then it will be equal to:
+     * Ext.ComponentQuery('#someId).lookupReference('someReference').query(someXType)
+     *
+     * @return {Component}
+     */
+    byTeq: function byTeq(tEQ) {
+      var searchData = parseSearchString(tEQ);
+
+      if (!searchData || searchData.lengh === 0) {
+        throw new Error('Invalid tEQ: ' + tEQ);
+      }
+
+      if (typeof (searchData[0].query) === 'undefined') {
+        throw new Error('First item is not query for tEQ: ' + tEQ);
+      }
+
+      var cmp = undefined;
+
+      for (var i = 0; i < searchData.length; i++) {
+        var searchObj = searchData[i];
+        if (searchObj.query) {
+          var actualSelector = tiaEJ.replaceAll(searchObj.query);
+          var searchRes = Ext.ComponentQuery.query(actualSelector, cmp);
+
+          if (!searchRes || searchRes.length === 0) {
+            throw new Error('Component not found for selector: ' + actualSelector + ', tEQ: ' + tEQ);
+          }
+
+          if (searchRes.length > 1) {
+            throw new Error(searchRes.length + 'components are found for selector: ' + actualSelector + ', tEQ: ' + tEQ);
+          }
+
+          cmp = searchRes[0];
+
+        } else if (searchObj.reference) {
+          cmp = cmp.lookupReferenceHolder(false).lookupReference(searchObj.reference);
+          if (!cmp) {
+            throw new Error('Component not found for reference: ' + searchObj.reference + ', tEQ: ' + tEQ);
+          }
+        } else {
+          throw new Error('Incorrect tEQ parse result for tEQ: ' + tEQ);
+        }
+      }
+
       return cmp;
     },
 

@@ -5,23 +5,33 @@ const search = require('./selenium-search');
 
 /**
  * Returns DOM element.
- * @param searchStr
+ * @param tEQ
  * @param elNameForLog
- * @param method
  * @param logAction
  * @return {*}
  */
 exports.cmpDomElement = async function getDomElement({
-  searchStr,
+  tEQ,
   elNameForLog,
-  method, // 'id', 'fakeId'
   logAction,
 }) {
   return queryAndAction({
-    searchStr,
+    tEQ,
     action: 'return cmpInfo.constProps.domEl;',
     elNameForLog,
-    method, // 'id', 'fakeId'
     logAction,
   });
 };
+
+// Click.
+// Double click.
+// Keyboard type.
+
+// Actions using DOM.
+// Actions using ExtJS.
+
+
+
+
+
+

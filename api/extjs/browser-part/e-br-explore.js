@@ -332,6 +332,7 @@
       // ], outArr);
 
       this.pushTextProp(comp,'text', outArr);
+      this.pushTextProp(comp,'tooltip', outArr);
       this.pushTextProp(comp,'title', outArr);
       this.pushTextProp(comp, 'label', outArr);
 
