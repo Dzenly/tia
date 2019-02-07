@@ -1,5 +1,7 @@
 # Time Is All (log driven test engine with ExtJs support)
 
+[API documentation is here(under construction)](http://dzenly.github.io/tia/)
+
 [See Change log for migration guides](docs-md/changelog.md)
 
 This is an engine for testing automation.
