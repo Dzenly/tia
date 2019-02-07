@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-rm -rf typedoc
-mkdir typedoc
+# rm -rf typedoc
+# mkdir typedoc
 
-typedoc ./types --out typedoc --includeDeclarations --excludeExternals
+typedoc ./types --out docs/typedoc --includeDeclarations --excludeExternals
