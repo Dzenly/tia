@@ -10,7 +10,7 @@ const fs = require('fs');
  *
  * @type {{}}
  */
-gT.e = {};
+gT_.e = {};
 
 // Find.
 // Wait.
@@ -40,7 +40,7 @@ const brHelpers = [
  *
  * @returns {Promise}.
  */
-gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
+gT_.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
   return gIn.wrap(
     'Initialization of TIA ExtJs helpers ... ',
     logAction,
@@ -64,45 +64,45 @@ gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
  * @param {boolean} [logAction=true] - is logging needed for this action.
  * @returns a promise which will be resolved with script return value.
  */
-gT.e.setLocaleObject = function setLocaleObject(objExpression, logAction) {
+gT_.e.setLocaleObject = function setLocaleObject(objExpression, logAction) {
   return gIn.wrap('setLocaleObject ... ', logAction, () => {
     const scriptStr = `return tiaEJ.setLocale(${objExpression});`;
     return gT.s.browser.executeScriptWrapper(scriptStr)
       .then((res) => {
-        gT.e.locale = res.locale;
-        gT.e.invertedLocaleFirstKey = res.invertedLocaleFirstKey;
-        gT.e.invertedLocaleAllKeys = res.invertedLocaleAllKeys;
+        gT_.e.locale = res.locale;
+        gT_.e.invertedLocaleFirstKey = res.invertedLocaleFirstKey;
+        gT_.e.invertedLocaleAllKeys = res.invertedLocaleAllKeys;
       });
   });
 };
 
-gT.e.utils = require('./extjs-utils');
-gT.e.api = require('./extjs-api-actions.js');
-gT.e.explore = require('./extjs-exploration.js');
-gT.e.search = require('./extjs-search.js');
-gT.e.sendKeys = require('./extjs-send-keys.js');
-gT.e.logCtById = require('./extjs-log-by-id.js');
-gT.e.logCtByFormIdName = require('./extjs-log-by-formIdName.js');
-gT.e.logUtils = require('./extjs-log-utils');
-gT.e.getByFormIdName = require('./extjs-get-by-formIdName.js');
-gT.e.msgBox = require('./extjs-msgbox.js');
+gT_.e.utils = require('./extjs-utils');
+gT_.e.api = require('./extjs-api-actions.js');
+gT_.e.explore = require('./extjs-exploration.js');
+gT_.e.search = require('./extjs-search.js');
+gT_.e.sendKeys = require('./extjs-send-keys.js');
+gT_.e.logCtById = require('./extjs-log-by-id.js');
+gT_.e.logCtByFormIdName = require('./extjs-log-by-formIdName.js');
+gT_.e.logUtils = require('./extjs-log-utils');
+gT_.e.getByFormIdName = require('./extjs-get-by-formIdName.js');
+gT_.e.msgBox = require('./extjs-msgbox.js');
 
-gT.e.hL = require('./extjs-hl.js');
+gT_.e.hL = require('./extjs-hl.js');
 
-gT.e.lClick = require('./extjs-l-clicks.js');
-gT.e.lClick.cb = require('./extjs-l-clicks-cb.js');
+gT_.e.lClick = require('./extjs-l-clicks.js');
+gT_.e.lClick.cb = require('./extjs-l-clicks-cb.js');
 
-gT.e.wait = require('./extjs-waits.js');
+gT_.e.wait = require('./extjs-waits.js');
 
-gT.e.query = require('./new-api/tia-extjs-query.js');
+gT_.e.query = require('./new-api/tia-extjs-query.js');
 
-gT.e.query.search = require('./new-api/selenium-search');
-gT.e.query.actions = require('./new-api/selenium-actions');
+gT_.e.query.search = require('./new-api/selenium-search');
+gT_.e.query.actions = require('./new-api/selenium-actions');
 
-gT.e.queryFromParent = require('./extjs-query-from-parent.js');
+gT_.e.queryFromParent = require('./extjs-query-from-parent.js');
 
-gT.e.q = gT.e.query;
-gT.e.qp = gT.e.queryFromParent;
+gT_.e.q = gT.e.query;
+gT_.e.qp = gT.e.queryFromParent;
 
-gT.e.q.s = gT.e.query.search;
-gT.e.q.a = gT.e.query.actions;
+gT_.e.q.s = gT.e.query.search;
+gT_.e.q.a = gT.e.query.actions;

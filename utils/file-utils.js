@@ -12,7 +12,7 @@ const textUtils = require('./text-utils');
 // Права на запись у него будут только в его home.
 // Перед тестом (после подключения всех require), юзер процесса будет подменяться (process.setuid(id)).
 // Весь test suite будет копироваться в директорию юзера и работать оттуда.
-// gT.fileUtilsCheckPath = function(path){
+// gT_.fileUtilsCheckPath = function(path){
 //
 // };
 

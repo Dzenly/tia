@@ -1,8 +1,8 @@
 'use strict';
 
-gT.logUtils = {};
+gT_.logUtils = {};
 
-gT.logUtils.winstonMock = require('./winston-mock');
-gT.logUtils.rStreamToLog = require('./r-stream-to-log');
+gT_.logUtils.winstonMock = require('./winston-mock');
+gT_.logUtils.rStreamToLog = require('./r-stream-to-log');
 
-gT.l = require('./log.js');
+gT_.l = require('./log.js');

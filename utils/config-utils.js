@@ -17,5 +17,5 @@ exports.handleSuiteConfig = function handleSuiteConfig() {
     gIn.tracer.msg2(e);
     gIn.tracer.msg2(`There is no Suite Config: ${gIn.suite.configPath}`);
   }
-  gT.suiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), localSuiteConfig);
+  gT_.suiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), localSuiteConfig);
 };

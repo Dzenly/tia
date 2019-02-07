@@ -33,9 +33,9 @@ nodeUtils.checkNodeJsVersion();
 
 require('../engine/init-global-objects.js');
 
-gT.version = version;
+gT_.version = version;
 
-gT.browsers = [
+gT_.browsers = [
   'chrome', // First browser is default.
   'phantomjs',
   'firefox',
@@ -191,10 +191,10 @@ if (!args.requireModules) {
   args.requireModules = process.env[gT.engineConsts.requireModulesEnvVarName];
 }
 
-gT.rootTestsDirPath = path.join(gIn.params.rootDir, gT.engineConsts.suiteDirName);
+gT_.rootTestsDirPath = path.join(gIn.params.rootDir, gT.engineConsts.suiteDirName);
 
 // =====================
-gT.rootResultsDir = path.join(
+gT_.rootResultsDir = path.join(
   gT.rootTestsDirPath,
   gT.engineConsts.rootResDirName
 );
@@ -204,17 +204,17 @@ const rootSuiteConfig = nodeUtils.requireIfExists(path.join(
   gT.rootResultsDir,
   gT.engineConsts.suiteRootConfigName
 ));
-gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.suiteConfigDefault), rootSuiteConfig);
+gT_.rootSuiteConfig = _.merge(_.cloneDeep(gT.suiteConfigDefault), rootSuiteConfig);
 
 // =====================
 const globalConfig = nodeUtils.requireIfExists(path.join(
   gT.rootResultsDir,
   gT.engineConsts.globalConfigName
 ));
-gT.globalConfig = _.merge(_.cloneDeep(gT.globalConfigDefault), globalConfig);
+gT_.globalConfig = _.merge(_.cloneDeep(gT.globalConfigDefault), globalConfig);
 
 if (!gT.globalConfig.rootDirAlias) {
-  gT.globalConfig.rootDirAlias = path.basename(gIn.params.rootDir);
+  gT_.globalConfig.rootDirAlias = path.basename(gIn.params.rootDir);
 }
 
 // =====================
@@ -238,10 +238,10 @@ const rootDirConfig = nodeUtils.requireIfExists(path.join(
   gT.rootResultsDir,
   gT.engineConsts.dirRootConfigName
 ));
-gT.rootDirConfig = _.merge(_.cloneDeep(gT.dirConfigDefault), rootDirConfig);
+gT_.rootDirConfig = _.merge(_.cloneDeep(gT.dirConfigDefault), rootDirConfig);
 
 // =====================
-gT.rootLog = path.join(
+gT_.rootLog = path.join(
   gT.rootResultsDir,
   gT.engineConsts.rootLogName + gT.engineConsts.logExtension
 );
@@ -256,7 +256,7 @@ gIn.params.emailCfgPath = tiaArgsUtils.resolvePathOptionRelativeToRootDir({
 });
 
 if (gIn.params.emailCfgPath) {
-  gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), require(gIn.params.emailCfgPath));
+  gT_.rootSuiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), require(gIn.params.emailCfgPath));
 }
 
 // =====================
@@ -306,7 +306,7 @@ if (args.requireModules) {
 }
 
 if (gIn.params.defHost) {
-  gT.rootDirConfig.selHost = gIn.params.defHost;
+  gT_.rootDirConfig.selHost = gIn.params.defHost;
 }
 
 // process.on('uncaughtException', (err) => {

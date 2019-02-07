@@ -24,7 +24,7 @@ const path = require('path');
 // }
 
 // Return promise from generator is not supported, i.e. will not be waited.
-gT.u.iterate = function iterate1(iterator) {
+gT_.u.iterate = function iterate1(iterator) {
   return new Promise((resolve, reject) => {
     let obj;
 
@@ -57,7 +57,7 @@ gT.u.iterate = function iterate1(iterator) {
   });
 };
 
-gT.u.iterateSafe = function iterateSafe(iterator) {
+gT_.u.iterateSafe = function iterateSafe(iterator) {
   return gT.u.iterate(iterator).catch(e => {
     const strErr = `Safe Iterator caught error: ${gIn.textUtils.excToStr(e)}`;
     if (gIn.params.errToConsole) {
@@ -67,7 +67,7 @@ gT.u.iterateSafe = function iterateSafe(iterator) {
   });
 };
 
-gT.u.execGenSafe = function execGenSafe(gen, ...params) {
+gT_.u.execGenSafe = function execGenSafe(gen, ...params) {
   return gT.u.iterate(gen(...params)).catch(e => {
     const strErr = `Safe Generator runner caught error: ${gIn.textUtils.excToStr(e)}`;
     if (gIn.params.errToConsole) {
@@ -84,21 +84,21 @@ gT.u.execGenSafe = function execGenSafe(gen, ...params) {
  * @param gen - function - generator.
  * @returns {Promise}
  */
-gT.u.execGen = function execGen(gen, param1, param2) {
+gT_.u.execGen = function execGen(gen, param1, param2) {
   return gT.u.iterate(gen(param1, param2));
 };
 
-gT.u.setHangTimeout = function setHangTimeout(newTimeout) {
+gT_.u.setHangTimeout = function setHangTimeout(newTimeout) {
   const oldTimeout = gIn.params.hangTimeout;
   gIn.params.hangTimeout = newTimeout;
   return oldTimeout;
 };
 
-gT.u.isWindows = function isWindows() {
+gT_.u.isWindows = function isWindows() {
   return path.sep === '\\';
 };
 
-// gT.s.fail = function (url, logAction) {
+// gT_.s.fail = function (url, logAction) {
 //   return gIn.wrap('Intentional fail for debug: ... ', logAction, function () {
 //     return Promise.reject('Intentional fail');
 //   });

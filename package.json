@@ -8,6 +8,7 @@
   "scripts": {
     "test": "tia --run-self-tests"
   },
+  "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Dzenly/tia.git"

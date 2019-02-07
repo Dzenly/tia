@@ -1,9 +1,9 @@
 =================
 Title: Test for readable stream to test log.
 String 1
-ERR: TypeError: Invalid non-string/buffer chunk
+ERR: TypeError [ERR_INVALID_ARG_TYPE]: The "chunk" argument must be one of type string, Buffer, or Uint8Array. Received type object
 String 2
 End Event.
-ERR: Error: stream.push() after EOF
+ERR: Error [ERR_STREAM_PUSH_AFTER_EOF]: stream.push() after EOF
 =================
 Pass: 0, Fail: 0

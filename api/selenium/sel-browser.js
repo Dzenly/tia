@@ -318,8 +318,8 @@ exports.setWindowSize = function setWindowSize(width, height, logAction) {
 exports.getScreenResolution = function getScreenResolution(logAction) {
   return gIn.wrap('Get screen resolution ... ', logAction, () => exports.executeScriptWrapper('return tia.getScreenResolution()').then((res) => {
     // Save resolution to emulate maximize.
-    gT.s.browser.screenWidth = res.width;
-    gT.s.browser.screenHeight = res.height;
+    gT_.s.browser.screenWidth = res.width;
+    gT_.s.browser.screenHeight = res.height;
     return res;
   })
   );

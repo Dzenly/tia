@@ -35,11 +35,13 @@ module.exports = {
     'consistent-return': 'off',
     'no-continue': 'off',
     'no-mixed-operators': 'off',
+    'no-underscore-dangle': 'off',
   },
   globals: {
     Ext: true,
     log: true,
     gT: true,
+    gT_: true,
     gIn: true,
   },
   env: {
