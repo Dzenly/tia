@@ -1,0 +1,520 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>tia</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">tia</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> tia</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="time-is-all-log-driven-test-engine-with-extjs-support-">Time Is All (log driven test engine with ExtJs support)</h1>
+				<p><a href="docs/changelog.md">See Change log for migration guides</a></p>
+				<p>This is an engine for testing automation.
+					It allows any types of testing: unit testing, functional testing, GUI testing, etc.
+				Both assertion-driven and logs-driven testing are supported.</p>
+				<p>The engine supports Web sites testing using Selenium WebDriver
+					and provides API for work with <code>ExtJs</code> components.
+				You can run GUI autotests using <code>Xvfb</code> or headless chrome.</p>
+				<blockquote>
+					<p>Note: The minimal supported Node.js version is 8.6.0</p>
+				</blockquote>
+				<h2 id="examples">Examples</h2>
+				<p>The engine has tests for itself, they can be used as examples.
+				<a href="https://github.com/Dzenly/tia/tree/master/tests">https://github.com/Dzenly/tia/tree/master/tests</a></p>
+				<h2 id="terms">Terms</h2>
+				<h3 id="project-root-directory">Project root directory</h3>
+				<p>The directory containing your project.
+					In general it is the root of your VCS repository.
+				Hereinafter the <em>Project root directory</em> will be denoted as <code>&lt;prjRoot&gt;</code>.</p>
+				<p>It can contain many <a href="#Test-suite">Test suites</a> (i.e <code>__tia-tests__</code> directories, see below) at any level.</p>
+				<p><code>&lt;prjRoot&gt;</code> contains at least one <code>__tia-tests__</code> directory.
+				The <code>__tia-tests__</code> directory</p>
+				<p>By default the current working directory will be used as the project root directory,
+				but you set it it by:</p>
+				<ul>
+					<li><code>--root-dir</code> cmd line option.</li>
+					<li><code>TIA_ROOT_DIR</code> environment variable.</li>
+				</ul>
+				<p>If both are specified <code>--root-dir</code> will be used.
+				I.e. always cmd line option take precedence over env var.</p>
+				<h3 id="test-suite">Test suite</h3>
+				<p>A set of tests located in some <code>__tia-tests__</code> directory, e.g.:</p>
+				<ul>
+					<li><code>&lt;prjRoot&gt;/__tia-tests__</code></li>
+					<li><code>&lt;prjRoot&gt;/subDir/subSubDir/__tia-tests__</code></li>
+				</ul>
+				<p>Note: don&#39;t nest <code>__tia-tests__</code> to <code>__tia-tests__</code>.</p>
+				<p>When you run TIA, it will perform all test suites from the <a href="#Project-root-directory">Project root directory</a></p>
+				<h3 id="test">Test</h3>
+				<p>JavaScript file, which name ends by <code>.tia.js</code> suffix (e.g. <code>00_my-test.tia.js</code>).
+					Tests can be located inside some <a href="#Test-suite">Test suite</a> directory at any level.
+					Test are executed by TIA and can use all global objects, exposed by TIA (see below).
+				Test file should create a <a href="#Test-log">Test log</a> (see below) by TIA API.</p>
+				<p>So if you use both <code>TIA</code> and <a href="https://jestjs.io/">Jest</a>, you should use <code>.jest.js</code> suffix for Jest tests
+				and set up according pattern in Jest config.</p>
+				<h4 id="global-objects-exposed-by-tia-which-test-can-use">Global objects exposed by TIA, which test can use</h4>
+				<p>They are defined in following files:</p>
+				<ul>
+					<li>api/api-index.js</li>
+					<li>engine/init-global-objects.js</li>
+					<li>api/selenium/sel-index.js</li>
+					<li>api/extjs/extjs-index.js</li>
+				</ul>
+				<p>You can explore <code>gT</code> (global Test helpers) global object to find them all.
+					The <code>gIn</code> (global Inner test helpers) contain low level helper functions,
+				you can use them to extend TIA&#39;s API.</p>
+				<p>Global objects have short aliases (see details in files listed above).</p>
+				<h3 id="test-log">Test log</h3>
+				<p>This is a text file which is created by TIA API calls from <a href="#Test">Test</a>.
+					TIA has API for interactions with browser (using webdriver and ExtJs API).
+					This API write info about actions into the <em>Test log</em>.
+					Assertions also write results into the <em>Test log</em>.
+				And user can write to <em>Test log</em>.</p>
+				<p>The file reflects the test scenario and should be very similar to the according test case section.</p>
+				<p>At the end of the <em>Test log</em> TIA writes statistics info about the test and adds
+				logs from browser console for browser tests (if such option is enabled).</p>
+				<p>The <em>Test log</em> file name is equal to the <a href="#Test">Test</a> file name,
+				but the log has the <code>.tia.log</code> extension (instead of <code>.tia.js</code>).</p>
+				<p><strong>Test logs are not commited to VCS.</strong></p>
+				<h3 id="etalon-test-log">Etalon test log</h3>
+				<p>When the test author finished <a href="#Test">Test</a> creation, he should run it, check the <a href="#Test-log">Test log</a> and mark it as
+				etalon (reference) log by renaming <code>.tia.log</code> to <code>.tia.et</code>.</p>
+				<p><strong>Etalon test logs are commited to VCS</strong>.</p>
+				<h3 id="suite-log">Suite log</h3>
+				<p>This is a log with statistics for all <a href="#Test">Tests</a> from a <a href="#Test-suite">Test suite</a> directory.
+					<em>Suite log</em> is located in the <code>__tia-tests__/__tia__/suite.log</code> file.
+					The <em>Suite log</em> is sent to email addresses of subscribers (if --email option is specified and there is a correct email config).
+				NOTE: The <em>Suite log</em> is also affected with the <code>sectionTitle</code> option from <code>tia-dir-config.js</code> files.</p>
+				<p><strong><code>suite.log</code> files are not commited to VCS.</strong></p>
+				<h3 id="etalon-suite-log">Etalon suite log</h3>
+				<p>Etalon suite log, located in it the <code>__tia-tests__/__tia__/suite.et</code> file.
+				<strong><code>*.et</code> files are commited to VCS.</strong></p>
+				<h3 id="root-log">Root log</h3>
+				<p>This is a log with statistics for all <a href="#Test">Tests</a> from the <a href="#Project-root-directory">Project root directory</a>.
+					It is located in <code>&lt;prjRoot&gt;/__tia-tests__/__tia__/root.log</code>.
+				The <em>Root log</em> is sent to emails (if --email option is specified and there is a correct email config).</p>
+				<p><strong>Not commited to VCS.</strong></p>
+				<h3 id="etalon-root-log-">Etalon root log?</h3>
+				<p>Nope. There is no such a log type, cause it makes no sense.</p>
+				<h3 id="diff-tbd-">Diff (TBD)</h3>
+				<h3 id="expected-diff-tbd-">Expected diff (TBD)</h3>
+				<h3 id="browser-profiles">Browser profiles</h3>
+				<p>Browser profiles are located in  <code>__tia-tests__/__tia__/tia-browser-profiles</code> directories.
+					See also the <code>selProfilePath</code> option in the
+				<a href="https://github.com/Dzenly/tia/blob/master/config/default-suite-config.js">config/default-suite-config.js</a>.</p>
+				<hr>
+				<h2 id="prerequisites">Prerequisites</h2>
+				<ul>
+					<li><code>diff</code>, <code>rm</code>, <code>zip</code> utililies (you can use Cygwin on Windows)</li>
+					<li><code>Node.js</code> 8.6.0+</li>
+					<li><code>Xvfb</code> (if you wish to run tests under Linux without GUI).
+						How to start:
+						$ Xvfb :1 -screen 5 2560x1440x24
+						How to stop:
+					$ killall Xvfb</li>
+					<li>The &#39;xvfb&#39; directory contains the script for using as <code>/etc/init.d/xvfb</code> and readme.md.</li>
+					<li>Note: that there is headless chrome and firefox, which are supported by the <code>--headless</code> command line option.</li>
+				</ul>
+				<hr>
+				<h2 id="installation-at-tests-development-">Installation at tests development.</h2>
+				<p>$ npm install tia</p>
+				<p>Now in the project you can use <code>node_modules/tia/bin/tia.js</code> as a start script for node.js.</p>
+				<p>If you are lucky, your IDE will support some autocompletion for TIA API.</p>
+				<h2 id="installation-for-daily-tests-run">Installation for daily tests run</h2>
+				<p>$ npm install -g tia</p>
+				<h3 id="self-test-after-installation">Self - test after installation</h3>
+				<p>$ tia --run-self-tests</p>
+				<h2 id="creating-debugging-tests">Creating / debugging tests</h2>
+				<ul>
+					<li>$ mkdir my-prj</li>
+					<li>$ cd my-prj</li>
+					<li>$ npm init</li>
+					<li>$ mkdir tests</li>
+					<li>$ npm install tia</li>
+				</ul>
+				<p>In your debug configuration you can use</p>
+				<p><code>node mode_modules/tia/bin/tia.js</code></p>
+				<p>as engine.</p>
+				<h3 id="using-typings">Using typings</h3>
+				<p>There is not TIA DTS for now.
+				But there is DTS for selenium-webdriver (it is pretty out of date, but helpful).</p>
+				<p>$ npm i -g typings
+				$ typings install selenium-webdriver --ambient --save</p>
+				<h3 id="speed-up-test-creation-debugging-using-connection-to-the-existing-browser-session">Speed up test creation/debugging using connection to the existing browser session</h3>
+				<p>If you are testing some heavy application and application start requires noticeable time,
+					you can use the &#39;--use-remote-driver&#39; option. In this case TIA will use existing browser session for all test runs.
+					Inside your code you can use the <code>gT.firstRunWithRemoteDriver</code> global variable
+				to distinct very first run (when you need some browser session initialization) from following runs (for which you need just use the existing session).</p>
+				<p>Use <code>tia --help</code> to see the help for the following things:</p>
+				<ul>
+					<li>--use-remote-driver cmd line option.</li>
+					<li>--stop-remote-driver cmd line option.</li>
+					<li>gT.firstRunWithRemoteDriver global variable.</li>
+				</ul>
+				<hr>
+				<h2 id="config-files">Config files</h2>
+				<p>TBD</p>
+				<h3 id="for-engine">For engine</h3>
+				<h4 id="suite-config-js">suite-config.js</h4>
+				<p>If the root tests dir contains <code>suite-config.js</code> file, it will override parameters from <code>config/default-suite-config.js</code> (see this file for parameter details).</p>
+				<p>An example:</p>
+				<pre><code class="language-js"> <span class="hljs-built_in">module</span>.exports = {
+   <span class="hljs-attr">mailRecipientList</span>: <span class="hljs-string">"vasya@pupkin.ru"</span>,
+ };</code></pre>
+				<h4 id="config-js">config.js</h4>
+				<p>If some directory contains <code>config.js</code> file, it will override parameters
+				from <code>config/default-dir-config.js</code> (see this file for parameter details).</p>
+				<p>Also config.js from the current directory overrides config.js from parent directory
+				(except sectionTitle parameter).</p>
+				<p>An example:</p>
+				<pre><code class="language-js"><span class="hljs-built_in">module</span>.exports = {
+  <span class="hljs-attr">sectionTitle</span>: <span class="hljs-string">"Config testing"</span>,
+};</code></pre>
+				<h3 id="for-email">For email</h3>
+				<p>There are two ways how to use email settings.</p>
+				<h4 id="-email-cfg-path-cmd-line-option-and-tia_email_cfg_path-environment-variables-">--email-cfg-path cmd line option and TIA_EMAIL_CFG_PATH environment variables.</h4>
+				<p>You can specify path to some <code>*.js</code> or <code>*.json</code> file.
+					TIA does <code>require</code> this config and
+					options are merged to default suite config, see <code>config/default-suite-config.js</code>.
+				If the <code>mailRecipientList</code> field in the config is empty, email will be disabled.</p>
+				<h4 id="suite-config-js">suite-config.js</h4>
+				<p>Email options also can be defined in <code>suite-config.js</code> (see above).
+					Settings from <code>suite-config.js</code> will override cmd line and env variable settings.
+					See <code>config/default-suite-config.js</code> for email option descriptions.
+				To keep credentials secret you can have <code>suite-config.js</code> like:</p>
+				<pre><code class="language-js"><span class="hljs-keyword">let</span> suiteConfig = {};
+
+<span class="hljs-keyword">try</span> {
+  suiteConfig = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./mail-settings.nogit.json'</span>);
+} <span class="hljs-keyword">catch</span>(e) {
+
+}
+
+suiteConfig.option1 = <span class="hljs-string">'value 1'</span>;
+suiteConfig.option2 = <span class="hljs-string">'value 2'</span>;
+
+<span class="hljs-built_in">module</span>.exports = suiteConfig;</code></pre>
+				<p>Use JSON here because JS files (except config.js, suite-config.js) are runned as test files.</p>
+				<h2 id="environment-variables">Environment variables</h2>
+				<p>See TIA_ROOT_DIR, TIA_REQUIRE_MODULES, TIA_EXTERNAL_LOG descriptions in <code>tia --help</code>.
+				Use TIA_NO_COLORS - to disable ANSI colors.</p>
+				<hr>
+				<h2 id="run">Run</h2>
+				<p>To show help when TIA is installed globally:</p>
+				<p>$ tia --help</p>
+				<p>To show help for local installation:</p>
+				<p>$ node bin/tia.js --help</p>
+				<hr>
+				<h2 id="order-of-tests-execution">Order of tests execution</h2>
+				<p>Tests are executed in the alphabet order, so it is recommended to prefix your folders and tests by
+				numbers, like <code>00_CheckingSomeStuff.js</code>.</p>
+				<hr>
+				<h2 id="how-it-works">How it works</h2>
+				<h3 id="how-the-engine-works-and-how-different-files-are-created">How the engine works and how different files are created</h3>
+				<p>TIA does recursively walks the tests directory.
+					<code>suite-config.js</code> from the root tests directory is used to setup parameters for the whole test bunch.
+					<code>config.js</code> from any directory is used to setup parameters for the given directory and its subdirectories
+				(with exception of sectionTitle parameter).</p>
+				<p>Other <code>*.js</code> files are executed by TIA and should use TIA API to create logs.
+					For each test there should be an etalon log, which is thoroughly checked by the author,
+				and is saved as <code>*.et</code> file.</p>
+				<p>After a test finish, its current log is compared with its etalon log.
+					If there is a difference it is saved as <code>*.dif</code> file.
+				Note: All diffs are made as <code>diff newOut oldOut</code>, so as error or difference will be on top of log.</p>
+				<p>There is an ability to create expected diff files (<code>*.edif</code>).
+				If the current <code>*.dif</code> is equal to <code>*.edif</code> it is not counted as a diffed one.</p>
+				<h3 id="if-there-will-be-some-error-the-test-log-will-contain-">If there will be some error, the test log will contain:</h3>
+				<p>Info about the error, and if test uses selenium:</p>
+				<ul>
+					<li>browser console output</li>
+					<li>browser exceptions</li>
+					<li>path to the screenshot made immediately after the error (<code>*.png</code> file)</li>
+				</ul>
+				<h3 id="suite-logs-details-also-see-above-for-suite-log-descriptions-">Suite logs details (also see above for suite log descriptions)</h3>
+				<p>Logs with statistics info for the whole test bunch. They have name <code>suite.log</code>.
+				These logs are sent to email (if corresponding options is enabled).</p>
+				<h4 id="email-subject-has-following-notations">Email subject has following notations</h4>
+				<p>[ET_SLOG/DIF_SLOG, ]linux_3.16.0-4-amd64, [AS PREV/AS PREV (8 diff(s) changed)/DIF FROM PREV], &quot;testsWdHelpers&quot;, Dif: 0, Fail: 0, EDif: 0, Skip: 0, Pass: 4, 19203.05 ms</p>
+				<ul>
+					<li>ET_SLOG - the current suite log is equal to the etalon suite log</li>
+					<li>DIF_SLOG - the current suite log is different from the etalon suite log</li>
+					<li>TOO_LONG - tests duration is exceeded --too-long-time parameter</li>
+					<li>linux_3.16.0-4 - OS.</li>
+					<li>amd64 - Platform.</li>
+					<li>NO PREV - no previous log, e.g. the first run, custom files removing, or some terrible fail at previous run.</li>
+					<li>DIF FROM PREV - the current tests run is different from the previous run.</li>
+					<li>AS PREV - the current run is equal to the previous run.</li>
+					<li>AS PREV (8 diff(s) changed). - the current run has diffs in the same tests as in previous run, but diffs are changed.</li>
+					<li>testsWdHelpers - root tests dirname.</li>
+					<li>Dif: 0, - zero tests have diffs.</li>
+					<li>Fail: 0, - zero failed assertions.</li>
+					<li>EDif: 0, - zero expected diffs.</li>
+					<li>Skip: 0, - zero skipped tests (dues ot &#39;skip: true&#39; in config.js)</li>
+					<li>Pass: 4, - 4 assertions in the whole test bunch passed.</li>
+					<li>19203.05 ms - tests duration.</li>
+				</ul>
+				<h4 id="suite-log-notations">Suite log notations</h4>
+				<p>They are almost the same as for Email subject notations.
+				Suite log contains statistics info for each directory.</p>
+				<p>Suite log contains two parts: short (contains diffed tests only) and long (contains all the tests).</p>
+				<h3 id="process-exit-code-and-stdout">Process exit code and stdout</h3>
+				<p>TIA returns 0 if all tests are passed as expected, or 1 if there are unexpected diffs.</p>
+				<p>The &#39;true&#39; value for the <code>suite-config.js</code> option <code>suiteLogToStdout</code> prints suite log to stdout
+				(see <code>config/default-dir-config.js</code> for more details).</p>
+				<p>See also the <code>--log-to-console</code> option description in the <code>tia --help</code> output.</p>
+				<hr>
+				<h2 id="api-for-tests-creation">API for tests creation</h2>
+				<p>The <code>api</code> directory contains functions (with JSDoc documentation), which
+				perform users action emulation, assertion checking, logging and other actions.</p>
+				<hr>
+				<h2 id="faq-and-lifehacks">FAQ and lifehacks</h2>
+				<ul>
+					<li>xvfb analog for Windows.</li>
+				</ul>
+				<p>See the <code>desktops</code> utility for creation alternative desktops.
+				<a href="https://technet.microsoft.com/en-us/library/cc817881.aspx">https://technet.microsoft.com/en-us/library/cc817881.aspx</a></p>
+				<ul>
+					<li>How to subscribe to updates:</li>
+				</ul>
+				<p>You can use this link in your RSS feed client:</p>
+				<p><a href="https://github.com/Dzenly/tia/releases.atom">https://github.com/Dzenly/tia/releases.atom</a></p>
+				<ul>
+					<li><p>Autocompletion in IDE.
+							If your IDE does not automatically suggest autocompletion for short named global objects &#39;s&#39;, &#39;t&#39;, &#39;l&#39;, etc.,
+							you could try &#39;gT.s&#39;, &#39;gT.t&#39;, etc.
+						Also you can use break points and explore these global objects.</p>
+					</li>
+					<li><p>You can copy <code>.jshintrc</code>, <code>.jscsrc</code> files from TIA to your project and use them,
+						it can speed up your debugging.</p>
+					</li>
+				</ul>
+				<hr>
+				<h2 id="files-description">Files description</h2>
+				<ul>
+					<li>bin/tia.js - The main file of TIA.</li>
+					<li>api - API to be used in tests.
+					<code>browser-part</code> subdirectories contain scripts to be executed in browsers.</li>
+					<li>inner-docs - my inner documentation, TODOs, current thoughts, design decisions, etc.
+					<a href="https://github.com/Dzenly/tia/tree/master/inner-docs">https://github.com/Dzenly/tia/tree/master/inner-docs</a></li>
+					<li>engine - the heart of the TIA.</li>
+					<li>log-viewer - Here is the prototype for Web client for logs exploration.</li>
+					<li>tests - self tests for TIA.<ul>
+							<li>tia - tests for non - GUI part.</li>
+							<li>wd-helpers - web driver tests.</li>
+						</ul>
+					</li>
+					<li>utils - inner TIA utilities.</li>
+					<li>xvfb - utility to run GUI tests so as do not prevent other work with the computer.
+					See xvfb/readme.md for more details.</li>
+				</ul>
+				<h3 id="file-types-">File types:</h3>
+				<ul>
+					<li><code>*.log</code> - test log</li>
+					<li><code>*.slog</code> - suite log for directory with tests</li>
+					<li><code>*.slog.json</code> - suite log as JSON (to use with HTML log-viewer (it is in my TODO list for now))</li>
+					<li><code>*.slog.notime</code> - suite log without time measurements</li>
+					<li><code>*.slog.notime.prev</code> - previous suite log without time measurements</li>
+					<li><code>*.et</code> - etalon logs and etalon suite logs</li>
+					<li><code>*.js</code> - tests or configs</li>
+					<li><code>*.json</code> - configs.</li>
+				</ul>
+				<hr>
+				<h2 id="known-issues-and-bugs">Known issues and bugs</h2>
+				<ul>
+					<li><p>WebStorm often kill detached child process when it stops debugging.
+						So --use-remote-driver TIA option sometimes does not keep chromedriver running.</p>
+					</li>
+					<li><p>Browser profiles do not save on Windows after browser closing.
+							I.e. you can use predefined profiles, but it will not be updated after selenium tests.
+							Chrome&#39;s profile is broken after browser exit, Firefox profile does not
+							save changes to initial profile, it uses initial profile as a template to create some tmp profile.
+							Firefox&#39;s <code>--profile</code> option does not work with Selenium.
+						For now I did not use tests which preserve cookies and sessions between browser restarts.  </p>
+					</li>
+					<li><p>On Linux, browser profiles do correctly save for chrome.
+						Firefox on linux has the same behaviour as for Windows.</p>
+					</li>
+					<li><p>If you will change input focuses during some selenium test work, there can be errors in this test.</p>
+					</li>
+					<li><p>On Windows selenium sometimes incorrectly returns old page title.</p>
+					</li>
+				</ul>
+				<hr>
+				<h2 id="license-mit">License: MIT</h2>
+				<hr>
+				<h2 id="words-of-gratitude">Words of gratitude</h2>
+				<p>The engine was started to develop in the &quot;R-Vision&quot; company (<a href="https://rvision.pro/)">https://rvision.pro/)</a>.
+				Thank you, &quot;R-Vision&quot;, for initial sponsorship and for allowance to open the sources.</p>
+				<hr>
+				<h2 id="links">Links</h2>
+				<ul>
+					<li><a href="docs/readme-todos-for-1.0.0.md">TODO for 1.0.0 version</a></li>
+					<li><a href="docs/readme-selenium-webdriver.md">Selenium Webdriver usage in TIA</a></li>
+					<li><a href="docs/readme-extjs.md">How to test ExtJs applications</a></li>
+				</ul>
+				<hr>
+				<h2 id="donations">Donations</h2>
+				<p>Since year 2004 I have been involved in auto-testing. I very like it and I have many ideas to implement.
+					So I develop this test engine, dedicating most of my free time to this, using all my experience and best practices.
+					Main goals of this project is to create a good tool for ExtJs applications testing, and to fasten autotesting in common,
+				using the log comparison paradigm (and not the assertion paradigm, though assertions are also supported).</p>
+				<p>If you like this test engine, you can to star my project on github:
+				<a href="https://github.com/Dzenly/tia">https://github.com/Dzenly/tia</a>.</p>
+				<p>If you wish to support the project with moneys, here is an info about my accounts for donations:
+				<a href="https://github.com/Dzenly/tia/blob/master/docs/donations-info.md">https://github.com/Dzenly/tia/blob/master/docs/donations-info.md</a></p>
+				<p>My TODO lists are in &#39;inner-docs&#39; project directory:
+				<a href="https://github.com/Dzenly/tia/tree/master/inner-docs">https://github.com/Dzenly/tia/tree/master/inner-docs</a>.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_ext_js_ext_js_components_checkbox_d_.html">"ext-<wbr>js/ext-<wbr>js-<wbr>components/checkbox.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_ext_js_ext_js_components_extjs_components_d_.html">"ext-<wbr>js/ext-<wbr>js-<wbr>components/extjs-<wbr>components.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_ext_js_extjs_api_d_.html">"ext-<wbr>js/extjs-<wbr>api.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_ext_js_teq_d_.html">"ext-<wbr>js/teq.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_index_d_.html">"index.d"</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

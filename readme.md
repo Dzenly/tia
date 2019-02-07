@@ -1,6 +1,6 @@
 # Time Is All (log driven test engine with ExtJs support)
 
-[See Change log for migration guides](docs/changelog.md)
+[See Change log for migration guides](docs-md/changelog.md)
 
 This is an engine for testing automation.
 It allows any types of testing: unit testing, functional testing, GUI testing, etc.
@@ -10,7 +10,7 @@ The engine supports Web sites testing using Selenium WebDriver
 and provides API for work with `ExtJs` components.
 You can run GUI autotests using `Xvfb` or headless chrome.
 
-> Note: The minimal supported Node.js version is 8.6.0
+> Note: Since 0.20.4 minimal supported Node.js version is 10.15.1.
 
 ## Examples
 
@@ -464,9 +464,9 @@ Thank you, "R-Vision", for initial sponsorship and for allowance to open the sou
 
 ## Links
 
-* [TODO for 1.0.0 version](docs/readme-todos-for-1.0.0.md)
-* [Selenium Webdriver usage in TIA](docs/readme-selenium-webdriver.md)
-* [How to test ExtJs applications](docs/readme-extjs.md)
+* [TODO for 1.0.0 version](docs-md/readme-todos-for-1.0.0.md)
+* [Selenium Webdriver usage in TIA](docs-md/readme-selenium-webdriver.md)
+* [How to test ExtJs applications](docs-md/readme-extjs.md)
 
 ----------------------------------
 
@@ -481,7 +481,7 @@ If you like this test engine, you can to star my project on github:
 https://github.com/Dzenly/tia.
 
 If you wish to support the project with moneys, here is an info about my accounts for donations:
-https://github.com/Dzenly/tia/blob/master/docs/donations-info.md
+https://github.com/Dzenly/tia/blob/master/docs-md/donations-info.md
 
 My TODO lists are in 'inner-docs' project directory:
 https://github.com/Dzenly/tia/tree/master/inner-docs.
