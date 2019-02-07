@@ -27,7 +27,7 @@ module.exports = {
     'no-plusplus': 'off',
     'no-console': 'off',
 
-    'max-params': ['error', 3],
+    'max-params': ['error', 4],
     'max-len': [2, 112, 2, { ignoreUrls: true }],
     'no-await-in-loop': 'off',
     'import/no-dynamic-require': 'off',

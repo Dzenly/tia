@@ -1,4 +1,5 @@
 import {Checkbox} from './checkbox';
+import {Teq} from '../common';
 
 export interface ExtJsComponents {
   /**
@@ -8,5 +9,5 @@ export interface ExtJsComponents {
    * @param elNameForLog
    * @param logAction
    */
-  checkbox(tEQ: string, elNameForLog?: string, logAction?: boolean): Promise<Checkbox>;
+  checkbox(tEQ: Teq, elNameForLog?: string, logAction?: boolean): Promise<Checkbox>;
 }

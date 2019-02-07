@@ -9,7 +9,7 @@ const teq = require('../tia-extjs-query');
 //  * @param logAction
 //  * @return {Promise<{checks: {}, log: {}, actions: {}}>}
 //  */
-module.exports = async function textbox(tEQ, elNameForLog = null, logAction) {
+module.exports = async function checkbox(tEQ, elNameForLog = null, logAction) {
   const cmpInfo = await teq.queryAndAction({
     tEQ,
     action: 'return cmpInfo',
