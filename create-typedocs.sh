@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-# rm -rf typedoc
-# mkdir typedoc
+rm -rf docs
+mkdir docs
 
-typedoc ./types --out docs/typedoc --includeDeclarations --excludeExternals
+mv readme.md readme.md.bak
+typedoc ./types --out docs --includeDeclarations --excludeExternals --exclude ./readme.md
+mv readme.md.bak readme.md
