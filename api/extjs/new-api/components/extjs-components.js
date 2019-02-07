@@ -1,7 +1,5 @@
 'use strict';
 
-const eC = 'eC';
-
-gT[eC] = {
+gT_.eC = {
   checkbox: require('./checkbox'),
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 const teq = require('../tia-extjs-query');
-//
+
 // /**
 //  *
 //  * @param tEQ

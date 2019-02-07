@@ -56,14 +56,12 @@ exports.queryAndAction = async function queryAndAction({
 exports.queryCmpInfo = async function queryCmpInfo({
   searchStr,
   elNameForLog,
-  method, // 'id', 'fakeId'
   logAction,
 }) {
   return exports.queryAndAction({
     searchStr,
     action: 'return cmpInfo;',
     elNameForLog,
-    method, // 'id', 'fakeId'
     logAction,
   });
 };
