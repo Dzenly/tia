@@ -31,6 +31,24 @@ exports.cmpDomElement = async function getDomElement({
 // Actions using ExtJS.
 
 
+// Элементы.
+// ua Действия юзеров.
+// check Проверки.
+// log Распечатки.
+
+// gT.ej.textEdit(tEQ);
+
+// actions
+// checks
+// log
+
+// gT.e.textEdit(tEQ):  {
+//   actions
+//   checks
+//   log
+// }
+
+
 
 
 

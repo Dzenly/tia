@@ -1,7 +1,7 @@
 'use strict';
 
 const { inspect } = require('util');
-const wrap = require('./components/wrap');
+const wrap = require('./new-api/components/wrap');
 
 // These methods I think would be most often used.
 
