@@ -1,6 +1,6 @@
 'use strict';
 
-const { queryAndAction } = require('./extjs-query');
+const { queryAndAction } = require('./tia-extjs-query');
 const search = require('./selenium-search');
 
 /**

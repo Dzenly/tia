@@ -94,7 +94,7 @@ gT.e.lClick.cb = require('./extjs-l-clicks-cb.js');
 
 gT.e.wait = require('./extjs-waits.js');
 
-gT.e.query = require('./new-api/extjs-query.js');
+gT.e.query = require('./new-api/tia-extjs-query.js');
 
 gT.e.query.search = require('./new-api/selenium-search');
 gT.e.query.actions = require('./new-api/selenium-actions');

@@ -1,6 +1,6 @@
 'use strict';
 
-const { queryAndAction } = require('./extjs-query');
+const { queryAndAction } = require('./tia-extjs-query');
 
 /**
  * Returns DOM element.
