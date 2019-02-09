@@ -79,7 +79,7 @@ module.exports = {
   selfTestsExtLog: 'ext-log.log', // TODO: Should be in dir config or there should be
   // function like t.setExternalLogs.
 
-  hangTimeout: 60000, // Timeout (ms) after which action function considered as hanging.
+  hangTimeout: 180000, // Timeout (ms) after which action function considered as hanging.
 
   tooLongTime: 1e12, // If tests exceeded this duration (ms) the TOO_LONG prefix will be added to email subject.
 

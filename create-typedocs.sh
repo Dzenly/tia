@@ -8,4 +8,4 @@ typedoc ./types --out docs --includeDeclarations --excludeExternals --exclude ./
 mv readme.md.bak readme.md
 touch docs/.nojekyll
 
-gh docs/index.html
+google-chrome-stable docs/index.html

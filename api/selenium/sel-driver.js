@@ -92,13 +92,8 @@ exports.init = async function init(cleanProfile, logAction) {
           'profile.password_manager_enabled': false,
         });
 
-        capabilities = options.toCapabilities(gT.sOrig.wdModule.Capabilities.chrome());
+        // capabilities = new gT.sOrig.wdModule.Capabilities();
 
-        break;
-      case 'phantomjs':
-        capabilities = gT.sOrig.wdModule.Capabilities.phantomjs();
-        capabilities.set('phantomjs.cli.args', '--webdriver-loglevel=ERROR'); // Undocumented ability.
-        // capabilities.set('phantomjs.binary.path', '/home/alexey/bin/phantomjs'); // Undocumented ability.
         break;
       case 'firefox':
         options = new gT.sOrig.firefox.Options();
@@ -132,7 +127,7 @@ exports.init = async function init(cleanProfile, logAction) {
         options.setBinary(binary);
 
         // gT.sOrig.wdModule.Capabilities.firefox();
-        capabilities = options.toCapabilities(gT.sOrig.wdModule.Capabilities.firefox());
+        // capabilities = new gT.sOrig.wdModule.Capabilities();
         break;
     }
 
@@ -144,6 +139,8 @@ exports.init = async function init(cleanProfile, logAction) {
     prefs.setLevel(gT.sOrig.browserLogType, gIn.params.browserLogLevel);
     prefs.setLevel(gT.sOrig.driverLogType, gIn.params.driverLogLevel);
 
+    capabilities = new gT.sOrig.wdModule.Capabilities();
+    capabilities.setBrowserName(gIn.params.browser);
     capabilities.setLoggingPrefs(prefs);
 
     gIn.tracer.msg3(util.inspect(capabilities, { depth: 4 }));
@@ -168,6 +165,8 @@ exports.init = async function init(cleanProfile, logAction) {
         gT_.firstRunWithRemoteDriver = true;
         gT_.sOrig.driver = new gT.sOrig.wdModule.Builder()
           .forBrowser(gIn.params.browser)
+          .setChromeOptions(options)
+          .setFirefoxOptions(options)
           .withCapabilities(capabilities)
 
           // As an alternative to this method, you may also set the SELENIUM_REMOTE_URL environment variable.
@@ -209,6 +208,8 @@ exports.init = async function init(cleanProfile, logAction) {
       // Temporary driver
       gT_.sOrig.driver = new gT.sOrig.wdModule.Builder()
         .forBrowser(gIn.params.browser)
+        .setChromeOptions(options)
+        .setFirefoxOptions(options)
         .withCapabilities(capabilities)
         .build();
     }

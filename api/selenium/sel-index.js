@@ -17,7 +17,9 @@ gT_.sOrig.firefox = require('selenium-webdriver/firefox');
 
 gT_.sOrig.by = gT.sOrig.wdModule.By;
 gT_.sOrig.until = gT.sOrig.wdModule.until;
-gT_.sOrig.ActionSequence = gT.sOrig.wdModule.ActionSequence;
+
+gT_.sOrig.input = require('selenium-webdriver/lib/input');
+
 gT_.sOrig.key = gT.sOrig.wdModule.Key;
 
 // gT.sOrig.driver is set by gT.sOrig.driver.init.

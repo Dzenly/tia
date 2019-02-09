@@ -22,7 +22,7 @@ exports.delayClickAndWaitForAjaxFinish = function delayClickAndWaitForAjaxFinish
   return delayIfNeeded().then(() => {
     gIn.tracer.msg3('delayAndClick: before click');
     return (isDblClick
-      ? new gT.sOrig.ActionSequence(gT.sOrig.driver).doubleClick(webEl).perform()
+      ? new gT.sOrig.driver.actions().doubleClick(webEl).perform()
       : webEl.click()
     ).then(() => gT.e.wait.idle(undefined, false));
   });

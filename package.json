@@ -39,18 +39,17 @@
   "dependencies": {
     "camelcase-keys": "^5.0.0",
     "chalk": "^2.4.1",
-    "chromedriver": "^2.44.0",
+    "chromedriver": "^2.46.0",
     "debug-assert": "^0.2.3",
-    "diff": "^3.5.0",
+    "diff": "^4.0.1",
     "lodash": "^4.17.11",
     "minimist": "^1.2.0",
-    "nodemailer": "^4.7.0",
+    "nodemailer": "^5.1.1",
     "nodemailer-smtp-transport": "^2.7.4",
-    "selenium-webdriver": "^3.6.0"
+    "selenium-webdriver": "^4.0.0-alpha.1"
   },
   "devDependencies": {
-    "@types/node": "^10.12.18",
-    "typescript": "^3.2.2",
-    "typescript-tslint-plugin": "^0.2.1"
+    "@types/node": "^10.12.24",
+    "@types/selenium-webdriver": "^3.0.14"
   }
 }
