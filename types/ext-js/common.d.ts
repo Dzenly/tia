@@ -14,3 +14,17 @@
  * Ext.ComponentQuery('#someId).lookupReference('someReference').query(someXType)
  */
 export type Teq = string;
+
+/**
+ * Alias which writes to log for the given element.
+ */
+export type ElementNameForLog = string | undefined;
+
+/**
+ * Whether the action is to be written to log.
+ * true - write action.
+ * false - don't write action (unless --force-log-actions is specified).
+ * undefined - use default logAction which is
+ * true for high level actions and false for low level actions.
+ */
+export type LogAction = boolean | undefined;
