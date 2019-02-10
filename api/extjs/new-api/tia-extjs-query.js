@@ -1,5 +1,7 @@
 'use strict';
 
+// import {gT} from '../../../types';
+
 exports.queryAndAction = async function queryAndAction({
   tEQ,
   action,
@@ -7,7 +9,8 @@ exports.queryAndAction = async function queryAndAction({
   logAction,
 }) {
   // Waiting for all ExtJs inner processes are finished and component is ready to work with.
-  await gT.e.wait.idle(undefined, false);
+  // await gT.e.wait.idle(undefined, false);
+  await gT.e.wait.ajaxRequestsFinish(undefined, false);
 
   return gIn.wrap({
     msg: `Searching ExtJs cmp ${elNameForLog ? (`${elNameForLog} `) : ''}by TEQ: ${tEQ} ... `,
@@ -32,11 +35,11 @@ exports.queryCmpInfo = async function queryCmpInfo({
   });
 };
 
-exports.queryCmpId = async function queryCmpId({
+exports.queryCmpId = async function queryCmpId(
   tEQ,
   elNameForLog,
-  logAction,
-}) {
+  logAction
+) {
   return exports.queryAndAction({
     tEQ,
     action: 'return cmpInfo.constProps.realId;',

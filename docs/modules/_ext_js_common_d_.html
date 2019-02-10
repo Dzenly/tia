@@ -102,7 +102,7 @@
 					<div class="tsd-signature tsd-kind-icon">Log<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ext-js/common.d.ts:30</li>
+							<li>Defined in ext-js/common.d.ts:32</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -110,8 +110,10 @@
 							<p>Whether the action is to be written to log.
 								true - write action.
 								false - don&#39;t write action (unless --force-log-actions is specified).
-								undefined - use default logAction which is
-							true for high level actions and false for low level actions.</p>
+								undefined - use default logAction.
+								Note: Default logAction is &#39;true; (gT.engineConsts.defLLLogAction).
+								Some function can use its own default logAction, it this case such function description contains
+							an explanation.</p>
 						</div>
 					</div>
 				</section>
@@ -148,8 +150,17 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_assertions_d_.html">"assertions.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_common_d_.html">"common.d"</a>
+					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="_ext_js_common_d_.html">"ext-<wbr>js/common.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_ext_js_ext_js_components_any_d_.html">"ext-<wbr>js/ext-<wbr>js-<wbr>components/any.d"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_ext_js_ext_js_components_extjs_components_d_.html">"ext-<wbr>js/ext-<wbr>js-<wbr>components/extjs-<wbr>components.d"</a>
@@ -170,7 +181,31 @@
 						<a href="_index_d_.html">"index.d"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_logs_d_.html">"logs.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_selenium_browser_d_.html">"selenium/browser.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_selenium_common_d_.html">"selenium/common.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_selenium_driver_d_.html">"selenium/driver.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_selenium_original_api_d_.html">"selenium/original-<wbr>api.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_selenium_selenium_api_d_.html">"selenium/selenium-<wbr>api.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_selenium_user_actions_d_.html">"selenium/user-<wbr>actions.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_selenium_wait_d_.html">"selenium/wait.d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_test_d_.html">"test.d"</a>
 					</li>
 				</ul>
 			</nav>

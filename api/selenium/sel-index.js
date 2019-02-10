@@ -30,4 +30,3 @@ require('./sel-misc');
 gT_.s.wait = require('./sel-waits.js');
 gT_.s.uA = require('./sel-user-actions.js');
 gT_.s.browser = require('./sel-browser.js');
-gT_.s.hL = require('./sel-hl.js');

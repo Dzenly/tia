@@ -11,16 +11,6 @@ function createBrowserProfile() {
   fileUtils.mkdir(gIn.suite.browserProfilePath);
 }
 
-/**
- * Initiates webdriver.
- * All gui tests should start with this function.
- *
- * @param {Boolean} cleanProfile - Is profile cleaning needed. Works only if custom profile is defined.
- * @param {Boolean} [logAction] -  enable/disable logging for this action.
- * Default value is set by gT.engineConsts.defLLLogAction.
- * But default value if false if there is not custom user profile.
- * There is an issue with custom profile on Windows. Profile is not saved after browser closing.
- */
 exports.init = async function init(cleanProfile, logAction) {
   if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
     logAction = false;
@@ -51,8 +41,6 @@ exports.init = async function init(cleanProfile, logAction) {
     if (cleanProfile) {
       gT.s.cleanProfile(false);
     }
-
-    let capabilities;
 
     let profileAbsPath;
 
@@ -92,12 +80,10 @@ exports.init = async function init(cleanProfile, logAction) {
           'profile.password_manager_enabled': false,
         });
 
-        // capabilities = new gT.sOrig.wdModule.Capabilities();
-
         break;
       case 'firefox':
         options = new gT.sOrig.firefox.Options();
-        let binary = new gT.sOrig.firefox.Binary();
+        const binary = new gT.sOrig.firefox.Binary();
         if (gIn.config.selProfilePath) {
           // Profile name should be alphanumeric only.
           // Checked on linux. It does set -profile option.
@@ -139,7 +125,7 @@ exports.init = async function init(cleanProfile, logAction) {
     prefs.setLevel(gT.sOrig.browserLogType, gIn.params.browserLogLevel);
     prefs.setLevel(gT.sOrig.driverLogType, gIn.params.driverLogLevel);
 
-    capabilities = new gT.sOrig.wdModule.Capabilities();
+    const capabilities = new gT.sOrig.wdModule.Capabilities();
     capabilities.setBrowserName(gIn.params.browser);
     capabilities.setLoggingPrefs(prefs);
 
@@ -159,7 +145,7 @@ exports.init = async function init(cleanProfile, logAction) {
         const client = new gT.sOrig.Client(remoteDriverConnectionStr);
         const executor = new gT.sOrig.Executor(client);
 
-        gT_.sOrig.driver = gT.sOrig.wdModule.WebDriver.attachToSession(executor, sid);
+        gT_.sOrig.driver = new gT.sOrig.wdModule.WebDriver(sid, executor);
       } else {
         gIn.tracer.msg3('There is not current SID');
         gT_.firstRunWithRemoteDriver = true;
@@ -176,11 +162,11 @@ exports.init = async function init(cleanProfile, logAction) {
 
         gT_.sOrig.driver
           .getSession()
-          .then(res => {
+          .then((res) => {
             const sid = gIn.remoteDriverUtils.saveSid(res.getId());
             gIn.tracer.msg3(`Saved session id: ${sid}`);
           })
-          .catch(e => {
+          .catch((e) => {
             gIn.logger.exception('Error at getSession: ', e);
           });
       }
@@ -226,14 +212,6 @@ exports.init = async function init(cleanProfile, logAction) {
   });
 };
 
-/**
- * Sleeps for the specified milliseconds amount.
- *
- * @param ms
- * @param logAction
- *
- * @returns {Promise}
- */
 exports.sleep = function sleep(ms, logAction) {
   return gIn.wrap(`Sleep ${ms} ms ... `, logAction, () => gT.u.promise.delayed(ms, true));
 };
@@ -245,18 +223,11 @@ const stupidSleep = 400;
  * It is stupid sleep instead of smart waiting for something.
  */
 exports.getStupidSleepFunc = function getStupidSleepFunc() {
-  return function() {
+  return function () {
     return exports.sleep(stupidSleep, false);
   };
 };
 
-/**
- * Quit from the browser.
- * @param [logAction]
- * If there was a custom profile - default logAction is true,
- * otherwise - false.
- * @returns {*}
- */
 exports.quit = function quit(logAction) {
   if (gIn.params.ejExplore) {
     gIn.tracer.msg3('quit: ejExplore, no quit');
@@ -272,18 +243,14 @@ exports.quit = function quit(logAction) {
   return gIn.wrap(
     'Quiting ... ',
     logAction,
-    () =>
-      gT.sOrig.driver.quit().then(() => {
-        gIn.tracer.msg3('Quit: Driver is deleted');
-        delete gT.sOrig.driver;
-      }),
+    () => gT.sOrig.driver.quit().then(() => {
+      gIn.tracer.msg3('Quit: Driver is deleted');
+      delete gT.sOrig.driver;
+    }),
     true
   );
 };
 
-/**
- * Quit if driver is initiated and if there is not ejExplore mode.
- */
 exports.quitIfInited = function quitIfInited() {
   if (gIn.params.ejExplore) {
     gIn.tracer.msg3('quitIfInited: ejExplore, no quit');
@@ -300,11 +267,11 @@ exports.quitIfInited = function quitIfInited() {
   return Promise.resolve('No driver, no quit');
 };
 
-exports.printSelDriverLogs = function printSelDriverLogs(minValue) {
-  return gT.sOrig.logs.get(gT.sOrig.driverLogType).then(entries => {
+exports.printSelDriverLogs = function printSelDriverLogs(minLevel) {
+  return gT.sOrig.logs.get(gT.sOrig.driverLogType).then((entries) => {
     gIn.tracer.msg3('Start of printSelDriverLogs');
     for (const entry of entries) {
-      if (entry.level.value >= minValue) {
+      if (entry.level.value >= minLevel) {
         const logStr = `SEL.DR.LOG: ${entry.level.name} (${entry.level.value}), Message:\n ${
           entry.message
         }`;

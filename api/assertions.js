@@ -76,7 +76,7 @@ exports.true = function checkIfTrue(condition, msg, mode) {
  * Checks that specified condition is false.
  * @param condition
  * @param msg - message to describe the entity which you expect.
- * param {Object} mode - see 'true' assertin description.
+ * param {Object} mode - see 'true' assertion description.
  */
 exports.false = function checkIfFalse(condition, msg, mode) {
   return exports.true(!condition, msg, mode);
@@ -248,16 +248,15 @@ exports.exception = function exception(func, expExc, mode) {
 // TODO exception in async func.
 
 /**
- *
- * @param yieldable
+ * Checks that given async func will throw given exception.
+ * @param asyncFunc
  * @param expExc
  * @param mode
  * @return {Promise}
  */
-exports.exceptionAsync = function exceptionAsync(yieldable, expExc, mode) {
-  return gT.u.execGen(yieldable)
+exports.exceptionAsync = function exceptionAsync(asyncFunc, expExc, mode) {
+  return asyncFunc()
     .then(() => {
-      console.log('GOOD');
       let msg;
       if (typeof expExc === 'undefined') {
         msg = 'There is not any exception';
@@ -268,7 +267,6 @@ exports.exceptionAsync = function exceptionAsync(yieldable, expExc, mode) {
       return false;
     }, (e) => {
       const str = e.toString();
-      console.log(`BAD: ${str}`);
       if (typeof expExc === 'undefined') {
         gT.l.pass(`Expected any exception: '${str}'`, mode);
         return true;

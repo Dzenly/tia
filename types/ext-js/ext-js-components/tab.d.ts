@@ -16,8 +16,11 @@ interface TabLogs {
 }
 
 export interface Tab {
-  actions: TabActions,
-  checks: TabChecks,
-  logs: TabLogs,
+  actions: TabActions;
+  a: TabActions;
+  checks: TabChecks;
+  c: TabChecks;
+  logs: TabLogs;
+  l: TabLogs;
 }
 

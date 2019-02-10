@@ -10,7 +10,7 @@ const FAIL = 'FAIL: ';
 // const failLn = `${FAIL}\n`;
 
 /**
- * Logs the specifiied msg.
+ * Logs the specified msg.
  */
 exports.print = function print(msg) {
   gIn.logger.log(msg);

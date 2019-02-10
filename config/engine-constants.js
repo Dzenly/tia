@@ -83,7 +83,7 @@ module.exports = {
 
   tooLongTime: 1e12, // If tests exceeded this duration (ms) the TOO_LONG prefix will be added to email subject.
 
-  defaultWaitTimeout: 30000, // Default timeout for e.wait functions.,
+  defaultWaitTimeout: 40000, // Default timeout for e.wait functions.,
 
   // Delay before click on ExtJs element. It seems like ExtJs does not handle
   // too fast clicking.

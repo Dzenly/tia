@@ -21,7 +21,10 @@ interface TabPanelLogs {
 
 export interface TabPanel {
   actions: TabPanelActions,
+  a: TabPanelActions,
   checks: TabPanelChecks,
+  c: TabPanelChecks,
   logs: TabPanelLogs,
+  l: TabPanelLogs,
 }
 

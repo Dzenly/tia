@@ -1,4 +1,4 @@
-import {Teq} from './common';
+import { Teq } from './common';
 
 interface TeqParamsForCmpInfo {
   tEQ: Teq;
@@ -6,7 +6,7 @@ interface TeqParamsForCmpInfo {
   /**
    * Extra element name for log. E.g. if there is no id.
    */
-  elNameForLog ?: string;
+  elNameForLog?: string;
 
   /**
    * Should action be logged? By default - default settings will be used,
@@ -30,4 +30,5 @@ type CmpInfo = any;
 export interface TeqApi {
   queryAndAction(args: TeqParams): any;
   queryCmpInfo(args: TeqParamsForCmpInfo): CmpInfo;
+  queryCmpId(tEQ: Teq, elNameForLog ?: string, logAction ?: boolean): string;
 }

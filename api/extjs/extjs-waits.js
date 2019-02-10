@@ -12,6 +12,7 @@
  * @returns {Promise} - Promise resolved to waiting result.
  */
 exports.ajaxRequestsFinish = function ajaxRequestsFinish(timeout, logAction) {
+  // eslint-disable-next-line no-param-reassign
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap(
     'Waiting for AJAX requests finish ... ',
@@ -38,7 +39,9 @@ exports.idle = function idle(timeout = gT.engineConsts.defaultWaitTimeout, logAc
 // TODO: redundant call to webdriver ?
 function logFormFieldInfo(formId, name, logAction) {
   return function () {
-    return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.getFormFieldEnabledDisabledInfo('${formId.id}', '${name}');`)
+    return gT.s.browser.executeScriptWrapper(
+      `return tiaEJ.ctById.getFormFieldEnabledDisabledInfo('${formId.id}', '${name}');`
+    )
       .then((res) => {
         gIn.logger.logIfNotDisabled(`, ${res} ... `, logAction);
       });

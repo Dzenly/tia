@@ -5,6 +5,7 @@
 const _ = require('lodash');
 
 module.exports = {
+  any: require('./any'),
   checkbox: require('./checkbox'),
   tab: require('./tab'),
   tabPanel: require('./tab-panel'),

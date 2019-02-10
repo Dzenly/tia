@@ -8,10 +8,11 @@ const actions = {
       msg: `Click tab "${tEQ}" ... `,
       logAction,
       act: async () => {
-        const id = await queryCmpId({
+        const id = await queryCmpId(
           tEQ,
-          logAction: false,
-        });
+          undefined,
+          false,
+        );
         await gT.s.uA.clickById(id, false);
       },
     });

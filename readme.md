@@ -21,6 +21,11 @@ https://github.com/Dzenly/tia/tree/master/tests
 
 ## Terms
 
+### AUT
+
+Abbreviation for Application Under Test.
+I.e. your web page inside a browser.
+
 ### Project root directory
 
 The directory containing your project.
