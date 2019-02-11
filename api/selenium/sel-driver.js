@@ -15,7 +15,6 @@ function createBrowserProfile() {
 const cleanedProfilePaths = [];
 
 exports.init = async function init(cleanProfile, logAction) {
-
   // if (typeof logAction === 'undefined' && !gIn.config.browserProfileDir) {
   //   logAction = false;
   // }
@@ -69,7 +68,8 @@ exports.init = async function init(cleanProfile, logAction) {
         // options.addArguments('--start-maximized');
 
         // if (gIn.config.browserProfileDir) {
-          options.addArguments(`--user-data-dir=${gIn.config.browserProfilePath}`);
+        options.addArguments(`--user-data-dir=${gIn.config.browserProfilePath}`);
+
         // }
 
         // options.excludeSwitches();
@@ -83,31 +83,32 @@ exports.init = async function init(cleanProfile, logAction) {
       case 'firefox': {
         options = new gT.sOrig.firefox.Options();
         const binary = new gT.sOrig.firefox.Binary();
-        if (gIn.config.browserProfileDir) {
-          // Profile name should be alphanumeric only.
-          // Checked on linux. It does set -profile option.
-          // binary.addArguments('-profile "' + gIn.config.browserProfilePath + '"');
-          options.setProfile(gIn.config.browserProfilePath); // Checked on linux. Does NOT set -profile option.
 
-          if (gIn.params.headless) {
-            options.addArguments('-headless');
-          }
+        // if (gIn.config.browserProfileDir) {
+        // Profile name should be alphanumeric only.
+        // Checked on linux. It does set -profile option.
+        // binary.addArguments('-profile "' + gIn.config.browserProfilePath + '"');
+        options.setProfile(gIn.config.browserProfilePath); // Checked on linux. Does NOT set -profile option.
 
-          // http://selenium.googlecode.com/git/docs/api/javascript/module_selenium-webdriver_firefox.html
-          // "The FirefoxDriver will never modify a pre-existing profile; instead it will create
-          // a copy for it to modify."
+        // http://selenium.googlecode.com/git/docs/api/javascript/module_selenium-webdriver_firefox.html
+        // "The FirefoxDriver will never modify a pre-existing profile; instead it will create
+        // a copy for it to modify."
 
-          // http://stackoverflow.com/questions/6787095/how-to-stop-selenium-from-creating-temporary-firefox-profiles-using-web-driver
-          // webdriver.firefox.profile (name of the profile).
+        // http://stackoverflow.com/questions/6787095/how-to-stop-selenium-from-creating-temporary-firefox-profiles-using-web-driver
+        // webdriver.firefox.profile (name of the profile).
 
-          // Also there is info that gT.sOrig.driver.quit() deletes tmp profile, butgT.sOrig.driver.close()
-          // - does not.
+        // Also there is info that gT.sOrig.driver.quit() deletes tmp profile, butgT.sOrig.driver.close()
+        // - does not.
 
-          // profile.setPreference ?
+        // profile.setPreference ?
 
-          // browser.sessionstore.resume_from_crash
+        // browser.sessionstore.resume_from_crash
 
-          // writeToDisk ?
+        // writeToDisk ?
+        // }
+
+        if (gIn.params.headless) {
+          options.addArguments('-headless');
         }
         options.setBinary(binary);
 
@@ -233,6 +234,7 @@ exports.quit = function quit(logAction) {
     gIn.tracer.msg3('quit: ejExplore, no quit');
     return Promise.resolve('ejExplore, no quit');
   }
+
   // if (typeof logAction === 'undefined' && !gIn.config.browserProfileDir) {
   //   logAction = false;
   // }
