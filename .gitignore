@@ -198,3 +198,4 @@ package-lock.json
 # typescript.
 dist/
 build/
+**/tia-browser-profiles/

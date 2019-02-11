@@ -24,11 +24,16 @@ module.exports = {
       },
     ],
     'function-paren-newline': 0,
+    'no-restricted-syntax': 0,
     'no-plusplus': 'off',
     'no-console': 'off',
 
     'max-params': ['error', 4],
-    'max-len': [2, 112, 2, { ignoreUrls: true }],
+    'max-len': [2, 112, 2, {
+      ignoreUrls: true,
+      ignoreStrings: true,
+      ignoreTemplateLiterals: true,
+    }],
     'no-await-in-loop': 'off',
     'import/no-dynamic-require': 'off',
     'global-require': 'off',

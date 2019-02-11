@@ -59,13 +59,10 @@ module.exports = {
   // пустая строка - дефолтный DISPLAY.
   DISPLAY: ':1.5',
 
-  // Browser profile path relative to __tia__ subdirectory of the current Test suite.
-  // You can access the full path by gIn.suite.browserProfilePath.
+  // Browser profile directory, relative to gIn.suite.browserProfilesPath.
   // For now profiles are supported for chrome only.
-  // If this config value is empty - default path will be used and it will be deleted at browser closing,
-  // so all cookies, etc. will be destroyed.
-  // Please, use carefully, because `rm -rf` will be used for the browser profiles.
-  selProfilePath: '',
+  // If this path is empty, default root profile (common for all suites) will be used.
+  browserProfileDir: '',
 
   // TODO
   // Уровень сообщений, отлавливаемых в консоли браузера. SEVERE или WARNING.
@@ -78,7 +75,7 @@ module.exports = {
   // When URLs are written to Test logs this string will be replaced by `$(host)`.
   // And vice versa, in functions which take URL, the '$(host)' will be replaced
   // by this value.
-  selHost: 'http://localhost:1337',
+  selHost: 'http://10.4.3.214',
 
   // Print resource usage at error. Makes sense to disable for tests for errors testing.
   resUsagePrintAtErrors: true,

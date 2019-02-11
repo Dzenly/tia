@@ -43,6 +43,11 @@ exports.usage = function usage() {
       0 means to log all, 1000 - only severe errors.
       800 - info, 900 - warnings. 1000 - severe errors.
 
+      --clear-profiles - Force clear browser profiles in gT.s.driver.init().
+      Each profile cleans only once per Tia run.
+      Behaviour is undefined for --clear-profiles + --use-remote-driver combination,
+      so please avoid to mix them.
+
       --debug-avg - equals to --log-to-console --err-to-console --keep-browser-at-error --trace-level 2
       Though --trace-level option can be used to override tracing level.
       Note: --debug-max have precedence over --debug-avg.

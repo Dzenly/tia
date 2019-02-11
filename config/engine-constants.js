@@ -60,7 +60,9 @@ module.exports = {
   globalConfigName: 'tia-global-config.js',
 
   // Browser profile directory. You can not override this path.
-  browserProfileRootDirName: 'tia-browser-profiles',
+  browserProfilesRootDirName: 'tia-browser-profiles',
+
+  defaultBrowserProfileName: 'default',
 
   // Default display for GUI tests.
   defDisplay: process.env.DISPLAY,

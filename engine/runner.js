@@ -168,7 +168,17 @@ function handleDirConfig(dir, files, parentDirConfig) {
     nodeUtils.requireArray(config.require);
   }
 
-  return _.merge(_.cloneDeep(parentDirConfig), config);
+  const dirCfg = _.merge(_.cloneDeep(parentDirConfig), config);
+
+  if (config.browserProfileDir) {
+    dirCfg.browserProfilePath = path.join(gIn.suite.browserProfilesPath, config.browserProfileDir);
+  } else {
+    dirCfg.browserProfilePath = gT.defaultRootProfile;
+  }
+
+  gIn.tracer.msg2(`Profile path: ${dirCfg.browserProfilePath}`);
+
+  return dirCfg;
 }
 
 /**
@@ -211,7 +221,7 @@ async function handleTestDir(dir, parentDirConfig) {
     if (stat.isFile() && fileOrDirPath.endsWith(gT.engineConsts.tiaSuffix)) {
       innerCurInfo = await handleTestFile(fileOrDirPath, dirConfig);
     } else if (stat.isDirectory()) {
-      if (fileOrDir === gT.engineConsts.browserProfileRootDirName) {
+      if (fileOrDir === gT.engineConsts.browserProfilesRootDirName) {
         gIn.tracer.msg3(`Skipping directory ${fileOrDirPath}, because it is browser profile`);
         continue;
       }
@@ -395,10 +405,10 @@ async function runTestSuite(suiteData) {
 }
 
 async function prepareAndRunTestSuite(root) {
-  const browserProfilePath = path.resolve(
+  const browserProfilesPath = path.resolve(
     root,
     gT.engineConsts.suiteResDirName,
-    gT.engineConsts.browserProfileRootDirName
+    gT.engineConsts.browserProfilesRootDirName
   );
 
   const log = path.join(
@@ -421,7 +431,7 @@ async function prepareAndRunTestSuite(root) {
 
   const suite = {
     root,
-    browserProfilePath,
+    browserProfilesPath,
     log,
     etLog,
     configPath,

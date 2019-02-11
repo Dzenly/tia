@@ -3,26 +3,29 @@
 /* globals gT: true */
 /* globals gIn: true */
 
-const mpath = require('path');
+// const mpath = require('path');
 const util = require('util');
 const fileUtils = require('../../utils/file-utils.js');
 
+// TODO: does not driver creates profile dir itself ?
 function createBrowserProfile() {
-  fileUtils.mkdir(gIn.suite.browserProfilePath);
+  fileUtils.mkdir(gIn.config.browserProfilePath);
 }
 
+const cleanedProfilePaths = [];
+
 exports.init = async function init(cleanProfile, logAction) {
-  if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
-    logAction = false;
-  }
 
-  createBrowserProfile();
+  // if (typeof logAction === 'undefined' && !gIn.config.browserProfileDir) {
+  //   logAction = false;
+  // }
 
-  gIn.tracer.msg3(`selProfilePath: ${gIn.config.selProfilePath}`);
+  gIn.tracer.msg3(`browserProfilePath: ${gIn.config.browserProfilePath}`);
   gIn.tracer.msg3(`shareBrowser: ${gIn.params.shareBrowser}`);
   gIn.tracer.msg3(`sharedBrowserInitiated: ${gIn.sharedBrowserInitiated}`);
 
-  if (!gIn.config.selProfilePath && gIn.params.shareBrowser) {
+  // If directory has private profile, --share-browser is ignored.
+  if (!gIn.config.browserProfileDir && gIn.params.shareBrowser) {
     if (gIn.sharedBrowserInitiated) {
       gIn.tracer.msg3('Initialization is not needed');
       return Promise.resolve('Initialization is not needed');
@@ -31,25 +34,21 @@ exports.init = async function init(cleanProfile, logAction) {
   }
 
   let profileInfo;
-  if (gIn.config.selProfilePath) {
-    profileInfo = `(with user defined ${cleanProfile ? 'empty' : 'saved'} profile)`;
+  if (gIn.config.browserProfileDir) {
+    profileInfo = `(with dir-config defined ${cleanProfile ? 'empty' : 'saved'} profile)`;
   } else {
-    profileInfo = '(with default empty profile)';
+    profileInfo = '(with default profile)';
   }
 
   return gIn.wrap(`Initialization ${profileInfo} ... `, logAction, async () => {
     if (cleanProfile) {
-      gT.s.cleanProfile(false);
+      gT.s.browser.cleanProfile(false);
+    } else if (gIn.params.clearProfiles && !cleanedProfilePaths.includes(gIn.config.browserProfilePath)) {
+      gT.s.browser.cleanProfile(true);
+      cleanedProfilePaths.push(gIn.config.browserProfilePath);
     }
 
-    let profileAbsPath;
-
-    if (gIn.config.selProfilePath) {
-      profileAbsPath = mpath.resolve(
-        mpath.join(gIn.suite.browserProfilePath, gIn.config.selProfilePath)
-      );
-      gIn.tracer.msg2(`Profile path: ${profileAbsPath}`);
-    }
+    // createBrowserProfile();
 
     let options;
 
@@ -69,9 +68,9 @@ exports.init = async function init(cleanProfile, logAction) {
 
         // options.addArguments('--start-maximized');
 
-        if (gIn.config.selProfilePath) {
-          options.addArguments(`--user-data-dir=${profileAbsPath}`);
-        }
+        // if (gIn.config.browserProfileDir) {
+          options.addArguments(`--user-data-dir=${gIn.config.browserProfilePath}`);
+        // }
 
         // options.excludeSwitches();
 
@@ -81,14 +80,14 @@ exports.init = async function init(cleanProfile, logAction) {
         });
 
         break;
-      case 'firefox':
+      case 'firefox': {
         options = new gT.sOrig.firefox.Options();
         const binary = new gT.sOrig.firefox.Binary();
-        if (gIn.config.selProfilePath) {
+        if (gIn.config.browserProfileDir) {
           // Profile name should be alphanumeric only.
           // Checked on linux. It does set -profile option.
-          // binary.addArguments('-profile "' + profileAbsPath + '"');
-          options.setProfile(profileAbsPath); // Checked on linux. Does NOT set -profile option.
+          // binary.addArguments('-profile "' + gIn.config.browserProfilePath + '"');
+          options.setProfile(gIn.config.browserProfilePath); // Checked on linux. Does NOT set -profile option.
 
           if (gIn.params.headless) {
             options.addArguments('-headless');
@@ -114,6 +113,7 @@ exports.init = async function init(cleanProfile, logAction) {
 
         // gT.sOrig.wdModule.Capabilities.firefox();
         // capabilities = new gT.sOrig.wdModule.Capabilities();
+      }
         break;
     }
 
@@ -233,9 +233,9 @@ exports.quit = function quit(logAction) {
     gIn.tracer.msg3('quit: ejExplore, no quit');
     return Promise.resolve('ejExplore, no quit');
   }
-  if (typeof logAction === 'undefined' && !gIn.config.selProfilePath) {
-    logAction = false;
-  }
+  // if (typeof logAction === 'undefined' && !gIn.config.browserProfileDir) {
+  //   logAction = false;
+  // }
   if (gIn.sharedBrowserInitiated) {
     gIn.tracer.msg3('quit: Shared browser, no quit');
     return Promise.resolve('Shared browser, no quit');

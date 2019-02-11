@@ -71,6 +71,7 @@ const opts = {
     'update-logs',
   ],
   boolean: [ // 'logs-to-mail',
+    'clear-profiles',
     'debug-avg',
     'debug-locale',
     'debug-max',
@@ -216,6 +217,14 @@ gT_.globalConfig = _.merge(_.cloneDeep(gT.globalConfigDefault), globalConfig);
 if (!gT.globalConfig.rootDirAlias) {
   gT_.globalConfig.rootDirAlias = path.basename(gIn.params.rootDir);
 }
+
+// =====================
+
+gT_.defaultRootProfile = path.join(
+  gT.rootResultsDir,
+  gT.engineConsts.browserProfilesRootDirName,
+  gT.engineConsts.defaultBrowserProfileName
+);
 
 // =====================
 

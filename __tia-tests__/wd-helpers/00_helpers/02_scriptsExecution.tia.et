@@ -1,7 +1,9 @@
 =================
 Title: Test for client exceptions
+Initialization (with default profile) ... OK
 Loading a page with URL: "http://google.com" ... OK
 Script execution ... OK
 Result of script execution: 5
+Quiting ... OK
 =================
 Pass: 0, Fail: 0

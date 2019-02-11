@@ -150,7 +150,7 @@ exports.setDebugMode = function setDebugMode(logAction) {
  * Resets debug mode for browser scripts.
  * Less info is showed for elements (including ExtJs ones).
  */
-exports.resetDebugMode = function (logAction) {
+exports.resetDebugMode = function resetDebugMode(logAction) {
   return gIn.wrap(
     'Reset debug mode ... ',
     logAction,
@@ -354,7 +354,7 @@ exports.addCookie = function addCookie(name, value, logAction) {
 
 exports.addCookieEx = function addCookieEx(args, logAction) {
   return gIn.wrap(
-    `Add cookie ex: "${args.name}": "` + 'a value' + `", "${args.path}", "${args.domain}" ... `,
+    `Add cookie ex: name: "${args.name}", value: "${args.value}, path: "${args.path}", domain: "${args.domain}" ... `,
     logAction,
     () => gT.sOrig.driver.manage().addCookie(args)
   );
@@ -391,11 +391,10 @@ exports.getCookie = function getCookie(name, logAction) {
  * @returns {Promise.<TResult>}
  */
 exports.cleanProfile = function cleanProfile(logAction) {
-  return gIn.wrap(`Cleaning profile: "${gIn.config.selProfilePath}" ... `, logAction, async () => {
-    if (gIn.config.selProfilePath) {
-      await gIn.fileUtils.emptyDir(
-        mPath.join(gIn.suite.browserProfilePath, gIn.config.selProfilePath)
-      );
+  const relPath = mPath.relative(gIn.params.rootDir, gIn.config.browserProfilePath);
+  return gIn.wrap(`Cleaning profile: "${relPath}" ... `, logAction, async () => {
+    if (gIn.config.browserProfilePath) {
+      await gIn.fileUtils.emptyDir(gIn.config.browserProfilePath);
     }
   });
 };
