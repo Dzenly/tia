@@ -1,16 +1,18 @@
 # Time Is All (log driven test engine with ExtJs support)
 
-[API documentation is here(under construction)](http://dzenly.github.io/tia/)
-
 [See Change log for migration guides](docs-md/changelog.md)
 
-This is an engine for testing automation.
-It allows any types of testing: unit testing, functional testing, GUI testing, etc.
-Both assertion-driven and logs-driven testing are supported.
+This is a testing automation engine.
+It allows any types of testing:
+* unit testing,
+* functional testing,
+* GUI testing, etc.
 
-The engine supports Web sites testing using Selenium WebDriver
+Both `assertion-driven` and `logs-driven` tests are supported.
+
+The engine supports Web sites testing, using Selenium WebDriver,
 and provides API for work with `ExtJs` components.
-You can run GUI autotests using `Xvfb` or headless chrome.
+You can run GUI autotests using `Xvfb` or using headless chrome.
 
 > Note: Since 0.20.4 minimal supported Node.js version is 10.15.1.
 
@@ -18,6 +20,10 @@ You can run GUI autotests using `Xvfb` or headless chrome.
 
 The engine has tests for itself, they can be used as examples.
 https://github.com/Dzenly/tia/tree/master/tests
+
+## API Documentation
+
+[API documentation is here(under construction)](http://dzenly.github.io/tia/)
 
 ## Terms
 
@@ -45,8 +51,6 @@ but you set it it by:
 
 If both are specified `--root-dir` will be used.
 I.e. always cmd line option take precedence over env var.
-
-
 
 ### Test suite
 
@@ -471,9 +475,10 @@ Thank you, "R-Vision", for initial sponsorship and for allowance to open the sou
 
 ## Links
 
-* [TODO for 1.0.0 version](docs-md/readme-todos-for-1.0.0.md)
-* [Selenium Webdriver usage in TIA](docs-md/readme-selenium-webdriver.md)
-* [How to test ExtJs applications](docs-md/readme-extjs.md)
+* [TODO for 1.0.0 version](docs-md/todos-for-1.0.0.md)
+* [Selenium Webdriver usage in TIA](docs-md/selenium-webdriver.md)
+* [How to test ExtJs applications](docs-md/extjs.md)
+* [ExtJs App Explorer](docs-md/extjs-explorer.md)
 
 ----------------------------------
 

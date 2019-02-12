@@ -2,6 +2,213 @@
 (function setExplorationMode() {
   'use strict';
 
+  var standardXTypesList = [
+    'textarea',
+    'checkbox',
+    'colormenu',
+    'treelist',
+    'multiselector-search',
+    'calendar-list',
+    'treepanel',
+    'celleditor',
+    'calendar-form-edit',
+    'd3-heatmap',
+    'polar',
+    'image',
+    'menu',
+    'radiogroup',
+    'multiselect',
+    'sparklineline',
+    'hidden',
+    'calendar-day',
+    'desktop',
+    'tbspacer',
+    'treecolumn',
+    'trigger',
+    'colorbutton',
+    'sliderwidget',
+    'slidertip',
+    'd3-partition',
+    'colorpickerslideralpha',
+    'colorpickerslidervalue',
+    'tip',
+    'templatecolumn',
+    'pivotconfigcontainer',
+    'sparkline',
+    'sparklinepie',
+    'segmentedbutton',
+    'filefield',
+    'pivotconfigfield',
+    'calendar-dayview',
+    'tabpanel',
+    'textfield',
+    'calendar-weekview',
+    'treelistitem',
+    'rating',
+    'gmappanel',
+    'tbitem',
+    'gridview',
+    'textareafield',
+    'widget',
+    'calendar-daysview',
+    'imagecomponent',
+    'timepicker',
+    'actioncolumn',
+    'pivotheatmap',
+    'datemenu',
+    'monthpicker',
+    'chart',
+    'datepicker',
+    'sparklinebullet',
+    'wallpaper',
+    'sparklinebar',
+    'rownumberer',
+    'colorpickersliderhue',
+    'calendar-daysheader',
+    'progress',
+    'fileuploadfield',
+    'tagfield',
+    'pickerfield',
+    'gridcolumn',
+    'd3-horizontal-tree',
+    'video',
+    'eventrecordermanager',
+    'menuseparator',
+    'sparklinetristate',
+    'toast',
+    'hiddenfield',
+    'combobox',
+    'timefield',
+    'colorpicker',
+    'calendar-weeks',
+    'container',
+    'splitbutton',
+    'tab',
+    'numberfield',
+    'itemselector',
+    'roweditor',
+    'tabbar',
+    'messagebox',
+    'numbercolumn',
+    'splitter',
+    'button',
+    'calendar-weeksheader',
+    'searchfield',
+    'tbfill',
+    'sliderfield',
+    'tbseparator',
+    'booleancolumn',
+    'toolbar',
+    'propertygrid',
+    'pivotgrid',
+    'gauge',
+    'menubar',
+    'calendar-month',
+    'd3-sunburst',
+    'combo',
+    'multiselectfield',
+    'trayclock',
+    'radio',
+    'pivotconfigpanel',
+    'progressbar',
+    'header',
+    'component',
+    'roweditorbuttons',
+    'triggerfield',
+    'form',
+    'colorpickercolormap',
+    'treeview',
+    'editor',
+    'draw',
+    'pivottreemap',
+    'filebutton',
+    'colorpickerslider',
+    'tablepanel',
+    'datecolumn',
+    'cycle',
+    'colorselector',
+    'displayfield',
+    'explorer',
+    'htmleditor',
+    'd3',
+    'fieldset',
+    'calendar-days',
+    'dataview',
+    'tbtext',
+    'loadmask',
+    'd3-canvas',
+    'slider',
+    'legend',
+    'taskbar',
+    'spinnerfield',
+    'dashboard-panel',
+    'sparklinediscrete',
+    'tool',
+    'breadcrumb',
+    'box',
+    'title',
+    'label',
+    'multiselector',
+    'colorpickercolorpreview',
+    'window',
+    'calendar-event',
+    'calendar-week',
+    'surface',
+    'axis',
+    'dashboard-column',
+    'axis3d',
+    'progressbarwidget',
+    'treepicker',
+    'fieldcontainer',
+    'd3-svg',
+    'uxiframe',
+    'calendar-calendar-picker',
+    'multislider',
+    'pivotd3container',
+    'd3-treemap',
+    'menucheckitem',
+    'flash',
+    'columnsplitter',
+    'calendar-weeksview',
+    'panel',
+    'headercontainer',
+    'checkboxgroup',
+    'd3-pack',
+    'dashboard',
+    'gridpanel',
+    'colorfield',
+    'datefield',
+    'itemselectorfield',
+    'cartesian',
+    'grid',
+    'radiofield',
+    'tableview',
+    'checkcolumn',
+    'tooltip',
+    'calendar-multiview',
+    'viewport',
+    'field',
+    'sparklinebox',
+    'bordersplitter',
+    'calendar',
+    'widgetcolumn',
+    'calendar-form-add',
+    'statusbar',
+    'mzpivotgrid',
+    'pagingtoolbar',
+    'd3-tree',
+    'boundlist',
+    'menuitem',
+    'interaction',
+    'checkboxfield',
+    'spacefilling',
+    'quicktip',
+    'buttongroup',
+    'chartnavigator',
+    'calendar-monthview',
+    'colorpickerslidersaturation',
+  ];
+
   console.log('TIA: setEBrExplore');
 
   window.tiaEJExp = {
@@ -93,7 +300,7 @@
       if (view) {
         viewStr += 'view.$className: ' + view.$className +
           ', getConfig("xtype"): ' + view.getConfig('xtype') + ' ' +
-          this.formGetIdStr(view, '16px');
+          this.formGetIdStr(view, '18px');
 
         var itemId = view.getConfig('itemId');
         if (!autoGenRE.test(itemId)) {
@@ -191,7 +398,7 @@
     },
 
     getRefHolderInfo: function getRefHolderInfo(comp) {
-      var refHolder = comp.lookupReferenceHolder(false);
+      var refHolder = comp.lookupReferenceHolder(true);
       var res = [
         this.consts.avgSep,
         'lookupReferenceHolder() info: '];
@@ -273,13 +480,86 @@
       }
     },
 
+    getComponentSearchString: function getComponentSearchString(comp) {
+
+      var xtypeToTiaInterface = {
+        checkbox: 'Checkbox',
+      };
+
+      var autoGenRE = /-\d+/;
+
+      var id = comp.getId();
+      id = comp.autoGenId ? null : id;
+
+      if (id) {
+        return '#' + id;
+      }
+
+      var parentComp = null;
+
+      var reference = comp.getConfig('reference');
+      if (reference) {
+        var rh = comp.lookupReferenceHolder(true);
+        parentComp = rh.isViewController ? rh.getView() : rh;
+        return this.getComponentSearchString(parentComp) + ' &' + reference;
+      }
+
+      var xtype = comp.getConfig('xtype');
+      var isXTypeCustom = !standardXTypesList.includes(xtype);
+      var customXTypeCmpCount = 0;
+      if (isXTypeCustom) {
+        var cmps = Ext.ComponentQuery.query(xtype);
+        customXTypeCmpCount = cmps.length;
+      }
+
+      parentComp = comp.up();
+
+      var itemId = comp.getConfig('itemId');
+      itemId = autoGenRE.test(itemId) ? null : itemId;
+      if (itemId) {
+        return this.getComponentSearchString(parentComp) + ' > ' + xtype + '(true)#' + itemId;
+      }
+
+      var name = comp.name; // TODO: getName
+      if (name) {
+        return this.getComponentSearchString(parentComp) + ' > ' + xtype + '(true)[name=' + name + ']';
+      }
+
+      var compProps = [
+        'text',
+        'title',
+        'fieldLabel',
+        'boxLabel',
+        'tooltip',
+      ];
+
+      for (var propIndex = 0; propIndex < compProps.length; propIndex++) {
+        var propName = compProps[propIndex];
+        var propVal = comp[propName];
+        if (propVal) {
+          var localeKeys = tiaEJ.getLocKeysByText(propVal);
+          if (localeKeys) {
+            propVal = 'l"' + localeKeys + '"';
+          } else {
+            propVal = '"' + propVal + '"';
+          }
+          return this.getComponentSearchString(parentComp) +
+            ' > ' + xtype + '(true)[' + propName + '=' + propVal + ']';
+        }
+      }
+
+      if (customXTypeCmpCount === 1) {
+        return xtype + '(true)';
+      }
+
+      return this.getComponentSearchString(parentComp) + ' > ' + xtype + '(true)';
+    },
+
     getComponentInfo: function getComponentInfo(comp, extended) {
 
-      // TODO: fieldLabel for form fields.
+      var tEQ = this.getComponentSearchString(comp);
+
       // And other stuff for form fields.
-
-      // TODO: Ext.Component private autoGenId: boolean.
-
       var autoGenRE = /-\d+/;
 
       var initialConfig = comp.getInitialConfig();
@@ -310,6 +590,18 @@
 
       var outArr = [];
 
+      try {
+        var teqId = tiaEJ.searchAndWrap.byTeq(tEQ).cmpInfo.constProps.realId;
+        if (teqId !== comp.getId()) {
+          outArr.push(this.boldIf('TEQ checking error: found Id: ' + teqId, true, '#FF0000'));
+        }
+      } catch (e) {
+        outArr.push(this.boldIf(e.toString(), true, '#FF0000'));
+      }
+
+      outArr.push(this.boldIf(tEQ, true, '#0000FF', '18px'));
+      outArr.push(this.consts.avgSep);
+
       if (id) {
         outArr.push('id: ' + this.boldGreen(id));
       }
@@ -319,22 +611,36 @@
       }
 
       var reference = comp.getConfig('reference');
+      var referenceIndex = null;
       if (reference) {
         outArr.push('reference: ' + this.boldGreen(reference));
+        referenceIndex = outArr.length - 1;
       }
 
-      outArr.push('xtype: ' + comp.getConfig('xtype'));
+      var xtype = comp.getConfig('xtype');
+      var isXTypeCustom = !standardXTypesList.includes(xtype);
+      var customXTypeCmpCount = 0;
+      if (isXTypeCustom) {
+        var cmps = Ext.ComponentQuery.query(xtype);
+        customXTypeCmpCount = cmps.length;
+        if (customXTypeCmpCount === 1) {
+          xtype = this.boldIf(xtype, customXTypeCmpCount === 1, '#777700');
+        }
+      }
 
+      outArr.push('xtype: ' + xtype + (isXTypeCustom ? (' * ' + customXTypeCmpCount) : ''));
 
       // tia.cU.dumpObj(comp, [
       //   { path: 'getConfig()', args: [['xtype']] },
       //   // 'initialConfig.id'
       // ], outArr);
 
+      this.pushTextProp(comp,'name', outArr);
       this.pushTextProp(comp,'text', outArr);
       this.pushTextProp(comp,'tooltip', outArr);
       this.pushTextProp(comp,'title', outArr);
-      this.pushTextProp(comp, 'label', outArr);
+      this.pushTextProp(comp, 'fieldLabel', outArr);
+      this.pushTextProp(comp, 'boxLabel', outArr);
 
       // outArr.push('getConfig(id): ' + tiaEJ.ctByObj.safeGetConfig(comp, 'id'));
 
@@ -402,7 +708,7 @@
         'isHidden()',
         'isDisabled()',
         'isSuspended()',
-        'isMasked()',
+        // 'isMasked()',
         'isFocusable()',
         'rendered',
       ], outArr);

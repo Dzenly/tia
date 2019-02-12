@@ -1,3 +1,7 @@
+# 0.24
+
+Minimal supported Node.js version is 10.15.1 now.
+
 # 0.19
 
 Changed work with new files.
