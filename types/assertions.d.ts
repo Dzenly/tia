@@ -31,6 +31,11 @@ export interface TiaAssertions {
    */
   true(condition: any, msg: OptionalMsg, mode?: LogMode): boolean;
 
+  /**
+   * Checks that specified condition is false.
+   * @param condition - Some JS expression to check.
+   * @param msg - condition description.
+   */
   false(condition: any, msg: OptionalMsg, mode?: LogMode): boolean;
 
   /**
