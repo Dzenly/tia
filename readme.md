@@ -1,4 +1,4 @@
-
+# Time Is All (log-driven test engine with ExtJs support)
 
 <!-- toc -->
 
@@ -60,8 +60,6 @@
   * [Donations](#donations)
 
 <!-- tocstop -->
-
-# Time Is All (log-driven test engine with ExtJs support)
 
 > Note: Since version 0.20.4 minimal supported Node.js version is 10.15.1.
 
