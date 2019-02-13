@@ -259,9 +259,30 @@ The *Root log* is sent to emails (if --email option is specified and there is a 
 
 Nope. There is no such a log type in TIA.
 
-### Diff (TBD)
+### Dif files
 
-### Expected diff (TBD)
+It is result of diff between [Etalon test log](#Etalon-test-log)
+and [Actual test log](#Test-log).
+
+If the test named `xxxx.tia.js` then dif will be named as `xxxx.tia.dif`
+in the same directory.
+
+Also there can be diffs for suite logs named
+`_tia-suite/suite.log.notime.et.dif`.
+
+If some [Actual test log](#Test-log) has diff with the corresponding [Etalon test log](#Etalon-test-log), such test is considered as a fail,
+and the [Suite log](#Suite-log) will also be diffed with
+the [Etalon suite log](#Etalon-suite-log).
+
+**Dif files are not commited to VCS**
+
+### Expected dif
+
+If you have `xxxx.tia.dif` which is equal to `xxxx.tia.edif`,
+then such diff will not be considered as a fail.
+It can be used for known bugs, to avoid fail status for the [Root log](#Root-log).
+
+**`.edif` files are commited to VCS**
 
 ### Browser profiles
 
@@ -272,14 +293,13 @@ Also each test directory can specify its profile dir.
 See also the `browserProfileDir` option in the
 [config/default-suite-config.js](https://github.com/Dzenly/tia/blob/master/config/default-dir-config.js).
 
-
-Browser profiles are located in   directories.
+Browser profiles are located in `_tia-suite/tia-browser-profiles/<browserProfileDir>`  directories, where `browserProfileDir` is config option from the [Directory config](#Directory-config).
 
 ----------------------------------
 
 ## Prerequisites
 
-* `diff`, `rm`, `zip` utililies (you can use Cygwin on Windows)
+* `zip` utilility (you can use Cygwin on Windows)
 * `Node.js` 10.15.1+
 * `Xvfb` (if you wish to run tests under Linux without GUI).
 	How to start:
@@ -297,7 +317,9 @@ $ npm install tia
 
 Now in the project you can use `node_modules/tia/bin/tia.js` as a start script for node.js.
 
-If you are lucky, your IDE will support some autocompletion for TIA API.
+VS Code and WebStorm should support some autocompletion for TIA API.
+You can starty to type `gT.` and your IDE should hint you about `gT` properties,
+properties of properties, etc.
 
 ## Installation for daily tests run
 
@@ -307,11 +329,20 @@ $ npm install -g tia
 
 $ tia --run-self-tests
 
+## Cmd line options
+
+$ tia --help
+
+There are many nice abilities, so find time to read this help.
+
 ## Creating / debugging tests
 
+* $ npm i -g tia
 * $ mkdir my-prj
 * $ cd my-prj
-* $ npm init
+* $ tia initRoot - creates root
+npm init
+* $
 * $ mkdir tests
 * $ npm install tia
 
@@ -344,6 +375,8 @@ Use `tia --help` to see the help for the following things:
 ## Config files
 
 TBD
+
+global, suite, dir.
 
 ### For engine
 

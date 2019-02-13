@@ -108,8 +108,8 @@ exports.isPromise = function isPromise(p) {
 
 exports.checkNodeJsVersion = function checkNodeJsVersion() {
   const majVersion = process.version.match(/\d+/)[0];
-  if (majVersion < 8) {
-    console.error(`Node.js less then 8.x.x is not supported, your version: ${process.version}`);
+  if (majVersion < 10) {
+    console.error(`Node.js less then 10.x.x is not supported, your version: ${process.version}`);
     process.exit(1);
   }
 };
