@@ -59,9 +59,10 @@ module.exports = {
   // пустая строка - дефолтный DISPLAY.
   DISPLAY: ':1.5',
 
-  // Browser profile directory, relative to gIn.suite.browserProfilesPath.
-  // For now profiles are supported for chrome only.
-  // If this path is empty, default root profile (common for all suites) will be used.
+  // Browser profile directory, relative to gIn.suite.browserProfilesPath:
+  // __tia-tests__/_tia-suite/tia-browser-profiles/<browserProfileDir config value>.
+  // If this path is empty, default root profile <prj-root>/__tia-tests__/_tia-root/tia-browser-profiles/default
+  // (common for all suites) will be used.
   browserProfileDir: '',
 
   // TODO

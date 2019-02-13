@@ -338,41 +338,48 @@ There are many nice abilities, so find time to read this help.
 ## Creating / debugging tests
 
 * $ npm i -g tia
-* $ mkdir my-prj
+* $ mkdir my-prj - it will be your [Project root directory](#Project-root-directory).
 * $ cd my-prj
-* $ tia initRoot - creates root
-npm init
-* $
-* $ mkdir tests
-* $ npm install tia
+* $ tia initRoot - to create project root TIA subdirectories and config stubs.
+* Choose/create some directory inside my-prj where the [Test suite](#Test suite) will be created.
+* $ tia initSuite - to create suite TIA subdirectories and config stubs.
+* Inside created `__tia-tests__` directory you can create directories with [tests](#Test).
+* $ npm init
+* $ npm install tia - for ability to use `tia.js` as entry point.
 
 In your debug configuration you can use
 
-`node mode_modules/tia/bin/tia.js`
+`mode_modules/tia/bin/tia.js`
 
-as engine.
-
-### Selenium-webdriver typings
-
-$ npm i -g typings
-$ typings install selenium-webdriver --ambient --save
+And set CWD as my-prj or use `--root-dir` TIA cmd line option.
 
 ### Speed up test creation/debugging using connection to the existing browser session
 
 If you are testing some heavy application and application start requires noticeable time,
-you can use the '--use-remote-driver' option. In this case TIA will use existing browser session for all test runs.
-Inside your code you can use the `gT.firstRunWithRemoteDriver` global variable
-to distinct very first run (when you need some browser session initialization) from following runs (for which you need just use the existing session).
+you can use the `--use-remote-driver` option.
+See `tia --help` for the following things:
 
-Use `tia --help` to see the help for the following things:
-
-* --use-remote-driver cmd line option.
-* --stop-remote-driver cmd line option.
+* --use-remote-driver
+* --stop-remote-driver
 * gT.firstRunWithRemoteDriver global variable.
 
 ----------------------------------
 
 ## Config files
+
+This is JS files, contains just
+
+```js
+module.exports = {
+  // Here are config options.
+}
+```
+
+### Global config file
+
+### Suite config file.
+
+### Dir config file.
 
 TBD
 
