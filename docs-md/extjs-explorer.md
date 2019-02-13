@@ -15,7 +15,13 @@ I.e. hierarchy from a leaf to the root component.
 
 ### Format:
 ```
-The TEQ string in bold blue color.
+The TEQ xtype precendence string in bold blue color.
+If there is no id and xtype is custom in unique, this xtype is used to identify the component.
+
+The TEQ reference precendence string in bold blue color.
+If there is reference - it has precedence on the custom unique xtype.
+This string is showed only if it does not equal to the string described above. 
+
 TIA checks the TEQ string, so sometimes above the TEQ string there can be fail message for check.
 In most cases these error messages are due to multiple localization keys, which can fit for
 some native language string. In such case you must choose the most appropriate key
@@ -26,6 +32,8 @@ Component properties.
 If xtype is custom type it will be shown as a yellow bold string.
 And after the xtype there will be ' * <count> ', where count - is count
 of components found by Ext.ComponentQuery.query(xtype).
+------
+keyMap: Supported buttons.
 ------
 Attrs:
 component css attributes.

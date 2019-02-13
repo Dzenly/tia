@@ -480,7 +480,7 @@
       }
     },
 
-    getComponentSearchString: function getComponentSearchString(comp) {
+    getComponentSearchString: function getComponentSearchString(comp, xtypePriority) {
 
       var xtypeToTiaInterface = {
         checkbox: 'Checkbox',
@@ -496,6 +496,9 @@
       }
 
       var xtype = comp.getConfig('xtype');
+
+      xtype = xtype.replace(/\./g, '\\.');
+
       var isXTypeCustom = !standardXTypesList.includes(xtype);
       var customXTypeCmpCount = 0;
       if (isXTypeCustom) {
@@ -503,8 +506,10 @@
         customXTypeCmpCount = cmps.length;
       }
 
-      if (customXTypeCmpCount === 1) {
-        return xtype + '(true)';
+      if (xtypePriority) {
+        if (customXTypeCmpCount === 1) {
+          return xtype + '(true)';
+        }
       }
 
       var parentComp = null;
@@ -513,7 +518,7 @@
       if (reference) {
         var rh = comp.lookupReferenceHolder(true);
         parentComp = rh.isViewController ? rh.getView() : rh;
-        return this.getComponentSearchString(parentComp) + ' &' + reference;
+        return this.getComponentSearchString(parentComp, xtypePriority) + ' &' + reference;
       }
 
       parentComp = comp.up();
@@ -521,12 +526,16 @@
       var itemId = comp.getConfig('itemId');
       itemId = autoGenRE.test(itemId) ? null : itemId;
       if (itemId) {
-        return this.getComponentSearchString(parentComp) + ' > ' + xtype + '(true)#' + itemId;
+        return this.getComponentSearchString(parentComp, xtypePriority) + ' > ' + xtype + '(true)#' + itemId;
       }
 
       var name = comp.name; // TODO: getName
       if (name) {
-        return this.getComponentSearchString(parentComp) + ' > ' + xtype + '(true)[name=' + name + ']';
+        return this.getComponentSearchString(parentComp, xtypePriority) + ' > ' + xtype + '(true)[name=' + name + ']';
+      }
+
+      if (customXTypeCmpCount === 1) {
+        return xtype + '(true)';
       }
 
       var compProps = [
@@ -547,17 +556,18 @@
           } else {
             propVal = '"' + propVal + '"';
           }
-          return this.getComponentSearchString(parentComp) +
+          return this.getComponentSearchString(parentComp, xtypePriority) +
             ' > ' + xtype + '(true)[' + propName + '=' + propVal + ']';
         }
       }
 
-      return this.getComponentSearchString(parentComp) + ' > ' + xtype + '(true)';
+      return this.getComponentSearchString(parentComp, xtypePriority) + ' > ' + xtype + '(true)';
     },
 
     getComponentInfo: function getComponentInfo(comp, extended) {
 
-      var tEQ = this.getComponentSearchString(comp);
+      var tEQXT = this.getComponentSearchString(comp, true);
+      var tEQRef = this.getComponentSearchString(comp, false);
 
       // And other stuff for form fields.
       var autoGenRE = /-\d+/;
@@ -590,8 +600,11 @@
 
       var outArr = [];
 
+      // =============
+      var teqId;
+
       try {
-        var teqId = tiaEJ.searchAndWrap.byTeq(tEQ).cmpInfo.constProps.realId;
+        teqId = tiaEJ.searchAndWrap.byTeq(tEQXT).cmpInfo.constProps.realId;
         if (teqId !== comp.getId()) {
           outArr.push(this.boldIf('TEQ checking error: found Id: ' + teqId, true, '#FF0000'));
         }
@@ -599,8 +612,28 @@
         outArr.push(this.boldIf(e.toString(), true, '#FF0000'));
       }
 
-      outArr.push(this.boldIf(tEQ, true, '#0000FF', '18px'));
+      outArr.push(this.boldIf(tEQXT, true, '#0000FF', '18px'));
+
+      // ==
+
+      if (tEQRef !== tEQXT) {
+
+        try {
+          teqId = tiaEJ.searchAndWrap.byTeq(tEQRef).cmpInfo.constProps.realId;
+          if (teqId !== comp.getId()) {
+            outArr.push(this.boldIf('TEQ checking error: found Id: ' + teqId, true, '#FF0000'));
+          }
+        } catch (e) {
+          outArr.push(this.boldIf(e.toString(), true, '#FF0000'));
+        }
+
+        outArr.push(this.boldIf(tEQRef, true, '#0000FF', '18px'));
+      }
+
       outArr.push(this.consts.avgSep);
+
+      // =============
+
 
       if (id) {
         outArr.push('id: ' + this.boldGreen(id));
@@ -693,6 +726,14 @@
 
       // outArr.push('isPanel:' + comp.isPanel + (comp.isPanel ? ' ! ! ! ! !' : ''));
 
+      var keyMap = Object.keys(comp.keyMap || {});
+      keyMap = keyMap.join(', ');
+
+      outArr = outArr.concat([
+        '------',
+        'keyMap: ' + keyMap,
+      ]);
+
       outArr = outArr.concat([
         '------',
         'Attrs:',
@@ -773,7 +814,7 @@
         }
       }
 
-      window.c1 = comp;
+      window.tcmp = comp;
 
       // var oldBorder = comp.getConfig().border;
       // var oldStyle = comp.getConfig().style;
