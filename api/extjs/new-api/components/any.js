@@ -5,7 +5,7 @@ const { queryCmpId } = require('../tia-extjs-query');
 const actions = {
   async click(tEQ, elNameForLog, logAction) {
     return gIn.wrap({
-      msg: `Click ANY Component "${tEQ}" ... `,
+      msg: `ANY Cmp "${tEQ}": click ... `,
       logAction,
       act: async () => {
         const id = await queryCmpId(
@@ -19,7 +19,7 @@ const actions = {
   },
   async sendKeys(tEQ, keys, elNameForLog, logAction) {
     return gIn.wrap({
-      msg: `Send keys ${JSON.stringify(keys)} to ANY Component "${tEQ}" ... `,
+      msg: `ANY Cmp "${tEQ}": send keys ${JSON.stringify(keys)} ... `,
       logAction,
       act: async () => {
         const id = await queryCmpId(

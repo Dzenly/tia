@@ -5,7 +5,7 @@ const { queryCmpId } = require('../tia-extjs-query');
 const actions = {
   async click(tEQ, elNameForLog, logAction) {
     return gIn.wrap({
-      msg: `Click tab "${tEQ}" ... `,
+      msg: `Tab "${tEQ}": click ... `,
       logAction,
       act: async () => {
         const id = await queryCmpId(
