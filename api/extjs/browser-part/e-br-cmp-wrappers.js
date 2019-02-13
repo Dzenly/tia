@@ -10,6 +10,8 @@
   console.log('TIA: setEBrCmpWrappers');
   window.tiaEJ.wrapCmp = function wrapCmp(cmp, args, funcName) {
 
+    window.tcmp = cmp;
+
     var getResult = tia.cU.result;
 
     var cmpInfo = {
@@ -50,7 +52,8 @@
         tooltip: cmp.tooltip,
         tooltipType: cmp.tooltipType,
         value: getResult(cmp, 'getValue'),
-        isMasked: cmp.isMasked(),
+
+        // isMasked: cmp.isMasked(),
         isSuspended: cmp.isSuspended(),
         isFocusable: cmp.isFocusable(),
         isVisible: cmp.isVisible(),

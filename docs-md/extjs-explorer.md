@@ -23,6 +23,9 @@ from the comma separated keys suggested in the TEQ.
 
 ======================
 Component properties.
+If xtype is custom type it will be shown as a yellow bold string.
+And after the xtype there will be ' * <count> ', where count - is count
+of components found by Ext.ComponentQuery.query(xtype).
 ------
 Attrs:
 component css attributes.
@@ -59,6 +62,12 @@ Here is parent of parent info.
 ====================================================================
 Etc.
 ```
+
+### window.tcmp
+
+Each time you Ctrl + Alt + LClick on some ExtJs element.
+The component under cursor is assigned to window.tcmp (Tia EJ Explorer Cmp). 
+So you can investigate it in your browser DevTools console.
 
 ## The whole components hierarchy.
 

@@ -495,6 +495,18 @@
         return '#' + id;
       }
 
+      var xtype = comp.getConfig('xtype');
+      var isXTypeCustom = !standardXTypesList.includes(xtype);
+      var customXTypeCmpCount = 0;
+      if (isXTypeCustom) {
+        var cmps = Ext.ComponentQuery.query(xtype);
+        customXTypeCmpCount = cmps.length;
+      }
+
+      if (customXTypeCmpCount === 1) {
+        return xtype + '(true)';
+      }
+
       var parentComp = null;
 
       var reference = comp.getConfig('reference');
@@ -502,14 +514,6 @@
         var rh = comp.lookupReferenceHolder(true);
         parentComp = rh.isViewController ? rh.getView() : rh;
         return this.getComponentSearchString(parentComp) + ' &' + reference;
-      }
-
-      var xtype = comp.getConfig('xtype');
-      var isXTypeCustom = !standardXTypesList.includes(xtype);
-      var customXTypeCmpCount = 0;
-      if (isXTypeCustom) {
-        var cmps = Ext.ComponentQuery.query(xtype);
-        customXTypeCmpCount = cmps.length;
       }
 
       parentComp = comp.up();
@@ -546,10 +550,6 @@
           return this.getComponentSearchString(parentComp) +
             ' > ' + xtype + '(true)[' + propName + '=' + propVal + ']';
         }
-      }
-
-      if (customXTypeCmpCount === 1) {
-        return xtype + '(true)';
       }
 
       return this.getComponentSearchString(parentComp) + ' > ' + xtype + '(true)';
