@@ -387,13 +387,24 @@ add these files into your `<.vsc>ignore` or keep just stubs in VCS.
 ### Global config
 
 Optional.
-Located in the `<prjRoot>/__tia-tests__/_tia-root/tia-global-config.js` file.
+Located in the `**/__tia-tests__/_tia-suite/tia-suite-config.js` files.
 
-config/default-global-config.js
+Standard TIA options are described here:
+https://github.com/Dzenly/tia/tree/master/config/default-global-config.js
 
-This
+You can add some custom options to the Global config and use
+`gT.globalConfig` to access them from your tests.
 
 ### Suite config
+
+Optional.
+Located in the `**/__tia-tests__/_tia-suite/tia-suite-config.js` files.
+
+Standard TIA options are described here:
+https://github.com/Dzenly/tia/tree/master/config/default-suite-config.js
+
+You can add some custom options to the Global config and use
+`gT.suiteConfig` to access them from your tests.
 
 ### Directory config
 
