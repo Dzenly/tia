@@ -561,14 +561,6 @@ The 'true' value for the `suite-config.js` option `suiteLogToStdout` prints suit
 
 See also the `--log-to-console` option description in the `tia --help` output.
 
-----------------------------------
-
-## API for tests creation
-
-The `api` directory contains functions (with JSDoc documentation), which
-perform users action emulation, assertion checking, logging and other actions.
-
-----------------------------------
 ## FAQ and lifehacks
 
 * xvfb analog for Windows.
@@ -616,15 +608,12 @@ it can speed up your debugging.
 * `*.slog.notime` - suite log without time measurements
 * `*.slog.notime.prev` - previous suite log without time measurements
 * `*.et` - etalon logs and etalon suite logs
-* `*.js` - tests or configs
-* `*.json` - configs.
+* `*.tia.js` - tests
+* `tia*.js` - config file.
 
 ----------------------------------
 
 ## Known issues and bugs
-
-* WebStorm often kill detached child process when it stops debugging.
-  So --use-remote-driver TIA option sometimes does not keep chromedriver running.
 
 * Browser profiles do not save on Windows after browser closing.
   I.e. you can use predefined profiles, but it will not be updated after selenium tests.
