@@ -38,7 +38,7 @@ exports.logln = function logln(msg) {
 };
 
 exports.logResourcesUsage = function logResourcesUsage(prefix = '') {
-  if (gIn.config.resUsagePrintAtErrors) {
+  if (gT.config.resUsagePrintAtErrors) {
     exports.logln(prefix + nodeUtils.getResourcesUsage(true));
   }
 };
@@ -80,7 +80,7 @@ exports.errorln = function errorln(msg) {
 exports.exception = function exception(msg, e) {
   const msgNew = gIn.loggerCfg.excPrefix + msg;
   gIn.cLogger.errIfEnabled(`${msgNew} ${gIn.textUtils.excToStr(e)}\n`);
-  logToFile(`${msgNew} ${gIn.textUtils.excToStr(e, !gIn.params.stackToLog)}\n`);
+  logToFile(`${msgNew} ${gIn.textUtils.excToStr(e, !gT.cLParams.stackToLog)}\n`);
 };
 
 /**
@@ -90,10 +90,10 @@ exports.exception = function exception(msg, e) {
  */
 exports.logIfEnabled = function logIfEnabled(msg, enable) {
   let dontWriteToFile = false;
-  if (!enable && gIn.params.forceLogActions) {
+  if (!enable && gT.cLParams.forceLogActions) {
     dontWriteToFile = true;
   }
-  if (gIn.params.forceLogActions || enable) {
+  if (gT.cLParams.forceLogActions || enable) {
     exports.log(msg, dontWriteToFile);
   }
 };
@@ -106,10 +106,10 @@ exports.logIfEnabled = function logIfEnabled(msg, enable) {
  */
 exports.logIfNotDisabled = function logIfNotDisabled(msg, enable = gIn.loggerCfg.defLLLogAction) {
   let dontWriteToFile = false;
-  if (!enable && gIn.params.forceLogActions) {
+  if (!enable && gT.cLParams.forceLogActions) {
     dontWriteToFile = true;
   }
-  if (gIn.params.forceLogActions || enable) {
+  if (gT.cLParams.forceLogActions || enable) {
     exports.log(msg, dontWriteToFile);
   }
 };
@@ -180,7 +180,7 @@ function saveDirInfoToSuiteLog(parameters) {
         writeToSuiteLog(gIn.tInfo.testInfoToString({
           curInfo, isDir: false, verbose, noTime,
         }), curInfo.diffed);
-        if (curInfo.diffed && gIn.params.difsToSlog && !isVerbose && !noTestDifs) {
+        if (curInfo.diffed && gT.cLParams.difsToSlog && !isVerbose && !noTestDifs) {
           const difPath = gIn.textUtils.jsToDif(curInfo.path);
           const dif = fs.readFileSync(difPath, gT.engineConsts.logEncoding);
           writeToSuiteLog(`${indent}============== DIF ============== \n`);

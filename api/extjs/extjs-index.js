@@ -49,7 +49,7 @@ gT_.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
         const scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part', fName), 'utf8');
         await gT.s.browser.executeScriptWrapper(scriptStr);
       }
-      if (gIn.params.debugLocale) {
+      if (gT.cLParams.debugLocale) {
         await gT.e.utils.setDebugLocaleMode(true);
       }
     }

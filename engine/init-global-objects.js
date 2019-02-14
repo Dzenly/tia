@@ -34,7 +34,7 @@ gT_.sOrig.wdModule = require('selenium-webdriver');
 gT_.sOrig.driverLogType = gT.sOrig.wdModule.logging.Type.DRIVER;
 gT_.sOrig.browserLogType = gT.sOrig.wdModule.logging.Type.BROWSER;
 
-gIn.configUtils = require('../utils/config-utils');
+gT.configUtils = require('../utils/config-utils');
 
 gT_.engineConsts = require('../config/engine-constants.js');
 gT_.suiteConfigDefault = require('../config/default-suite-config.js');

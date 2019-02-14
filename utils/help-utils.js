@@ -76,7 +76,7 @@ exports.usage = function usage() {
       --driver-log-level <level> - 0 - 1000 (default ${gT.engineConsts.defaultDriverLogLevel}).
       0 means to log everything, 800 - info, 900 - warnings. 1000 - severe errors.
 
-      --ej-explore - Just sets global variable gIn.params.ejExplore to true.
+      --ej-explore - Just sets global variable gT.cLParams.ejExplore to true.
       Your tests may use this flag to conditionally call the gT.e.explore.init().
       This call enables exploration mode for ExtJs applications, where:
       1. "Ctrl + Alt + Left Mouse Click" opens a dialog with info about the ExtJS component under pointer

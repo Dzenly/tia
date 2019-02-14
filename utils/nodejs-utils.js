@@ -61,11 +61,11 @@ function toMs(val) {
 }
 
 exports.getResourcesUsage = function getResourcesUsage(isTestLog) {
-  // gIn.config.rssUsageThreshold
+  // gT.config.rssUsageThreshold
 
   const mem = process.memoryUsage();
 
-  if (isTestLog && mem.rss < (gIn.config.rssUsageThreshold * 1e6)) {
+  if (isTestLog && mem.rss < (gT.config.rssUsageThreshold * 1e6)) {
     return '';
   }
 
@@ -116,7 +116,7 @@ exports.checkNodeJsVersion = function checkNodeJsVersion() {
 
 exports.requireArray = function requireArray(modules) {
   modules.forEach((modulePath) => {
-    const modPath = path.resolve(gIn.params.rootDir, modulePath);
+    const modPath = path.resolve(gT.cLParams.rootDir, modulePath);
     gIn.tracer.msg1(`Requiring module: ${modPath}`);
     require(modPath);
   });

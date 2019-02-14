@@ -25,7 +25,7 @@ exports.excToStr = function excToStr(err, noStack) {
     return '\nNo Exception info\n';
   }
   let errStr = err.toString();// (typeof err.message === 'undefined') ? err : err.message;
-  if (/* gIn.params.stackToLog || */!noStack) {
+  if (/* gT.cLParams.stackToLog || */!noStack) {
     if (typeof err.stack !== 'undefined') {
       errStr += `\n${exports.filterStack(err.stack)}`;
     } else {
@@ -61,11 +61,11 @@ exports.jsToDif = function jsToDif(jsPath) {
 };
 
 exports.expandHost = function expandHost(str) {
-  return str.replace('$(host)', gIn.config.selHost);
+  return str.replace('$(host)', gT.config.selHost);
 };
 
 exports.collapseHost = function collapseHost(str) {
-  return str.replace(gIn.config.selHost, '$(host)');
+  return str.replace(gT.config.selHost, '$(host)');
 };
 
 exports.valToStr = function valToStr(value) {
@@ -85,13 +85,13 @@ exports.valToStr = function valToStr(value) {
 // }
 //
 // exports.prepareHostRE = function(){
-//  let str = escapeRegExp(gIn.config.selHost);
+//  let str = escapeRegExp(gT.config.selHost);
 //  exports.hostRe = new RegExp(str, g);
 // };
 
 //  // Multi-line version.
 // exports.collapseHostML = function(str){
-//  // TODO: optimize, this function should be called only if gIn.config.selHost is changed.
+//  // TODO: optimize, this function should be called only if gT.config.selHost is changed.
 //  // For now there are not even such use cases.
 //  exports.prepareHostRE();
 //  return str.replace(exports.hostRe, '$(host)');

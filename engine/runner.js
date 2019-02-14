@@ -56,7 +56,7 @@ async function runTestFile(file) {
   }
 
   // To allow test read events from event loop.
-  await gT.u.promise.delayed(gIn.config.delayAfterTest);
+  await gT.u.promise.delayed(gT.config.delayAfterTest);
 }
 
 // return null - means skipped by --pattern or --new or due to etalon absence.
@@ -65,27 +65,27 @@ async function handleTestFile(file, dirConfig) {
   gIn.tInfo.isPassCountingEnabled = gT.engineConsts.defIsPassCountingEnabled;
   gIn.loggerCfg.defLLLogAction = gT.engineConsts.defLLLogAction;
 
-  gIn.config = _.cloneDeep(dirConfig); // Config for current test, can be changed by test.
+  gT.config = _.cloneDeep(dirConfig); // Config for current test, can be changed by test.
   // It is not safe to create such structure in the test and return it from test,
   // because test can be terminated with exception.
 
   // console.log('File: ' + file);
-  if (gIn.params.pattern && file.lastIndexOf(gIn.params.pattern) < gIn.params.minPathSearchIndex) {
+  if (gT.cLParams.pattern && file.lastIndexOf(gT.cLParams.pattern) < gT.cLParams.minPathSearchIndex) {
     return null;
   }
 
   const etalonAbsent = fileUtils.isEtalonAbsent(file);
-  if (gIn.params.new && !etalonAbsent) {
+  if (gT.cLParams.new && !etalonAbsent) {
     return null;
   }
 
-  const skippedDir = dirConfig.skip && !gIn.params.ignoreSkipFlag;
+  const skippedDir = dirConfig.skip && !gT.cLParams.ignoreSkipFlag;
   if (!skippedDir && etalonAbsent) {
-    if (gIn.params.new) {
+    if (gT.cLParams.new) {
       gIn.tracer.msg0(`Found new test: ${file}`);
     } else {
       gIn.tracer.msg0(`Skipped new test: ${file}`);
-      if (!gIn.params.pattern) {
+      if (!gT.cLParams.pattern) {
         suiteUtils.saveNewTestInfo(file);
       }
       return null;
@@ -101,8 +101,8 @@ async function handleTestFile(file, dirConfig) {
 
   gIn.tInfo.data.run = 1;
 
-  if (gIn.config.DISPLAY && gIn.params.xvfb) {
-    process.env.DISPLAY = gIn.config.DISPLAY;
+  if (gT.config.DISPLAY && gT.cLParams.xvfb) {
+    process.env.DISPLAY = gT.config.DISPLAY;
   } else {
     process.env.DISPLAY = gT.engineConsts.defDisplay;
   }
@@ -110,8 +110,8 @@ async function handleTestFile(file, dirConfig) {
   fileUtils.createEmptyLog(file);
   fileUtils.rmPngs(file);
 
-  if (gIn.params.extLog) {
-    fileUtils.safeUnlink(gIn.params.extLog);
+  if (gT.cLParams.extLog) {
+    fileUtils.safeUnlink(gT.cLParams.extLog);
   }
 
   const startTime = gT.timeUtils.startTimer();
@@ -124,13 +124,13 @@ async function handleTestFile(file, dirConfig) {
 
   gIn.logger.testSummary();
 
-  if (gIn.params.extLog) {
-    const extLog = fileUtils.safeReadFile(gIn.params.extLog);
+  if (gT.cLParams.extLog) {
+    const extLog = fileUtils.safeReadFile(gT.cLParams.extLog);
     gIn.logger.log(extLog);
   }
 
   gIn.tInfo.data.time = gT.timeUtils.stopTimer(startTime);
-  if (!gIn.params.new) {
+  if (!gT.cLParams.new) {
     gIn.diffUtils.diff({
       jsTest: file,
     });
@@ -262,7 +262,7 @@ async function runTestSuite(suiteData) {
   const etDifTxtFName = `${noTimeSuiteLogFName}.et.dif`;
   const noTimeSuiteLogPrevFName = `${noTimeSuiteLogFName}.prev`;
 
-  if (!gIn.params.new && !gIn.params.dir && !gIn.params.pattern) {
+  if (!gT.cLParams.new && !gT.cLParams.dir && !gT.cLParams.pattern) {
     fileUtils.safeUnlink(suiteLog);
     fileUtils.safeUnlink(prevDifFName);
     fileUtils.safeUnlink(etDifHtmlFName);
@@ -274,12 +274,12 @@ async function runTestSuite(suiteData) {
   const dirInfo = await handleTestDir(root, gT.rootDirConfig);
   dirInfo.isSuiteRoot = true;
 
-  if (gIn.params.dir) {
+  if (gT.cLParams.dir) {
     // gIn.cLogger.msgln(JSON.stringify(dirInfo, null, 2));
     gIn.logger.printSuiteLog(dirInfo);
   }
 
-  if (gIn.params.new || gIn.params.pattern || gIn.params.dir) {
+  if (gT.cLParams.new || gT.cLParams.pattern || gT.cLParams.dir) {
     return {};
   }
 
@@ -342,7 +342,7 @@ async function runTestSuite(suiteData) {
   const etSLogInfoConsole = equalToEtalon ? `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, `
     : `${gIn.cLogger.chalkWrap('red', 'DIF_SLOG')}, `;
 
-  const subjTimeMark = dirInfo.time > gIn.params.tooLongTime ? ', TOO_LONG' : '';
+  const subjTimeMark = dirInfo.time > gT.cLParams.tooLongTime ? ', TOO_LONG' : '';
 
   const changedEDiffsStr = gIn.suite.changedEDiffs ? `(${gIn.suite.changedEDiffs} dif(s) changed)` : '';
 
@@ -377,18 +377,18 @@ async function runTestSuite(suiteData) {
 
   const suiteNotEmpty = dirInfo.run + dirInfo.skipped;
 
-  if (gIn.params.slogDifToConsole && etDifTxt && (gIn.params.showEmptySuites || suiteNotEmpty)) {
+  if (gT.cLParams.slogDifToConsole && etDifTxt && (gT.cLParams.showEmptySuites || suiteNotEmpty)) {
     gIn.cLogger.msg(`\n${emailSubjConsole}\n`);
     gIn.cLogger.msgln(etDifTxt);
   }
 
-  if (gT.suiteConfig.suiteLogToStdout && (gIn.params.showEmptySuites || suiteNotEmpty)) {
+  if (gT.suiteConfig.suiteLogToStdout && (gT.cLParams.showEmptySuites || suiteNotEmpty)) {
     gIn.cLogger.msg(`\n${emailSubjConsole}\n`);
     gIn.logger.printSuiteLog(dirInfo);
 
     // fileUtils.fileToStdout(log);
   }
-  if (gIn.params.printProcInfo) {
+  if (gT.cLParams.printProcInfo) {
     gIn.cLogger.msgln(procInfo);
   }
 
@@ -440,7 +440,7 @@ async function prepareAndRunTestSuite(root) {
 
   gIn.suite = suite;
 
-  gIn.configUtils.handleSuiteConfig();
+  gT.configUtils.handleSuiteConfig();
 
   const suiteResult = await runTestSuite(suite)
     .catch((err) => {
@@ -450,7 +450,7 @@ async function prepareAndRunTestSuite(root) {
       };
     });
 
-  suiteResult.path = path.relative(gIn.params.rootDir, root);
+  suiteResult.path = path.relative(gT.cLParams.rootDir, root);
 
   return suiteResult;
 }
@@ -492,7 +492,7 @@ function getTestSuitePaths() {
     });
   }
 
-  walkSubDirs(gIn.params.rootDir);
+  walkSubDirs(gT.cLParams.rootDir);
 
   return suitePaths;
 }
@@ -502,12 +502,12 @@ function getTestSuitePaths() {
 exports.runTestSuites = async function runTestSuites() {
   fileUtils.safeUnlink(gT.rootLog);
 
-  if (gIn.params.stopRemoteDriver) {
+  if (gT.cLParams.stopRemoteDriver) {
     gIn.remoteDriverUtils.stop();
     return 'Just removing of remote driver';
   }
 
-  if (gIn.params.useRemoteDriver) {
+  if (gT.cLParams.useRemoteDriver) {
     await gIn.remoteDriverUtils.start();
 
     // .catch((err) => {
@@ -515,7 +515,7 @@ exports.runTestSuites = async function runTestSuites() {
     // });
   }
 
-  const suitePaths = gIn.params.suite ? [gIn.params.suite] : getTestSuitePaths();
+  const suitePaths = gT.cLParams.suite ? [gT.cLParams.suite] : getTestSuitePaths();
 
   gIn.tracer.msg1(`Following suite paths are found: ${suitePaths}`);
 
@@ -525,19 +525,19 @@ exports.runTestSuites = async function runTestSuites() {
     results.push(await prepareAndRunTestSuite(suitePath));
   }
 
-  if (!gIn.params.useRemoteDriver) {
+  if (!gT.cLParams.useRemoteDriver) {
     await gT.s.driver.quitIfInited();
   } else {
     gIn.tracer.msg3('No force driver.quit() for the last test, due to useRemoteDriver option');
   }
 
-  if (gIn.params.new) {
+  if (gT.cLParams.new) {
     gIn.cLogger.msgln('All new tests are finished.');
     process.exitCode = 0;
     return;
   }
 
-  if (gIn.params.dir) {
+  if (gT.cLParams.dir) {
     process.exitCode = 0;
     return;
   }

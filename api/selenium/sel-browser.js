@@ -391,10 +391,10 @@ exports.getCookie = function getCookie(name, logAction) {
  * @returns {Promise.<TResult>}
  */
 exports.cleanProfile = function cleanProfile(logAction) {
-  const relPath = mPath.relative(gIn.params.rootDir, gIn.config.browserProfilePath);
+  const relPath = mPath.relative(gT.cLParams.rootDir, gT.config.browserProfilePath);
   return gIn.wrap(`Cleaning profile: "${relPath}" ... `, logAction, async () => {
-    if (gIn.config.browserProfilePath) {
-      await gIn.fileUtils.emptyDir(gIn.config.browserProfilePath);
+    if (gT.config.browserProfilePath) {
+      await gIn.fileUtils.emptyDir(gT.config.browserProfilePath);
     }
   });
 };

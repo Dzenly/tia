@@ -61,7 +61,7 @@ exports.pass = function pass(msg, mode = { passSilently: false, noPassIncrement:
   if (typeof msg !== 'undefined' && !mode.passSilently) {
     if (gIn.tInfo.isPassPrintingEnabled) {
       gIn.logger.pass(`${ok + msg}\n`);
-    } else if (gIn.params.forceLogActions) {
+    } else if (gT.cLParams.forceLogActions) {
       gIn.cLogger.passIfEnabled(msg);
     }
   }

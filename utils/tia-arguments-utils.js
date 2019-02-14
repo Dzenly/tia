@@ -218,7 +218,7 @@ exports.initTiaRoot = function initTiaRoot(argsTiaRootDir) {
 
 /**
  * Resolves path specified by cmd line option or environment variable.
- * Relative paths resolved relative to gIn.params.rootDir.
+ * Relative paths resolved relative to gT.cLParams.rootDir.
  * @param {Object} argsObj
  * @return {String} - resolved path or empty string.
  */
@@ -238,7 +238,7 @@ exports.resolvePathOptionRelativeToRootDir = function resolvePathOptionRelativeT
   }
 
   if (!path.isAbsolute(myPath)) {
-    myPath = path.resolve(gIn.params.rootDir, myPath);
+    myPath = path.resolve(gT.cLParams.rootDir, myPath);
 
     if (cutLastDirSep && myPath[myPath.length - 1] === path.sep) {
       myPath = myPath.slice(0, -1);

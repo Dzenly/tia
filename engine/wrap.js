@@ -10,7 +10,7 @@
  * @returns {*|Array}
  */
 function startTimer() {
-  if (gIn.config.enableTimings) {
+  if (gT.config.enableTimings) {
     return process.hrtime();
   }
 }
@@ -23,7 +23,7 @@ function startTimer() {
  * @private
  */
 function stopTimer(startTime) {
-  if (gIn.config.enableTimings) {
+  if (gT.config.enableTimings) {
     const dif = process.hrtime(startTime);
     return ` (${dif[0] * 1000 + dif[1] / 1e6} ms)`;
   }
@@ -34,8 +34,8 @@ function stopTimer(startTime) {
  * Pause. Time interval is specified in config.
  */
 async function pause() {
-  if (gIn.config.selActionsDelay !== 0) {
-    await gT.u.promise.delayed(gIn.config.selActionsDelay);
+  if (gT.config.selActionsDelay !== 0) {
+    await gT.u.promise.delayed(gT.config.selActionsDelay);
   }
 }
 
@@ -53,11 +53,11 @@ async function pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
   if (noConsoleAndExceptions) {
     return;
   }
-  if (gIn.config.selPrintClExcAfterEachCommand) {
+  if (gT.config.selPrintClExcAfterEachCommand) {
     await gT.s.browser.printCaughtExceptions();
   }
 
-  if (gIn.config.selPrintClConsoleAfterEachCommand) {
+  if (gT.config.selPrintClConsoleAfterEachCommand) {
     await gT.s.browser.printSelBrowserLogs();
   }
 
@@ -87,7 +87,7 @@ function handleErrAtErrorHandling(msg) {
  */
 function quitDriver() {
   if (gT.sOrig.driver) {
-    if (!gIn.params.keepBrowserAtError) {
+    if (!gT.cLParams.keepBrowserAtError) {
       gIn.tracer.msg1('A.W.: Driver quit');
       return gT.s.driver
         .quit(true)
@@ -209,7 +209,7 @@ module.exports = async function wrap(msg, logAction, act, noConsoleAndExceptions
   let result; // Return value from wrapped function.
 
   try {
-    result = await gT.u.promise.wait(actResultPromise, gIn.params.hangTimeout);
+    result = await gT.u.promise.wait(actResultPromise, gT.cLParams.hangTimeout);
   } catch (err) {
     if (err === gT.u.promise.timeoutError) {
       gIn.logger.errorln('A.W.: Hanged action detected');

@@ -176,7 +176,7 @@ if (gT.browsers.indexOf(browser) === -1) {
   process.exit(1);
 }
 
-gIn.params = args;
+gT.cLParams = args;
 
 if (args._.includes('initRoot')) {
   tiaArgsUtils.initTiaRoot(args.rootDir); // function ends with process.exit().
@@ -187,13 +187,13 @@ if (args._.includes('initSuite')) {
 }
 
 const rootDir = tiaArgsUtils.resolveRootDirEx(args.rootDir);
-gIn.params.rootDir = rootDir;
+gT.cLParams.rootDir = rootDir;
 
 if (!args.requireModules) {
   args.requireModules = process.env[gT.engineConsts.requireModulesEnvVarName];
 }
 
-gT_.rootTestsDirPath = path.join(gIn.params.rootDir, gT.engineConsts.suiteDirName);
+gT_.rootTestsDirPath = path.join(gT.cLParams.rootDir, gT.engineConsts.suiteDirName);
 
 // =====================
 gT_.rootResultsDir = path.join(
@@ -216,7 +216,7 @@ const globalConfig = nodeUtils.requireIfExists(path.join(
 gT_.globalConfig = _.merge(_.cloneDeep(gT.globalConfigDefault), globalConfig);
 
 if (!gT.globalConfig.rootDirAlias) {
-  gT_.globalConfig.rootDirAlias = path.basename(gIn.params.rootDir);
+  gT_.globalConfig.rootDirAlias = path.basename(gT.cLParams.rootDir);
 }
 
 // =====================
@@ -229,18 +229,18 @@ gT_.defaultRootProfile = path.join(
 
 // =====================
 
-if (gIn.params.suite && gIn.params.dir) {
+if (gT.cLParams.suite && gT.cLParams.dir) {
   console.error('You can not use --dir and --suite simultaneously');
   process.exit(1);
 }
 
-if (gIn.params.suite || gIn.params.dir) {
-  gIn.params.suite = tiaArgsUtils.getTiaSuiteFromParents(process.cwd());
+if (gT.cLParams.suite || gT.cLParams.dir) {
+  gT.cLParams.suite = tiaArgsUtils.getTiaSuiteFromParents(process.cwd());
 }
 
-if (gIn.params.dir) {
-  gIn.params.dir = process.cwd();
-  gIn.dirArr = path.relative(gIn.params.suite, gIn.params.dir).split(path.sep);
+if (gT.cLParams.dir) {
+  gT.cLParams.dir = process.cwd();
+  gIn.dirArr = path.relative(gT.cLParams.suite, gT.cLParams.dir).split(path.sep);
 }
 
 // =====================
@@ -257,34 +257,34 @@ gT_.rootLog = path.join(
 );
 
 // =====================
-gIn.params.emailCfgPath = tiaArgsUtils.resolvePathOptionRelativeToRootDir({
-  cmdLineArgsPath: gIn.params.emailCfgPath,
+gT.cLParams.emailCfgPath = tiaArgsUtils.resolvePathOptionRelativeToRootDir({
+  cmdLineArgsPath: gT.cLParams.emailCfgPath,
   envVarName: gT.engineConsts.emailCfgPathEnvVarName,
   description: 'EMail cfg path',
   cutLastDirSep: false,
   mandatory: false,
 });
 
-if (gIn.params.emailCfgPath) {
-  gT_.rootSuiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), require(gIn.params.emailCfgPath));
+if (gT.cLParams.emailCfgPath) {
+  gT_.rootSuiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), require(gT.cLParams.emailCfgPath));
 }
 
 // =====================
-if (!gIn.params.extLog) {
-  gIn.params.extLog = process.env[gT.engineConsts.externalLogEnvVarName];
+if (!gT.cLParams.extLog) {
+  gT.cLParams.extLog = process.env[gT.engineConsts.externalLogEnvVarName];
 }
 
-if (gIn.params.extLog) {
-  gIn.params.extLog = path.resolve(gIn.params.extLog);
-  gIn.tracer.msg3(`External log path: ${gIn.params.extLog}`);
+if (gT.cLParams.extLog) {
+  gT.cLParams.extLog = path.resolve(gT.cLParams.extLog);
+  gIn.tracer.msg3(`External log path: ${gT.cLParams.extLog}`);
 } else {
   gIn.tracer.msg3('No external log path');
 }
 
 // =====================
-if (gIn.params.slogSubj) {
-  gIn.params.slogSubj = gIn.params.slogSubj.split(',');
-  for (const subjItem of gIn.params.slogSubj) {
+if (gT.cLParams.slogSubj) {
+  gT.cLParams.slogSubj = gT.cLParams.slogSubj.split(',');
+  for (const subjItem of gT.cLParams.slogSubj) {
     if (!argConsts.allowedSlogSubj.includes(subjItem)) {
       gIn.cLogger.errln(`Not supported subject item: ${subjItem}`);
       gIn.cLogger.errln(`Supported items: ${argConsts.allowedSlogSubj.join(',')}`);
@@ -292,31 +292,31 @@ if (gIn.params.slogSubj) {
     }
   }
 } else {
-  gIn.params.slogSubj = [];
+  gT.cLParams.slogSubj = [];
 }
 
 // =====================
-gIn.params.testsParentDir = path.dirname(rootDir);
+gT.cLParams.testsParentDir = path.dirname(rootDir);
 
-gIn.tracer.msg3(`Tests Parent Dir: ${gIn.params.testsParentDir}`);
+gIn.tracer.msg3(`Tests Parent Dir: ${gT.cLParams.testsParentDir}`);
 
 // TODO: support several paths for pattern?
 
-if (gIn.params.traceLevel > 3) {
-  gIn.params.traceLevel = 3;
+if (gT.cLParams.traceLevel > 3) {
+  gT.cLParams.traceLevel = 3;
 }
 
 gIn.tracer.msg2(`chromedriver path: ${gIn.chromeDriverPath}`);
 
-gIn.params.minPathSearchIndex = rootDir.length + 1; // Minimum index for path search.
+gT.cLParams.minPathSearchIndex = rootDir.length + 1; // Minimum index for path search.
 
 if (args.requireModules) {
   const arr = args.requireModules.split(/\s*,\s*/);
   nodeUtils.requireArray(arr);
 }
 
-if (gIn.params.defHost) {
-  gT_.rootDirConfig.selHost = gIn.params.defHost;
+if (gT.cLParams.defHost) {
+  gT_.rootDirConfig.selHost = gT.cLParams.defHost;
 }
 
 // process.on('uncaughtException', (err) => {
@@ -325,11 +325,11 @@ if (gIn.params.defHost) {
 //   throw err;
 // });
 
-if (gIn.params.ejExplore) {
-  gIn.params.keepBrowserAtError = true;
+if (gT.cLParams.ejExplore) {
+  gT.cLParams.keepBrowserAtError = true;
 }
 
-gIn.tracer.msg3(`Parameters: ${inspect(gIn.params)}`);
+gIn.tracer.msg3(`Parameters: ${inspect(gT.cLParams)}`);
 
 runTestSuites()
   .then((res) => {

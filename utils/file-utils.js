@@ -179,7 +179,7 @@ exports.getDirectoryAlias = function getDirectoryAlias(dirPath) {
 };
 
 exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
-  if (!gIn.params.enableEmail || !gT.suiteConfig.attachArchiveToMail || !gT.suiteConfig.mailRecipientList) {
+  if (!gT.cLParams.enableEmail || !gT.suiteConfig.attachArchiveToMail || !gT.suiteConfig.mailRecipientList) {
     return null;
   }
 
@@ -187,7 +187,7 @@ exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
 
   const arcName = `${alias}_${new Date().toISOString().slice(0, 19).replace(/:/g, '_')}.zip`;
 
-  const suitePathWOSuiteDirName = path.resolve(gIn.params.rootDir, dirInfo.path, '..');
+  const suitePathWOSuiteDirName = path.resolve(gT.cLParams.rootDir, dirInfo.path, '..');
   const wholeSuiteArcRelPath = path.relative(suitePathWOSuiteDirName, dirInfo.path);
   const resultArchivePath = path.resolve(suitePathWOSuiteDirName, arcName);
 

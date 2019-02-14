@@ -1,3 +1,8 @@
+# 0.21.9
+
+Test configs are moved to gT: gIn.config -> gT.config
+Cmd line params are moved to gT: gIn.params -> gT.cLParams
+
 # 0.24
 
 Minimal supported Node.js version is 10.15.1 now.

@@ -9,22 +9,22 @@ const fileUtils = require('../../utils/file-utils.js');
 
 // TODO: does not driver creates profile dir itself ?
 function createBrowserProfile() {
-  fileUtils.mkdir(gIn.config.browserProfilePath);
+  fileUtils.mkdir(gT.config.browserProfilePath);
 }
 
 const cleanedProfilePaths = [];
 
 exports.init = async function init(cleanProfile, logAction) {
-  // if (typeof logAction === 'undefined' && !gIn.config.browserProfileDir) {
+  // if (typeof logAction === 'undefined' && !gT.config.browserProfileDir) {
   //   logAction = false;
   // }
 
-  gIn.tracer.msg3(`browserProfilePath: ${gIn.config.browserProfilePath}`);
-  gIn.tracer.msg3(`shareBrowser: ${gIn.params.shareBrowser}`);
+  gIn.tracer.msg3(`browserProfilePath: ${gT.config.browserProfilePath}`);
+  gIn.tracer.msg3(`shareBrowser: ${gT.cLParams.shareBrowser}`);
   gIn.tracer.msg3(`sharedBrowserInitiated: ${gIn.sharedBrowserInitiated}`);
 
   // If directory has private profile, --share-browser is ignored.
-  if (!gIn.config.browserProfileDir && gIn.params.shareBrowser) {
+  if (!gT.config.browserProfileDir && gT.cLParams.shareBrowser) {
     if (gIn.sharedBrowserInitiated) {
       gIn.tracer.msg3('Initialization is not needed');
       return Promise.resolve('Initialization is not needed');
@@ -33,7 +33,7 @@ exports.init = async function init(cleanProfile, logAction) {
   }
 
   let profileInfo;
-  if (gIn.config.browserProfileDir) {
+  if (gT.config.browserProfileDir) {
     profileInfo = `(with dir-config defined ${cleanProfile ? 'empty' : 'saved'} profile)`;
   } else {
     profileInfo = '(with default profile)';
@@ -42,23 +42,23 @@ exports.init = async function init(cleanProfile, logAction) {
   return gIn.wrap(`Initialization ${profileInfo} ... `, logAction, async () => {
     if (cleanProfile) {
       gT.s.browser.cleanProfile(false);
-    } else if (gIn.params.clearProfiles && !cleanedProfilePaths.includes(gIn.config.browserProfilePath)) {
+    } else if (gT.cLParams.clearProfiles && !cleanedProfilePaths.includes(gT.config.browserProfilePath)) {
       gT.s.browser.cleanProfile(true);
-      cleanedProfilePaths.push(gIn.config.browserProfilePath);
+      cleanedProfilePaths.push(gT.config.browserProfilePath);
     }
 
     // createBrowserProfile();
 
     let options;
 
-    switch (gIn.params.browser) {
+    switch (gT.cLParams.browser) {
       case 'chrome':
         options = new gT.sOrig.chrome.Options();
         options.addArguments('--dns-prefetch-disable');
         options.addArguments('--no-sandbox'); // Without this there is a fail with xvfb on Ubuntu 16.
         options.addArguments('--disable-infobars');
 
-        if (gIn.params.headless) {
+        if (gT.cLParams.headless) {
           options.addArguments('--headless');
           if (gT.u.isWindows()) {
             options.addArguments('--disable-gpu'); // Temporary fix for Windows.
@@ -67,8 +67,8 @@ exports.init = async function init(cleanProfile, logAction) {
 
         // options.addArguments('--start-maximized');
 
-        // if (gIn.config.browserProfileDir) {
-        options.addArguments(`--user-data-dir=${gIn.config.browserProfilePath}`);
+        // if (gT.config.browserProfileDir) {
+        options.addArguments(`--user-data-dir=${gT.config.browserProfilePath}`);
 
         // }
 
@@ -84,11 +84,11 @@ exports.init = async function init(cleanProfile, logAction) {
         options = new gT.sOrig.firefox.Options();
         const binary = new gT.sOrig.firefox.Binary();
 
-        // if (gIn.config.browserProfileDir) {
+        // if (gT.config.browserProfileDir) {
         // Profile name should be alphanumeric only.
         // Checked on linux. It does set -profile option.
-        // binary.addArguments('-profile "' + gIn.config.browserProfilePath + '"');
-        options.setProfile(gIn.config.browserProfilePath); // Checked on linux. Does NOT set -profile option.
+        // binary.addArguments('-profile "' + gT.config.browserProfilePath + '"');
+        options.setProfile(gT.config.browserProfilePath); // Checked on linux. Does NOT set -profile option.
 
         // http://selenium.googlecode.com/git/docs/api/javascript/module_selenium-webdriver_firefox.html
         // "The FirefoxDriver will never modify a pre-existing profile; instead it will create
@@ -107,7 +107,7 @@ exports.init = async function init(cleanProfile, logAction) {
         // writeToDisk ?
         // }
 
-        if (gIn.params.headless) {
+        if (gT.cLParams.headless) {
           options.addArguments('-headless');
         }
         options.setBinary(binary);
@@ -123,16 +123,16 @@ exports.init = async function init(cleanProfile, logAction) {
     // TODO: this parameter correctly works only for chrome.
     // phantomjs gets all messages, independent on choosen level.
     // Mozilla gets no messages.
-    prefs.setLevel(gT.sOrig.browserLogType, gIn.params.browserLogLevel);
-    prefs.setLevel(gT.sOrig.driverLogType, gIn.params.driverLogLevel);
+    prefs.setLevel(gT.sOrig.browserLogType, gT.cLParams.browserLogLevel);
+    prefs.setLevel(gT.sOrig.driverLogType, gT.cLParams.driverLogLevel);
 
     const capabilities = new gT.sOrig.wdModule.Capabilities();
-    capabilities.setBrowserName(gIn.params.browser);
+    capabilities.setBrowserName(gT.cLParams.browser);
     capabilities.setLoggingPrefs(prefs);
 
     gIn.tracer.msg3(util.inspect(capabilities, { depth: 4 }));
 
-    if (gIn.params.useRemoteDriver) {
+    if (gT.cLParams.useRemoteDriver) {
       const sid = gIn.remoteDriverUtils.getSid();
 
       const remoteDriverConnectionStr = `${gT.globalConfig.remoteDriverUrl}:${
@@ -151,7 +151,7 @@ exports.init = async function init(cleanProfile, logAction) {
         gIn.tracer.msg3('There is not current SID');
         gT_.firstRunWithRemoteDriver = true;
         gT_.sOrig.driver = new gT.sOrig.wdModule.Builder()
-          .forBrowser(gIn.params.browser)
+          .forBrowser(gT.cLParams.browser)
           .setChromeOptions(options)
           .setFirefoxOptions(options)
           .withCapabilities(capabilities)
@@ -194,7 +194,7 @@ exports.init = async function init(cleanProfile, logAction) {
     } else {
       // Temporary driver
       gT_.sOrig.driver = new gT.sOrig.wdModule.Builder()
-        .forBrowser(gIn.params.browser)
+        .forBrowser(gT.cLParams.browser)
         .setChromeOptions(options)
         .setFirefoxOptions(options)
         .withCapabilities(capabilities)
@@ -203,7 +203,7 @@ exports.init = async function init(cleanProfile, logAction) {
 
     gT_.sOrig.logs = gT.sOrig.driver.manage().logs();
 
-    if (gIn.params.useRemoteDriver) {
+    if (gT.cLParams.useRemoteDriver) {
       return;
     }
 
@@ -230,12 +230,12 @@ exports.getStupidSleepFunc = function getStupidSleepFunc() {
 };
 
 exports.quit = function quit(logAction) {
-  if (gIn.params.ejExplore) {
+  if (gT.cLParams.ejExplore) {
     gIn.tracer.msg3('quit: ejExplore, no quit');
     return Promise.resolve('ejExplore, no quit');
   }
 
-  // if (typeof logAction === 'undefined' && !gIn.config.browserProfileDir) {
+  // if (typeof logAction === 'undefined' && !gT.config.browserProfileDir) {
   //   logAction = false;
   // }
   if (gIn.sharedBrowserInitiated) {
@@ -254,7 +254,7 @@ exports.quit = function quit(logAction) {
 };
 
 exports.quitIfInited = function quitIfInited() {
-  if (gIn.params.ejExplore) {
+  if (gT.cLParams.ejExplore) {
     gIn.tracer.msg3('quitIfInited: ejExplore, no quit');
     return Promise.resolve('ejExplore, no quit');
   }

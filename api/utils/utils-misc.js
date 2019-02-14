@@ -16,7 +16,7 @@ const path = require('path');
 //   try {
 //     yield* gen();
 //   } catch (e) {
-//     if (gIn.params.errToConsole) {
+//     if (gT.cLParams.errToConsole) {
 //       gIn.tracer.err(`Safe Generator caught error: ${gIn.textUtils.excToStr(e)}`);
 //     }
 //     gT.l.println(`Safe Generator caught error: ${gIn.textUtils.excToStr(e)}`);
@@ -60,7 +60,7 @@ gT_.u.iterate = function iterate1(iterator) {
 gT_.u.iterateSafe = function iterateSafe(iterator) {
   return gT.u.iterate(iterator).catch(e => {
     const strErr = `Safe Iterator caught error: ${gIn.textUtils.excToStr(e)}`;
-    if (gIn.params.errToConsole) {
+    if (gT.cLParams.errToConsole) {
       gIn.tracer.err(strErr);
     }
     gT.l.println(strErr);
@@ -70,7 +70,7 @@ gT_.u.iterateSafe = function iterateSafe(iterator) {
 gT_.u.execGenSafe = function execGenSafe(gen, ...params) {
   return gT.u.iterate(gen(...params)).catch(e => {
     const strErr = `Safe Generator runner caught error: ${gIn.textUtils.excToStr(e)}`;
-    if (gIn.params.errToConsole) {
+    if (gT.cLParams.errToConsole) {
       gIn.tracer.err(strErr);
     }
     gT.l.println(strErr);
@@ -89,8 +89,8 @@ gT_.u.execGen = function execGen(gen, param1, param2) {
 };
 
 gT_.u.setHangTimeout = function setHangTimeout(newTimeout) {
-  const oldTimeout = gIn.params.hangTimeout;
-  gIn.params.hangTimeout = newTimeout;
+  const oldTimeout = gT.cLParams.hangTimeout;
+  gT.cLParams.hangTimeout = newTimeout;
   return oldTimeout;
 };
 

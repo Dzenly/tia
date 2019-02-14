@@ -40,7 +40,7 @@ exports.testInfoToString = function testInfoToString(parameters) {
     diffed = formLogPart('Dif', curInfo.diffed);
     ediffed = formLogPart('EDif', curInfo.expDiffed);
     skipped = formLogPart('Skip', curInfo.skipped);
-    if (curInfo.isSuiteRoot && gIn.params.slogSubj.includes('run')) {
+    if (curInfo.isSuiteRoot && gT.cLParams.slogSubj.includes('run')) {
       run = formLogPart('Run', curInfo.run);
     }
   } else {
@@ -64,7 +64,7 @@ exports.testInfoToString = function testInfoToString(parameters) {
   }
 
   const title = noTitle ? '' : `"${curInfo.title}"`;
-  const passed = ((curInfo.isSuiteRoot && gIn.params.slogSubj.includes('pass')) || !isDir)
+  const passed = ((curInfo.isSuiteRoot && gT.cLParams.slogSubj.includes('pass')) || !isDir)
     ? formLogPart('Pass', curInfo.passed)
     : null;
   const failed = formLogPart('Fail', curInfo.failed);
@@ -108,7 +108,7 @@ exports.createTestInfo = function createTestInfo(isDir, title, path) {
 };
 
 exports.addFail = function addFail() {
-  if (gIn.config.ignorePassAndFailCounters) {
+  if (gT.config.ignorePassAndFailCounters) {
     return;
   }
   exports.data.failed++; // From global sandbox.
@@ -119,7 +119,7 @@ exports.addPassForce = function addPassForce() {
 };
 
 exports.addPass = function addPass() {
-  if (!exports.isPassCountingEnabled || gIn.config.ignorePassAndFailCounters) {
+  if (!exports.isPassCountingEnabled || gT.config.ignorePassAndFailCounters) {
     return;
   }
   exports.data.passed++; // From global sandbox.

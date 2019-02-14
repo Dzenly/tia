@@ -43,7 +43,7 @@ exports.msgln = function msgln(msg) {
 };
 
 exports.logResourcesUsage = function logResourcesUsage(prefix = '') {
-  // if (gIn.config.resUsagePrintAtErrors) {
+  // if (gT.config.resUsagePrintAtErrors) {
   exports.msgln(prefix + gT.nodeUtils.getResourcesUsage(true));
 
   // }
@@ -113,7 +113,7 @@ exports.errln = function errln(msg) {
  * @param msg
  */
 exports.logIfEnabled = function logIfEnabled(msg) {
-  if (gIn.params.logToConsole) {
+  if (gT.cLParams.logToConsole) {
     exports.msg(gIn.loggerCfg.consoleLogPrefix + msg);
   }
 };
@@ -124,14 +124,14 @@ exports.logIfEnabled = function logIfEnabled(msg) {
  * Prefix should be set in caller.
  */
 exports.errIfEnabled = function errIfEnabled(msg) {
-  if (gIn.params.errToConsole) {
+  if (gT.cLParams.errToConsole) {
     return exports.err(msg);
   }
 };
 
 exports.passIfEnabled = function passIfEnabled(msg) {
   let resMsg = msg;
-  if (gIn.params.logToConsole) {
+  if (gT.cLParams.logToConsole) {
     if (isChalkEnabled) {
       resMsg = chalk.green(resMsg);
     }
@@ -141,7 +141,7 @@ exports.passIfEnabled = function passIfEnabled(msg) {
 
 exports.failIfEnabled = function failIfEnabled(msg) {
   let resMsg = msg;
-  if (gIn.params.logToConsole) {
+  if (gT.cLParams.logToConsole) {
     if (isChalkEnabled) {
       resMsg = chalk.red(resMsg);
     }
@@ -153,7 +153,7 @@ exports.failIfEnabled = function failIfEnabled(msg) {
 
 exports.logBold = function logBold(msg) {
   let resMsg = msg;
-  if (gIn.params.logToConsole) {
+  if (gT.cLParams.logToConsole) {
     if (isChalkEnabled) {
       resMsg = chalk.bold(resMsg);
     }
