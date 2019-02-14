@@ -87,7 +87,7 @@
 					<div class="tsd-signature tsd-kind-icon">Element<wbr>Name<wbr>For<wbr>Log<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ext-js/common.d.ts:21</li>
+							<li>Defined in ext-js/common.d.ts:27</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -102,7 +102,7 @@
 					<div class="tsd-signature tsd-kind-icon">Log<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ext-js/common.d.ts:32</li>
+							<li>Defined in ext-js/common.d.ts:38</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -123,7 +123,7 @@
 					<div class="tsd-signature tsd-kind-icon">Teq<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ext-js/common.d.ts:16</li>
+							<li>Defined in ext-js/common.d.ts:22</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -133,6 +133,11 @@
 								<a href="https://docs.sencha.com/extjs/6.5.3/classic/Ext.ComponentQuery.html#method-query">https://docs.sencha.com/extjs/6.5.3/classic/Ext.ComponentQuery.html#method-query</a>
 							<a href="https://docs.sencha.com/extjs/6.5.3/classic/Ext.Component.html#cfg-reference">https://docs.sencha.com/extjs/6.5.3/classic/Ext.Component.html#cfg-reference</a></p>
 						</div>
+						<p>Note: There is a difference in default flag for xtype search.
+							Do not use the xtype(true) syntax in TEQ, because (true)
+							is added by default. I.e. ExtJs query has (false) by default, but TEQ has (true) by default.
+							And you have not ability to pass (false) in TEQ. So you always search by exact xtype and not
+						by the inheritance chain.</p>
 						<p>In the component queries, substrings like &#39;l&quot;locale_key&quot;&#39; will be replaced by &#39;&quot;value_for_key&quot;&#39;,
 							i.e. &#39;[text=l&quot;settings&quot;]&#39; will be changed to &#39;[text=&quot;Настройки&quot;] for russian locale.
 						Also id like &#39;##idKey&#39; will be replaced by &#39;#realId&#39; from tiaEJ.idMap.</p>

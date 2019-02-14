@@ -1,0 +1,21 @@
+=================
+Title: Replace xtypes in TEQ string
+
+mix-sd\.f_123(true) [inside-square] #after-hash[asdf123="fdas2_0df"] [inside-square=is-val]after-square(true):fda&reference
+,after-comma(true)
+}after-curly(true)
+]after-square(true)
+)after-brace(true)&reference
+:after-colon
+#after-hash
+after-new-line(true)
+ after-space(true)
+>after-more(true)
+#after-hash
+a(true):after-colon
+a(true)#after-hash
+a(true) after-space(true)
+a(true)>after-more(true)
+a(true)#after-hash
+=================
+Pass: 0, Fail: 0

@@ -508,7 +508,7 @@
 
       if (xtypePriority) {
         if (customXTypeCmpCount === 1) {
-          return xtype + '(true)';
+          return xtype;
         }
       }
 
@@ -526,16 +526,16 @@
       var itemId = comp.getConfig('itemId');
       itemId = autoGenRE.test(itemId) ? null : itemId;
       if (itemId) {
-        return this.getComponentSearchString(parentComp, xtypePriority) + ' > ' + xtype + '(true)#' + itemId;
+        return this.getComponentSearchString(parentComp, xtypePriority) + ' > ' + xtype + '#' + itemId;
       }
 
       var name = comp.name; // TODO: getName
       if (name) {
-        return this.getComponentSearchString(parentComp, xtypePriority) + ' > ' + xtype + '(true)[name=' + name + ']';
+        return this.getComponentSearchString(parentComp, xtypePriority) + ' > ' + xtype + '[name=' + name + ']';
       }
 
       if (customXTypeCmpCount === 1) {
-        return xtype + '(true)';
+        return xtype;
       }
 
       var compProps = [
@@ -557,11 +557,11 @@
             propVal = '"' + propVal + '"';
           }
           return this.getComponentSearchString(parentComp, xtypePriority) +
-            ' > ' + xtype + '(true)[' + propName + '=' + propVal + ']';
+            ' > ' + xtype + '[' + propName + '=' + propVal + ']';
         }
       }
 
-      return this.getComponentSearchString(parentComp, xtypePriority) + ' > ' + xtype + '(true)';
+      return this.getComponentSearchString(parentComp, xtypePriority) + ' > ' + xtype;
     },
 
     getComponentInfo: function getComponentInfo(comp, extended) {

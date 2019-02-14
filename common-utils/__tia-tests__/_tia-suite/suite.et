@@ -5,4 +5,6 @@
 ====================    Verbose Log BEGIN:    ====================
  "common-utils", dif: 0, fail: 0, edif: 0, skip: 0, "This title must be overloaded."
 | "00_result.tia.js", OK, fail: 0, pass: 0, "result() from common-misc-utils.js"
+| "ej-helper-funcs", dif: 0, fail: 0, edif: 0, skip: 0, "This title must be overloaded."
+| | "00_replaceXTypesInTeq.tia.js", OK, fail: 0, pass: 0, "Replace xtypes in TEQ string"
 ====================    Verbose Log END.    ====================

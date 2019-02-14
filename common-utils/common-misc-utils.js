@@ -279,6 +279,17 @@
       invertedMapFirstKey: invertedMapFirstKey,
       invertedMapAllKeys: invertedMapAllKeys,
     };
-  }
+  };
+
+  /**
+   * Replaces xtype by xtype(true) in TEQ string.
+   * @param tEQ
+   * @return {String}
+   */
+  container.replaceXTypesInTeq = function replaceXTypesInTeq(tEQ) {
+    var re = /((^|[\)\],\s}>])[\w\d\-_\\\.]+)/g;
+    return tEQ.replace(re, '$&(true)');
+  };
+
 
 }());

@@ -4,6 +4,12 @@
  * https://docs.sencha.com/extjs/6.5.3/classic/Ext.ComponentQuery.html#method-query
  * https://docs.sencha.com/extjs/6.5.3/classic/Ext.Component.html#cfg-reference
  *
+ * Note: There is a difference in default flag for xtype search.
+ * Do not use the xtype(true) syntax in TEQ, because (true)
+ * is added by default. I.e. ExtJs query has (false) by default, but TEQ has (true) by default.
+ * And you have not ability to pass (false) in TEQ. So you always search by exact xtype and not
+ * by the inheritance chain.
+ *
  * In the component queries, substrings like 'l"locale_key"' will be replaced by '"value_for_key"',
  * i.e. '[text=l"settings"]' will be changed to '[text="Настройки"] for russian locale.
  * Also id like '##idKey' will be replaced by '#realId' from tiaEJ.idMap.

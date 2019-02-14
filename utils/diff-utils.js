@@ -62,6 +62,7 @@ exports.getStructuredPatch = function getStructuredPatch({
       } else if (line[0] === '+') {
         newArr.push(line.slice(1) + eol);
       } else {
+        // TODO: if there is not file, the same error.
         throw new Error(`Unexpected line prefix:\noldPath: ${oldPath}\nnewPath: ${newPath}`);
       }
     }

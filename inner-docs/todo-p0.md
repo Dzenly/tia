@@ -1,5 +1,7 @@
 * Сделать require g-t, где будет поставляться всё что нужно для написания теста.
 
+* --stop-remote-driver should kill running chrome.
+
 * вывести в исследовалке все поддерживаемые комбинации клавиш.
 
 // byCompQuery and byParentAndCompQuery - .

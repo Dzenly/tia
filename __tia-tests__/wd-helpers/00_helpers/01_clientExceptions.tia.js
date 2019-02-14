@@ -8,7 +8,7 @@ async function test() {
   t.setTitle('Test for client exceptions');
 
   await s.driver.init();
-  await s.browser.loadPage('http://google.com');
+  await s.browser.loadPage('http://ya.ru');
 
   // await s.browser.setWindowSize(2560, 1440);
 

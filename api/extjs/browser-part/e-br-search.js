@@ -12,6 +12,9 @@
    * @return {Array}
    */
   function parseSearchString(str) {
+
+    str = tia.cU.replaceXTypesInTeq(str);
+
     const re = /&(\w|\d|_|-)+/g;
 
     const searchData = [];
