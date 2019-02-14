@@ -23,10 +23,19 @@ interface AnyComponentLogs {
 
 export interface AnyComponent {
   actions: AnyComponentActions;
+  /**
+   * alias for actions.
+   */
   a: AnyComponentActions;
   checks: AnyComponentChecks;
+  /**
+   * alias for checks.
+   */
   c: AnyComponentChecks;
   logs: AnyComponentLogs;
+  /**
+   * alias for logs.
+   */
   l: AnyComponentLogs;
 }
 

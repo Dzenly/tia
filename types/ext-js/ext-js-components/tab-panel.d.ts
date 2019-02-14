@@ -21,10 +21,19 @@ interface TabPanelLogs {
 
 export interface TabPanel {
   actions: TabPanelActions,
+  /**
+   * alias for actions.
+   */
   a: TabPanelActions,
   checks: TabPanelChecks,
+  /**
+   * alias for checks.
+   */
   c: TabPanelChecks,
   logs: TabPanelLogs,
+  /**
+   * alias for logs.
+   */
   l: TabPanelLogs,
 }
 

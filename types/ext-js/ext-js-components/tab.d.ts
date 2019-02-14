@@ -17,10 +17,19 @@ interface TabLogs {
 
 export interface Tab {
   actions: TabActions;
+  /**
+   * alias for actions.
+   */
   a: TabActions;
   checks: TabChecks;
+  /**
+   * alias for checks.
+   */
   c: TabChecks;
   logs: TabLogs;
+  /**
+   * alias for logs.
+   */
   l: TabLogs;
 }
 
