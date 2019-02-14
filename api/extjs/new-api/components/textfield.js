@@ -2,7 +2,7 @@
 
 const { queryCmpId } = require('../tia-extjs-query');
 
-const cmpName = 'ANY Cmp';
+const cmpName = 'TextField';
 
 const actions = {
   async click(tEQ, elNameForLog, logAction) {

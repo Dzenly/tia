@@ -8,7 +8,8 @@ module.exports = {
   any: require('./any'),
   checkbox: require('./checkbox'),
   tab: require('./tab'),
-  tabPanel: require('./tab-panel'),
+  tabpanel: require('./tabpanel'),
+  textfield: require('./tabpanel'),
 };
 
 _.forEach(module.exports, (value) => {
