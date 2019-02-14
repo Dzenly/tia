@@ -113,7 +113,10 @@ Tab "#assets > tabbar > tab[text=l"info"]": click ... OK
 ## Examples
 
 The engine has tests for itself, they can be used as examples.
-https://github.com/Dzenly/tia/tree/master/tests
+https://github.com/Dzenly/tia/tree/master/__tia-tests__
+https://github.com/Dzenly/tia/tree/master/common-utils/__tia-tests__
+https://github.com/Dzenly/tia/tree/master/api/log/__tia-tests__
+https://github.com/Dzenly/tia/tree/master/testsDir/testsSubDir/__tia-tests__
 
 ## Installation
 
@@ -289,11 +292,12 @@ It can be used for known bugs, to avoid fail status for the [Root log](#Root-log
 There is the default browser profile, located at
 `<prjRoot>/__tia-tests__/__tia-root__/tia-browser-profiles/default` directory.
 
-Also each test directory can specify its profile dir.
-See also the `browserProfileDir` option in the
-[config/default-suite-config.js](https://github.com/Dzenly/tia/blob/master/config/default-dir-config.js).
+Also each test directory can specify its profile dir
+in the [Directory config](#Directory-config).
+See the `browserProfileDir` option description in the
+[config/default-dir-config.js](https://github.com/Dzenly/tia/blob/master/config/default-dir-config.js).
 
-Browser profiles are located in `_tia-suite/tia-browser-profiles/<browserProfileDir>`  directories, where `browserProfileDir` is config option from the [Directory config](#Directory-config).
+Browser profiles are located in `**/_tia-suite/tia-browser-profiles/<browserProfileDir>`  directories, where `browserProfileDir` is config option from the [Directory config](#Directory-config).
 
 ----------------------------------
 
@@ -340,9 +344,9 @@ There are many nice abilities, so find time to read this help.
 * $ npm i -g tia
 * $ mkdir my-prj - it will be your [Project root directory](#Project-root-directory).
 * $ cd my-prj
-* $ tia initRoot - to create project root TIA subdirectories and config stubs.
+* $ tia initRoot - to create project root TIA subdirectories (TODO and config stubs).
 * Choose/create some directory inside my-prj where the [Test suite](#Test suite) will be created.
-* $ tia initSuite - to create suite TIA subdirectories and config stubs.
+* $ tia initSuite - to create suite TIA subdirectories (TODO: and config stubs).
 * Inside created `__tia-tests__` directory you can create directories with [tests](#Test).
 * $ npm init
 * $ npm install tia - for ability to use `tia.js` as entry point.
@@ -375,11 +379,23 @@ module.exports = {
 }
 ```
 
-### Global config file
+It is for you to decide whether to commit these files to VCS.
+If you have one test environment you can commit them, if you have
+multiple environments with different options, - you should
+add these files into your `<.vsc>ignore` or keep just stubs in VCS.
 
-### Suite config file.
+### Global config
 
-### Dir config file.
+Optional.
+Located in the `<prjRoot>/__tia-tests__/_tia-root/tia-global-config.js` file.
+
+config/default-global-config.js
+
+This
+
+### Suite config
+
+### Directory config
 
 TBD
 
