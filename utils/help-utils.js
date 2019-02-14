@@ -88,10 +88,10 @@ exports.usage = function usage() {
       5. Function is set up to imitate the click to the document body every minute to avoid session expiration.
 
       --email-cfg-path <path> - path to email config. Either absolute or relative to root dir path.
-      See tia/doc/mail-cfg-example.js for example.
+      See tia/doc-md/mail-cfg-example.js for example.
       See tia/config/default-suite-config.js for more details.
       Options from your email config will be merged into tia-root-suite-config.js, and so,
-      merged into all tia-suite-config.js. But tia-suite-config.js can override options.
+      merged into all tia-suite-config.js. But tia-suite-config.js can override these options.
       Note: ${gT.engineConsts.emailCfgPathEnvVarName} environment variable can be used for the same purpose.
 
       --enable-email - enables email.

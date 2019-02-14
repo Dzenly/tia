@@ -20,6 +20,7 @@ function subTest(logLevel) {
 }
 
 module.exports = function test() {
+  gT.t.setTitle('Winston mock test');
   subTest();
   subTest('silly');
   subTest('info');

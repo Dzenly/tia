@@ -1,3 +1,5 @@
+=================
+Title: Winston mock test
 log: level: undefined
 Prefix: error: error
 Prefix: warn: warn

@@ -148,6 +148,7 @@ if (args.runSelfTests) { // Tests for the engine.
   args.rootDir = path.resolve(path.join(__dirname, '..'));
   args.extLog = gT.engineConsts.selfTestsExtLog;
   args.difsToSlog = true;
+  args.slogDifToConsole = true;
 }
 
 if (args.debugAvg) {

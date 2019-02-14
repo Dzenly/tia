@@ -8,5 +8,5 @@
 | | "r-chunk-stream.tia.js", OK, fail: 0, pass: 0, "Test for readable stream to test log."
 | | "r-obj-stream.tia.js", OK, fail: 0, pass: 0, "Test for readable stream to test log."
 | "winston-mock", dif: 0, fail: 0, edif: 0, skip: 0, "This title must be overloaded."
-| | "w-mock.tia.js", OK, fail: 0, pass: 0, ""
+| | "w-mock.tia.js", OK, fail: 0, pass: 0, "Winston mock test"
 ====================    Verbose Log END.    ====================
