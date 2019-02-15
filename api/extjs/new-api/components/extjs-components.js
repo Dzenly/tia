@@ -9,7 +9,7 @@ module.exports = {
   checkbox: require('./checkbox'),
   tab: require('./tab'),
   tabpanel: require('./tabpanel'),
-  textfield: require('./tabpanel'),
+  textfield: require('./textfield'),
 };
 
 _.forEach(module.exports, (value) => {
