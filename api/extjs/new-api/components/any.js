@@ -2,49 +2,109 @@
 
 const { queryCmpInputId, queryCmpId } = require('../tia-extjs-query');
 
-const cmpName = 'ANY Cmp';
+const defaultCompName = 'ANY Cmp';
 
 const actions = {
-  async click(tEQ, elNameForLog, logAction) {
+  async clickCmp({
+    tEQ,
+    compName = defaultCompName,
+    idForLog = '',
+    actionDesc = 'Click Cmp',
+    enableLog,
+  }) {
     return gIn.wrap({
-      msg: `${cmpName} "${tEQ}": click ... `,
-      logAction,
+      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} ... `,
+      enableLog,
       act: async () => {
         const id = await queryCmpId(
           tEQ,
-          undefined,
+          idForLog,
           false
         );
         await gT.s.uA.clickById(id, false);
       },
     });
   },
-  async sendKeys(tEQ, keys, elNameForLog, logAction) {
+  async clickInput({
+    tEQ,
+    compName = defaultCompName,
+    idForLog = '',
+    actionDesc = 'Click Input',
+    enableLog,
+  }) {
     return gIn.wrap({
-      msg: `${cmpName}  "${tEQ}": send keys ${JSON.stringify(keys)} ... `,
-      logAction,
+      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} ... `,
+      enableLog,
       act: async () => {
         const id = await queryCmpInputId(
           tEQ,
-          undefined,
+          idForLog,
+          false
+        );
+        await gT.s.uA.clickById(id, false);
+      },
+    });
+  },
+  async sendKeys({
+    tEQ,
+    keys,
+    compName = defaultCompName,
+    idForLog = '',
+    actionDesc = 'Send keys',
+    enableLog,
+  }) {
+    return gIn.wrap({
+      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} ${JSON.stringify(keys)} ... `,
+      enableLog,
+      act: async () => {
+        const id = await queryCmpInputId(
+          tEQ,
+          idForLog,
           false
         );
         await gT.s.uA.sendKeysById(id, keys, false);
       },
     });
   },
-  async sendKeysAndEnter(tEQ, keys, elNameForLog, logAction) {
+  async selectAllAndSendKeys({
+    tEQ,
+    keys,
+    compName = defaultCompName,
+    idForLog = '',
+    actionDesc = 'Ctrl +a, Send keys',
+    enableLog,
+  }) {
     return gIn.wrap({
-      msg: `${cmpName} "${tEQ}": send keys ${JSON.stringify(keys)} and ENTER ... `,
-      logAction,
+      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} ${JSON.stringify(keys)} ... `,
+      enableLog,
       act: async () => {
         const id = await queryCmpInputId(
           tEQ,
-          undefined,
+          idForLog,
           false
         );
-        await gT.s.uA.sendKeysById(id, keys, false);
-        await gT.s.uA.sendKeysById(id, gT.sOrig.key.ENTER, false);
+        await gT.s.uA.selectAllAndSendKeysById(id, keys, false);
+      },
+    });
+  },
+  async selectAllSendKeysEnter({
+    tEQ,
+    keys,
+    compName = defaultCompName,
+    idForLog = '',
+    actionDesc = 'Ctrl +a, Send keys, Enter',
+    enableLog,
+  }) {
+    return gIn.wrap({
+      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} ${JSON.stringify(keys)} ... `,
+      enableLog,
+      act: async () => {
+        const id = await queryCmpInputId(
+          tEQ,
+          idForLog,
+          false
+        );
+        await gT.s.uA.selectAllSendKeysEnterById(id, keys, false);
       },
     });
   },

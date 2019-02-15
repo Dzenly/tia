@@ -5,36 +5,37 @@
 'use strict';
 
 const { queryCmpInputId } = require('../tia-extjs-query');
+const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./any');
 
-const cmpName = 'ComboBox';
+const compName = 'ComboBox';
 
 const actions = {
-  async sendKeys(tEQ, keys, elNameForLog, logAction) {
-    return gIn.wrap({
-      msg: `${cmpName} "${tEQ}": send keys ${JSON.stringify(keys)} ... `,
-      logAction,
-      act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          undefined,
-          false
-        );
-        await gT.s.uA.sendKeysById(id, keys, false);
-      },
+  async click(tEQ, idForLog, enableLog) {
+    return anyActions.clickInput({
+      tEQ,
+      compName,
+      idForLog,
+      actionDesc: 'Click',
+      enableLog,
     });
   },
-  async select(tEQ, text, elNameForLog, logAction) {
-    return gIn.wrap({
-      msg: `${cmpName} "${tEQ}": send keys ${JSON.stringify(text)} and ENTER ... `,
-      logAction,
-      act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          undefined,
-          false
-        );
-        await gT.s.uA.selectAllSendKeysEnterById(id, text, false);
-      },
+  async sendKeys(tEQ, keys, idForLog, enableLog) {
+    return anyActions.sendKeys({
+      tEQ,
+      keys,
+      compName,
+      idForLog,
+      enableLog,
+    });
+  },
+  async select(tEQ, text, idForLog, enableLog) {
+    return anyActions.selectAllSendKeysEnter({
+      tEQ,
+      keys: text,
+      compName,
+      idForLog,
+      actionDesc: 'Select',
+      enableLog,
     });
   },
 };

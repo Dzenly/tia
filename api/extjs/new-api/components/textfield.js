@@ -1,50 +1,39 @@
 'use strict';
 
 const { queryCmpInputId } = require('../tia-extjs-query');
+const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./any');
 
-const cmpName = 'TextField';
+const compName = 'TextField';
+
+// TODO: задействовать везде idForLog.
 
 const actions = {
-  async click(tEQ, elNameForLog, logAction) {
-    return gIn.wrap({
-      msg: `${cmpName} "${tEQ}": click ... `,
-      logAction,
-      act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          undefined,
-          false
-        );
-        await gT.s.uA.clickById(id, false);
-      },
+  async click(tEQ, idForLog, enableLog) {
+    return anyActions.clickInput({
+      tEQ,
+      compName,
+      idForLog,
+      actionDesc: 'Click',
+      enableLog,
     });
   },
-  async sendKeys(tEQ, keys, elNameForLog, logAction) {
-    return gIn.wrap({
-      msg: `${cmpName} "${tEQ}": send keys ${JSON.stringify(keys)} ... `,
-      logAction,
-      act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          undefined,
-          false
-        );
-        await gT.s.uA.sendKeysById(id, keys, false);
-      },
+  async sendKeys(tEQ, keys, idForLog, enableLog) {
+    return anyActions.sendKeys({
+      tEQ,
+      keys,
+      compName,
+      idForLog,
+      enableLog,
     });
   },
-  async setText(tEQ, text, elNameForLog, logAction) {
-    return gIn.wrap({
-      msg: `${cmpName} "${tEQ}": set text "${text}" ... `,
-      logAction,
-      act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          undefined,
-          false
-        );
-        await gT.s.uA.selectAllAndSendKeysById(id, text, false);
-      },
+  async setText(tEQ, text, idForLog, enableLog) {
+    return anyActions.selectAllAndSendKeys({
+      tEQ,
+      keys: text,
+      compName,
+      idForLog,
+      actionDesc: 'Set text',
+      enableLog,
     });
   },
 };

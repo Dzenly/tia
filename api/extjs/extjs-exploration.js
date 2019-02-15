@@ -17,12 +17,12 @@ let path = require('path');
  *
  * Sets body clicker to avoid session expiration.
  *
- * @param {boolean} [logAction] - is logging needed for this action.
+ * @param {boolean} [enableLog] - is logging needed for this action.
  *
  * @returns a promise which will be resolved with script return value.
  */
-exports.init = function init(logAction) {
-  return gIn.wrap('Initialization of TIA ExtJs Exp helpers ... ', logAction, function () {
+exports.init = function init(enableLog) {
+  return gIn.wrap('Initialization of TIA ExtJs Exp helpers ... ', enableLog, function () {
     let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/e-br-explore.js'), 'utf8');
     // gIn.tracer.msg3('init: script: ' + scriptStr);
     return gT.s.browser.executeScriptWrapper(scriptStr);

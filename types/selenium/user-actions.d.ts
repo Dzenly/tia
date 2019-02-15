@@ -1,4 +1,4 @@
-import {LogAction} from '../ext-js/common';
+import {EnableLog} from '../ext-js/common';
 import {SeleniumIdOrObj} from './common';
 
 /**
@@ -16,29 +16,29 @@ type SeleniumKeys = string | string[];
 
 export interface SeleniumUserActionsApi {
 
-  clickById(id: SeleniumIdOrObj, logAction: LogAction): Promise<undefined>;
+  clickById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_WebElement.html#sendKeys
    * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/input_exports_Key.html#Key.chord
    */
-  sendKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, logAction: LogAction): Promise<undefined>;
+  sendKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Ctrl + a, then sendKeysById().
    */
-  selectAllAndSendKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, logAction: LogAction): Promise<undefined>;
+  selectAllAndSendKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Ctrl + a, then keys, then Enter.
    */
-  selectAllSendKeysEnterById(id: SeleniumIdOrObj, keys: SeleniumKeys, logAction: LogAction): Promise<undefined>;
+  selectAllSendKeysEnterById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
 
 
   /**
    * Ctrl + a, then Delete.
    */
-  selectAllAndDeleteById(id: SeleniumIdOrObj, logAction: LogAction): Promise<undefined>;
+  selectAllAndDeleteById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Clears the value of this element. This command has no effect if the underlying DOM element is neither
@@ -46,10 +46,10 @@ export interface SeleniumUserActionsApi {
    *
    * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_WebElement.html#clear
    */
-  clearById(id: SeleniumIdOrObj, logAction: LogAction): Promise<undefined>;
+  clearById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Sends keys to the <body/> element.
    */
-  sendKeysToBody(keys: SeleniumKeys, logAction: LogAction): Promise<undefined>;
+  sendKeysToBody(keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
 }

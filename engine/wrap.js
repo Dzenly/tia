@@ -41,14 +41,14 @@ async function pause() {
 
 /**
  * Measures time from action start, pauses (if needed) execution, then prints 'OK'.
- * @param logAction
+ * @param enableLog
  * @param startTime
  * @param noConsoleAndExceptions
  */
-async function pauseAndLogOk(logAction, startTime, noConsoleAndExceptions) {
+async function pauseAndLogOk(enableLog, startTime, noConsoleAndExceptions) {
   const timeDiff = stopTimer(startTime);
   await pause();
-  await gIn.logger.logIfNotDisabled(`OK${timeDiff}\n`, logAction);
+  await gIn.logger.logIfNotDisabled(`OK${timeDiff}\n`, enableLog);
 
   if (noConsoleAndExceptions) {
     return;
@@ -168,25 +168,25 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
  * inserts pauses between actions for testing purpose.
  *
  * @param {Object|String} msg - a message to log. String msg is deprecated.
- * @param logAction - is logging enabled.
+ * @param enableLog - is logging enabled.
  * @param act - function.
  * @param noConsoleAndExceptions (?? for error handling inside error handling ?)
  * @returns {*} - Promise will be resolved to value or to exception.
  * @throws - Various errors.
  */
 // eslint-disable-next-line max-params
-module.exports = async function wrap(msg, logAction, act, noConsoleAndExceptions) {
+module.exports = async function wrap(msg, enableLog, act, noConsoleAndExceptions) {
   if (typeof msg === 'object') {
     // esling-disable-next-line no-param-reassign
     ({
       // eslint-disable-next-line no-param-reassign
-      msg, logAction, act, noConsoleAndExceptions,
+      msg, enableLog, act, noConsoleAndExceptions,
     } = msg);
   }
 
   gIn.tracer.msg3(`Inside wrapper, before start timer,  msg: ${msg}`);
 
-  gIn.logger.logIfNotDisabled(msg, logAction);
+  gIn.logger.logIfNotDisabled(msg, enableLog);
   const startTime = startTimer();
   gIn.tracer.msg3(`Inside wrapper, after start timer, msg: ${msg}`);
 
@@ -263,6 +263,6 @@ module.exports = async function wrap(msg, logAction, act, noConsoleAndExceptions
   gIn.tracer.msg3(`A.W.: after action execute, msg: ${msg}`);
   gIn.tracer.msg3(`A.W.: after action execute, val: ${result}`);
   gIn.tracer.msg3(`A.W.: after action execute, act: ${act}`);
-  await pauseAndLogOk(logAction, startTime, noConsoleAndExceptions);
+  await pauseAndLogOk(enableLog, startTime, noConsoleAndExceptions);
   return result;
 };

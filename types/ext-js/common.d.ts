@@ -30,9 +30,9 @@ export type ElementNameForLog = string | undefined;
  * Whether the action is to be written to log.
  * true - write action.
  * false - don't write action (unless --force-log-actions is specified).
- * undefined - use default logAction.
- * Note: Default logAction is 'true; (gT.engineConsts.defLLLogAction).
- * Some function can use its own default logAction, it this case such function description contains
+ * undefined - use default enableLog.
+ * Note: Default enableLog is 'true; (gT.engineConsts.defLLLogAction).
+ * Some function can use its own default enableLog, it this case such function description contains
  * an explanation.
  */
-export type LogAction = boolean | undefined;
+export type EnableLog = boolean | undefined;

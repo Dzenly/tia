@@ -6,13 +6,13 @@ interface TeqParamsForCmpInfo {
   /**
    * Extra element name for log. E.g. if there is no id.
    */
-  elNameForLog?: string;
+  idForLog?: string;
 
   /**
    * Should action be logged? By default - default settings will be used,
    * e.g. don't log actions inside high level action and log other actions.
    */
-  logAction?: boolean;
+  enableLog?: boolean;
 }
 
 interface TeqParams extends TeqParamsForCmpInfo {
@@ -30,5 +30,5 @@ type CmpInfo = any;
 export interface TeqApi {
   queryAndAction(args: TeqParams): any;
   queryCmpInfo(args: TeqParamsForCmpInfo): CmpInfo;
-  queryCmpId(tEQ: Teq, elNameForLog ?: string, logAction ?: boolean): string;
+  queryCmpId(tEQ: Teq, idForLog ?: string, enableLog ?: boolean): string;
 }

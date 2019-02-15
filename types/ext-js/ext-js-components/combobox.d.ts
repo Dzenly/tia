@@ -1,16 +1,21 @@
 import {SeleniumKeys} from '../../selenium/user-actions';
-import {ElementNameForLog, LogAction, Teq} from '../common';
+import {ElementNameForLog, EnableLog, Teq} from '../common';
 
 interface ComboBoxActions {
   /**
+   * Left mouse button click.
+   */
+  click(tEQ: Teq, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
    * Send keys to the component.
    */
-  sendKeys(tEQ: Teq, keys: SeleniumKeys, elNameForLog: ElementNameForLog, logAction: LogAction): Promise<undefined>;
+  sendKeys(tEQ: Teq, keys: SeleniumKeys, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Ctrl + a, Send text by keys, and ENTER to the component.
    */
-  select(tEQ: Teq, text: string, elNameForLog: ElementNameForLog, logAction: LogAction): Promise<undefined>;
+  select(tEQ: Teq, text: string, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
 interface ComboBoxChecks {

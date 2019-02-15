@@ -5,83 +5,83 @@ const { queryAndAction } = require('./tia-extjs-query');
 /**
  * Returns DOM element.
  * @param tEQ
- * @param elNameForLog
+ * @param idForLog
  * @param method
- * @param logAction
+ * @param enableLog
  * @return {*}
  */
 exports.cmpDomElement = async function getDomElement({
   searchStr: tEQ,
-  elNameForLog,
-  logAction,
+  idForLog,
+  enableLog,
 }) {
   return queryAndAction({
     searchStr: tEQ,
     action: 'return cmpInfo.constProps.domEl;',
-    elNameForLog,
-    logAction,
+    idForLog,
+    enableLog,
   });
 };
 
 /**
  * Returns DOM element id
  * @param tEQ
- * @param elNameForLog
+ * @param idForLog
  * @param method
- * @param logAction
+ * @param enableLog
  * @return {*}
  */
 exports.cmpDomElementId = async function getDomElement({
   tEQ,
-  elNameForLog,
-  logAction,
+  idForLog,
+  enableLog,
 }) {
   return queryAndAction({
     tEQ,
     action: 'return cmpInfo.constProps.domElId;',
-    elNameForLog,
-    logAction,
+    idForLog,
+    enableLog,
   });
 };
 
 /**
  * Returns Input DOM element.
  * @param tEQ
- * @param elNameForLog
+ * @param idForLog
  * @param method
- * @param logAction
+ * @param enableLog
  * @return {*}
  */
 exports.cmpInputDomElement = async function cmpInputDomElement({
   tEQ,
-  elNameForLog,
-  logAction,
+  idForLog,
+  enableLog,
 }) {
   return queryAndAction({
     tEQ,
     action: 'return cmpInfo.constProps.inputEl;',
-    elNameForLog,
-    logAction,
+    idForLog,
+    enableLog,
   });
 };
 
 /**
  * Returns input DOM element id
  * @param tEQ
- * @param elNameForLog
+ * @param idForLog
  * @param method
- * @param logAction
+ * @param enableLog
  * @return {*}
  */
 exports.cmpInputDomElementId = async function getDomElement({
   tEQ,
-  elNameForLog,
-  logAction,
+  idForLog,
+  enableLog,
 }) {
   return queryAndAction({
     tEQ,
     action: 'return cmpInfo.constProps.inputId;',
-    elNameForLog,
-    logAction,
+    idForLog,
+    enableLog,
   });
 };

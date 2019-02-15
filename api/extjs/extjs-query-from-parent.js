@@ -15,13 +15,13 @@
 // /**
 //  * Set current parent before using this function.
 //  * @param compQuery
-//  * @param logAction
+//  * @param enableLog
 //  * @return {*}
 //  */
-// exports.any = function any(compQuery, logAction) {
+// exports.any = function any(compQuery, enableLog) {
 //   return gIn.wrap(
 //     `Searching id by preseted parent container, compQuery: ${compQuery} ... `,
-//     logAction,
+//     enableLog,
 //     () => gT.s.browser.executeScriptWrapper(
 //       `return tiaEJ.search.byParentAndCompQuery('${compQuery}')`
 //     )

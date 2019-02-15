@@ -14,9 +14,9 @@ function createBrowserProfile() {
 
 const cleanedProfilePaths = [];
 
-exports.init = async function init(cleanProfile, logAction) {
-  // if (typeof logAction === 'undefined' && !gT.config.browserProfileDir) {
-  //   logAction = false;
+exports.init = async function init(cleanProfile, enableLog) {
+  // if (typeof enableLog === 'undefined' && !gT.config.browserProfileDir) {
+  //   enableLog = false;
   // }
 
   gIn.tracer.msg3(`browserProfilePath: ${gT.config.browserProfilePath}`);
@@ -39,7 +39,7 @@ exports.init = async function init(cleanProfile, logAction) {
     profileInfo = '(with default profile)';
   }
 
-  return gIn.wrap(`Initialization ${profileInfo} ... `, logAction, async () => {
+  return gIn.wrap(`Initialization ${profileInfo} ... `, enableLog, async () => {
     if (cleanProfile) {
       gT.s.browser.cleanProfile(false);
     } else if (gT.cLParams.clearProfiles && !cleanedProfilePaths.includes(gT.config.browserProfilePath)) {
@@ -213,8 +213,8 @@ exports.init = async function init(cleanProfile, logAction) {
   });
 };
 
-exports.sleep = function sleep(ms, logAction) {
-  return gIn.wrap(`Sleep ${ms} ms ... `, logAction, () => gT.u.promise.delayed(ms, true));
+exports.sleep = function sleep(ms, enableLog) {
+  return gIn.wrap(`Sleep ${ms} ms ... `, enableLog, () => gT.u.promise.delayed(ms, true));
 };
 
 const stupidSleep = 400;
@@ -229,14 +229,14 @@ exports.getStupidSleepFunc = function getStupidSleepFunc() {
   };
 };
 
-exports.quit = function quit(logAction) {
+exports.quit = function quit(enableLog) {
   if (gT.cLParams.ejExplore) {
     gIn.tracer.msg3('quit: ejExplore, no quit');
     return Promise.resolve('ejExplore, no quit');
   }
 
-  // if (typeof logAction === 'undefined' && !gT.config.browserProfileDir) {
-  //   logAction = false;
+  // if (typeof enableLog === 'undefined' && !gT.config.browserProfileDir) {
+  //   enableLog = false;
   // }
   if (gIn.sharedBrowserInitiated) {
     gIn.tracer.msg3('quit: Shared browser, no quit');
@@ -244,7 +244,7 @@ exports.quit = function quit(logAction) {
   }
   return gIn.wrap(
     'Quiting ... ',
-    logAction,
+    enableLog,
     () => gT.sOrig.driver.quit().then(() => {
       gIn.tracer.msg3('Quit: Driver is deleted');
       delete gT.sOrig.driver;

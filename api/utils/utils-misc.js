@@ -98,8 +98,8 @@ gT_.u.isWindows = function isWindows() {
   return path.sep === '\\';
 };
 
-// gT_.s.fail = function (url, logAction) {
-//   return gIn.wrap('Intentional fail for debug: ... ', logAction, function () {
+// gT_.s.fail = function (url, enableLog) {
+//   return gIn.wrap('Intentional fail for debug: ... ', enableLog, function () {
 //     return Promise.reject('Intentional fail');
 //   });
 // };

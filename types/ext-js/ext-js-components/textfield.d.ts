@@ -1,21 +1,21 @@
 import {SeleniumKeys} from '../../selenium/user-actions';
-import {ElementNameForLog, LogAction, Teq} from '../common';
+import {ElementNameForLog, EnableLog, Teq} from '../common';
 
 interface TextFieldActions {
   /**
    * Left mouse button click.
    */
-  click(tEQ: Teq, elNameForLog: ElementNameForLog, logAction: LogAction): Promise<undefined>;
+  click(tEQ: Teq, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Send keys to the component.
    */
-  sendKeys(tEQ: Teq, keys: SeleniumKeys, elNameForLog: ElementNameForLog, logAction: LogAction): Promise<undefined>;
+  sendKeys(tEQ: Teq, keys: SeleniumKeys, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Ctrl + a, then keys.
    */
-  setText(tEQ: Teq, text: string, elNameForLog: ElementNameForLog, logAction: LogAction): Promise<undefined>;
+  setText(tEQ: Teq, text: string, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
 interface TextFieldChecks {

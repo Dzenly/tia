@@ -1,10 +1,10 @@
-import {ElementNameForLog, LogAction, Teq} from '../common';
+import {ElementNameForLog, EnableLog, Teq} from '../common';
 
 interface TabActions {
   /**
    * Left mouse button click.
    */
-  click(tEQ: Teq, elNameForLog: ElementNameForLog, logAction: LogAction): Promise<undefined>;
+  click(tEQ: Teq, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
 interface TabChecks {

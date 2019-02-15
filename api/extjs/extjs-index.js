@@ -36,14 +36,14 @@ const brHelpers = [
  * Loads and runs scripts from the extjs/browser-part directory in context of current browser window.
  * Adds some ExtJs helpers to window object.
  *
- * @param {boolean} [logAction=true] - is logging needed for this action.
+ * @param {boolean} [enableLog=true] - is logging needed for this action.
  *
  * @returns {Promise}.
  */
-gT_.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
+gT_.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(enableLog) {
   return gIn.wrap(
     'Initialization of TIA ExtJs helpers ... ',
-    logAction,
+    enableLog,
     async () => {
       for (const fName of brHelpers) { // eslint-disable-line no-restricted-syntax
         const scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part', fName), 'utf8');
@@ -61,11 +61,11 @@ gT_.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(logAction) {
  * Key is english text, and value is any utf8 text.
  *
  * @param objExpression - expression how to get locale object.
- * @param {boolean} [logAction=true] - is logging needed for this action.
+ * @param {boolean} [enableLog=true] - is logging needed for this action.
  * @returns a promise which will be resolved with script return value.
  */
-gT_.e.setLocaleObject = function setLocaleObject(objExpression, logAction) {
-  return gIn.wrap('setLocaleObject ... ', logAction, () => {
+gT_.e.setLocaleObject = function setLocaleObject(objExpression, enableLog) {
+  return gIn.wrap('setLocaleObject ... ', enableLog, () => {
     const scriptStr = `return tiaEJ.setLocale(${objExpression});`;
     return gT.s.browser.executeScriptWrapper(scriptStr)
       .then((res) => {

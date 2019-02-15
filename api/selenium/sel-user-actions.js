@@ -13,14 +13,14 @@ const wdKey = gT.sOrig.key;
  * Clicks to element specified by id.
  *
  * @param id
- * @param logAction -  enable/disable logging for this action.
+ * @param enableLog -  enable/disable logging for this action.
  * @returns {Promise.<TResult>}
  */
-exports.clickById = function clickById(id, logAction) {
+exports.clickById = function clickById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Click on element ${id.logStr} ... `,
-    logAction,
+    enableLog,
     async () => {
       // await gT.s.wait.waitForElementEnabledAndVisibleById(
       //   id,
@@ -37,71 +37,71 @@ exports.clickById = function clickById(id, logAction) {
  *
  * @param id
  * @param keys
- * @param logAction
+ * @param enableLog
  * @returns {Promise.<TResult>}
  */
-exports.sendKeysById = function sendKeysById(id, keys, logAction) {
+exports.sendKeysById = function sendKeysById(id, keys, enableLog) {
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Sending keys: "${keys}", to element ${id.logStr} ... `,
-    logAction,
+    enableLog,
     () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).sendKeys(...keys)
   );
 };
 
-exports.selectAllAndSendKeysById = function selectAllAndSendKeysById(id, keys, logAction) {
+exports.selectAllAndSendKeysById = function selectAllAndSendKeysById(id, keys, enableLog) {
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Select all and sending keys: "${keys}", to element ${id.logStr} ... `,
-    logAction,
+    enableLog,
     () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
       .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, ...keys));
 };
 
-exports.selectAllSendKeysEnterById = function selectAllAndSendKeysById(id, keys, logAction) {
+exports.selectAllSendKeysEnterById = function selectAllAndSendKeysById(id, keys, enableLog) {
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Select all, sending keys, enter: "${keys}", to element ${id.logStr} ... `,
-    logAction,
+    enableLog,
     () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
       .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, ...keys, wdKey.ENTER));
 };
 
-exports.selectAllAndDeleteById = function selectAllAndDeleteById(id, logAction) {
+exports.selectAllAndDeleteById = function selectAllAndDeleteById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Select all and press delete for element ${id.logStr} ... `,
-    logAction,
+    enableLog,
     () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
       .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, wdKey.DELETE, wdKey.NULL));
 };
 
-exports.clearById = function clearById(id, logAction) {
+exports.clearById = function clearById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Clear element ${id.logStr} ... `,
-    logAction,
+    enableLog,
     () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
       .clear()
   );
 };
 
-exports.sendKeysToBody = function sendKeysToBody(keys, logAction) {
+exports.sendKeysToBody = function sendKeysToBody(keys, enableLog) {
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
   return gIn.wrap(
     `Sending keys: "${keys}", to body ... `,
-    logAction,
+    enableLog,
     () => gT.sOrig.driver.findElement(gT.sOrig.by.css('body')).sendKeys(...keys)
   );
 };

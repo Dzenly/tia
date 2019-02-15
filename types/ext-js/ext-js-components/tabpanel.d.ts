@@ -1,14 +1,14 @@
-import {ElementNameForLog, LogAction, Teq} from '../common';
+import {ElementNameForLog, EnableLog, Teq} from '../common';
 
 interface TabPanelActions {
   /**
    * Sets the active card using card id.
    * This is non - Selenium action based on
    * https://docs.sencha.com/extjs/6.5.3/classic/Ext.tab.Panel.html#method-setActiveTab
-   * @param elNameForLog
-   * @param logAction
+   * @param idForLog
+   * @param enableLog
    */
-  setActiveTabByCardId(tEQ: Teq, cardId: string, elNameForLog: ElementNameForLog, logAction: LogAction): Promise<undefined>;
+  setActiveTabByCardId(tEQ: Teq, cardId: string, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
 interface TabPanelChecks {

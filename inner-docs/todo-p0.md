@@ -221,7 +221,7 @@ formId
 
 dynid no case sensitive
 параметры типа name в функциях 
-exports.treeByDynId = function (id, treeName, options, logAction) {
+exports.treeByDynId = function (id, treeName, options, enableLog) {
 
 Чтобы добавить поддержку динамических id во все API.
 

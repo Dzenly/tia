@@ -5,14 +5,14 @@ const { queryAndAction } = require('../tia-extjs-query');
 const cmpName = 'TabPanel';
 
 const actions = {
-  async setActiveTabByCardId(tEQ, cardId, elNameForLog, logAction) {
+  async setActiveTabByCardId(tEQ, cardId, idForLog, enableLog) {
     return gIn.wrap({
-      msg: `${cmpName} "${tEQ}": select tab by cardId: "${cardId}" ... `,
-      logAction,
+      msg: `${cmpName} ${idForLog ? `${idForLog} ` : ''}"${tEQ}": select tab by cardId: "${cardId}" ... `,
+      enableLog,
       act: () => queryAndAction({
         tEQ,
         action: `cmp.setActiveTab('${cardId}');`,
-        logAction: false,
+        enableLog: false,
       }),
     });
   },

@@ -8,8 +8,8 @@ module.exports = {
 
   // By default, low level functions writes info to the Test log.
   // But high level functions disable logs from low level functions they called,
-  // using logAction = false.
-  // Default value for logAction for low level functions is defined in gT.engineConstants.defLLLogAction.
+  // using enableLog = false.
+  // Default value for enableLog for low level functions is defined in gT.engineConstants.defLLLogAction.
   // See also gT.lL.setDefaultLlLogAction and gT.lL.setLlPassCounting.
 
   // Sometimes lazy programmers do not wait when event loop will be free before test exit.

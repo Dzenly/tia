@@ -21,13 +21,13 @@ exports.getLocKeysByText = function getLocKeysByText(text) {
 /**
  *
  * @param parentCmp
- * @param logAction
+ * @param enableLog
  * @return {*}
  */
-exports.setParentCmp = function setParentContainer(cmp, logAction) {
+exports.setParentCmp = function setParentContainer(cmp, enableLog) {
   return gIn.wrap(
     `Set container '${cmp.getLogInfo()}' as the parent for further search`,
-    logAction,
+    enableLog,
     () => gT.s.browser.executeScript(
       `return tiaEJ.search.settings.setParentContainer('${cmp.getId()}');`,
       false
@@ -35,10 +35,10 @@ exports.setParentCmp = function setParentContainer(cmp, logAction) {
   );
 };
 
-exports.addFakeId = function addFakeId(fakeId, realId, logAction) {
+exports.addFakeId = function addFakeId(fakeId, realId, enableLog) {
   return gIn.wrap(
     `Add fake id '${fakeId}' to idMap`,
-    logAction,
+    enableLog,
     () => gT.s.browser.executeScript(
       `return tiaEJ.idMap.add('${fakeId}', '${realId}');`,
       false
@@ -49,13 +49,13 @@ exports.addFakeId = function addFakeId(fakeId, realId, logAction) {
 /**
  * The mode in which native language text is added after locale keys.
  * @param newMode
- * @param logAction
+ * @param enableLog
  * @return {*}
  */
-exports.setDebugLocaleMode = function setDebugLocaleMode(newMode, logAction) {
+exports.setDebugLocaleMode = function setDebugLocaleMode(newMode, enableLog) {
   return gIn.wrap(
     `Set debugLocale mode to '${newMode}'`,
-    logAction,
+    enableLog,
     () => gT.s.browser.executeScript(
       `return tiaEJ.setDebugLocaleMode(${newMode});`,
       false

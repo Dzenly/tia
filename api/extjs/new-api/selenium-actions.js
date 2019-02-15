@@ -6,20 +6,20 @@ const search = require('./selenium-search');
 /**
  * Returns DOM element.
  * @param tEQ
- * @param elNameForLog
- * @param logAction
+ * @param idForLog
+ * @param enableLog
  * @return {*}
  */
 exports.cmpDomElement = async function getDomElement({
   tEQ,
-  elNameForLog,
-  logAction,
+  idForLog,
+  enableLog,
 }) {
   return queryAndAction({
     tEQ,
     action: 'return cmpInfo.constProps.domEl;',
-    elNameForLog,
-    logAction,
+    idForLog,
+    enableLog,
   });
 };
 

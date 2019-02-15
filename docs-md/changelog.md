@@ -1,3 +1,8 @@
+# 0.21.15
+
+logAction renamed to enableLog.
+Changed ExtJs Any Component API (parameters are an object now).
+
 # 0.21.9
 
 Test configs are moved to gT: gIn.config -> gT.config

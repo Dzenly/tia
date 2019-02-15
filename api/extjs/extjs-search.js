@@ -2,11 +2,11 @@
 
 const { inspect } = require('util');
 
-exports.byIdRef = function byIdRef(id, ref, logAction) {
+exports.byIdRef = function byIdRef(id, ref, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching id by container ${id.logStr}, reference: ${ref} ... `,
-    logAction,
+    enableLog,
     () => gT.s.browser.executeScriptWrapper(`return tiaEJ.searchId.byIdRef('${id.id}', '${ref}')`)
     .then((foundId) => {
       gIn.tracer.msg3(`byIdRef, found id: ${foundId}`);
@@ -16,11 +16,11 @@ exports.byIdRef = function byIdRef(id, ref, logAction) {
 
 // ============================
 
-exports.byIdCompQuery = function byIdCompQuery(id, compQuery, logAction) {
+exports.byIdCompQuery = function byIdCompQuery(id, compQuery, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching id by container ${id.logStr}, compQuery: ${compQuery} ... `,
-    logAction,
+    enableLog,
     () => gT.s.browser.executeScriptWrapper(
       `return tiaEJ.searchId.byIdCompQuery('${id.id}', '${compQuery}')`
     )
@@ -30,11 +30,11 @@ exports.byIdCompQuery = function byIdCompQuery(id, compQuery, logAction) {
       }));
 };
 
-exports.byFormIdName = function byFormIdName(id, name, logAction) {
+exports.byFormIdName = function byFormIdName(id, name, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching id by form ${id.logStr}, name: ${name} ... `,
-    logAction,
+    enableLog,
     () => gT.s.browser.executeScriptWrapper(`return tiaEJ.searchId.byFormIdName('${id.id}', '${name}')`)
       .then((foundId) => {
         gIn.tracer.msg3(`byFormIdName, found id: ${foundId}`);
@@ -42,20 +42,20 @@ exports.byFormIdName = function byFormIdName(id, name, logAction) {
       }));
 };
 
-exports.inputByIdCompQuery = function inputByIdCompQuery(id, compQuery, logAction) {
+exports.inputByIdCompQuery = function inputByIdCompQuery(id, compQuery, enableLog) {
   id = gT.s.idToIdObj(id);
-  return gIn.wrap(`Searching input id by container ${id.logStr}, compQuery: ${compQuery} ... `, logAction, () => gT.s.browser.executeScriptWrapper(`return tiaEJ.searchInputId.byIdCompQuery('${id.id}', '${compQuery}')`)
+  return gIn.wrap(`Searching input id by container ${id.logStr}, compQuery: ${compQuery} ... `, enableLog, () => gT.s.browser.executeScriptWrapper(`return tiaEJ.searchInputId.byIdCompQuery('${id.id}', '${compQuery}')`)
     .then((foundId) => {
       gIn.tracer.msg3(`inputByIdCompQuery, found id: ${inspect(foundId)}`);
       return foundId;
     }));
 };
 
-exports.inputByFormIdName = function inputByFormIdName(id, name, logAction) {
+exports.inputByFormIdName = function inputByFormIdName(id, name, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching input id by form ${id.logStr}, name: ${name} ... `,
-    logAction,
+    enableLog,
     () => gT.s.browser.executeScriptWrapper(
       `return tiaEJ.searchInputId.byFormIdName('${id.id}', '${name}')`
     )
@@ -65,11 +65,11 @@ exports.inputByFormIdName = function inputByFormIdName(id, name, logAction) {
       }));
 };
 
-exports.inputByIdRef = function inputByIdRef(id, ref, logAction) {
+exports.inputByIdRef = function inputByIdRef(id, ref, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching input id by container ${id.logStr}, reference: ${ref} ... `,
-    logAction,
+    enableLog,
     () => gT.s.browser.executeScriptWrapper(
       `return tiaEJ.searchInputId.byIdRef('${id.id}', '${ref}')`
     )
@@ -79,11 +79,11 @@ exports.inputByIdRef = function inputByIdRef(id, ref, logAction) {
       }));
 };
 
-exports.fieldByIdCompQuery = function fieldByIdCompQuery(id, compQuery, logAction) {
+exports.fieldByIdCompQuery = function fieldByIdCompQuery(id, compQuery, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching field id by container ${id.logStr}, compQuery: ${compQuery} ... `,
-    logAction,
+    enableLog,
     () => gT.s.browser.executeScriptWrapper(
       `return tiaEJ.searchFieldId.byIdCompQuery('${id.id}', '${compQuery}')`
     )
@@ -93,11 +93,11 @@ exports.fieldByIdCompQuery = function fieldByIdCompQuery(id, compQuery, logActio
       }));
 };
 
-exports.fieldByFormIdName = function fieldByFormIdName(id, name, logAction) {
+exports.fieldByFormIdName = function fieldByFormIdName(id, name, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching field id by form ${id.logStr}, name: ${name} ... `,
-    logAction,
+    enableLog,
     () => gT.s.browser.executeScriptWrapper(
       `return tiaEJ.searchFieldId.byFormIdName('${id.id}', '${name}')`
     )
@@ -107,11 +107,11 @@ exports.fieldByFormIdName = function fieldByFormIdName(id, name, logAction) {
       }));
 };
 
-exports.fieldByIdRef = function fieldByIdRef(id, ref, logAction) {
+exports.fieldByIdRef = function fieldByIdRef(id, ref, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching field id by container ${id.logStr}, reference: ${ref} ... `,
-    logAction,
+    enableLog,
     () => gT.s.browser.executeScriptWrapper(
       `return tiaEJ.searchFieldId.byIdRef('${id.id}', '${ref}')`
     )

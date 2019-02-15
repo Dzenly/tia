@@ -1,4 +1,4 @@
-import {LogAction} from '../ext-js/common';
+import {EnableLog} from '../ext-js/common';
 
 export interface SeleniumDriverApi {
 
@@ -9,20 +9,20 @@ export interface SeleniumDriverApi {
    * @param {Boolean} cleanProfile - Is profile cleaning needed. Works only if custom profile is defined.
    * There is an issue with custom profile on Windows. Profile is not saved after browser closing.
    */
-  init(cleanProfile: boolean, logAction: LogAction): Promise<undefined>;
+  init(cleanProfile: boolean, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Sleeps for the specified milliseconds amount.
    */
-  sleep(ms: number, logAction: LogAction): Promise<undefined>;
+  sleep(ms: number, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Closes the browser.
-   * @param [logAction]
-   * If there was a custom profile - default logAction is true,
+   * @param [enableLog]
+   * If there was a custom profile - default enableLog is true,
    * otherwise - false.
    */
-  quit(logAction: LogAction): Promise<undefined>;
+  quit(enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Quits if driver is initiated and if there is not ejExplore mode.

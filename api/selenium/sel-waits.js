@@ -8,17 +8,17 @@
  *
  * @param id
  * @param timeout
- * @param logAction - enable/disable logging for this action.
+ * @param enableLog - enable/disable logging for this action.
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-exports.waitForElementById = function waitForElementById(id, timeout, logAction) {
+exports.waitForElementById = function waitForElementById(id, timeout, enableLog) {
 
   // eslint-disable-next-line no-param-reassign
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Waiting for element by id ${id.logStr} ... `,
-    logAction,
+    enableLog,
     () => gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.id(id.id)), timeout)
   );
 };
@@ -26,13 +26,13 @@ exports.waitForElementById = function waitForElementById(id, timeout, logAction)
 exports.waitForElementEnabledAndVisibleById = function waitForElementEnabledAndVisibleById(
   id,
   timeout,
-  logAction
+  enableLog
 ) {
   // eslint-disable-next-line no-param-reassign
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Waiting for element enabled and visible by id ${id.logStr} ... `,
-    logAction,
+    enableLog,
     async () => {
       const el = await gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.id(id.id)), timeout);
       await gT.sOrig.driver.wait(gT.sOrig.until.elementIsVisible(el, timeout));
@@ -46,14 +46,14 @@ exports.waitForElementEnabledAndVisibleById = function waitForElementEnabledAndV
  *
  * @param className
  * @param timeout
- * @param logAction - enable/disable logging for this action.
+ * @param enableLog - enable/disable logging for this action.
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-exports.waitForElementByClassName = function waitForElementByClassName(className, timeout, logAction) {
+exports.waitForElementByClassName = function waitForElementByClassName(className, timeout, enableLog) {
   return gIn.wrap(
     `Waiting for element by class name : "${className}" ... `,
-    logAction,
+    enableLog,
     () => gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.className(className)), timeout)
   );
 };
@@ -63,14 +63,14 @@ exports.waitForElementByClassName = function waitForElementByClassName(className
  *
  * @param selector
  * @param timeout
- * @param logAction - enable/disable logging for this action.
+ * @param enableLog - enable/disable logging for this action.
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-exports.waitForElementByCssSelector = function waitForElementByCssSelector(selector, timeout, logAction) {
+exports.waitForElementByCssSelector = function waitForElementByCssSelector(selector, timeout, enableLog) {
   return gIn.wrap(
     `Waiting for element by css selector : "${selector}" ... `,
-    logAction,
+    enableLog,
     () => gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.css(selector)), timeout)
   );
 };
@@ -80,14 +80,14 @@ exports.waitForElementByCssSelector = function waitForElementByCssSelector(selec
  *
  * @param title
  * @param timeout
- * @param logAction - enable/disable logging for this action.
+ * @param enableLog - enable/disable logging for this action.
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-exports.waitForTitle = function waitForTitle(title, timeout, logAction) {
+exports.waitForTitle = function waitForTitle(title, timeout, enableLog) {
   return gIn.wrap(
     `Waiting for windows title: "${title}" ... `,
-    logAction,
+    enableLog,
     () => gT.sOrig.driver.wait(gT.sOrig.until.titleIs(title), timeout)
   );
 };
@@ -96,14 +96,14 @@ exports.waitForTitle = function waitForTitle(title, timeout, logAction) {
  * Waits for specified URL.
  * @param url
  * @param timeout
- * @param logAction - enable/disable logging for this action.
+ * @param enableLog - enable/disable logging for this action.
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-exports.waitForUrl = function waitForUrl(url, timeout, logAction) {
+exports.waitForUrl = function waitForUrl(url, timeout, enableLog) {
   return gIn.wrap(
     `Waiting for URL: "${url}" ... `,
-    logAction,
+    enableLog,
     () => gT.sOrig.driver.wait(
       () => gT.sOrig.driver.getCurrentUrl()
         .then(actUrl => url === gIn.textUtils.collapseHost(actUrl)),
@@ -117,14 +117,14 @@ exports.waitForUrl = function waitForUrl(url, timeout, logAction) {
  *
  * @param urlPrefix
  * @param timeout
- * @param logAction - enable/disable logging for this action.
+ * @param enableLog - enable/disable logging for this action.
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-exports.waitForUrlPrefix = function waitForUrlPrefix(urlPrefix, timeout, logAction) {
+exports.waitForUrlPrefix = function waitForUrlPrefix(urlPrefix, timeout, enableLog) {
   return gIn.wrap(
     `Waiting for URL prefix: "${urlPrefix}" ... `,
-    logAction,
+    enableLog,
     () => gT.sOrig.driver.wait(
       () => gT.sOrig.driver.getCurrentUrl()
         .then(actUrl => gIn.textUtils.collapseHost(actUrl).indexOf(urlPrefix) === 0),

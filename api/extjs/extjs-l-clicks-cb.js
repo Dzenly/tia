@@ -5,7 +5,7 @@
 
 // gT.sOrig.key.ARROW_DOWN
 
-function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, logAction) {
+function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, enableLog) {
   return function clickCb(inputEl, noPrint) {
     return inputEl.sendKeys(gT.sOrig.key.ARROW_DOWN)
       .then(() => {
@@ -24,11 +24,11 @@ function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, 
         gIn.tracer.msg3('Before get list item');
         return gT.s.browser.executeScript(jsGetListItem, false);
       })
-      .then(el => gT.e.lClick.createFuncPrintTextDelayClick(isDblClick, noPrint, logAction)(el));
+      .then(el => gT.e.lClick.createFuncPrintTextDelayClick(isDblClick, noPrint, enableLog)(el));
   };
 }
 
-function createFuncClickCbByInputEl1(jsWaitBoundList, jsGetListItem, isDblClick, logAction) {
+function createFuncClickCbByInputEl1(jsWaitBoundList, jsGetListItem, isDblClick, enableLog) {
   return function clickCb1(inputEl, count, noPrint) {
     let cancel = false;
     count = count || 0;
@@ -72,7 +72,7 @@ function createFuncClickCbByInputEl1(jsWaitBoundList, jsGetListItem, isDblClick,
         if (cancel) {
           return;
         }
-        return gT.e.lClick.createFuncPrintTextDelayClick(isDblClick, noPrint, logAction)(el)
+        return gT.e.lClick.createFuncPrintTextDelayClick(isDblClick, noPrint, enableLog)(el)
           .catch((err) => { // Catch for text item getting or click.
             gIn.tracer.exc(err);
             gIn.tracer.msg1('Using one more chance to click combo box (item click failed)');
@@ -86,53 +86,53 @@ function createFuncClickCbByInputEl1(jsWaitBoundList, jsGetListItem, isDblClick,
   };
 }
 
-function createFuncClickCbByJsToGetInputEl(jsGetInputEl, jsWaitBoundList, jsGetListItem, isDblClick, logAction) {
+function createFuncClickCbByJsToGetInputEl(jsGetInputEl, jsWaitBoundList, jsGetListItem, isDblClick, enableLog) {
   return function () {
     return gT.s.browser.executeScript(jsGetInputEl, false)
-      .then(createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, logAction));
+      .then(createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, enableLog));
   };
 }
 
-function clickCb(logText, jsGetInputEl, jsWaitBoundList, jsGetListItem, isDblClick, logAction) {
-  return gIn.wrap(logText, logAction, () => gT.s.browser.executeScript(jsGetInputEl, false)
-    .then(createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, logAction)));
+function clickCb(logText, jsGetInputEl, jsWaitBoundList, jsGetListItem, isDblClick, enableLog) {
+  return gIn.wrap(logText, enableLog, () => gT.s.browser.executeScript(jsGetInputEl, false)
+    .then(createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, enableLog)));
 }
 
-exports.idIndex = function idIndex(cbId, itemIndex, logAction) {
-  return gIn.wrap('', logAction, () => gT.s.browser.executeScript(`return tiaEJ.hEById.getNameAndLabels('${cbId}');`, false)
+exports.idIndex = function idIndex(cbId, itemIndex, enableLog) {
+  return gIn.wrap('', enableLog, () => gT.s.browser.executeScript(`return tiaEJ.hEById.getNameAndLabels('${cbId}');`, false)
     .then((obj) => {
       gIn.logger.logIfNotDisabled(
-        `Click combo box(name: '${obj.name}', label: '${obj.label}'), item #${itemIndex}`, logAction);
+        `Click combo box(name: '${obj.name}', label: '${obj.label}'), item #${itemIndex}`, enableLog);
     })
     .then(createFuncClickCbByJsToGetInputEl(
       `return tiaEJ.hEById.getInputEl('${cbId}');`,
       `return tiaEJ.hEById.isCBPickerVisible('${cbId}', ${itemIndex});`,
       `return tiaEJ.hEById.getCBItemByIndex('${cbId}', ${itemIndex});`,
       false,
-      logAction
+      enableLog
     )));
 };
 
-exports.idField = function idField(cbId, fieldValue, fieldName, logAction) {
+exports.idField = function idField(cbId, fieldValue, fieldName, enableLog) {
   return gIn.wrap(
     '',
-    logAction,
+    enableLog,
     () => gT.s.browser.executeScript(`return tiaEJ.hEById.getNameAndLabels('${cbId}');`, false)
     .then((obj) => {
       gIn.logger.logIfNotDisabled(
         `Click combo box(name: '${obj.name}', label: '${obj.label}'), by field (name: ${fieldName}, value: ${fieldValue})`,
-        logAction);
+        enableLog);
     })
     .then(createFuncClickCbByJsToGetInputEl(
       `return tiaEJ.hEById.getInputEl('${cbId}');`,
       `return tiaEJ.hEById.isCBPickerVisible('${cbId}');`,
       `return tiaEJ.hEById.getCBItemByField('${cbId}', ${gT.s.browser.valueToParameter(fieldValue)}, '${fieldName}');`,
       false,
-      logAction
+      enableLog
     )));
 };
 
-exports.formIdNameIndex = function formIdNameIndex(formId, name, index, logAction) {
+exports.formIdNameIndex = function formIdNameIndex(formId, name, index, enableLog) {
   return clickCb(
 
     // logText
@@ -150,12 +150,12 @@ exports.formIdNameIndex = function formIdNameIndex(formId, name, index, logActio
     // isDblClick
     false,
 
-    // logAction
-    logAction
+    // enableLog
+    enableLog
   );
 };
 
-exports.dblFormIdNameIndex = function dblFormIdNameIndex(formId, name, index, logAction) {
+exports.dblFormIdNameIndex = function dblFormIdNameIndex(formId, name, index, enableLog) {
   return clickCb(
 
     // logText
@@ -173,12 +173,12 @@ exports.dblFormIdNameIndex = function dblFormIdNameIndex(formId, name, index, lo
     // isDblClick
     true,
 
-    // logAction
-    logAction
+    // enableLog
+    enableLog
   );
 };
 
-exports.formIdNameField = function formIdNameField(formId, name, fieldValue, fieldName, logAction) {
+exports.formIdNameField = function formIdNameField(formId, name, fieldValue, fieldName, enableLog) {
   return clickCb(
 
     // logText
@@ -196,7 +196,7 @@ exports.formIdNameField = function formIdNameField(formId, name, fieldValue, fie
     // isDblClick
     false,
 
-    // logAction
-    logAction
+    // enableLog
+    enableLog
   );
 };

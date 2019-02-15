@@ -5,16 +5,16 @@ const teq = require('../tia-extjs-query');
 // /**
 //  *
 //  * @param tEQ
-//  * @param elNameForLog
-//  * @param logAction
+//  * @param idForLog
+//  * @param enableLog
 //  * @return {Promise<{checks: {}, log: {}, actions: {}}>}
 //  */
-module.exports = async function checkbox(tEQ, elNameForLog = null, logAction) {
+module.exports = async function checkbox(tEQ, idForLog = null, enableLog) {
   const cmpInfo = await teq.queryAndAction({
     tEQ,
     action: 'return cmpInfo',
-    elNameForLog,
-    logAction,
+    idForLog,
+    enableLog,
   });
 
   return {
