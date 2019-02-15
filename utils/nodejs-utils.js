@@ -6,7 +6,7 @@ const path = require('path');
 const semver = require('semver');
 const { inspect } = require('util');
 const _ = require('lodash');
-const { engines } = require('../package')
+const { engines } = require('../package');
 
 /**
  * Clears 'require' cache for specified node module.
@@ -44,7 +44,6 @@ exports.requireEx = function requireEx(modPath, clearCache) {
  * @return {*} - exports from existing module or empty object if module is absent.
  */
 exports.requireIfExists = function requireIfExists(modPath) {
-
   try {
     return require(modPath);
   } catch (e) {
@@ -102,10 +101,8 @@ ${exports.getResourcesUsage()}`;
 };
 
 exports.isPromise = function isPromise(p) {
-  if (_.isObject(p) && _.isFunction(p.then)) {
-    return true;
-  }
-  return false;
+  return _.isObject(p) && _.isFunction(p.then);
+
 };
 
 exports.checkNodeJsVersion = function checkNodeJsVersion() {

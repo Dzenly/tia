@@ -451,9 +451,13 @@
     },
 
     pushVal: function (val, prop, outArr) {
-      var localeKeys = tiaEJ.getLocKeysByText(val);
       var textStr = prop + ': ' + val;
+
+      var localeKeys = tiaEJ.getLocKeysByText(val);
       outArr.push(textStr + ', Locale Keys: ' + localeKeys);
+
+      var extraLocaleKeys = tiaEJ.getLocKeysByText(val, true);
+      outArr.push(textStr + ', Extra locale Keys: ' + extraLocaleKeys);
     },
 
     pushTextProp: function (comp, prop, outArr) {
@@ -554,6 +558,10 @@
           if (localeKeys) {
             propVal = 'l"' + localeKeys + '"';
           } else {
+            localeKeys = tiaEJ.getLocKeysByText(propVal, true);
+            if (localeKeys) {
+              propVal = 'el"' + localeKeys + '"';
+            }
             propVal = '"' + propVal + '"';
           }
           return this.getComponentSearchString(parentComp, xtypePriority) +

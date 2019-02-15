@@ -14,9 +14,26 @@
       this.debugLocale = newMode;
     },
 
-    locale: null,
-    invertedLocaleFirstKey: null, // only first key is keeped for non unique values.
-    invertedLocaleAllKeys: null, // all keys are keeped for non unique values
+    // Extra (from node.js side) locale stuff.
+
+    extraLocale: {},
+    invertedExtraLocaleFirstKey: {}, // only first key is keeped for non unique values.
+    invertedExtraLocaleAllKeys: {}, // all keys are keeped for non unique values
+
+    setExtraLocale: function setExtraLocale(extraLocale) {
+      this.extraLocale = extraLocale;
+      var invertedExtraObject = tia.cU.invertMapObj(extraLocale);
+
+      this.invertedExtraLocaleFirstKey = invertedExtraObject.invertedMapFirstKey;
+      this.invertedExtraLocaleAllKeys = invertedExtraObject.invertedMapAllKeys;
+      return true;
+    },
+
+    // Inner locale stuff.
+
+    locale: {},
+    invertedLocaleFirstKey: {}, // only first key is keeped for non unique values.
+    invertedLocaleAllKeys: {}, // all keys are keeped for non unique values
 
     setLocale: function setLocale(newLocale) {
       this.locale = newLocale;
@@ -32,15 +49,26 @@
       };
     },
 
-    getLocaleValue: function getLocaleValue(key) {
+    // Common locale stuff.
+
+    getLocaleValue: function getLocaleValue(key, extra) {
+      if (extra) {
+        return this.extraLocale[key];
+      }
       return this.locale[key];
     },
 
-    getFirstLocaleKey: function getFirstLocaleKey(value) {
+    getFirstLocaleKey: function getFirstLocaleKey(value, extra) {
+      if (extra) {
+        return this.invertedExtraLocaleFirstKey[value];
+      }
       return this.invertedLocaleFirstKey[value];
     },
 
-    getAllLocaleKeys: function getAllLocaleKeys(value) {
+    getAllLocaleKeys: function getAllLocaleKeys(value, extra) {
+      if (extra) {
+        return this.invertedExtraLocaleAllKeys[value];
+      }
       return this.invertedLocaleAllKeys[value];
     },
 
@@ -131,8 +159,8 @@
      * @param {String} text - text to be searched in localization.
      * @return {String} - found key or empty string.
      */
-    getFirstLocKeyByText: function getFirstLocKeyByText(text) {
-      var candidate = this.getFirstLocaleKey(text);
+    getFirstLocKeyByText: function getFirstLocKeyByText(text, extra) {
+      var candidate = this.getFirstLocaleKey(text, extra);
       return typeof candidate === 'undefined' ? '' : candidate;
     },
 
@@ -141,13 +169,13 @@
      * @param {String} text - text to be searched in localization.
      * @return {String} - found keys separated by comma or empty string.
      */
-    getLocKeysByText: function getLocKeysByText(text) {
-      var candidates = this.getAllLocaleKeys(text);
+    getLocKeysByText: function getLocKeysByText(text, extra) {
+      var candidates = this.getAllLocaleKeys(text, extra);
       return typeof candidates === 'undefined' ? '' : candidates;
     },
 
-    getTextByLocKey: function getTextByLocKey(key) {
-      var res = this.getLocaleValue(key);
+    getTextByLocKey: function getTextByLocKey(key, extra) {
+      var res = this.getLocaleValue(key, extra);
       if (typeof res === 'undefined') {
         throw new Error('No such key in locale: ' + key);
       }
@@ -156,7 +184,19 @@
 
     convertTextToLocKeys: function convertTextToLocKeys(text) {
       var locKeys = this.getLocKeysByText(text);
-      var result = 'l"' + locKeys + '"';
+      var result;
+
+      if (locKeys) {
+        result = 'l"' + locKeys + '"';
+      } else {
+        locKeys = this.getLocKeysByText(text, true);
+        if (locKeys) {
+          result = 'el"' + locKeys + '"';
+        } else {
+          result = 'l""';
+        }
+      }
+
       if (!locKeys || this.debugLocale) {
         result += '("' + text + '")';
       }
@@ -165,9 +205,21 @@
 
     convertTextToFirstLocKey: function convertTextToFirstLocKey(text) {
       var locKey = this.getFirstLocKeyByText(text);
-      var result = 'l"' + locKey + '"';
+      var result;
+
+      if (locKey) {
+        result = 'l"' + locKey + '"';
+      } else {
+        locKey = this.getFirstLocKeyByText(text, true);
+        if (locKey) {
+          result = 'el"' + locKey + '"';
+        } else {
+          result = 'l""';
+        }
+      }
+
       if (!locKey || this.debugLocale) {
-        result += '("' + text + '")';
+        result += ' ("' + text + '")';
       }
       return result;
     },
@@ -192,8 +244,12 @@
      * @return {String} - string with replaced text.
      */
     replaceLocKeys: function replaceLocKeys(str) {
+      var reExtra = /el"(.*?)"/g;
+      var result = str.replace(re, function (m, key) {
+        return '"' + tiaEJ.getLocaleValue(key, true) + '"';
+      });
       var re = /l"(.*?)"/g;
-      return str.replace(re, function (m, key) {
+      return result.replace(re, function (m, key) {
         return '"' + tiaEJ.getLocaleValue(key) + '"';
       });
     },

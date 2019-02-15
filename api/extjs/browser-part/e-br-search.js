@@ -138,8 +138,8 @@
      * @param ref - reference inside component found by id.
      * @param key - key in locale.
      */
-    byIdRefKey: function byIdRefKey(id, ref, key) {
-      var text = tiaEJ.getTextByLocKey(key);
+    byIdRefKey: function byIdRefKey(id, ref, key, extra) {
+      var text = tiaEJ.getTextByLocKey(key, extra);
       var cmp = this.search.byIdRef(id, ref);
       var resItem = this.search.byText(cmp, text, 'container id: ' + id + ', reference: ' + ref);
       return resItem;

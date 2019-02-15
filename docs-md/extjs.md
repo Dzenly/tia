@@ -20,3 +20,8 @@ You should not rely on XPath, attributes, css styles, etc.
 
 * Also you can use s.browser.executeScript to access ExtJs objects your way and return
 JS DOM for further interactions by TIA API and selenium-webdriver API.
+
+## Known issues
+
+* autoGenId for inner components (say for boundlist of combobox)
+is true. Even if autoGenId for the combobox is false.

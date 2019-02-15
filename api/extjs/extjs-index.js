@@ -56,26 +56,6 @@ gT_.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(enableLog) {
   );
 };
 
-/**
- * Sets locale object. Locale object is key-value object for localization.
- * Key is english text, and value is any utf8 text.
- *
- * @param objExpression - expression how to get locale object.
- * @param {boolean} [enableLog=true] - is logging needed for this action.
- * @returns a promise which will be resolved with script return value.
- */
-gT_.e.setLocaleObject = function setLocaleObject(objExpression, enableLog) {
-  return gIn.wrap('setLocaleObject ... ', enableLog, () => {
-    const scriptStr = `return tiaEJ.setLocale(${objExpression});`;
-    return gT.s.browser.executeScriptWrapper(scriptStr)
-      .then((res) => {
-        gT_.e.locale = res.locale;
-        gT_.e.invertedLocaleFirstKey = res.invertedLocaleFirstKey;
-        gT_.e.invertedLocaleAllKeys = res.invertedLocaleAllKeys;
-      });
-  });
-};
-
 gT_.e.utils = require('./extjs-utils');
 gT_.e.api = require('./extjs-api-actions.js');
 gT_.e.explore = require('./extjs-exploration.js');
