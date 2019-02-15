@@ -3,8 +3,10 @@
 /* global gIn */
 
 const path = require('path');
+const semver = require('semver');
 const { inspect } = require('util');
 const _ = require('lodash');
+const { engines } = require('../package')
 
 /**
  * Clears 'require' cache for specified node module.
@@ -107,9 +109,9 @@ exports.isPromise = function isPromise(p) {
 };
 
 exports.checkNodeJsVersion = function checkNodeJsVersion() {
-  const majVersion = process.version.match(/\d+/)[0];
-  if (majVersion < 10) {
-    console.error(`Node.js less then 10.x.x is not supported, your version: ${process.version}`);
+  const version = engines.node;
+  if (!semver.satisfies(process.version, version)) {
+    console.error(`Required node version ${version}, current version ${process.version}.`);
     process.exit(1);
   }
 };
