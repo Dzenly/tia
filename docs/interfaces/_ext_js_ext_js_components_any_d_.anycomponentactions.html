@@ -82,9 +82,11 @@
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#click" class="tsd-kind-icon">click</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#clickcmp" class="tsd-kind-icon">click<wbr>Cmp</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#clickinput" class="tsd-kind-icon">click<wbr>Input</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#selectallandsendkeysr" class="tsd-kind-icon">select<wbr>All<wbr>And<wbr>Send<wbr>Keysr</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#selectallsendkeysenter" class="tsd-kind-icon">select<wbr>All<wbr>Send<wbr>Keys<wbr>Enter</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#sendkeys" class="tsd-kind-icon">send<wbr>Keys</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#sendkeysandenter" class="tsd-kind-icon">send<wbr>Keys<wbr>And<wbr>Enter</a></li>
 							</ul>
 						</section>
 					</div>
@@ -93,33 +95,116 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="click" class="tsd-anchor"></a>
-					<h3>click</h3>
+					<a name="clickcmp" class="tsd-anchor"></a>
+					<h3>click<wbr>Cmp</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">click<span class="tsd-signature-symbol">(</span>tEQ<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a>, idForLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#elementnameforlog" class="tsd-signature-type">ElementNameForLog</a>, enableLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#logaction" class="tsd-signature-type">EnableLog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">click<wbr>Cmp<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_ext_js_ext_js_components_any_d_.anycomponentcommonparams.html" class="tsd-signature-type">AnyComponentCommonParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/any.d.ts:8</li>
+									<li>Defined in ext-js/ext-js-components/any.d.ts:45</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Left mouse button click.</p>
+									<p>Left mouse button click on Component.
+									Default actionDesc is &#39;Click Cmp&#39;.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>tEQ: <a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a></h5>
+									<h5>params: <a href="_ext_js_ext_js_components_any_d_.anycomponentcommonparams.html" class="tsd-signature-type">AnyComponentCommonParams</a></h5>
 								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="clickinput" class="tsd-anchor"></a>
+					<h3>click<wbr>Input</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">click<wbr>Input<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_ext_js_ext_js_components_any_d_.anycomponentcommonparams.html" class="tsd-signature-type">AnyComponentCommonParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in ext-js/ext-js-components/any.d.ts:52</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Left mouse button click on Component&#39;s input element.
+										Note: not all Components have an input element.
+									Default actionDesc is &#39;Click Input&#39;.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
 								<li>
-									<h5>idForLog: <a href="../modules/_ext_js_common_d_.html#elementnameforlog" class="tsd-signature-type">ElementNameForLog</a></h5>
+									<h5>params: <a href="_ext_js_ext_js_components_any_d_.anycomponentcommonparams.html" class="tsd-signature-type">AnyComponentCommonParams</a></h5>
 								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="selectallandsendkeysr" class="tsd-anchor"></a>
+					<h3>select<wbr>All<wbr>And<wbr>Send<wbr>Keysr</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">select<wbr>All<wbr>And<wbr>Send<wbr>Keysr<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_ext_js_ext_js_components_any_d_.anycomponentsendkeysparams.html" class="tsd-signature-type">AnyComponentSendKeysParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in ext-js/ext-js-components/any.d.ts:64</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Ctrl + a, and send keys to the Component.
+									Default actionDesc is &#39;Ctrl +a, Send keys&#39;</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
 								<li>
-									<h5>enableLog: <a href="../modules/_ext_js_common_d_.html#logaction" class="tsd-signature-type">EnableLog</a></h5>
+									<h5>params: <a href="_ext_js_ext_js_components_any_d_.anycomponentsendkeysparams.html" class="tsd-signature-type">AnyComponentSendKeysParams</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="selectallsendkeysenter" class="tsd-anchor"></a>
+					<h3>select<wbr>All<wbr>Send<wbr>Keys<wbr>Enter</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">select<wbr>All<wbr>Send<wbr>Keys<wbr>Enter<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_ext_js_ext_js_components_any_d_.anycomponentsendkeysparams.html" class="tsd-signature-type">AnyComponentSendKeysParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in ext-js/ext-js-components/any.d.ts:70</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Ctrl + a, keys, ENTER to the Component.
+									Default actionDesc is &#39;Ctrl +a, Send keys, Enter&#39;</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_ext_js_ext_js_components_any_d_.anycomponentsendkeysparams.html" class="tsd-signature-type">AnyComponentSendKeysParams</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -130,70 +215,25 @@
 					<a name="sendkeys" class="tsd-anchor"></a>
 					<h3>send<wbr>Keys</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">send<wbr>Keys<span class="tsd-signature-symbol">(</span>tEQ<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a>, keys<span class="tsd-signature-symbol">: </span><a href="../modules/_selenium_user_actions_d_.html#seleniumkeys" class="tsd-signature-type">SeleniumKeys</a>, idForLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#elementnameforlog" class="tsd-signature-type">ElementNameForLog</a>, enableLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#logaction" class="tsd-signature-type">EnableLog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Keys<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_ext_js_ext_js_components_any_d_.anycomponentsendkeysparams.html" class="tsd-signature-type">AnyComponentSendKeysParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/any.d.ts:13</li>
+									<li>Defined in ext-js/ext-js-components/any.d.ts:58</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Send keys to the component.</p>
+									<p>Send keys to the component.
+									Default actionDesc is &#39;Send keys&#39;.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>tEQ: <a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a></h5>
-								</li>
-								<li>
-									<h5>keys: <a href="../modules/_selenium_user_actions_d_.html#seleniumkeys" class="tsd-signature-type">SeleniumKeys</a></h5>
-								</li>
-								<li>
-									<h5>idForLog: <a href="../modules/_ext_js_common_d_.html#elementnameforlog" class="tsd-signature-type">ElementNameForLog</a></h5>
-								</li>
-								<li>
-									<h5>enableLog: <a href="../modules/_ext_js_common_d_.html#logaction" class="tsd-signature-type">EnableLog</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="sendkeysandenter" class="tsd-anchor"></a>
-					<h3>send<wbr>Keys<wbr>And<wbr>Enter</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">send<wbr>Keys<wbr>And<wbr>Enter<span class="tsd-signature-symbol">(</span>tEQ<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a>, keys<span class="tsd-signature-symbol">: </span><a href="../modules/_selenium_user_actions_d_.html#seleniumkeys" class="tsd-signature-type">SeleniumKeys</a>, idForLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#elementnameforlog" class="tsd-signature-type">ElementNameForLog</a>, enableLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#logaction" class="tsd-signature-type">EnableLog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in ext-js/ext-js-components/any.d.ts:18</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Send keys and ENTER to the component.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>tEQ: <a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a></h5>
-								</li>
-								<li>
-									<h5>keys: <a href="../modules/_selenium_user_actions_d_.html#seleniumkeys" class="tsd-signature-type">SeleniumKeys</a></h5>
-								</li>
-								<li>
-									<h5>idForLog: <a href="../modules/_ext_js_common_d_.html#elementnameforlog" class="tsd-signature-type">ElementNameForLog</a></h5>
-								</li>
-								<li>
-									<h5>enableLog: <a href="../modules/_ext_js_common_d_.html#logaction" class="tsd-signature-type">EnableLog</a></h5>
+									<h5>params: <a href="_ext_js_ext_js_components_any_d_.anycomponentsendkeysparams.html" class="tsd-signature-type">AnyComponentSendKeysParams</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -284,13 +324,19 @@
 						<a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html" class="tsd-kind-icon">Any<wbr>Component<wbr>Actions</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#click" class="tsd-kind-icon">click</a>
+								<a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#clickcmp" class="tsd-kind-icon">click<wbr>Cmp</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#clickinput" class="tsd-kind-icon">click<wbr>Input</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#selectallandsendkeysr" class="tsd-kind-icon">select<wbr>All<wbr>And<wbr>Send<wbr>Keysr</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#selectallsendkeysenter" class="tsd-kind-icon">select<wbr>All<wbr>Send<wbr>Keys<wbr>Enter</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
 								<a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#sendkeys" class="tsd-kind-icon">send<wbr>Keys</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="_ext_js_ext_js_components_any_d_.anycomponentactions.html#sendkeysandenter" class="tsd-kind-icon">send<wbr>Keys<wbr>And<wbr>Enter</a>
 							</li>
 						</ul>
 					</li>
@@ -300,7 +346,16 @@
 						<a href="_ext_js_ext_js_components_any_d_.anycomponentchecks.html" class="tsd-kind-icon">Any<wbr>Component<wbr>Checks</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_ext_js_ext_js_components_any_d_.anycomponentcommonparams.html" class="tsd-kind-icon">Any<wbr>Component<wbr>Common<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_ext_js_ext_js_components_any_d_.anycomponentlogs.html" class="tsd-kind-icon">Any<wbr>Component<wbr>Logs</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_ext_js_ext_js_components_any_d_.anycomponentsendkeysparams.html" class="tsd-kind-icon">Any<wbr>Component<wbr>Send<wbr>Keys<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_ext_js_ext_js_components_any_d_.html#anycomponentactiondescription" class="tsd-kind-icon">Any<wbr>Component<wbr>Action<wbr>Description</a>
 					</li>
 				</ul>
 			</nav>

@@ -88,8 +88,8 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_teq_d_.teqparams.html#action" class="tsd-kind-icon">action</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_ext_js_teq_d_.teqparams.html#elnameforlog" class="tsd-kind-icon">el<wbr>Name<wbr>For<wbr>Log</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_ext_js_teq_d_.teqparams.html#logaction" class="tsd-kind-icon">log<wbr>Action</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_ext_js_teq_d_.teqparams.html#enablelog" class="tsd-kind-icon">enable<wbr>Log</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_ext_js_teq_d_.teqparams.html#idforlog" class="tsd-kind-icon">id<wbr>For<wbr>Log</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_ext_js_teq_d_.teqparams.html#teq" class="tsd-kind-icon">tEQ</a></li>
 							</ul>
 						</section>
@@ -117,27 +117,11 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
-					<a name="elnameforlog" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> el<wbr>Name<wbr>For<wbr>Log</h3>
-					<div class="tsd-signature tsd-kind-icon">el<wbr>Name<wbr>For<wbr>Log<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<a name="enablelog" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> enable<wbr>Log</h3>
+					<div class="tsd-signature tsd-kind-icon">enable<wbr>Log<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_ext_js_teq_d_.teqparamsforcmpinfo.html">TeqParamsForCmpInfo</a>.<a href="_ext_js_teq_d_.teqparamsforcmpinfo.html#elnameforlog">idForLog</a></p>
-						<ul>
-							<li>Defined in ext-js/teq.d.ts:9</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Extra element name for log. E.g. if there is no id.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
-					<a name="logaction" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> log<wbr>Action</h3>
-					<div class="tsd-signature tsd-kind-icon">log<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="_ext_js_teq_d_.teqparamsforcmpinfo.html">TeqParamsForCmpInfo</a>.<a href="_ext_js_teq_d_.teqparamsforcmpinfo.html#logaction">enableLog</a></p>
+						<p>Inherited from <a href="_ext_js_teq_d_.teqparamsforcmpinfo.html">TeqParamsForCmpInfo</a>.<a href="_ext_js_teq_d_.teqparamsforcmpinfo.html#enablelog">enableLog</a></p>
 						<ul>
 							<li>Defined in ext-js/teq.d.ts:15</li>
 						</ul>
@@ -146,6 +130,22 @@
 						<div class="lead">
 							<p>Should action be logged? By default - default settings will be used,
 							e.g. don&#39;t log actions inside high level action and log other actions.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
+					<a name="idforlog" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id<wbr>For<wbr>Log</h3>
+					<div class="tsd-signature tsd-kind-icon">id<wbr>For<wbr>Log<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_ext_js_teq_d_.teqparamsforcmpinfo.html">TeqParamsForCmpInfo</a>.<a href="_ext_js_teq_d_.teqparamsforcmpinfo.html#idforlog">idForLog</a></p>
+						<ul>
+							<li>Defined in ext-js/teq.d.ts:9</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Extra element name for log. E.g. if there is no id.</p>
 						</div>
 					</div>
 				</section>
@@ -247,10 +247,10 @@
 								<a href="_ext_js_teq_d_.teqparams.html#action" class="tsd-kind-icon">action</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
-								<a href="_ext_js_teq_d_.teqparams.html#elnameforlog" class="tsd-kind-icon">el<wbr>Name<wbr>For<wbr>Log</a>
+								<a href="_ext_js_teq_d_.teqparams.html#enablelog" class="tsd-kind-icon">enable<wbr>Log</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
-								<a href="_ext_js_teq_d_.teqparams.html#logaction" class="tsd-kind-icon">log<wbr>Action</a>
+								<a href="_ext_js_teq_d_.teqparams.html#idforlog" class="tsd-kind-icon">id<wbr>For<wbr>Log</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
 								<a href="_ext_js_teq_d_.teqparams.html#teq" class="tsd-kind-icon">tEQ</a>
