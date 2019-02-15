@@ -1,6 +1,6 @@
 'use strict';
 
-const { queryCmpId } = require('../tia-extjs-query');
+const { queryCmpInputId } = require('../tia-extjs-query');
 
 const cmpName = 'TextField';
 
@@ -10,7 +10,7 @@ const actions = {
       msg: `${cmpName} "${tEQ}": click ... `,
       logAction,
       act: async () => {
-        const id = await queryCmpId(
+        const id = await queryCmpInputId(
           tEQ,
           undefined,
           false
@@ -21,15 +21,29 @@ const actions = {
   },
   async sendKeys(tEQ, keys, elNameForLog, logAction) {
     return gIn.wrap({
-      msg: `${cmpName}  "${tEQ}": send keys ${JSON.stringify(keys)} ... `,
+      msg: `${cmpName} "${tEQ}": send keys ${JSON.stringify(keys)} ... `,
       logAction,
       act: async () => {
-        const id = await queryCmpId(
+        const id = await queryCmpInputId(
           tEQ,
           undefined,
           false
         );
         await gT.s.uA.sendKeysById(id, keys, false);
+      },
+    });
+  },
+  async setText(tEQ, text, elNameForLog, logAction) {
+    return gIn.wrap({
+      msg: `${cmpName} "${tEQ}": set text "${text}" ... `,
+      logAction,
+      act: async () => {
+        const id = await queryCmpInputId(
+          tEQ,
+          undefined,
+          false
+        );
+        await gT.s.uA.selectAllAndSendKeysById(id, text, false);
       },
     });
   },

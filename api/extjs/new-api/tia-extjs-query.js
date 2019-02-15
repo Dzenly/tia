@@ -47,3 +47,16 @@ exports.queryCmpId = async function queryCmpId(
     logAction,
   });
 };
+
+exports.queryCmpInputId = async function queryCmpId(
+  tEQ,
+  elNameForLog,
+  logAction
+) {
+  return exports.queryAndAction({
+    tEQ,
+    action: 'return cmpInfo.constProps.inputId;',
+    elNameForLog,
+    logAction,
+  });
+};

@@ -64,6 +64,18 @@ exports.selectAllAndSendKeysById = function selectAllAndSendKeysById(id, keys, l
       .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, ...keys));
 };
 
+exports.selectAllSendKeysEnterById = function selectAllAndSendKeysById(id, keys, logAction) {
+  if (!Array.isArray(keys)) {
+    keys = [keys];
+  }
+  id = gT.s.idToIdObj(id);
+  return gIn.wrap(
+    `Select all, sending keys, enter: "${keys}", to element ${id.logStr} ... `,
+    logAction,
+    () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
+      .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, ...keys, wdKey.ENTER));
+};
+
 exports.selectAllAndDeleteById = function selectAllAndDeleteById(id, logAction) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(

@@ -11,6 +11,11 @@ interface TextFieldActions {
    * Send keys to the component.
    */
   sendKeys(tEQ: Teq, keys: SeleniumKeys, elNameForLog: ElementNameForLog, logAction: LogAction): Promise<undefined>;
+
+  /**
+   * Ctrl + a, then keys.
+   */
+  setText(tEQ: Teq, text: string, elNameForLog: ElementNameForLog, logAction: LogAction): Promise<undefined>;
 }
 
 interface TextFieldChecks {

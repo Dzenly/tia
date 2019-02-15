@@ -11,6 +11,11 @@ interface AnyComponentActions {
    * Send keys to the component.
    */
   sendKeys(tEQ: Teq, keys: SeleniumKeys, elNameForLog: ElementNameForLog, logAction: LogAction): Promise<undefined>;
+
+  /**
+   * Send keys and ENTER to the component.
+   */
+  sendKeysAndEnter(tEQ: Teq, keys: SeleniumKeys, elNameForLog: ElementNameForLog, logAction: LogAction): Promise<undefined>;
 }
 
 interface AnyComponentChecks {

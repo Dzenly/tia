@@ -1,6 +1,6 @@
 'use strict';
 
-const { queryCmpId } = require('../tia-extjs-query');
+const { queryCmpInputId, queryCmpId } = require('../tia-extjs-query');
 
 const cmpName = 'ANY Cmp';
 
@@ -24,12 +24,27 @@ const actions = {
       msg: `${cmpName}  "${tEQ}": send keys ${JSON.stringify(keys)} ... `,
       logAction,
       act: async () => {
-        const id = await queryCmpId(
+        const id = await queryCmpInputId(
           tEQ,
           undefined,
           false
         );
         await gT.s.uA.sendKeysById(id, keys, false);
+      },
+    });
+  },
+  async sendKeysAndEnter(tEQ, keys, elNameForLog, logAction) {
+    return gIn.wrap({
+      msg: `${cmpName} "${tEQ}": send keys ${JSON.stringify(keys)} and ENTER ... `,
+      logAction,
+      act: async () => {
+        const id = await queryCmpInputId(
+          tEQ,
+          undefined,
+          false
+        );
+        await gT.s.uA.sendKeysById(id, keys, false);
+        await gT.s.uA.sendKeysById(id, gT.sOrig.key.ENTER, false);
       },
     });
   },

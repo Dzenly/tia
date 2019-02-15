@@ -30,6 +30,12 @@ export interface SeleniumUserActionsApi {
   selectAllAndSendKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, logAction: LogAction): Promise<undefined>;
 
   /**
+   * Ctrl + a, then keys, then Enter.
+   */
+  selectAllSendKeysEnterById(id: SeleniumIdOrObj, keys: SeleniumKeys, logAction: LogAction): Promise<undefined>;
+
+
+  /**
    * Ctrl + a, then Delete.
    */
   selectAllAndDeleteById(id: SeleniumIdOrObj, logAction: LogAction): Promise<undefined>;

@@ -7,6 +7,7 @@ const _ = require('lodash');
 module.exports = {
   any: require('./any'),
   checkbox: require('./checkbox'),
+  combobox: require('./combobox'),
   tab: require('./tab'),
   tabpanel: require('./tabpanel'),
   textfield: require('./textfield'),
