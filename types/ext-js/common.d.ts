@@ -10,8 +10,14 @@
  * And you have not ability to pass (false) in TEQ. So you always search by exact xtype and not
  * by the inheritance chain.
  *
+ * Locale: Front end locale, which is set by gT.e.utils.setLocaleObject().
  * In the component queries, substrings like 'l"locale_key"' will be replaced by '"value_for_key"',
  * i.e. '[text=l"settings"]' will be changed to '[text="Настройки"] for russian locale.
+ *
+ * Extra locale: Back end locale, which is set by gT.e.utils.setExtraLocaleObject()
+ * In the component queries, substrings like 'el"locale_key"' will be replaced by '"value_for_key"',
+ * i.e. '[text=el"settings"]' will be changed to '[text="Настройки"] for russian extra locale.
+ *
  * Also id like '##idKey' will be replaced by '#realId' from tiaEJ.idMap.
  *
  * References can be specified using '&' prefix. Say if your TEQ string is:

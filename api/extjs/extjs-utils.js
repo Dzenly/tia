@@ -1,5 +1,9 @@
 'use strict';
 
+const { inspect } = require('util');
+
+gT_.e.locale = {};
+
 /**
  * Sets locale object. Locale object is key-value object for localization.
  * Key is english text, and value is any utf8 text.
@@ -20,9 +24,14 @@ exports.setLocaleObject = function setLocaleObject(objExpression, enableLog) {
   });
 };
 
-exports.setExtraLocaleObject = function setLocaleObject(objExpression, enableLog) {
+gT_.e.extraLocale = {};
+
+exports.setExtraLocaleObject = function setLocaleObject(localeObj, enableLog) {
+  const objStr = inspect(localeObj, { compact: true, breakLength: 200 });
+  gT_.e.extraLocale = localeObj;
+
   return gIn.wrap('setExtraLocaleObject ... ', enableLog, () => {
-    const scriptStr = `return tiaEJ.setExtraLocale(${objExpression});`;
+    const scriptStr = `return tiaEJ.setExtraLocale(${objStr});`;
     return gT.s.browser.executeScriptWrapper(scriptStr)
       .then((res) => {
         if (res !== true) {
@@ -30,6 +39,29 @@ exports.setExtraLocaleObject = function setLocaleObject(objExpression, enableLog
         }
       });
   });
+};
+
+exports.getLocStr = function getLocStr(key) {
+  const str = gT.e.locale[key];
+  if (!str) {
+    throw new Error(`Key: "${key} is not found in locale`);
+  }
+  return str;
+};
+
+exports.getExtraLocStr = function getExtraLocStr(key) {
+  const str = gT.e.extraLocale[key];
+  if (!str) {
+    throw new Error(`Key: "${key} is not found in extra locale`);
+  }
+  return str;
+};
+
+exports.locKeyToStr = function locKeyToStr(str) {
+  const reExtra = /el"(.*?)"/g;
+  const result = str.replace(reExtra, (m, key) => exports.getExtraLocStr(key));
+  const re = /l"(.*?)"/g;
+  return result.replace(re, (m, key) => exports.getLocStr(key));
 };
 
 /**

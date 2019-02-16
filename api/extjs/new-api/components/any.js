@@ -53,8 +53,9 @@ const actions = {
     actionDesc = 'Send keys',
     enableLog,
   }) {
+    const realKeys = gT.e.utils.locKeyToStr(keys);
     return gIn.wrap({
-      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} ${JSON.stringify(keys)} ... `,
+      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} '${keys}' ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpInputId(
@@ -62,7 +63,7 @@ const actions = {
           idForLog,
           false
         );
-        await gT.s.uA.sendKeysById(id, keys, false);
+        await gT.s.uA.sendKeysById(id, realKeys, false);
       },
     });
   },
@@ -74,8 +75,9 @@ const actions = {
     actionDesc = 'Ctrl +a, Send keys',
     enableLog,
   }) {
+    const realKeys = gT.e.utils.locKeyToStr(keys);
     return gIn.wrap({
-      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} ${JSON.stringify(keys)} ... `,
+      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} '${keys}' ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpInputId(
@@ -83,7 +85,7 @@ const actions = {
           idForLog,
           false
         );
-        await gT.s.uA.selectAllAndSendKeysById(id, keys, false);
+        await gT.s.uA.selectAllAndSendKeysById(id, realKeys, false);
       },
     });
   },
@@ -95,8 +97,9 @@ const actions = {
     actionDesc = 'Ctrl +a, Send keys, Enter',
     enableLog,
   }) {
+    const realKeys = gT.e.utils.locKeyToStr(keys);
     return gIn.wrap({
-      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} ${JSON.stringify(keys)} ... `,
+      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} '${keys}' ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpInputId(
@@ -104,7 +107,7 @@ const actions = {
           idForLog,
           false
         );
-        await gT.s.uA.selectAllSendKeysEnterById(id, keys, false);
+        await gT.s.uA.selectAllSendKeysEnterById(id, realKeys, false);
       },
     });
   },

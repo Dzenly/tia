@@ -245,7 +245,7 @@
      */
     replaceLocKeys: function replaceLocKeys(str) {
       var reExtra = /el"(.*?)"/g;
-      var result = str.replace(re, function (m, key) {
+      var result = str.replace(reExtra, function (m, key) {
         return '"' + tiaEJ.getLocaleValue(key, true) + '"';
       });
       var re = /l"(.*?)"/g;
