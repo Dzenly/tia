@@ -15,7 +15,7 @@ interface TextFieldActions {
   /**
    * Ctrl + a, then keys.
    */
-  setText(tEQ: Teq, text: string, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
+  setText(tEQ: Teq, text: SeleniumKeys, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
 interface TextFieldChecks {

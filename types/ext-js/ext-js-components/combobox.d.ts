@@ -15,7 +15,7 @@ interface ComboBoxActions {
   /**
    * Ctrl + a, Send text by keys, and ENTER to the component.
    */
-  select(tEQ: Teq, text: string, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
+  select(tEQ: Teq, text: SeleniumKeys, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
 interface ComboBoxChecks {

@@ -5,6 +5,9 @@ import {SeleniumIdOrObj} from './common';
  * String or array of strings with keys.
  * You can input some string like 'asdf' into input element, or you can use gT.sOrig.input.Key:
  *
+ * As for TEQ strings, l"key" is replaced by corresponding locale value,
+ * and el"key" is replaced by corresponding extra locale value.
+ *
  * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/input_exports_Key.html
  *
  * See also:

@@ -31,4 +31,5 @@ export interface TeqApi {
   queryAndAction(args: TeqParams): any;
   queryCmpInfo(args: TeqParamsForCmpInfo): CmpInfo;
   queryCmpId(tEQ: Teq, idForLog ?: string, enableLog ?: boolean): string;
+  queryCmpInputId(tEQ: Teq, idForLog ?: string, enableLog ?: boolean): string;
 }
