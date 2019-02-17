@@ -118,18 +118,18 @@ exports.idField = function idField(cbId, fieldValue, fieldName, enableLog) {
     '',
     enableLog,
     () => gT.s.browser.executeScript(`return tiaEJ.hEById.getNameAndLabels('${cbId}');`, false)
-    .then((obj) => {
-      gIn.logger.logIfNotDisabled(
-        `Click combo box(name: '${obj.name}', label: '${obj.label}'), by field (name: ${fieldName}, value: ${fieldValue})`,
-        enableLog);
-    })
-    .then(createFuncClickCbByJsToGetInputEl(
-      `return tiaEJ.hEById.getInputEl('${cbId}');`,
-      `return tiaEJ.hEById.isCBPickerVisible('${cbId}');`,
-      `return tiaEJ.hEById.getCBItemByField('${cbId}', ${gT.s.browser.valueToParameter(fieldValue)}, '${fieldName}');`,
-      false,
-      enableLog
-    )));
+      .then((obj) => {
+        gIn.logger.logIfNotDisabled(
+          `Click combo box(name: '${obj.name}', label: '${obj.label}'), by field (name: ${fieldName}, value: ${fieldValue})`,
+          enableLog);
+      })
+      .then(createFuncClickCbByJsToGetInputEl(
+        `return tiaEJ.hEById.getInputEl('${cbId}');`,
+        `return tiaEJ.hEById.isCBPickerVisible('${cbId}');`,
+        `return tiaEJ.hEById.getCBItemByField('${cbId}', ${gT.s.browser.valueToParameter(fieldValue)}, '${fieldName}');`,
+        false,
+        enableLog
+      )));
 };
 
 exports.formIdNameIndex = function formIdNameIndex(formId, name, index, enableLog) {

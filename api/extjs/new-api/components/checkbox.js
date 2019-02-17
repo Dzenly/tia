@@ -41,6 +41,22 @@ const actions = {
       await gT.s.uA.clickById(id);
     }
   },
+  async checkEJ(tEQ, idForLog, enableLog) {
+    await queryAndAction({
+      tEQ,
+      action: 'cmp.setValue(true);',
+      idForLog,
+      enableLog,
+    });
+  },
+  async uncheckEJ(tEQ, idForLog, enableLog) {
+    await queryAndAction({
+      tEQ,
+      action: 'cmp.setValue(false);',
+      idForLog,
+      enableLog,
+    });
+  },
 };
 
 const checks = {};
