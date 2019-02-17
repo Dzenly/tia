@@ -79,8 +79,11 @@
       fakeToReal: new Map(),
       realToFake: new Map(),
       add: function add(fakeId, realId) {
-        if (directMap.get(fakeId)) {
-          throw new Error(fakeId + 'is already in map.');
+        if (this.fakeToReal.get(fakeId)) {
+          throw new Error(fakeId + 'is already in fakeToReal map.');
+        }
+        if (this.realToFake.get(realId)) {
+          throw new Error(realId + 'is already in realToFake map.');
         }
         this.fakeToReal.set(fakeId, realId);
         this.realToFake.set(realId, fakeId);

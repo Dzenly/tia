@@ -501,7 +501,7 @@
         fakeId = tiaEJ.idMap.getFakeId(id);
         id = null;
         if (fakeId) {
-          return '##' + id;
+          return '##' + fakeId;
         }
       }
 

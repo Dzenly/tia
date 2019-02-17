@@ -64,13 +64,11 @@ exports.queryCmpInputId = async function queryCmpId(
 exports.setFakeId = async function setFakeId(
   tEQ,
   fakeId,
-  idForLog,
   enableLog
 ) {
   return exports.queryAndAction({
     tEQ,
     action: `tiaEJ.idMap.add('${fakeId}', cmpInfo.constProps.realId);`,
-    idForLog,
     enableLog,
   });
 };
