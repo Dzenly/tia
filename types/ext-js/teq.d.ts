@@ -28,8 +28,9 @@ interface TeqParams extends TeqParamsForCmpInfo {
 type CmpInfo = any;
 
 export interface TeqApi {
-  queryAndAction(args: TeqParams): any;
-  queryCmpInfo(args: TeqParamsForCmpInfo): CmpInfo;
-  queryCmpId(tEQ: Teq, idForLog ?: string, enableLog ?: boolean): string;
-  queryCmpInputId(tEQ: Teq, idForLog ?: string, enableLog ?: boolean): string;
+  queryAndAction(args: TeqParams): Promise<any>;
+  queryCmpInfo(args: TeqParamsForCmpInfo): Promise<CmpInfo>;
+  queryCmpId(tEQ: Teq, idForLog ?: string, enableLog ?: boolean): Promise<string>;
+  queryCmpInputId(tEQ: Teq, idForLog ?: string, enableLog ?: boolean): Promise<string>;
+  setFakeId(tEQ: Teq, fakeId: string, idForLog ?: string, enableLog ?: boolean): Promise<undefined>;
 }

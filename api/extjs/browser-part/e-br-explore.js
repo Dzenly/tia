@@ -493,10 +493,16 @@
       var autoGenRE = /-\d+/;
 
       var id = comp.getId();
-      id = comp.autoGenId ? null : id;
 
-      if (id) {
+      var fakeId;
+      if (!comp.autoGenId) {
         return '#' + id;
+      } else {
+        fakeId = tiaEJ.idMap.getFakeId(id);
+        id = null;
+        if (fakeId) {
+          return '##' + id;
+        }
       }
 
       var xtype = comp.getConfig('xtype');
@@ -583,7 +589,12 @@
       var initialConfig = comp.getInitialConfig();
       var config = comp.getConfig();
       var id = comp.getId();
-      id = comp.autoGenId ? null : id;
+
+      var fakeId;
+      if (comp.autoGenId) {
+        fakeId = tiaEJ.idMap.getFakeId(id);
+        id = null;
+      }
 
       var itemId = comp.getConfig('itemId');
       itemId = autoGenRE.test(itemId) ? null : itemId;
@@ -642,9 +653,12 @@
 
       // =============
 
-
       if (id) {
         outArr.push('id: ' + this.boldGreen(id));
+      }
+
+      if (fakeId) {
+        outArr.push('fakeId: ' + this.boldGreen(fakeId));
       }
 
       if (itemId) {
