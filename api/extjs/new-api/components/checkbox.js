@@ -1,26 +1,54 @@
 'use strict';
 
-const teq = require('../tia-extjs-query');
+// https://stackoverflow.com/questions/11000087/how-to-select-a-combobox-value-in-extjs
 
-// /**
-//  *
-//  * @param tEQ
-//  * @param idForLog
-//  * @param enableLog
-//  * @return {Promise<{checks: {}, log: {}, actions: {}}>}
-//  */
-module.exports = async function checkbox(tEQ, idForLog = null, enableLog) {
-  const cmpInfo = await teq.queryAndAction({
-    tEQ,
-    action: 'return cmpInfo',
-    idForLog,
-    enableLog,
-  });
+'use strict';
 
-  return {
-    actions: {},
-    checks: {},
-    log: {}
-  };
+const { queryCmpInputIdj, queryAndAction } = require('../tia-extjs-query');
+const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./any');
 
+const compName = 'ComboBox';
+
+const actions = {
+  async click(tEQ, idForLog, enableLog) {
+    return anyActions.clickInput({
+      tEQ,
+      compName,
+      idForLog,
+      actionDesc: 'Click',
+      enableLog,
+    });
+  },
+  async check(tEQ, idForLog, enableLog) {
+    const { checked, id } = await queryAndAction({
+      tEQ,
+      action: 'return { checked: cmp.getRawValue(), id: cmpInfo.constProps.inputId };',
+      idForLog,
+      enableLog,
+    });
+    if (!checked) {
+      await gT.s.uA.clickById(id);
+    }
+  },
+  async uncheck(tEQ, idForLog, enableLog) {
+    const { checked, id } = await queryAndAction({
+      tEQ,
+      action: 'return { checked: cmp.getRawValue(), id: cmpInfo.constProps.inputId };',
+      idForLog,
+      enableLog,
+    });
+    if (checked) {
+      await gT.s.uA.clickById(id);
+    }
+  },
+};
+
+const checks = {};
+
+const logs = {};
+
+module.exports = {
+  actions,
+  checks,
+  logs,
 };
