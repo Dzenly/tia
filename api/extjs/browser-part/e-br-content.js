@@ -352,6 +352,28 @@
       return str;
     },
 
+    getCompDispIdProps: function getCompDispIdProps(comp) {
+
+      var resArr = [];
+
+      var compProps = [
+        'text',
+        'title',
+        'fieldLabel',
+        'boxLabel',
+        'tooltip',
+      ];
+
+      compProps.forEach(function (propName) {
+        var val = comp[propName];
+        if (val) {
+          resArr.push(propName + ': ' + tiaEJ.convertTextToFirstLocKey(val));
+        }
+      });
+
+      return resArr.join(', ');
+    },
+
     getNameAndLabels: function getNameAndLabels(field, noName) {
       var resArr = [];
       if (!noName && field.getName && field.getName()) {
@@ -432,7 +454,7 @@
     getCB: function getCB(cb) {
       var str = '';
       // str += this.getIdItemIdReference(cb) + '\n';
-      str += this.getNameAndLabels(cb) + '\n';
+      str += this.getCompDispIdProps(cb) + '\n';
 
       str += 'Selected vals: \'' + this.getCBSelectedVals(cb) + '\'\n';
 

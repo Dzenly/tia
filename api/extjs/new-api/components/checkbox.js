@@ -1,5 +1,7 @@
 'use strict';
 
+const { getCISRVal } = require('../../extjs-utils');
+
 const { queryAndAction } = require('../tia-extjs-query');
 const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./any');
 
@@ -93,7 +95,19 @@ const actions = {
 
 const checks = {};
 
-const logs = {};
+const logs = {
+  async rawValue(tEQ, idForLog) {
+    const { val, disp } = await queryAndAction({
+      tEQ,
+      action: 'return { val: cmp.getRawValue(), disp: tiaEJ.ctByObj.getCompDispIdProps(cmp)};',
+      idForLog,
+      enableLog: false,
+    });
+
+    const result = `${disp}: ${val ? 'checked' : 'unchecked'}`;
+    gIn.logger.logln(getCISRVal(tEQ, compName, idForLog, result));
+  },
+};
 
 module.exports = {
   actions,

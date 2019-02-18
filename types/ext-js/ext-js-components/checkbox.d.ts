@@ -33,6 +33,10 @@ interface CheckBoxChecks {
 
 interface CheckBoxLogs {
 
+  /**
+   * Prints 'checked' or 'unchecked'.
+   */
+  rawValue(tEQ: Teq, idForLog: ElementIdForLog): Promise<undefined>;
 }
 
 export interface CheckBox {

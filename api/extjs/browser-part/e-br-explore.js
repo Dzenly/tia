@@ -656,7 +656,7 @@
         outArr.push(this.boldIf(e.toString(), true, '#FF0000'));
       }
 
-      outArr.push(this.boldIf(tEQXT, true, '#0000FF', '18px'));
+      outArr.push(this.boldIf('(\'' + tEQXT + '\')', true, '#0000FF', '18px'));
 
       // ==
 
@@ -671,7 +671,7 @@
           outArr.push(this.boldIf(e.toString(), true, '#FF0000'));
         }
 
-        outArr.push(this.boldIf(tEQRef, true, '#0000FF', '18px'));
+        outArr.push(this.boldIf('(\'' + tEQRef + '\')', true, '#0000FF', '18px'));
       }
 
       outArr.push(this.consts.avgSep);

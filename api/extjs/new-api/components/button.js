@@ -1,7 +1,8 @@
 'use strict';
 
-const { queryCmpInputId } = require('../tia-extjs-query');
+const { queryAndAction } = require('../tia-extjs-query');
 const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./any');
+const { getCISRVal } = require('../../extjs-utils');
 
 const compName = 'Button';
 
@@ -21,7 +22,18 @@ const actions = {
 
 const checks = {};
 
-const logs = {};
+const logs = {
+  async info(tEQ, idForLog) {
+    const result = await queryAndAction({
+      tEQ,
+      action: 'return tiaEJ.ctByObj.getCompDispIdProps(cmp);',
+      idForLog,
+      enableLog: false,
+    });
+
+    gIn.logger.logln(getCISRVal(tEQ, compName, idForLog, result));
+  },
+};
 
 module.exports = {
   actions,

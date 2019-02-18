@@ -13,6 +13,10 @@ interface ButtonChecks {
 
 interface ButtonLogs {
 
+  /**
+   * Prints info about the button which user can see on the display.
+   */
+  info(tEQ: Teq, idForLog: ElementIdForLog): Promise<undefined>;
 }
 
 export interface Button {
