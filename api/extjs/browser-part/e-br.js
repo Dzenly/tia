@@ -120,12 +120,12 @@
     },
 
     resetExtJsIdle: function resetExtJsIdle() {
+      this.ejIdle = false;
       function idleHandler() {
         window.tiaEJ.ejIdle = true;
       }
 
       Ext.on({ idle: { fn: idleHandler, scope: this, single: true } });
-      this.ejIdle = false;
     },
 
     ajaxFailuresArr: [],

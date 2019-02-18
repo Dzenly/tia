@@ -31,6 +31,24 @@ exports.initTiaBrHelpers = function initTiaBrHelpers(enableLog) {
       await exports.executeScriptFromFile(fPath);
     }
     gIn.brHelpersInitiated = true;
+
+    // await exports.executeScriptWrapper('window.focus(); document.body.click();');
+    // await gT.sOrig.driver.actions({ bridge: true }).move({
+    //   x: 100,
+    //   y: 100,
+    //   origin: gT.sOrig.driver.findElement(gT.sOrig.by.tagName('body')),
+    //   duration: 0,
+    // }).perform();
+    //
+    // // await gT.sOrig.driver.actions({ bridge: true }).contextClick(
+    // //   gT.sOrig.driver.findElement(gT.sOrig.by.tagName('body'))
+    // // ).perform();
+    //
+    // // await gT.sOrig.driver.actions({bridge: true}).pause(100).perform();
+    //
+    // await gT.sOrig.driver.actions({ bridge: true }).click(
+    //   gT.sOrig.driver.findElement(gT.sOrig.by.tagName('body'))
+    // ).perform();
   });
 };
 
