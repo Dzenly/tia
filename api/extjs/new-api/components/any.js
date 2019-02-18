@@ -2,6 +2,8 @@
 
 const { queryCmpInputId, queryCmpId } = require('../tia-extjs-query');
 
+const { getCIS } = require('../../extjs-utils');
+
 const defaultCompName = 'ANY Cmp';
 
 const actions = {
@@ -13,7 +15,7 @@ const actions = {
     enableLog,
   }) {
     return gIn.wrap({
-      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} ... `,
+      msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpId(
@@ -33,7 +35,7 @@ const actions = {
     enableLog,
   }) {
     return gIn.wrap({
-      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} ... `,
+      msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpInputId(
@@ -55,7 +57,7 @@ const actions = {
   }) {
     const realKeys = gT.e.utils.locKeyToStr(keys);
     return gIn.wrap({
-      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} '${keys}' ... `,
+      msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} '${keys}' ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpInputId(
@@ -77,7 +79,7 @@ const actions = {
   }) {
     const realKeys = gT.e.utils.locKeyToStr(keys);
     return gIn.wrap({
-      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} '${keys}' ... `,
+      msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} '${keys}' ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpInputId(
@@ -99,7 +101,7 @@ const actions = {
   }) {
     const realKeys = gT.e.utils.locKeyToStr(keys);
     return gIn.wrap({
-      msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} '${keys}' ... `,
+      msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} '${keys}' ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpInputId(
@@ -115,7 +117,8 @@ const actions = {
 
 const checks = {};
 
-const logs = {};
+const logs = {
+};
 
 module.exports = {
   actions,

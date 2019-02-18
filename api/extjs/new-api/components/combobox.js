@@ -4,10 +4,12 @@
 
 'use strict';
 
-const { queryCmpInputId } = require('../tia-extjs-query');
-const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./any');
+// const { queryCmpInputId } = require('../tia-extjs-query');
+const { actions: anyActions } = require('./any');
 const { queryAndAction } = require('../tia-extjs-query');
-const { inspect } = require('util');
+const { getCISRVal, getCISContent } = require('../../extjs-utils');
+
+// const { inspect } = require('util');
 
 const compName = 'ComboBox';
 
@@ -97,7 +99,29 @@ const actions = {
 
 const checks = {};
 
-const logs = {};
+const logs = {
+  async rawValue(tEQ, idForLog) {
+    const result = await queryAndAction({
+      tEQ,
+      action: 'return tiaEJ.ctByObj.getCBSelectedVals(cmp);',
+      idForLog,
+      enableLog: false,
+    });
+
+    gIn.logger.logln(getCISRVal(tEQ, compName, idForLog, result));
+  },
+
+  async content(tEQ, idForLog) {
+    const result = await queryAndAction({
+      tEQ,
+      action: 'return tiaEJ.ctByObj.getCB(cmp);',
+      idForLog,
+      enableLog: false,
+    });
+
+    gIn.logger.logln(getCISContent(tEQ, compName, idForLog, result));
+  },
+};
 
 module.exports = {
   actions,

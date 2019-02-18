@@ -3,6 +3,8 @@
 const { inspect } = require('util');
 
 gT_.e.locale = {};
+gT_.e.invertedLocaleFirstKey = {};
+gT_.e.invertedLocaleAllKeys = {};
 
 /**
  * Sets locale object. Locale object is key-value object for localization.
@@ -25,11 +27,21 @@ exports.setLocaleObject = function setLocaleObject(objExpression, enableLog) {
 };
 
 gT_.e.extraLocale = {};
+gT_.e.invertedExtraLocaleFirstKey = {};
+gT_.e.invertedExtraLocaleAllKeys = {};
 
-exports.setExtraLocaleObject = function setLocaleObject(localeObj, enableLog) {
+function setExtraLocale(extraLocale) {
+  gT_.e.extraLocale = extraLocale;
+  const invertedExtraObject = gT.commonMiscUtils.invertMapObj(extraLocale);
+
+  gT_.e.invertedExtraLocaleFirstKey = invertedExtraObject.invertedMapFirstKey;
+  gT_.e.invertedExtraLocaleAllKeys = invertedExtraObject.invertedMapAllKeys;
+}
+
+exports.setExtraLocaleObject = function setExtraLocaleObject(localeObj, enableLog) {
+  setExtraLocale(localeObj);
+
   const objStr = inspect(localeObj, { compact: true, breakLength: 200 });
-  gT_.e.extraLocale = localeObj;
-
   return gIn.wrap('setExtraLocaleObject ... ', enableLog, () => {
     const scriptStr = `return tiaEJ.setExtraLocale(${objStr});`;
     return gT.s.browser.executeScriptWrapper(scriptStr)
@@ -64,6 +76,51 @@ exports.locKeyToStr = function locKeyToStr(str) {
   return result.replace(re, (m, key) => exports.getLocStr(key));
 };
 
+exports.getFirstLocaleKey = function getFirstLocaleKey(value, extra) {
+  if (extra) {
+    return gT.e.invertedExtraLocaleFirstKey[value];
+  }
+  return gT.e.invertedLocaleFirstKey[value];
+};
+
+exports.getAllLocaleKeys = function getAllLocaleKeys(value, extra) {
+  if (extra) {
+    return gT.e.invertedExtraLocaleAllKeys[value];
+  }
+  return gT.e.invertedLocaleAllKeys[value];
+};
+
+exports.convertTextToFirstLocKey = function convertTextToFirstLocKey(text) {
+  let locKey = exports.getFirstLocaleKey(text);
+  let result;
+
+  if (locKey) {
+    result = `l"${locKey}"`;
+  } else {
+    locKey = exports.getFirstLocaleKey(text, true);
+    if (locKey) {
+      result = `el"${locKey}"`;
+    } else {
+      result = text;
+    }
+  }
+  return result;
+};
+
+// Component info string.
+exports.getCIS = function getCIS(tEQ, compName, idForLog = '') {
+  return `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}":`;
+};
+
+// CIS + Raw val.
+exports.getCISRVal = function getCISRVal(tEQ, compName, idForLog = '', val) {
+  return `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": Raw val: '${val}'`;
+};
+
+exports.getCISContent = function getCISContent(tEQ, compName, idForLog = '', val) {
+  return `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": Content:\n${val}`;
+};
+
 /**
  * Returns locale keys for which values are equal to given text.
  * Requires gT.e.utils.setLocaleObject(expression) call before.
@@ -82,6 +139,8 @@ exports.locKeyToStr = function locKeyToStr(str) {
 //   return res.join(', ');
 // };
 
+exports.debugLocale = false;
+
 /**
  * The mode in which native language text is added after locale keys.
  * @param newMode
@@ -89,6 +148,8 @@ exports.locKeyToStr = function locKeyToStr(str) {
  * @return {*}
  */
 exports.setDebugLocaleMode = function setDebugLocaleMode(newMode, enableLog) {
+  exports.debugLocale = true;
+
   return gIn.wrap(
     `Set debugLocale mode to '${newMode}'`,
     enableLog,
@@ -105,16 +166,16 @@ exports.setDebugLocaleMode = function setDebugLocaleMode(newMode, enableLog) {
  * @param enableLog
  * @return {*}
  */
-exports.setParentCmp = function setParentContainer(cmp, enableLog) {
-  return gIn.wrap(
-    `Set container '${cmp.getLogInfo()}' as the parent for further search`,
-    enableLog,
-    () => gT.s.browser.executeScript(
-      `return tiaEJ.search.settings.setParentContainer('${cmp.getId()}');`,
-      false
-    )
-  );
-};
+// exports.setParentCmp = function setParentContainer(cmp, enableLog) {
+//   return gIn.wrap(
+//     `Set container '${cmp.getLogInfo()}' as the parent for further search`,
+//     enableLog,
+//     () => gT.s.browser.executeScript(
+//       `return tiaEJ.search.settings.setParentContainer('${cmp.getId()}');`,
+//       false
+//     )
+//   );
+// };
 
 exports.addFakeId = function addFakeId(fakeId, realId, enableLog) {
   return gIn.wrap(

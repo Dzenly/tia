@@ -63,9 +63,9 @@
        */
       parentContainer: null,
 
-      setParentContainer: function setParentContainer(id) {
-        this.parentContainer = Ext.getCmp(id);
-      },
+      // setParentContainer: function setParentContainer(id) {
+      //   this.parentContainer = Ext.getCmp(id);
+      // },
     },
 
     /* searches the first parent with isPanel === true */

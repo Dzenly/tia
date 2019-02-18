@@ -1,10 +1,10 @@
-import {ElementNameForLog, EnableLog, Teq} from '../common';
+import {ElementIdForLog, EnableLog, Teq} from '../common';
 
 interface ButtonActions {
   /**
    * Left mouse button click.
    */
-  click(tEQ: Teq, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
+  click(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
 interface ButtonChecks {

@@ -1,4 +1,4 @@
-import {ElementNameForLog, EnableLog, Teq} from '../common';
+import {ElementIdForLog, EnableLog, Teq} from '../common';
 
 interface TabPanelActions {
   /**
@@ -8,7 +8,7 @@ interface TabPanelActions {
    * @param idForLog
    * @param enableLog
    */
-  setActiveTabByCardId(tEQ: Teq, cardId: string, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
+  setActiveTabByCardId(tEQ: Teq, cardId: string, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
 interface TabPanelChecks {

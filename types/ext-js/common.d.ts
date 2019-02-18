@@ -30,7 +30,7 @@ export type Teq = string;
 /**
  * Alias which writes to log for the given element.
  */
-export type ElementNameForLog = string | undefined;
+export type ElementIdForLog = string | undefined;
 
 /**
  * Whether the action is to be written to log.

@@ -217,13 +217,13 @@
         if (locKey) {
           result = 'el"' + locKey + '"';
         } else {
-          result = 'l""';
+          result = text;
         }
       }
 
-      if (!locKey || this.debugLocale) {
-        result += ' ("' + text + '")';
-      }
+      // if (!locKey || this.debugLocale) {
+      //   result += ' ("' + text + '")';
+      // }
       return result;
     },
 

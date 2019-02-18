@@ -1,5 +1,5 @@
 import {SeleniumKeys} from '../../selenium/user-actions';
-import {ElementNameForLog, EnableLog, Teq} from '../common';
+import {ElementIdForLog, EnableLog, Teq} from '../common';
 
 /**
  * Action description.
@@ -25,7 +25,7 @@ interface AnyComponentCommonParams {
    * So you should force your coders to use beauty and informative ones and dont use idForLog.
    *
    */
-  idForLog: ElementNameForLog,
+  idForLog: ElementIdForLog,
 
   actionDesc: AnyComponentActionDescription,
 

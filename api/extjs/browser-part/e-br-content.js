@@ -358,10 +358,10 @@
         resArr.push('name: ' + field.getName());
       }
       if (field.getFieldLabel && field.getFieldLabel()) {
-        resArr.push('label: ' + field.getFieldLabel());
+        resArr.push('label: ' + tiaEJ.convertTextToFirstLocKey(field.getFieldLabel()));
       }
       if (field.boxLabel) {
-        resArr.push('boxLabel: ' + field.boxLabel);
+        resArr.push('boxLabel: ' + tiaEJ.convertTextToFirstLocKey(field.boxLabel));
       }
       return resArr.join(', ');
     },
@@ -407,17 +407,37 @@
       return res;
     },
 
+    getCBSelectedVals: function getCBSelectedVals(cb) {
+      var rawVal = cb.getRawValue();
+      var multiSelect = cb.getConfig('multiSelect');
+      var delimiter = cb.getDelimiter();
+
+      var selected;
+      if (multiSelect) {
+        var arr = rawVal.split(delimiter);
+        selected = arr.map(function(val) {
+          return tiaEJ.convertTextToFirstLocKey(val);
+        }).join(', ');
+      } else {
+        selected = tiaEJ.convertTextToFirstLocKey(rawVal);
+      }
+      return selected;
+    },
+
     /**
      * Gets text from a ComboBox
      * @param cb
      * @returns {*}
      */
     getCB: function getCB(cb) {
-      var str = 'ComboBox content:\n';
-      str += this.getIdItemIdReference(cb) + '\n';
+      var str = '';
+      // str += this.getIdItemIdReference(cb) + '\n';
       str += this.getNameAndLabels(cb) + '\n';
+
+      str += 'Selected vals: \'' + this.getCBSelectedVals(cb) + '\'\n';
+
       var displayField = this.safeGetConfig(cb, 'displayField');
-      str += 'displayField: ' + displayField + '\n';
+      // str += 'displayField: ' + displayField + '\n';
       str += tiaEJ.ctMisc.stringifyStoreField(cb.getStore(), displayField).join('\n') + '\n';
       return tia.cC.content.wrap(str);
     },
