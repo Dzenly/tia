@@ -15,7 +15,18 @@ interface ComboBoxActions {
   /**
    * Ctrl + a, Send text by keys, and ENTER to the component.
    */
-  select(tEQ: Teq, text: SeleniumKeys, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
+  setByKbd(tEQ: Teq, text: SeleniumKeys, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Set the text using expand() ExtJs API + mouse click in BoundList.
+   * Note, that for tagfield setting already selected tag will reset this tag.
+   */
+  setByMouse(tEQ: Teq, text: SeleniumKeys, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Clears the combobox selection using ExtJs API.
+   */
+  clearByEJ(tEQ: Teq, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
 interface ComboBoxChecks {

@@ -1,13 +1,9 @@
 'use strict';
 
-// https://stackoverflow.com/questions/11000087/how-to-select-a-combobox-value-in-extjs
-
-'use strict';
-
-const { queryCmpInputIdj, queryAndAction } = require('../tia-extjs-query');
+const { queryAndAction } = require('../tia-extjs-query');
 const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./any');
 
-const compName = 'ComboBox';
+const compName = 'CheckBox';
 
 const actions = {
   async click(tEQ, idForLog, enableLog) {
@@ -20,40 +16,76 @@ const actions = {
     });
   },
   async check(tEQ, idForLog, enableLog) {
-    const { checked, id } = await queryAndAction({
+    return gT.e.q.wrap({
       tEQ,
-      action: 'return { checked: cmp.getRawValue(), id: cmpInfo.constProps.inputId };',
+      compName,
       idForLog,
+      act: async () => {
+        const { checked, id } = await queryAndAction({
+          tEQ,
+          action: 'return { checked: cmp.getRawValue(), id: cmpInfo.constProps.inputId };',
+          idForLog,
+          enableLog: false,
+        });
+        if (!checked) {
+          await gT.s.uA.clickById(id, false);
+        }
+      },
+      actionDesc: 'Check',
       enableLog,
     });
-    if (!checked) {
-      await gT.s.uA.clickById(id);
-    }
   },
   async uncheck(tEQ, idForLog, enableLog) {
-    const { checked, id } = await queryAndAction({
+    return gT.e.q.wrap({
       tEQ,
-      action: 'return { checked: cmp.getRawValue(), id: cmpInfo.constProps.inputId };',
+      compName,
       idForLog,
+      act: async () => {
+        const { checked, id } = await queryAndAction({
+          tEQ,
+          action: 'return { checked: cmp.getRawValue(), id: cmpInfo.constProps.inputId };',
+          idForLog,
+          enableLog: false,
+        });
+        if (checked) {
+          await gT.s.uA.clickById(id, false);
+        }
+      },
+      actionDesc: 'Uncheck',
       enableLog,
     });
-    if (checked) {
-      await gT.s.uA.clickById(id);
-    }
   },
-  async checkEJ(tEQ, idForLog, enableLog) {
-    await queryAndAction({
+  async checkByEJ(tEQ, idForLog, enableLog) {
+    return gT.e.q.wrap({
       tEQ,
-      action: 'cmp.setValue(true);',
+      compName,
       idForLog,
+      act: async () => {
+        await queryAndAction({
+          tEQ,
+          action: 'cmp.setValue(true);',
+          idForLog,
+          enableLog: false,
+        });
+      },
+      actionDesc: 'Check by EJ',
       enableLog,
     });
   },
-  async uncheckEJ(tEQ, idForLog, enableLog) {
-    await queryAndAction({
+  async uncheckByEJ(tEQ, idForLog, enableLog) {
+    return gT.e.q.wrap({
       tEQ,
-      action: 'cmp.setValue(false);',
+      compName,
       idForLog,
+      act: async () => {
+        await queryAndAction({
+          tEQ,
+          action: 'cmp.setValue(false);',
+          idForLog,
+          enableLog: false,
+        });
+      },
+      actionDesc: 'Uncheck by EJ',
       enableLog,
     });
   },

@@ -33,6 +33,15 @@ module.exports = {
   // Can be used to test the TIA and for high level functions.
   ignorePassAndFailCounters: false,
 
+  // Directories and files to ignore
+  ignoreNames: [
+    'tia-ignore-me',
+    'node_modules',
+    '.idea',
+    '.vscode',
+    '.git',
+  ],
+
   // Array of absolute paths or paths relative to root dir.
   // They will be required before all dir tests.
   require: [],

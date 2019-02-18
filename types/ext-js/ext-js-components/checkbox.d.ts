@@ -15,6 +15,16 @@ interface CheckBoxActions {
    * Clicks on input checkbox element if checkbox is checked.
    */
   uncheck(tEQ: Teq, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sets checkbox to checked state using ExtJs API.
+   */
+  checkByEJ(tEQ: Teq, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sets checkbox to unchecked state using ExtJs API.
+   */
+  uncheckByEJ(tEQ: Teq, idForLog: ElementNameForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
 interface CheckBoxChecks {

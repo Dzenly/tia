@@ -1,3 +1,11 @@
+# 0.21.21
+
+combobox: select renamed to setByKbd.
+Some methods are added for combobox, checkbox, textfield.
+See API docs for details.
+
+EJ Explorer now shows how to access API for the Component under cursor.
+
 # 0.21.15
 
 logAction renamed to enableLog.

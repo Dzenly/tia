@@ -66,9 +66,28 @@ exports.setFakeId = async function setFakeId(
   fakeId,
   enableLog
 ) {
-  return exports.queryAndAction({
-    tEQ,
-    action: `tiaEJ.idMap.add('${fakeId}', cmpInfo.constProps.realId);`,
+  return gIn.wrap({
+    msg: `Setting fakeId "${fakeId}" for TEQ: ${tEQ} ... `,
     enableLog,
+    act: async () => exports.queryAndAction({
+      tEQ,
+      action: `tiaEJ.idMap.add('${fakeId}', cmpInfo.constProps.realId);`,
+      enableLog: false,
+    }),
+  });
+};
+
+exports.wrap = async function ({
+  tEQ,
+  compName,
+  idForLog = '',
+  act,
+  actionDesc,
+  enableLog,
+}) {
+  return gIn.wrap({
+    msg: `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": ${actionDesc} ... `,
+    enableLog,
+    act,
   });
 };

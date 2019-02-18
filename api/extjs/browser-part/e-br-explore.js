@@ -222,6 +222,25 @@
       nA: 'N/A',
     },
 
+    supportedXTypes: [
+      'checkbox',
+      'combobox',
+      'tab',
+      'tabpanel',
+      'textfield',
+    ],
+
+    getFirstSupportedAscendant: function getFirstSupportedAscendant(xtypes) {
+      var arr = xtypes.split('/');
+      for (var i = arr.length; i >= 0; i--) {
+        var xtype = arr[i];
+        if (this.supportedXTypes.includes(xtype)) {
+          return xtype;
+        }
+      }
+      return 'any';
+    },
+
     getCompHierarchy: function getCompHierarchy(comp, indent, parentsPath) {
 
       var resArr = [];
@@ -583,6 +602,10 @@
       var tEQXT = this.getComponentSearchString(comp, true);
       var tEQRef = this.getComponentSearchString(comp, false);
 
+      var xtypes = comp.getXTypes();
+      var firstSupportedXType = this.getFirstSupportedAscendant(xtypes);
+
+
       // And other stuff for form fields.
       var autoGenRE = /-\d+/;
 
@@ -618,6 +641,8 @@
       var lookupControllerSkipThisArr = this.getControllerInfo(comp.lookupController(true), 'lookupController(true)');
 
       var outArr = [];
+
+      outArr.push(this.boldIf('gT.eC.' + firstSupportedXType, true, '#000000'));
 
       // =============
       var teqId;
@@ -683,6 +708,10 @@
         }
       }
 
+      if (customXTypeCmpCount !== 1) {
+        xtype = this.boldIf(xtype, true, '#000000');
+      }
+
       outArr.push('xtype: ' + xtype + (isXTypeCustom ? (' * ' + customXTypeCmpCount) : ''));
 
       // tia.cU.dumpObj(comp, [
@@ -744,7 +773,7 @@
         outArr.push('itemId: ' + comp.getItemId());
       }
 
-      outArr.push('xtypes: ' + comp.getXTypes());
+      outArr.push('xtypes: ' + this.boldIf(comp.getXTypes(), true, '#000000'));
 
       // outArr.push('isPanel:' + comp.isPanel + (comp.isPanel ? ' ! ! ! ! !' : ''));
 

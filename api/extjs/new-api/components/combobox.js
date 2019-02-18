@@ -36,46 +36,63 @@ const actions = {
       keys: text,
       compName,
       idForLog,
-      actionDesc: 'Select',
+      actionDesc: 'setByKbd',
       enableLog,
     });
   },
   async setByMouse(tEQ, text, idForLog, enableLog) {
     const valueStr = gT.e.utils.locKeyToStr(text);
 
-    // TODO: honestly I should change cmp.expand() to key.Down.
-    const { id, fieldName } = await queryAndAction({
+    return gT.e.q.wrap({
       tEQ,
-      action: 'cmp.expand(); return { id: cmpInfo.constProps.realId, fieldName: cmp.displayField }',
+      compName,
       idForLog,
+      act: async () => {
+        // TODO: honestly I should change cmp.expand() to key.Down.
+        const { id, fieldName } = await queryAndAction({
+          tEQ,
+          action: 'cmp.expand(); return { id: cmpInfo.constProps.realId, fieldName: cmp.displayField }',
+          idForLog,
+          enableLog: false,
+        });
+
+        await gT.sOrig.driver.wait(
+          () => gT.s.browser.executeScriptWrapper(
+            `return tiaEJ.hEById.isCBPickerVisible('${id}');`
+          ),
+          gT.engineConsts.cbBoundListTimeout
+        );
+
+        const el = await gT.s.browser.executeScriptWrapper(
+          `return tiaEJ.hEById.getCBItemByField('${id}', ${gT.s.browser.valueToParameter(valueStr)}, '${fieldName}');`
+        );
+
+        el.click();
+
+        await gT.e.wait.ajaxRequestsFinish(undefined, false);
+      },
+      actionDesc: `Set by mouse: '${text}'`,
       enableLog,
     });
-
-    await gT.sOrig.driver.wait(
-      () => gT.s.browser.executeScriptWrapper(
-        `return tiaEJ.hEById.isCBPickerVisible('${id}');`
-      ),
-      gT.engineConsts.cbBoundListTimeout
-    );
-
-    const el = await gT.s.browser.executeScriptWrapper(
-      `return tiaEJ.hEById.getCBItemByField('${id}', ${gT.s.browser.valueToParameter(valueStr)}, '${fieldName}');`
-    );
-
-    el.click();
-
-    await gT.e.wait.ajaxRequestsFinish(undefined, false);
   },
 
   async clearByEJ(tEQ, idForLog, enableLog) {
-    await queryAndAction({
+    return gT.e.q.wrap({
       tEQ,
-      action: 'cmp.clearValue();',
+      compName,
       idForLog,
+      act: async () => {
+        await queryAndAction({
+          tEQ,
+          action: 'cmp.clearValue();',
+          idForLog,
+          enableLog: false,
+        });
+      },
+      actionDesc: 'Clear by EJ',
       enableLog,
     });
   },
-
 };
 
 const checks = {};

@@ -141,6 +141,7 @@ async function handleTestFile(file, dirConfig) {
 
 /**
  * Removes config from files. Merges current config to parrent config.
+ * Also removes names specified by config.ignoreNames.
  * @param {String} dir
  * @param {Array<String>} files
  * @param {Object} parentDirConfig
@@ -169,6 +170,10 @@ function handleDirConfig(dir, files, parentDirConfig) {
   }
 
   const dirCfg = _.merge(_.cloneDeep(parentDirConfig), config);
+
+  if (dirCfg.ignoreNames) {
+    _.pullAll(files, dirCfg.ignoreNames);
+  }
 
   if (config.browserProfileDir) {
     dirCfg.browserProfilePath = path.join(gIn.suite.browserProfilesPath, config.browserProfileDir);

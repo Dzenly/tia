@@ -15,6 +15,9 @@ I.e. hierarchy from a leaf to the root component.
 
 ### Format:
 ```
+How to access the Component in API: say: gT.eC.combobox.
+If the Component is not supported yet, there will be gT.eC.any.
+
 The TEQ xtype precendence string in bold blue color.
 If there is no id and xtype is custom in unique, this xtype is used to identify the component.
 
