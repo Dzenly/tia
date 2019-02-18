@@ -6,6 +6,7 @@ const _ = require('lodash');
 
 module.exports = {
   any: require('./any'),
+  button: require('./button'),
   checkbox: require('./checkbox'),
   combobox: require('./combobox'),
   tab: require('./tab'),

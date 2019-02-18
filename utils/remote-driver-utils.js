@@ -135,7 +135,11 @@ exports.stop = function stop() {
     return;
   }
   gIn.tracer.msg3('Stopping remote driver');
-  process.kill(pid);
+  try {
+    process.kill(pid);
+  } catch (e) {
+    console.error(e);
+  }
   removePid();
   exports.removeSid();
 };
