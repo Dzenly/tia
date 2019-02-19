@@ -32,10 +32,11 @@ https://docs.npmjs.com/files/package.json
 
 Подтягивал изменения.
 Стартовал сервер.
-стартовал xvfb.
 
 Debug tests for windows (3h). Slash / backslash issues, cygwin utilities work.
+
 Опция -l аттачить логи, для дифнутых тестов к мейлу.
+Возможно уже готово.
 
 * Refactor everything to be more OOP (incapsulation, accessors, constructors, signletons, factories). (12h)
 
