@@ -223,6 +223,7 @@
     },
 
     supportedXTypes: [
+      'button',
       'checkbox',
       'combobox',
       'tab',
@@ -644,7 +645,7 @@
 
       var outArr = [];
 
-      outArr.push(this.boldIf('gT.eC.' + firstSupportedXType, true, '#000000'));
+      outArr.push(this.boldIf('await gT.eC.' + firstSupportedXType, true, '#000000'));
 
       // =============
       var teqId;

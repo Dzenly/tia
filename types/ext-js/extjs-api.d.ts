@@ -1,4 +1,5 @@
 import { TeqApi } from './teq';
+import {ExtJsWaits} from './wait';
 
 export interface ExtJsApi {
   utils : Object;
@@ -12,6 +13,6 @@ export interface ExtJsApi {
   getByFormIdName: Object;
   msgBox: Object;
   hL: Object;
-  wait: Object;
+  wait: ExtJsWaits;
   q: TeqApi;
 }

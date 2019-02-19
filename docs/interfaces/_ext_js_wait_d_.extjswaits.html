@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TiaTest | tia</title>
+	<title>ExtJsWaits | tia</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,24 +54,31 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_test_d_.html">&quot;test.d&quot;</a>
+					<a href="../modules/_ext_js_wait_d_.html">&quot;ext-js/wait.d&quot;</a>
 				</li>
 				<li>
-					<a href="_test_d_.tiatest.html">TiaTest</a>
+					<a href="_ext_js_wait_d_.extjswaits.html">ExtJsWaits</a>
 				</li>
 			</ul>
-			<h1>Interface TiaTest</h1>
+			<h1>Interface ExtJsWaits</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Use this API to make you tests more stable.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">TiaTest</span>
+						<span class="target">ExtJsWaits</span>
 					</li>
 				</ul>
 			</section>
@@ -82,7 +89,8 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_test_d_.tiatest.html#settitle" class="tsd-kind-icon">set<wbr>Title</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_ext_js_wait_d_.extjswaits.html#ajaxrequestsfinish" class="tsd-kind-icon">ajax<wbr>Requests<wbr>Finish</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_ext_js_wait_d_.extjswaits.html#idle" class="tsd-kind-icon">idle</a></li>
 							</ul>
 						</section>
 					</div>
@@ -91,31 +99,69 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="settitle" class="tsd-anchor"></a>
-					<h3>set<wbr>Title</h3>
+					<a name="ajaxrequestsfinish" class="tsd-anchor"></a>
+					<h3>ajax<wbr>Requests<wbr>Finish</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Title<span class="tsd-signature-symbol">(</span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">ajax<wbr>Requests<wbr>Finish<span class="tsd-signature-symbol">(</span>timeout<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_wait_d_.html#waittimeout" class="tsd-signature-type">WaitTimeout</a>, enableLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in test.d.ts:6</li>
+									<li>Defined in ext-js/wait.d.ts:19</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Sets the test title.
-									This call should be the first command in the test.</p>
+									<p>Waits until all ajax requests will be completed.
+										I.e. where Ext.Ajax.isLoading() will be false.
+									<a href="https://docs.sencha.com/extjs/6.5.3/classic/Ext.Ajax.html#method-isLoading">https://docs.sencha.com/extjs/6.5.3/classic/Ext.Ajax.html#method-isLoading</a></p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>title: <span class="tsd-signature-type">string</span></h5>
+									<h5>timeout: <a href="../modules/_ext_js_wait_d_.html#waittimeout" class="tsd-signature-type">WaitTimeout</a></h5>
+								</li>
+								<li>
+									<h5>enableLog: <a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="idle" class="tsd-anchor"></a>
+					<h3>idle</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">idle<span class="tsd-signature-symbol">(</span>timeout<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_wait_d_.html#waittimeout" class="tsd-signature-type">WaitTimeout</a>, enableLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in ext-js/wait.d.ts:27</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Waits for Ext.isReady &amp;&amp;  !Ext.Ajax.isLoading() + ExtJs &#39;idle&#39; event + window.requestIdleCallback.
+										<a href="https://docs.sencha.com/extjs/6.5.3/classic/Ext.GlobalEvents.html#event-idle">https://docs.sencha.com/extjs/6.5.3/classic/Ext.GlobalEvents.html#event-idle</a>
+										So it is supposed to mean that all inner browser scripts work is finished
+									and all components are ready to interact with.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>timeout: <a href="../modules/_ext_js_wait_d_.html#waittimeout" class="tsd-signature-type">WaitTimeout</a></h5>
+								</li>
+								<li>
+									<h5>enableLog: <a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -166,7 +212,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_ext_js_teq_d_.html">"ext-<wbr>js/teq.d"</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/_ext_js_wait_d_.html">"ext-<wbr>js/wait.d"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -196,7 +242,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_selenium_wait_d_.html">"selenium/wait.d"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_test_d_.html">"test.d"</a>
 					</li>
 				</ul>
@@ -206,15 +252,21 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_test_d_.tiatest.html" class="tsd-kind-icon">Tia<wbr>Test</a>
+						<a href="_ext_js_wait_d_.extjswaits.html" class="tsd-kind-icon">Ext<wbr>JsWaits</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_test_d_.tiatest.html#settitle" class="tsd-kind-icon">set<wbr>Title</a>
+								<a href="_ext_js_wait_d_.extjswaits.html#ajaxrequestsfinish" class="tsd-kind-icon">ajax<wbr>Requests<wbr>Finish</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="_ext_js_wait_d_.extjswaits.html#idle" class="tsd-kind-icon">idle</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_ext_js_wait_d_.html#waittimeout" class="tsd-kind-icon">Wait<wbr>Timeout</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
