@@ -80,7 +80,7 @@ Here is the [Selenium webdriver documentation.](https://seleniumhq.github.io/sel
 
 ### What does "log-driven" mean?
 
-Modern autotesting engines contains two entities: `assertions` and `logs`.
+Modern autotesting engines contain two entities: `assertions` and `logs`.
 `Assertion` is checking of some condition.
 And `log` is writing some autotest result to filesystem or console.
 Say, [jest](https://www.npmjs.com/package/jest) has [snapshots](https://jestjs.io/docs/en/snapshot-testing). These snapshots are a bit similar to TIA `test logs`.
@@ -660,7 +660,7 @@ These are pretty old issues and may be fixed now.
 ## Words of gratitude
 
 The engine was started to develop in the "R-Vision" company (https://rvision.pro/).
-Thank you, "R-Vision", for initial sponsorship and for allowance to open the sources.
+Thank you, "R-Vision", for the sponsorship and for allowance to open the sources.
 
 ----------------------------------
 
@@ -679,7 +679,8 @@ Thank you, "R-Vision", for initial sponsorship and for allowance to open the sou
 
 Since year 2004 I have been involved in auto-testing. I very like it and I have many ideas to implement.
 So I develop this test engine, dedicating most of my free time to this, using all my experience and best practices.
-Main goals of this project is to create a good tool for ExtJs applications testing, and to fasten autotesting in common.
+Main goals of this project is to create a good tool for ExtJs applications testing,
+and to propagate the autotesting in common.
 
 If you like this test engine, you can to star my project on github:
 https://github.com/Dzenly/tia.
