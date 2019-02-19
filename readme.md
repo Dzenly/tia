@@ -198,7 +198,7 @@ is [here](http://dzenly.github.io/tia/).
 The page with global objects is here:
 http://dzenly.github.io/tia/modules/_index_d_.html
 
-In JS code, global objects are defined They are defined in following files:
+In JS code, global objects are defined in following files:
 * api/api-index.js
 * engine/init-global-objects.js
 * api/selenium/sel-index.js
