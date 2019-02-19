@@ -63,7 +63,7 @@ exports.usage = function usage() {
       Though --trace-level option can be used to override tracing level.
 
       --def-host <host:port> - sets default host and port.
-      E.g. --def-host http://localhost:1338
+      E.g. --def-host http://localhost:1337
       This parameter allows to use the '$(host)' string in your tests.
       See more details in selHost option description in config/default-dir-config.js.
 
@@ -137,7 +137,7 @@ exports.usage = function usage() {
       Forces tia to require listed files as Node.js modules.
       ${gT.engineConsts.requireModulesEnvVarName} environment variable also can be used for this.
 
-      --run-self-tests - Run tests for the engine (from tia/__tia-tests__ directory).
+      --run-self-tests - Run tests for the engine.
 
       --share-browser - Try to share the browser between tests within one node.js process.
       In this case 'init' call is performed only for the first test and 'quit' call only for the last one.
@@ -162,9 +162,11 @@ exports.usage = function usage() {
       Not compatible with --dir.
 
       --root-dir <Root Directory to find tests> - root directory to test
-      (can be relative to current working dir).
+      (can be relative to the current working dir).
       It there is no --root-dir, tia will check ${gT.engineConsts.rootDirEnvVarName} environment variable.
       If there is no such env variable, current working directory will be used as root.
+      Actually TIA will search for xxx/__tia-tests__/_tia-root subdir starting with <root dir>,
+      and will start tests from this xxx directory.
 
       --too-long-time <duration>. If tests running exceeded the specified milliseconds amount.
       Email subject will have 'TOO_LONG' prefix.
@@ -186,13 +188,17 @@ exports.usage = function usage() {
       -v, --version - Just show TIA version and exit.
 
       --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).
+      Probably useless option, taking --headless into account.
 
     Examples:
         tia --root-dir <path-to-my-root-dir>
         node bin/tia.js --root-dir <path-to-my-root-dir>
-    If there is no difs, 0 is returned, otherwise 1 is returned.
 
-    This utility uses following external utilities: zip.
+    Exit code:
+        If there is no difs, 0 is returned, otherwise 1 is returned.
+
+    This utility uses following external utilities:
+        * zip.
 
     See readme.md for more details.`
   );
