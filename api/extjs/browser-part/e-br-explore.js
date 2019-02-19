@@ -441,6 +441,9 @@
     },
 
     boldIf: function (str, cond, color, size) {
+
+      str = str.replace(/\&/g, '&amp;');
+
       color = color || 'black';
       size = size || '16px';
       if (cond) {
