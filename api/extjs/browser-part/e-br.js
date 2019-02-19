@@ -265,7 +265,7 @@
     replaceFakeIds: function replaceFakeIds(str) {
       var re = /##([A-Za-z0-9_-]+)/g;
       return str.replace(re, function (m, fakeId) {
-        return '#' + tiaEJ.idMap.getRealId(fakeId);
+        return '[id="' + tiaEJ.idMap.getRealId(fakeId) + '"]';
       });
     },
 
