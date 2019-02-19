@@ -1,7 +1,8 @@
 'use strict';
 
-const { queryCmpInputId } = require('../tia-extjs-query');
+const { queryCmpInputId, queryAndAction } = require('../tia-extjs-query');
 const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./any');
+const { getCISRVal } = require('../../extjs-utils');
 
 const compName = 'TextField';
 
@@ -40,7 +41,11 @@ const actions = {
 
 const checks = {};
 
-const logs = {};
+const logs = {
+  async rawValue(tEQ, idForLog) {
+    await gT.eC.any.l.rawValue(tEQ, compName, idForLog);
+  },
+};
 
 module.exports = {
   actions,

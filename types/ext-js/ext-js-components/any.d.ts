@@ -76,6 +76,13 @@ interface AnyComponentChecks {
 
 interface AnyComponentLogs {
 
+  /**
+   * Prints Raw component value to the log.
+   * See ExtJs docs on getRawValue for the corresponding Component.
+   * @param compName - the Component name (textfield, checkbox, etc.)
+   * @param mapperCb - callback to map a raw value to a log string. if omitted - val is used as is.
+   */
+  rawValue(tEQ: Teq, compName: string, idForLog: ElementIdForLog, mapperCb?: (val: string) => string): Promise<undefined>
 }
 
 export interface AnyComponent {

@@ -1,8 +1,8 @@
 'use strict';
 
-const { queryCmpInputId, queryCmpId } = require('../tia-extjs-query');
+const { queryCmpInputId, queryCmpId, queryAndAction } = require('../tia-extjs-query');
 
-const { getCIS } = require('../../extjs-utils');
+const { getCIS, getCISRVal } = require('../../extjs-utils');
 
 const defaultCompName = 'ANY Cmp';
 
@@ -118,6 +118,19 @@ const actions = {
 const checks = {};
 
 const logs = {
+  async rawValue(tEQ, compName, idForLog, mapperCb) {
+    const { val, disp } = await queryAndAction({
+      tEQ,
+      action: 'return { val: cmp.getRawValue(), disp: tiaEJ.ctByObj.getCompDispIdProps(cmp)};',
+      idForLog,
+      enableLog: false,
+    });
+
+    const result = mapperCb ? mapperCb(val) : val;
+    gIn.logger.logln(getCISRVal(
+      tEQ, compName, `${idForLog ? `${idForLog} ` : ''}${disp}:`, result
+    ));
+  },
 };
 
 module.exports = {

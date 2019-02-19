@@ -473,10 +473,9 @@
       var textStr = prop + ': ' + val;
 
       var localeKeys = tiaEJ.getLocKeysByText(val);
-      outArr.push(textStr + ', Locale Keys: ' + localeKeys);
-
       var extraLocaleKeys = tiaEJ.getLocKeysByText(val, true);
-      outArr.push(textStr + ', Extra locale Keys: ' + extraLocaleKeys);
+
+      outArr.push(textStr + ', Locale Keys: ' + localeKeys + ', Extra locale Keys: ' + extraLocaleKeys);
     },
 
     pushTextProp: function (comp, prop, outArr) {

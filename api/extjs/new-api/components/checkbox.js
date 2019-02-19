@@ -97,15 +97,7 @@ const checks = {};
 
 const logs = {
   async rawValue(tEQ, idForLog) {
-    const { val, disp } = await queryAndAction({
-      tEQ,
-      action: 'return { val: cmp.getRawValue(), disp: tiaEJ.ctByObj.getCompDispIdProps(cmp)};',
-      idForLog,
-      enableLog: false,
-    });
-
-    const result = `${disp}: ${val ? 'checked' : 'unchecked'}`;
-    gIn.logger.logln(getCISRVal(tEQ, compName, idForLog, result));
+    await gT.eC.any.l.rawValue(tEQ, compName, idForLog, val => `${val ? 'checked' : 'unchecked'}`);
   },
 };
 
