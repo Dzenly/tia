@@ -1,8 +1,9 @@
 import { TeqApi } from './teq';
-import {ExtJsWaits} from './wait';
+import { ExtJsUtils } from './utils';
+import { ExtJsWaits } from './wait';
 
 export interface ExtJsApi {
-  utils : Object;
+  utils: ExtJsUtils;
   api: Object;
   explore: Object;
   search: Object;

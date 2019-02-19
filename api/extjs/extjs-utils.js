@@ -94,16 +94,25 @@ exports.convertTextToFirstLocKey = function convertTextToFirstLocKey(text) {
   let locKey = exports.getFirstLocaleKey(text);
   let result;
 
+  let locFound = false;
+
   if (locKey) {
+    locFound = true;
     result = `l"${locKey}"`;
   } else {
     locKey = exports.getFirstLocaleKey(text, true);
     if (locKey) {
+      locFound = true;
       result = `el"${locKey}"`;
     } else {
       result = text;
     }
   }
+
+  if (locFound && exports.debugLocale) {
+    result += ` ("${text}")`;
+  }
+
   return result;
 };
 
@@ -148,10 +157,10 @@ exports.debugLocale = false;
  * @return {*}
  */
 exports.setDebugLocaleMode = function setDebugLocaleMode(newMode, enableLog) {
-  exports.debugLocale = true;
+  exports.debugLocale = newMode;
 
   return gIn.wrap(
-    `Set debugLocale mode to '${newMode}'`,
+    `Set debugLocale mode to '${newMode} ... '`,
     enableLog,
     () => gT.s.browser.executeScript(
       `return tiaEJ.setDebugLocaleMode(${newMode});`,
@@ -177,13 +186,13 @@ exports.setDebugLocaleMode = function setDebugLocaleMode(newMode, enableLog) {
 //   );
 // };
 
-exports.addFakeId = function addFakeId(fakeId, realId, enableLog) {
-  return gIn.wrap(
-    `Add fake id '${fakeId}' to idMap`,
-    enableLog,
-    () => gT.s.browser.executeScript(
-      `return tiaEJ.idMap.add('${fakeId}', '${realId}');`,
-      false
-    )
-  );
-};
+// exports.addFakeId = function addFakeId(fakeId, realId, enableLog) {
+//   return gIn.wrap(
+//     `Add fake id '${fakeId}' to idMap`,
+//     enableLog,
+//     () => gT.s.browser.executeScript(
+//       `return tiaEJ.idMap.add('${fakeId}', '${realId}');`,
+//       false
+//     )
+//   );
+// };

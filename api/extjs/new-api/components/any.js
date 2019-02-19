@@ -56,6 +56,11 @@ const actions = {
     enableLog,
   }) {
     const realKeys = gT.e.utils.locKeyToStr(keys);
+
+    if (realKeys !== keys && gT.e.utils.debugLocale) {
+      keys += ` ("${realKeys}")`;
+    }
+
     return gIn.wrap({
       msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} '${keys}' ... `,
       enableLog,
@@ -78,6 +83,11 @@ const actions = {
     enableLog,
   }) {
     const realKeys = gT.e.utils.locKeyToStr(keys);
+
+    if (realKeys !== keys && gT.e.utils.debugLocale) {
+      keys += ` ("${realKeys}")`;
+    }
+
     return gIn.wrap({
       msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} '${keys}' ... `,
       enableLog,
@@ -100,6 +110,11 @@ const actions = {
     enableLog,
   }) {
     const realKeys = gT.e.utils.locKeyToStr(keys);
+
+    if (realKeys !== keys && gT.e.utils.debugLocale) {
+      keys += ` ("${realKeys}")`;
+    }
+
     return gIn.wrap({
       msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} '${keys}' ... `,
       enableLog,

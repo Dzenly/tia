@@ -210,20 +210,24 @@
       var locKey = this.getFirstLocKeyByText(text);
       var result;
 
+      var locFound = false;
+
       if (locKey) {
+        locFound = true;
         result = 'l"' + locKey + '"';
       } else {
         locKey = this.getFirstLocKeyByText(text, true);
         if (locKey) {
+          locFound = true;
           result = 'el"' + locKey + '"';
         } else {
           result = text;
         }
       }
 
-      // if (!locKey || this.debugLocale) {
-      //   result += ' ("' + text + '")';
-      // }
+      if (locFound && this.debugLocale) {
+        result += ' ("' + text + '")';
+      }
       return result;
     },
 

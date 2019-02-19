@@ -45,6 +45,11 @@ const actions = {
   async setByMouse(tEQ, text, idForLog, enableLog) {
     const valueStr = gT.e.utils.locKeyToStr(text);
 
+    let actionDesc = `Set by mouse: '${text}'`;
+    if (valueStr !== text && gT.e.utils.debugLocale) {
+      actionDesc += `("${valueStr}")`
+    }
+
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -73,7 +78,7 @@ const actions = {
 
         await gT.e.wait.ajaxRequestsFinish(undefined, false);
       },
-      actionDesc: `Set by mouse: '${text}'`,
+      actionDesc,
       enableLog,
     });
   },
