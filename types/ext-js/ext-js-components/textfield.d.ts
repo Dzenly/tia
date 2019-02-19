@@ -24,6 +24,10 @@ interface TextFieldChecks {
 
 interface TextFieldLogs {
 
+  /**
+   * Prints the value to the test log.
+   */
+  rawValue(tEQ: Teq, idForLog: ElementIdForLog): Promise<undefined>;
 }
 
 export interface TextField {
