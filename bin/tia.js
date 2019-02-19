@@ -37,7 +37,6 @@ gT_.version = version;
 
 gT_.browsers = [
   'chrome', // First browser is default.
-  'phantomjs',
   'firefox',
 ];
 
