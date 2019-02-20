@@ -1,3 +1,9 @@
+--debug-console - поддержать экстралокаль.
+
+* setFakeId - сбрасывать в driver.init.
+* сделать ф-ю - сбросить фейковые idшники.
+* сделать ф-ю - сбросить экстра локали.
+
 * --stop-remote-driver should kill running chrome.
 
 * Написать доки по callback, promise, async/await.
