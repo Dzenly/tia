@@ -1,18 +1,11 @@
-import { Teq } from './common';
+import { ElementIdForLog, EnableLog, Teq } from './common';
 
 interface TeqParamsForCmpInfo {
   tEQ: Teq;
 
-  /**
-   * Extra element name for log. E.g. if there is no id.
-   */
-  idForLog?: string;
+  idForLog: ElementIdForLog;
 
-  /**
-   * Should action be logged? By default - default settings will be used,
-   * e.g. don't log actions inside high level action and log other actions.
-   */
-  enableLog?: boolean;
+  enableLog: EnableLog;
 }
 
 interface TeqParams extends TeqParamsForCmpInfo {
@@ -28,40 +21,34 @@ interface TeqParams extends TeqParamsForCmpInfo {
 type CmpInfo = any;
 
 interface WrapParams {
-  tEQ: Teq,
+  tEQ: Teq;
 
   /**
    * Component name.
    */
-  compName: string,
+  compName: string;
 
-  /**
-   * Extra element name for log. E.g. if there is no id.
-   */
-  idForLog?: string;
+  idForLog: ElementIdForLog;
 
   /**
    * Function to wrap.
    */
-  act: () => Promise<any>,
+  act: () => Promise<any>;
 
   /**
    * Action description.
    */
-  actionDesc: string,
+  actionDesc: string;
 
-  /**
-   * Should action be logged? By default - default settings will be used,
-   * e.g. don't log actions inside high level action and log other actions.
-   */
-  enableLog?: boolean;
+  enableLog: EnableLog;
 }
 
 export interface TeqApi {
   queryAndAction(args: TeqParams): Promise<any>;
   queryCmpInfo(args: TeqParamsForCmpInfo): Promise<CmpInfo>;
-  queryCmpId(tEQ: Teq, idForLog ?: string, enableLog ?: boolean): Promise<string>;
-  queryCmpInputId(tEQ: Teq, idForLog ?: string, enableLog ?: boolean): Promise<string>;
-  setFakeId(tEQ: Teq, fakeId: string, enableLog ?: boolean): Promise<undefined>;
+  queryCmpId(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<string>;
+  queryCmpInputId(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<string>;
+  setFakeId(tEQ: Teq, fakeId: string, enableLog: EnableLog): Promise<undefined>;
+  removeAllFakeIds(enableLog: EnableLog): Promise<undefined>;
   wrap(params: WrapParams): Promise<any>;
 }

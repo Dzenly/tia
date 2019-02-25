@@ -77,6 +77,16 @@ exports.setFakeId = async function setFakeId(
   });
 };
 
+exports.removeAllFakeIds = async function removeAllFakeIds(
+  enableLog
+) {
+  return gIn.wrap({
+    msg: 'Removing fake Ids ... ',
+    enableLog,
+    act: async () => gT.s.browser.executeScriptWrapper('tiaEJ.idMap.removeAll()'),
+  });
+};
+
 exports.wrap = async function ({
   tEQ,
   compName,
