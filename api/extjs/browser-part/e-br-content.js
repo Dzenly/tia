@@ -704,6 +704,19 @@
         cols.forEach(function (extCol, index) {
           var sel = table.getCellSelector(extCol);
           var domCol = row.querySelector(sel);
+
+          var images = domCol.querySelectorAll('img');
+          var imgSrcs = '';
+          if (images.length) {
+            images = Array.from(images);
+            imgSrcs = images.map(function(img) {
+              // TODO: Replace to user readable image description.
+              // Especially for base64 strings.
+              return img.src;
+            });
+            imgSrcs = ' Image sources: ' + imgSrcs.join(',');
+          }
+
           var textContent = domCol.textContent;
           if (textContent === extCol.emptyCellText) {
             textContent = '<emptyCellText>';
@@ -749,7 +762,7 @@
             actArr.push('------');
             textContent += actArr.join('\n');
           }
-          textsArr.push(textContent);
+          textsArr.push(textContent + imgSrcs);
         });
 
         var idSuffix = '';
