@@ -10,6 +10,7 @@ module.exports = {
   checkbox: require('./checkbox'),
   combobox: require('./combobox'),
   tab: require('./tab'),
+  table: require('./table'),
   tabpanel: require('./tabpanel'),
   textfield: require('./textfield'),
 };

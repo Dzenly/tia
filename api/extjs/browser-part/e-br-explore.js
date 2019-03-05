@@ -600,6 +600,121 @@
       return this.getComponentSearchString(parentComp, xtypePriority) + ' > ' + xtype;
     },
 
+    dumpStoreData: function dumpStoreData(store, dataIndexes, outArr) {
+      dataIndexes = dataIndexes.slice();
+
+      var count = store.getCount();
+      var totalCount = store.getTotalCount();
+      var model = store.getModel();
+      var modelName = model.getName();
+      var idProperty = model.idProperty;
+
+      if (false) {
+        dataIndexes.unshift(idProperty);
+      }
+
+      outArr.push('Store info: class: ' + store.$className + ', count: ' + count + ', totalCount: ' +
+        totalCount + ', modelName: ' + modelName + ', idProperty: ' + idProperty);
+
+      var data = store.getData();
+      var printColName = false;
+
+      var i;
+      for (i = 0; i < count; i++) {
+        var row = data.getAt(i);
+        var arr = [];
+        // TODO: padding.
+        dataIndexes.forEach(function (dataIndex) {
+          arr.push((printColName ? (dataIndex + ': ') : '') + row.get(dataIndex));
+        });
+        outArr.push(arr.join(', '));
+      }
+    },
+
+    dumpTreeStoreData: function dumpTreeStoreData(store, dataIndexes, outArr) {
+
+      dataIndexes = dataIndexes.slice();
+
+      var node = store.getRoot();
+      var rootVisible = store.getRootVisible();
+
+      var model = store.getModel();
+      var modelName = model.getName();
+      var idProperty = model.idProperty;
+
+      outArr.push('Store info: class: ' + store.$className + ', modelName: ' + modelName +
+        ', idProperty: ' + idProperty);
+
+      if (false) {
+        dataIndexes.unshift(idProperty);
+      }
+
+      // var data = store.getData();
+      // var printColName = false;
+      //
+      // var i;
+      // for (i = 0; i < count; i++) {
+      //   var row = data.getAt(i);
+      //   var arr = [];
+      //   // TODO: padding.
+      //   dataIndexes.forEach(function (dataIndex) {
+      //     arr.push((printColName ? (dataIndex + ': ') : '') + row.get(dataIndex));
+      //   });
+      //   resArr.push(arr.join(', '));
+      // }
+    },
+
+
+    getTableInfo: function getTableInfo(comp) {
+      if (!comp.isTableView) {
+        return []; // TODO: пока только для таблиц.
+      }
+
+      var panel = comp.ownerGrid;
+      window.p = panel; // TODO: remove me.
+
+      var resArr = [];
+      resArr.push(this.consts.avgSep);
+      resArr.push('Columns info:');
+      var visColumns = panel.getVisibleColumns();
+
+      var dataIndexes = [];
+
+      visColumns.forEach(function (col) {
+        var innerCount = col.getColumnCount();
+        innerCount = innerCount ? ('innerColsCount: ' + innerCount) : '';
+        var dataIndex = col.dataIndex;
+
+        // eslint-disable-next-line eqeqeq
+        if (dataIndex != null) {
+          dataIndexes.push(dataIndex);
+        }
+
+        // TODO: хорошо бы выдавать уникальность. Но не все гриды юзают модели.
+
+        resArr.push('text/tooltip: ' + col.text + '/' + col.tooltip + ', dataIndex: ' +
+          tiaEJExp.boldIf(dataIndex || '' , true) + innerCount);
+      });
+
+      var store = comp.getStore();
+
+      if (!store) {
+        return resArr;
+      }
+
+      resArr.push(this.consts.smallSep);
+
+      if ((store.isTreeStore)) {
+        this.dumpTreeStoreData(store, dataIndexes, resArr);
+      } else if (store.$className === 'Ext.store.Store') {
+        this.dumpStoreData(store, dataIndexes, resArr);
+      } else {
+        resArr.push('Unsupported store: ' + store.$className);
+      }
+
+      return resArr;
+    },
+
     getComponentInfo: function getComponentInfo(comp, extended) {
 
       var tEQXT = this.getComponentSearchString(comp, true);
@@ -810,6 +925,10 @@
 
       if (comp.isFormField) {
         outArr = outArr.concat(this.getFormFieldInfo(comp));
+      } else {
+        if (comp.isTableView) {
+          outArr = outArr.concat(this.getTableInfo(comp));
+        }
       }
 
       if (extended) {

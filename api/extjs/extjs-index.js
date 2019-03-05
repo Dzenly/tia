@@ -23,6 +23,7 @@ gT_.e = {};
 // for gT.e.initTiaExtJsBrHelpers
 const brHelpers = [
   'e-br.js',
+  'e-br-actions.js',
   'e-br-check.js',
   'e-br-cmp-wrappers.js',
   'e-br-content.js',
