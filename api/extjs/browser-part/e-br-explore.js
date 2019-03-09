@@ -411,7 +411,7 @@
         var pickerComp = field.getPicker();
         formFieldArr = formFieldArr.concat([
           this.consts.tinySep,
-          'Picker field Info:']);
+          'Picker field info:']);
 
         tia.cU.dumpObj(pickerComp, ['$className'], formFieldArr);
 
@@ -426,11 +426,10 @@
           store = field.getStore();
           formFieldArr = formFieldArr.concat(this.getStoreContent(store));
         }
-      } else if (field.isXType('boundlist')) {
-        console.log('HHHHHEEEERRRREEEE');
+      } else if (field.displayField) {
         formFieldArr = formFieldArr.concat([
           this.consts.tinySep,
-          'Bound list Info:']);
+          'Form field containing "displayField" info:']);
 
         tia.cU.dumpObj(field, ['$className'], formFieldArr);
 
