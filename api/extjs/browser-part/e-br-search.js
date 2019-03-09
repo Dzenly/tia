@@ -231,7 +231,7 @@
           }
 
           if (searchRes.length > 1) {
-            throw new Error(searchRes.length + 'components are found for selector: ' + actualSelector + ', tEQ: ' + tEQ);
+            throw new Error(searchRes.length + ' components are found for selector: ' + actualSelector + ', tEQ: ' + tEQ);
           }
 
           cmp = searchRes[0];

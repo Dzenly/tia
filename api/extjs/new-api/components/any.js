@@ -6,6 +6,13 @@ const { getCIS, getCISRVal } = require('../../extjs-utils');
 
 const defaultCompName = 'ANY Cmp';
 
+function checkTEQ(tEQ) {
+  if (!tEQ) {
+    throw new Error('No TEQ string, remember that function takes object as parameters.');
+  }
+
+}
+
 const actions = {
   async clickCmp({
     tEQ,
@@ -14,6 +21,7 @@ const actions = {
     actionDesc = 'Click Cmp',
     enableLog,
   }) {
+    checkTEQ(tEQ);
     return gIn.wrap({
       msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} ... `,
       enableLog,
@@ -34,6 +42,7 @@ const actions = {
     actionDesc = 'Click Input',
     enableLog,
   }) {
+    checkTEQ(tEQ);
     return gIn.wrap({
       msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} ... `,
       enableLog,
@@ -55,14 +64,16 @@ const actions = {
     actionDesc = 'Send keys',
     enableLog,
   }) {
-    const realKeys = gT.e.utils.locKeyToStr(keys);
+    checkTEQ(tEQ);
+    let keysArg = _.clone(keys);
+    const realKeys = gT.e.utils.locKeyToStr(keysArg);
 
-    if (realKeys !== keys && gT.e.utils.debugLocale) {
-      keys += ` ("${realKeys}")`;
+    if (realKeys !== keysArg && gT.e.utils.debugLocale) {
+      keysArg += ` ("${realKeys}")`;
     }
 
     return gIn.wrap({
-      msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} '${keys}' ... `,
+      msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} '${keysArg}' ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpInputId(
@@ -82,14 +93,16 @@ const actions = {
     actionDesc = 'Ctrl +a, Send keys',
     enableLog,
   }) {
-    const realKeys = gT.e.utils.locKeyToStr(keys);
+    checkTEQ(tEQ);
+    let keysArg = _.clone(keys);
+    const realKeys = gT.e.utils.locKeyToStr(keysArg);
 
-    if (realKeys !== keys && gT.e.utils.debugLocale) {
-      keys += ` ("${realKeys}")`;
+    if (realKeys !== keysArg && gT.e.utils.debugLocale) {
+      keysArg += ` ("${realKeys}")`;
     }
 
     return gIn.wrap({
-      msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} '${keys}' ... `,
+      msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} '${keysArg}' ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpInputId(
@@ -109,14 +122,16 @@ const actions = {
     actionDesc = 'Ctrl +a, Send keys, Enter',
     enableLog,
   }) {
-    const realKeys = gT.e.utils.locKeyToStr(keys);
+    checkTEQ(tEQ);
+    let keysArg = _.clone(keys);
+    const realKeys = gT.e.utils.locKeyToStr(keysArg);
 
-    if (realKeys !== keys && gT.e.utils.debugLocale) {
-      keys += ` ("${realKeys}")`;
+    if (realKeys !== keysArg && gT.e.utils.debugLocale) {
+      keysArg += ` ("${realKeys}")`;
     }
 
     return gIn.wrap({
-      msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} '${keys}' ... `,
+      msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} '${keysArg}' ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpInputId(

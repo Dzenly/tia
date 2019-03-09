@@ -209,6 +209,8 @@
     'colorpickerslidersaturation',
   ];
 
+  var autoGenRE = /-\d{4}/;
+
   console.log('TIA: setEBrExplore');
 
   window.tiaEJExp = {
@@ -229,7 +231,18 @@
       'tab',
       'tabpanel',
       'textfield',
+      'tableview',
+      'treeview',
     ],
+
+    xtypeToTiaApi: {
+      tableview: 'table',
+      treeview: 'tree',
+    },
+
+    convertXTypeToTiaApi: function (xtype) {
+      return this.xtypeToTiaApi[xtype] || xtype;
+    },
 
     getFirstSupportedAscendant: function getFirstSupportedAscendant(xtypes) {
       var arr = xtypes.split('/');
@@ -313,8 +326,6 @@
         modelStr += 'viewModel.$className: ' + viewModel.$className;
       }
 
-      var autoGenRE = /-\d+/;
-
       var view = controller.getView();
       var viewStr = '';
       if (view) {
@@ -374,7 +385,9 @@
         'Form Field Info: ',
       ];
 
-      formFieldArr.push('getName(): ' + this.boldIf(field.getName(), field.getName(), 'darkgreen'));
+      var name = field.getName() || '';
+
+      formFieldArr.push('getName(): ' + this.boldIf(name, name, 'darkgreen'));
 
       tia.cU.dumpObj(field, [
         'getValue()',
@@ -392,6 +405,8 @@
         'getErrors()',
       ], formFieldArr);
 
+      var store;
+
       if (field.isPickerField) {
         var pickerComp = field.getPicker();
         formFieldArr = formFieldArr.concat([
@@ -408,7 +423,26 @@
         formFieldArr.push(this.consts.tinySep);
 
         if (field.getStore) {
-          var store = field.getStore();
+          store = field.getStore();
+          formFieldArr = formFieldArr.concat(this.getStoreContent(store));
+        }
+      } else if (field.isXType('boundlist')) {
+        console.log('HHHHHEEEERRRREEEE');
+        formFieldArr = formFieldArr.concat([
+          this.consts.tinySep,
+          'Bound list Info:']);
+
+        tia.cU.dumpObj(field, ['$className'], formFieldArr);
+
+        tia.cU.dumpObj(field, [
+          'getConfig().displayField',
+          'initialConfig.hiddenName',
+        ], formFieldArr);
+
+        formFieldArr.push(this.consts.tinySep);
+
+        if (field.getStore) {
+          store = field.getStore();
           formFieldArr = formFieldArr.concat(this.getStoreContent(store));
         }
       }
@@ -442,7 +476,6 @@
     },
 
     boldIf: function (str, cond, color, size) {
-
       str = str.replace(/\&/g, '&amp;');
 
       color = color || 'black';
@@ -508,16 +541,21 @@
 
     getComponentSearchString: function getComponentSearchString(comp, xtypePriority) {
 
+      if (!comp) {
+        // return 'THERE IS NO PARENT';
+        throw new Error('getComponentSearchString: !comp');
+      }
+
+
       var xtypeToTiaInterface = {
         checkbox: 'Checkbox',
       };
 
-      var autoGenRE = /-\d+/;
-
       var id = comp.getId();
+      var autoGenId = comp.autoGenId || (Boolean(autoGenRE.test(id)));
 
       var fakeId;
-      if (!comp.autoGenId) {
+      if (!autoGenId) {
         return '#' + id;
       } else {
         fakeId = tiaEJ.idMap.getFakeId(id);
@@ -555,15 +593,32 @@
 
       parentComp = comp.up();
 
+      function getChildSep(selector) {
+        if (!parentComp) {
+          return ' ';
+        }
+        if (!parentComp.child) {
+          return ' ';
+        }
+        return Boolean(parentComp.child(selector)) ? ' > ' : ' ';
+      }
+
+      var curSelector = null;
+      var curChildSep = '';
+
       var itemId = comp.getConfig('itemId');
       itemId = autoGenRE.test(itemId) ? null : itemId;
       if (itemId) {
-        return this.getComponentSearchString(parentComp, xtypePriority) + ' > ' + xtype + '#' + itemId;
+        curSelector = xtype + '#' + itemId;
+        curChildSep = getChildSep(curSelector);
+        return this.getComponentSearchString(parentComp, xtypePriority) + curChildSep + curSelector;
       }
 
       var name = comp.name; // TODO: getName
       if (name) {
-        return this.getComponentSearchString(parentComp, xtypePriority) + ' > ' + xtype + '[name=' + name + ']';
+        curSelector = xtype + '[name=' + name + ']';
+        curChildSep = getChildSep(curSelector);
+        return this.getComponentSearchString(parentComp, xtypePriority) + curChildSep + curSelector;
       }
 
       if (customXTypeCmpCount === 1) {
@@ -581,7 +636,11 @@
       for (var propIndex = 0; propIndex < compProps.length; propIndex++) {
         var propName = compProps[propIndex];
         var propVal = comp[propName];
-        if (propVal) {
+        if (propVal && !(typeof propVal === 'object')) { // For header title, title is object.
+
+          curSelector = xtype + '[' + propName + '=' + propVal + ']';
+          curChildSep = getChildSep(curSelector);
+
           var localeKeys = tiaEJ.getLocKeysByText(propVal);
           if (localeKeys) {
             propVal = 'l"' + localeKeys + '"';
@@ -592,12 +651,18 @@
             }
             propVal = '"' + propVal + '"';
           }
-          return this.getComponentSearchString(parentComp, xtypePriority) +
-            ' > ' + xtype + '[' + propName + '=' + propVal + ']';
+
+          if (!parentComp && xtype === 'window') {
+            return xtype + '[' + propName + '=' + propVal + ']';
+          } else {
+            return this.getComponentSearchString(parentComp, xtypePriority) +
+              curChildSep + xtype + '[' + propName + '=' + propVal + ']';
+          }
         }
       }
 
-      return this.getComponentSearchString(parentComp, xtypePriority) + ' > ' + xtype;
+      curChildSep = getChildSep(xtype);
+      return this.getComponentSearchString(parentComp, xtypePriority) + curChildSep + xtype;
     },
 
     dumpStoreData: function dumpStoreData(store, dataIndexes, outArr) {
@@ -706,7 +771,7 @@
 
       if ((store.isTreeStore)) {
         this.dumpTreeStoreData(store, dataIndexes, resArr);
-      } else if (store.$className === 'Ext.store.Store') {
+      } else if (store.$className === 'Ext.data.Store') {
         this.dumpStoreData(store, dataIndexes, resArr);
       } else {
         resArr.push('Unsupported store: ' + store.$className);
@@ -717,22 +782,25 @@
 
     getComponentInfo: function getComponentInfo(comp, extended) {
 
+      if (!comp) {
+        throw new Error('getComponentInfo: !comp');
+      }
+
       var tEQXT = this.getComponentSearchString(comp, true);
       var tEQRef = this.getComponentSearchString(comp, false);
 
       var xtypes = comp.getXTypes();
       var firstSupportedXType = this.getFirstSupportedAscendant(xtypes);
-
+      firstSupportedXType = this.convertXTypeToTiaApi(firstSupportedXType);
 
       // And other stuff for form fields.
-      var autoGenRE = /-\d+/;
-
       var initialConfig = comp.getInitialConfig();
       var config = comp.getConfig();
       var id = comp.getId();
+      var autoGenId = comp.autoGenId || (Boolean(autoGenRE.test(id)));
 
       var fakeId;
-      if (comp.autoGenId) {
+      if (autoGenId) {
         fakeId = tiaEJ.idMap.getFakeId(id);
         id = null;
       }
@@ -968,8 +1036,22 @@
       var x = e.clientX;
       var y = e.clientY;
       var el = Ext.dom.Element.fromPoint(x, y);
+
+      if (!el) {
+        tiaEJ.showMsgBox('!Ext.dom.Element.fromPoint(x, y)', 'Error');
+      }
+
       var extDomEl = Ext.dom.Element.get(el);
-      var comp = Ext.Component.fromElement(extDomEl);
+      if (!extDomEl) {
+        tiaEJ.showMsgBox('!Ext.dom.Element.get(el)', 'Error');
+      }
+
+      var comp = Ext.Component.from(extDomEl);
+      if (!comp) {
+        tiaEJ.showMsgBox('!Ext.Component.from(extDomEl)', 'Error');
+      }
+
+      console.log('COMP FOUND: ' + comp.getId());
 
       if (comp.isContainer) {
         var newComp = null;
@@ -985,6 +1067,12 @@
         if (newComp) {
           comp = newComp;
         }
+      }
+
+      console.log('COMP after box handling: ' + comp.getId());
+
+      if (!comp) {
+        tiaEJ.showMsgBox('Error at box handling ', 'Error');
       }
 
       window.tcmp = comp;

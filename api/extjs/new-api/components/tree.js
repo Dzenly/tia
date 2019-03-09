@@ -11,7 +11,7 @@ const { getCISRVal, getCISContent } = require('../../extjs-utils');
 
 const { inspect } = require('util');
 
-const compName = 'Table';
+const compName = 'Tree';
 
 const actions = {
   async selectRowByEJ(tEQ, rowData, idForLog, enableLog) {

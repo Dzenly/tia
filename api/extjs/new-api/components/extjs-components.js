@@ -13,7 +13,16 @@ module.exports = {
   table: require('./table'),
   tabpanel: require('./tabpanel'),
   textfield: require('./textfield'),
+  tree: require('./tree'),
 };
+
+const inheritance = [
+  ['tree', 'table'],
+];
+
+inheritance.forEach((item) => {
+  _.defaultsDeep(module.exports[item[0]], module.exports[item[1]]);
+});
 
 _.forEach(module.exports, (value) => {
   value.a = value.actions;
