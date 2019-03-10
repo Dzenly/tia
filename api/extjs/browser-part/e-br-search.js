@@ -170,7 +170,7 @@
      */
     byCompQuery: function byCompQuery(selector) {
 
-      var actualSelector = tiaEJ.replaceAll(selector);
+      var actualSelector = tiaEJ.replaceAll(selector) + ':visible(true)';
       var cmp = Ext.ComponentQuery.query(actualSelector);
 
       if (!cmp) {
@@ -223,11 +223,11 @@
       for (var i = 0; i < searchData.length; i++) {
         var searchObj = searchData[i];
         if (searchObj.query) {
-          var actualSelector = tiaEJ.replaceAll(searchObj.query);
+          var actualSelector = tiaEJ.replaceAll(searchObj.query) + ':visible(true)';
           var searchRes = Ext.ComponentQuery.query(actualSelector, cmp);
 
           if (!searchRes || searchRes.length === 0) {
-            throw new Error('Component not found for selector: ' + actualSelector + ', tEQ: ' + tEQ);
+            throw new Error('Component not found for selector: ' + actualSelector + '<br>tEQ: ' + tEQ);
           }
 
           if (searchRes.length > 1) {

@@ -489,6 +489,10 @@
       return '<b style="font-size: 20px; font-weight: 900; color:green;">' + str + '</b>';
     },
 
+    boldRed: function (str) {
+      return '<b style="font-size: 20px; font-weight: 900; color:red;">' + str + '</b>';
+    },
+
     // formGetIdStr: function (comp, size) {
     //   size = size || '20px';
     //   return 'getId(): ' + this.boldIf(comp.getId(), !comp.autoGenId, 'green', size) +
@@ -541,10 +545,9 @@
     getComponentSearchString: function getComponentSearchString(comp, xtypePriority) {
 
       if (!comp) {
-        // return 'THERE IS NO PARENT';
-        throw new Error('getComponentSearchString: !comp');
+        return 'PARENT-NOT-FOUND';
+        // throw new Error('getComponentSearchString: !comp');
       }
-
 
       var xtypeToTiaInterface = {
         checkbox: 'Checkbox',
@@ -651,13 +654,17 @@
             propVal = '"' + propVal + '"';
           }
 
-          if (!parentComp && xtype === 'window') {
+          if (!parentComp/* && (xtype === 'window' || xtype === 'messagebox')*/) {
             return xtype + '[' + propName + '=' + propVal + ']';
           } else {
             return this.getComponentSearchString(parentComp, xtypePriority) +
               curChildSep + xtype + '[' + propName + '=' + propVal + ']';
           }
         }
+      }
+
+      if (!parentComp) {
+        return xtype;
       }
 
       curChildSep = getChildSep(xtype);
@@ -779,7 +786,23 @@
       return resArr;
     },
 
-    getComponentInfo: function getComponentInfo(comp, extended) {
+    addRowInfo: function addRowInfo(extDomEl, comp, outArr) {
+      outArr.push(this.consts.smallSep);
+      outArr.push('Row/cell info: ');
+      var xtype = comp.getConfig('xtype');
+      outArr.push('xtype: ' + xtype);
+
+      // console.log('XTYPE: ', xType);
+      var item;
+      if (xtype === 'boundlist') {
+        outArr.push('displayField: ' + comp.displayField);
+        // row only.
+        item = extDomEl.findParent(comp.itemSelector, 10);
+        console.dir(item);
+      }
+    },
+
+    getComponentInfo: function getComponentInfo(comp, extended, extDomEl) {
 
       if (!comp) {
         throw new Error('getComponentInfo: !comp');
@@ -857,6 +880,12 @@
         }
 
         outArr.push(this.boldIf('(\'' + tEQRef + '\')', true, '#0000FF', '18px'));
+      }
+
+      // ==
+
+      if (xtypes.includes('dataview')) {
+        this.addRowInfo(extDomEl, comp, outArr);
       }
 
       outArr.push(this.consts.avgSep);
@@ -1016,11 +1045,11 @@
       return outArr;
     },
 
-    getComponentAndParentsInfo: function getComponentAndParentsInfo(comp, extended) {
+    getComponentAndParentsInfo: function getComponentAndParentsInfo(comp, extended, extDomEl) {
       if (!comp) {
         return '';
       }
-      var outArr = this.getComponentInfo(comp, extended);
+      var outArr = this.getComponentInfo(comp, extended, extDomEl);
       outArr = outArr.concat(this.getComponentAndParentsInfo(comp.up(), extended));
       return outArr;
     },
@@ -1035,6 +1064,8 @@
       var x = e.clientX;
       var y = e.clientY;
       var el = Ext.dom.Element.fromPoint(x, y);
+
+      window.tel = el;
 
       if (!el) {
         tiaEJ.showMsgBox('!Ext.dom.Element.fromPoint(x, y)', 'Error');
@@ -1052,21 +1083,25 @@
 
       console.log('COMP FOUND: ' + comp.getId());
 
-      if (comp.isContainer) {
-        var newComp = null;
-        comp.cascade(function (curComp) {
-          if (curComp.isDisabled()) {
-            var box = curComp.getBox();
-            if (x >= box.left && x <= box.right && y >= box.top && y <= box.bottom) {
-              newComp = curComp;
-            }
-          }
-          return true;
-        });
-        if (newComp) {
-          comp = newComp;
-        }
-      }
+      // boundlist
+      //
+
+
+      // if (comp.isContainer) {
+      //   var newComp = null;
+      //   comp.cascade(function (curComp) {
+      //     if (curComp.isDisabled()) {
+      //       var box = curComp.getBox();
+      //       if (x >= box.left && x <= box.right && y >= box.top && y <= box.bottom) {
+      //         newComp = curComp;
+      //       }
+      //     }
+      //     return true;
+      //   });
+      //   if (newComp) {
+      //     comp = newComp;
+      //   }
+      // }
 
       console.log('COMP after box handling: ' + comp.getId());
 
@@ -1117,7 +1152,7 @@
       if (tia.debugMode) {
         window.c1 = comp;
       }
-      var outStr = this.getComponentAndParentsInfo(comp).join('\n') + '\n' + recordStr;
+      var outStr = this.getComponentAndParentsInfo(comp, false, extDomEl).join('\n') + '\n' + recordStr;
 
       tiaEJ.showMsgBox(outStr, 'Info about a component under mouse cursor');
       // console.log(outStr);

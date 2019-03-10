@@ -1,8 +1,9 @@
 'use strict';
+
 /* globals gT, gIn */
 
-let fs = require('fs');
-let path = require('path');
+const fs = require('fs');
+const path = require('path');
 
 /**
  * Initializes TIA ExtJs exploration helpers.
@@ -22,12 +23,13 @@ let path = require('path');
  * @returns a promise which will be resolved with script return value.
  */
 exports.init = function init(enableLog) {
-  return gIn.wrap('Initialization of TIA ExtJs Exp helpers ... ', enableLog, function () {
-    let scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/e-br-explore.js'), 'utf8');
+  return gIn.wrap('Initialization of TIA ExtJs Exp helpers ... ', enableLog, () => {
+    const scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/e-br-explore.js'), 'utf8');
+
     // gIn.tracer.msg3('init: script: ' + scriptStr);
     return gT.s.browser.executeScriptWrapper(scriptStr);
-  }).then(function () {
-    let scriptStr = `
+  }).then(() => {
+    const scriptStr = `
     try {
       document.removeEventListener('click', tiaEJOnMouseDown);
       document.removeEventListener('keydown', tiaEJOnKeyDown);
@@ -35,25 +37,21 @@ exports.init = function init(enableLog) {
     }
     window.tiaEJOnMouseDown = function (e) {
       if ((e.ctrlKey || e.metaKey) && e.altKey && e.which === 1) {
-        tiaEJExp.showCompInfoFromPoint(e);
         e.preventDefault();
         e.stopImmediatePropagation();
+        tiaEJExp.showCompInfoFromPoint(e);
       }
     };
     window.tiaEJOnKeyDown = function (e) {
       if ((e.ctrlKey || e.metaKey) && e.altKey && e.keyCode === 84) {
-        tiaEJExp.showCompHierarchy();
         e.preventDefault();
         e.stopImmediatePropagation();
+        tiaEJExp.showCompHierarchy();
       }
     };
     document.addEventListener('click', tiaEJOnMouseDown);
     document.addEventListener('keydown', tiaEJOnKeyDown);
     `;
     return gT.s.browser.executeScriptWrapper(scriptStr);
-  }).then(function () {
-    return gT.s.browser.setDebugMode();
-  }).then(function () {
-    return gT.s.browser.setBodyClicker();
-  });
+  }).then(() => gT.s.browser.setDebugMode()).then(() => gT.s.browser.setBodyClicker());
 };

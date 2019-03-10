@@ -3,6 +3,13 @@
 If you use --ej-explore cmd line option (see `tia --help` for details),
 you get two abilities:
 
+## Known issues
+
+EJ Explorer closes current message box, because it itself is a message box.
+This can affect your application work, say, some controls will remain in incorrect states.
+So make some actions with page by hand to refresh it, but without refresh the page in browser.
+If you refresh the page in browser - you will lost EJ Explorer and other JS code injected by TIA.
+
 ## Info about ExtJs component under the mouse cursor.
 
 Press Ctrl + Alt + Left_Mouse_Button and you will get a window with info about
@@ -74,10 +81,11 @@ Here is parent of parent info.
 Etc.
 ```
 
-### window.tcmp
+### window.tcmp, window.tel
 
 Each time you Ctrl + Alt + LClick on some ExtJs element.
-The component under cursor is assigned to window.tcmp (Tia EJ Explorer Cmp). 
+The component under cursor is assigned to `window.tcmp` (Tia EJ Explorer Cmp),
+and the DOM element is assigned to `window.tel`.
 So you can investigate it in your browser DevTools console.
 
 ## The whole components hierarchy.
