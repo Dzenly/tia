@@ -387,7 +387,9 @@
 
       var name = field.getName() || '';
 
-      formFieldArr.push('getName(): ' + this.boldIf(name, name, 'darkgreen'));
+      if (!Boolean(autoGenRE.test(name))) {
+        formFieldArr.push('getName(): ' + this.boldIf(name, name, 'darkgreen'));
+      }
 
       tia.cU.dumpObj(field, [
         'getValue()',
@@ -493,6 +495,10 @@
       return '<b style="font-size: 20px; font-weight: 900; color:red;">' + str + '</b>';
     },
 
+    boldBlack: function (str) {
+      return '<b style="font-size: 20px; font-weight: 900; color:black;">' + str + '</b>';
+    },
+
     // formGetIdStr: function (comp, size) {
     //   size = size || '20px';
     //   return 'getId(): ' + this.boldIf(comp.getId(), !comp.autoGenId, 'green', size) +
@@ -540,6 +546,20 @@
           return;
         }
       }
+    },
+
+    replaceToLocKeys: function replaceToLocKeys(propVal) {
+      var localeKeys = tiaEJ.getLocKeysByText(propVal);
+      if (localeKeys) {
+        propVal = 'l"' + localeKeys + '"';
+      } else {
+        localeKeys = tiaEJ.getLocKeysByText(propVal, true);
+        if (localeKeys) {
+          propVal = 'el"' + localeKeys + '"';
+        }
+        propVal = '"' + propVal + '"';
+      }
+      return propVal;
     },
 
     getComponentSearchString: function getComponentSearchString(comp, xtypePriority) {
@@ -617,7 +637,7 @@
       }
 
       var name = comp.name; // TODO: getName
-      if (name) {
+      if (name && (!Boolean(autoGenRE.test(name)))) {
         curSelector = xtype + '[name=' + name + ']';
         curChildSep = getChildSep(curSelector);
         return this.getComponentSearchString(parentComp, xtypePriority) + curChildSep + curSelector;
@@ -643,16 +663,7 @@
           curSelector = xtype + '[' + propName + '=' + propVal + ']';
           curChildSep = getChildSep(curSelector);
 
-          var localeKeys = tiaEJ.getLocKeysByText(propVal);
-          if (localeKeys) {
-            propVal = 'l"' + localeKeys + '"';
-          } else {
-            localeKeys = tiaEJ.getLocKeysByText(propVal, true);
-            if (localeKeys) {
-              propVal = 'el"' + localeKeys + '"';
-            }
-            propVal = '"' + propVal + '"';
-          }
+          propVal = this.replaceToLocKeys(propVal);
 
           if (!parentComp/* && (xtype === 'window' || xtype === 'messagebox')*/) {
             return xtype + '[' + propName + '=' + propVal + ']';
@@ -794,11 +805,47 @@
 
       // console.log('XTYPE: ', xType);
       var item;
+      var m;
+      var val;
       if (xtype === 'boundlist') {
         outArr.push('displayField: ' + comp.displayField);
         // row only.
-        item = extDomEl.findParent(comp.itemSelector, 10);
-        console.dir(item);
+        item = extDomEl.findParent(comp.itemSelector, 10, true);
+        var index = item.getAttribute('data-recordindex');
+        m = comp.getStore().getAt(index);
+        val = m.get(comp.displayField);
+        val = this.replaceToLocKeys(val);
+        outArr.push('value: ' + this.boldBlack(val));
+        // console.dir(item);
+      } else if (comp.isXType('tableview')) {
+        // outArr.push('displayField: ' + comp.displayField);
+        // row only.
+        var cellDom = extDomEl.findParent(comp.getCellSelector(), 10, true);
+        var rowDom = extDomEl.findParent(comp.getItemSelector(), 10, true);
+        window.cellDom = cellDom;
+        window.rowDom = rowDom;
+
+        var panel = comp.ownerGrid;
+        var visColumns = panel.getVisibleColumns();
+
+        var dataIndex = null;
+
+        visColumns.some(function (col) {
+          var cellSelector = comp.getCellSelector(col);
+          var tmpDom = extDomEl.findParent(cellSelector, 3, true);
+          if (tmpDom) {
+            dataIndex = col.dataIndex;
+          }
+        });
+
+        outArr.push('dataIndex: ' + this.boldBlack(dataIndex));
+
+        var intId = rowDom.getAttribute('data-recordid');
+        var s = comp.getStore();
+        m = s.getByInternalId(intId);
+        val = m.get(dataIndex);
+
+        outArr.push('value: ' + this.boldBlack(this.replaceToLocKeys(val)));
       }
     },
 
@@ -1081,7 +1128,7 @@
         tiaEJ.showMsgBox('!Ext.Component.from(extDomEl)', 'Error');
       }
 
-      console.log('COMP FOUND: ' + comp.getId());
+      // console.log('COMP FOUND: ' + comp.getId());
 
       // boundlist
       //
@@ -1103,7 +1150,7 @@
       //   }
       // }
 
-      console.log('COMP after box handling: ' + comp.getId());
+      // console.log('COMP after box handling: ' + comp.getId());
 
       if (!comp) {
         tiaEJ.showMsgBox('Error at box handling ', 'Error');
