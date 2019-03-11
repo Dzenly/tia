@@ -51,6 +51,8 @@ gT_.commonMiscUtils = require('../common-utils/common-misc-utils.js');
 
 gT_.commonConsts = require('../common-utils/common-constants.js');
 
+gT_.cC = gT_.commonConsts;
+
 gIn.fileUtils = require('../utils/file-utils.js');
 
 gIn.textUtils = require('../utils/text-utils.js');

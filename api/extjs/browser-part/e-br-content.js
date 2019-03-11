@@ -472,6 +472,37 @@
       return tia.cC.content.wrap(texts.join('\n'));
     },
 
+    getBoundListByStore: function getBoundListByStore(bl) {
+      var s = bl.getStore();
+      var df = bl.displayField;
+      var d = s.getData();
+      var texts = [];
+      // console.dir(d);
+      window.d = d;
+
+      d.each(function (m) {
+        texts.push(m.get(df));
+      });
+
+      return texts;
+    },
+
+    getBoundListByInnerText: function getBoundListByInnerText(bl) {
+      var nodes = bl.getNodes();
+      var texts = nodes.map(function (node) {
+        return node.innerText;
+      });
+      return texts;
+    },
+
+    getBoundListSelectedItemsByInnerText: function getBoundListByInnerText(bl) {
+      var nodes = bl.getSelectedNodes();
+      var texts = nodes.map(function (node) {
+        return node.innerText;
+      });
+      return texts;
+    },
+
     getSelectedItemFields: function getSelectedItemFields(view, fieldsToPrint, printFieldName) {
       var nodes = view.getSelectedNodes();
       var texts = nodes.map(function (node) {
@@ -881,16 +912,16 @@
       return tiaEJ.ctByObj[fName](cmp, param2, param3, param4);
     };
 
-    // TODO: Check if this is needed indeed?
-    tiaEJ.ctByContIdAndDownQuery[fName] = function (contId, queryStr, param2, param3, param4) {
-      var cont = tiaEJ.search.byId(contId);
-      var cmp = cont.down(queryStr);
-      if (cmp === null) {
-        throw new Error('ctByContIdAndDownQuery: Component not found container id: ' + contId
-        + ', down("' + queryStr + '"');
-      }
-      return tiaEJ.ctByObj[fName](cmp, param2, param3, param4);
-    };
+    // // TODO: Check if this is needed indeed?
+    // tiaEJ.ctByContIdAndDownQuery[fName] = function (contId, queryStr, param2, param3, param4) {
+    //   var cont = tiaEJ.search.byId(contId);
+    //   var cmp = cont.down(queryStr);
+    //   if (cmp === null) {
+    //     throw new Error('ctByContIdAndDownQuery: Component not found container id: ' + contId
+    //     + ', down("' + queryStr + '"');
+    //   }
+    //   return tiaEJ.ctByObj[fName](cmp, param2, param3, param4);
+    // };
 
   });
 })();

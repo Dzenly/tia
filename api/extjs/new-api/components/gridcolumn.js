@@ -38,7 +38,7 @@ const actions = {
           duration: 0,
         }).perform();
 
-        await gT.s.driver.sleep(300, false);
+        await gT.sOrig.driver.wait(gT.sOrig.until.elementIsVisible(trigger));
 
         await trigger.click();
       },

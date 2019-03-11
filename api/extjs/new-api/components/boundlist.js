@@ -63,7 +63,7 @@ const actions = {
             .perform();
         }
       },
-      actionDesc: `ctrlClickRows (${gIn.textUtils.v2s(textsArr)})`,
+      actionDesc: `ctrlClickRows (${gIn.textUtils.v2s(texts)})`,
       enableLog,
     });
   },
@@ -74,15 +74,43 @@ const checks = {};
 const logs = {
 
   // TODO: доделать.
-  async content(tEQ, idForLog) {
-    const result = await queryAndAction({
+  async contentByStore(tEQ, idForLog) {
+    let result = await queryAndAction({
       tEQ,
-      action: 'return tiaEJ.ctByObj.getCB(cmp);',
+      action: 'return tiaEJ.ctByObj.getBoundListByStore(cmp);',
       idForLog,
       enableLog: false,
     });
 
-    gIn.logger.logln(getCISContent(tEQ, compName, idForLog, result));
+    result = result.join('\n');
+
+    gIn.logger.logln(getCISContent('Content by store', tEQ, compName, idForLog, result));
+  },
+
+  async contentByInnerText(tEQ, idForLog) {
+    let result = await queryAndAction({
+      tEQ,
+      action: 'return tiaEJ.ctByObj.getBoundListByInnerText(cmp);',
+      idForLog,
+      enableLog: false,
+    });
+
+    result = result.join('\n');
+
+    gIn.logger.logln(getCISContent('Content by inner text', tEQ, compName, idForLog, result));
+  },
+
+  async selectedContentByInnerText(tEQ, idForLog) {
+    let result = await queryAndAction({
+      tEQ,
+      action: 'return tiaEJ.ctByObj.getBoundListSelectedItemsByInnerText(cmp);',
+      idForLog,
+      enableLog: false,
+    });
+
+    result = result.join('\n');
+
+    gIn.logger.logln(getCISContent('Selected content by inner text', tEQ, compName, idForLog, result));
   },
 };
 

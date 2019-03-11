@@ -126,8 +126,10 @@ exports.getCISRVal = function getCISRVal(tEQ, compName, idForLog = '', val) {
   return `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": Raw val: '${val}'`;
 };
 
-exports.getCISContent = function getCISContent(tEQ, compName, idForLog = '', val) {
-  return `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": Content:\n${val}`;
+// eslint-disable-next-line max-params
+exports.getCISContent = function getCISContent(prefix, tEQ, compName, idForLog = '', val) {
+  const valArg = gT.cC.content.wrap(val);
+  return `${prefix}: ${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}":\n${valArg}`;
 };
 
 /**

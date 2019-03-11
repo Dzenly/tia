@@ -124,7 +124,7 @@ const logs = {
       enableLog: false,
     });
 
-    gIn.logger.logln(getCISContent(tEQ, compName, idForLog, result));
+    gIn.logger.logln(getCISContent('Content', tEQ, compName, idForLog, result));
   },
 };
 

@@ -21,6 +21,20 @@ interface BoundListChecks {
 }
 
 interface BoundListLogs {
+  /**
+   * Prints all displayField values from the store.
+   */
+  contentByStore(tEQ: Teq, idForLog: ElementIdForLog): Promise<undefined>;
+
+  /**
+   * Prints all innerText DOM element properties for items.
+   */
+  contentByInnerText(tEQ: Teq, idForLog: ElementIdForLog): Promise<undefined>;
+
+  /**
+   * Prints innerText DOM element properties for selected items.
+   */
+  selectedContentByInnerText(tEQ: Teq, idForLog: ElementIdForLog): Promise<undefined>;
 }
 
 export interface BoundList {

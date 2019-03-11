@@ -16,7 +16,7 @@
     rowSep: '= = = = = = =',
     rowSep1: '-------------------',
     contentStart: '    /~~~~~~~~\\\n',
-    contentFinish: '    \\________/\n',
+    contentFinish: '\n    \\________/\n',
     indent: ' | ',
     title: 'Title: ',
     header: 'Header: ',
@@ -25,13 +25,13 @@
     rowBody: '  Row body: ',
     defEmptyCellText: '&#160;',
     qTipAttr: 'data-qtip',
-    getVisibility(cond) {
+    getVisibility: function getVisibility(cond) {
       return cond ? this.visible : this.notVisible;
     },
-    wrap(str) {
+    wrap: function wrap(str) {
       return this.contentStart + str + this.contentFinish;
     },
-    wrapEx(indent, str) {
+    wrapEx: function wrapEx(indent, str) {
       return indent + this.contentStart + str + indent + this.contentFinish;
     },
   };
