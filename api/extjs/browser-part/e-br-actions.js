@@ -12,7 +12,7 @@
      * @param {Object} rowData
      * @return {Ext.data.Model}
      */
-    findRecord: function findRecord(store, rowData) {
+    findRecordEx: function findRecord(store, rowData) {
 
       var res = null;
 
@@ -23,6 +23,8 @@
           var entry = entries[i];
           var fieldName = entry[0];
           var value = entry[1];
+          var fieldValue = record.get(fieldName);
+          console.log(fieldName, value, fieldValue);
           if (record.get(fieldName) !== value) {
             return false;
           }
@@ -37,6 +39,26 @@
       }
 
       return res;
+    },
+
+    findRecord: function findRecord(store, fieldName, text) {
+      var m = store.find(fieldName, text);
+      if (!m) {
+        throw new Error('Text: ' + text + 'no found for fieldName: ' + fieldName);
+      }
+      return m;
+    },
+
+    findRecords: function findRecords(store, fieldName, texts) {
+      var records = [];
+      texts.forEach(function (text) {
+        var m = store.find(fieldName, text);
+        if (!m) {
+          throw new Error('Text: ' + text + 'no found for fieldName: ' + fieldName);
+        }
+        records.push(m);
+      });
+      return records;
     },
 
     /**
@@ -58,7 +80,7 @@
      * @param table
      * @param rowData
      */
-    getItemDomId: function getRowDom(table, rowData) {
+    getItem: function getItemDom(table, rowData) {
       if (table.isPanel) {
         table = table.getView();
       }
@@ -67,6 +89,20 @@
       var internalId = model.internalId;
       var gridItemId = tableId + '-record-' + internalId;
       return gridItemId;
+    },
+
+    getBoundListItem: function getBoundListItem(bl, text) {
+      var model = this.findRecord(bl.getStore(), bl.displayField, text);
+      var node = bl.getNode(model);
+      return node;
+    },
+
+    getBoundListItems: function getBoundListItems(bl, texts) {
+      var models = this.findRecords(bl.getStore(), bl.displayField, texts);
+      var nodes = models.map(function (model) {
+        return bl.getNode(model);
+      });
+      return nodes;
     },
 
     /**

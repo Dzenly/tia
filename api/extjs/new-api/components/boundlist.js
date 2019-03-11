@@ -4,6 +4,8 @@
 
 'use strict';
 
+const _ = require('lodash');
+
 // const { queryCmpInputId } = require('../tia-extjs-query');
 const { actions: anyActions } = require('./any');
 const { queryAndAction } = require('../tia-extjs-query');
@@ -11,56 +13,57 @@ const { getCISRVal, getCISContent } = require('../../extjs-utils');
 
 const { inspect } = require('util');
 
-const compName = 'Table';
+const compName = 'BoundList';
 
 const actions = {
-  // async selectRowByEJ(tEQ, rowData, idForLog, enableLog) {
-  //
-  //   // Если это панель - найти вью.
-  //   // getStore().
-  //   // s.find()
-  //   //
-  //
-  //   // await gT.e.wait.idle(undefined, false);
-  //
-  //   // const objStr = inspect(localeObj, { compact: true, breakLength: 200 });
-  //
-  //   return gT.e.q.wrap({
-  //     tEQ,
-  //     compName,
-  //     idForLog,
-  //     act: async () => {
-  //       await queryAndAction({
-  //         tEQ,
-  //         action: 'cmp.clearValue();',
-  //         idForLog,
-  //         enableLog: false,
-  //       });
-  //     },
-  //     actionDesc: `Select row (${JSON.stringify(rowData)}) by EJ`,
-  //     enableLog,
-  //   });
-  // },
-  async clickRow(tEQ, rowData, idForLog, enableLog) {
+  async clickRow(tEQ, text, idForLog, enableLog) {
     // Дождаться idle?
-
-    // Если это панель - найти вью.
-
-    //
-
+    const valueStr = gT.e.utils.locKeyToStr(text);
     return gT.e.q.wrap({
       tEQ,
       compName,
       idForLog,
       act: async () => {
-        await queryAndAction({
+        const row = await queryAndAction({
           tEQ,
-          action: 'cmp.clearValue();',
+          action: `return tiaEJActs.getBoundListItem(cmp, '${valueStr}');`,
           idForLog,
           enableLog: false,
         });
+
+        row.click();
       },
-      actionDesc: 'Clear by EJ',
+      actionDesc: `clickRow (${text})`,
+      enableLog,
+    });
+  },
+
+  async ctrlClickRows(tEQ, texts, idForLog, enableLog) {
+    // Дождаться idle?
+    let textsArg = _.cloneDeep(texts);
+    textsArg = textsArg.map(text => gT.e.utils.locKeyToStr(text));
+    const args = gIn.textUtils.v2s(textsArg);
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const rows = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getBoundListItems(cmp, ${args});`,
+          idForLog,
+          enableLog: false,
+        });
+
+        for (const row of rows) {
+          await gT.sOrig.driver.actions({bridge: true})
+            .keyDown(gT.sOrig.key.CONTROL)
+            .click(row)
+            .keyUp(gT.sOrig.key.CONTROL)
+            .perform();
+        }
+      },
+      actionDesc: `ctrlClickRows (${gIn.textUtils.v2s(textsArr)})`,
       enableLog,
     });
   },

@@ -80,6 +80,20 @@ exports.valToStr = function valToStr(value) {
   return util.inspect(value, { compact: false, sorted: true, depth: Infinity });
 };
 
+exports.v2s = function v2s(value) {
+  if (Buffer.isBuffer(value)) {
+    return value.toString('utf8');
+  }
+
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  return util.inspect(value, {
+    compact: true, sorted: true, depth: Infinity, breakLength: 200,
+  });
+};
+
 // function escapeRegExp(string) {
 //   return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 // }

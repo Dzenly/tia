@@ -52,6 +52,8 @@ Time Is All (log-driven test engine with ExtJs support)
   * [xvfb analog for Windows.](#xvfb-analog-for-windows)
   * [How to subscribe to updates:](#how-to-subscribe-to-updates)
   * [Autocompletion in IDE.](#autocompletion-in-ide)
+  * [Speedup debugging](#speedup-debugging)
+  * [MENUS and tests stability](#menus-and-tests-stability)
   * [File types:](#file-types)
 - [Known issues and bugs](#known-issues-and-bugs)
 - [License: MIT](#license-mit)
@@ -617,6 +619,14 @@ So autocompletion works for WebStorm and VS Code.
 Use `gT` and `gIn`
 
 Also you can use break points and explore these global objects.
+
+### Speedup debugging
+
+Idle ExtJs event will be sent faster if you move mouse on the AUT.
+
+### MENUS and tests stability
+
+Dont touch the mouse (in the headful mode), if you work with menus.
 
 ----------------------------------
 
