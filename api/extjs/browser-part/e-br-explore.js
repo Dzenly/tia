@@ -615,6 +615,10 @@
         return this.getComponentSearchString(parentComp, xtypePriority) + ' &' + reference;
       }
 
+      if (comp.isMenu) {
+        return xtype;
+      }
+
       parentComp = comp.up();
 
       function getChildSep(selector) {

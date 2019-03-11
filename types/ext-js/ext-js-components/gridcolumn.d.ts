@@ -5,6 +5,11 @@ interface GridColumnActions {
    * Left mouse GridColumn click.
    */
   click(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Left mouse clock on GridColumn trigger element.
+   */
+  clickTrigger(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
 interface GridColumnChecks {

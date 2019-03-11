@@ -33,8 +33,8 @@ const actions = {
 
         await gT.sOrig.driver.actions({ bridge: true }).move({
           origin: el,
-          x: 0,
-          y: 0,
+          x: 1,
+          y: 1,
           duration: 0,
         }).perform();
 
