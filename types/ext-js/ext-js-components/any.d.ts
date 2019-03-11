@@ -45,7 +45,14 @@ interface AnyComponentActions {
   clickCmp(params: AnyComponentCommonParams): Promise<undefined>;
 
   /**
-   * Left mouse button click on Component's input element.
+   * Left mouse button click on Component's input element by its id.
+   * Note: not all Components have an input element.
+   * Default actionDesc is 'Click Input by id'.
+   */
+  clickInputById(params: AnyComponentCommonParams): Promise<undefined>;
+
+  /**
+   * Left mouse button click on Component's input element by WebElement.
    * Note: not all Components have an input element.
    * Default actionDesc is 'Click Input'.
    */

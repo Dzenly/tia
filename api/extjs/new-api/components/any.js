@@ -1,6 +1,8 @@
 'use strict';
 
-const { queryCmpInputId, queryCmpId, queryAndAction } = require('../tia-extjs-query');
+const {
+  queryCmpInput, queryCmpTrigger, queryCmpInputId, queryCmpId, queryAndAction,
+} = require('../tia-extjs-query');
 
 const { getCIS, getCISRVal } = require('../../extjs-utils');
 
@@ -10,7 +12,6 @@ function checkTEQ(tEQ) {
   if (!tEQ) {
     throw new Error('No TEQ string, remember that function takes object as parameters.');
   }
-
 }
 
 const actions = {
@@ -35,6 +36,27 @@ const actions = {
       },
     });
   },
+  async clickInputById({
+    tEQ,
+    compName = defaultCompName,
+    idForLog = '',
+    actionDesc = 'Click Input by id',
+    enableLog,
+  }) {
+    checkTEQ(tEQ);
+    return gIn.wrap({
+      msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} ... `,
+      enableLog,
+      act: async () => {
+        const id = await queryCmpInputId(
+          tEQ,
+          idForLog,
+          false
+        );
+        await gT.s.uA.clickById(id, false);
+      },
+    });
+  },
   async clickInput({
     tEQ,
     compName = defaultCompName,
@@ -47,7 +69,7 @@ const actions = {
       msg: `${getCIS(tEQ, compName, idForLog)} ${actionDesc} ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInputId(
+        const id = await queryCmpInput(
           tEQ,
           idForLog,
           false

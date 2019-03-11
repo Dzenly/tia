@@ -37,6 +37,9 @@ In most cases these error messages are due to multiple localization keys, which 
 some native language string. In such case you must choose the most appropriate key
 from the comma separated keys suggested in the TEQ.
 
+--------------------------
+For boundlist and tableview, here is info about cell and row.
+
 ======================
 Component properties.
 If xtype is custom type it will be shown as a yellow bold string.

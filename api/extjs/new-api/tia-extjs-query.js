@@ -48,6 +48,19 @@ exports.queryCmpId = async function queryCmpId(
   });
 };
 
+exports.queryCmpInput = async function queryCmpInput(
+  tEQ,
+  idForLog,
+  enableLog
+) {
+  return exports.queryAndAction({
+    tEQ,
+    action: 'return cmpInfo.constProps.inputEl;',
+    idForLog,
+    enableLog,
+  });
+};
+
 exports.queryCmpInputId = async function queryCmpId(
   tEQ,
   idForLog,
@@ -56,6 +69,19 @@ exports.queryCmpInputId = async function queryCmpId(
   return exports.queryAndAction({
     tEQ,
     action: 'return cmpInfo.constProps.inputId;',
+    idForLog,
+    enableLog,
+  });
+};
+
+exports.queryCmpTrigger = async function queryCmpTrigger(
+  tEQ,
+  idForLog,
+  enableLog
+) {
+  return exports.queryAndAction({
+    tEQ,
+    action: 'return cmpInfo.constProps.triggerEl;',
     idForLog,
     enableLog,
   });
@@ -87,7 +113,7 @@ exports.removeAllFakeIds = async function removeAllFakeIds(
   });
 };
 
-exports.wrap = async function ({
+exports.wrap = async function wrap({
   tEQ,
   compName,
   idForLog = '',

@@ -233,6 +233,8 @@
       'textfield',
       'tableview',
       'treeview',
+      'boundlist',
+      'gridcolumn',
     ],
 
     xtypeToTiaApi: {
@@ -800,17 +802,20 @@
     addRowInfo: function addRowInfo(extDomEl, comp, outArr) {
       outArr.push(this.consts.smallSep);
       outArr.push('Row/cell info: ');
-      var xtype = comp.getConfig('xtype');
-      outArr.push('xtype: ' + xtype);
+      // var xtype = comp.getConfig('xtype');
+      // outArr.push('xtype: ' + xtype);
 
-      // console.log('XTYPE: ', xType);
       var item;
       var m;
       var val;
-      if (xtype === 'boundlist') {
+      if (comp.isXType('boundlist') /* xtype === 'boundlist' */ ) {
         outArr.push('displayField: ' + comp.displayField);
         // row only.
         item = extDomEl.findParent(comp.itemSelector, 10, true);
+        if (!item) {
+          outArr.push('Mouse is not on some row');
+          return;
+        }
         var index = item.getAttribute('data-recordindex');
         m = comp.getStore().getAt(index);
         val = m.get(comp.displayField);
@@ -821,6 +826,10 @@
         // outArr.push('displayField: ' + comp.displayField);
         // row only.
         var cellDom = extDomEl.findParent(comp.getCellSelector(), 10, true);
+        if (!cellDom) {
+          outArr.push('Mouse is not on some row');
+          return;
+        }
         var rowDom = extDomEl.findParent(comp.getItemSelector(), 10, true);
         window.cellDom = cellDom;
         window.rowDom = rowDom;
@@ -835,6 +844,9 @@
           var tmpDom = extDomEl.findParent(cellSelector, 3, true);
           if (tmpDom) {
             dataIndex = col.dataIndex;
+            outArr.push('text/tooltip: ' + tiaEJExp.boldBlack(
+              tiaEJExp.replaceToLocKeys(col.text) + ' / ' + tiaEJExp.replaceToLocKeys(col.tooltip))
+            );
           }
         });
 

@@ -9,6 +9,7 @@ module.exports = {
   button: require('./button'),
   checkbox: require('./checkbox'),
   combobox: require('./combobox'),
+  gridcolumn: require('./gridcolumn'),
   tab: require('./tab'),
   table: require('./table'),
   tabpanel: require('./tabpanel'),

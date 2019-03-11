@@ -47,7 +47,17 @@ export interface TeqApi {
   queryAndAction(args: TeqParams): Promise<any>;
   queryCmpInfo(args: TeqParamsForCmpInfo): Promise<CmpInfo>;
   queryCmpId(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<string>;
+
+  /**
+   * Returns inputEl.
+   */
+  queryCmpInput(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<string>;
+
+  /**
+   * Returns inputId.
+   */
   queryCmpInputId(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<string>;
+
   setFakeId(tEQ: Teq, fakeId: string, enableLog: EnableLog): Promise<undefined>;
   removeAllFakeIds(enableLog: EnableLog): Promise<undefined>;
   wrap(params: WrapParams): Promise<any>;
