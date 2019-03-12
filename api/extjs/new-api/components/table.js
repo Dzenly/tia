@@ -1,11 +1,9 @@
 'use strict';
 
-// https://stackoverflow.com/questions/11000087/how-to-select-a-combobox-value-in-extjs
-
-'use strict';
+const _ = require('lodash');
 
 // const { queryCmpInputId } = require('../tia-extjs-query');
-const { actions: anyActions } = require('./any');
+// const { actions: anyActions } = require('./any');
 const { queryAndAction } = require('../tia-extjs-query');
 const { getCISRVal, getCISContent } = require('../../extjs-utils');
 
@@ -17,7 +15,15 @@ const actions = {
   // async selectRowByEJ(tEQ, rowData, idForLog, enableLog) {},
 
   async clickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
-    const args = gIn.tU.v2s(cellData);
+    const cellDataArg = _.cloneDeep(cellData);
+
+    cellDataArg.row = cellDataArg.row.map(
+      item => [
+        gT.e.utils.locKeyToStr(item[0]),
+        item[1]]
+    );
+    cellDataArg.column = gT.e.utils.locKeyToStr(cellDataArg.column);
+
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -25,14 +31,14 @@ const actions = {
       act: async () => {
         const cell = await queryAndAction({
           tEQ,
-          action: `return tiaEJActs.getTableCell(cmp, ${args});`,
+          action: `return tiaEJActs.getTableCellByColumnTexts(cmp, ${gIn.tU.v2s(cellDataArg)});`,
           idForLog,
           enableLog: false,
         });
 
         cell.click();
       },
-      actionDesc: `Click cell by Col Texts: ${args}`,
+      actionDesc: `Click cell by Col Texts: ${gIn.tU.v2s(cellData)}`,
       enableLog,
     });
   },

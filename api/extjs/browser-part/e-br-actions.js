@@ -7,38 +7,34 @@
   window.tiaEJActs = {
 
     /**
-     * Finds record.
+     * Finds record internalId's.
      * @param {Ext.data.Store} store
-     * @param {Object} rowData
-     * @return {Ext.data.Model}
+     * @param {Object} rowData [[dataIndex, value], [dataIndex, value]]
+     * @return {number[]}
      */
-    findRecordEx: function findRecord(store, rowData) {
+    findRecordIds: function findRecordIds(store, rowData) {
 
-      var res = null;
+      var internalIds = [];
 
-      store.findBy(function (record, id) {
-
-        var entries = Object.entries(rowData);
-        for (var i = 0; i < entries.length; i++) {
-          var entry = entries[i];
-          var fieldName = entry[0];
-          var value = entry[1];
-          var fieldValue = record.get(fieldName);
-          console.log(fieldName, value, fieldValue);
-          if (record.get(fieldName) !== value) {
-            return false;
+      store.each(function (m) {
+        for (var i = 0; i < rowData.length; i++) {
+          var item = rowData[i];
+          var dataIndex = item[0];
+          var value = item[1];
+          var fieldValue = m.get(dataIndex);
+          if (fieldValue !== value) {
+            return true; // To next record.
           }
         }
-
-        res = record;
+        internalIds.push(m.internalId);
         return true;
       });
 
-      if (!res) {
+      if (!internalIds.length) {
         throw new Error('Record not found for ' + JSON.stringify(rowData));
       }
 
-      return res;
+      return internalIds;
     },
 
     /**
@@ -94,17 +90,15 @@
     /**
      * Gets row DOM element, to click by webdriver.
      * @param table
-     * @param rowData
+     * @param internalId
      */
-    getItemId: function getItemId(table, rowData) {
+    getRowDomId: function getRowDomId(table, internalId) {
       if (table.isPanel) {
         table = table.getView();
       }
       var tableId = table.getId();
-      var model = this.findRecord(table.getStore(), rowData);
-      var internalId = model.internalId;
-      var gridItemId = tableId + '-record-' + internalId;
-      return gridItemId;
+      var gridRowid = tableId + '-record-' + internalId;
+      return gridRowid;
     },
 
     getBoundListItem: function getBoundListItem(bl, text) {
@@ -127,7 +121,7 @@
      * @param rowData
      * @param col
      */
-    getTableCellByCollTexts: function getTableCellByCollTexts(table, cellData) {
+    getTableCellByColumnTexts: function getTableCellByColumnTexts(table, cellData) {
 
       if (table.isPanel) {
         table = table.getView();
@@ -135,23 +129,36 @@
 
       var panel = table.ownerGrid;
       var visColumns = panel.getVisibleColumns();
-      var foundColumn = visColumns.find(function (column) {
-        if (column.dataIndex === colDataIndex) {
-          return true;
+      var text2DataIndex = {};
+      var cellSelector = null;
+
+      visColumns.forEach(function (col) {
+        var key = col.text || col.tooltip;
+        text2DataIndex[key] = col.dataIndex;
+        if (key === cellData.column) {
+          cellSelector = table.getCellSelector(col);
         }
       });
 
-      if (!foundColumn) {
-        throw new Error('No such dataIndex in columns: ' + colDataIndex);
+      var row = cellData.row.slice(0);
+
+      row = row.map(function (tup) {
+        tup[0] = text2DataIndex[tup[0]];
+        return tup.slice(0);
+      });
+
+      var internalIds = this.findRecordIds(table.getStore(), row);
+
+      if (cellData.one && (internalIds.length > 1)) {
+        throw new Error('getTableCellByColumnTexts: one is true, but found ' + internalIds.length + ' records.')
       }
 
-      var cellSelector = table.getCellSelector(foundColumn);
+      var index = cellData.index || 0;
+      var internalId = internalIds[index];
+      var rowDomId = this.getRowDomId(table, internalId);
 
-      var tableItemId = this.getItemDomId(table, rowData);
-
-      var itemDom = document.getElementById(tableItemId);
-
-      var cellDom = itemDom.querySelector(cellSelector);
+      var rowDom = document.getElementById(rowDomId);
+      var cellDom = rowDom.querySelector(cellSelector);
 
       return cellDom;
     },
