@@ -116,10 +116,10 @@ Tab "#assets > tabbar > tab[text=l"info"]": click ... OK
 ## Examples
 
 The engine has tests for itself, they can be used as examples.
-https://github.com/Dzenly/tia/tree/master/__tia-tests__
-https://github.com/Dzenly/tia/tree/master/common-utils/__tia-tests__
-https://github.com/Dzenly/tia/tree/master/api/log/__tia-tests__
-https://github.com/Dzenly/tia/tree/master/testsDir/testsSubDir/__tia-tests__
+`https://github.com/Dzenly/tia/tree/master/__tia-tests__`
+`https://github.com/Dzenly/tia/tree/master/common-utils/__tia-tests__`
+`https://github.com/Dzenly/tia/tree/master/api/log/__tia-tests__`
+`https://github.com/Dzenly/tia/tree/master/testsDir/testsSubDir/__tia-tests__`
 
 ## Installation
 
