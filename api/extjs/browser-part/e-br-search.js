@@ -337,6 +337,9 @@
 
     tiaEJ.searchAndWrap[funcName] = function () {
       var cmp = tiaEJ.search[funcName].apply(tiaEJ.search, arguments);
+      if (typeof cmp === 'object' && cmp !== null && cmp.tiaErr) {
+        return cmp;
+      }
       return tiaEJ.wrapCmp(cmp, arguments, funcName);
     };
 
