@@ -2,34 +2,34 @@ import {ElementIdForLog, EnableLog, TableCellByColumns, TableCellByModelFields, 
 
 interface TableActions {
   /**
-   * Left mouse buttom click on the specified table row and cell.
+   * Left mouse button click on the specified table row and cell.
    */
   clickCellByColTexts(tEQ: Teq, cellData: TableCellByColumns, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
-   * Left mouse buttom click on the specified table row and cell.
+   * Left mouse button click on the specified table row and cell.
    */
   clickCellByModelFields(tEQ: Teq, cellData: TableCellByModelFields, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
-   * Ctrl + Left mouse buttom click on the specified table row and cell.
+   * Ctrl + Left mouse button click on the specified table row and cell.
    * Can be used to select many rows.
    */
   ctrlClickCellByColTexts(tEQ: Teq, cellData: TableCellByColumns, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
-   * Ctrl + Left mouse buttom click on the specified table row and cell.
+   * Ctrl + Left mouse button click on the specified table row and cell.
    * Can be used to select many rows.
    */
   ctrlClickCellByModelFields(tEQ: Teq, cellData: TableCellByModelFields, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
-   * Left mouse buttom double click on the specified table row and cell.
+   * Left mouse button double click on the specified table row and cell.
    */
   doubleClickCellByColTexts(tEQ: Teq, cellData: TableCellByColumns, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
-   * Left mouse buttom double click on the specified table row and cell.
+   * Left mouse button double click on the specified table row and cell.
    */
   doubleClickCellByModelFields(tEQ: Teq, cellData: TableCellByModelFields, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
