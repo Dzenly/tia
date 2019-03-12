@@ -235,6 +235,7 @@
       'treeview',
       'boundlist',
       'gridcolumn',
+      'form',
     ],
 
     xtypeToTiaApi: {

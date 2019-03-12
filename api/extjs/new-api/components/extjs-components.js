@@ -10,6 +10,7 @@ module.exports = {
   button: require('./button'),
   checkbox: require('./checkbox'),
   combobox: require('./combobox'),
+  form: require('./form'),
   gridcolumn: require('./gridcolumn'),
   tab: require('./tab'),
   table: require('./table'),
@@ -19,7 +20,7 @@ module.exports = {
 };
 
 const inheritance = [
-  ['tree', 'table'],
+  // ['tree', 'table'],
 ];
 
 inheritance.forEach((item) => {

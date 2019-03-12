@@ -3,6 +3,7 @@ import {BoundList} from './boundlist';
 import {Button} from './button';
 import {CheckBox} from './checkbox';
 import {ComboBox} from './combobox';
+import {Form} from './form';
 import {GridColumn} from './gridcolumn';
 import {Table} from './table';
 import {TabPanel} from './tabpanel';
@@ -16,6 +17,7 @@ export interface ExtJsComponents {
   button: Button;
   checkbox: CheckBox;
   combobox: ComboBox;
+  form: Form;
   gridcolumn: GridColumn;
   tab: Tab;
   table: Table;
