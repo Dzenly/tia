@@ -46,11 +46,11 @@
      * @return {*}
      */
     findRecord: function findRecord(store, fieldName, text) {
-      var m = store.find(fieldName, text);
-      if (!m) {
-        throw new Error('Text: ' + text + 'no found for fieldName: ' + fieldName);
+      var index = store.find(fieldName, text);
+      if (index === -1) {
+        throw new Error('Text: ' + text + ' not found for fieldName: ' + fieldName);
       }
-      return m;
+      return index;
     },
 
     /**
@@ -64,11 +64,11 @@
     findRecords: function findRecords(store, fieldName, texts) {
       var records = [];
       texts.forEach(function (text) {
-        var m = store.find(fieldName, text);
-        if (!m) {
-          throw new Error('Text: ' + text + 'no found for fieldName: ' + fieldName);
+        var index = store.find(fieldName, text);
+        if (index === -1) {
+          throw new Error('Text: ' + text + ' not found for fieldName: ' + fieldName);
         }
-        records.push(m);
+        records.push(index);
       });
       return records;
     },
@@ -102,29 +102,33 @@
     },
 
     getBoundListItem: function getBoundListItem(bl, text) {
-      var model = this.findRecord(bl.getStore(), bl.displayField, text);
-      var node = bl.getNode(model);
+      var index = this.findRecord(bl.getStore(), bl.displayField, text);
+      var node = bl.getNode(index);
       return node;
     },
 
     getBoundListItems: function getBoundListItems(bl, texts) {
-      var models = this.findRecords(bl.getStore(), bl.displayField, texts);
-      var nodes = models.map(function (model) {
-        return bl.getNode(model);
+      var indexes = this.findRecords(bl.getStore(), bl.displayField, texts);
+      var nodes = indexes.map(function (index) {
+        return bl.getNode(index);
       });
       return nodes;
     },
 
     /**
      * Gets table cell DOM element.
-     * @param table
-     * @param rowData
-     * @param col
      */
     getTableCellByColumnTexts: function getTableCellByColumnTexts(table, cellData) {
 
       if (table.isPanel) {
         table = table.getView();
+      }
+
+      if (typeof cellData.one === 'undefined') {
+        cellData.one = true;
+      }
+      if (typeof cellData.index === 'undefined') {
+        cellData.index = 0;
       }
 
       var panel = table.ownerGrid;
@@ -140,21 +144,30 @@
         }
       });
 
+      if (!cellSelector) {
+        throw new Error('Column ' + cellData.column + ' not found in visible columns');
+      }
+
       var row = cellData.row.slice(0);
 
       row = row.map(function (tup) {
-        tup[0] = text2DataIndex[tup[0]];
-        return tup.slice(0);
+        var tmpTup = tup.slice(0);
+        tmpTup[0] = text2DataIndex[tup[0]];
+        if (!tmpTup[0]) {
+          throw new Error('getTableCellByColumnTexts: No such column text: ' + tup[0]);
+        }
+        return tmpTup;
       });
 
       var internalIds = this.findRecordIds(table.getStore(), row);
+
+      console.log(internalIds);
 
       if (cellData.one && (internalIds.length > 1)) {
         throw new Error('getTableCellByColumnTexts: one is true, but found ' + internalIds.length + ' records.')
       }
 
-      var index = cellData.index || 0;
-      var internalId = internalIds[index];
+      var internalId = internalIds[cellData.index];
       var rowDomId = this.getRowDomId(table, internalId);
 
       var rowDom = document.getElementById(rowDomId);
@@ -163,35 +176,48 @@
       return cellDom;
     },
 
-    getTableCellByCollTexts1: function getTableCellByCollTexts1(table, cellData) {
-
+    getTableCellByModelFields: function getTableCellByModelFields(table, cellData) {
       if (table.isPanel) {
         table = table.getView();
       }
 
+      if (typeof cellData.one === 'undefined') {
+        cellData.one = true;
+      }
+      if (typeof cellData.index === 'undefined') {
+        cellData.index = 0;
+      }
+
       var panel = table.ownerGrid;
       var visColumns = panel.getVisibleColumns();
-      var foundColumn = visColumns.find(function (column) {
-        if (column.dataIndex === colDataIndex) {
-          return true;
+      var cellSelector = null;
+
+      visColumns.forEach(function (col) {
+        if (col.dataIndex === cellData.field) {
+          cellSelector = table.getCellSelector(col);
         }
       });
 
-      if (!foundColumn) {
-        throw new Error('No such dataIndex in columns: ' + colDataIndex);
+      if (!cellSelector) {
+        throw new Error('Field ' + cellData.field + ' not found in visible column dataIndexes');
       }
 
-      var cellSelector = table.getCellSelector(foundColumn);
+      var internalIds = this.findRecordIds(table.getStore(), cellData.row);
 
-      var tableItemId = this.getItemDomId(table, rowData);
+      console.log(internalIds);
 
-      var itemDom = document.getElementById(tableItemId);
+      if (cellData.one && (internalIds.length > 1)) {
+        throw new Error('getTableCellByColumnTexts: one is true, but found ' + internalIds.length + ' records.')
+      }
 
-      var cellDom = itemDom.querySelector(cellSelector);
+      var internalId = internalIds[cellData.index];
+      var rowDomId = this.getRowDomId(table, internalId);
+
+      var rowDom = document.getElementById(rowDomId);
+      var cellDom = rowDom.querySelector(cellSelector);
 
       return cellDom;
     },
-
   };
 
 })();

@@ -74,7 +74,7 @@ const actions = {
           `return tiaEJ.hEById.getCBItemByField('${id}', ${gT.s.browser.valueToParameter(valueStr)}, '${fieldName}');`
         );
 
-        el.click();
+        await el.click();
 
         await gT.e.wait.ajaxRequestsFinish(undefined, false);
       },

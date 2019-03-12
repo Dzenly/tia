@@ -31,7 +31,7 @@ const actions = {
           enableLog: false,
         });
 
-        row.click();
+        await row.click();
       },
       actionDesc: `clickRow (${text})`,
       enableLog,
@@ -55,13 +55,15 @@ const actions = {
           enableLog: false,
         });
 
+        await gT.sOrig.driver.actions({bridge: true})
+          .keyDown(gT.sOrig.key.CONTROL).perform();
+
         for (const row of rows) {
-          await gT.sOrig.driver.actions({bridge: true})
-            .keyDown(gT.sOrig.key.CONTROL)
-            .click(row)
-            .keyUp(gT.sOrig.key.CONTROL)
-            .perform();
+          await row.click();
         }
+
+        await gT.sOrig.driver.actions({bridge: true})
+          .keyUp(gT.sOrig.key.CONTROL).perform();
       },
       actionDesc: `ctrlClickRows (${gIn.textUtils.v2s(texts)})`,
       enableLog,

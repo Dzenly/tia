@@ -1,6 +1,8 @@
 **table#gridview-2700-record-20407.x-grid-item.x-grid-item-selected]
 тут сразу задаётся internalId рекорда.**
 
+* Улучшить везде диагностику ошибок.
+
 * EJ Explorer. Сделать, чтобы он выдавал TableCellFieldNames/TableCellColTexts строку для клика.
 
 * Сделать в any selectAll через Ctrl + a. Задействовать его для boundlist, table, tree.
