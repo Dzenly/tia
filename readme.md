@@ -488,6 +488,7 @@ If the `mailRecipientList` field in the config is empty, email will be disabled.
 * TIA_ROOT_DIR
 * TIA_REQUIRE_MODULES
 * TIA_EXTERNAL_LOG
+* TIA_NO_IDLE
 
 Use TIA_NO_COLORS - to disable ANSI colors.
 

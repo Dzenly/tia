@@ -1,6 +1,9 @@
 **table#gridview-2700-record-20407.x-grid-item.x-grid-item-selected]
 тут сразу задаётся internalId рекорда.**
 
+* Сделать по системной переменной - замену ожидания idle на sleep.
+Или просто игнор.
+
 * Улучшить везде диагностику ошибок.
 
 * EJ Explorer. Сделать, чтобы он выдавал TableCellFieldNames/TableCellColTexts строку для клика.

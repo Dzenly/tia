@@ -190,6 +190,11 @@ exports.usage = function usage() {
       --xvfb - allow to use xvfb settings from config (see DISPLAY option in config/default-dir-config.js).
       Probably useless option, taking --headless into account.
 
+    Other environment variables:
+        TIA_NO_IDLE - replaces idle wait by ajaxRequestsFinish wait.
+            It is very useful for debugging (with --use-remote-driver),
+            because the idle event is a bit rare if page was not active for some time.
+
     Examples:
         tia --root-dir <path-to-my-root-dir>
         node bin/tia.js --root-dir <path-to-my-root-dir>

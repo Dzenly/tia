@@ -24,6 +24,11 @@ exports.ajaxRequestsFinish = function ajaxRequestsFinish(timeout, enableLog) {
 };
 
 exports.idle = function idle(timeout = gT.engineConsts.defaultWaitTimeout, enableLog) {
+
+  if (process.env.TIA_NO_IDLE) {
+    return exports.ajaxRequestsFinish(timeout, enableLog);
+  }
+
   return gIn.wrap(
     'Waiting for idle ... ',
     enableLog,
