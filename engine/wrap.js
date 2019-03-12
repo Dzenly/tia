@@ -211,7 +211,7 @@ module.exports = async function wrap(msg, enableLog, act, noConsoleAndExceptions
   try {
     result = await gT.u.promise.wait(actResultPromise, gT.cLParams.hangTimeout);
   } catch (err) {
-    if (err === gT.u.promise.timeoutError) {
+    if (err.name === 'TimeoutError' || err === gT.u.promise.timeoutError) {
       gIn.logger.errorln('A.W.: Hanged action detected');
       if (!gIn.screenShotScheduled) {
         gIn.screenShotScheduled = true;
@@ -224,13 +224,15 @@ module.exports = async function wrap(msg, enableLog, act, noConsoleAndExceptions
     }
 
     gIn.tInfo.addFail();
-    gIn.logger.errorln(`A.W.: FAIL${stopTimer(startTime)}`);
+    gIn.logger.errorln(`\nA.W.: FAIL${stopTimer(startTime)}`);
     gIn.logger.errorln('A.W.: ========== Err Info Begin ==========');
     gIn.logger.errorln(`A.W.: Msg was: ${msg}`);
-    gIn.logger.exception('A.W.: Exception in wrapper: ', err);
-    gIn.logger.exception('A.W.: Exception stack: ', err.stack);
+    gIn.logger.exception('A.W.: Exception in wrapper:\n', err.toString());
+    gIn.logger.exception('A.W.: Exception stack:\n', err.stack);
 
-    gIn.logger.logResourcesUsage();
+    // if (!gIn.errRecursionCount) {
+    //     gIn.logger.logResourcesUsage();
+    // }
 
     if (gT.sOrig.driver && !gIn.errRecursionCount) {
       return handleErrorWhenDriverExistsAndRecCountZero();

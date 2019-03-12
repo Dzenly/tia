@@ -10,6 +10,10 @@
   console.log('TIA: setEBrCmpWrappers');
   window.tiaEJ.wrapCmp = function wrapCmp(cmp, args, funcName) {
 
+    if (typeof cmp === 'object' && cmp !== null && cmp.tiaErr) {
+      return cmp;
+    }
+
     var getResult = tia.cU.result;
 
     var cmpInfo = {

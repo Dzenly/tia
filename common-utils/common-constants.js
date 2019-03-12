@@ -2,7 +2,7 @@
 (function injectCommonConstants() {
   'use strict';
 
-  let container;
+  var container;
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     container = exports;
@@ -10,6 +10,8 @@
     console.log('TIA: injectCommonConstants');
     container = window.tia.cC;
   }
+
+  container.errPrefix = 'TIAERR: ';
 
   container.content = {
     colSep: ' | ', // column texts separator

@@ -2,6 +2,8 @@
 
 // import {gT} from '../../../types';
 
+const tiaErrorPropName = 'TIA_ERR';
+
 exports.queryAndAction = async function queryAndAction({
   tEQ,
   action,
@@ -15,10 +17,37 @@ exports.queryAndAction = async function queryAndAction({
   return gIn.wrap({
     msg: `Searching ExtJs cmp ${idForLog ? (`${idForLog} `) : ''}by TEQ: ${tEQ} ... `,
     enableLog,
-    act: async () => gT.s.browser.executeScriptWrapper(
-      `const { cmp, cmpInfo } = tiaEJ.searchAndWrap.byTeq('${tEQ}');`
-      + `${action};`
-    ),
+    act: async () => {
+      // eslint-disable-next-line no-undef-init
+      let result = undefined;
+      let errorStr = 'Error Stub';
+
+      try {
+        await gT.sOrig.driver.wait(
+          async () => {
+            const res = await gT.s.browser.executeScriptWrapper(
+              `const { cmp, cmpInfo, tiaErr } = tiaEJ.searchAndWrap.byTeq('${tEQ}', true);`
+              + `if (tiaErr) return {${tiaErrorPropName}: tiaErr};`
+              + `${action};`
+            );
+            if (typeof res === 'object' && res !== null && res[tiaErrorPropName]) {
+              errorStr = res[tiaErrorPropName];
+              return false;
+            }
+            result = res;
+            errorStr = '';
+            return true;
+          },
+          gT.engineConsts.timeoutForSearchByTEQ
+        );
+        return result;
+      } catch (err) {
+        if (err.name !== 'TimeoutError') {
+          throw err;
+        }
+        throw new Error(errorStr);
+      }
+    },
   });
 };
 

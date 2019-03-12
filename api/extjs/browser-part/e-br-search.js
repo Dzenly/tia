@@ -15,17 +15,18 @@
 
     str = tia.cU.replaceXTypesInTeq(str);
 
-    const re = /&(\w|\d|_|-)+/g;
+    var re = /&(\w|\d|_|-)+/g;
 
-    const searchData = [];
-    let prevLastIndex = 0;
+    var searchData = [];
+    var prevLastIndex = 0;
+    var query;
 
     while (true) {
-      const reResult = re.exec(str);
+      var reResult = re.exec(str);
 
       if (reResult === null) {
         // Only query string.
-        const query = str.slice(prevLastIndex).trim();
+        query = str.slice(prevLastIndex).trim();
         if (query) {
           searchData.push({
             query: query,
@@ -34,8 +35,8 @@
         return searchData;
       }
 
-      const query = str.slice(prevLastIndex, reResult.index).trim();
-      const reference = str.slice(reResult.index + 1, re.lastIndex).trim();
+      query = str.slice(prevLastIndex, reResult.index).trim();
+      var reference = str.slice(reResult.index + 1, re.lastIndex).trim();
       prevLastIndex = re.lastIndex;
 
       if (query) {
@@ -83,7 +84,7 @@
         var err = new Error('Component not found for id: ' + id);
         throw err;
       }
-      if (typeof cmp === null) {
+      if (cmp === null) {
         throw new Error('Class was found instead of component for id: ' + id);
       }
       return cmp;
@@ -207,7 +208,7 @@
      *
      * @return {Component}
      */
-    byTeq: function byTeq(tEQ) {
+    byTeq: function byTeq(tEQ, disableNotFoundError) {
       var searchData = parseSearchString(tEQ);
 
       if (!searchData || searchData.lengh === 0) {
@@ -227,7 +228,11 @@
           var searchRes = Ext.ComponentQuery.query(actualSelector, cmp);
 
           if (!searchRes || searchRes.length === 0) {
-            throw new Error('Component not found for selector: ' + actualSelector + '<br>tEQ: ' + tEQ);
+            var errorStr = 'Component not found for selector: ' + actualSelector + '<br>tEQ: ' + tEQ;
+            if (disableNotFoundError) {
+              return {cmp: null, cmpInfo: null, tiaErr: errorStr};
+            }
+            throw new Error(errorStr);
           }
 
           if (searchRes.length > 1) {
@@ -330,7 +335,7 @@
 
   searchFuncs.forEach(function (funcName) {
 
-    tiaEJ.searchAndWrap[funcName] = function() {
+    tiaEJ.searchAndWrap[funcName] = function () {
       var cmp = tiaEJ.search[funcName].apply(tiaEJ.search, arguments);
       return tiaEJ.wrapCmp(cmp, arguments, funcName);
     };
