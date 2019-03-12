@@ -42,3 +42,66 @@ export type ElementIdForLog = string | undefined;
  * an explanation.
  */
 export type EnableLog = boolean | undefined;
+
+/**
+ * Tuple for Field Name / Field Value or for Column Text (or Tooltip) / Field Value.
+ */
+type RowSearchParams = [string, string];
+
+/**
+ * Used to find row in some table using Model Field Names.
+ * Only visible columns are allowed.
+ */
+export interface TableCellByModelFields {
+  /**
+   * Data specifying row to click. It is such tuples:
+   * [ <Model field name>, <Model values> ]
+   */
+  row: RowSearchParams;
+
+  /**
+   * Field name, specifying column to click.
+   */
+  field: string;
+
+  /**
+   * Index inside found rows.
+   * 0 by default.
+   */
+  index?: number;
+
+  /**
+   * If true and there more then one row, exception is generated.
+   * true by default.
+   */
+  one?: boolean;
+}
+
+/**
+ * Used to find row in some table using Column texts or tooltips.
+ * Only visible columns are allowed.
+ */
+export interface TableCellByColumns {
+  /**
+   * Data specifying row to click. It is such tuples:
+   * [ <Column text or tooltip>, <Model values> ]
+   */
+  row: RowSearchParams;
+
+  /**
+   * Column text or tooltip, specifying column to click.
+   */
+  column: string;
+
+  /**
+   * Index inside found rows.
+   * 0 by default.
+   */
+  index?: number;
+
+  /**
+   * If true and there more then one row, exception is generated.
+   * true by default.
+   */
+  one?: boolean;
+}

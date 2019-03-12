@@ -41,6 +41,14 @@
       return res;
     },
 
+    /**
+     * Record for text for specific field.
+     * Only the first found result is used.
+     * @param store
+     * @param fieldName
+     * @param text
+     * @return {*}
+     */
     findRecord: function findRecord(store, fieldName, text) {
       var m = store.find(fieldName, text);
       if (!m) {
@@ -49,6 +57,14 @@
       return m;
     },
 
+    /**
+     * Records for texts for specific field.
+     * Only the first found result is used.
+     * @param store
+     * @param fieldName
+     * @param texts
+     * @return {Array}
+     */
     findRecords: function findRecords(store, fieldName, texts) {
       var records = [];
       texts.forEach(function (text) {
@@ -80,7 +96,7 @@
      * @param table
      * @param rowData
      */
-    getItem: function getItemDom(table, rowData) {
+    getItemId: function getItemId(table, rowData) {
       if (table.isPanel) {
         table = table.getView();
       }
@@ -106,12 +122,41 @@
     },
 
     /**
-     * Gets cell DOM element.
+     * Gets table cell DOM element.
      * @param table
      * @param rowData
      * @param col
      */
-    getCellDom: function getColumnDom(table, rowData, colDataIndex) {
+    getTableCellByCollTexts: function getTableCellByCollTexts(table, cellData) {
+
+      if (table.isPanel) {
+        table = table.getView();
+      }
+
+      var panel = table.ownerGrid;
+      var visColumns = panel.getVisibleColumns();
+      var foundColumn = visColumns.find(function (column) {
+        if (column.dataIndex === colDataIndex) {
+          return true;
+        }
+      });
+
+      if (!foundColumn) {
+        throw new Error('No such dataIndex in columns: ' + colDataIndex);
+      }
+
+      var cellSelector = table.getCellSelector(foundColumn);
+
+      var tableItemId = this.getItemDomId(table, rowData);
+
+      var itemDom = document.getElementById(tableItemId);
+
+      var cellDom = itemDom.querySelector(cellSelector);
+
+      return cellDom;
+    },
+
+    getTableCellByCollTexts1: function getTableCellByCollTexts1(table, cellData) {
 
       if (table.isPanel) {
         table = table.getView();

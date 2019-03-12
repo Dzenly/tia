@@ -51,11 +51,13 @@ gT_.commonMiscUtils = require('../common-utils/common-misc-utils.js');
 
 gT_.commonConsts = require('../common-utils/common-constants.js');
 
-gT_.cC = gT_.commonConsts;
+gT_.cC = gT_.commonConsts; // alias
 
 gIn.fileUtils = require('../utils/file-utils.js');
 
 gIn.textUtils = require('../utils/text-utils.js');
+
+gIn.tU = gIn.textUtils; // alias
 
 gT_.timeUtils = require('../utils/time-utils.js');
 

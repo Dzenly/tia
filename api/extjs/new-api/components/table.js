@@ -9,64 +9,35 @@ const { actions: anyActions } = require('./any');
 const { queryAndAction } = require('../tia-extjs-query');
 const { getCISRVal, getCISContent } = require('../../extjs-utils');
 
-const { inspect } = require('util');
-
 const compName = 'Table';
 
 const actions = {
-  async selectRowByEJ(tEQ, rowData, idForLog, enableLog) {
 
-    // Если это панель - найти вью.
-    // getStore().
-    // s.find()
-    //
+  // No, setSelection or setSelectionModel work unstable.
+  // async selectRowByEJ(tEQ, rowData, idForLog, enableLog) {},
 
-    // await gT.e.wait.idle(undefined, false);
-
-
-    // const objStr = inspect(localeObj, { compact: true, breakLength: 200 });
-
+  async clickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
+    const args = gIn.tU.v2s(cellData);
     return gT.e.q.wrap({
       tEQ,
       compName,
       idForLog,
       act: async () => {
-        await queryAndAction({
+        const cell = await queryAndAction({
           tEQ,
-          action: 'cmp.clearValue();',
+          action: `return tiaEJActs.getTableCell(cmp, ${args});`,
           idForLog,
           enableLog: false,
         });
+
+        cell.click();
       },
-      actionDesc: `Select row (${JSON.stringify(rowData)}) by EJ`,
-      enableLog,
-    });
-  },
-  async clickRow(tEQ, rowData, idForLog, enableLog) {
-    // Дождаться idle?
-
-    // Если это панель - найти вью.
-
-    //
-
-    return gT.e.q.wrap({
-      tEQ,
-      compName,
-      idForLog,
-      act: async () => {
-        await queryAndAction({
-          tEQ,
-          action: 'cmp.clearValue();',
-          idForLog,
-          enableLog: false,
-        });
-      },
-      actionDesc: 'Clear by EJ',
+      actionDesc: `Click cell by Col Texts: ${args}`,
       enableLog,
     });
   },
 
-  async clickColumn(tEQ, rowData, colData, idForLog, enableLog) {
+  async clickCellByFieldNames(tEQ, cellData, idForLog, enableLog) {
   },
 
   // ? setVisibleColumns
