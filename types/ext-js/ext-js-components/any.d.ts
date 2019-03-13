@@ -68,7 +68,7 @@ interface AnyComponentActions {
    * Ctrl + a, and send keys to the Component.
    * Default actionDesc is 'Ctrl +a, Send keys'
    */
-  selectAllAndSendKeysr(params: AnyComponentSendKeysParams): Promise<undefined>;
+  selectAllAndSendKeys(params: AnyComponentSendKeysParams): Promise<undefined>;
 
   /**
    * Ctrl + a, keys, ENTER to the Component.
