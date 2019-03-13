@@ -3,7 +3,7 @@
 const { getCISRVal } = require('../../extjs-utils');
 
 const { queryAndAction } = require('../tia-extjs-query');
-const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./any');
+const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./component');
 
 const compName = 'CheckBox';
 
@@ -97,7 +97,7 @@ const checks = {};
 
 const logs = {
   async rawValue(tEQ, idForLog) {
-    await gT.eC.any.l.rawValue(tEQ, compName, idForLog, val => `${val ? 'checked' : 'unchecked'}`);
+    await gT.eC.component.l.rawValue(tEQ, compName, idForLog, val => `${val ? 'checked' : 'unchecked'}`);
   },
 };
 

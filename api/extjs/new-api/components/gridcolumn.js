@@ -4,7 +4,7 @@ const {
   queryAndAction,
 } = require('../tia-extjs-query');
 
-const { actions: anyActions } = require('./any');
+const { actions: anyActions } = require('./component');
 
 const compName = 'GridColumn';
 

@@ -5,7 +5,7 @@
 const _ = require('lodash');
 
 module.exports = {
-  any: require('./any'),
+  component: require('./component'),
   boundlist: require('./boundlist'),
   button: require('./button'),
   checkbox: require('./checkbox'),
@@ -13,10 +13,10 @@ module.exports = {
   form: require('./form'),
   gridcolumn: require('./gridcolumn'),
   tab: require('./tab'),
-  table: require('./table'),
+  table: require('./tableview'),
   tabpanel: require('./tabpanel'),
   textfield: require('./textfield'),
-  tree: require('./tree'),
+  tree: require('./treeview'),
 };
 
 const inheritance = [

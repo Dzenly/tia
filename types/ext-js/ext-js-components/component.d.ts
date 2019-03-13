@@ -6,9 +6,9 @@ import {ElementIdForLog, EnableLog, Teq} from '../common';
  * E.g. by default selectAllSendKeysEnter will print 'Send keys and ENTER',
  * but for combobox you could use 'select'.
  */
-type AnyComponentActionDescription = string | undefined;
+type ComponentActionDescription = string | undefined;
 
-interface AnyComponentCommonParams {
+interface ComponentCommonParams {
   tEQ: Teq,
 
   /**
@@ -27,61 +27,61 @@ interface AnyComponentCommonParams {
    */
   idForLog: ElementIdForLog,
 
-  actionDesc: AnyComponentActionDescription,
+  actionDesc: ComponentActionDescription,
 
   enableLog: EnableLog,
 }
 
-interface AnyComponentSendKeysParams extends AnyComponentCommonParams {
+interface ComponentSendKeysParams extends ComponentCommonParams {
   keys: SeleniumKeys;
 }
 
 
-interface AnyComponentActions {
+interface ComponentActions {
   /**
    * Left mouse button click on Component.
    * Default actionDesc is 'Click Cmp'.
    */
-  clickCmp(params: AnyComponentCommonParams): Promise<undefined>;
+  clickCmp(params: ComponentCommonParams): Promise<undefined>;
 
   /**
    * Left mouse button click on Component's input element by its id.
    * Note: not all Components have an input element.
    * Default actionDesc is 'Click Input by id'.
    */
-  clickInputById(params: AnyComponentCommonParams): Promise<undefined>;
+  clickInputById(params: ComponentCommonParams): Promise<undefined>;
 
   /**
    * Left mouse button click on Component's input element by WebElement.
    * Note: not all Components have an input element.
    * Default actionDesc is 'Click Input'.
    */
-  clickInput(params: AnyComponentCommonParams): Promise<undefined>;
+  clickInput(params: ComponentCommonParams): Promise<undefined>;
 
   /**
    * Send keys to the component.
    * Default actionDesc is 'Send keys'.
    */
-  sendKeys(params: AnyComponentSendKeysParams): Promise<undefined>;
+  sendKeys(params: ComponentSendKeysParams): Promise<undefined>;
 
   /**
    * Ctrl + a, and send keys to the Component.
    * Default actionDesc is 'Ctrl +a, Send keys'
    */
-  selectAllAndSendKeys(params: AnyComponentSendKeysParams): Promise<undefined>;
+  selectAllAndSendKeys(params: ComponentSendKeysParams): Promise<undefined>;
 
   /**
    * Ctrl + a, keys, ENTER to the Component.
    * Default actionDesc is 'Ctrl +a, Send keys, Enter'
    */
-  selectAllSendKeysEnter(params: AnyComponentSendKeysParams): Promise<undefined>;
+  selectAllSendKeysEnter(params: ComponentSendKeysParams): Promise<undefined>;
 }
 
-interface AnyComponentChecks {
+interface ComponentChecks {
 
 }
 
-interface AnyComponentLogs {
+interface ComponentLogs {
 
   /**
    * Prints Raw component value to the log.
@@ -92,21 +92,21 @@ interface AnyComponentLogs {
   rawValue(tEQ: Teq, compName: string, idForLog: ElementIdForLog, mapperCb?: (val: string) => string): Promise<undefined>
 }
 
-export interface AnyComponent {
-  actions: AnyComponentActions;
+export interface Component {
+  actions: ComponentActions;
   /**
    * alias for actions.
    */
-  a: AnyComponentActions;
-  checks: AnyComponentChecks;
+  a: ComponentActions;
+  checks: ComponentChecks;
   /**
    * alias for checks.
    */
-  c: AnyComponentChecks;
-  logs: AnyComponentLogs;
+  c: ComponentChecks;
+  logs: ComponentLogs;
   /**
    * alias for logs.
    */
-  l: AnyComponentLogs;
+  l: ComponentLogs;
 }
 

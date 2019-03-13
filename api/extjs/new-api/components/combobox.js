@@ -5,7 +5,7 @@
 'use strict';
 
 // const { queryCmpInputId } = require('../tia-extjs-query');
-const { actions: anyActions } = require('./any');
+const { actions: anyActions } = require('./component');
 const { queryAndAction } = require('../tia-extjs-query');
 const { getCISRVal, getCISContent } = require('../../extjs-utils');
 

@@ -3,11 +3,11 @@
 const _ = require('lodash');
 
 // const { queryCmpInputId } = require('../tia-extjs-query');
-// const { actions: anyActions } = require('./any');
+// const { actions: anyActions } = require('./component');
 const { queryAndAction } = require('../tia-extjs-query');
 const { getCISRVal, getCISContent } = require('../../extjs-utils');
 
-const compName = 'Table';
+const compName = 'TableView';
 
 function prepareCellData(cellData) {
   // eslint-disable-next-line no-param-reassign
@@ -31,6 +31,8 @@ function prepareCellData(cellData) {
 }
 
 const actions = {
+
+  compName,
 
   // No, setSelection or setSelectionModel work unstable.
   // async selectRowByEJ(tEQ, rowData, idForLog, enableLog) {},
@@ -183,9 +185,12 @@ const actions = {
   // },
 };
 
-const checks = {};
+const checks = {
+  compName,
+};
 
 const logs = {
+  compName,
   // async content(tEQ, idForLog) {
   //   const result = await queryAndAction({
   //     tEQ,

@@ -1,7 +1,7 @@
 'use strict';
 
 const { queryAndAction } = require('../tia-extjs-query');
-const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./any');
+const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./component');
 const { getCISRVal } = require('../../extjs-utils');
 
 const compName = 'Button';

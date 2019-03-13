@@ -1,6 +1,6 @@
 import {ElementIdForLog, EnableLog, TableCellByColumns, TableCellByModelFields, Teq} from '../common';
 
-interface TableActions {
+interface TableViewActions {
   /**
    * Left mouse button click on the specified table row and cell.
    */
@@ -34,28 +34,28 @@ interface TableActions {
   doubleClickCellByModelFields(tEQ: Teq, cellData: TableCellByModelFields, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
-interface TableChecks {
+interface TableViewChecks {
 
 }
 
-interface TableLogs {
+interface TableViewLogs {
 }
 
-export interface Table {
-  actions: TableActions;
+export interface TableView {
+  actions: TableViewActions;
   /**
    * alias for actions.
    */
-  a: TableActions;
-  checks: TableChecks;
+  a: TableViewActions;
+  checks: TableViewChecks;
   /**
    * alias for checks.
    */
-  c: TableChecks;
-  logs: TableLogs;
+  c: TableViewChecks;
+  logs: TableViewLogs;
   /**
    * alias for logs.
    */
-  l: TableLogs;
+  l: TableViewLogs;
 }
 

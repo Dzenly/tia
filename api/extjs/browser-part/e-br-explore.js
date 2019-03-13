@@ -228,6 +228,7 @@
       'button',
       'checkbox',
       'combobox',
+      'component',
       'tab',
       'tabpanel',
       'textfield',
@@ -238,14 +239,14 @@
       'form',
     ],
 
-    xtypeToTiaApi: {
-      tableview: 'table',
-      treeview: 'tree',
-    },
-
-    convertXTypeToTiaApi: function (xtype) {
-      return this.xtypeToTiaApi[xtype] || xtype;
-    },
+    // xtypeToTiaApi: {
+    //   tableview: 'table',
+    //   treeview: 'tree',
+    // },
+    //
+    // convertXTypeToTiaApi: function (xtype) {
+    //   return this.xtypeToTiaApi[xtype] || xtype;
+    // },
 
     getFirstSupportedAscendant: function getFirstSupportedAscendant(xtypes) {
       var arr = xtypes.split('/');
@@ -255,7 +256,7 @@
           return xtype;
         }
       }
-      return 'any';
+      throw new Error(xtypes + ' not supported');
     },
 
     getCompHierarchy: function getCompHierarchy(comp, indent, parentsPath) {
@@ -877,7 +878,7 @@
 
       var xtypes = comp.getXTypes();
       var firstSupportedXType = this.getFirstSupportedAscendant(xtypes);
-      firstSupportedXType = this.convertXTypeToTiaApi(firstSupportedXType);
+      // firstSupportedXType = this.convertXTypeToTiaApi(firstSupportedXType);
 
       // And other stuff for form fields.
       var initialConfig = comp.getInitialConfig();

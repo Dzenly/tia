@@ -1,18 +1,18 @@
-import {AnyComponent} from './any';
+import {Component} from './component';
 import {BoundList} from './boundlist';
 import {Button} from './button';
 import {CheckBox} from './checkbox';
 import {ComboBox} from './combobox';
 import {Form} from './form';
 import {GridColumn} from './gridcolumn';
-import {Table} from './table';
+import {TableView} from './tableview';
 import {TabPanel} from './tabpanel';
 import {Tab} from './tab';
 import {TextField} from './textfield';
-import {Tree} from './tree';
+import {TreeView} from './treeview';
 
 export interface ExtJsComponents {
-  any: AnyComponent;
+  component: Component;
   boundlist: BoundList;
   button: Button;
   checkbox: CheckBox;
@@ -20,8 +20,8 @@ export interface ExtJsComponents {
   form: Form;
   gridcolumn: GridColumn;
   tab: Tab;
-  table: Table;
+  tableview: TableView;
   tabpanel: TabPanel;
   textfield: TextField;
-  tree: Tree;
+  treeview: TreeView;
 }

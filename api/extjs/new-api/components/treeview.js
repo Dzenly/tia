@@ -5,13 +5,13 @@
 'use strict';
 
 // const { queryCmpInputId } = require('../tia-extjs-query');
-const { actions: anyActions } = require('./any');
+const { actions: anyActions } = require('./component');
 const { queryAndAction } = require('../tia-extjs-query');
 const { getCISRVal, getCISContent } = require('../../extjs-utils');
 
 const { inspect } = require('util');
 
-const compName = 'Tree';
+const compName = 'TreeView';
 
 const actions = {
   async selectRowByEJ(tEQ, rowData, idForLog, enableLog) {
