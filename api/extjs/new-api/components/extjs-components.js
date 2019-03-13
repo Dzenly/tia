@@ -13,10 +13,10 @@ module.exports = {
   form: require('./form'),
   gridcolumn: require('./gridcolumn'),
   tab: require('./tab'),
-  table: require('./tableview'),
+  tableview: require('./tableview'),
   tabpanel: require('./tabpanel'),
   textfield: require('./textfield'),
-  tree: require('./treeview'),
+  treeview: require('./treeview'),
 };
 
 const inheritance = [
