@@ -1,3 +1,11 @@
+# 0.23.20
+
+Renaming:
+
+* `any` to `component`.
+* `table` to `tableview`.
+* `tree` to `treeview`. 
+
 # 0.21.21
 
 combobox: select renamed to setByKbd.
