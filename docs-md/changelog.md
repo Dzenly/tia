@@ -1,3 +1,10 @@
+# 0.25.0
+
+Changed names of functions started with `selectAll`.
+
+`selectAllAndSendKeys*` -> `sendCtrlAAndKeys*`.
+`selectAllSendKeys*` -> `sendCtrlAKeys*`.
+
 # 0.24.0
 
 Published by accident. No breaking changes.

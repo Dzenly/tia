@@ -28,7 +28,7 @@ const actions = {
     });
   },
   async setText(tEQ, text, idForLog, enableLog) {
-    return anyActions.selectAllAndSendKeys({
+    return anyActions.sendCtrlAAndKeys({
       tEQ,
       keys: text,
       compName,

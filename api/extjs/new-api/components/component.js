@@ -107,7 +107,7 @@ const actions = {
       },
     });
   },
-  async selectAllAndSendKeys({
+  async sendCtrlAAndKeys({
     tEQ,
     keys,
     compName = defaultCompName,
@@ -132,11 +132,11 @@ const actions = {
           idForLog,
           false
         );
-        await gT.s.uA.selectAllAndSendKeysById(id, realKeys, false);
+        await gT.s.uA.sendCtrlAAndKeysById(id, realKeys, false);
       },
     });
   },
-  async selectAllSendKeysEnter({
+  async sendCtrlAKeysEnter({
     tEQ,
     keys,
     compName = defaultCompName,
@@ -161,7 +161,7 @@ const actions = {
           idForLog,
           false
         );
-        await gT.s.uA.selectAllSendKeysEnterById(id, realKeys, false);
+        await gT.s.uA.sendCtrlAKeysEnterById(id, realKeys, false);
       },
     });
   },

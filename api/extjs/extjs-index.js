@@ -61,7 +61,6 @@ gT_.e.utils = require('./extjs-utils');
 gT_.e.api = require('./extjs-api-actions.js');
 gT_.e.explore = require('./extjs-exploration.js');
 gT_.e.search = require('./extjs-search.js');
-gT_.e.sendKeys = require('./extjs-send-keys.js');
 gT_.e.logCtById = require('./extjs-log-by-id.js');
 gT_.e.logCtByFormIdName = require('./extjs-log-by-formIdName.js');
 gT_.e.logUtils = require('./extjs-log-utils');

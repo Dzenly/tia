@@ -30,18 +30,18 @@ export interface SeleniumUserActionsApi {
   /**
    * Ctrl + a, then sendKeysById().
    */
-  selectAllAndSendKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
+  sendCtrlAAndKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Ctrl + a, then keys, then Enter.
    */
-  selectAllSendKeysEnterById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
+  sendCtrlAKeysEnterById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
 
 
   /**
    * Ctrl + a, then Delete.
    */
-  selectAllAndDeleteById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+  sendCtrlAAndDeleteById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Clears the value of this element. This command has no effect if the underlying DOM element is neither

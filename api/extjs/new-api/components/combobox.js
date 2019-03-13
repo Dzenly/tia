@@ -33,7 +33,7 @@ const actions = {
     });
   },
   async setByKbd(tEQ, text, idForLog, enableLog) {
-    return anyActions.selectAllSendKeysEnter({
+    return anyActions.sendCtrlAKeysEnter({
       tEQ,
       keys: text,
       compName,

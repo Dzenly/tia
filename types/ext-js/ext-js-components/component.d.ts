@@ -3,7 +3,7 @@ import {ElementIdForLog, EnableLog, Teq} from '../common';
 
 /**
  * Action description.
- * E.g. by default selectAllSendKeysEnter will print 'Send keys and ENTER',
+ * E.g. by default sendCtrlAKeysEnter will print 'Send keys and ENTER',
  * but for combobox you could use 'select'.
  */
 type ComponentActionDescription = string | undefined;
@@ -68,13 +68,13 @@ interface ComponentActions {
    * Ctrl + a, and send keys to the Component.
    * Default actionDesc is 'Ctrl +a, Send keys'
    */
-  selectAllAndSendKeys(params: ComponentSendKeysParams): Promise<undefined>;
+  sendCtrlAAndKeys(params: ComponentSendKeysParams): Promise<undefined>;
 
   /**
    * Ctrl + a, keys, ENTER to the Component.
    * Default actionDesc is 'Ctrl +a, Send keys, Enter'
    */
-  selectAllSendKeysEnter(params: ComponentSendKeysParams): Promise<undefined>;
+  sendCtrlAKeysEnter(params: ComponentSendKeysParams): Promise<undefined>;
 }
 
 interface ComponentChecks {

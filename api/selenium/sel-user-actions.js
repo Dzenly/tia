@@ -52,7 +52,7 @@ exports.sendKeysById = function sendKeysById(id, keys, enableLog) {
   );
 };
 
-exports.selectAllAndSendKeysById = function selectAllAndSendKeysById(id, keys, enableLog) {
+exports.sendCtrlAAndKeysById = function sendCtrlAAndKeysById(id, keys, enableLog) {
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
@@ -64,7 +64,7 @@ exports.selectAllAndSendKeysById = function selectAllAndSendKeysById(id, keys, e
       .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, ...keys));
 };
 
-exports.selectAllSendKeysEnterById = function selectAllAndSendKeysById(id, keys, enableLog) {
+exports.sendCtrlAKeysEnterById = function sendCtrlAKeysEnterById(id, keys, enableLog) {
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
@@ -76,7 +76,7 @@ exports.selectAllSendKeysEnterById = function selectAllAndSendKeysById(id, keys,
       .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, ...keys, wdKey.ENTER));
 };
 
-exports.selectAllAndDeleteById = function selectAllAndDeleteById(id, enableLog) {
+exports.sendCtrlAAndDeleteById = function sendCtrlAAndDeleteById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Select all and press delete for element ${id.logStr} ... `,
