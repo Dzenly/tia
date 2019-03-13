@@ -1,10 +1,14 @@
+# 0.24.0
+
+Published by accident. No breaking changes.
+
 # 0.23.20
 
 Renaming:
 
 * `any` to `component`.
 * `table` to `tableview`.
-* `tree` to `treeview`. 
+* `tree` to `treeview`.
 
 # 0.21.21
 
