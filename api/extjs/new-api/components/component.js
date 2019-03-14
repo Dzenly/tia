@@ -10,7 +10,7 @@ const compName = 'Component';
 
 const actions = {
   compName,
-  async clickCmp(tEQ, idForLog = '', enableLog) {
+  async click(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)}: Click Cmp: ... `,
       enableLog,
@@ -24,7 +24,7 @@ const actions = {
       },
     });
   },
-  async dblClickCmp(tEQ, idForLog = '', enableLog) {
+  async dblClick(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)}: Dbl Click Cmp: ... `,
       enableLog,

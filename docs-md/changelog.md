@@ -1,3 +1,16 @@
+# 0.26
+
+Huge refactoring. Sorry, I hope this is the last huge one :)
+
+* clickCmp -> click
+* All component action functions previously taken object as parameter,
+but now they take common argument list.
+* Inheritance, just like in ExtJs is used in TIA EJ API now.
+* Added a few functions to EJ Component and to Selenium API.
+* Changed `Sending` to `Send` in Selenium API logging.
+* Removed `setText` from `textfield`, use API from Component, there are many functions for text input,
+including `Ctrl + a` usage.
+
 # 0.25.0
 
 Changed names of functions started with `selectAll`.

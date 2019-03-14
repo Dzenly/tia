@@ -4,16 +4,6 @@ import {ComponentActions, ComponentChecks} from './component';
 
 interface ComboBoxActions extends ComponentActions {
   /**
-   * Left mouse button click.
-   */
-  click(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
-
-  /**
-   * Send keys to the component.
-   */
-  sendKeys(tEQ: Teq, keys: SeleniumKeys, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
-
-  /**
    * Ctrl + a, Send text by keys, and ENTER to the component.
    */
   setByKbd(tEQ: Teq, text: SeleniumKeys, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;

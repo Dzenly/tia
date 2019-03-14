@@ -2,10 +2,6 @@ import {ElementIdForLog, EnableLog, Teq} from '../common';
 import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 
 interface GridColumnActions extends ComponentActions {
-  /**
-   * Left mouse GridColumn click.
-   */
-  click(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Left mouse clock on GridColumn trigger element.

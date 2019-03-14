@@ -2,10 +2,6 @@ import {ElementIdForLog, EnableLog, Teq} from '../common';
 import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 
 interface CheckBoxActions extends ComponentActions {
-  /**
-   * Left mouse button click.
-   */
-  click(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Clicks on input checkbox element if checkbox is not checked.

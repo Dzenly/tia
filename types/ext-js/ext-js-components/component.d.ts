@@ -12,14 +12,16 @@ export interface ComponentActions {
   /**
    * Left mouse button click on Component.
    * Default actionDesc is 'Click Cmp'.
+   * Note: if it does not work, try clickInput().
    */
-  clickCmp(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+  click(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Left mouse button double click on Component.
    * Default actionDesc is 'Click Cmp'.
+   * * Note: if it does not work, try dblClickInput().
    */
-  doubleClickCmp(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+  doubleClick(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Left mouse button click on Component's input element by WebElement.

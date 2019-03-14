@@ -11,15 +11,6 @@ const compName = 'GridColumn';
 const actions = {
   compName,
 
-  async click(tEQ, idForLog, enableLog) {
-    return cmpActions.clickCmp({
-      tEQ,
-      compName,
-      idForLog,
-      actionDesc: 'Click',
-      enableLog,
-    });
-  },
   async clickTrigger(tEQ, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
