@@ -19,17 +19,15 @@ const checks = {
 
 const logs = {
   compName,
-
-  // async content(tEQ, idForLog) {
-  //   const result = await queryAndAction({
-  //     tEQ,
-  //     action: 'return tiaEJ.ctByObj.getCB(cmp);',
-  //     idForLog,
-  //     enableLog: false,
-  //   });
-  //
-  //   gIn.logger.logln(getCISContent('Content', tEQ, compName, idForLog, result));
-  // },
+  async content(tEQ, includingStores, idForLog) {
+    const result = await queryAndAction({
+      tEQ,
+      action: `return tiaEJ.ctByObj.getForm(cmp, ${includingStores});`,
+      idForLog,
+      enableLog: false,
+    });
+    gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result, true));
+  },
 };
 
 module.exports = {

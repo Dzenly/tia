@@ -614,7 +614,7 @@
         var self = this;
         comp.items.each(function (item) {
           str += self.getFormChild(item, includingStores, indent + '  ');
-        })
+        });
       }
       return str + indent + tia.cC.content.rowSep1 + '\n';// tia.cC.content.wrapEx(indent, str);
     },
