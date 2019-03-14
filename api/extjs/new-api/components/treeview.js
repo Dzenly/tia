@@ -5,7 +5,7 @@
 'use strict';
 
 // const { queryCmpInputId } = require('../tia-extjs-query');
-const { actions: anyActions } = require('./component');
+const { actions: cmpActions } = require('./component');
 const { queryAndAction } = require('../tia-extjs-query');
 const { getCISRVal, getCISContent } = require('../../extjs-utils');
 
@@ -14,6 +14,8 @@ const { inspect } = require('util');
 const compName = 'TreeView';
 
 const actions = {
+  compName,
+
   async selectRowByEJ(tEQ, rowData, idForLog, enableLog) {
 
     // Если это панель - найти вью.
@@ -74,19 +76,12 @@ const actions = {
 
 };
 
-const checks = {};
+const checks = {
+  compName,
+};
 
 const logs = {
-  async rawValue(tEQ, idForLog) {
-    const result = await queryAndAction({
-      tEQ,
-      action: 'return tiaEJ.ctByObj.getCBSelectedVals(cmp);',
-      idForLog,
-      enableLog: false,
-    });
-
-    gIn.logger.logln(getCISRVal(tEQ, compName, idForLog, result));
-  },
+  compName,
 
   async content(tEQ, idForLog) {
     const result = await queryAndAction({

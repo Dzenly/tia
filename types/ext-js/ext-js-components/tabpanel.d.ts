@@ -1,6 +1,7 @@
 import {ElementIdForLog, EnableLog, Teq} from '../common';
+import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 
-interface TabPanelActions {
+interface TabPanelActions extends ComponentActions {
   /**
    * Sets the active card using card id.
    * This is non - Selenium action based on
@@ -11,11 +12,11 @@ interface TabPanelActions {
   setActiveTabByCardId(tEQ: Teq, cardId: string, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
-interface TabPanelChecks {
+interface TabPanelChecks extends ComponentChecks {
 
 }
 
-interface TabPanelLogs {
+interface TabPanelLogs extends ComponentLogs {
 
 }
 

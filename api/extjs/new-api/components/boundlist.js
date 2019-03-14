@@ -7,7 +7,7 @@
 const _ = require('lodash');
 
 // const { queryCmpInputId } = require('../tia-extjs-query');
-const { actions: anyActions } = require('./component');
+const { actions: cmpActions } = require('./component');
 const { queryAndAction } = require('../tia-extjs-query');
 const { getCISRVal, getCISContent } = require('../../extjs-utils');
 
@@ -16,6 +16,8 @@ const { inspect } = require('util');
 const compName = 'BoundList';
 
 const actions = {
+  compName,
+
   async clickRow(tEQ, text, idForLog, enableLog) {
     // Дождаться idle?
     const valueStr = gT.e.utils.locKeyToStr(text);
@@ -55,14 +57,14 @@ const actions = {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({bridge: true})
+        await gT.sOrig.driver.actions({ bridge: true })
           .keyDown(gT.sOrig.key.CONTROL).perform();
 
         for (const row of rows) {
           await row.click();
         }
 
-        await gT.sOrig.driver.actions({bridge: true})
+        await gT.sOrig.driver.actions({ bridge: true })
           .keyUp(gT.sOrig.key.CONTROL).perform();
       },
       actionDesc: `ctrlClickRows (${gIn.textUtils.v2s(texts)})`,
@@ -71,9 +73,12 @@ const actions = {
   },
 };
 
-const checks = {};
+const checks = {
+  compName,
+};
 
 const logs = {
+  compName,
 
   // TODO: доделать.
   async contentByStore(tEQ, idForLog) {

@@ -5,7 +5,7 @@
 'use strict';
 
 // const { queryCmpInputId } = require('../tia-extjs-query');
-const { actions: anyActions } = require('./component');
+const { actions: cmpActions } = require('./component');
 const { queryAndAction } = require('../tia-extjs-query');
 const { getCISRVal, getCISContent } = require('../../extjs-utils');
 
@@ -14,40 +14,18 @@ const { getCISRVal, getCISContent } = require('../../extjs-utils');
 const compName = 'ComboBox';
 
 const actions = {
-  async click(tEQ, idForLog, enableLog) {
-    return anyActions.clickInput({
-      tEQ,
-      compName,
-      idForLog,
-      actionDesc: 'Click',
-      enableLog,
-    });
-  },
-  async sendKeys(tEQ, keys, idForLog, enableLog) {
-    return anyActions.sendKeys({
-      tEQ,
-      keys,
-      compName,
-      idForLog,
-      enableLog,
-    });
-  },
+  compName,
+
   async setByKbd(tEQ, text, idForLog, enableLog) {
-    return anyActions.sendCtrlAKeysEnter({
-      tEQ,
-      keys: text,
-      compName,
-      idForLog,
-      actionDesc: 'setByKbd',
-      enableLog,
-    });
+    // Унаследована от Component.
+    return this.sendCtrlAKeysEnter(tEQ, text, idForLog, enableLog);
   },
   async setByMouse(tEQ, text, idForLog, enableLog) {
     const valueStr = gT.e.utils.locKeyToStr(text);
 
     let actionDesc = `Set by mouse: '${text}'`;
     if (valueStr !== text && gT.e.utils.debugLocale) {
-      actionDesc += `("${valueStr}")`
+      actionDesc += `("${valueStr}")`;
     }
 
     return gT.e.q.wrap({
@@ -102,9 +80,12 @@ const actions = {
   },
 };
 
-const checks = {};
+const checks = {
+  compName,
+};
 
 const logs = {
+  compName,
   async rawValue(tEQ, idForLog) {
     const result = await queryAndAction({
       tEQ,

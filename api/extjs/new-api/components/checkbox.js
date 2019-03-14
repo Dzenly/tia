@@ -3,20 +3,12 @@
 const { getCISRVal } = require('../../extjs-utils');
 
 const { queryAndAction } = require('../tia-extjs-query');
-const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./component');
+const { actions: cmpActions, checks: anyChecks, logs: anyLogs } = require('./component');
 
 const compName = 'CheckBox';
 
 const actions = {
-  async click(tEQ, idForLog, enableLog) {
-    return anyActions.clickInput({
-      tEQ,
-      compName,
-      idForLog,
-      actionDesc: 'Click',
-      enableLog,
-    });
-  },
+  compName,
   async check(tEQ, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
@@ -93,11 +85,14 @@ const actions = {
   },
 };
 
-const checks = {};
+const checks = {
+  compName,
+};
 
 const logs = {
+  compName,
   async rawValue(tEQ, idForLog) {
-    await gT.eC.component.l.rawValue(tEQ, compName, idForLog, val => `${val ? 'checked' : 'unchecked'}`);
+    await gT.eC.component.l.rawValue(tEQ, idForLog, val => `${val ? 'checked' : 'unchecked'}`);
   },
 };
 

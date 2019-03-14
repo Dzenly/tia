@@ -2,12 +2,14 @@
 
 const { queryAndAction } = require('../tia-extjs-query');
 
-const cmpName = 'TabPanel';
+const compName = 'TabPanel';
 
 const actions = {
+  compName,
+
   async setActiveTabByCardId(tEQ, cardId, idForLog, enableLog) {
     return gIn.wrap({
-      msg: `${cmpName} ${idForLog ? `${idForLog} ` : ''}"${tEQ}": select tab by cardId: "${cardId}" ... `,
+      msg: `${compName} ${idForLog ? `${idForLog} ` : ''}"${tEQ}": select tab by cardId: "${cardId}" ... `,
       enableLog,
       act: () => queryAndAction({
         tEQ,
@@ -18,9 +20,13 @@ const actions = {
   },
 };
 
-const checks = {};
+const checks = {
+  compName,
+};
 
-const logs = {};
+const logs = {
+  compName,
+};
 
 module.exports = {
   actions,

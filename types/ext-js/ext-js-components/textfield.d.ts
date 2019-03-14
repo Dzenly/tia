@@ -1,7 +1,8 @@
 import {SeleniumKeys} from '../../selenium/user-actions';
 import {ElementIdForLog, EnableLog, Teq} from '../common';
+import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 
-interface TextFieldActions {
+interface TextFieldActions extends ComponentActions {
   /**
    * Left mouse button click.
    */
@@ -18,11 +19,11 @@ interface TextFieldActions {
   setText(tEQ: Teq, text: SeleniumKeys, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
-interface TextFieldChecks {
+interface TextFieldChecks extends ComponentChecks {
 
 }
 
-interface TextFieldLogs {
+interface TextFieldLogs extends ComponentLogs {
 
   /**
    * Prints the value to the test log.

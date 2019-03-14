@@ -1,6 +1,7 @@
 import {ElementIdForLog, EnableLog, Teq} from '../common';
+import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 
-interface CheckBoxActions {
+interface CheckBoxActions extends ComponentActions {
   /**
    * Left mouse button click.
    */
@@ -27,11 +28,11 @@ interface CheckBoxActions {
   uncheckByEJ(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
-interface CheckBoxChecks {
+interface CheckBoxChecks extends ComponentChecks {
 
 }
 
-interface CheckBoxLogs {
+interface CheckBoxLogs extends ComponentLogs {
 
   /**
    * Prints 'checked' or 'unchecked'.

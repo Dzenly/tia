@@ -19,8 +19,26 @@ module.exports = {
   treeview: require('./treeview'),
 };
 
+// const entries = Object.entries(module.exports);
+//
+// for (const [xtype, obj] of entries) {
+//   if (xtype !== 'component') {
+//     _.defaultsDeep(module.exports[item[0]], module.exports[item[1]]);
+//   }
+// }
+
 const inheritance = [
-  // ['tree', 'table'],
+  ['boundlist', 'component'],
+  ['button', 'component'],
+  ['checkbox', 'component'],
+  ['combobox', 'component'],
+  ['form', 'component'],
+  ['gridcolumn', 'component'],
+  ['tab', 'component'],
+  ['tableview', 'component'],
+  ['tabpanel', 'component'],
+  ['textfield', 'component'],
+  ['treeview', 'tableview'],
 ];
 
 inheritance.forEach((item) => {

@@ -1,7 +1,7 @@
 'use strict';
 
 const { queryCmpInputId, queryAndAction } = require('../tia-extjs-query');
-const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./component');
+const { actions: cmpActions, checks: anyChecks, logs: anyLogs } = require('./component');
 const { getCISRVal } = require('../../extjs-utils');
 
 const compName = 'TextField';
@@ -9,42 +9,15 @@ const compName = 'TextField';
 // TODO: задействовать везде idForLog.
 
 const actions = {
-  async click(tEQ, idForLog, enableLog) {
-    return anyActions.clickInput({
-      tEQ,
-      compName,
-      idForLog,
-      actionDesc: 'Click',
-      enableLog,
-    });
-  },
-  async sendKeys(tEQ, keys, idForLog, enableLog) {
-    return anyActions.sendKeys({
-      tEQ,
-      keys,
-      compName,
-      idForLog,
-      enableLog,
-    });
-  },
-  async setText(tEQ, text, idForLog, enableLog) {
-    return anyActions.sendCtrlAAndKeys({
-      tEQ,
-      keys: text,
-      compName,
-      idForLog,
-      actionDesc: 'Set text',
-      enableLog,
-    });
-  },
+  compName,
 };
 
-const checks = {};
+const checks = {
+  compName,
+};
 
 const logs = {
-  async rawValue(tEQ, idForLog) {
-    await gT.eC.component.l.rawValue(tEQ, compName, idForLog);
-  },
+  compName,
 };
 
 module.exports = {

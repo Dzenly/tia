@@ -1,13 +1,14 @@
 import {ElementIdForLog, EnableLog, Teq} from '../common';
+import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 
-interface TreeViewActions {
+interface TreeViewActions extends ComponentActions {
 }
 
-interface TreeViewChecks {
+interface TreeViewChecks extends ComponentChecks {
 
 }
 
-interface TreeViewLogs {
+interface TreeViewLogs extends ComponentLogs {
 }
 
 export interface TreeView {

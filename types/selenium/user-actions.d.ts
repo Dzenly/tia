@@ -19,13 +19,51 @@ type SeleniumKeys = string | string[];
 
 export interface SeleniumUserActionsApi {
 
+  /**
+   * Let mouse button click to element specified by id.
+   */
   clickById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Let mouse button double click to element specified by id.
+   */
+  dblClickById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_WebElement.html#sendKeys
    * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/input_exports_Key.html#Key.chord
    */
   sendKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sends DOWN key to element specified by id.
+   */
+  sendDownById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sends UP key to element specified by id.
+   */
+  sendUpById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sends ENTER key to element specified by id.
+   */
+  sendEnterById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sends TAB key to element specified by id.
+   */
+  sendTabById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sends PAGE_DOWN key to element specified by id.
+   */
+  sendPgDownById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sends PAGE_UP key to element specified by id.
+   */
+  sendPgUpById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Ctrl + a, then sendKeysById().

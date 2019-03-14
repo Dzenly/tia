@@ -1,13 +1,14 @@
 import {ElementIdForLog, EnableLog, TableCellByColumns, TableCellByModelFields, Teq} from '../common';
+import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 
-interface FormActions {
+interface FormActions extends ComponentActions {
 }
 
-interface FormChecks {
+interface FormChecks extends ComponentChecks {
 
 }
 
-interface FormLogs {
+interface FormLogs extends ComponentLogs {
 }
 
 export interface Form {

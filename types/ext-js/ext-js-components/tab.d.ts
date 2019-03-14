@@ -1,17 +1,18 @@
 import {ElementIdForLog, EnableLog, Teq} from '../common';
+import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 
-interface TabActions {
+interface TabActions extends ComponentActions {
   /**
    * Left mouse button click.
    */
   click(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
-interface TabChecks {
+interface TabChecks extends ComponentChecks {
 
 }
 
-interface TabLogs {
+interface TabLogs extends ComponentLogs {
 
 }
 

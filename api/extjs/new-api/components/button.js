@@ -1,7 +1,7 @@
 'use strict';
 
 const { queryAndAction } = require('../tia-extjs-query');
-const { actions: anyActions, checks: anyChecks, logs: anyLogs } = require('./component');
+const { actions: cmpActions, checks: anyChecks, logs: anyLogs } = require('./component');
 const { getCISRVal } = require('../../extjs-utils');
 
 const compName = 'Button';
@@ -9,20 +9,15 @@ const compName = 'Button';
 // TODO: задействовать везде idForLog.
 
 const actions = {
-  async click(tEQ, idForLog, enableLog) {
-    return anyActions.clickCmp({
-      tEQ,
-      compName,
-      idForLog,
-      actionDesc: 'Click',
-      enableLog,
-    });
-  },
+  compName,
 };
 
-const checks = {};
+const checks = {
+  compName,
+};
 
 const logs = {
+  compName,
   async info(tEQ, idForLog) {
     const result = await queryAndAction({
       tEQ,

@@ -1,6 +1,7 @@
 import {ElementIdForLog, EnableLog, Teq} from '../common';
+import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 
-interface BoundListActions {
+interface BoundListActions extends ComponentActions {
 
   /**
    * Left mouse button click on the item containing the given text.
@@ -16,11 +17,11 @@ interface BoundListActions {
   ctrlClickRows(tEQ: Teq, texts: string[], idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
-interface BoundListChecks {
+interface BoundListChecks extends ComponentChecks {
 
 }
 
-interface BoundListLogs {
+interface BoundListLogs extends ComponentLogs {
   /**
    * Prints all displayField values from the store.
    */

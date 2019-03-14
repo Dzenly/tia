@@ -1,95 +1,121 @@
 import {SeleniumKeys} from '../../selenium/user-actions';
 import {ElementIdForLog, EnableLog, Teq} from '../common';
 
-/**
- * Action description.
- * E.g. by default sendCtrlAKeysEnter will print 'Send keys and ENTER',
- * but for combobox you could use 'select'.
- */
-type ComponentActionDescription = string | undefined;
-
-interface ComponentCommonParams {
-  tEQ: Teq,
+export interface ComponentActions {
 
   /**
-   * Component name, used for logging.
-   * Default value is 'ANY Cmp', so it makes sense to always specify this parameter.
+   * Component name for logs.
+   * Overridden in descendants.
    */
   compName: string;
 
   /**
-   * Extra info to identify the component for log.
-   * '' by default.
-   *
-   * Note: This property is needed only if your xtypes, references, ids names are ugly and uninformative.
-   * So you should force your coders to use beauty and informative ones and dont use idForLog.
-   *
-   */
-  idForLog: ElementIdForLog,
-
-  actionDesc: ComponentActionDescription,
-
-  enableLog: EnableLog,
-}
-
-interface ComponentSendKeysParams extends ComponentCommonParams {
-  keys: SeleniumKeys;
-}
-
-
-interface ComponentActions {
-  /**
    * Left mouse button click on Component.
    * Default actionDesc is 'Click Cmp'.
    */
-  clickCmp(params: ComponentCommonParams): Promise<undefined>;
+  clickCmp(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
-   * Left mouse button click on Component's input element by its id.
-   * Note: not all Components have an input element.
-   * Default actionDesc is 'Click Input by id'.
+   * Left mouse button double click on Component.
+   * Default actionDesc is 'Click Cmp'.
    */
-  clickInputById(params: ComponentCommonParams): Promise<undefined>;
+  doubleClickCmp(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Left mouse button click on Component's input element by WebElement.
    * Note: not all Components have an input element.
    * Default actionDesc is 'Click Input'.
    */
-  clickInput(params: ComponentCommonParams): Promise<undefined>;
+  clickInput(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
-   * Send keys to the component.
+   * Left mouse button double click on Component's input element by WebElement.
+   * Note: not all Components have an input element.
+   * Default actionDesc is 'Click Input'.
+   */
+  dblClickInput(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sends DOWN key to the component.
+   * Can be used to open boundlist, e.g. in combobox, or splitbutton.
+   * Or to move selection in a table.
+   */
+  sendDown(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sends UP key to the component.
+   * Can be used e.g. to move selection in a table.
+   */
+  sendUp(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sends ENTER key to the component.
+   * E.g. for save value to form.
+   */
+  sendEnter(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sends TAB key to the component.
+   * E.g. to move to next form field.
+   */
+  sendTab(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sends PAGE_DOWN key to the component.
+   * Can be used e.g. to move selection in a table.
+   */
+  sendPgDown(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sends PAGE_UP key to the component.
+   * Can be used e.g. to move selection in a table.
+   */
+  sendPgUp(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Sends keys to the component.
    * Default actionDesc is 'Send keys'.
    */
-  sendKeys(params: ComponentSendKeysParams): Promise<undefined>;
+  sendKeys(tEQ: Teq, keys: SeleniumKeys, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Ctrl + a, and send keys to the Component.
    * Default actionDesc is 'Ctrl +a, Send keys'
    */
-  sendCtrlAAndKeys(params: ComponentSendKeysParams): Promise<undefined>;
+  sendCtrlAAndKeys(tEQ: Teq, keys: SeleniumKeys, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
    * Ctrl + a, keys, ENTER to the Component.
    * Default actionDesc is 'Ctrl +a, Send keys, Enter'
    */
-  sendCtrlAKeysEnter(params: ComponentSendKeysParams): Promise<undefined>;
+  sendCtrlAKeysEnter(tEQ: Teq, keys: SeleniumKeys, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
-interface ComponentChecks {
+export interface ComponentChecks {
+
+  /**
+   * Component name for logs.
+   * Overridden in descendants.
+   */
+  compName: string;
 
 }
 
-interface ComponentLogs {
+export interface ComponentLogs {
+
+  /**
+   * Component name for logs.
+   * Overridden in descendants.
+   */
+  compName: string;
 
   /**
    * Prints Raw component value to the log.
    * See ExtJs docs on getRawValue for the corresponding Component.
    * @param compName - the Component name (textfield, checkbox, etc.)
-   * @param mapperCb - callback to map a raw value to a log string. if omitted - val is used as is.
+   * @param mapperCallback - callback to map a raw value to a log string. if omitted - val is used as is.
    */
-  rawValue(tEQ: Teq, compName: string, idForLog: ElementIdForLog, mapperCb?: (val: string) => string): Promise<undefined>
+  rawValue(tEQ: Teq, compName: string, idForLog: ElementIdForLog, mapperCallback?: (val: string) => string): Promise<undefined>
 }
 
 export interface Component {

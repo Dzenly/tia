@@ -4,13 +4,15 @@ const {
   queryAndAction,
 } = require('../tia-extjs-query');
 
-const { actions: anyActions } = require('./component');
+const { actions: cmpActions } = require('./component');
 
 const compName = 'GridColumn';
 
 const actions = {
+  compName,
+
   async click(tEQ, idForLog, enableLog) {
-    return anyActions.clickCmp({
+    return cmpActions.clickCmp({
       tEQ,
       compName,
       idForLog,
@@ -48,9 +50,13 @@ const actions = {
   },
 };
 
-const checks = {};
+const checks = {
+  compName,
+};
 
-const logs = {};
+const logs = {
+  compName,
+};
 
 module.exports = {
   actions,

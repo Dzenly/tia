@@ -1,7 +1,8 @@
 import {SeleniumKeys} from '../../selenium/user-actions';
 import {ElementIdForLog, EnableLog, Teq} from '../common';
+import {ComponentActions, ComponentChecks} from './component';
 
-interface ComboBoxActions {
+interface ComboBoxActions extends ComponentActions {
   /**
    * Left mouse button click.
    */
@@ -29,7 +30,7 @@ interface ComboBoxActions {
   clearByEJ(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
-interface ComboBoxChecks {
+interface ComboBoxChecks extends ComponentChecks {
 
 }
 

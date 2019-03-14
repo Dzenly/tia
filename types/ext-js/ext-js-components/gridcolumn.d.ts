@@ -1,6 +1,7 @@
 import {ElementIdForLog, EnableLog, Teq} from '../common';
+import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 
-interface GridColumnActions {
+interface GridColumnActions extends ComponentActions {
   /**
    * Left mouse GridColumn click.
    */
@@ -12,11 +13,11 @@ interface GridColumnActions {
   clickTrigger(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
-interface GridColumnChecks {
+interface GridColumnChecks extends ComponentChecks {
 
 }
 
-interface GridColumnLogs {
+interface GridColumnLogs extends ComponentLogs {
 }
 
 export interface GridColumn {

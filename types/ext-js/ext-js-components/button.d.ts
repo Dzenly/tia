@@ -1,17 +1,18 @@
 import {ElementIdForLog, EnableLog, Teq} from '../common';
+import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 
-interface ButtonActions {
+interface ButtonActions extends ComponentActions {
   /**
    * Left mouse button click.
    */
   click(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
-interface ButtonChecks {
+interface ButtonChecks extends ComponentChecks {
 
 }
 
-interface ButtonLogs {
+interface ButtonLogs extends ComponentLogs {
 
   /**
    * Prints info about the button which user can see on the display.
