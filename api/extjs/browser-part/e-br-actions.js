@@ -164,10 +164,11 @@
       console.log(internalIds);
 
       if (cellData.one && (internalIds.length > 1)) {
-        throw new Error('getTableCellByColumnTexts: one is true, but found ' + internalIds.length + ' records.')
+        throw new Error('getTableCellByColumnTexts: one is true, but found ' + internalIds.length + ' records.');
       }
 
-      var internalId = internalIds[cellData.index];
+      var internalId = (cellData.index < 0) ? internalIds[internalIds.length + cellData.index] :
+        internalIds[cellData.index];
       var rowDomId = this.getRowDomId(table, internalId);
 
       var rowDom = document.getElementById(rowDomId);
@@ -207,10 +208,11 @@
       console.log(internalIds);
 
       if (cellData.one && (internalIds.length > 1)) {
-        throw new Error('getTableCellByColumnTexts: one is true, but found ' + internalIds.length + ' records.')
+        throw new Error('getTableCellByColumnTexts: one is true, but found ' + internalIds.length + ' records.');
       }
 
-      var internalId = internalIds[cellData.index];
+      var internalId = (cellData.index < 0) ? internalIds[internalIds.length + cellData.index] :
+        internalIds[cellData.index];
       var rowDomId = this.getRowDomId(table, internalId);
 
       var rowDom = document.getElementById(rowDomId);

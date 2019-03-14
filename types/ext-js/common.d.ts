@@ -65,8 +65,9 @@ export interface TableCellByModelFields {
   field: string;
 
   /**
-   * Index inside found rows.
+   * Index inside found rows. Note 'FOUND' and not 'ALL'.
    * 0 by default.
+   * Negative index is subtracted from length. I.e. -1 means last. -2 means before last, etc.
    */
   index?: number;
 
@@ -94,8 +95,9 @@ export interface TableCellByColumns {
   column: string;
 
   /**
-   * Index inside found rows.
+   * Index inside found rows. Note 'FOUND' and not 'ALL'.
    * 0 by default.
+   * Negative index is subtracted from length. I.e. -1 means last. -2 means before last, etc.
    */
   index?: number;
 
