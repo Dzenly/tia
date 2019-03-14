@@ -62,6 +62,10 @@ export interface TableViewChecks extends ComponentChecks {
 }
 
 export interface TableViewLogs extends ComponentLogs {
+  /**
+   * Prints the table content to the test log.
+   */
+  content(tEQ: Teq, idForLog: ElementIdForLog): Promise<undefined>;
 }
 
 export interface TableView {

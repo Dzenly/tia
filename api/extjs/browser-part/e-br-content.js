@@ -311,14 +311,14 @@
       var arr = cols.map(function (col) {
         // col.textEl.dom.textContent // slower but more honest.
         // TODO: getConfig().tooltip - проверить.
-        var text = col.text;
+        var text = tiaEJ.convertTextToFirstLocKey(col.text);
         if (text === col.emptyCellText) {
-          text = '<emptyCellText>';
+          text = ''; // <emptyCell>
         }
         var info = col.getConfig('xtype') + ': "' + text + '"';
         var toolTip = col.getConfig().toolTip;
         if (toolTip) {
-          info += ', toolTip: ' + toolTip;
+          info += ', toolTip: ' + tiaEJ.convertTextToFirstLocKey(toolTip);
         }
         // if (col.items) {
         //   info += ', items: ' + JSON.stringify(col.items);
@@ -715,7 +715,7 @@
       }
 
       var arr = [];
-      var title = this.getParentTitle(table);
+      var title = tiaEJ.convertTextToFirstLocKey(this.getParentTitle(table));
 
       // tiaEJ.ctMisc.fillDebugInfo(table, arr);
 
@@ -748,9 +748,9 @@
             imgSrcs = ' Image sources: ' + imgSrcs.join(',');
           }
 
-          var textContent = domCol.textContent;
+          var textContent = tiaEJ.convertTextToFirstLocKey(domCol.textContent);
           if (textContent === extCol.emptyCellText) {
-            textContent = '<emptyCellText>';
+            textContent = ''; // <emptyCellText>
           }
 
           if (extCol.getConfig('xtype') === 'actioncolumn') {
@@ -798,9 +798,9 @@
 
         var idSuffix = '';
 
-        if (id) {
-          idSuffix = ' (id: ' + id + ')';
-        }
+        // if (id) {
+        //   idSuffix = ' (id: ' + id + ')';
+        // }
 
         if (textsArr.length) {
           arr.push(textsArr.join(tia.cC.content.colSep) + idSuffix);

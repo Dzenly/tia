@@ -9,6 +9,10 @@ interface TreeViewChecks extends TableViewChecks {
 }
 
 interface TreeViewLogs extends TableViewLogs {
+  /**
+   * Prints the tree content to the test log.
+   */
+  content(tEQ: Teq, idForLog: ElementIdForLog): Promise<undefined>;
 }
 
 export interface TreeView {

@@ -53,5 +53,8 @@ exports.init = function init(enableLog) {
     document.addEventListener('keydown', tiaEJOnKeyDown);
     `;
     return gT.s.browser.executeScriptWrapper(scriptStr);
-  }).then(() => gT.s.browser.setDebugMode()).then(() => gT.s.browser.setBodyClicker());
+  })
+
+  // .then(() => gT.s.browser.setDebugMode())
+    .then(() => gT.s.browser.setBodyClicker());
 };

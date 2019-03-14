@@ -26,6 +26,9 @@ exports.setLocaleObject = function setLocaleObject(objExpression, enableLog) {
   });
 };
 
+// TODO:
+// exports.setImagesMap
+
 gT_.e.extraLocale = {};
 gT_.e.invertedExtraLocaleFirstKey = {};
 gT_.e.invertedExtraLocaleAllKeys = {};
@@ -127,8 +130,8 @@ exports.getCISRVal = function getCISRVal(tEQ, compName, idForLog = '', val) {
 };
 
 // eslint-disable-next-line max-params
-exports.getCISContent = function getCISContent(prefix, tEQ, compName, idForLog = '', val) {
-  const valArg = gT.cC.content.wrap(val);
+exports.getCISContent = function getCISContent(prefix, tEQ, compName, idForLog = '', val, noWrap) {
+  const valArg = noWrap ? val : gT.cC.content.wrap(val);
   return `${prefix}: ${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}":\n${valArg}`;
 };
 

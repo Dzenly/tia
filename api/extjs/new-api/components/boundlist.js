@@ -91,7 +91,7 @@ const logs = {
 
     result = result.join('\n');
 
-    gIn.logger.logln(getCISContent('Content by store', tEQ, compName, idForLog, result));
+    gIn.logger.logln(getCISContent('Content by store', tEQ, this.compName, idForLog, result));
   },
 
   async contentByInnerText(tEQ, idForLog) {
@@ -104,7 +104,7 @@ const logs = {
 
     result = result.join('\n');
 
-    gIn.logger.logln(getCISContent('Content by inner text', tEQ, compName, idForLog, result));
+    gIn.logger.logln(getCISContent('Content by inner text', tEQ, this.compName, idForLog, result));
   },
 
   async selectedContentByInnerText(tEQ, idForLog) {
@@ -117,7 +117,7 @@ const logs = {
 
     result = result.join('\n');
 
-    gIn.logger.logln(getCISContent('Selected content by inner text', tEQ, compName, idForLog, result));
+    gIn.logger.logln(getCISContent('Selected content by inner text', tEQ, this.compName, idForLog, result));
   },
 };
 

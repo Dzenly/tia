@@ -274,15 +274,53 @@ const checks = {
 const logs = {
   compName,
 
-  // async content(tEQ, idForLog) {
-  //   const result = await queryAndAction({
+  async content(tEQ, idForLog) {
+    const result = await queryAndAction({
+      tEQ,
+      action: 'return tiaEJ.ctByObj.getTable(cmp);',
+      idForLog,
+      enableLog: false,
+    });
+    gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result, true));
+  },
+
+  // async contentByStore(tEQ, idForLog) {
+  //   let result = await queryAndAction({
   //     tEQ,
-  //     action: 'return tiaEJ.ctByObj.getCB(cmp);',
+  //     action: 'return tiaEJ.ctByObj.getBoundListByStore(cmp);',
   //     idForLog,
   //     enableLog: false,
   //   });
   //
-  //   gIn.logger.logln(getCISContent('Content', tEQ, compName, idForLog, result));
+  //   result = result.join('\n');
+  //
+  //   gIn.logger.logln(getCISContent('Content by store', tEQ, this.compName, idForLog, result));
+  // },
+  //
+  // async contentByInnerText(tEQ, idForLog) {
+  //   let result = await queryAndAction({
+  //     tEQ,
+  //     action: 'return tiaEJ.ctByObj.getBoundListByInnerText(cmp);',
+  //     idForLog,
+  //     enableLog: false,
+  //   });
+  //
+  //   result = result.join('\n');
+  //
+  //   gIn.logger.logln(getCISContent('Content by inner text', tEQ, this.compName, idForLog, result));
+  // },
+  //
+  // async selectedContentByInnerText(tEQ, idForLog) {
+  //   let result = await queryAndAction({
+  //     tEQ,
+  //     action: 'return tiaEJ.ctByObj.getBoundListSelectedItemsByInnerText(cmp);',
+  //     idForLog,
+  //     enableLog: false,
+  //   });
+  //
+  //   result = result.join('\n');
+  //
+  //   gIn.logger.logln(getCISContent('Selected content by inner text', tEQ, this.compName, idForLog, result));
   // },
 };
 

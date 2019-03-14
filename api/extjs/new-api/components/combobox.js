@@ -94,7 +94,7 @@ const logs = {
       enableLog: false,
     });
 
-    gIn.logger.logln(getCISRVal(tEQ, compName, idForLog, result));
+    gIn.logger.logln(getCISRVal(tEQ, this.compName, idForLog, result));
   },
 
   async content(tEQ, idForLog) {
@@ -105,7 +105,7 @@ const logs = {
       enableLog: false,
     });
 
-    gIn.logger.logln(getCISContent('Content', tEQ, compName, idForLog, result));
+    gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result));
   },
 };
 
