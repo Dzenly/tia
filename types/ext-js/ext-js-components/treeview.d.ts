@@ -3,6 +3,12 @@ import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 import {TableViewActions, TableViewChecks, TableViewLogs} from './tableview';
 
 interface TreeViewActions extends TableViewActions {
+
+  /**
+   * Left mouse button click on the item containing the given text.
+   * @param text - Text for the item to click.
+   */
+  clickItem(tEQ: Teq, text: string, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
 interface TreeViewChecks extends TableViewChecks {

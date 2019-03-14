@@ -107,6 +107,14 @@
       return node;
     },
 
+    getTreeListItem: function getTreeListItem(tree, text) {
+      var panel = tree.ownerCt;
+      var displayField = panel.displayField;
+      var index = this.findRecord(tree.getStore(), displayField, text);
+      var node = tree.getNode(index);
+      return node;
+    },
+
     getBoundListItems: function getBoundListItems(bl, texts) {
       var indexes = this.findRecords(bl.getStore(), bl.displayField, texts);
       var nodes = indexes.map(function (index) {

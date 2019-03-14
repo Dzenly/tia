@@ -16,64 +16,27 @@ const compName = 'TreeView';
 const actions = {
   compName,
 
-  // async selectRowByEJ(tEQ, rowData, idForLog, enableLog) {
-  //
-  //   // Если это панель - найти вью.
-  //   // getStore().
-  //   // s.find()
-  //   //
-  //
-  //   // await gT.e.wait.idle(undefined, false);
-  //
-  //
-  //   // const objStr = inspect(localeObj, { compact: true, breakLength: 200 });
-  //
-  //   return gT.e.q.wrap({
-  //     tEQ,
-  //     compName,
-  //     idForLog,
-  //     act: async () => {
-  //       await queryAndAction({
-  //         tEQ,
-  //         action: 'cmp.clearValue();',
-  //         idForLog,
-  //         enableLog: false,
-  //       });
-  //     },
-  //     actionDesc: `Select row (${JSON.stringify(rowData)}) by EJ`,
-  //     enableLog,
-  //   });
-  // },
-  // async clickRow(tEQ, rowData, idForLog, enableLog) {
-  //   // Дождаться idle?
-  //
-  //   // Если это панель - найти вью.
-  //
-  //   //
-  //
-  //   return gT.e.q.wrap({
-  //     tEQ,
-  //     compName,
-  //     idForLog,
-  //     act: async () => {
-  //       await queryAndAction({
-  //         tEQ,
-  //         action: 'cmp.clearValue();',
-  //         idForLog,
-  //         enableLog: false,
-  //       });
-  //     },
-  //     actionDesc: 'Clear by EJ',
-  //     enableLog,
-  //   });
-  // },
-  //
-  // async clickColumn(tEQ, rowData, colData, idForLog, enableLog) {
-  // },
+  async clickItem(tEQ, text, idForLog, enableLog) {
+    // Дождаться idle?
+    const valueStr = gT.e.utils.locKeyToStr(text);
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const row = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getTreeListItem(cmp, '${valueStr}');`,
+          idForLog,
+          enableLog: false,
+        });
 
-  // ? setVisibleColumns
-  // ? setSort
-
+        await row.click();
+      },
+      actionDesc: `Click Item (${text})`,
+      enableLog,
+    });
+  },
 };
 
 const checks = {

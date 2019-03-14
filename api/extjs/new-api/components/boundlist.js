@@ -35,7 +35,7 @@ const actions = {
 
         await row.click();
       },
-      actionDesc: `clickRow (${text})`,
+      actionDesc: `Click Row (${text})`,
       enableLog,
     });
   },
@@ -67,7 +67,7 @@ const actions = {
         await gT.sOrig.driver.actions({ bridge: true })
           .keyUp(gT.sOrig.key.CONTROL).perform();
       },
-      actionDesc: `ctrlClickRows (${gIn.textUtils.v2s(texts)})`,
+      actionDesc: `Ctrl Click Rows (${gIn.textUtils.v2s(texts)})`,
       enableLog,
     });
   },
