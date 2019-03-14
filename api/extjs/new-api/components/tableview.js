@@ -59,6 +59,88 @@ const actions = {
     });
   },
 
+  async clickFirstRowCellByColText(tEQ, colText, idForLog, enableLog) {
+    const colTextArg = gT.e.utils.locKeyToStr(colText);
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const cell = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getFirstRowCellByColumnText(cmp, '${colTextArg}');`,
+          idForLog,
+          enableLog: false,
+        });
+
+        await cell.click();
+      },
+      actionDesc: `Click first row cell by Col Text: ${colText}`,
+      enableLog,
+    });
+  },
+
+  async clickLastRowCellByColText(tEQ, colText, idForLog, enableLog) {
+    const colTextArg = gT.e.utils.locKeyToStr(colText);
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const cell = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getLastRowCellByColumnText(cmp, '${colTextArg}');`,
+          idForLog,
+          enableLog: false,
+        });
+
+        await cell.click();
+      },
+      actionDesc: `Click last row cell by Col Text: ${colText}`,
+      enableLog,
+    });
+  },
+
+  async clickFirstRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const cell = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getFirstRowCellByModelField(cmp, '${fieldName}');`,
+          idForLog,
+          enableLog: false,
+        });
+
+        await cell.click();
+      },
+      actionDesc: `Click first row cell by Model Field: ${fieldName}`,
+      enableLog,
+    });
+  },
+
+  async clickLastRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const cell = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getLastRowCellByModelField(cmp, '${fieldName}');`,
+          idForLog,
+          enableLog: false,
+        });
+
+        await cell.click();
+      },
+      actionDesc: `Click last row cell by Model Field: ${fieldName}`,
+      enableLog,
+    });
+  },
+
   async doubleClickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 

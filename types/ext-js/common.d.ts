@@ -90,7 +90,7 @@ export interface TableCellByColumns {
   row: RowSearchParams;
 
   /**
-   * Column text or tooltip, specifying column to click.
+   * Column header text or tooltip, specifying column to click.
    */
   column: string;
 

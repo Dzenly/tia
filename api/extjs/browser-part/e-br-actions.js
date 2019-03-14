@@ -177,6 +177,126 @@
       return cellDom;
     },
 
+    getFirstRowCellByColumnText: function getFirstRowCellByColumnText(table, colText) {
+      if (table.isPanel) {
+        table = table.getView();
+      }
+      var panel = table.ownerGrid;
+      var visColumns = panel.getVisibleColumns();
+      var cellSelector = null;
+
+      visColumns.forEach(function (col) {
+        if (col.text === colText || col.tooltip === colText) {
+          cellSelector = table.getCellSelector(col);
+        }
+      });
+
+      if (!cellSelector) {
+        throw new Error('Column ' + colText + ' not found in visible columns');
+      }
+
+      var s = table.getStore();
+      var count = s.getCount();
+      if (count === 0) {
+        throw new Error('Store is empty.');
+      }
+      var internalId = s.getAt(0).internalId;
+      var rowDomId = this.getRowDomId(table, internalId);
+
+      var rowDom = document.getElementById(rowDomId);
+      return rowDom.querySelector(cellSelector);
+    },
+
+    getLastRowCellByColumnText: function getLastRowCellByColumnText(table, colText) {
+
+      if (table.isPanel) {
+        table = table.getView();
+      }
+      var panel = table.ownerGrid;
+      var visColumns = panel.getVisibleColumns();
+      var cellSelector = null;
+
+      visColumns.forEach(function (col) {
+        if (col.text === colText || col.tooltip === colText) {
+          cellSelector = table.getCellSelector(col);
+        }
+      });
+
+      if (!cellSelector) {
+        throw new Error('Column ' + colText + ' not found in visible columns');
+      }
+
+      var s = table.getStore();
+      var count = s.getCount();
+      if (count === 0) {
+        throw new Error('Store is empty.');
+      }
+      var internalId = s.getAt(count - 1).internalId;
+      var rowDomId = this.getRowDomId(table, internalId);
+      var rowDom = document.getElementById(rowDomId);
+      return rowDom.querySelector(cellSelector);
+    },
+
+    getFirstRowCellByModelField: function getFirstRowCellByModelField(table, fieldName) {
+      if (table.isPanel) {
+        table = table.getView();
+      }
+      var panel = table.ownerGrid;
+      var visColumns = panel.getVisibleColumns();
+      var cellSelector = null;
+
+      visColumns.forEach(function (col) {
+        if (col.dataIndex === fieldName) {
+          cellSelector = table.getCellSelector(col);
+        }
+      });
+
+      if (!cellSelector) {
+        throw new Error('dataIndex ' + fieldName + ' not found in visible columns');
+      }
+
+      var s = table.getStore();
+      var count = s.getCount();
+      if (count === 0) {
+        throw new Error('Store is empty.');
+      }
+      var internalId = s.getAt(0).internalId;
+      var rowDomId = this.getRowDomId(table, internalId);
+
+      var rowDom = document.getElementById(rowDomId);
+      return rowDom.querySelector(cellSelector);
+    },
+
+    getLastRowCellByModelField: function getLastRowCellByModelField(table, fieldName) {
+
+      if (table.isPanel) {
+        table = table.getView();
+      }
+      var panel = table.ownerGrid;
+      var visColumns = panel.getVisibleColumns();
+      var cellSelector = null;
+
+      visColumns.forEach(function (col) {
+        if (col.dataIndex === fieldName) {
+          cellSelector = table.getCellSelector(col);
+        }
+      });
+
+      if (!cellSelector) {
+        throw new Error('dataIndex ' + fieldName + ' not found in visible columns');
+      }
+
+      var s = table.getStore();
+      var count = s.getCount();
+      if (count === 0) {
+        throw new Error('Store is empty.');
+      }
+      var internalId = s.getAt(count - 1).internalId;
+      var rowDomId = this.getRowDomId(table, internalId);
+      var rowDom = document.getElementById(rowDomId);
+      return rowDom.querySelector(cellSelector);
+    },
+
     getTableCellByModelFields: function getTableCellByModelFields(table, cellData) {
       if (table.isPanel) {
         table = table.getView();

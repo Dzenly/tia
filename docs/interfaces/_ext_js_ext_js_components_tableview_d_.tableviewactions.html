@@ -101,7 +101,11 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#click" class="tsd-kind-icon">click</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#clickcellbycoltexts" class="tsd-kind-icon">click<wbr>Cell<wbr>ByCol<wbr>Texts</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#clickcellbymodelfields" class="tsd-kind-icon">click<wbr>Cell<wbr>ByModel<wbr>Fields</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#clickfirstrowcellbycoltext" class="tsd-kind-icon">click<wbr>First<wbr>Row<wbr>Cell<wbr>ByCol<wbr>Text</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#clickfirstrowcellbymodelfield" class="tsd-kind-icon">click<wbr>First<wbr>Row<wbr>Cell<wbr>ByModel<wbr>Field</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#clickinput" class="tsd-kind-icon">click<wbr>Input</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#clicklastrowcellbycoltext" class="tsd-kind-icon">click<wbr>Last<wbr>Row<wbr>Cell<wbr>ByCol<wbr>Text</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#clicklastrowcellbymodelfield" class="tsd-kind-icon">click<wbr>Last<wbr>Row<wbr>Cell<wbr>ByModel<wbr>Field</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#ctrlclickcellbycoltexts" class="tsd-kind-icon">ctrl<wbr>Click<wbr>Cell<wbr>ByCol<wbr>Texts</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#ctrlclickcellbymodelfields" class="tsd-kind-icon">ctrl<wbr>Click<wbr>Cell<wbr>ByModel<wbr>Fields</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#dblclickinput" class="tsd-kind-icon">dbl<wbr>Click<wbr>Input</a></li>
@@ -196,7 +200,7 @@
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Left mouse button click on the specified table row and cell.</p>
+									<p>Left mouse button click on the specified table cell.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -233,7 +237,7 @@
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Left mouse button click on the specified table row and cell.</p>
+									<p>Left mouse button click on the specified table cell.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -243,6 +247,88 @@
 								</li>
 								<li>
 									<h5>cellData: <a href="_ext_js_common_d_.tablecellbymodelfields.html" class="tsd-signature-type">TableCellByModelFields</a></h5>
+								</li>
+								<li>
+									<h5>idForLog: <a href="../modules/_ext_js_common_d_.html#elementidforlog" class="tsd-signature-type">ElementIdForLog</a></h5>
+								</li>
+								<li>
+									<h5>enableLog: <a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="clickfirstrowcellbycoltext" class="tsd-anchor"></a>
+					<h3>click<wbr>First<wbr>Row<wbr>Cell<wbr>ByCol<wbr>Text</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">click<wbr>First<wbr>Row<wbr>Cell<wbr>ByCol<wbr>Text<span class="tsd-signature-symbol">(</span>tEQ<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a>, colText<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, idForLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#elementidforlog" class="tsd-signature-type">ElementIdForLog</a>, enableLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in ext-js/ext-js-components/tableview.d.ts:19</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Left mouse button click on the specified column in the first table row.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>coltext</dt>
+									<dd><ul>
+											<li>the column header text or tooltip.</li>
+										</ul>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>tEQ: <a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a></h5>
+								</li>
+								<li>
+									<h5>colText: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>idForLog: <a href="../modules/_ext_js_common_d_.html#elementidforlog" class="tsd-signature-type">ElementIdForLog</a></h5>
+								</li>
+								<li>
+									<h5>enableLog: <a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="clickfirstrowcellbymodelfield" class="tsd-anchor"></a>
+					<h3>click<wbr>First<wbr>Row<wbr>Cell<wbr>ByModel<wbr>Field</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">click<wbr>First<wbr>Row<wbr>Cell<wbr>ByModel<wbr>Field<span class="tsd-signature-symbol">(</span>tEQ<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a>, fieldName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, idForLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#elementidforlog" class="tsd-signature-type">ElementIdForLog</a>, enableLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in ext-js/ext-js-components/tableview.d.ts:25</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Left mouse button click on the specified column in the first table row.
+									The cell column is specified by the model field name.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>tEQ: <a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a></h5>
+								</li>
+								<li>
+									<h5>fieldName: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5>idForLog: <a href="../modules/_ext_js_common_d_.html#elementidforlog" class="tsd-signature-type">ElementIdForLog</a></h5>
@@ -293,6 +379,88 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="clicklastrowcellbycoltext" class="tsd-anchor"></a>
+					<h3>click<wbr>Last<wbr>Row<wbr>Cell<wbr>ByCol<wbr>Text</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">click<wbr>Last<wbr>Row<wbr>Cell<wbr>ByCol<wbr>Text<span class="tsd-signature-symbol">(</span>tEQ<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a>, colText<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, idForLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#elementidforlog" class="tsd-signature-type">ElementIdForLog</a>, enableLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in ext-js/ext-js-components/tableview.d.ts:31</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Left mouse button click on the specified column in the last table row.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>coltext</dt>
+									<dd><ul>
+											<li>the column header text or tooltip.</li>
+										</ul>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>tEQ: <a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a></h5>
+								</li>
+								<li>
+									<h5>colText: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>idForLog: <a href="../modules/_ext_js_common_d_.html#elementidforlog" class="tsd-signature-type">ElementIdForLog</a></h5>
+								</li>
+								<li>
+									<h5>enableLog: <a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="clicklastrowcellbymodelfield" class="tsd-anchor"></a>
+					<h3>click<wbr>Last<wbr>Row<wbr>Cell<wbr>ByModel<wbr>Field</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">click<wbr>Last<wbr>Row<wbr>Cell<wbr>ByModel<wbr>Field<span class="tsd-signature-symbol">(</span>tEQ<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a>, fieldName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, idForLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#elementidforlog" class="tsd-signature-type">ElementIdForLog</a>, enableLog<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in ext-js/ext-js-components/tableview.d.ts:37</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Left mouse button click on the specified column in the last table row.
+									The cell column is specified by the model field name.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>tEQ: <a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a></h5>
+								</li>
+								<li>
+									<h5>fieldName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>idForLog: <a href="../modules/_ext_js_common_d_.html#elementidforlog" class="tsd-signature-type">ElementIdForLog</a></h5>
+								</li>
+								<li>
+									<h5>enableLog: <a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
 					<a name="ctrlclickcellbycoltexts" class="tsd-anchor"></a>
 					<h3>ctrl<wbr>Click<wbr>Cell<wbr>ByCol<wbr>Texts</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
@@ -302,13 +470,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/tableview.d.ts:19</li>
+									<li>Defined in ext-js/ext-js-components/tableview.d.ts:42</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Ctrl + Left mouse button click on the specified table row and cell.
-									Can be used to select many rows.</p>
+									<p>Ctrl + Left mouse button click on the specified table cell.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -340,13 +507,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/tableview.d.ts:25</li>
+									<li>Defined in ext-js/ext-js-components/tableview.d.ts:47</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Ctrl + Left mouse button click on the specified table row and cell.
-									Can be used to select many rows.</p>
+									<p>Ctrl + Left mouse button click on the specified table cell.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -454,12 +620,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/tableview.d.ts:30</li>
+									<li>Defined in ext-js/ext-js-components/tableview.d.ts:52</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Left mouse button double click on the specified table row and cell.</p>
+									<p>Left mouse button double click on the specified table cell.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -491,12 +657,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/tableview.d.ts:35</li>
+									<li>Defined in ext-js/ext-js-components/tableview.d.ts:57</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Left mouse button double click on the specified table row and cell.</p>
+									<p>Left mouse button double click on the specified table cell.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -887,8 +1053,20 @@
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
 								<a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#clickcellbymodelfields" class="tsd-kind-icon">click<wbr>Cell<wbr>ByModel<wbr>Fields</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#clickfirstrowcellbycoltext" class="tsd-kind-icon">click<wbr>First<wbr>Row<wbr>Cell<wbr>ByCol<wbr>Text</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#clickfirstrowcellbymodelfield" class="tsd-kind-icon">click<wbr>First<wbr>Row<wbr>Cell<wbr>ByModel<wbr>Field</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
 								<a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#clickinput" class="tsd-kind-icon">click<wbr>Input</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#clicklastrowcellbycoltext" class="tsd-kind-icon">click<wbr>Last<wbr>Row<wbr>Cell<wbr>ByCol<wbr>Text</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#clicklastrowcellbymodelfield" class="tsd-kind-icon">click<wbr>Last<wbr>Row<wbr>Cell<wbr>ByModel<wbr>Field</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
 								<a href="_ext_js_ext_js_components_tableview_d_.tableviewactions.html#ctrlclickcellbycoltexts" class="tsd-kind-icon">ctrl<wbr>Click<wbr>Cell<wbr>ByCol<wbr>Texts</a>
