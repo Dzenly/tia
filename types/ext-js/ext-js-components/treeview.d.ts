@@ -1,14 +1,14 @@
 import {ElementIdForLog, EnableLog, Teq} from '../common';
 import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
-import {TableViewActions} from './tableview';
+import {TableViewActions, TableViewChecks, TableViewLogs} from './tableview';
 
 interface TreeViewActions extends TableViewActions {
 }
 
-interface TreeViewChecks extends TableViewActions {
+interface TreeViewChecks extends TableViewChecks {
 }
 
-interface TreeViewLogs extends TableViewActions {
+interface TreeViewLogs extends TableViewLogs {
 }
 
 export interface TreeView {

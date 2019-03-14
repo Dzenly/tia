@@ -35,11 +35,11 @@ interface TableViewActions extends ComponentActions {
   doubleClickCellByModelFields(tEQ: Teq, cellData: TableCellByModelFields, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
-interface TableViewChecks extends ComponentChecks {
+export interface TableViewChecks extends ComponentChecks {
 
 }
 
-interface TableViewLogs extends ComponentLogs {
+export interface TableViewLogs extends ComponentLogs {
 }
 
 export interface TableView {
