@@ -24,16 +24,40 @@ const actions = {
       compName,
       idForLog,
       act: async () => {
-        const row = await queryAndAction({
+        const item = await queryAndAction({
           tEQ,
           action: `return tiaEJActs.getTreeListItem(cmp, '${valueStr}');`,
           idForLog,
           enableLog: false,
         });
 
-        await row.click();
+        await item.click();
       },
       actionDesc: `Click Item (${text})`,
+      enableLog,
+    });
+  },
+
+  async doubleClickItem(tEQ, text, idForLog, enableLog) {
+    // Дождаться idle?
+    const valueStr = gT.e.utils.locKeyToStr(text);
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const item = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getTreeListItem(cmp, '${valueStr}');`,
+          idForLog,
+          enableLog: false,
+        });
+
+        await gT.sOrig.driver.actions({ bridge: true })
+          .doubleClick(item)
+          .perform();
+      },
+      actionDesc: `Double Click Item (${text})`,
       enableLog,
     });
   },

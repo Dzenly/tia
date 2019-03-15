@@ -9,6 +9,12 @@ interface TreeViewActions extends TableViewActions {
    * @param text - Text for the item to click.
    */
   clickItem(tEQ: Teq, text: string, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
+   * Left mouse button double click on the item containing the given text.
+   * @param text - Text for the item to click.
+   */
+  doubleClickItem(tEQ: Teq, text: string, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
 interface TreeViewChecks extends TableViewChecks {
