@@ -668,10 +668,10 @@
         var propVal = comp[propName];
         if (propVal && !(typeof propVal === 'object')) { // For header title, title is object.
 
-          curSelector = xtype + '[' + propName + '=' + propVal + ']';
           curChildSep = getChildSep(curSelector);
 
           propVal = this.replaceToLocKeys(propVal);
+          curSelector = xtype + '[' + propName + '=' + propVal + ']';
 
           if (!parentComp/* && (xtype === 'window' || xtype === 'messagebox')*/) {
             return xtype + '[' + propName + '=' + propVal + ']';

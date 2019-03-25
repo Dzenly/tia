@@ -1,4 +1,4 @@
-Time Is All (log-driven test engine with ExtJs support)
+Time Is All (log-driven test engine with ExtJs classic support)
 
 <!-- toc -->
 

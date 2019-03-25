@@ -256,9 +256,13 @@
         return '"' + tiaEJ.getLocaleValue(key, true) + '"';
       });
       var re = /l"(.*?)"/g;
-      return result.replace(re, function (m, key) {
+      result = result.replace(re, function (m, key) {
         return '"' + tiaEJ.getLocaleValue(key) + '"';
       });
+
+      result = result.replace(/,/g, '\\,');
+
+      return result;
     },
 
     /**
