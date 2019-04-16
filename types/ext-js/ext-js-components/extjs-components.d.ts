@@ -4,6 +4,7 @@ import {Button} from './button';
 import {CheckBox} from './checkbox';
 import {ComboBox} from './combobox';
 import {Form} from './form';
+import {FormFieldBase} from './form-field-base';
 import {GridColumn} from './gridcolumn';
 import {TableView} from './tableview';
 import {TabPanel} from './tabpanel';
@@ -13,6 +14,7 @@ import {TreeView} from './treeview';
 
 export interface ExtJsComponents {
   component: Component;
+  formFieldBase: FormFieldBase;
   boundlist: BoundList;
   button: Button;
   checkbox: CheckBox;

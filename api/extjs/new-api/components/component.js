@@ -161,7 +161,7 @@ const actions = {
     }
 
     return gIn.wrap({
-      msg: `${getCIS(tEQ, this.compName, idForLog)} '${keysArg}' ... `,
+      msg: `${getCIS(tEQ, this.compName, idForLog)} sendKeys: '${keysArg}' ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpInputId(
@@ -182,7 +182,7 @@ const actions = {
     }
 
     return gIn.wrap({
-      msg: `${getCIS(tEQ, this.compName, idForLog)} '${keysArg}' ... `,
+      msg: `${getCIS(tEQ, this.compName, idForLog)} Send Ctrl + A and keys: '${keysArg}' ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpInputId(
@@ -203,7 +203,7 @@ const actions = {
     }
 
     return gIn.wrap({
-      msg: `${getCIS(tEQ, this.compName, idForLog)} '${keysArg}' ... `,
+      msg: `${getCIS(tEQ, this.compName, idForLog)} Send Ctrl + A, keys, ENTER: '${keysArg}' ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpInputId(
@@ -223,19 +223,6 @@ const checks = {
 
 const logs = {
   compName,
-  async rawValue(tEQ, idForLog, mapperCallback) {
-    const { val, disp } = await queryAndAction({
-      tEQ,
-      action: 'return { val: cmp.getRawValue(), disp: tiaEJ.ctByObj.getCompDispIdProps(cmp)};',
-      idForLog,
-      enableLog: false,
-    });
-
-    const result = mapperCallback ? mapperCallback(val) : val;
-    gIn.logger.logln(getCISRVal(
-      tEQ, this.compName, `${idForLog ? `${idForLog} ` : ''}${disp}:`, result
-    ));
-  },
 };
 
 module.exports = {

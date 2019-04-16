@@ -6,6 +6,7 @@ const _ = require('lodash');
 
 module.exports = {
   component: require('./component'),
+  formFieldBase: require('./form-field-base'),
   boundlist: require('./boundlist'),
   button: require('./button'),
   checkbox: require('./checkbox'),
@@ -28,16 +29,17 @@ module.exports = {
 // }
 
 const inheritance = [
+  ['formFieldBase', 'component'],
   ['boundlist', 'component'],
   ['button', 'component'],
-  ['checkbox', 'component'],
-  ['combobox', 'component'],
+  ['checkbox', 'formFieldBase'],
+  ['combobox', 'formFieldBase'],
   ['form', 'component'],
   ['gridcolumn', 'component'],
   ['tab', 'component'],
   ['tableview', 'component'],
   ['tabpanel', 'component'],
-  ['textfield', 'component'],
+  ['textfield', 'formFieldBase'],
   ['treeview', 'tableview'],
 ];
 

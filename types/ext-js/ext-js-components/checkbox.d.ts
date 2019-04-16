@@ -1,7 +1,7 @@
 import {ElementIdForLog, EnableLog, Teq} from '../common';
-import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
+import {FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs} from './form-field-base';
 
-interface CheckBoxActions extends ComponentActions {
+interface CheckBoxActions extends FormFieldBaseActions {
 
   /**
    * Clicks on input checkbox element if checkbox is not checked.
@@ -24,11 +24,11 @@ interface CheckBoxActions extends ComponentActions {
   uncheckByEJ(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
-interface CheckBoxChecks extends ComponentChecks {
+interface CheckBoxChecks extends FormFieldBaseChecks {
 
 }
 
-interface CheckBoxLogs extends ComponentLogs {
+interface CheckBoxLogs extends FormFieldBaseLogs {
 
   /**
    * Prints 'checked' or 'unchecked'.

@@ -1,8 +1,8 @@
 import {SeleniumKeys} from '../../selenium/user-actions';
 import {ElementIdForLog, EnableLog, Teq} from '../common';
-import {ComponentActions, ComponentChecks} from './component';
+import {FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs} from './form-field-base';
 
-interface ComboBoxActions extends ComponentActions {
+interface ComboBoxActions extends FormFieldBaseActions {
   /**
    * Ctrl + a, Send text by keys, and ENTER to the component.
    */
@@ -20,11 +20,11 @@ interface ComboBoxActions extends ComponentActions {
   clearByEJ(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 }
 
-interface ComboBoxChecks extends ComponentChecks {
+interface ComboBoxChecks extends FormFieldBaseChecks {
 
 }
 
-interface ComboBoxLogs {
+interface ComboBoxLogs extends FormFieldBaseLogs {
 
   /**
    * Prints the selected value or values to the test log.

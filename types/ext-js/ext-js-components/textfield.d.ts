@@ -1,14 +1,12 @@
-import {SeleniumKeys} from '../../selenium/user-actions';
-import {ElementIdForLog, EnableLog, Teq} from '../common';
-import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
+import {FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs} from './form-field-base';
 
-interface TextFieldActions extends ComponentActions {
+interface TextFieldActions extends FormFieldBaseActions {
 }
 
-interface TextFieldChecks extends ComponentChecks {
+interface TextFieldChecks extends FormFieldBaseChecks {
 }
 
-interface TextFieldLogs extends ComponentLogs {
+interface TextFieldLogs extends FormFieldBaseLogs {
 }
 
 export interface TextField {
