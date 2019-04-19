@@ -58,6 +58,15 @@ exports.dblClickById = function dblClickById(id, enableLog) {
   );
 };
 
+exports.sendEscById = function sendDownById(id, enableLog) {
+  id = gT.s.idToIdObj(id);
+  return gIn.wrap(
+    `Send Esc to element ${id.logStr} ... `,
+    enableLog,
+    () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id))
+      .sendKeys(wdKey.ESCAPE));
+};
+
 exports.sendDownById = function sendDownById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(

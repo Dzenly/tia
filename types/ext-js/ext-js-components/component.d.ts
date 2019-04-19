@@ -38,6 +38,12 @@ export interface ComponentActions {
   dblClickInput(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
 
   /**
+   * Sends ESC key to the component.
+   * Can be used, e.g. to close boundlist in combobox.
+   */
+  sendEsc(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+
+  /**
    * Sends DOWN key to the component.
    * Can be used to open boundlist, e.g. in combobox, or splitbutton.
    * Or to move selection in a table.

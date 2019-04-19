@@ -68,6 +68,20 @@ const actions = {
       },
     });
   },
+  async sendEsc(tEQ, idForLog = '', enableLog) {
+    return gIn.wrap({
+      msg: `${getCIS(tEQ, this.compName, idForLog)} Send ESC ... `,
+      enableLog,
+      act: async () => {
+        const id = await queryCmpInputId(
+          tEQ,
+          idForLog,
+          false
+        );
+        await gT.s.uA.sendEscById(id, false);
+      },
+    });
+  },
   async sendDown(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send DOWN ... `,

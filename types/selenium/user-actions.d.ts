@@ -36,6 +36,11 @@ export interface SeleniumUserActionsApi {
   sendKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
 
   /**
+   * Sends ESC key to element specified by id.
+   */
+  sendEscById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+
+  /**
    * Sends DOWN key to element specified by id.
    */
   sendDownById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
