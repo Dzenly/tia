@@ -26,6 +26,20 @@ const actions = {
       },
     });
   },
+  async rClick(tEQ, idForLog = '', enableLog) {
+    return gIn.wrap({
+      msg: `${getCIS(tEQ, this.compName, idForLog)}: Right Click Cmp: ... `,
+      enableLog,
+      act: async () => {
+        const id = await queryCmpId(
+          tEQ,
+          idForLog,
+          false
+        );
+        await gT.s.uA.rClickById(id, false);
+      },
+    });
+  },
   async dblClick(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)}: Dbl Click Cmp: ... `,
@@ -51,6 +65,20 @@ const actions = {
           false
         );
         await gT.s.uA.clickById(id, false);
+      },
+    });
+  },
+  async rClickInput(tEQ, idForLog = '', enableLog) {
+    return gIn.wrap({
+      msg: `${getCIS(tEQ, this.compName, idForLog)} Right Click Cmp Input ... `,
+      enableLog,
+      act: async () => {
+        const id = await queryCmpInput(
+          tEQ,
+          idForLog,
+          false
+        );
+        await gT.s.uA.rClickById(id, false);
       },
     });
   },

@@ -17,6 +17,13 @@ export interface ComponentActions {
   click(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
+   * Right mouse button click on Component.
+   * Default actionDesc is 'Right Click Cmp'.
+   * Note: if it does not work, try clickInput().
+   */
+  rClick(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
    * Left mouse button double click on Component.
    * Default actionDesc is 'Click Cmp'.
    * * Note: if it does not work, try dblClickInput().
@@ -29,6 +36,13 @@ export interface ComponentActions {
    * Default actionDesc is 'Click Input'.
    */
   clickInput(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
+   * Right mouse button click on Component's input element by WebElement.
+   * Note: not all Components have an input element.
+   * Default actionDesc is 'Click Input'.
+   */
+  rClickInput(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Left mouse button double click on Component's input element by WebElement.

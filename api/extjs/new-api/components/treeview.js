@@ -38,6 +38,30 @@ const actions = {
     });
   },
 
+  async rClickItem(tEQ, text, idForLog, enableLog) {
+    // Дождаться idle?
+    const valueStr = gT.e.utils.locKeyToStr(text);
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const item = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getTreeListItem(cmp, '${valueStr}');`,
+          idForLog,
+          enableLog: false,
+        });
+
+        await gT.sOrig.driver.actions({ bridge: true })
+          .contextClick(item)
+          .perform();
+      },
+      actionDesc: `Right Click Item (${text})`,
+      enableLog,
+    });
+  },
+
   async doubleClickItem(tEQ, text, idForLog, enableLog) {
     // Дождаться idle?
     const valueStr = gT.e.utils.locKeyToStr(text);

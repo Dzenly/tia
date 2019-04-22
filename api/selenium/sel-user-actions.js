@@ -33,6 +33,33 @@ exports.clickById = function clickById(id, enableLog) {
 };
 
 /**
+ * Right Click to element specified by id.
+ *
+ * @param id
+ * @param enableLog -  enable/disable logging for this action.
+ * @returns {Promise.<TResult>}
+ */
+exports.rClickById = function rClickById(id, enableLog) {
+  id = gT.s.idToIdObj(id);
+  return gIn.wrap(
+    `Right Click on element ${id.logStr} ... `,
+    enableLog,
+    async () => {
+      // await gT.s.wait.waitForElementEnabledAndVisibleById(
+      //   id,
+      //   gT.engineConsts.defaultWaitTimeout,
+      //   false,
+      // );
+      const el = await gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id));
+
+      await gT.sOrig.driver.actions({ bridge: true })
+        .contextClick(el)
+        .perform();
+    }
+  );
+};
+
+/**
  * Left mouse button double click to element specified by id.
  *
  * @param id

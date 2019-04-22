@@ -118,6 +118,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_ext_js_ext_js_components_component_d_.componentactions.html#clickinput" class="tsd-kind-icon">click<wbr>Input</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_ext_js_ext_js_components_component_d_.componentactions.html#dblclickinput" class="tsd-kind-icon">dbl<wbr>Click<wbr>Input</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_ext_js_ext_js_components_component_d_.componentactions.html#doubleclick" class="tsd-kind-icon">double<wbr>Click</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_ext_js_ext_js_components_component_d_.componentactions.html#rclick" class="tsd-kind-icon">r<wbr>Click</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_ext_js_ext_js_components_component_d_.componentactions.html#rclickinput" class="tsd-kind-icon">r<wbr>Click<wbr>Input</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_ext_js_ext_js_components_component_d_.componentactions.html#sendctrlaandkeys" class="tsd-kind-icon">send<wbr>CtrlAAnd<wbr>Keys</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_ext_js_ext_js_components_component_d_.componentactions.html#sendctrlakeysenter" class="tsd-kind-icon">send<wbr>CtrlAKeys<wbr>Enter</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_ext_js_ext_js_components_component_d_.componentactions.html#senddown" class="tsd-kind-icon">send<wbr>Down</a></li>
@@ -200,7 +202,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/component.d.ts:31</li>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:38</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -236,7 +238,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/component.d.ts:38</li>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:52</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -272,7 +274,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/component.d.ts:24</li>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:31</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -301,6 +303,78 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="rclick" class="tsd-anchor"></a>
+					<h3>r<wbr>Click</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">r<wbr>Click<span class="tsd-signature-symbol">(</span>tEQ<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a>, idForLog<span class="tsd-signature-symbol">?: </span><a href="../modules/_ext_js_common_d_.html#elementidforlog" class="tsd-signature-type">ElementIdForLog</a>, enableLog<span class="tsd-signature-symbol">?: </span><a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:24</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Right mouse button click on Component.
+										Default actionDesc is &#39;Right Click Cmp&#39;.
+									Note: if it does not work, try clickInput().</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>tEQ: <a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> idForLog: <a href="../modules/_ext_js_common_d_.html#elementidforlog" class="tsd-signature-type">ElementIdForLog</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> enableLog: <a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="rclickinput" class="tsd-anchor"></a>
+					<h3>r<wbr>Click<wbr>Input</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">r<wbr>Click<wbr>Input<span class="tsd-signature-symbol">(</span>tEQ<span class="tsd-signature-symbol">: </span><a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a>, idForLog<span class="tsd-signature-symbol">?: </span><a href="../modules/_ext_js_common_d_.html#elementidforlog" class="tsd-signature-type">ElementIdForLog</a>, enableLog<span class="tsd-signature-symbol">?: </span><a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:45</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Right mouse button click on Component&#39;s input element by WebElement.
+										Note: not all Components have an input element.
+									Default actionDesc is &#39;Click Input&#39;.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>tEQ: <a href="../modules/_ext_js_common_d_.html#teq" class="tsd-signature-type">Teq</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> idForLog: <a href="../modules/_ext_js_common_d_.html#elementidforlog" class="tsd-signature-type">ElementIdForLog</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> enableLog: <a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
 					<a name="sendctrlaandkeys" class="tsd-anchor"></a>
 					<h3>send<wbr>CtrlAAnd<wbr>Keys</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -310,7 +384,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/component.d.ts:93</li>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:107</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -348,7 +422,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/component.d.ts:99</li>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:113</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -386,7 +460,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/component.d.ts:51</li>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:65</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -422,7 +496,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/component.d.ts:63</li>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:77</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -457,7 +531,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/component.d.ts:44</li>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:58</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -492,7 +566,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/component.d.ts:87</li>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:101</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -530,7 +604,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/component.d.ts:75</li>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:89</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -565,7 +639,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/component.d.ts:81</li>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:95</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -600,7 +674,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/component.d.ts:69</li>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:83</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -635,7 +709,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ext-js/ext-js-components/component.d.ts:57</li>
+									<li>Defined in ext-js/ext-js-components/component.d.ts:71</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -697,6 +771,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="_ext_js_ext_js_components_component_d_.componentactions.html#doubleclick" class="tsd-kind-icon">double<wbr>Click</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="_ext_js_ext_js_components_component_d_.componentactions.html#rclick" class="tsd-kind-icon">r<wbr>Click</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="_ext_js_ext_js_components_component_d_.componentactions.html#rclickinput" class="tsd-kind-icon">r<wbr>Click<wbr>Input</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="_ext_js_ext_js_components_component_d_.componentactions.html#sendctrlaandkeys" class="tsd-kind-icon">send<wbr>CtrlAAnd<wbr>Keys</a>

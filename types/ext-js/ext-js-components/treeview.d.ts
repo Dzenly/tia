@@ -11,6 +11,12 @@ interface TreeViewActions extends TableViewActions {
   clickItem(tEQ: Teq, text: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
+   * Right mouse button click on the item containing the given text.
+   * @param text - Text for the item to click.
+   */
+  rClickItem(tEQ: Teq, text: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
    * Left mouse button double click on the item containing the given text.
    * @param text - Text for the item to click.
    */

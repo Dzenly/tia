@@ -20,9 +20,14 @@ type SeleniumKeys = string | string[];
 export interface SeleniumUserActionsApi {
 
   /**
-   * Let mouse button click to element specified by id.
+   * Left mouse button click to element specified by id.
    */
   clickById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
+   * Right mouse button click to element specified by id.
+   */
+  rClickById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Let mouse button double click to element specified by id.
