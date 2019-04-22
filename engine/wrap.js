@@ -34,8 +34,8 @@ function stopTimer(startTime) {
  * Pause. Time interval is specified in config.
  */
 async function pause() {
-  if (gT.config.selActionsDelay !== 0) {
-    await gT.u.promise.delayed(gT.config.selActionsDelay);
+  if (gT.cLParams.selActsDelay) {
+    await gT.u.promise.delayed(gT.cLParams.selActsDelay);
   }
 }
 

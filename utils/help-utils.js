@@ -139,6 +139,9 @@ exports.usage = function usage() {
 
       --run-self-tests - Run tests for the engine.
 
+      --sel-acts-delay <milliseconds> - Milliseconds between selenium low level calls.
+      Just for visualization at tests debug. 0 by default.
+
       --share-browser - Try to share the browser between tests within one node.js process.
       In this case 'init' call is performed only for the first test and 'quit' call only for the last one.
       Note, that --use-remote-driver option prevents the last test from automatically quit.

@@ -409,6 +409,10 @@ See `tia --help` for the following things:
 * --stop-remote-driver
 * gT.firstRunWithRemoteDriver global variable.
 
+### Visualization of the test
+
+See `--sel-acts-delay` cmd line option description.
+
 ----------------------------------
 
 ## Config files

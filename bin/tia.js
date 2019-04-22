@@ -64,6 +64,7 @@ const opts = {
     'pattern',
     'require-modules',
     'root-dir',
+    'sel-acts-delay',
     'slog-subj',
     'too-long-time',
     'trace-level',
@@ -107,6 +108,7 @@ const opts = {
     'browser-log-level': gT.engineConsts.defaultBrowserLogLevel,
     'driver-log-level': gT.engineConsts.defaultDriverLogLevel,
     'hang-timeout': gT.engineConsts.hangTimeout,
+    'sel-acts-delay': 0,
     'too-long-time': gT.engineConsts.tooLongTime,
     'trace-level': -1,
 

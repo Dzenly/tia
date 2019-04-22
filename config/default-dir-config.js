@@ -18,10 +18,6 @@ module.exports = {
   // As a workaround for such unsafe directories, you can set this option.
   delayAfterTest: 0,
 
-  // milliseconds between selenium low level calls. Just for visualization at tests writting.
-  // Use 0 for CI tests.
-  selActionsDelay: 0,
-
   // Enables timings output for low level functions.
   // It creates diffs in Test logs, so don't use this in CI tests.
   enableTimings: false,
