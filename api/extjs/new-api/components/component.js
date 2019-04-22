@@ -262,7 +262,7 @@ const actions = {
     const realId = await queryCmpId(tEQ, idForLog, enableLog);
 
     return gIn.wrap({
-      msg: `${getCIS(tEQ, this.compName, idForLog)} Wait for component to become enabled: ... `,
+      msg: `${getCIS(tEQ, this.compName, idForLog)} Wait for component to become enabled and non masked: ... `,
       enableLog,
       act: () => gT.sOrig.driver.wait(
         async () => {
