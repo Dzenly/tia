@@ -87,7 +87,9 @@ module.exports = {
 
   defaultWaitTimeout: 40000, // Default timeout for e.wait functions.,
 
-  timeoutForSearchByTEQ: 2000, // For wait function.
+  timeoutForSearchByTEQ: 4000, // Timeout to wait for ExtJs component existence and visibility.
+
+  timeoutForEnabledByTEQ: 5000, // Timeout to wait for ExtJs component enabling.
 
   // Delay before click on ExtJs element. It seems like ExtJs does not handle
   // too fast clicking.

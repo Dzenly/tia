@@ -14,7 +14,7 @@ const actions = {
   compName,
   async click(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
-      msg: `${getCIS(tEQ, this.compName, idForLog)}: Click Cmp: ... `,
+      msg: `${getCIS(tEQ, this.compName, idForLog)} Click Cmp ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpId(
@@ -28,7 +28,7 @@ const actions = {
   },
   async rClick(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
-      msg: `${getCIS(tEQ, this.compName, idForLog)}: Right Click Cmp: ... `,
+      msg: `${getCIS(tEQ, this.compName, idForLog)} Right Click Cmp ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpId(
@@ -42,7 +42,7 @@ const actions = {
   },
   async dblClick(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
-      msg: `${getCIS(tEQ, this.compName, idForLog)}: Dbl Click Cmp: ... `,
+      msg: `${getCIS(tEQ, this.compName, idForLog)} Dbl Click Cmp ... `,
       enableLog,
       act: async () => {
         const id = await queryCmpId(
@@ -255,6 +255,26 @@ const actions = {
         );
         await gT.s.uA.sendCtrlAKeysEnterById(id, realKeys, false);
       },
+    });
+  },
+
+  async waitForEnabledAndNotMasked(tEQ, timeout = gT.engineConsts.timeoutForEnabledByTEQ, idForLog, enableLog) {
+    const realId = await queryCmpId(tEQ, idForLog, enableLog);
+
+    return gIn.wrap({
+      msg: `${getCIS(tEQ, this.compName, idForLog)} Wait for component to become enabled: ... `,
+      enableLog,
+      act: () => gT.sOrig.driver.wait(
+        async () => {
+          const res = await gT.s.browser.executeScriptWrapper(
+            `return !(Ext.getCmp('${realId}').isDisabled()) && !(Ext.getCmp('${realId}').isMasked(true));`
+          );
+
+          // console.log(`HERE: ${realId} ${res}`);
+          return res;
+        },
+        timeout
+      ),
     });
   },
 };

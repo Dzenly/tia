@@ -58,6 +58,7 @@
         isSuspended: cmp.isSuspended(),
         isFocusable: cmp.isFocusable(),
         isVisible: cmp.isVisible(),
+        isEnabled: !cmp.isDisabled(),
       },
     };
 

@@ -111,6 +111,14 @@ export interface ComponentActions {
    * Default actionDesc is 'Ctrl +a, Send keys, Enter'
    */
   sendCtrlAKeysEnter(tEQ: Teq, keys: SeleniumKeys, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
+   * Waits for the component to become enabled and not masked.
+   * https://docs.sencha.com/extjs/6.5.3/classic/Ext.Component.html#method-isMasked
+   * https://docs.sencha.com/extjs/6.5.3/classic/Ext.Component.html#method-isDisabled
+   * @param [timeout = 5000] - milliseconds to wait.
+   */
+  waitForEnabledAndNotMasked(tEQ: Teq, timeout?: number, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 }
 
 export interface ComponentChecks {

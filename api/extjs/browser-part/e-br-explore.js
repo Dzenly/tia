@@ -1151,22 +1151,22 @@
       // boundlist
       //
 
-
-      // if (comp.isContainer) {
-      //   var newComp = null;
-      //   comp.cascade(function (curComp) {
-      //     if (curComp.isDisabled()) {
-      //       var box = curComp.getBox();
-      //       if (x >= box.left && x <= box.right && y >= box.top && y <= box.bottom) {
-      //         newComp = curComp;
-      //       }
-      //     }
-      //     return true;
-      //   });
-      //   if (newComp) {
-      //     comp = newComp;
-      //   }
-      // }
+      // fromPoint does not find disabled items, so let's hande this ourselves.
+      if (comp.isContainer) {
+        var newComp = null;
+        comp.cascade(function (curComp) {
+          if (curComp.isDisabled()) {
+            var box = curComp.getBox();
+            if (x >= box.left && x <= box.right && y >= box.top && y <= box.bottom) {
+              newComp = curComp;
+            }
+          }
+          return true;
+        });
+        if (newComp) {
+          comp = newComp;
+        }
+      }
 
       // console.log('COMP after box handling: ' + comp.getId());
 
