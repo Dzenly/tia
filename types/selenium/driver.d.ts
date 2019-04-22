@@ -9,12 +9,12 @@ export interface SeleniumDriverApi {
    * @param {Boolean} cleanProfile - Is profile cleaning needed. Works only if custom profile is defined.
    * There is an issue with custom profile on Windows. Profile is not saved after browser closing.
    */
-  init(cleanProfile: boolean, enableLog: EnableLog): Promise<undefined>;
+  init(cleanProfile: boolean, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Sleeps for the specified milliseconds amount.
    */
-  sleep(ms: number, enableLog: EnableLog): Promise<undefined>;
+  sleep(ms: number, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Closes the browser.
@@ -22,7 +22,7 @@ export interface SeleniumDriverApi {
    * If there was a custom profile - default enableLog is true,
    * otherwise - false.
    */
-  quit(enableLog: EnableLog): Promise<undefined>;
+  quit(enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Quits if driver is initiated and if there is not ejExplore mode.

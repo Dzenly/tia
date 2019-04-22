@@ -28,7 +28,7 @@ export interface SeleniumBrowserApi {
    * You can use these helpers too.
    * TODO: Describe browser API too and provide link here.
    */
-  initTiaBrHelpers(enableLog: EnableLog): Promise<undefined>;
+  initTiaBrHelpers(enableLog?: EnableLog): Promise<undefined>;
 
 
   /**
@@ -43,25 +43,25 @@ export interface SeleniumBrowserApi {
    * Note: it replaces the string '$(host)' by the actual host address.
    * See also --def-host description in `tia --help`.
    */
-  loadPage(url: string, enableLog: EnableLog): Promise<undefined>;
+  loadPage(url: string, enableLog?: EnableLog): Promise<undefined>;
 
 
   /**
    * Closes the active browser tab.
    */
-  close(enableLog: EnableLog): Promise<undefined>;
+  close(enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Sets a function which clicks body every minute to keep session active.
    */
-  setBodyClicker(enableLog: EnableLog): Promise<undefined>;
+  setBodyClicker(enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Wraps the given script text into tmpFunc and try/catch block.
    * Then runs tmpFunc in AUT.
    * Returns a Promise resolved to the value returned from the script value.
    */
-  executeScript(scriptStr: string, enableLog: EnableLog): Promise<ScriptReturnValue>;
+  executeScript(scriptStr: string, enableLog?: EnableLog): Promise<ScriptReturnValue>;
 
   /**
    * Helper, used inside executeScript().
@@ -75,7 +75,7 @@ export interface SeleniumBrowserApi {
    *
    * @param fPath - path to the file to execute in browser.
    */
-  executeScriptFromFile(fPath: string, enableLog: EnableLog): Promise<ScriptReturnValue>;
+  executeScriptFromFile(fPath: string, enableLog?: EnableLog): Promise<ScriptReturnValue>;
 
   /**
    * Sets function body for "Ctrl/Meta + Alt + LClick" handler.
@@ -83,34 +83,34 @@ export interface SeleniumBrowserApi {
    * Removes previous tiaOnClick handler (if exists).
    * @param funcBody - JS body to be executed at Ctrl/Meta + Alt + CClick
    */
-  setCtrlAltLClickHandler(funcBody: string, enableLog: EnableLog): Promise<undefined>;
+  setCtrlAltLClickHandler(funcBody: string, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Sets debug mode for browser scripts.
    * More info is showed for elements (including ExtJs ones).
    */
-  setDebugMode(enableLog: EnableLog): Promise<undefined>;
+  setDebugMode(enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Resets debug mode for browser scripts.
    * Less info is showed for elements (including ExtJs ones).
    */
-  resetDebugMode(enableLog: EnableLog): Promise<undefined>;
+  resetDebugMode(enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Returns tia.debugMode value.
    */
-  getDebugMode(enableLog: EnableLog): Promise<boolean>;
+  getDebugMode(enableLog?: EnableLog): Promise<boolean>;
 
   /**
    * Returns the current page URL.
    */
-  getCurUrl(enableLog: EnableLog): Promise<string>;
+  getCurUrl(enableLog?: EnableLog): Promise<string>;
 
   /**
    * Returns the current page Title.
    */
-  getTitle(enableLog: EnableLog): Promise<string>;
+  getTitle(enableLog?: EnableLog): Promise<string>;
 
   /**
    * Prints browser console into the test log.
@@ -126,30 +126,30 @@ export interface SeleniumBrowserApi {
    * Cleans all accumulated exceptions.
    * @param includingExtAjaxFailures
    */
-  cleanExceptions(includingExtAjaxFailures: boolean, enableLog: EnableLog): Promise<undefined>;
+  cleanExceptions(includingExtAjaxFailures: boolean, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * @param x - relative to screen.
    * @param y - relative to screen.
    * @param enableLog
    */
-  setWindowPosition(x: number, y: number,enableLog: EnableLog): Promise<undefined>;
+  setWindowPosition(x: number, y: number,enableLog?: EnableLog): Promise<undefined>;
 
-  setWindowSize(width: number, height: number, enableLog: EnableLog): Promise<undefined>;
+  setWindowSize(width: number, height: number, enableLog?: EnableLog): Promise<undefined>;
 
-  getScreenResolution(enableLog: EnableLog): Promise<ScreenResolution>;
+  getScreenResolution(enableLog?: EnableLog): Promise<ScreenResolution>;
 
   /**
    * Maximizes browser window.
    * @param enableLog
    */
-  maximize(enableLog: EnableLog): Promise<undefined>;
+  maximize(enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Saves screenshot into png file near the test JS file.
    * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_WebDriver.html#takeScreenshot
    */
-  screenshot(enableLog: EnableLog): Promise<undefined>;
+  screenshot(enableLog?: EnableLog): Promise<undefined>;
 
   /**
    *
@@ -157,21 +157,21 @@ export interface SeleniumBrowserApi {
    * @param value
    * @param enableLog
    */
-  addCookie(name: string, value: string, enableLog: EnableLog): Promise<undefined>;
+  addCookie(name: string, value: string, enableLog?: EnableLog): Promise<undefined>;
 
 
   /**
    * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_Options.html#addCookie
    */
-  addCookieEx(args: AddCookieArgs, enableLog: EnableLog): Promise<undefined>;
+  addCookieEx(args: AddCookieArgs, enableLog?: EnableLog): Promise<undefined>;
 
-  deleteCookie(name: string, enableLog: EnableLog): Promise<undefined>;
+  deleteCookie(name: string, enableLog?: EnableLog): Promise<undefined>;
 
-  getCookie(name: string, enableLog: EnableLog): Promise<string>;
+  getCookie(name: string, enableLog?: EnableLog): Promise<string>;
 
   /**
    * Cleans up the directory with browser profile.
    * @param enableLog
    */
-  cleanProfile(enableLog: EnableLog): Promise<undefined>;
+  cleanProfile(enableLog?: EnableLog): Promise<undefined>;
 }

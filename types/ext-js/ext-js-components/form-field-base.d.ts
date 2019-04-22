@@ -9,7 +9,7 @@ interface FormFieldBaseActions extends ComponentActions {
    * https://docs.sencha.com/extjs/6.5.3/classic/Ext.form.field.Base.html#method-setValue
    * @param value - value to set to the form field.
    */
-  setValueByEJ(tEQ: Teq, value: string, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+  setValueByEJ(tEQ: Teq, value: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 }
 
 interface FormFieldBaseChecks extends ComponentChecks {
@@ -28,7 +28,7 @@ interface FormFieldBaseLogs extends ComponentLogs {
    * @param compName - the Component name (textfield, checkbox, etc.)
    * @param mapperCallback - callback to map a raw value to a log string. if omitted - val is used as is.
    */
-  rawValue(tEQ: Teq, compName: string, idForLog: ElementIdForLog, mapperCallback?: (val: string) => string): Promise<undefined>;
+  rawValue(tEQ: Teq, compName: string, idForLog?: ElementIdForLog, mapperCallback?: (val: string) => string): Promise<undefined>;
 }
 
 export interface FormFieldBase {

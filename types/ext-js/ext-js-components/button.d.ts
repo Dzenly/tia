@@ -5,7 +5,7 @@ interface ButtonActions extends ComponentActions {
   /**
    * Left mouse button click.
    */
-  click(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+  click(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 }
 
 interface ButtonChecks extends ComponentChecks {
@@ -17,7 +17,7 @@ interface ButtonLogs extends ComponentLogs {
   /**
    * Prints info about the button which user can see on the display.
    */
-  info(tEQ: Teq, idForLog: ElementIdForLog): Promise<undefined>;
+  info(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined>;
 }
 
 export interface Button {

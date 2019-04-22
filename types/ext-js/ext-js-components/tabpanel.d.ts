@@ -10,7 +10,7 @@ interface TabPanelActions extends ComponentActions {
    * Use EJ Explorer to get component and TEQ for click.
    * @param cardId - id of the card to set.
    */
-  setActiveTabByCardId(tEQ: Teq, cardId: string, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+  setActiveTabByCardId(tEQ: Teq, cardId: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 }
 
 interface TabPanelChecks extends ComponentChecks {

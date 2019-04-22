@@ -16,7 +16,7 @@ export interface ExtJsWaits {
    * I.e. where Ext.Ajax.isLoading() will be false.
    * https://docs.sencha.com/extjs/6.5.3/classic/Ext.Ajax.html#method-isLoading
    */
-  ajaxRequestsFinish(timeout: WaitTimeout, enableLog: EnableLog): Promise<undefined>;
+  ajaxRequestsFinish(timeout: WaitTimeout, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Waits for Ext.isReady &&  !Ext.Ajax.isLoading() + ExtJs 'idle' event + window.requestIdleCallback.
@@ -24,5 +24,5 @@ export interface ExtJsWaits {
    * So it is supposed to mean that all inner browser scripts work is finished
    * and all components are ready to interact with.
    */
-  idle(timeout: WaitTimeout, enableLog: EnableLog): Promise<undefined>;
+  idle(timeout: WaitTimeout, enableLog?: EnableLog): Promise<undefined>;
 }

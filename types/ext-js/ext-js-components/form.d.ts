@@ -13,7 +13,7 @@ interface FormLogs extends ComponentLogs {
    * Prints the form content to the test log.
    * @includingStores - Is inner content of controls to be printed.
    */
-  content(tEQ: Teq, includingStores: boolean, idForLog: ElementIdForLog): Promise<undefined>;
+  content(tEQ: Teq, includingStores: boolean, idForLog?: ElementIdForLog): Promise<undefined>;
 }
 
 export interface Form {

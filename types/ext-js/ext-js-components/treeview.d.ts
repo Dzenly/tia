@@ -8,13 +8,13 @@ interface TreeViewActions extends TableViewActions {
    * Left mouse button click on the item containing the given text.
    * @param text - Text for the item to click.
    */
-  clickItem(tEQ: Teq, text: string, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+  clickItem(tEQ: Teq, text: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Left mouse button double click on the item containing the given text.
    * @param text - Text for the item to click.
    */
-  doubleClickItem(tEQ: Teq, text: string, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+  doubleClickItem(tEQ: Teq, text: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 }
 
 interface TreeViewChecks extends TableViewChecks {
@@ -24,7 +24,7 @@ interface TreeViewLogs extends TableViewLogs {
   /**
    * Prints the tree content to the test log.
    */
-  content(tEQ: Teq, idForLog: ElementIdForLog): Promise<undefined>;
+  content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined>;
 }
 
 export interface TreeView {

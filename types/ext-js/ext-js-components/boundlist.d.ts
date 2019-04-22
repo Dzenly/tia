@@ -7,14 +7,14 @@ interface BoundListActions extends ComponentActions {
    * Left mouse button click on the item containing the given text.
    * @param text - text for row to click.
    */
-  clickRow(tEQ: Teq, text: string, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+  clickRow(tEQ: Teq, text: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Ctrl + Left mouse button click on the items containing the given texts.
    * So it selects given string.
    * @param texts - texts for rows to click.
    */
-  ctrlClickRows(tEQ: Teq, texts: string[], idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+  ctrlClickRows(tEQ: Teq, texts: string[], idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 }
 
 interface BoundListChecks extends ComponentChecks {
@@ -25,17 +25,17 @@ interface BoundListLogs extends ComponentLogs {
   /**
    * Prints all displayField values from the store.
    */
-  contentByStore(tEQ: Teq, idForLog: ElementIdForLog): Promise<undefined>;
+  contentByStore(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined>;
 
   /**
    * Prints all innerText DOM element properties for items.
    */
-  contentByInnerText(tEQ: Teq, idForLog: ElementIdForLog): Promise<undefined>;
+  contentByInnerText(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined>;
 
   /**
    * Prints innerText DOM element properties for selected items.
    */
-  selectedContentByInnerText(tEQ: Teq, idForLog: ElementIdForLog): Promise<undefined>;
+  selectedContentByInnerText(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined>;
 }
 
 export interface BoundList {

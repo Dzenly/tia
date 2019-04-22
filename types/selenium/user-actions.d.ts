@@ -22,69 +22,69 @@ export interface SeleniumUserActionsApi {
   /**
    * Let mouse button click to element specified by id.
    */
-  clickById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+  clickById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Let mouse button double click to element specified by id.
    */
-  dblClickById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+  dblClickById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_WebElement.html#sendKeys
    * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/input_exports_Key.html#Key.chord
    */
-  sendKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
+  sendKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Sends ESC key to element specified by id.
    */
-  sendEscById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+  sendEscById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Sends DOWN key to element specified by id.
    */
-  sendDownById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+  sendDownById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Sends UP key to element specified by id.
    */
-  sendUpById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+  sendUpById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Sends ENTER key to element specified by id.
    */
-  sendEnterById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+  sendEnterById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Sends TAB key to element specified by id.
    */
-  sendTabById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+  sendTabById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Sends PAGE_DOWN key to element specified by id.
    */
-  sendPgDownById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+  sendPgDownById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Sends PAGE_UP key to element specified by id.
    */
-  sendPgUpById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+  sendPgUpById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Ctrl + a, then sendKeysById().
    */
-  sendCtrlAAndKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
+  sendCtrlAAndKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Ctrl + a, then keys, then Enter.
    */
-  sendCtrlAKeysEnterById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
+  sendCtrlAKeysEnterById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog?: EnableLog): Promise<undefined>;
 
 
   /**
    * Ctrl + a, then Delete.
    */
-  sendCtrlAAndDeleteById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+  sendCtrlAAndDeleteById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Clears the value of this element. This command has no effect if the underlying DOM element is neither
@@ -92,10 +92,10 @@ export interface SeleniumUserActionsApi {
    *
    * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_WebElement.html#clear
    */
-  clearById(id: SeleniumIdOrObj, enableLog: EnableLog): Promise<undefined>;
+  clearById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Sends keys to the <body/> element.
    */
-  sendKeysToBody(keys: SeleniumKeys, enableLog: EnableLog): Promise<undefined>;
+  sendKeysToBody(keys: SeleniumKeys, enableLog?: EnableLog): Promise<undefined>;
 }

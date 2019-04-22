@@ -92,37 +92,46 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
 					<a name="elementidforlog" class="tsd-anchor"></a>
 					<h3>Element<wbr>IdFor<wbr>Log</h3>
-					<div class="tsd-signature tsd-kind-icon">Element<wbr>IdFor<wbr>Log<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">Element<wbr>IdFor<wbr>Log<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ext-js/common.d.ts:33</li>
+							<li>Defined in ext-js/common.d.ts:38</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Alias which writes to log for the given element.</p>
+							<p>Alias which writes to log for the given element along with TEQ string.</p>
 						</div>
+						<p>TODO: Don&#39;t print TEQ to logs if idForLog is passed.</p>
+						<p>TODO: Add cmd line option &#39;--force-print-teq&#39;, to print TEQ strings even if idForLogs are passed,
+						just for debug.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
 					<a name="enablelog" class="tsd-anchor"></a>
 					<h3>Enable<wbr>Log</h3>
-					<div class="tsd-signature tsd-kind-icon">Enable<wbr>Log<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">Enable<wbr>Log<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ext-js/common.d.ts:44</li>
+							<li>Defined in ext-js/common.d.ts:61</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Whether the action is to be written to log.
-								true - write action.
-								false - don&#39;t write action (unless --force-log-actions is specified).
-								undefined - use default enableLog.
-								Note: Default enableLog is &#39;true; (gT.engineConsts.defLLLogAction).
-								Some function can use its own default enableLog, it this case such function description contains
-							an explanation.</p>
+							<p>Whether the action is to be written to log.</p>
 						</div>
+						<p>If true - the action is written.</p>
+						<p>If false - the action is not written.</p>
+						<p>Say, you create a high level function: &#39;login&#39;.
+							Say, your login consists of sendKeys to &#39;name&#39;, sendKeys to &#39;password&#39;, and press &#39;submit&#39; button.
+							You can use &#39;false&#39; for these inner calls, and print some your string like &#39;login ... OK&#39;.
+						See also gT.e.q.wrap and gIn.wrap functions.</p>
+						<p>If this parameter is omitted - default &#39;enableLog&#39; will be used.
+						Note: Default enableLog is &#39;true&#39; (gT.engineConsts.defLLLogAction).</p>
+						<p>Some API functions can use its own default enableLog, it this case such function description contains
+						an explanation.</p>
+						<p>Note: the &#39;--force-log-actions&#39; cmd line option works as if all enableLog are true,
+						so use it to debug your high level functions.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
@@ -131,7 +140,7 @@
 					<div class="tsd-signature tsd-kind-icon">Row<wbr>Search<wbr>Params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ext-js/common.d.ts:49</li>
+							<li>Defined in ext-js/common.d.ts:66</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">

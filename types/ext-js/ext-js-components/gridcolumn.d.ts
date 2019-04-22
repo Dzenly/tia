@@ -6,7 +6,7 @@ interface GridColumnActions extends ComponentActions {
   /**
    * Left mouse click on GridColumn trigger element.
    */
-  clickTrigger(tEQ: Teq, idForLog: ElementIdForLog, enableLog: EnableLog): Promise<undefined>;
+  clickTrigger(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 }
 
 interface GridColumnChecks extends ComponentChecks {

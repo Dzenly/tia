@@ -10,7 +10,7 @@ export interface ExtJsUtils {
    *
    * @param objExpression - expression how to get locale object on browser side, say 'R.lang'.
    */
-  setLocaleObject(objExpression: string, enableLog: EnableLog): Promise<undefined>;
+  setLocaleObject(objExpression: string, enableLog?: EnableLog): Promise<undefined>;
 
 
   /**
@@ -21,12 +21,12 @@ export interface ExtJsUtils {
    *
    * @param localeObj - key - value pairs.
    */
-  setExtraLocaleObject(localeObj: any, enableLog: EnableLog): Promise<undefined>;
+  setExtraLocaleObject(localeObj: any, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * If newMode is false - only locale key values are printed to the test log.
    * If true - locale values are added too.
    * If there is no locale key for some string, it is printed as is.
    */
-  setDebugLocaleMode(newMode: boolean, enableLog: EnableLog): Promise<undefined>;
+  setDebugLocaleMode(newMode: boolean, enableLog?: EnableLog): Promise<undefined>;
 }
