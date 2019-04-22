@@ -59,6 +59,30 @@ const actions = {
     });
   },
 
+  async rClickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
+    const cellDataArg = prepareCellData(_.cloneDeep(cellData));
+
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const cell = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getTableCellByColumnTexts(cmp, ${gIn.tU.v2s(cellDataArg)});`,
+          idForLog,
+          enableLog: false,
+        });
+
+        await gT.sOrig.driver.actions({ bridge: true })
+          .contextClick(cell)
+          .perform();
+      },
+      actionDesc: `Right Click cell by Col Texts: ${gIn.tU.v2s(cellData)}`,
+      enableLog,
+    });
+  },
+
   async clickFirstRowCellByColText(tEQ, colText, idForLog, enableLog) {
     const colTextArg = gT.e.utils.locKeyToStr(colText);
     return gT.e.q.wrap({
@@ -76,6 +100,29 @@ const actions = {
         await cell.click();
       },
       actionDesc: `Click first row cell by Col Text: ${colText}`,
+      enableLog,
+    });
+  },
+
+  async rClickFirstRowCellByColText(tEQ, colText, idForLog, enableLog) {
+    const colTextArg = gT.e.utils.locKeyToStr(colText);
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const cell = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getFirstRowCellByColumnText(cmp, '${colTextArg}');`,
+          idForLog,
+          enableLog: false,
+        });
+
+        await gT.sOrig.driver.actions({ bridge: true })
+          .contextClick(cell)
+          .perform();
+      },
+      actionDesc: `Right Click first row cell by Col Text: ${colText}`,
       enableLog,
     });
   },
@@ -101,6 +148,29 @@ const actions = {
     });
   },
 
+  async rClickLastRowCellByColText(tEQ, colText, idForLog, enableLog) {
+    const colTextArg = gT.e.utils.locKeyToStr(colText);
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const cell = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getLastRowCellByColumnText(cmp, '${colTextArg}');`,
+          idForLog,
+          enableLog: false,
+        });
+
+        await gT.sOrig.driver.actions({ bridge: true })
+          .contextClick(cell)
+          .perform();
+      },
+      actionDesc: `Right Click last row cell by Col Text: ${colText}`,
+      enableLog,
+    });
+  },
+
   async clickFirstRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
@@ -121,6 +191,28 @@ const actions = {
     });
   },
 
+  async rClickFirstRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const cell = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getFirstRowCellByModelField(cmp, '${fieldName}');`,
+          idForLog,
+          enableLog: false,
+        });
+
+        await gT.sOrig.driver.actions({ bridge: true })
+          .contextClick(cell)
+          .perform();
+      },
+      actionDesc: `Right Click first row cell by Model Field: ${fieldName}`,
+      enableLog,
+    });
+  },
+
   async clickLastRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
@@ -137,6 +229,28 @@ const actions = {
         await cell.click();
       },
       actionDesc: `Click last row cell by Model Field: ${fieldName}`,
+      enableLog,
+    });
+  },
+
+  async rClickLastRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const cell = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getLastRowCellByModelField(cmp, '${fieldName}');`,
+          idForLog,
+          enableLog: false,
+        });
+
+        await gT.sOrig.driver.actions({ bridge: true })
+          .contextClick(cell)
+          .perform();
+      },
+      actionDesc: `Right Click last row cell by Model Field: ${fieldName}`,
       enableLog,
     });
   },
@@ -213,6 +327,30 @@ const actions = {
     });
   },
 
+  async rClickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
+    const cellDataArg = prepareCellData(_.cloneDeep(cellData));
+
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const cell = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getTableCellByModelFields(cmp, ${gIn.tU.v2s(cellDataArg)});`,
+          idForLog,
+          enableLog: false,
+        });
+
+        await gT.sOrig.driver.actions({ bridge: true })
+          .doubleClick(cell)
+          .perform();
+      },
+      actionDesc: `Right Click cell by Model Fields: ${gIn.tU.v2s(cellData)}`,
+      enableLog,
+    });
+  },
+
   async doubleClickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
@@ -263,8 +401,6 @@ const actions = {
     });
   },
 
-  // async clickCellByFieldNames(tEQ, cellData, idForLog, enableLog) {
-  // },
 };
 
 const checks = {

@@ -8,9 +8,19 @@ interface TableViewActions extends ComponentActions {
   clickCellByColTexts(tEQ: Teq, cellData: TableCellByColumns, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
+   * Right mouse button click on the specified table cell.
+   */
+  rClickCellByColTexts(tEQ: Teq, cellData: TableCellByColumns, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
    * Left mouse button click on the specified table cell.
    */
   clickCellByModelFields(tEQ: Teq, cellData: TableCellByModelFields, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
+   * Right mouse button click on the specified table cell.
+   */
+  rClickCellByModelFields(tEQ: Teq, cellData: TableCellByModelFields, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Left mouse button click on the specified column in the first table row.
@@ -19,10 +29,22 @@ interface TableViewActions extends ComponentActions {
   clickFirstRowCellByColText(tEQ: Teq, colText: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
+   * Right mouse button click on the specified column in the first table row.
+   * @colText - the column header text or tooltip.
+   */
+  rClickFirstRowCellByColText(tEQ: Teq, colText: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
    * Left mouse button click on the specified column in the first table row.
    * The cell column is specified by the model field name.
    */
   clickFirstRowCellByModelField(tEQ: Teq, fieldName: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
+   * Right mouse button click on the specified column in the first table row.
+   * The cell column is specified by the model field name.
+   */
+  rClickFirstRowCellByModelField(tEQ: Teq, fieldName: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Left mouse button click on the specified column in the last table row.
@@ -31,10 +53,22 @@ interface TableViewActions extends ComponentActions {
   clickLastRowCellByColText(tEQ: Teq, colText: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
+   * Right mouse button click on the specified column in the last table row.
+   * @colText - the column header text or tooltip.
+   */
+  rClickLastRowCellByColText(tEQ: Teq, colText: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
    * Left mouse button click on the specified column in the last table row.
    * The cell column is specified by the model field name.
    */
   clickLastRowCellByModelField(tEQ: Teq, fieldName: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
+   * Right mouse button click on the specified column in the last table row.
+   * The cell column is specified by the model field name.
+   */
+  rClickLastRowCellByModelField(tEQ: Teq, fieldName: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Ctrl + Left mouse button click on the specified table cell.
