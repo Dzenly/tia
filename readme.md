@@ -159,8 +159,6 @@ These properties provide various API. Click property type to open the help on it
 
 `gT.eC` contains properties which provide API to work with ExtJs components.
 
-Each API contains from three parts:
-
 #### actions
 
 Simulates user actions with the component.
