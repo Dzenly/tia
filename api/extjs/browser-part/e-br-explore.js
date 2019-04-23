@@ -644,6 +644,13 @@
         return this.getComponentSearchString(parentComp, xtypePriority) + curChildSep + curSelector;
       }
 
+      var boxLabel = comp.boxLabel;
+      if (boxLabel) {
+        curSelector = xtype + '[boxLabel="' + boxLabel + '"]';
+        curChildSep = getChildSep(curSelector);
+        return this.getComponentSearchString(parentComp, xtypePriority) + curChildSep + curSelector;
+      }
+
       var name = comp.name; // TODO: getName
       if (name && (!Boolean(autoGenRE.test(name)))) {
         curSelector = xtype + '[name=' + name + ']';
@@ -659,7 +666,6 @@
         'text',
         'title',
         'fieldLabel',
-        'boxLabel',
         'tooltip',
       ];
 
