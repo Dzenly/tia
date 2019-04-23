@@ -921,6 +921,7 @@
       var teqId;
 
       try {
+        // console.log(tEQXT);
         teqId = tiaEJ.searchAndWrap.byTeq(tEQXT).cmpInfo.constProps.realId;
         if (teqId !== comp.getId()) {
           outArr.push(this.boldIf('TEQ checking error: found Id: ' + teqId, true, '#FF0000'));
@@ -929,7 +930,7 @@
         outArr.push(this.boldIf(e.toString(), true, '#FF0000'));
       }
 
-      outArr.push(this.boldIf('(\'' + tEQXT + '\')', true, '#0000FF', '18px'));
+      outArr.push(this.boldIf('(\'' + tEQXT.replace(/\\/g, '\\\\') + '\')', true, '#0000FF', '18px'));
 
       // ==
 
@@ -937,6 +938,7 @@
 
         try {
           teqId = tiaEJ.searchAndWrap.byTeq(tEQRef).cmpInfo.constProps.realId;
+          // console.log(tEQRef);
           if (teqId !== comp.getId()) {
             outArr.push(this.boldIf('TEQ checking error: found Id: ' + teqId, true, '#FF0000'));
           }
@@ -944,7 +946,7 @@
           outArr.push(this.boldIf(e.toString(), true, '#FF0000'));
         }
 
-        outArr.push(this.boldIf('(\'' + tEQRef + '\')', true, '#0000FF', '18px'));
+        outArr.push(this.boldIf('(\'' + tEQRef.replace(/\\/g, '\\\\') + '\')', true, '#0000FF', '18px'));
       }
 
       // ==

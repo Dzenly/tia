@@ -25,8 +25,9 @@ exports.queryAndAction = async function queryAndAction({
       try {
         await gT.sOrig.driver.wait(
           async () => {
+            const escapedTEQ = tEQ.replace(/\\/g, '\\\\');
             const res = await gT.s.browser.executeScriptWrapper(
-              `const { cmp, cmpInfo, tiaErr } = tiaEJ.searchAndWrap.byTeq('${tEQ}', true);`
+              `const { cmp, cmpInfo, tiaErr } = tiaEJ.searchAndWrap.byTeq('${escapedTEQ}', true);`
               + `if (tiaErr) return {${tiaErrorPropName}: tiaErr};`
               + `${action};`
             );
