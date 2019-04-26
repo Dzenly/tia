@@ -4,12 +4,8 @@
 
 'use strict';
 
-// const { queryCmpInputId } = require('../tia-extjs-query');
-const { actions: cmpActions } = require('./component');
 const { queryAndAction } = require('../tia-extjs-query');
-const { getCISRVal, getCISContent } = require('../../extjs-utils');
-
-const { inspect } = require('util');
+const { getCISContent } = require('../../extjs-utils');
 
 const compName = 'TreeView';
 
@@ -18,7 +14,7 @@ const actions = {
 
   async clickItem(tEQ, text, idForLog, enableLog) {
     // Дождаться idle?
-    const valueStr = gT.e.utils.locKeyToStr(text);
+    const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -40,7 +36,7 @@ const actions = {
 
   async rClickItem(tEQ, text, idForLog, enableLog) {
     // Дождаться idle?
-    const valueStr = gT.e.utils.locKeyToStr(text);
+    const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -64,7 +60,7 @@ const actions = {
 
   async doubleClickItem(tEQ, text, idForLog, enableLog) {
     // Дождаться idle?
-    const valueStr = gT.e.utils.locKeyToStr(text);
+    const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
       tEQ,
       compName,

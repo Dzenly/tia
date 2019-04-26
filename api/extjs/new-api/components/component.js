@@ -196,7 +196,7 @@ const actions = {
   },
   async sendKeys(tEQ, keys, idForLog = '', enableLog) {
     let keysArg = _.clone(keys);
-    const realKeys = gT.e.utils.locKeyToStr(keysArg);
+    const realKeys = gT.e.utils.locKeyToStrAndEscapeSlashes(keysArg);
 
     if (realKeys !== keysArg && gT.e.utils.debugLocale) {
       keysArg += ` ("${realKeys}")`;
@@ -217,7 +217,7 @@ const actions = {
   },
   async sendCtrlAAndKeys(tEQ, keys, idForLog = '', enableLog) {
     let keysArg = _.clone(keys);
-    const realKeys = gT.e.utils.locKeyToStr(keysArg);
+    const realKeys = gT.e.utils.locKeyToStrAndEscapeSlashes(keysArg);
 
     if (realKeys !== keysArg && gT.e.utils.debugLocale) {
       keysArg += ` ("${realKeys}")`;
@@ -238,7 +238,7 @@ const actions = {
   },
   async sendCtrlAKeysEnter(tEQ, keys, idForLog = '', enableLog) {
     let keysArg = _.clone(keys);
-    const realKeys = gT.e.utils.locKeyToStr(keysArg);
+    const realKeys = gT.e.utils.locKeyToStrAndEscapeSlashes(keysArg);
 
     if (realKeys !== keysArg && gT.e.utils.debugLocale) {
       keysArg += ` ("${realKeys}")`;

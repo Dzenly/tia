@@ -1,7 +1,6 @@
 'use strict';
 
-const { queryCmpInputId, queryAndAction } = require('../tia-extjs-query');
-const { actions: cmpActions, checks: anyChecks, logs: anyLogs } = require('./component');
+const { queryAndAction } = require('../tia-extjs-query');
 const { getCISRVal } = require('../../extjs-utils');
 
 const compName = 'FormFieldBase';
@@ -9,8 +8,7 @@ const compName = 'FormFieldBase';
 const actions = {
   compName,
   async setValueByEJ(tEQ, strValue, idForLog, enableLog) {
-
-    let realValue = gT.e.utils.locKeyToStr(strValue);
+    let realValue = gT.e.utils.locKeyToStrAndEscapeSlashes(strValue);
 
     if (realValue !== strValue && gT.e.utils.debugLocale) {
       realValue += ` ("${strValue}")`;
@@ -29,6 +27,30 @@ const actions = {
         });
       },
       actionDesc: 'Set Value',
+      enableLog,
+    });
+  },
+
+  async setRawValueByEJ(tEQ, strValue, idForLog, enableLog) {
+    let realValue = gT.e.utils.locKeyToStrAndEscapeSlashes(strValue);
+
+    if (realValue !== strValue && gT.e.utils.debugLocale) {
+      realValue += ` ("${strValue}")`;
+    }
+
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        await queryAndAction({
+          tEQ,
+          action: `cmp.setRawValue('${realValue}');`,
+          idForLog,
+          enableLog: false,
+        });
+      },
+      actionDesc: 'Set Raw Value',
       enableLog,
     });
   },

@@ -4,8 +4,6 @@
 
 'use strict';
 
-// const { queryCmpInputId } = require('../tia-extjs-query');
-const { actions: cmpActions } = require('./component');
 const { queryAndAction } = require('../tia-extjs-query');
 const { getCISRVal, getCISContent } = require('../../extjs-utils');
 
@@ -21,7 +19,7 @@ const actions = {
     return this.sendCtrlAKeysEnter(tEQ, text, idForLog, enableLog);
   },
   async setByMouse(tEQ, text, idForLog, enableLog) {
-    const valueStr = gT.e.utils.locKeyToStr(text);
+    const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
 
     let actionDesc = `Set by mouse: '${text}'`;
     if (valueStr !== text && gT.e.utils.debugLocale) {

@@ -6,12 +6,8 @@
 
 const _ = require('lodash');
 
-// const { queryCmpInputId } = require('../tia-extjs-query');
-const { actions: cmpActions } = require('./component');
 const { queryAndAction } = require('../tia-extjs-query');
-const { getCISRVal, getCISContent } = require('../../extjs-utils');
-
-const { inspect } = require('util');
+const { getCISContent } = require('../../extjs-utils');
 
 const compName = 'BoundList';
 
@@ -20,7 +16,7 @@ const actions = {
 
   async clickRow(tEQ, text, idForLog, enableLog) {
     // Дождаться idle?
-    const valueStr = gT.e.utils.locKeyToStr(text);
+    const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -43,7 +39,7 @@ const actions = {
   async ctrlClickRows(tEQ, texts, idForLog, enableLog) {
     // Дождаться idle?
     let textsArg = _.cloneDeep(texts);
-    textsArg = textsArg.map(text => gT.e.utils.locKeyToStr(text));
+    textsArg = textsArg.map(text => gT.e.utils.locKeyToStrAndEscapeSlashes(text));
     const args = gIn.textUtils.v2s(textsArg);
     return gT.e.q.wrap({
       tEQ,

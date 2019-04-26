@@ -79,6 +79,12 @@ exports.locKeyToStr = function locKeyToStr(str) {
   return result.replace(re, (m, key) => exports.getLocStr(key));
 };
 
+exports.locKeyToStrAndEscapeSlashes = function locKeyToStrAndEscapeSlashes(str) {
+  let result = exports.locKeyToStr(str);
+  result = result.replace(/\\/g, '\\\\');
+  return result;
+};
+
 exports.getFirstLocaleKey = function getFirstLocaleKey(value, extra) {
   if (extra) {
     return gT.e.invertedExtraLocaleFirstKey[value];
