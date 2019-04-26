@@ -179,6 +179,12 @@ exports.initTiaSuite = function initTiaSuite() {
     gT.engineConsts.suiteResDirName,
   ]);
 
+  fs.writeFileSync(
+    path.join(dir, gT.engineConsts.suiteDirName, gT.engineConsts.suiteResDirName, '.gitkeep'),
+    'Just dummy file to commit _tia-suite to VCS',
+    'utf8'
+  );
+
   process.exit(0);
 };
 
