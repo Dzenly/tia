@@ -1,5 +1,5 @@
 'use strict';
 
-t.setTitle('My test');
+gT.t.setTitle('My test');
 
-l.println('My super test');
+gT.l.println('My super test');

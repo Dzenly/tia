@@ -203,7 +203,7 @@ async function handleTestDir(dir, parentDirConfig) {
       }
     }
     return true;
-  });
+  }).sort();
 
   const dirConfig = handleDirConfig(dir, filesOrDirs, parentDirConfig);
 
@@ -223,7 +223,13 @@ async function handleTestDir(dir, parentDirConfig) {
       continue; // We remove some files in process.
     }
     let innerCurInfo;
-    if (stat.isFile() && fileOrDirPath.endsWith(gT.engineConsts.tiaSuffix)) {
+    if (stat.isFile() && fileOrDirPath.endsWith(gT.engineConsts.tiaJsSuffix)) {
+      const tsFile = gIn.textUtils.jsToTs(fileOrDirPath);
+      if (fs.existsSync(tsFile)) {
+        throw new Error(`You must use either TS or JS file for test, but not both: ${fileOrDirPath}`);
+      }
+      innerCurInfo = await handleTestFile(fileOrDirPath, dirConfig);
+    } else if (stat.isFile() && fileOrDirPath.endsWith(gT.engineConsts.tiaTsSuffix)) {
       innerCurInfo = await handleTestFile(fileOrDirPath, dirConfig);
     } else if (stat.isDirectory()) {
       if (fileOrDir === gT.engineConsts.browserProfilesRootDirName) {

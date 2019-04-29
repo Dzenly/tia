@@ -38,4 +38,6 @@
 | | | "02_invertObj.tia.js", OK, fail: 0, pass: 0, "Tests for invertObj function"
 | | "09_extLog", dif: 0, fail: 0, edif: 0, skip: 0, "The subdir tests bunch for TIA"
 | | | "00_extLog.tia.js", OK, fail: 0, pass: 0, "Test for external log"
+| | "10_ts", dif: 0, fail: 0, edif: 0, skip: 0, "The subdir tests bunch for TIA"
+| | | "00_just-ts-test.tia.ts", OK, fail: 0, pass: 0, "TypeScript testcase test"
 ====================    Verbose Log END.    ====================

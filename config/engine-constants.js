@@ -30,7 +30,9 @@ module.exports = {
 
   rootLogName: 'root',
 
-  tiaSuffix: '.tia.js', // Only files with this suffix are considered as test for TIA.
+  tiaJsSuffix: '.tia.js', // Files with this suffix are considered as test for TIA.
+
+  tiaTsSuffix: '.tia.ts', // Files with this suffix are considered as test for TIA.
 
   requireModulesEnvVarName: 'TIA_REQUIRE_MODULES',
 
