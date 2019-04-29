@@ -22,6 +22,7 @@ const _ = require('lodash');
 // const tiaDir = path.resolve(path.join(__dirname, '..'));
 
 require('ts-node').register({
+  ignore: [],
   transpileOnly: true,
   compilerOptions: {
     // baseUrl: tiaDir,
