@@ -11,8 +11,8 @@
   "scripts": {
     "test": "tia --run-self-tests"
   },
-  "types": "./types/index.d.ts",
-  "typings": "./types/index.d.ts",
+  "types": "./tia-types/index.d.ts",
+  "typings": "./tia-types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Dzenly/tia.git"
