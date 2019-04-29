@@ -26,6 +26,8 @@ require('ts-node').register({
   compilerOptions: {
     // baseUrl: tiaDir,
     allowJs: false,
+    target: 'ES2017',
+
     // moduleResolution: 'node',
   },
 });
