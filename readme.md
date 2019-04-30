@@ -30,11 +30,13 @@ Time Is All (log-driven test engine with ExtJs classic support)
   * [Browser profiles](#browser-profiles)
 - [Prerequisites](#prerequisites)
 - [Installation at tests development.](#installation-at-tests-development)
+  * [Autocompletion for TS tests](#autocompletion-for-ts-tests)
 - [Installation for daily tests run](#installation-for-daily-tests-run)
   * [Self - test after installation](#self---test-after-installation)
 - [Cmd line options](#cmd-line-options)
 - [Creating / debugging tests](#creating--debugging-tests)
   * [Speed up test creation/debugging using connection to the existing browser session](#speed-up-test-creationdebugging-using-connection-to-the-existing-browser-session)
+  * [Visualization of the test](#visualization-of-the-test)
 - [Config files](#config-files)
   * [Global config](#global-config)
   * [Suite config](#suite-config)
@@ -366,6 +368,17 @@ Now in the project you can use `node_modules/tia/bin/tia.js` as a start script f
 VS Code and WebStorm should support some autocompletion for TIA API.
 You can starty to type `gT.` and your IDE should hint you about `gT` properties,
 properties of properties, etc.
+
+### Autocompletion for TS tests
+
+```ts
+declare const gT: import('../node_modules/tia/tia-types/index').GlobalTiaObjects;
+
+gT.t.setTitle('My title');
+```
+
+When you use `tia` from cmd line, paths in import can be wrong,
+because `ts-node` is used with `transpileOnly: true`, i.e. JS generated and runs as is.  
 
 ## Installation for daily tests run
 
