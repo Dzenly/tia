@@ -272,10 +272,14 @@ exports.rmLastDirSep = function rmLastDirSep(dir) {
 };
 
 // One of filenames.
-exports.whichDirContain = function doesDirContain(base, fileNames, excludeThisBase) {
+exports.whichDirContain = function whichDirContain(base, fileNames, excludeThisBase) {
   const dirList = fs.readdirSync(base);
 
   for (const name of dirList) {
+    if (name === 'node_modules') {
+      continue;
+    }
+
     const newBase = path.join(base, name);
 
     if (newBase === excludeThisBase) {
