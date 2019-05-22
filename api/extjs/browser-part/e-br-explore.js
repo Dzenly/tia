@@ -1123,7 +1123,7 @@
         return '';
       }
       var outArr = this.getComponentInfo(comp, extended, extDomEl);
-      outArr = outArr.concat(this.getComponentAndParentsInfo(comp.up(), extended));
+      outArr = outArr.concat(this.getComponentAndParentsInfo(comp.up(), extended, extDomEl));
       return outArr;
     },
 
