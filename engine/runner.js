@@ -42,7 +42,10 @@ async function runTestFile(file) {
   gIn.cancelThisTest = false;
 
   try {
-    const testObject = nodeUtils.requireEx(file, true).result;
+    let testObject = nodeUtils.requireEx(file, true).result;
+    if (testObject.__esModule === true) {
+      testObject = testObject.default;
+    }
     if (typeof testObject === 'function') {
       const funcRes = await testObject(gT, gIn, gT.a); // TIA :) Test Inner Assertions.
       if (isIterator(funcRes)) {
