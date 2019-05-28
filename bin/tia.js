@@ -21,6 +21,8 @@ const _ = require('lodash');
 
 const tiaDir = path.resolve(path.join(__dirname, '..'));
 
+process.env.TS_NODE_PROJECT = `${tiaDir}/tsconfig.json`;
+
 require('ts-node').register({
   ignore: [],
   transpileOnly: true,
