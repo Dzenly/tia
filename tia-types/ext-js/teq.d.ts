@@ -43,6 +43,9 @@ interface WrapParams {
   enableLog?: EnableLog;
 }
 
+/**
+ * gT.e.q
+ */
 export interface TeqApi {
   queryAndAction(args: TeqParams): Promise<any>;
   queryCmpInfo(args: TeqParamsForCmpInfo): Promise<CmpInfo>;
