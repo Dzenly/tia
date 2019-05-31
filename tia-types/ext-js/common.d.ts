@@ -61,7 +61,7 @@ export type ElementIdForLog = string;
 export type EnableLog = boolean;
 
 /**
- * Tuple for "Field Name" / "Field Value" or for TableCellByColumns "Column Text (or Tooltip)" / "Field Value".
+ * For TableCellByModelFields - tuple "Field Name" / "Field Value". For TableCellByColumns - "Column Text (or Tooltip)" / "Field Value".
  */
 type RowSearchParams = [string, string];
 
