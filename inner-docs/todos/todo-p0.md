@@ -1,4 +1,8 @@
-Потестить фикс loginifNeeded.
+01-add-files-to-document.tia - CORS.
+
+02-add-users-to-the-workgroup-to-document.tia - celleditor.
+
+Отладить проверку профайлов на linux.
 
 Поддержать ts файлы, и запускать их через ts-node.
 Надо чтобы генеренные файлы были не test.tia.js вида.
