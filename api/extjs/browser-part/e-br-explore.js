@@ -503,6 +503,10 @@
       return '<b style="font-size: 20px; font-weight: 900; color:black;">' + str + '</b>';
     },
 
+    boldYellow: function (str) {
+      return '<b style="font-size: 20px; font-weight: 900; color:gold">' + str + '</b>';
+    },
+
     // formGetIdStr: function (comp, size) {
     //   size = size || '20px';
     //   return 'getId(): ' + this.boldIf(comp.getId(), !comp.autoGenId, 'green', size) +
@@ -820,7 +824,7 @@
       var item;
       var m;
       var val;
-      if (comp.isXType('boundlist') /* xtype === 'boundlist' */ ) {
+      if (comp.isXType('boundlist') /* xtype === 'boundlist' */) {
         outArr.push('displayField: ' + comp.displayField);
         // row only.
         item = extDomEl.findParent(comp.itemSelector, 10, true);
@@ -837,12 +841,12 @@
       } else if (comp.isXType('tableview')) {
         // outArr.push('displayField: ' + comp.displayField);
         // row only.
-        var cellDom = extDomEl.findParent(comp.getCellSelector(), 10, true);
+        var cellDom = extDomEl.findParent(comp.getCellSelector(), 15, true);
         if (!cellDom) {
           outArr.push('Mouse is not on some row');
           return;
         }
-        var rowDom = extDomEl.findParent(comp.getItemSelector(), 10, true);
+        var rowDom = extDomEl.findParent(comp.getItemSelector(), 15, true);
         window.cellDom = cellDom;
         window.rowDom = rowDom;
 
@@ -853,23 +857,52 @@
 
         visColumns.some(function (col) {
           var cellSelector = comp.getCellSelector(col);
-          var tmpDom = extDomEl.findParent(cellSelector, 3, true);
-          if (tmpDom) {
+          console.log('cellSelector: ' + cellSelector);
+          var tmpDom = extDomEl.findParent(cellSelector, 15, true);
+          console.dir(tmpDom);
+          console.log(col.dataIndex);
+          if (tmpDom) { // Найден нужный столбец.
             dataIndex = col.dataIndex;
+            console.log(col.text, col.tooltip);
             outArr.push('text/tooltip: ' + tiaEJExp.boldBlack(
               tiaEJExp.replaceToLocKeys(col.text) + ' / ' + tiaEJExp.replaceToLocKeys(col.tooltip))
             );
+            // return true;
           }
         });
 
-        outArr.push('dataIndex: ' + this.boldBlack(dataIndex));
-
         var intId = rowDom.getAttribute('data-recordid');
+        // var intIndex = rowDom.getAttribute('data-recordindex');
+
         var s = comp.getStore();
         m = s.getByInternalId(intId);
+        window.model1 = m;
         val = m.get(dataIndex);
+        var self = this;
 
-        outArr.push('value: ' + this.boldBlack(this.replaceToLocKeys(val)));
+        if (typeof val === 'undefined') {
+          outArr.push(self.boldYellow('Cell dataIndex does not equal to column\'s dataIndex.'));
+          var content = cellDom.dom.textContent;
+          var data = m.getData();
+          var keys = Object.keys(data).filter(function (key) {
+            return (typeof data[key] === 'string') && data[key] && (content.indexOf(data[key]) !== -1);
+          });
+          keys.forEach(function (key) {
+            outArr.push(
+              'fieldName: ' + self.boldBlack(key)
+            );
+            outArr.push(
+              'value: ' + self.boldBlack(self.replaceToLocKeys(data[key]))
+            );
+          });
+        } else {
+          outArr.push(
+            'fieldName: ' + self.boldBlack(dataIndex)
+          );
+          outArr.push(
+            'value: ' + self.boldBlack(self.replaceToLocKeys(val))
+          );
+        }
       }
     },
 

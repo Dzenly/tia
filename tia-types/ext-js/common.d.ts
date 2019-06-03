@@ -61,7 +61,8 @@ export type ElementIdForLog = string;
 export type EnableLog = boolean;
 
 /**
- * For TableCellByModelFields - tuple "Field Name" / "Field Value". For TableCellByColumns - "Column Text (or Tooltip)" / "Field Value".
+ * For TableCellByModelFields - tuple ["Field Name", "Field Value"].
+ * For TableCellByColumns - tuple ["Column Text (or Tooltip)", "Field Value"].
  */
 type RowSearchParams = [string, string];
 
@@ -71,10 +72,9 @@ type RowSearchParams = [string, string];
  */
 export interface TableCellByModelFields {
   /**
-   * Data specifying row to click. It is such tuples:
-   * [ <Model field name>, <Model values> ]
+   * Data specifying row to click.
    */
-  row: RowSearchParams;
+  row: RowSearchParams[];
 
   /**
    * Field name, specifying column to click.
@@ -101,10 +101,9 @@ export interface TableCellByModelFields {
  */
 export interface TableCellByColumns {
   /**
-   * Data specifying row to click. It is such tuples:
-   * [ <Column text or tooltip>, <Model values> ]
+   * Data specifying row to click.
    */
-  row: RowSearchParams;
+  row: RowSearchParams[];
 
   /**
    * Column header text or tooltip, specifying column to click.
