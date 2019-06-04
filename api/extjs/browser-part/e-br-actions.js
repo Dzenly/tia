@@ -259,10 +259,6 @@
         }
       });
 
-      if (!cellSelector) {
-        throw new Error('dataIndex ' + fieldName + ' not found in visible columns');
-      }
-
       var s = table.getStore();
       var count = s.getCount();
       if (count === 0) {
@@ -272,7 +268,16 @@
       var rowDomId = this.getRowDomId(table, internalId);
 
       var rowDom = document.getElementById(rowDomId);
-      return rowDom.querySelector(cellSelector);
+
+      if (!cellSelector) {
+        if (!cellData.useRowIfCellAbsent) {
+          throw new Error('Field ' + cellData.field + ' not found in visible column dataIndexes');
+        }
+        return rowDom;
+      } else {
+        var cellDom = rowDom.querySelector(cellSelector);
+        return cellDom;
+      }
     },
 
     getLastRowCellByModelField: function getLastRowCellByModelField(table, fieldName) {
@@ -290,10 +295,6 @@
         }
       });
 
-      if (!cellSelector) {
-        throw new Error('dataIndex ' + fieldName + ' not found in visible columns');
-      }
-
       var s = table.getStore();
       var count = s.getCount();
       if (count === 0) {
@@ -302,7 +303,16 @@
       var internalId = s.getAt(count - 1).internalId;
       var rowDomId = this.getRowDomId(table, internalId);
       var rowDom = document.getElementById(rowDomId);
-      return rowDom.querySelector(cellSelector);
+
+      if (!cellSelector) {
+        if (!cellData.useRowIfCellAbsent) {
+          throw new Error('Field ' + cellData.field + ' not found in visible column dataIndexes');
+        }
+        return rowDom;
+      } else {
+        var cellDom = rowDom.querySelector(cellSelector);
+        return cellDom;
+      }
     },
 
     getTableCellByModelFields: function getTableCellByModelFields(table, cellData) {
@@ -327,13 +337,9 @@
         }
       });
 
-      if (!cellSelector) {
-        throw new Error('Field ' + cellData.field + ' not found in visible column dataIndexes');
-      }
-
       var internalIds = this.findRecordIds(table.getStore(), cellData.row);
 
-      console.log(internalIds);
+      // console.log('internalIds: ', internalIds);
 
       if (cellData.one && (internalIds.length > 1)) {
         throw new Error('getTableCellByColumnTexts: one is true, but found ' + internalIds.length + ' records.');
@@ -344,9 +350,16 @@
       var rowDomId = this.getRowDomId(table, internalId);
 
       var rowDom = document.getElementById(rowDomId);
-      var cellDom = rowDom.querySelector(cellSelector);
 
-      return cellDom;
+      if (!cellSelector) {
+        if (!cellData.useRowIfCellAbsent) {
+          throw new Error('Field ' + cellData.field + ' not found in visible column dataIndexes');
+        }
+        return rowDom;
+      } else {
+        var cellDom = rowDom.querySelector(cellSelector);
+        return cellDom;
+      }
     },
   };
 

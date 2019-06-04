@@ -93,6 +93,13 @@ export interface TableCellByModelFields {
    * true by default.
    */
   one?: boolean;
+
+  /**
+   * For some group tree nodes there is no corresponding fieldName in table header visible columns.
+   * So there is no corresponding cell.
+   * You can set useRowIfCellAbsent to true to use row instead of cell.
+   */
+  useRowIfCellAbsent?: boolean;
 }
 
 /**
