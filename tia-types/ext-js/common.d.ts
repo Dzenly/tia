@@ -1,6 +1,7 @@
 /**
  * The TEQ (Tia ExtJs Query) search string.
  * The TEQ is a mix of following two abilities:
+ * https://docs.sencha.com/extjs/6.5.3/classic/Ext.ComponentQuery.html
  * https://docs.sencha.com/extjs/6.5.3/classic/Ext.ComponentQuery.html#method-query
  * https://docs.sencha.com/extjs/6.5.3/classic/Ext.Component.html#cfg-reference
  *
