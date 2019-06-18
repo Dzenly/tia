@@ -1,3 +1,6 @@
+Оценка рисков для актива.
+EJ explorer выдает component вместо formFieldBase.
+
 01-add-files-to-document.tia - CORS.
 
 02-add-users-to-the-workgroup-to-document.tia - celleditor.
