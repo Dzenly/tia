@@ -145,6 +145,7 @@ exports.init = async function init(cleanProfile, enableLog) {
 
         const client = new gT.sOrig.Client(remoteDriverConnectionStr);
         const executor = new gT.sOrig.Executor(client);
+        executor.w3c = true;
 
         gT_.sOrig.driver = new gT.sOrig.wdModule.WebDriver(sid, executor);
       } else {
