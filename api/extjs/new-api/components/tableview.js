@@ -305,6 +305,20 @@ const actions = {
     });
   },
 
+  /* eslint-disable-next-line max-params */
+  async ctrlClickCellsByColTexts(tEQ, column, values, idForLog, enableLog) {
+    for (const value of values) {
+      await this.ctrlClickCellByColTexts(
+        tEQ, {
+          row: [[column, value]],
+          column,
+        },
+        idForLog,
+        enableLog
+      );
+    }
+  },
+
   async clickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
@@ -399,6 +413,21 @@ const actions = {
       actionDesc: `Ctrl + Click cell by Model Fields: ${gIn.tU.v2s(cellData)}`,
       enableLog,
     });
+  },
+
+  /* eslint-disable-next-line max-params */
+  async ctrlClickCellsByModelFields(tEQ, fieldName, values, idForLog, enableLog) {
+    for (const value of values) {
+      await this.ctrlClickCellByModelFields(
+        tEQ, {
+          row: [[fieldName, value]],
+          field: fieldName,
+          useRowIfCellAbsent: true,
+        },
+        idForLog,
+        enableLog
+      );
+    }
   },
 
 };

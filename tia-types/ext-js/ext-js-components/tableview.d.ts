@@ -75,10 +75,26 @@ interface TableViewActions extends ComponentActions {
    */
   ctrlClickCellByColTexts(tEQ: Teq, cellData: TableCellByColumns, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
+    /**
+   * Multi-selection by Ctrl + Left mouse button click on the specified table cell on several rows.
+   *
+   * @param column - Column header text or tooltip, specifying column to click
+   * @param values - array of values for cells in the specified column.
+   */
+  ctrlClickCellsByColTexts(tEQ: Teq, column: string, values: string[], idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
   /**
    * Ctrl + Left mouse button click on the specified table cell.
    */
   ctrlClickCellByModelFields(tEQ: Teq, cellData: TableCellByModelFields, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
+   * Multi-selection by Ctrl + Left mouse button click on the specified table cell on several rows.
+   *
+   * @param fieldName - field name.
+   * @param values - array of values for cells in the column corresponding to the field name.
+   */
+  ctrlClickCellsByModelFields(tEQ: Teq, fieldName: string, values: string[], idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Left mouse button double click on the specified table cell.
