@@ -10,7 +10,7 @@ const { queryAndAction } = require('./tia-extjs-query');
  * @param enableLog
  * @return {*}
  */
-exports.cmpDomElement = async function getDomElement({
+exports.cmpDomElement = async function cmpDomElement({
   searchStr: tEQ,
   idForLog,
   enableLog,
@@ -31,7 +31,7 @@ exports.cmpDomElement = async function getDomElement({
  * @param enableLog
  * @return {*}
  */
-exports.cmpDomElementId = async function getDomElement({
+exports.cmpDomElementId = async function cmpDomElementId({
   tEQ,
   idForLog,
   enableLog,
@@ -73,7 +73,7 @@ exports.cmpInputDomElement = async function cmpInputDomElement({
  * @param enableLog
  * @return {*}
  */
-exports.cmpInputDomElementId = async function getDomElement({
+exports.cmpInputDomElementId = async function cmpInputDomElementId({
   tEQ,
   idForLog,
   enableLog,

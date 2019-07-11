@@ -52,6 +52,20 @@ export interface ComponentActions {
   dblClickInput(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
+   * Moves the mouse cursor to the center of the specified Component.
+   * Default actionDesc is 'Move mouse to Cmp'.
+   * Note: if it does not work, try moveMouseToInput().
+   */
+  moveMouse(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
+   * Moves the mouse cursor to the center of the Component's input element.
+   * Note: not all Components have an input element.
+   * Default actionDesc is 'Move mouse to Cmp input'.
+   */
+  moveMouseToInput(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
    * Sends ESC key to the component.
    * Can be used, e.g. to close boundlist in combobox.
    */

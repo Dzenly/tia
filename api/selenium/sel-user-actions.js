@@ -221,3 +221,38 @@ exports.sendKeysToBody = function sendKeysToBody(keys, enableLog) {
     () => gT.sOrig.driver.findElement(gT.sOrig.by.css('body')).sendKeys(...keys)
   );
 };
+
+exports.moveMouse = function moveMouse(webElement, enableLog) {
+  return gIn.wrap(
+    `Move mouse to element with id "${webElement.getId()}" ... `,
+    enableLog,
+    async () => {
+      await gT.sOrig.driver.actions({ bridge: true })
+        .move({
+          duration: gT.engineConsts.moveDuration,
+          origin: webElement,
+          x: 0,
+          y: 0,
+        })
+        .perform();
+    }
+  );
+};
+
+exports.moveMouseById = function moveMouseById(id, enableLog) {
+  id = gT.s.idToIdObj(id);
+  return gIn.wrap(
+    `Move mouse to element with id "${id.logStr}" ... `,
+    enableLog,
+    async () => {
+      await gT.sOrig.driver.actions({ bridge: true })
+        .move({
+          duration: gT.engineConsts.moveDuration,
+          origin: gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)),
+          x: 0,
+          y: 0,
+        })
+        .perform();
+    }
+  );
+};

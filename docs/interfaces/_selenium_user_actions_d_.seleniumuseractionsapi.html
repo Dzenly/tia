@@ -85,6 +85,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_selenium_user_actions_d_.seleniumuseractionsapi.html#clearbyid" class="tsd-kind-icon">clear<wbr>ById</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_selenium_user_actions_d_.seleniumuseractionsapi.html#clickbyid" class="tsd-kind-icon">click<wbr>ById</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_selenium_user_actions_d_.seleniumuseractionsapi.html#dblclickbyid" class="tsd-kind-icon">dbl<wbr>Click<wbr>ById</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_selenium_user_actions_d_.seleniumuseractionsapi.html#movemouse" class="tsd-kind-icon">move<wbr>Mouse</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_selenium_user_actions_d_.seleniumuseractionsapi.html#movemousebyid" class="tsd-kind-icon">move<wbr>Mouse<wbr>ById</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_selenium_user_actions_d_.seleniumuseractionsapi.html#rclickbyid" class="tsd-kind-icon">r<wbr>Click<wbr>ById</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_selenium_user_actions_d_.seleniumuseractionsapi.html#sendctrlaanddeletebyid" class="tsd-kind-icon">send<wbr>CtrlAAnd<wbr>Delete<wbr>ById</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_selenium_user_actions_d_.seleniumuseractionsapi.html#sendctrlaandkeysbyid" class="tsd-kind-icon">send<wbr>CtrlAAnd<wbr>Keys<wbr>ById</a></li>
@@ -185,6 +187,70 @@
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Let mouse button double click to element specified by id.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <a href="../modules/_selenium_common_d_.html#seleniumidorobj" class="tsd-signature-type">SeleniumIdOrObj</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> enableLog: <a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="movemouse" class="tsd-anchor"></a>
+					<h3>move<wbr>Mouse</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">move<wbr>Mouse<span class="tsd-signature-symbol">(</span>webElement<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, enableLog<span class="tsd-signature-symbol">?: </span><a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in selenium/user-actions.d.ts:118</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>webElement: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>WebElement from selenium-webdriver JS binding
+										<a href="https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_WebElement.html">https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_WebElement.html</a></p>
+										<p>This function is for high level API creation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> enableLog: <a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="movemousebyid" class="tsd-anchor"></a>
+					<h3>move<wbr>Mouse<wbr>ById</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">move<wbr>Mouse<wbr>ById<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><a href="../modules/_selenium_common_d_.html#seleniumidorobj" class="tsd-signature-type">SeleniumIdOrObj</a>, enableLog<span class="tsd-signature-symbol">?: </span><a href="../modules/_ext_js_common_d_.html#enablelog" class="tsd-signature-type">EnableLog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in selenium/user-actions.d.ts:110</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Moves the mouse cursor to the center of html element with the specified id.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -641,6 +707,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="_selenium_user_actions_d_.seleniumuseractionsapi.html#dblclickbyid" class="tsd-kind-icon">dbl<wbr>Click<wbr>ById</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="_selenium_user_actions_d_.seleniumuseractionsapi.html#movemouse" class="tsd-kind-icon">move<wbr>Mouse</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="_selenium_user_actions_d_.seleniumuseractionsapi.html#movemousebyid" class="tsd-kind-icon">move<wbr>Mouse<wbr>ById</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="_selenium_user_actions_d_.seleniumuseractionsapi.html#rclickbyid" class="tsd-kind-icon">r<wbr>Click<wbr>ById</a>

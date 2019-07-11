@@ -103,4 +103,17 @@ export interface SeleniumUserActionsApi {
    * Sends keys to the <body/> element.
    */
   sendKeysToBody(keys: SeleniumKeys, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
+   * Moves the mouse cursor to the center of html element with the specified id.
+   */
+  moveMouseById(id: SeleniumIdOrObj, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
+   * @param webElement - WebElement from selenium-webdriver JS binding
+   * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_WebElement.html
+   *
+   * This function is for high level API creation.
+   */
+  moveMouse(webElement: any, enableLog?: EnableLog): Promise<undefined>;
 }

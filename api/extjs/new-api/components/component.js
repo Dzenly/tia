@@ -96,6 +96,34 @@ const actions = {
       },
     });
   },
+  async moveMouse(tEQ, idForLog = '', enableLog) {
+    return gIn.wrap({
+      msg: `${getCIS(tEQ, this.compName, idForLog)} Move mouse to Cmp ... `,
+      enableLog,
+      act: async () => {
+        const id = await queryCmpId(
+          tEQ,
+          idForLog,
+          false
+        );
+        await gT.s.uA.moveMouseById(id, false);
+      },
+    });
+  },
+  async moveMouseToInput(tEQ, idForLog = '', enableLog) {
+    return gIn.wrap({
+      msg: `${getCIS(tEQ, this.compName, idForLog)} Move mouse to Cmp Input ... `,
+      enableLog,
+      act: async () => {
+        const id = await queryCmpInput(
+          tEQ,
+          idForLog,
+          false
+        );
+        await gT.s.uA.moveMouseById(id, false);
+      },
+    });
+  },
   async sendEsc(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send ESC ... `,
