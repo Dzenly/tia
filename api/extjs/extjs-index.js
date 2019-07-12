@@ -2,6 +2,7 @@
 
 const path = require('path');
 const fs = require('fs');
+const { inspect } = require('util');
 
 /* globals gT: true, gIn */
 
@@ -19,6 +20,19 @@ gT_.e = {};
 
 // ua - User Actions.
 // sa - script Actions.
+
+async function setEJSelectors(enableLog) {
+  const objStr = inspect(gT.globalConfig.ejSelectors, { compact: true, breakLength: 200 });
+  return gIn.wrap('setEJSelectors ... ', enableLog, () => {
+    const scriptStr = `return tiaEJ.setSelectors(${objStr});`;
+    return gT.s.browser.executeScriptWrapper(scriptStr)
+      .then((res) => {
+        if (res !== true) {
+          throw new Error('setEJSelectors: Unexpected return value');
+        }
+      });
+  });
+}
 
 // for gT.e.initTiaExtJsBrHelpers
 const brHelpers = [
@@ -50,6 +64,9 @@ gT_.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(enableLog) {
         const scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part', fName), 'utf8');
         await gT.s.browser.executeScriptWrapper(scriptStr);
       }
+
+      await setEJSelectors(enableLog);
+
       if (gT.cLParams.debugLocale) {
         await gT.e.utils.setDebugLocaleMode(true);
       }

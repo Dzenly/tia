@@ -7,13 +7,6 @@ EJ explorer выдает component вместо formFieldBase.
 
 Отладить проверку профайлов на linux.
 
-Поддержать ts файлы, и запускать их через ts-node.
-Надо чтобы генеренные файлы были не test.tia.js вида.
-А какого нить: test.tia.gen.js.
-
-
- 
-
 WebStorm go to definition not to d.ts.
 
 Поставить дефолтную страницу как бланк.

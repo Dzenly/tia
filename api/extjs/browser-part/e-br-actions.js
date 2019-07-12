@@ -123,6 +123,30 @@
       return nodes;
     },
 
+    getGroupRoot: function getGroupRoot(tableview, innerText) {
+      var nl = tableview.getEl().dom.querySelectorAll('.' + tiaEJ.selectors.tableGroupTitleClass);
+      if (!nl.length) {
+        throw new Error('getGroupRoot: no groups found for table: ' + tableview.getId());
+      }
+
+      var roots = [];
+      nl.forEach(function(item) {
+        if (item.innerText === innerText) {
+          roots.push(item);
+        }
+      });
+
+      if (!roots.length) {
+        throw new Error('getGroupRoot: no group roots found for innerText: ' + innerText);
+      }
+
+      if (roots.length > 1) {
+        throw new Error('getGroupRoot: many group roots are found for innerText: ' + innerText);
+      }
+
+      return roots[0];
+    },
+
     /**
      * Gets table cell DOM element.
      */

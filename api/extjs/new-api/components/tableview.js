@@ -37,6 +37,27 @@ const actions = {
   // No, setSelection or setSelectionModel work unstable.
   // async selectRowByEJ(tEQ, rowData, idForLog, enableLog) {},
 
+  async clickGroupRoot(tEQ, groupName, idForLog, enableLog) {
+    const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(groupName);
+    return gT.e.q.wrap({
+      tEQ,
+      compName,
+      idForLog,
+      act: async () => {
+        const groupRootEl = await queryAndAction({
+          tEQ,
+          action: `return tiaEJActs.getGroupRoot(cmp, '${valueStr}');`,
+          idForLog,
+          enableLog: false,
+        });
+
+        await groupRootEl.click();
+      },
+      actionDesc: `Click Group Root (${groupName})`,
+      enableLog,
+    });
+  },
+
   async clickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 

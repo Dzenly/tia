@@ -13,4 +13,8 @@ module.exports = {
   remoteDriverPort: 9515,
 
   dummyOptionForTests: 'dummyOptionForTests',
+
+  ejSelectors: {
+    tableGroupTitleClass: 'x-grid-group-title',
+  },
 };

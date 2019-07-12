@@ -6,6 +6,8 @@
 
   window.tiaEJ = {
 
+    selectors: null,
+
     ejIdle: false, //
 
     debugLocale: false,
@@ -106,6 +108,15 @@
         this.fakeToReal.clear();
         this.realToFake.clear();
       },
+    },
+
+    /**
+     * Sets Ext JS selectors which is undocumented in EJ Api Docs.
+     * @param {Object} selectorsObj
+     */
+    setSelectors: function setSelectors(selectorsObj) {
+      this.selectors = selectorsObj;
+      return true;
     },
 
     // It if returns true there is not a bad chance that ExtJs application is ready to use.
@@ -253,10 +264,12 @@
     replaceLocKeys: function replaceLocKeys(str) {
       var reExtra = /el"(.*?)"/g;
       var result = str.replace(reExtra, function (m, key) {
+        key = key.split(', ')[0];
         return '"' + tiaEJ.getLocaleValue(key, true) + '"';
       });
       var re = /l"(.*?)"/g;
       result = result.replace(re, function (m, key) {
+        key = key.split(', ')[0];
         return '"' + tiaEJ.getLocaleValue(key) + '"';
       });
 

@@ -820,6 +820,7 @@
     },
 
     addRowInfo: function addRowInfo(extDomEl, comp, outArr) {
+      var self = this;
       outArr.push(this.consts.smallSep);
       outArr.push('Row/cell info: ');
       // var xtype = comp.getConfig('xtype');
@@ -846,13 +847,30 @@
         // outArr.push('displayField: ' + comp.displayField);
         // row only.
         var cellDom = extDomEl.findParent(comp.getCellSelector(), 15, true);
-        if (!cellDom) {
-          outArr.push('Mouse is not on some row');
-          return;
-        }
-        var rowDom = extDomEl.findParent(comp.getItemSelector(), 15, true);
         window.cellDom = cellDom;
+        console.log('cellSelector: ' + comp.getCellSelector());
+        console.log('cellDom:');
+        console.dir(cellDom);
+
+        var s = comp.getStore();
+        var grouped = s.isGrouped();
+
+        var rowDom = extDomEl.findParent(comp.getItemSelector(), 15, true);
         window.rowDom = rowDom;
+        console.log('itemSelector: ' + comp.getItemSelector());
+        console.log('rowDom:');
+        console.dir(rowDom);
+
+        if (grouped) {
+          console.log('Table is grouped');
+          var groupRootUnderMouse = rowDom.dom.querySelector('.' + tiaEJ.selectors.tableGroupTitleClass);
+          if (groupRootUnderMouse) {
+            outArr.push(
+              'GroupName: ' + self.boldBlack(groupRootUnderMouse.innerText)
+              + ', Locale Keys: ' + self.boldBlack(tiaEJExp.replaceToLocKeys(groupRootUnderMouse.innerText))
+            );
+          }
+        }
 
         var panel = comp.ownerGrid;
         var visColumns = panel.getVisibleColumns();
@@ -863,49 +881,66 @@
           var cellSelector = comp.getCellSelector(col);
           console.log('cellSelector: ' + cellSelector);
           var tmpDom = extDomEl.findParent(cellSelector, 15, true);
-          console.dir(tmpDom);
-          console.log(col.dataIndex);
           if (tmpDom) { // Найден нужный столбец.
             dataIndex = col.dataIndex;
-            console.log(col.text, col.tooltip);
+            console.log('column Found', col.text, col.tooltip, col.dataIndex);
             outArr.push('text/tooltip: ' + tiaEJExp.boldBlack(
               tiaEJExp.replaceToLocKeys(col.text) + ' / ' + tiaEJExp.replaceToLocKeys(col.tooltip))
             );
-            // return true;
+            return true;
           }
         });
+
+        if (!dataIndex) {
+          console.log('Element under mouse has not any parents corresponding to cellSelector, so no column found.');
+          outArr.push(self.boldYellow('No cell is found.'));
+        }
 
         var intId = rowDom.getAttribute('data-recordid');
         // var intIndex = rowDom.getAttribute('data-recordindex');
 
-        var s = comp.getStore();
-        m = s.getByInternalId(intId);
-        window.model1 = m;
-        val = m.get(dataIndex);
-        var self = this;
 
-        if (typeof val === 'undefined') {
-          outArr.push(self.boldYellow('Cell dataIndex does not equal to column\'s dataIndex.'));
-          var content = cellDom.dom.textContent;
-          var data = m.getData();
-          var keys = Object.keys(data).filter(function (key) {
-            return (typeof data[key] === 'string') && data[key] && (content.indexOf(data[key]) !== -1);
-          });
-          keys.forEach(function (key) {
-            outArr.push(
-              'fieldName: ' + self.boldBlack(key)
-            );
-            outArr.push(
-              'value: ' + self.boldBlack(self.replaceToLocKeys(data[key]))
-            );
-          });
+
+        m = s.getByInternalId(intId);
+        if (!m) {
+          console.log('No model is found in store.');
+          outArr.push(self.boldYellow('No model is found in store by internal id: ' + intId));
         } else {
-          outArr.push(
-            'fieldName: ' + self.boldBlack(dataIndex)
-          );
-          outArr.push(
-            'value: ' + self.boldBlack(self.replaceToLocKeys(val))
-          );
+          console.log('Found model by internalId: ' + intId);
+          window.model1 = m;
+
+          if (dataIndex) {
+            val = m.get(dataIndex);
+
+            if (typeof val === 'undefined') {
+              outArr.push(self.boldYellow('Cell dataIndex does not equal to column\'s dataIndex.'));
+              var content = cellDom.dom.textContent;
+              var data = m.getData();
+              var keys = Object.keys(data).filter(function (key) {
+                return (typeof data[key] === 'string') && data[key] && (content.indexOf(data[key]) !== -1);
+              });
+              keys.forEach(function (key) {
+                outArr.push(
+                  'fieldName: ' + self.boldBlack(key)
+                );
+                outArr.push(
+                  'value: ' + self.boldBlack(self.replaceToLocKeys(data[key]))
+                );
+              });
+            } else {
+              outArr.push(
+                'fieldName: ' + self.boldBlack(dataIndex)
+              );
+              outArr.push(
+                'value: ' + self.boldBlack(self.replaceToLocKeys(val))
+              );
+            }
+          } else {
+            if (!grouped) {
+              console.error('Table is not grouped, can not find locator for row');
+              outArr.push(self.boldRed('Can not find locator for row.'));
+            }
+          }
         }
       }
     },

@@ -47,6 +47,12 @@ interface TableViewActions extends ComponentActions {
   rClickFirstRowCellByModelField(tEQ: Teq, fieldName: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
+   * Left mouse button click on the specified group name.
+   * @param groupName - name of the group root to click.
+   */
+  clickGroupRoot(tEQ: Teq, groupName: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+
+  /**
    * Left mouse button click on the specified column in the last table row.
    * @colText - the column header text or tooltip.
    */
