@@ -597,6 +597,10 @@
 
       var xtype = comp.getConfig('xtype');
 
+      if (xtype === 'celleditor') {
+        return xtype;
+      }
+
       xtype = xtype.replace(/\./g, '\\.');
 
       var isXTypeCustom = !standardXTypesList.includes(xtype);

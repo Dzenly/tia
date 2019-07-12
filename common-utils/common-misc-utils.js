@@ -208,7 +208,9 @@
 
   // Gets object property by path.
   // If some property is function - it will be called without arguments.
-  container.result = function result(val, path, defaultValue) {
+  container.result = function result(origVal, path, defaultValue) {
+
+    var val = origVal;
 
     try {
 
@@ -226,7 +228,7 @@
         val = val[key];
         if (typeof val === 'function') {
           val = val.call(prevVal);
-        } else if (typeof val === 'undefined') {
+        } else if (val == null) {
           return defaultValue;
         }
       }
@@ -234,6 +236,7 @@
       return val;
     } catch (err) {
       console.error('Invalid path: ' + path);
+      console.dir(origVal);
       throw err;
     }
   };
