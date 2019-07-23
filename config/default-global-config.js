@@ -16,5 +16,6 @@ module.exports = {
 
   ejSelectors: {
     tableGroupTitleClass: 'x-grid-group-title',
+    closeItemClass: 'x-tagfield-item-close',
   },
 };

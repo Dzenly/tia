@@ -11,7 +11,9 @@ interface FormChecks extends ComponentChecks {
 interface FormLogs extends ComponentLogs {
   /**
    * Prints the form content to the test log.
-   * @includingStores - Is inner content of controls to be printed.
+   * @includingStores - use true to just include store and print displayField,
+   * 1 - to print only displayField, name and text fields (if exist)
+   * and 2 to force store printing all fields.
    */
   content(tEQ: Teq, includingStores: boolean, idForLog?: ElementIdForLog): Promise<undefined>;
 }

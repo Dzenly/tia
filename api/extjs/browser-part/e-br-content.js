@@ -71,6 +71,9 @@
     // Store must contain at least one record.
     doesStoreContainField: function doesStoreContainField(store, fieldName) {
       var model = store.first();
+      if (!model) {
+        return false;
+      }
       if (typeof model.get(fieldName) !== 'undefined') {
         return true;
       }
@@ -575,7 +578,13 @@
       }
       str += '\n';
 
-      if (includingStores) {
+      if (comp.xtype === 'tableview' || comp.xtype === 'grid') {
+        var tableStr = this.getTable(comp);
+        var tableArr = tableStr.split('\n').map(function(item) {
+          return indent + item;
+        });
+        str += tableArr.join('\n');
+      } else if (includingStores) {
         var store = comp.getStore ? comp.getStore() : null;
         if (store) {
           var displayField = this.safeGetConfig(comp, 'displayField');
@@ -610,7 +619,7 @@
           }
         }
       }
-      if (comp.items) {
+      if (comp.items && (comp.xtype !== 'tableview' && comp.xtype !== 'grid')) {
         var self = this;
         comp.items.each(function (item) {
           str += self.getFormChild(item, includingStores, indent + '  ');
@@ -625,7 +634,7 @@
         var self = this;
         form.items.each(function (item) {
           str += self.getFormChild(item, includingStores);
-        })
+        });
       }
       return str;
     },
