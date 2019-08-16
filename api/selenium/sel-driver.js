@@ -60,6 +60,7 @@ exports.init = async function init(cleanProfile, enableLog) {
 
         if (gT.cLParams.headless) {
           options.addArguments('--headless');
+          options.addArguments('--window-size=2560,1024');
           if (gT.u.isWindows()) {
             options.addArguments('--disable-gpu'); // Temporary fix for Windows.
           }

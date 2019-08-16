@@ -288,13 +288,19 @@ async function runTestSuite(suiteData) {
   const dirInfo = await handleTestDir(root, gT.rootDirConfig);
   dirInfo.isSuiteRoot = true;
 
+  const { diffed } = dirInfo;
+
   if (gT.cLParams.dir) {
     // gIn.cLogger.msgln(JSON.stringify(dirInfo, null, 2));
     gIn.logger.printSuiteLog(dirInfo);
   }
 
-  if (gT.cLParams.new || gT.cLParams.pattern || gT.cLParams.dir) {
+  if (gT.cLParams.new) {
     return {};
+  }
+
+  if (gT.cLParams.pattern || gT.cLParams.dir) {
+    return { dirInfo };
   }
 
   // dirInfo.title = path.basename(dir);
@@ -331,8 +337,8 @@ async function runTestSuite(suiteData) {
     highlight: 'html',
     htmlWrap: true,
   });
-  const equalToEtalon = !suiteLogEtDifResStr;
-  if (!equalToEtalon) {
+  const suiteEqualToEtalon = !suiteLogEtDifResStr;
+  if (!suiteEqualToEtalon) {
     fs.writeFileSync(
       etDifHtmlFName,
       suiteLogEtDifResStr,
@@ -351,9 +357,9 @@ async function runTestSuite(suiteData) {
       { encoding: gT.engineConsts.logEncoding }
     );
   }
-  gIn.tracer.msg3(`equalToEtalon: ${equalToEtalon}`);
-  const etSLogInfoEmail = equalToEtalon ? 'ET_SLOG, ' : 'DIF_SLOG, ';
-  const etSLogInfoConsole = equalToEtalon ? `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, `
+  gIn.tracer.msg3(`equalToEtalon: ${suiteEqualToEtalon}`);
+  const etSLogInfoEmail = suiteEqualToEtalon ? 'ET_SLOG, ' : 'DIF_SLOG, ';
+  const etSLogInfoConsole = suiteEqualToEtalon ? `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, `
     : `${gIn.cLogger.chalkWrap('red', 'DIF_SLOG')}, `;
 
   const subjTimeMark = dirInfo.time > gT.cLParams.tooLongTime ? ', TOO_LONG' : '';
@@ -387,8 +393,6 @@ async function runTestSuite(suiteData) {
 
   await gIn.mailUtils.send(emailSubj, suiteLogEtDifResStr, etDifTxt, txtAttachments, [arcPath]);
 
-  const { diffed } = dirInfo;
-
   const suiteNotEmpty = dirInfo.run + dirInfo.skipped;
 
   if (gT.cLParams.slogDifToConsole && etDifTxt && (gT.cLParams.showEmptySuites || suiteNotEmpty)) {
@@ -411,7 +415,7 @@ async function runTestSuite(suiteData) {
   }
 
   return {
-    equalToEtalon,
+    suiteEqualToEtalon,
     diffed,
     emailSubj,
     emailSubjConsole,
@@ -511,6 +515,17 @@ function getTestSuitePaths() {
   return suitePaths;
 }
 
+function extractDiffedPaths(testOrDirInfo, result, suiteRoot) {
+  if (testOrDirInfo.children) {
+    for (const child of testOrDirInfo.children) {
+      if (child.diffed) {
+        extractDiffedPaths(child, result, suiteRoot);
+      }
+    }
+  } else {
+    result.push(path.relative(suiteRoot, testOrDirInfo.path));
+  }
+}
 
 // Returns subject for email.
 exports.runTestSuites = async function runTestSuites() {
@@ -551,14 +566,27 @@ exports.runTestSuites = async function runTestSuites() {
     return;
   }
 
-  if (gT.cLParams.dir) {
-    process.exitCode = 0;
+  if (gT.cLParams.pattern || gT.cLParams.dir) {
+    let isDiffed = false;
+    let run = 0;
+    for (const { dirInfo } of results) {
+      run += dirInfo.run;
+      if (dirInfo.diffed) {
+        isDiffed = true;
+        gIn.cLogger.msg(`Following tests are diffed in suite: ${dirInfo.path}:\n- `);
+        const result = [];
+        extractDiffedPaths(dirInfo, result, dirInfo.path);
+        gIn.cLogger.msgln(`${result.join('\n- ')}\n`);
+      }
+    }
+
+    gIn.cLogger.msgln(`Total run count: ${run}.`);
+
+    process.exitCode = isDiffed ? 1 : 0;
     return;
   }
 
-  const wasError = results.some((result) => {
-    return !result || result.diffed || !result.equalToEtalon;
-  });
+  const wasError = results.some(result => !result || result.diffed || !result.suiteEqualToEtalon);
 
   process.exitCode = wasError ? 1 : 0;
 
