@@ -54,7 +54,8 @@ exports.safeReadFile = function safeReadFile(fileOrDirPath) {
   try {
     res = fs.readFileSync(fileOrDirPath, gT.engineConsts.logEncoding);
   } catch (e) {
-    const asd = 5;
+    gIn.tracer.msg3(`safeReadFile: No such file: ${fileOrDirPath}`);
+
     // No handling intentionaly.
   }
   return res;

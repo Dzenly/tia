@@ -556,7 +556,9 @@ exports.runTestSuites = async function runTestSuites() {
     return;
   }
 
-  const wasError = results.some(result => !result || result.diffed || !result.equalToEtalon);
+  const wasError = results.some((result) => {
+    return !result || result.diffed || !result.equalToEtalon;
+  });
 
   process.exitCode = wasError ? 1 : 0;
 

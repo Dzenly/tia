@@ -185,7 +185,7 @@ exports.diff = function diff({
   htmlWrap,
 }) {
   const dir = path.dirname(jsTest);
-  const base = path.basename(jsTest, '.js');
+  const base = path.basename(jsTest.slice(0, -3));
   let out = exports.getDiff({
     dir,
     oldFile: `${base}.log`,
