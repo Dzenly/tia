@@ -42,7 +42,7 @@
   "dependencies": {
     "camelcase-keys": "^5.2.0",
     "chalk": "^2.4.1",
-    "chromedriver": "^75.1.0",
+    "chromedriver": "^76.0.0",
     "debug-assert": "^0.2.3",
     "diff": "^4.0.1",
     "lodash": "^4.17.14",
