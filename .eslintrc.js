@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: 'airbnb',
+  extends: 'airbnb-base',
   rules: {
     strict: 0,
 

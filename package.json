@@ -56,6 +56,9 @@
   },
   "devDependencies": {
     "@types/node": "^12.6.1",
-    "@types/selenium-webdriver": "^4.0.1"
+    "@types/selenium-webdriver": "^4.0.1",
+    "eslint": "^6.2.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
   }
 }
