@@ -1,6 +1,9 @@
 import {ElementIdForLog, EnableLog, Teq} from '../common';
 import {FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs} from './form-field-base';
 
+/**
+ * gT.eC.checkbox.actions or gT.eC.checkbox.a
+ */
 interface CheckBoxActions extends FormFieldBaseActions {
 
   /**
@@ -24,10 +27,16 @@ interface CheckBoxActions extends FormFieldBaseActions {
   uncheckByEJ(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 }
 
+/**
+ * gT.eC.checkbox.checks or gT.eC.checkbox.c
+ */
 interface CheckBoxChecks extends FormFieldBaseChecks {
 
 }
 
+/**
+ * gT.eC.checkbox.logs or gT.eC.checkbox.l
+ */
 interface CheckBoxLogs extends FormFieldBaseLogs {
 
   /**
@@ -36,6 +45,9 @@ interface CheckBoxLogs extends FormFieldBaseLogs {
   rawValue(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined>;
 }
 
+/**
+ * gT.eC.checkbox
+ */
 export interface CheckBox {
   actions: CheckBoxActions;
   /**

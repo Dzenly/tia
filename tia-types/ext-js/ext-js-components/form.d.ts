@@ -18,6 +18,9 @@ interface FormLogs extends ComponentLogs {
   content(tEQ: Teq, includingStores: boolean, idForLog?: ElementIdForLog): Promise<undefined>;
 }
 
+/**
+ * gT.eC.form
+ */
 export interface Form {
   actions: FormActions;
   /**

@@ -38,6 +38,9 @@ interface BoundListLogs extends ComponentLogs {
   selectedContentByInnerText(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined>;
 }
 
+/**
+ * gT.eC.boundlist
+ */
 export interface BoundList {
   actions: BoundListActions;
   /**

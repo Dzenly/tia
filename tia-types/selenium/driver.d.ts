@@ -1,5 +1,8 @@
 import {EnableLog} from '../ext-js/common';
 
+/**
+ * gT.s.driver
+ */
 export interface SeleniumDriverApi {
 
   /**

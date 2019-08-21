@@ -1,6 +1,9 @@
 import {ElementIdForLog, EnableLog, TableCellByColumns, TableCellByModelFields, Teq} from '../common';
 import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 
+/**
+ * gT.eC.tableview.actions or gT.eC.tableview.a
+ */
 interface TableViewActions extends ComponentActions {
   /**
    * Left mouse button click on the specified table cell.
@@ -113,10 +116,16 @@ interface TableViewActions extends ComponentActions {
   doubleClickCellByModelFields(tEQ: Teq, cellData: TableCellByModelFields, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 }
 
+/**
+ * gT.eC.tableview.checks or gT.eC.tableview.c
+ */
 export interface TableViewChecks extends ComponentChecks {
 
 }
 
+/**
+ * gT.eC.tableview.logs or gT.eC.tableview.l
+ */
 export interface TableViewLogs extends ComponentLogs {
   /**
    * Prints the table content to the test log.
@@ -124,6 +133,9 @@ export interface TableViewLogs extends ComponentLogs {
   content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined>;
 }
 
+/**
+ * gT.eC.tableview
+ */
 export interface TableView {
   actions: TableViewActions;
   /**

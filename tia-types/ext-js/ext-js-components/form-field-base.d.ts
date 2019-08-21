@@ -1,6 +1,9 @@
 import {ElementIdForLog, EnableLog, Teq} from '../common';
 import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 
+/**
+ * gT.eC.formFieldBase.actions or gT.eC.formFieldBase.a
+ */
 interface FormFieldBaseActions extends ComponentActions {
   /**
    * Sets value to any form field.
@@ -25,9 +28,15 @@ interface FormFieldBaseActions extends ComponentActions {
   setRawValueByEJ(tEQ: Teq, value: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 }
 
+/**
+ * gT.eC.formFieldBase.checks or gT.eC.formFieldBase.c
+ */
 interface FormFieldBaseChecks extends ComponentChecks {
 }
 
+/**
+ * gT.eC.formFieldBase.logs or gT.eC.formFieldBase.l
+ */
 interface FormFieldBaseLogs extends ComponentLogs {
   /**
    * Component name for logs.
@@ -43,6 +52,9 @@ interface FormFieldBaseLogs extends ComponentLogs {
   rawValue(tEQ: Teq, idForLog?: ElementIdForLog, mapperCallback?: (val: string) => string): Promise<undefined>;
 }
 
+/**
+ * gT.eC.formFieldBase
+ */
 export interface FormFieldBase {
   actions: FormFieldBaseActions;
   /**

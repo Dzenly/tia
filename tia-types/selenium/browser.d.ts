@@ -20,6 +20,9 @@ interface AddCookieArgs {
   value: string;
 }
 
+/**
+ * gT.s.browser
+ */
 export interface SeleniumBrowserApi {
 
   /**

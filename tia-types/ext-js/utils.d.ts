@@ -1,5 +1,8 @@
 import {EnableLog} from './common';
 
+/**
+ * gT.e.utils
+ */
 export interface ExtJsUtils {
 
   /**

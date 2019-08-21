@@ -2,6 +2,9 @@ import {ElementIdForLog, EnableLog, Teq} from '../common';
 import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
 import {TableViewActions, TableViewChecks, TableViewLogs} from './tableview';
 
+/**
+ * gT.eC.treeview.actions or gT.eC.treeview.a
+ */
 interface TreeViewActions extends TableViewActions {
 
   /**
@@ -23,9 +26,15 @@ interface TreeViewActions extends TableViewActions {
   doubleClickItem(tEQ: Teq, text: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 }
 
+/**
+ * gT.eC.treeview.checks or gT.eC.treeview.c
+ */
 interface TreeViewChecks extends TableViewChecks {
 }
 
+/**
+ * gT.eC.treeview.logs or gT.eC.treeview.l
+ */
 interface TreeViewLogs extends TableViewLogs {
   /**
    * Prints the tree content to the test log.
@@ -33,6 +42,9 @@ interface TreeViewLogs extends TableViewLogs {
   content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined>;
 }
 
+/**
+ * gT.eC.treeview
+ */
 export interface TreeView {
   actions: TreeViewActions;
   /**

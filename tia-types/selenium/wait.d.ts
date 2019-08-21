@@ -1,6 +1,9 @@
 import {EnableLog} from '../ext-js/common';
 import {SeleniumIdOrObj} from './common';
 
+/**
+ * gT.s.wait
+ */
 export interface SeleniumWaitApi {
 
   /**

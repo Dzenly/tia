@@ -14,6 +14,10 @@ interface GlobalTiaObjects {
   a: TiaAssertions;
   l: TiaLogs;
   t: TiaTest;
+  /**
+   * Reserved for usage by R-Vision.
+   */
+  rv: any;
 }
 
 declare namespace NodeJS {

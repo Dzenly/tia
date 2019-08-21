@@ -20,6 +20,9 @@ interface ButtonLogs extends ComponentLogs {
   info(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined>;
 }
 
+/**
+ * gT.eC.button
+ */
 export interface Button {
   actions: ButtonActions;
   /**

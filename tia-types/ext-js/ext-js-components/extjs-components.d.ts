@@ -12,6 +12,9 @@ import {Tab} from './tab';
 import {TextField} from './textfield';
 import {TreeView} from './treeview';
 
+/**
+ * gT.eC
+ */
 export interface ExtJsComponents {
   component: Component;
   formFieldBase: FormFieldBase;

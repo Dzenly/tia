@@ -37,6 +37,9 @@ interface ComboBoxLogs extends FormFieldBaseLogs {
   content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined>;
 }
 
+/**
+ * gT.eC.combobox
+ */
 export interface ComboBox {
   actions: ComboBoxActions;
   /**

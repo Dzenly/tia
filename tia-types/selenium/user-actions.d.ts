@@ -17,6 +17,9 @@ import {SeleniumIdOrObj} from './common';
  */
 type SeleniumKeys = string | string[];
 
+/**
+ * gT.s.uA
+ */
 export interface SeleniumUserActionsApi {
 
   /**

@@ -1,4 +1,5 @@
 /**
+ * gT.sOrig
  * Original JS Selenium WebDriver API.
  * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index.html
  */

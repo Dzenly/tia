@@ -1,3 +1,6 @@
+/**
+ * gT.t
+ */
 export interface TiaTest {
   /**
    * Sets the test title.

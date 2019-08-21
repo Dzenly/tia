@@ -1,6 +1,7 @@
 import {LogMode, OptionalMsg} from './common';
 
 /**
+ * gT.a
  * TODO: support https://www.npmjs.com/package/validatorjs
  */
 export interface TiaAssertions {

@@ -3,6 +3,9 @@
  */
 import {LogMode, OptionalMsg} from './common';
 
+/**
+ * gT.l
+ */
 export interface TiaLogs {
 
   /**

@@ -8,6 +8,7 @@ import {EnableLog} from './common';
 type WaitTimeout = number | undefined;
 
 /**
+ * gT.e.wait
  * Use this API to make you tests more stable.
  */
 export interface ExtJsWaits {

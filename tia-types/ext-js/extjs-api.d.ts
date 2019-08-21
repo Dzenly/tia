@@ -2,6 +2,9 @@ import { TeqApi } from './teq';
 import { ExtJsUtils } from './utils';
 import { ExtJsWaits } from './wait';
 
+/**
+ * gT.e
+ */
 export interface ExtJsApi {
   utils: ExtJsUtils;
   api: Object;

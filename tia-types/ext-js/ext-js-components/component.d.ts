@@ -1,6 +1,9 @@
 import {SeleniumKeys} from '../../selenium/user-actions';
 import {ElementIdForLog, EnableLog, Teq} from '../common';
 
+/**
+ * gT.eC.component.actions or gT.eC.component.a
+ */
 export interface ComponentActions {
 
   /**
@@ -135,6 +138,9 @@ export interface ComponentActions {
   waitForEnabledAndNotMasked(tEQ: Teq, timeout?: number, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 }
 
+/**
+ * gT.eC.component.checks or gT.eC.component.c
+ */
 export interface ComponentChecks {
 
   /**
@@ -145,6 +151,9 @@ export interface ComponentChecks {
 
 }
 
+/**
+ * gT.eC.component.logs or gT.eC.component.l
+ */
 export interface ComponentLogs {
 
   /**
@@ -154,6 +163,9 @@ export interface ComponentLogs {
   compName: string;
 }
 
+/**
+ * gT.eC.component
+ */
 export interface Component {
   actions: ComponentActions;
   /**
