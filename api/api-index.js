@@ -1,8 +1,5 @@
 'use strict';
 
-/* globals gT: true */
-/* globals gIn: true */
-
 /*
  Includes API modules in correct order.
  */
