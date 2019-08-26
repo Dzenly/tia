@@ -82,22 +82,27 @@ module.exports = {
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
-        'prettier',
         'prettier/@typescript-eslint',
+        'plugin:prettier/recommended',
       ],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: path.join(__dirname, 'tsconfig.json'),
+        sourceType: 'module',
+        ecmaVersion:  2018,
       },
       plugins: [
         '@typescript-eslint',
+        'prettier',
       ],
       rules: {
         '@typescript-eslint/explicit-function-return-type': 0,
         '@typescript-eslint/camelcase': 0,
         '@typescript-eslint/member-ordering': 1,
         '@typescript-eslint/require-await': 0,
+        '@typescript-eslint/no-empty-interface': 0,
         'sort-keys': 1,
+        'prettier/prettier': ['error']
       },
       globals: {
         gT: true,
