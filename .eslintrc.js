@@ -278,9 +278,9 @@ module.exports = {
         R: true,
       },
       env: {
-        browser: false,
-        node: true,
-        es6: true,
+        browser: true,
+        node: false,
+        // es6: true,
         jest: false,
       },
     },
