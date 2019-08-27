@@ -3,8 +3,8 @@
 /* globals gT: true, gIn: true */
 
 const path = require('path');
-const nodeUtils = require('../utils/nodejs-utils.js');
 const _ = require('lodash');
+const nodeUtils = require('../utils/nodejs-utils.js');
 
 // Returns merged config for suite.
 exports.handleSuiteConfig = function handleSuiteConfig() {
