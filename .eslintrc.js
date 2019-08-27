@@ -10,6 +10,7 @@ module.exports = {
       files: [
         '*.js',
       ],
+      excludedFiles: ['**/browser-part/**/*.js'],
       parserOptions: {
         ecmaVersion: 2018,
         sourceType: 'module',
@@ -77,10 +78,7 @@ module.exports = {
         jest: false,
       },
     },
-    { // Как я понял, этот конфиг подмерживается в конфиг для *.js.
-      extends: [
-        'airbnb-base',
-      ],
+    {
       files: [
         '**/browser-part/**/*.js',
       ],
@@ -289,6 +287,9 @@ module.exports = {
     {
       files: [
         '*.ts',
+      ],
+      excludedFiles: [
+        '*.js',
       ],
       extends: [
         'eslint:recommended',

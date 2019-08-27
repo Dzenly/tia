@@ -130,7 +130,7 @@
       }
 
       var roots = [];
-      nl.forEach(function(item) {
+      nl.forEach(function (item) {
         if (item.innerText === innerText) {
           roots.push(item);
         }
