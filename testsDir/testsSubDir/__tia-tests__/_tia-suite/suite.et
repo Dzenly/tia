@@ -10,6 +10,7 @@
 | | | "01_3msg3pass.tia.js", OK, fail: 0, Pass: 3, "2 messages and 3 passes."
 | | | "02_passFail.tia.js", OK, fail: 0, Pass: 2, "Check for pass and fail work"
 | | | "03_testInfoInit.tia.js", OK, fail: 0, pass: 0, "Test for testInfo init"
+| | | "05_testts.tia.ts", OK, fail: 0, pass: 0, "My ts test"
 | | "01_errors", dif: 0, Fail: 3, edif: 0, skip: 0, "The subdir tests bunch for TIA"
 | | | "01_stdErr.tia.js", OK, fail: 0, pass: 0, "TODO (LOW PRIORITY): catch messages from stderr"
 | | | "02_syntaxError.tia.js", OK, Fail: 1, pass: 0, ""
