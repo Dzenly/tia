@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /**
  * gT.sOrig
+ * It is too difficult to import TS definitions from selenium-webdriver, so here they are marked as 'any'.
  * Original JS Selenium WebDriver API.
  * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index.html
  */
 export interface SeleniumOriginalApi {
-
   /**
    * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_By.html
    */

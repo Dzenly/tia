@@ -1,10 +1,9 @@
-import {EnableLog} from '../ext-js/common';
+import { EnableLog } from '../ext-js/common';
 
 /**
  * gT.s.driver
  */
 export interface SeleniumDriverApi {
-
   /**
    * Initiates webdriver.
    * All gui tests should start with this function.

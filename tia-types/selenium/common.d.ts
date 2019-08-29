@@ -9,7 +9,6 @@ interface SeleniumIdObj {
    * in case if the id is dynamically generated.
    */
   logStr: string;
-
 }
 
 /**

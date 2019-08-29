@@ -1,13 +1,12 @@
 /**
  * API to write strings to the Test log.
  */
-import {LogMode, OptionalMsg} from './common';
+import { LogMode, OptionalMsg } from './common';
 
 /**
  * gT.l
  */
 export interface TiaLogs {
-
   /**
    * Logs the specified msg.
    */

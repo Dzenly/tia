@@ -17,7 +17,7 @@ interface GlobalTiaObjects {
   /**
    * Reserved for usage by R-Vision.
    */
-  rv: any;
+  rv: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 declare namespace NodeJS {

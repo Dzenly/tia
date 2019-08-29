@@ -4,7 +4,6 @@
 export type OptionalMsg = string | undefined;
 
 export interface LogMode {
-
   /**
    * Do not show message for passed assertion.
    */
@@ -19,5 +18,5 @@ export interface LogMode {
    * The name for result accumulator which will be reset to false
    * if some assertion is failed.
    */
-  accName?: string
+  accName?: string;
 }

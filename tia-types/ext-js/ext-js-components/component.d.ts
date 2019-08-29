@@ -1,11 +1,10 @@
-import {SeleniumKeys} from '../../selenium/user-actions';
-import {ElementIdForLog, EnableLog, Teq} from '../common';
+import { SeleniumKeys } from '../../selenium/user-actions';
+import { ElementIdForLog, EnableLog, Teq } from '../common';
 
 /**
  * gT.eC.component.actions or gT.eC.component.a
  */
 export interface ComponentActions {
-
   /**
    * Component name for logs.
    * Overridden in descendants.
@@ -115,19 +114,34 @@ export interface ComponentActions {
    * Sends keys to the component.
    * Default actionDesc is 'Send keys'.
    */
-  sendKeys(tEQ: Teq, keys: SeleniumKeys, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+  sendKeys(
+    tEQ: Teq,
+    keys: SeleniumKeys,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined>;
 
   /**
    * Ctrl + a, and send keys to the Component.
    * Default actionDesc is 'Ctrl +a, Send keys'
    */
-  sendCtrlAAndKeys(tEQ: Teq, keys: SeleniumKeys, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+  sendCtrlAAndKeys(
+    tEQ: Teq,
+    keys: SeleniumKeys,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined>;
 
   /**
    * Ctrl + a, keys, ENTER to the Component.
    * Default actionDesc is 'Ctrl +a, Send keys, Enter'
    */
-  sendCtrlAKeysEnter(tEQ: Teq, keys: SeleniumKeys, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+  sendCtrlAKeysEnter(
+    tEQ: Teq,
+    keys: SeleniumKeys,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined>;
 
   /**
    * Waits for the component to become enabled and not masked.
@@ -135,27 +149,29 @@ export interface ComponentActions {
    * https://docs.sencha.com/extjs/6.5.3/classic/Ext.Component.html#method-isDisabled
    * @param [timeout = 5000] - milliseconds to wait.
    */
-  waitForEnabledAndNotMasked(tEQ: Teq, timeout?: number, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+  waitForEnabledAndNotMasked(
+    tEQ: Teq,
+    timeout?: number,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined>;
 }
 
 /**
  * gT.eC.component.checks or gT.eC.component.c
  */
 export interface ComponentChecks {
-
   /**
    * Component name for logs.
    * Overridden in descendants.
    */
   compName: string;
-
 }
 
 /**
  * gT.eC.component.logs or gT.eC.component.l
  */
 export interface ComponentLogs {
-
   /**
    * Component name for logs.
    * Overridden in descendants.
@@ -183,4 +199,3 @@ export interface Component {
    */
   l: ComponentLogs;
 }
-

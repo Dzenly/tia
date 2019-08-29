@@ -1,25 +1,32 @@
-import {ElementIdForLog, EnableLog, Teq} from '../common';
-import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
+import { ElementIdForLog, EnableLog, Teq } from '../common';
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 
 interface BoundListActions extends ComponentActions {
-
   /**
    * Left mouse button click on the item containing the given text.
    * @param text - text for row to click.
    */
-  clickRow(tEQ: Teq, text: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+  clickRow(
+    tEQ: Teq,
+    text: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined>;
 
   /**
    * Ctrl + Left mouse button click on the items containing the given texts.
    * So it selects given string.
    * @param texts - texts for rows to click.
    */
-  ctrlClickRows(tEQ: Teq, texts: string[], idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+  ctrlClickRows(
+    tEQ: Teq,
+    texts: string[],
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined>;
 }
 
-interface BoundListChecks extends ComponentChecks {
-
-}
+interface BoundListChecks extends ComponentChecks {}
 
 interface BoundListLogs extends ComponentLogs {
   /**
@@ -58,4 +65,3 @@ export interface BoundList {
    */
   l: BoundListLogs;
 }
-

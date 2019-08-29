@@ -1,5 +1,5 @@
-import {ElementIdForLog, EnableLog, Teq} from '../common';
-import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
+import { ElementIdForLog, EnableLog, Teq } from '../common';
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 
 /**
  * gT.eC.formFieldBase.actions or gT.eC.formFieldBase.a
@@ -13,8 +13,12 @@ interface FormFieldBaseActions extends ComponentActions {
    * https://docs.sencha.com/extjs/6.5.3/classic/Ext.form.field.Base.html#method-setValue
    * @param value - value to set to the form field.
    */
-  setValueByEJ(tEQ: Teq, value: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
-
+  setValueByEJ(
+    tEQ: Teq,
+    value: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined>;
 
   /**
    * Sets raw value to any form field.
@@ -25,14 +29,18 @@ interface FormFieldBaseActions extends ComponentActions {
    * https://docs.sencha.com/extjs/6.5.3/classic/Ext.form.field.Base.html#method-setRawValue
    * @param value - value to set to the form field.
    */
-  setRawValueByEJ(tEQ: Teq, value: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+  setRawValueByEJ(
+    tEQ: Teq,
+    value: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined>;
 }
 
 /**
  * gT.eC.formFieldBase.checks or gT.eC.formFieldBase.c
  */
-interface FormFieldBaseChecks extends ComponentChecks {
-}
+interface FormFieldBaseChecks extends ComponentChecks {}
 
 /**
  * gT.eC.formFieldBase.logs or gT.eC.formFieldBase.l
@@ -49,7 +57,11 @@ interface FormFieldBaseLogs extends ComponentLogs {
    * See ExtJs docs on getRawValue for the corresponding Component.
    * @param mapperCallback - callback to map a raw value to a log string. if omitted - val is used as is.
    */
-  rawValue(tEQ: Teq, idForLog?: ElementIdForLog, mapperCallback?: (val: string) => string): Promise<undefined>;
+  rawValue(
+    tEQ: Teq,
+    idForLog?: ElementIdForLog,
+    mapperCallback?: (val: string) => string
+  ): Promise<undefined>;
 }
 
 /**
@@ -72,4 +84,3 @@ export interface FormFieldBase {
    */
   l: FormFieldBaseLogs;
 }
-

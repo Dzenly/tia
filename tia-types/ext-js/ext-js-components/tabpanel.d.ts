@@ -1,5 +1,5 @@
-import {ElementIdForLog, EnableLog, Teq} from '../common';
-import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
+import { ElementIdForLog, EnableLog, Teq } from '../common';
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 
 /**
  * gT.eC.tabpanel.actions or gT.eC.tabpanel.a
@@ -13,41 +13,41 @@ interface TabPanelActions extends ComponentActions {
    * Use EJ Explorer to get component and TEQ for click.
    * @param cardId - id of the card to set.
    */
-  setActiveTabByCardId(tEQ: Teq, cardId: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+  setActiveTabByCardId(
+    tEQ: Teq,
+    cardId: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined>;
 }
 
 /**
  * gT.eC.tabpanel.checks or gT.eC.tabpanel.c
  */
-interface TabPanelChecks extends ComponentChecks {
-
-}
+interface TabPanelChecks extends ComponentChecks {}
 
 /**
  * gT.eC.tabpanel.logs or gT.eC.tabpanel.l
  */
-interface TabPanelLogs extends ComponentLogs {
-
-}
+interface TabPanelLogs extends ComponentLogs {}
 
 /**
  * gT.eC.tabpanel
  */
 export interface TabPanel {
-  actions: TabPanelActions,
+  actions: TabPanelActions;
   /**
    * alias for actions.
    */
-  a: TabPanelActions,
-  checks: TabPanelChecks,
+  a: TabPanelActions;
+  checks: TabPanelChecks;
   /**
    * alias for checks.
    */
-  c: TabPanelChecks,
-  logs: TabPanelLogs,
+  c: TabPanelChecks;
+  logs: TabPanelLogs;
   /**
    * alias for logs.
    */
-  l: TabPanelLogs,
+  l: TabPanelLogs;
 }
-

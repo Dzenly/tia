@@ -1,9 +1,9 @@
-import {EnableLog} from '../ext-js/common';
+import { EnableLog } from '../ext-js/common';
 
 /**
  * Return value from JavaScript injected in the AUT (Application Under Test).
  */
-type ScriptReturnValue = any;
+type ScriptReturnValue = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 interface ScreenResolution {
   width: number;
@@ -11,12 +11,12 @@ interface ScreenResolution {
 }
 
 interface AddCookieArgs {
-  domain: string|undefined;
-  expiry: Date|number|undefined;
-  httpOnly: boolean|undefined;
+  domain: string | undefined;
+  expiry: Date | number | undefined;
+  httpOnly: boolean | undefined;
   name: string;
-  path: string|undefined;
-  secure: boolean|undefined;
+  path: string | undefined;
+  secure: boolean | undefined;
   value: string;
 }
 
@@ -24,7 +24,6 @@ interface AddCookieArgs {
  * gT.s.browser
  */
 export interface SeleniumBrowserApi {
-
   /**
    * Initializes TIA browser helpers.
    * I.e., adds to window object some objects which TIA uses in injected JS code.
@@ -32,7 +31,6 @@ export interface SeleniumBrowserApi {
    * TODO: Describe browser API too and provide link here.
    */
   initTiaBrHelpers(enableLog?: EnableLog): Promise<undefined>;
-
 
   /**
    * Encloses string value into single quotes. Leaves number value as is.
@@ -47,7 +45,6 @@ export interface SeleniumBrowserApi {
    * See also --def-host description in `tia --help`.
    */
   loadPage(url: string, enableLog?: EnableLog): Promise<undefined>;
-
 
   /**
    * Closes the active browser tab.
@@ -136,7 +133,7 @@ export interface SeleniumBrowserApi {
    * @param y - relative to screen.
    * @param enableLog
    */
-  setWindowPosition(x: number, y: number,enableLog?: EnableLog): Promise<undefined>;
+  setWindowPosition(x: number, y: number, enableLog?: EnableLog): Promise<undefined>;
 
   setWindowSize(width: number, height: number, enableLog?: EnableLog): Promise<undefined>;
 
@@ -161,7 +158,6 @@ export interface SeleniumBrowserApi {
    * @param enableLog
    */
   addCookie(name: string, value: string, enableLog?: EnableLog): Promise<undefined>;
-
 
   /**
    * https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_Options.html#addCookie

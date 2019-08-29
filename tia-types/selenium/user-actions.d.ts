@@ -1,5 +1,5 @@
-import {EnableLog} from '../ext-js/common';
-import {SeleniumIdOrObj} from './common';
+import { EnableLog } from '../ext-js/common';
+import { SeleniumIdOrObj } from './common';
 
 /**
  * String or array of strings with keys.
@@ -21,7 +21,6 @@ type SeleniumKeys = string | string[];
  * gT.s.uA
  */
 export interface SeleniumUserActionsApi {
-
   /**
    * Left mouse button click to element specified by id.
    */
@@ -81,13 +80,20 @@ export interface SeleniumUserActionsApi {
   /**
    * Ctrl + a, then sendKeysById().
    */
-  sendCtrlAAndKeysById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog?: EnableLog): Promise<undefined>;
+  sendCtrlAAndKeysById(
+    id: SeleniumIdOrObj,
+    keys: SeleniumKeys,
+    enableLog?: EnableLog
+  ): Promise<undefined>;
 
   /**
    * Ctrl + a, then keys, then Enter.
    */
-  sendCtrlAKeysEnterById(id: SeleniumIdOrObj, keys: SeleniumKeys, enableLog?: EnableLog): Promise<undefined>;
-
+  sendCtrlAKeysEnterById(
+    id: SeleniumIdOrObj,
+    keys: SeleniumKeys,
+    enableLog?: EnableLog
+  ): Promise<undefined>;
 
   /**
    * Ctrl + a, then Delete.

@@ -1,10 +1,9 @@
-import {EnableLog} from './common';
+import { EnableLog } from './common';
 
 /**
  * gT.e.utils
  */
 export interface ExtJsUtils {
-
   /**
    * Sets locale object. Locale object is key-value object for localization.
    * Key is english text, and value is any utf8 text.
@@ -15,7 +14,6 @@ export interface ExtJsUtils {
    */
   setLocaleObject(objExpression: string, enableLog?: EnableLog): Promise<undefined>;
 
-
   /**
    * Sets extra locale object. Locale object is key-value object for localization.
    * Key is english text, and value is any utf8 text.
@@ -24,7 +22,10 @@ export interface ExtJsUtils {
    *
    * @param localeObj - key - value pairs.
    */
-  setExtraLocaleObject(localeObj: any, enableLog?: EnableLog): Promise<undefined>;
+  setExtraLocaleObject(
+    localeObj: { [key: string]: string },
+    enableLog?: EnableLog
+  ): Promise<undefined>;
 
   /**
    * If newMode is false - only locale key values are printed to the test log.

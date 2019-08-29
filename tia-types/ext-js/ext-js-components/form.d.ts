@@ -1,12 +1,15 @@
-import {ElementIdForLog, EnableLog, TableCellByColumns, TableCellByModelFields, Teq} from '../common';
-import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
+import {
+  ElementIdForLog,
+  // EnableLog,
+  // TableCellByColumns,
+  // TableCellByModelFields,
+  Teq,
+} from '../common';
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 
-interface FormActions extends ComponentActions {
-}
+interface FormActions extends ComponentActions {}
 
-interface FormChecks extends ComponentChecks {
-
-}
+interface FormChecks extends ComponentChecks {}
 
 interface FormLogs extends ComponentLogs {
   /**
@@ -38,4 +41,3 @@ export interface Form {
    */
   l: FormLogs;
 }
-

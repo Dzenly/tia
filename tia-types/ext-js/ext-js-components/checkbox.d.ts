@@ -1,11 +1,10 @@
-import {ElementIdForLog, EnableLog, Teq} from '../common';
-import {FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs} from './form-field-base';
+import { ElementIdForLog, EnableLog, Teq } from '../common';
+import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs } from './form-field-base';
 
 /**
  * gT.eC.checkbox.actions or gT.eC.checkbox.a
  */
 interface CheckBoxActions extends FormFieldBaseActions {
-
   /**
    * Clicks on input checkbox element if checkbox is not checked.
    */
@@ -30,15 +29,12 @@ interface CheckBoxActions extends FormFieldBaseActions {
 /**
  * gT.eC.checkbox.checks or gT.eC.checkbox.c
  */
-interface CheckBoxChecks extends FormFieldBaseChecks {
-
-}
+interface CheckBoxChecks extends FormFieldBaseChecks {}
 
 /**
  * gT.eC.checkbox.logs or gT.eC.checkbox.l
  */
 interface CheckBoxLogs extends FormFieldBaseLogs {
-
   /**
    * Prints 'checked' or 'unchecked'.
    */
@@ -65,4 +61,3 @@ export interface CheckBox {
    */
   l: CheckBoxLogs;
 }
-

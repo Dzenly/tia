@@ -1,11 +1,12 @@
-import {LogMode, OptionalMsg} from './common';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { LogMode, OptionalMsg } from './common';
 
 /**
  * gT.a
  * TODO: support https://www.npmjs.com/package/validatorjs
  */
 export interface TiaAssertions {
-
   /**
    * Result accumulators are used for changed assertions.
    * If some assertion failed the accumulator state is failed too.
@@ -79,7 +80,7 @@ export interface TiaAssertions {
    * @param expExc - expected exception. If undefined - no exception is expected.
    * I.e. to check that function does not generate exceptions just pass undefined expExc.
    */
-  exception(func: () => any , expExc?: string, mode?: LogMode): boolean;
+  exception(func: () => any, expExc?: string, mode?: LogMode): boolean;
 
   /**
    * Checks that given async func will throw given exception.
@@ -87,8 +88,7 @@ export interface TiaAssertions {
    * @param expExc - expected exception. If undefined - no exception is expected.
    * I.e. to check that function does not generate exceptions just pass undefined expExc.
    */
-  exceptionAsync(func: () => Promise<any> , expExc?: string, mode?: LogMode): boolean;
-
+  exceptionAsync(func: () => Promise<any>, expExc?: string, mode?: LogMode): boolean;
 
   /**
    * Checks that val1 === val2.
@@ -96,7 +96,14 @@ export interface TiaAssertions {
    * @param msg2 - message, describing val2 entity.
    * @param doNotShowValues - Do not show values for passed assertion.
    */
-  equal(val1: any, val2: any, msg1: string, msg2: string, doNotShowValues ?: boolean, mode ?: LogMode): boolean;
+  equal(
+    val1: any,
+    val2: any,
+    msg1: string,
+    msg2: string,
+    doNotShowValues?: boolean,
+    mode?: LogMode
+  ): boolean;
 
   /**
    * Checks that Boolean(val1) === Boolean(val2).
@@ -104,7 +111,14 @@ export interface TiaAssertions {
    * @param msg2 - message, describing val2 entity.
    * @param doNotShowValues - Do not show values for passed assertion.
    */
-  equalBool(val1: any, val2: any, msg1: string, msg2: string, doNotShowValues ?: boolean, mode ?: LogMode): boolean;
+  equalBool(
+    val1: any,
+    val2: any,
+    msg1: string,
+    msg2: string,
+    doNotShowValues?: boolean,
+    mode?: LogMode
+  ): boolean;
 
   /**
    * Checks that Boolean(val1) !== Boolean(val2).
@@ -112,5 +126,12 @@ export interface TiaAssertions {
    * @param msg2 - message, describing val2 entity.
    * @param doNotShowValues - Do not show values for passed assertion.
    */
-  notEqualBool(val1: any, val2: any, msg1: string, msg2: string, doNotShowValues ?: boolean, mode ?: LogMode): boolean;
+  notEqualBool(
+    val1: any,
+    val2: any,
+    msg1: string,
+    msg2: string,
+    doNotShowValues?: boolean,
+    mode?: LogMode
+  ): boolean;
 }

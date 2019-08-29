@@ -1,11 +1,10 @@
-import {ElementIdForLog, EnableLog, Teq} from '../common';
-import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
+import { ElementIdForLog, EnableLog, Teq } from '../common';
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 
 /**
  * gT.eC.gridcolumn.actions or gT.eC.gridcolumn.a
  */
 interface GridColumnActions extends ComponentActions {
-
   /**
    * Left mouse click on GridColumn trigger element.
    */
@@ -15,15 +14,12 @@ interface GridColumnActions extends ComponentActions {
 /**
  * gT.eC.gridcolumn.checks or gT.eC.gridcolumn.c
  */
-interface GridColumnChecks extends ComponentChecks {
-
-}
+interface GridColumnChecks extends ComponentChecks {}
 
 /**
  * gT.eC.gridcolumn.logs or gT.eC.gridcolumn.l
  */
-interface GridColumnLogs extends ComponentLogs {
-}
+interface GridColumnLogs extends ComponentLogs {}
 
 /**
  * gT.eC.gridcolumn
@@ -45,4 +41,3 @@ export interface GridColumn {
    */
   l: GridColumnLogs;
 }
-

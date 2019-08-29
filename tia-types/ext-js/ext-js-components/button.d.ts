@@ -1,5 +1,5 @@
-import {ElementIdForLog, EnableLog, Teq} from '../common';
-import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
+import { ElementIdForLog, EnableLog, Teq } from '../common';
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 
 interface ButtonActions extends ComponentActions {
   /**
@@ -8,12 +8,9 @@ interface ButtonActions extends ComponentActions {
   click(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 }
 
-interface ButtonChecks extends ComponentChecks {
-
-}
+interface ButtonChecks extends ComponentChecks {}
 
 interface ButtonLogs extends ComponentLogs {
-
   /**
    * Prints info about the button which user can see on the display.
    */
@@ -40,4 +37,3 @@ export interface Button {
    */
   l: ButtonLogs;
 }
-

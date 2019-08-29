@@ -1,4 +1,4 @@
-import {EnableLog} from './common';
+import { EnableLog } from './common';
 
 /**
  * Milliseconds to wait.
