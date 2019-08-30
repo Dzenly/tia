@@ -12,8 +12,6 @@ process.env.SELENIUM_PROMISE_MANAGER = 0;
 
 const path = require('path');
 
-/* globals gIn: true, gT */
-
 const camelcaseKeys = require('camelcase-keys');
 const createArgs = require('minimist');
 const { inspect } = require('util');
@@ -149,13 +147,13 @@ if (args.v || args.version) {
 
 if (args.checkLogs) {
   // TODO: Доделать.
-  const allowedArr = [
-    'ignoreGood', // No difs, no fails, no empty.
-    'expected',
-
-    // 'silent', // Do not ask for confirmation on dif applying.
-
-  ];
+  // const allowedArr = [
+  //   'ignoreGood', // No difs, no fails, no empty.
+  //   'expected',
+  //
+  //   // 'silent', // Do not ask for confirmation on dif applying.
+  //
+  // ];
 
   args.checkLogs = args.checkLogs.split(',');
 }
@@ -349,8 +347,7 @@ if (gT.cLParams.ejExplore) {
 gIn.tracer.msg3(`Parameters: ${inspect(gT.cLParams)}`);
 
 runTestSuites()
-  .then((res) => {
-    const asdf = 5;
+  .then(() => {
   })
   .catch((e) => {
     gIn.tracer.err(e);
