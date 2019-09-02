@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "node build/bin/tia.js --run-self-tests",
-    "postinstall": "node_modules/.bin/tsc"
+    "postinstall": "node_modules/.bin/tsc || exit 0"
   },
   "types": "./tia-types/index.d.ts",
   "typings": "./tia-types/index.d.ts",
