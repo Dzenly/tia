@@ -6,16 +6,19 @@
 // Don't allow eslint to set semicolon after ':' above.
 // http://sambal.org/2014/02/passing-options-node-shebang-line/
 
-'use strict';
+declare const gT: import('tia-types').GlobalTiaObjects;
+declare const gT_: import('tia-types').GlobalTiaObjects;
+declare const gIn: import('tia-types').GlobalTiaInnerObjects;
 
 process.env.SELENIUM_PROMISE_MANAGER = '0';
 
-const path = require('path');
+import path from 'path';
+import { inspect } from 'util';
 
-const camelcaseKeys = require('camelcase-keys');
-const createArgs = require('minimist');
-const { inspect } = require('util');
-const _ = require('lodash');
+import camelcaseKeys = require('camelcase-keys');
+import createArgs = require('minimist');
+
+import _ = require('lodash');
 
 // const tiaDir = path.resolve(path.join(__dirname, '..'));
 
@@ -25,35 +28,23 @@ const tiaDir = path.resolve(path.join(__dirname, '..', '..'));
 process.env.TS_NODE_PROJECT = path.join(tiaDir, 'tsconfig.json');
 
 require('ts-node').register({
+  compilerOptions: {
+    allowJs: false,
+    baseUrl: tiaDir,
+    moduleResolution: 'Classic',
+    target: 'ES2018',
+  },
   ignore: [],
   transpileOnly: true,
-  compilerOptions: {
-    baseUrl: tiaDir,
-    allowJs: false,
-    target: 'ES2018',
-    moduleResolution: 'Classic',
-  },
 });
 
-// const moduleProto = Object.getPrototypeOf(module);
-// const origRequire = moduleProto.require;
-// moduleProto.require = function(modPath) {
-//   let res;
-//   try {
-//     res = origRequire(modPath);
-//   } catch (e) {
-//     res = origRequire(path.join('..', modPath));
-//   }
-//   return res;
-// };
+import nodeUtils = require('../utils/nodejs-utils');
+import argConsts = require('../utils/arg-consts.js');
+import helpUtils = require('../utils/help-utils.js');
+import { runTestSuites } from '../engine/runner.js';
+import tiaArgsUtils = require('../utils/tia-arguments-utils.js');
 
-const nodeUtils = require('../utils/nodejs-utils');
-const argConsts = require('../utils/arg-consts.js');
-const helpUtils = require('../utils/help-utils.js');
-const { runTestSuites } = require('../engine/runner.js');
-const tiaArgsUtils = require('../utils/tia-arguments-utils.js');
-
-const { version } = require('../package.json');
+import { version } from '../package.json';
 
 console.log(`TIA version: ${version}`);
 
@@ -79,25 +70,6 @@ function unknownOption(option) {
 
 const opts = {
   // trace is number, numbers implied by default in minimist.
-  string: [
-    'browser',
-    'browser-log-level',
-    'check-logs',
-    'def-host',
-    'driver-log-level',
-
-    'email-cfg-path',
-    'ext-log',
-    'hang-timeout',
-    'pattern',
-    'require-modules',
-    'root-dir',
-    'sel-acts-delay',
-    'slog-subj',
-    'too-long-time',
-    'trace-level',
-    'update-logs',
-  ],
   boolean: [
     // 'logs-to-mail',
     'clear-profiles',
@@ -143,6 +115,25 @@ const opts = {
 
     // , 'ignore-skip-flag': false
   },
+  string: [
+    'browser',
+    'browser-log-level',
+    'check-logs',
+    'def-host',
+    'driver-log-level',
+
+    'email-cfg-path',
+    'ext-log',
+    'hang-timeout',
+    'pattern',
+    'require-modules',
+    'root-dir',
+    'sel-acts-delay',
+    'slog-subj',
+    'too-long-time',
+    'trace-level',
+    'update-logs',
+  ],
   unknown: unknownOption,
 };
 
@@ -285,13 +276,14 @@ gT_.rootLog = path.join(
 // =====================
 gT.cLParams.emailCfgPath = tiaArgsUtils.resolvePathOptionRelativeToRootDir({
   cmdLineArgsPath: gT.cLParams.emailCfgPath,
-  envVarName: gT.engineConsts.emailCfgPathEnvVarName,
-  description: 'EMail cfg path',
   cutLastDirSep: false,
+  description: 'EMail cfg path',
+  envVarName: gT.engineConsts.emailCfgPathEnvVarName,
   mandatory: false,
 });
 
 if (gT.cLParams.emailCfgPath) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   gT_.rootSuiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), require(gT.cLParams.emailCfgPath));
 }
 

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "resolveJsonModule": true,
     /* Basic Options */
     "target": "ES2018" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */,
     "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
@@ -45,7 +46,7 @@
     },
     "baseUrl": "." /* Base directory to resolve non-absolute module names. */,
     "rootDirs": ["."],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
-    "typeRoots": ["."],                       /* List of folders to include type definitions from. */
+    "typeRoots": [".", "tia-types"],                       /* List of folders to include type definitions from. */
     "types": [".", "node"],                           /* Type declaration files to be included in compilation. */
     // "allowSyntheticDefaultImports": true,  /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
@@ -60,13 +61,13 @@
     /* Experimental Options */
     // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
-    "plugins": [
-      {
-        "name": "typescript-tslint-plugin",
-        "ignoreDefinitionFiles": true,
-        "jsEnable": false
-      }
-    ]
+//    "plugins": [
+//      {
+//        "name": "typescript-tslint-plugin",
+//        "ignoreDefinitionFiles": true,
+//        "jsEnable": false
+//      }
+//    ]
   },
   "exclude": [
     "**/node_modules",

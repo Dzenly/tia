@@ -30,7 +30,7 @@ interface TiaTracer {
    * Writes an error.to stdout.
    * @param msg - error message
    */
-  err(msg: string):void;
+  err(msg: string): void;
   [x: string]: any;
 }
 
@@ -64,6 +64,12 @@ interface GlobalTiaObjects {
   browsers: string[];
   config: TiaConfig;
   cLParams: TiaCommandLineParameters;
+  rootSuiteConfig: string;
+  rootDirConfig: any;
+  engineConsts: any;
+  rootResultsDir: string;
+  rootLog: string;
+  dirConfigDefault: any;
 }
 
 declare namespace NodeJS {
