@@ -3,13 +3,14 @@
   "version": "0.26.57",
   "description": "Time is All (logs driven test engine with ExtJs support)",
   "bin": {
-    "tia": "bin/tia.js"
+    "tia": "build/bin/tia.js"
   },
   "engines": {
     "node": ">=10.15.1"
   },
   "scripts": {
-    "test": "tia --run-self-tests"
+    "test": "node build/bin/tia.js --run-self-tests",
+    "postinstall": "node_modules/.bin/tsc"
   },
   "types": "./tia-types/index.d.ts",
   "typings": "./tia-types/index.d.ts",
@@ -33,6 +34,9 @@
     "unit",
     "regression"
   ],
+  "_moduleAliases": {
+    "@root": "."
+  },
   "author": "Dzenly <alexchem@yandex.ru>",
   "license": "MIT",
   "bugs": {

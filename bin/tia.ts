@@ -17,9 +17,12 @@ const createArgs = require('minimist');
 const { inspect } = require('util');
 const _ = require('lodash');
 
-const tiaDir = path.resolve(path.join(__dirname, '..'));
+// const tiaDir = path.resolve(path.join(__dirname, '..'));
 
-process.env.TS_NODE_PROJECT = `${tiaDir}/tsconfig.json`;
+// Path relative to build/bin.
+const tiaDir = path.resolve(path.join(__dirname, '..', '..'));
+
+process.env.TS_NODE_PROJECT = path.join(tiaDir, 'tsconfig.json');
 
 require('ts-node').register({
   ignore: [],
@@ -31,6 +34,18 @@ require('ts-node').register({
     moduleResolution: 'Classic',
   },
 });
+
+// const moduleProto = Object.getPrototypeOf(module);
+// const origRequire = moduleProto.require;
+// moduleProto.require = function(modPath) {
+//   let res;
+//   try {
+//     res = origRequire(modPath);
+//   } catch (e) {
+//     res = origRequire(path.join('..', modPath));
+//   }
+//   return res;
+// };
 
 const nodeUtils = require('../utils/nodejs-utils');
 const argConsts = require('../utils/arg-consts.js');
@@ -161,7 +176,7 @@ if (args.checkLogs) {
 
 if (args.runSelfTests) {
   // Tests for the engine.
-  args.rootDir = path.resolve(path.join(__dirname, '..'));
+  args.rootDir = path.resolve(path.join(__dirname, '..', '..'));
   args.extLog = gT.engineConsts.selfTestsExtLog;
   args.difsToSlog = true;
   args.slogDifToConsole = true;
@@ -344,7 +359,7 @@ gIn.tracer.msg3(`Parameters: ${inspect(gT.cLParams)}`);
 
 runTestSuites()
   .then(() => {})
-  .catch((e) => {
+  .catch(e => {
     gIn.tracer.err(e);
     gIn.tracer.err(e.stack);
     throw e;
