@@ -70,6 +70,11 @@ interface GlobalTiaObjects {
   rootResultsDir: string;
   rootLog: string;
   dirConfigDefault: any;
+  rootTestsDirPath: any;
+  suiteConfigDefault: any;
+  globalConfig: any;
+  defaultRootProfile: any;
+  globalConfigDefault: any;
 }
 
 declare namespace NodeJS {

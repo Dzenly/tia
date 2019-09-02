@@ -42,7 +42,7 @@ require('ts-node').register({
 import nodeUtils = require('../utils/nodejs-utils');
 import argConsts = require('../utils/arg-consts.js');
 import helpUtils = require('../utils/help-utils.js');
-import { runTestSuites } from '../engine/runner.js';
+import { runTestSuites } from '../engine/runner';
 import tiaArgsUtils = require('../utils/tia-arguments-utils.js');
 
 import { version } from '../package.json';
@@ -60,7 +60,7 @@ gT_.browsers = [
   'firefox',
 ];
 
-function unknownOption(option) {
+function unknownOption(option: string) {
   if (option && option.substr(0, 1) === '-') {
     gIn.cLogger.errln(`Unknown option: "${option}"\n`);
     helpUtils.usage();
@@ -138,7 +138,7 @@ const opts = {
   unknown: unknownOption,
 };
 
-let args = createArgs(process.argv.slice(2), opts);
+let args: any = createArgs(process.argv.slice(2), opts);
 
 args = camelcaseKeys(args);
 
