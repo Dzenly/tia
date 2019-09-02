@@ -32,6 +32,7 @@ require('ts-node').register({
     allowJs: false,
     baseUrl: tiaDir,
     moduleResolution: 'Classic',
+    resolveJsonModule: false,
     target: 'ES2018',
   },
   ignore: [],
