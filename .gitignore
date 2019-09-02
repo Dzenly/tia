@@ -199,3 +199,5 @@ package-lock.json
 dist/
 build/
 **/tia-browser-profiles/
+build-types/
+build-map/

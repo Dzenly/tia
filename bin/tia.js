@@ -8,7 +8,7 @@
 
 'use strict';
 
-process.env.SELENIUM_PROMISE_MANAGER = 0;
+process.env.SELENIUM_PROMISE_MANAGER = '0';
 
 const path = require('path');
 
@@ -27,7 +27,7 @@ require('ts-node').register({
   compilerOptions: {
     baseUrl: tiaDir,
     allowJs: false,
-    target: 'ES2017',
+    target: 'ES2018',
     moduleResolution: 'Classic',
   },
 });
@@ -83,7 +83,8 @@ const opts = {
     'trace-level',
     'update-logs',
   ],
-  boolean: [ // 'logs-to-mail',
+  boolean: [
+    // 'logs-to-mail',
     'clear-profiles',
     'debug-avg',
     'debug-locale',
@@ -158,7 +159,8 @@ if (args.checkLogs) {
   args.checkLogs = args.checkLogs.split(',');
 }
 
-if (args.runSelfTests) { // Tests for the engine.
+if (args.runSelfTests) {
+  // Tests for the engine.
   args.rootDir = path.resolve(path.join(__dirname, '..'));
   args.extLog = gT.engineConsts.selfTestsExtLog;
   args.difsToSlog = true;
@@ -185,7 +187,7 @@ if (args.debugMax) {
 }
 
 const { browser } = args;
-if (gT.browsers.indexOf(browser) === -1) {
+if (!gT.browsers.includes(browser)) {
   gIn.cLogger.errln(`Invalid browser: ${browser}`);
   gIn.cLogger.errln(`Supported browsers are: ${gT.browsers.join(', ')}`);
   process.exit(1);
@@ -211,23 +213,18 @@ if (!args.requireModules) {
 gT_.rootTestsDirPath = path.join(gT.cLParams.rootDir, gT.engineConsts.suiteDirName);
 
 // =====================
-gT_.rootResultsDir = path.join(
-  gT.rootTestsDirPath,
-  gT.engineConsts.rootResDirName
-);
+gT_.rootResultsDir = path.join(gT.rootTestsDirPath, gT.engineConsts.rootResDirName);
 
 // =====================
-const rootSuiteConfig = nodeUtils.requireIfExists(path.join(
-  gT.rootResultsDir,
-  gT.engineConsts.suiteRootConfigName
-));
+const rootSuiteConfig = nodeUtils.requireIfExists(
+  path.join(gT.rootResultsDir, gT.engineConsts.suiteRootConfigName)
+);
 gT_.rootSuiteConfig = _.merge(_.cloneDeep(gT.suiteConfigDefault), rootSuiteConfig);
 
 // =====================
-const globalConfig = nodeUtils.requireIfExists(path.join(
-  gT.rootResultsDir,
-  gT.engineConsts.globalConfigName
-));
+const globalConfig = nodeUtils.requireIfExists(
+  path.join(gT.rootResultsDir, gT.engineConsts.globalConfigName)
+);
 gT_.globalConfig = _.merge(_.cloneDeep(gT.globalConfigDefault), globalConfig);
 
 if (!gT.globalConfig.rootDirAlias) {
@@ -259,10 +256,9 @@ if (gT.cLParams.dir) {
 }
 
 // =====================
-const rootDirConfig = nodeUtils.requireIfExists(path.join(
-  gT.rootResultsDir,
-  gT.engineConsts.dirRootConfigName
-));
+const rootDirConfig = nodeUtils.requireIfExists(
+  path.join(gT.rootResultsDir, gT.engineConsts.dirRootConfigName)
+);
 gT_.rootDirConfig = _.merge(_.cloneDeep(gT.dirConfigDefault), rootDirConfig);
 
 // =====================
@@ -347,8 +343,7 @@ if (gT.cLParams.ejExplore) {
 gIn.tracer.msg3(`Parameters: ${inspect(gT.cLParams)}`);
 
 runTestSuites()
-  .then(() => {
-  })
+  .then(() => {})
   .catch((e) => {
     gIn.tracer.err(e);
     gIn.tracer.err(e.stack);
