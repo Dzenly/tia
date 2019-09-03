@@ -138,7 +138,7 @@ const opts = {
   unknown: unknownOption,
 };
 
-let args: any = createArgs(process.argv.slice(2), opts);
+let args: any = createArgs(process.argv.slice(2), opts); // eslint-disable-line @typescript-eslint/no-explicit-any
 
 args = camelcaseKeys(args);
 
