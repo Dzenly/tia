@@ -75,9 +75,11 @@ interface GlobalTiaObjects {
   globalConfig: any;
   defaultRootProfile: any;
   globalConfigDefault: any;
+  nodeUtils: any;
 }
 
-declare namespace NodeJS {
+// Module augmentation.
+declare module NodeJS {
   interface Global {
     gT: GlobalTiaObjects;
     gIn: GlobalTiaInnerObjects;

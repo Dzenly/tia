@@ -1,7 +1,8 @@
 'use strict';
 
-/* globals gT: true */
-/* globals gIn: true */
+declare const gT: import('tia-types').GlobalTiaObjects;
+declare const gT_: import('tia-types').GlobalTiaObjects;
+declare const gIn: import('tia-types').GlobalTiaInnerObjects;
 
 // Test engine init.
 // Fills the gT global object, which will be used in all tests and in the test engine.
@@ -42,10 +43,10 @@ gT_.globalConfigDefault = require('../config/default-global-config.js');
 gT_.dirConfigDefault = require('../config/default-dir-config.js');
 
 gIn.loggerCfg = require('./loggers/logger-cfg.js');
-gIn.cLogger = require('./loggers/console-logger.js');
+gIn.cLogger = require('./loggers/console-logger');
 gIn.logger = require('./loggers/logger.js');
 
-gIn.tracer = require('./tracer.js');
+gIn.tracer = require('./tracer');
 
 gT_.commonMiscUtils = require('../common-utils/common-misc-utils.js');
 

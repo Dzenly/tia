@@ -9,8 +9,10 @@
     "node": ">=10.15.1"
   },
   "scripts": {
+    "clean": "rm -rf build/* && rm -rf build-types/*",
     "test": "node build/bin/tia.js --run-self-tests",
-    "postinstall": "node_modules/.bin/tsc || exit 0"
+    "postinstall": "node_modules/.bin/tsc || exit 0",
+    "a": "npm run clean && npm run postinstall && npm run test"
   },
   "types": "./tia-types/index.d.ts",
   "typings": "./tia-types/index.d.ts",
