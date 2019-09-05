@@ -4,7 +4,7 @@
 
 const path = require('path');
 const _ = require('lodash');
-const nodeUtils = require('../utils/nodejs-utils.js');
+const nodeUtils = require('../utils/nodejs-utils');
 
 // Returns merged config for suite.
 exports.handleSuiteConfig = function handleSuiteConfig() {

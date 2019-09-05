@@ -9,7 +9,7 @@
 let isVerbose;
 
 const fs = require('fs');
-const nodeUtils = require('../../utils/nodejs-utils.js');
+const nodeUtils = require('../../utils/nodejs-utils');
 
 function logToFile(msg) {
   // TODO: check how diff work for unicode.

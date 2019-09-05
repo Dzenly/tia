@@ -5,7 +5,7 @@
 
 // const mpath = require('path');
 const util = require('util');
-const fileUtils = require('../../utils/file-utils.js');
+const fileUtils = require('../../utils/file-utils');
 
 // TODO: does not driver creates profile dir itself ?
 function createBrowserProfile() {

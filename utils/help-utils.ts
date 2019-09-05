@@ -1,6 +1,6 @@
 'use strict';
 
-const argConsts = require('./arg-consts.js');
+const argConsts = require('./arg-consts');
 
 /* global gT */
 

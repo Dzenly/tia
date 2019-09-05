@@ -40,10 +40,10 @@ require('ts-node').register({
 });
 
 import nodeUtils = require('../utils/nodejs-utils');
-import argConsts = require('../utils/arg-consts.js');
-import helpUtils = require('../utils/help-utils.js');
+import argConsts = require('../utils/arg-consts');
+import helpUtils = require('../utils/help-utils');
 import { runTestSuites } from '../engine/runner';
-import tiaArgsUtils = require('../utils/tia-arguments-utils.js');
+import tiaArgsUtils = require('../utils/tia-arguments-utils');
 
 import { version } from '../package.json';
 
@@ -51,7 +51,7 @@ console.log(`TIA version: ${version}`);
 
 nodeUtils.checkNodeJsVersion();
 
-require('../engine/init-global-objects.js');
+require('../engine/init-global-objects');
 
 gT_.version = version;
 

@@ -6,9 +6,9 @@
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
-const nodeUtils = require('../utils/nodejs-utils.js');
-const fileUtils = require('../utils/file-utils.js');
-const suiteUtils = require('../utils/suite-utils.js');
+const nodeUtils = require('../utils/nodejs-utils');
+const fileUtils = require('../utils/file-utils');
+const suiteUtils = require('../utils/suite-utils');
 
 function getOs() {
   const os = require('os');

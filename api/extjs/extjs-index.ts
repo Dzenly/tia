@@ -75,20 +75,20 @@ gT_.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(enableLog) {
 };
 
 gT_.e.utils = require('./extjs-utils');
-gT_.e.api = require('./extjs-api-actions.js');
-gT_.e.explore = require('./extjs-exploration.js');
-gT_.e.search = require('./extjs-search.js');
-gT_.e.logCtById = require('./extjs-log-by-id.js');
-gT_.e.logCtByFormIdName = require('./extjs-log-by-formIdName.js');
+gT_.e.api = require('./extjs-api-actions');
+gT_.e.explore = require('./extjs-exploration');
+gT_.e.search = require('./extjs-search');
+gT_.e.logCtById = require('./extjs-log-by-id');
+gT_.e.logCtByFormIdName = require('./extjs-log-by-formIdName');
 gT_.e.logUtils = require('./extjs-log-utils');
-gT_.e.getByFormIdName = require('./extjs-get-by-formIdName.js');
-gT_.e.msgBox = require('./extjs-msgbox.js');
+gT_.e.getByFormIdName = require('./extjs-get-by-formIdName');
+gT_.e.msgBox = require('./extjs-msgbox');
 
-gT_.e.hL = require('./extjs-hl.js');
+gT_.e.hL = require('./extjs-hl');
 
-gT_.e.lClick = require('./extjs-l-clicks.js');
-gT_.e.lClick.cb = require('./extjs-l-clicks-cb.js');
+gT_.e.lClick = require('./extjs-l-clicks');
+gT_.e.lClick.cb = require('./extjs-l-clicks-cb');
 
-gT_.e.wait = require('./extjs-waits.js');
+gT_.e.wait = require('./extjs-waits');
 
 require('./new-api/ext-js');

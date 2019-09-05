@@ -37,10 +37,10 @@ gT_.sOrig.browserLogType = gT.sOrig.wdModule.logging.Type.BROWSER;
 
 gT.configUtils = require('../utils/config-utils');
 
-gT_.engineConsts = require('../config/engine-constants.js');
-gT_.suiteConfigDefault = require('../config/default-suite-config.js');
-gT_.globalConfigDefault = require('../config/default-global-config.js');
-gT_.dirConfigDefault = require('../config/default-dir-config.js');
+gT_.engineConsts = require('../config/engine-constants');
+gT_.suiteConfigDefault = require('../config/default-suite-config');
+gT_.globalConfigDefault = require('../config/default-global-config');
+gT_.dirConfigDefault = require('../config/default-dir-config');
 
 gIn.loggerCfg = require('./loggers/logger-cfg');
 gIn.cLogger = require('./loggers/console-logger');
@@ -74,4 +74,4 @@ gT_.nodeUtils = require('../utils/nodejs-utils');
 
 gIn.wrap = require('./wrap');
 
-require('../api/api-index.js');
+require('../api/api-index');
