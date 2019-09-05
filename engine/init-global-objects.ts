@@ -42,36 +42,36 @@ gT_.suiteConfigDefault = require('../config/default-suite-config.js');
 gT_.globalConfigDefault = require('../config/default-global-config.js');
 gT_.dirConfigDefault = require('../config/default-dir-config.js');
 
-gIn.loggerCfg = require('./loggers/logger-cfg.js');
+gIn.loggerCfg = require('./loggers/logger-cfg');
 gIn.cLogger = require('./loggers/console-logger');
-gIn.logger = require('./loggers/logger.js');
+gIn.logger = require('./loggers/logger');
 
 gIn.tracer = require('./tracer');
 
-gT_.commonMiscUtils = require('../common-utils/common-misc-utils.js');
+gT_.commonMiscUtils = require('../common-utils/common-misc-utils');
 
-gT_.commonConsts = require('../common-utils/common-constants.js');
+gT_.commonConsts = require('../common-utils/common-constants');
 
 gT_.cC = gT_.commonConsts; // alias
 
-gIn.fileUtils = require('../utils/file-utils.js');
+gIn.fileUtils = require('../utils/file-utils');
 
-gIn.textUtils = require('../utils/text-utils.js');
+gIn.textUtils = require('../utils/text-utils');
 
 gIn.tU = gIn.textUtils; // alias
 
-gT_.timeUtils = require('../utils/time-utils.js');
+gT_.timeUtils = require('../utils/time-utils');
 
-gIn.tInfo = require('./test-info.js');
+gIn.tInfo = require('./test-info');
 
-gIn.diffUtils = require('../utils/diff-utils.js');
+gIn.diffUtils = require('../utils/diff-utils');
 
-gIn.mailUtils = require('../utils/mail-utils.js');
+gIn.mailUtils = require('../utils/mail-utils');
 
-gIn.remoteDriverUtils = require('../utils/remote-driver-utils.js');
+gIn.remoteDriverUtils = require('../utils/remote-driver-utils');
 
-gT_.nodeUtils = require('../utils/nodejs-utils.js');
+gT_.nodeUtils = require('../utils/nodejs-utils');
 
-gIn.wrap = require('./wrap.js');
+gIn.wrap = require('./wrap');
 
 require('../api/api-index.js');
