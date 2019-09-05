@@ -53,6 +53,8 @@ nodeUtils.checkNodeJsVersion();
 
 require('../engine/init-global-objects');
 
+gT_.tiaDir = tiaDir;
+
 gT_.version = version;
 
 gT_.browsers = [
@@ -168,7 +170,7 @@ if (args.checkLogs) {
 
 if (args.runSelfTests) {
   // Tests for the engine.
-  args.rootDir = path.resolve(path.join(__dirname, '..', '..'));
+  args.rootDir = tiaDir;
   args.extLog = gT.engineConsts.selfTestsExtLog;
   args.difsToSlog = true;
   args.slogDifToConsole = true;

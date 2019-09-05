@@ -61,7 +61,7 @@ gT_.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(enableLog) {
     enableLog,
     async () => {
       for (const fName of brHelpers) { // eslint-disable-line no-restricted-syntax
-        const scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part', fName), 'utf8');
+        const scriptStr = fs.readFileSync(path.join(gT.tiaDir, 'api', 'extjs', 'browser-part', fName), 'utf8');
         await gT.s.browser.executeScriptWrapper(scriptStr);
       }
 

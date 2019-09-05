@@ -76,6 +76,7 @@ interface GlobalTiaObjects {
   defaultRootProfile: any;
   globalConfigDefault: any;
   nodeUtils: any;
+  tiaDir: string;
 }
 
 // Module augmentation.

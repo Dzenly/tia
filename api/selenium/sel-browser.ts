@@ -23,7 +23,7 @@ const commonUtils = ['common-constants.js', 'common-misc-utils.js'];
 exports.initTiaBrHelpers = function initTiaBrHelpers(enableLog) {
   return gIn.wrap('Initialization of TIA helpers ... ', enableLog, async () => {
     for (const fName of brHelpers) {
-      const fPath = mPath.join(__dirname, 'browser-part', fName);
+      const fPath = mPath.join(gT.tiaDir, 'api', 'selenium', 'browser-part', fName);
       await exports.executeScriptFromFile(fPath);
     }
     for (const fName of commonUtils) {

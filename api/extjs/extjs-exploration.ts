@@ -24,7 +24,7 @@ const path = require('path');
  */
 exports.init = function init(enableLog) {
   return gIn.wrap('Initialization of TIA ExtJs Exp helpers ... ', enableLog, () => {
-    const scriptStr = fs.readFileSync(path.join(__dirname, 'browser-part/e-br-explore.js'), 'utf8');
+    const scriptStr = fs.readFileSync(path.join(gT.tiaDir, 'api', 'extjs', 'browser-part', 'e-br-explore.js'), 'utf8');
 
     // gIn.tracer.msg3('init: script: ' + scriptStr);
     return gT.s.browser.executeScriptWrapper(scriptStr);
