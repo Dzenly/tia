@@ -7,7 +7,7 @@ declare const gIn: import('tia-types').GlobalTiaInnerObjects;
 // Test engine init.
 // Fills the gT global object, which will be used in all tests and in the test engine.
 
-const path = require('path');
+import path from 'path';
 
 const gTName = 'gT';
 global[gTName] = {};
