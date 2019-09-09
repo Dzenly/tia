@@ -1,6 +1,6 @@
 'use strict';
 
-exports.startTimer = function startTimer() {
+export function startTimer() {
   return process.hrtime();
 };
 
@@ -8,7 +8,7 @@ exports.startTimer = function startTimer() {
  * returns time interval in milliseconds.
  * @param startTime - the data returned by startTimer.
  */
-exports.stopTimer = function stopTimer(startTime) {
+export function stopTimer(startTime) {
   const dif = process.hrtime(startTime);
   return dif[0] * 1000 + dif[1] / 1e6;
 };

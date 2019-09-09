@@ -25,7 +25,7 @@ function dedent(callSite, ...params) {
   return format(output);
 }
 
-exports.usage = function usage() {
+export function usage() {
   console.log(
     dedent`Usage:
     tia initRoot - to create project root TIA subdirectories (TODO: and config stubs).

@@ -4,6 +4,8 @@
 
 'use strict';
 
+import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs } from './form-field-base';
+
 const { queryAndAction } = require('../tia-extjs-query');
 const { getCISRVal, getCISContent } = require('../../extjs-utils');
 
@@ -11,14 +13,14 @@ const { getCISRVal, getCISContent } = require('../../extjs-utils');
 
 const compName = 'ComboBox';
 
-const actions = {
-  compName,
+export class ComboBoxActions extends FormFieldBaseActions {
+  static compName = compName;
 
-  async setByKbd(tEQ, text, idForLog, enableLog) {
+  static async setByKbd(tEQ, text, idForLog, enableLog) {
     // Унаследована от Component.
     return this.sendCtrlAKeysEnter(tEQ, text, idForLog, enableLog);
-  },
-  async setByMouse(tEQ, text, idForLog, enableLog) {
+  }
+  static async setByMouse(tEQ, text, idForLog, enableLog) {
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
 
     let actionDesc = `Set by mouse: '${text}'`;
@@ -34,20 +36,22 @@ const actions = {
         // TODO: honestly I should change cmp.expand() to key.Down.
         const { id, fieldName } = await queryAndAction({
           tEQ,
-          action: 'cmp.expand(); return { id: cmpInfo.constProps.realId, fieldName: cmp.displayField }',
+          action:
+            'cmp.expand(); return { id: cmpInfo.constProps.realId, fieldName: cmp.displayField }',
           idForLog,
           enableLog: false,
         });
 
         await gT.sOrig.driver.wait(
-          () => gT.s.browser.executeScriptWrapper(
-            `return tiaEJ.hEById.isCBPickerVisible('${id}');`
-          ),
+          () =>
+            gT.s.browser.executeScriptWrapper(`return tiaEJ.hEById.isCBPickerVisible('${id}');`),
           gT.engineConsts.cbBoundListTimeout
         );
 
         const el = await gT.s.browser.executeScriptWrapper(
-          `return tiaEJ.hEById.getCBItemByField('${id}', ${gT.s.browser.valueToParameter(valueStr)}, '${fieldName}');`
+          `return tiaEJ.hEById.getCBItemByField('${id}', ${gT.s.browser.valueToParameter(
+            valueStr
+          )}, '${fieldName}');`
         );
 
         await el.click();
@@ -57,9 +61,9 @@ const actions = {
       actionDesc,
       enableLog,
     });
-  },
+  }
 
-  async clearByEJ(tEQ, idForLog, enableLog) {
+  static async clearByEJ(tEQ, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -75,16 +79,16 @@ const actions = {
       actionDesc: 'Clear by EJ',
       enableLog,
     });
-  },
-};
+  }
+}
 
-const checks = {
-  compName,
-};
+export class ComboBoxChecks extends FormFieldBaseChecks {
+  static compName = compName;
+}
 
-const logs = {
-  compName,
-  async rawValue(tEQ, idForLog) {
+export class ComboBoxLogs extends FormFieldBaseLogs {
+  static compName = compName;
+  static async rawValue(tEQ, idForLog) {
     const result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getCBSelectedVals(cmp);',
@@ -93,9 +97,9 @@ const logs = {
     });
 
     gIn.logger.logln(getCISRVal(tEQ, this.compName, idForLog, result));
-  },
+  }
 
-  async content(tEQ, idForLog) {
+  static async content(tEQ, idForLog) {
     const result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getCB(cmp);',
@@ -104,11 +108,5 @@ const logs = {
     });
 
     gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result));
-  },
-};
-
-module.exports = {
-  actions,
-  checks,
-  logs,
-};
+  }
+}

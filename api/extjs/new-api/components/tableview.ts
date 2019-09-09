@@ -1,5 +1,9 @@
 'use strict';
 
+import {gT} from '../../../../tia-types';
+import {Component} from '../../../../tia-types/ext-js/ext-js-components/component';
+import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
+
 const _ = require('lodash');
 
 // const { queryCmpInputId } = require('../tia-extjs-query');
@@ -30,14 +34,14 @@ function prepareCellData(cellData) {
   return cellData;
 }
 
-const actions = {
+export class TableViewActions extends ComponentActions {
 
-  compName,
+  static compName = compName;
 
   // No, setSelection or setSelectionModel work unstable.
   // async selectRowByEJ(tEQ, rowData, idForLog, enableLog) {},
 
-  async clickGroupRoot(tEQ, groupName, idForLog, enableLog) {
+  static async clickGroupRoot(tEQ, groupName, idForLog, enableLog) {
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(groupName);
     return gT.e.q.wrap({
       tEQ,
@@ -56,9 +60,9 @@ const actions = {
       actionDesc: `Click Group Root (${groupName})`,
       enableLog,
     });
-  },
+  }
 
-  async clickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
+  static async clickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -78,9 +82,9 @@ const actions = {
       actionDesc: `Click cell by Col Texts: ${gIn.tU.v2s(cellData)}`,
       enableLog,
     });
-  },
+  }
 
-  async rClickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
+  static async rClickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -102,9 +106,9 @@ const actions = {
       actionDesc: `Right Click cell by Col Texts: ${gIn.tU.v2s(cellData)}`,
       enableLog,
     });
-  },
+  }
 
-  async clickFirstRowCellByColText(tEQ, colText, idForLog, enableLog) {
+  static async clickFirstRowCellByColText(tEQ, colText, idForLog, enableLog) {
     const colTextArg = gT.e.utils.locKeyToStr(colText);
     return gT.e.q.wrap({
       tEQ,
@@ -123,9 +127,9 @@ const actions = {
       actionDesc: `Click first row cell by Col Text: ${colText}`,
       enableLog,
     });
-  },
+  }
 
-  async rClickFirstRowCellByColText(tEQ, colText, idForLog, enableLog) {
+  static async rClickFirstRowCellByColText(tEQ, colText, idForLog, enableLog) {
     const colTextArg = gT.e.utils.locKeyToStr(colText);
     return gT.e.q.wrap({
       tEQ,
@@ -146,9 +150,9 @@ const actions = {
       actionDesc: `Right Click first row cell by Col Text: ${colText}`,
       enableLog,
     });
-  },
+  }
 
-  async clickLastRowCellByColText(tEQ, colText, idForLog, enableLog) {
+  static async clickLastRowCellByColText(tEQ, colText, idForLog, enableLog) {
     const colTextArg = gT.e.utils.locKeyToStr(colText);
     return gT.e.q.wrap({
       tEQ,
@@ -167,9 +171,9 @@ const actions = {
       actionDesc: `Click last row cell by Col Text: ${colText}`,
       enableLog,
     });
-  },
+  }
 
-  async rClickLastRowCellByColText(tEQ, colText, idForLog, enableLog) {
+  static async rClickLastRowCellByColText(tEQ, colText, idForLog, enableLog) {
     const colTextArg = gT.e.utils.locKeyToStr(colText);
     return gT.e.q.wrap({
       tEQ,
@@ -190,9 +194,9 @@ const actions = {
       actionDesc: `Right Click last row cell by Col Text: ${colText}`,
       enableLog,
     });
-  },
+  }
 
-  async clickFirstRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
+  static async clickFirstRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -210,9 +214,9 @@ const actions = {
       actionDesc: `Click first row cell by Model Field: ${fieldName}`,
       enableLog,
     });
-  },
+  }
 
-  async rClickFirstRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
+  static async rClickFirstRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -232,9 +236,9 @@ const actions = {
       actionDesc: `Right Click first row cell by Model Field: ${fieldName}`,
       enableLog,
     });
-  },
+  }
 
-  async clickLastRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
+  static async clickLastRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -252,9 +256,9 @@ const actions = {
       actionDesc: `Click last row cell by Model Field: ${fieldName}`,
       enableLog,
     });
-  },
+  }
 
-  async rClickLastRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
+  static async rClickLastRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -274,9 +278,9 @@ const actions = {
       actionDesc: `Right Click last row cell by Model Field: ${fieldName}`,
       enableLog,
     });
-  },
+  }
 
-  async doubleClickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
+  static async doubleClickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -298,9 +302,9 @@ const actions = {
       actionDesc: `Double Click cell by Col Texts: ${gIn.tU.v2s(cellData)}`,
       enableLog,
     });
-  },
+  }
 
-  async ctrlClickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
+  static async ctrlClickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -327,7 +331,7 @@ const actions = {
   },
 
   /* eslint-disable-next-line max-params */
-  async ctrlClickCellsByColTexts(tEQ, column, values, idForLog, enableLog) {
+  static async ctrlClickCellsByColTexts(tEQ, column, values, idForLog, enableLog) {
     for (const value of values) {
       await this.ctrlClickCellByColTexts(
         tEQ, {
@@ -338,9 +342,9 @@ const actions = {
         enableLog
       );
     }
-  },
+  }
 
-  async clickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
+  static async clickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -360,9 +364,9 @@ const actions = {
       actionDesc: `Click cell by Model Fields: ${gIn.tU.v2s(cellData)}`,
       enableLog,
     });
-  },
+  }
 
-  async rClickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
+  static async rClickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -384,9 +388,9 @@ const actions = {
       actionDesc: `Right Click cell by Model Fields: ${gIn.tU.v2s(cellData)}`,
       enableLog,
     });
-  },
+  }
 
-  async doubleClickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
+  static async doubleClickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -408,9 +412,9 @@ const actions = {
       actionDesc: `Double Click cell by Model Fields: ${gIn.tU.v2s(cellData)}`,
       enableLog,
     });
-  },
+  }
 
-  async ctrlClickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
+  static async ctrlClickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -434,10 +438,10 @@ const actions = {
       actionDesc: `Ctrl + Click cell by Model Fields: ${gIn.tU.v2s(cellData)}`,
       enableLog,
     });
-  },
+  }
 
   /* eslint-disable-next-line max-params */
-  async ctrlClickCellsByModelFields(tEQ, fieldName, values, idForLog, enableLog) {
+  static async ctrlClickCellsByModelFields(tEQ, fieldName, values, idForLog, enableLog) {
     for (const value of values) {
       await this.ctrlClickCellByModelFields(
         tEQ, {
@@ -449,18 +453,18 @@ const actions = {
         enableLog
       );
     }
-  },
+  }
 
 };
 
-const checks = {
-  compName,
+export class TableViewChecks extends ComponentChecks {
+  static compName = compName;
 };
 
-const logs = {
-  compName,
+export class TableViewLogs extends ComponentLogs {
+  static compName = compName;
 
-  async content(tEQ, idForLog) {
+  static async content(tEQ, idForLog) {
     const result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getTable(cmp);',
@@ -468,9 +472,9 @@ const logs = {
       enableLog: false,
     });
     gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result, true));
-  },
+  }
 
-  // async contentByStore(tEQ, idForLog) {
+  // static async contentByStore(tEQ, idForLog) {
   //   let result = await queryAndAction({
   //     tEQ,
   //     action: 'return tiaEJ.ctByObj.getBoundListByStore(cmp);',
@@ -507,11 +511,5 @@ const logs = {
   //   result = result.join('\n');
   //
   //   gIn.logger.logln(getCISContent('Selected content by inner text', tEQ, this.compName, idForLog, result));
-  // },
-};
-
-module.exports = {
-  actions,
-  checks,
-  logs,
+  // }
 };

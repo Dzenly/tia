@@ -1,13 +1,10 @@
 'use strict';
 
-/* globals gT: true, gIn: true */
-
-const path = require('path');
-const _ = require('lodash');
-const nodeUtils = require('../utils/nodejs-utils');
+import * as _ from 'lodash';
+import * as nodeUtils from '../utils/nodejs-utils';
 
 // Returns merged config for suite.
-exports.handleSuiteConfig = function handleSuiteConfig() {
+export function handleSuiteConfig() {
   let localSuiteConfig = {};
 
   // TODO: current suite dir.
@@ -18,4 +15,4 @@ exports.handleSuiteConfig = function handleSuiteConfig() {
     gIn.tracer.msg2(`There is no Suite Config: ${gIn.suite.configPath}`);
   }
   gT_.suiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), localSuiteConfig);
-};
+}

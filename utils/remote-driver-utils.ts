@@ -32,15 +32,15 @@ function getSidPath() {
   return path.join(gT.rootResultsDir, gT.engineConsts.remoteChromeDriverSid);
 }
 
-exports.saveSid = function saveSid(sid) {
+export function saveSid(sid) {
   fs.writeFileSync(getSidPath(), sid, 'utf8');
 };
 
-exports.removeSid = function removeSid() {
+export function removeSid() {
   gIn.fileUtils.safeUnlink(getSidPath());
 };
 
-exports.getSid = function getSid() {
+export function getSid() {
   try {
     return fs.readFileSync(getSidPath(), 'utf8');
   } catch (e) {
@@ -51,7 +51,7 @@ exports.getSid = function getSid() {
 const ALREADY_STARTED = 'Remote driver is already started';
 const SHOULD_BE_ONLINE = 'Remote driver should be online';
 
-exports.start = async function startNew() {
+export async function start() {
 
   if (getPid()) {
     gIn.tracer.msg3(ALREADY_STARTED);
@@ -87,48 +87,50 @@ exports.start = async function startNew() {
   });
 };
 
+
+
 // TODO: The same problem still here.
 // https://stackoverflow.com/questions/38207590/nodejs-detached-child-process-killed-when-parent-process-is-killed
 /**
  * starts remote chromedriver
  * @returns {Promise}
  */
-exports.startOld = async function startOld() {
-  if (getPid()) {
-    gIn.tracer.msg3(ALREADY_STARTED);
-    return ALREADY_STARTED;
-  }
-
-  return new Promise((resolve) => {
-    // http://stackoverflow.com/questions/37427360/parent-process-kills-child-process-even-though-detached-is-set-to-true
-    // https://github.com/nodejs/node/issues/7269#issuecomment-225698625
-
-    const child = spawn(gIn.chromeDriverPath, [`--port=${gT.globalConfig.remoteDriverPort}`], {
-      detached: true,
-      stdio: ['ignore', 'ignore', 'ignore'],
-    });
-
-    savePid(child.pid);
-
-    setTimeout(() => {
-      child.unref();
-      // child.disconnect();
-
-      // TODO: may be check remote chromedriver somehow ? instead o sleep.
-      gIn.tracer.msg3(SHOULD_BE_ONLINE);
-      resolve(SHOULD_BE_ONLINE);
-    }, gT.engineConsts.remoteDriverStartDelay);
-
-    // child.stdout.on('data', (data) => {
-    //   gIn.tracer.trace2('Output from chromedriver: ' + data);
-    // });
-  });
-};
+// export async function startOld() {
+//   if (getPid()) {
+//     gIn.tracer.msg3(ALREADY_STARTED);
+//     return ALREADY_STARTED;
+//   }
+//
+//   return new Promise((resolve) => {
+//     // http://stackoverflow.com/questions/37427360/parent-process-kills-child-process-even-though-detached-is-set-to-true
+//     // https://github.com/nodejs/node/issues/7269#issuecomment-225698625
+//
+//     const child = spawn(gIn.chromeDriverPath, [`--port=${gT.globalConfig.remoteDriverPort}`], {
+//       detached: true,
+//       stdio: ['ignore', 'ignore', 'ignore'],
+//     });
+//
+//     savePid(child.pid);
+//
+//     setTimeout(() => {
+//       child.unref();
+//       // child.disconnect();
+//
+//       // TODO: may be check remote chromedriver somehow ? instead o sleep.
+//       gIn.tracer.msg3(SHOULD_BE_ONLINE);
+//       resolve(SHOULD_BE_ONLINE);
+//     }, gT.engineConsts.remoteDriverStartDelay);
+//
+//     // child.stdout.on('data', (data) => {
+//     //   gIn.tracer.trace2('Output from chromedriver: ' + data);
+//     // });
+//   });
+// };
 
 /**
  * Stops remote chromedriver.
  */
-exports.stop = function stop() {
+export function stop() {
   const pid = getPid();
   if (!pid) {
     gIn.tracer.msg3('No remote driver to stop');
@@ -141,5 +143,5 @@ exports.stop = function stop() {
     console.error(e);
   }
   removePid();
-  exports.removeSid();
+  removeSid();
 };

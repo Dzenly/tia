@@ -1,13 +1,16 @@
 'use strict';
 
-const { queryAndAction } = require('../tia-extjs-query');
-const { getCISRVal } = require('../../extjs-utils');
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+
+import { queryAndAction } from '../tia-extjs-query';
+import { getCISRVal } from '../../extjs-utils';
 
 const compName = 'FormFieldBase';
 
-const actions = {
-  compName,
-  async setValueByEJ(tEQ, strValue, idForLog, enableLog) {
+export class FormFieldBaseActions extends ComponentActions {
+  static compName = compName;
+
+  static async setValueByEJ(tEQ, strValue, idForLog, enableLog) {
     let realValue = gT.e.utils.locKeyToStrAndEscapeSlashes(strValue);
 
     if (realValue !== strValue && gT.e.utils.debugLocale) {
@@ -29,9 +32,9 @@ const actions = {
       actionDesc: 'Set Value',
       enableLog,
     });
-  },
+  }
 
-  async setRawValueByEJ(tEQ, strValue, idForLog, enableLog) {
+  static async setRawValueByEJ(tEQ, strValue, idForLog, enableLog) {
     let realValue = gT.e.utils.locKeyToStrAndEscapeSlashes(strValue);
 
     if (realValue !== strValue && gT.e.utils.debugLocale) {
@@ -53,16 +56,16 @@ const actions = {
       actionDesc: 'Set Raw Value',
       enableLog,
     });
-  },
-};
+  }
+}
 
-const checks = {
-  compName,
-};
+export class FormFieldBaseChecks extends ComponentChecks {
+  static compName = compName;
+}
 
-const logs = {
-  compName,
-  async rawValue(tEQ, idForLog, mapperCallback) {
+export class FormFieldBaseLogs extends ComponentLogs {
+  static compName = compName;
+  static async rawValue(tEQ, idForLog, mapperCallback) {
     const { val, disp } = await queryAndAction({
       tEQ,
       action: 'return { val: cmp.getRawValue(), disp: tiaEJ.ctByObj.getCompDispIdProps(cmp)};',
@@ -71,14 +74,8 @@ const logs = {
     });
 
     const result = mapperCallback ? mapperCallback(val) : val;
-    gIn.logger.logln(getCISRVal(
-      tEQ, this.compName, `${idForLog ? `${idForLog} ` : ''}${disp}:`, result
-    ));
-  },
-};
-
-module.exports = {
-  actions,
-  checks,
-  logs,
-};
+    gIn.logger.logln(
+      getCISRVal(tEQ, this.compName, `${idForLog ? `${idForLog} ` : ''}${disp}:`, result)
+    );
+  }
+}

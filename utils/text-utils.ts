@@ -6,12 +6,12 @@ const { dirSep } = require('path');
 
 /* globals gIn */
 
-exports.removeSelSid = function removeSelSid(str) {
+export function removeSelSid(str) {
   const re = /\?_dc=\d+/g;
   return str.replace(re, '');
 };
 
-exports.filterStack = function filterStack(strStack) {
+export function filterStack(strStack) {
   const stArr = strStack.split('\n');
   const newArr = stArr.filter((el) => {
     const startingFrom = el.indexOf('/tia/');
@@ -20,14 +20,14 @@ exports.filterStack = function filterStack(strStack) {
   return newArr.join('\n');
 };
 
-exports.excToStr = function excToStr(err, noStack) {
+export function excToStr(err, noStack) {
   if (typeof err === 'undefined') {
     return '\nNo Exception info\n';
   }
   let errStr = err.toString();// (typeof err.message === 'undefined') ? err : err.message;
   if (/* gT.cLParams.stackToLog || */!noStack) {
     if (typeof err.stack !== 'undefined') {
-      errStr += `\n${exports.filterStack(err.stack)}`;
+      errStr += `\n${filterStack(err.stack)}`;
     } else {
       errStr += '\n No stack trace\n';
     }
@@ -35,20 +35,20 @@ exports.excToStr = function excToStr(err, noStack) {
   return errStr;
 };
 
-exports.winToUnixSep = function winToUnixSep(path) {
+export function winToUnixSep(path) {
   return path.replace(/\\\\/g, '/');
 };
 
-exports.changeExt = function changeExt(jsPath, newExt) {
+export function changeExt(jsPath, newExt) {
   return jsPath.substr(0, jsPath.length - 3) + newExt;
 };
 
-exports.jsToEt = function jsToEt(jsPath) {
-  return exports.changeExt(jsPath, '.et');
+export function jsToEt(jsPath) {
+  return changeExt(jsPath, '.et');
 };
 
-exports.jsToTs = function jsToTs(jsPath) {
-  return exports.changeExt(jsPath, '.ts');
+export function jsToTs(jsPath) {
+  return changeExt(jsPath, '.ts');
 };
 
 /**
@@ -56,23 +56,23 @@ exports.jsToTs = function jsToTs(jsPath) {
  * Just replaces two last symbols by 'log' at the end of string.
  * @param jsPath - path to js file.
  */
-exports.jsToLog = function jsToLog(jsPath) {
-  return exports.changeExt(jsPath, '.log');
+export function jsToLog(jsPath) {
+  return changeExt(jsPath, '.log');
 };
 
-exports.jsToDif = function jsToDif(jsPath) {
-  return exports.changeExt(jsPath, '.dif');
+export function jsToDif(jsPath) {
+  return changeExt(jsPath, '.dif');
 };
 
-exports.expandHost = function expandHost(str) {
+export function expandHost(str) {
   return str.replace('$(host)', gT.config.selHost);
 };
 
-exports.collapseHost = function collapseHost(str) {
+export function collapseHost(str) {
   return str.replace(gT.config.selHost, '$(host)');
 };
 
-exports.valToStr = function valToStr(value) {
+export function valToStr(value) {
   if (Buffer.isBuffer(value)) {
     return value.toString('utf8');
   }
@@ -84,7 +84,7 @@ exports.valToStr = function valToStr(value) {
   return util.inspect(value, { compact: false, sorted: true, depth: Infinity });
 };
 
-exports.v2s = function v2s(value) {
+export function v2s(value) {
   if (Buffer.isBuffer(value)) {
     return value.toString('utf8');
   }
@@ -102,15 +102,15 @@ exports.v2s = function v2s(value) {
 //   return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 // }
 //
-// exports.prepareHostRE = function(){
+// export  function prepareHostRE(){
 //  let str = escapeRegExp(gT.config.selHost);
-//  exports.hostRe = new RegExp(str, g);
+//  hostRe = new RegExp(str, g);
 // };
 
 //  // Multi-line version.
-// exports.collapseHostML = function(str){
+// export function collapseHostML(str){
 //  // TODO: optimize, this function should be called only if gT.config.selHost is changed.
 //  // For now there are not even such use cases.
-//  exports.prepareHostRE();
-//  return str.replace(exports.hostRe, '$(host)');
+//  prepareHostRE();
+//  return str.replace(hostRe, '$(host)');
 //  };

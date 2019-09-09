@@ -2,10 +2,23 @@
 
 /* globals gT: true */
 
-exports.consoleLogPrefix = ''; // LOG:
-exports.errPrefix = 'ERR: ';
-exports.excPrefix = 'EXC: ';
-exports.indentation = '| ';
-exports.defLLLogAction = gT.engineConsts.defLLLogAction;
+export const consoleLogPrefix = ''; // LOG:
+export const errPrefix = 'ERR: ';
+export const excPrefix = 'EXC: ';
+export const indentation = '| ';
 
-// exports.firstIndent = '|-'
+// TODO: Check that engineConsts already added to gT.
+export let defLLLogAction: boolean | null = null;
+
+export function setDefLLLogAction(enable: boolean) {
+  defLLLogAction = enable;
+}
+
+export function getDefLLLogAction() {
+  if (defLLLogAction === null) {
+    return gT.engineConsts.defLLLogAction;
+  }
+  return defLLLogAction;
+}
+
+// export const firstIndent = '|-'

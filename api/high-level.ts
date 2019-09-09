@@ -1,8 +1,5 @@
 'use strict';
 
-/* globals gT: true */
-/* globals gIn: true */
-
 // options for all high level API functions.
 function defaultOptions() {
   return {
@@ -20,7 +17,7 @@ function defaultOptions() {
  * @param msg
  * @param options
  */
-exports.wrapGenerator = function* wrapGenerator(gen, msg, options) {
+export function* wrapGenerator(gen, msg, options) {
   const opts = gT.commonMiscUtils.mergeOptions(options, defaultOptions);
 
   if (opts.logHl) {
@@ -49,7 +46,7 @@ exports.wrapGenerator = function* wrapGenerator(gen, msg, options) {
   return res;
 };
 
-exports.wrapAsync = async function wrapAsync(func, msg, options) {
+export async function wrapAsync(func, msg, options) {
   const opts = gT.commonMiscUtils.mergeOptions(options, defaultOptions);
 
   if (opts.logHl) {

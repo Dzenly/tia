@@ -14,7 +14,7 @@ function createBrowserProfile() {
 
 const cleanedProfilePaths = [];
 
-exports.init = async function init(cleanProfile, enableLog) {
+export async function init(cleanProfile, enableLog) {
   // if (typeof enableLog === 'undefined' && !gT.config.browserProfileDir) {
   //   enableLog = false;
   // }
@@ -61,7 +61,7 @@ exports.init = async function init(cleanProfile, enableLog) {
         if (gT.cLParams.headless) {
           options.addArguments('--headless');
           options.addArguments('--window-size=2560,1024');
-          if (gT.u.isWindows()) {
+          if (gT.u.misc.isWindows()) {
             options.addArguments('--disable-gpu'); // Temporary fix for Windows.
           }
         }
@@ -215,7 +215,7 @@ exports.init = async function init(cleanProfile, enableLog) {
   });
 };
 
-exports.sleep = function sleep(ms, enableLog) {
+export function sleep(ms, enableLog) {
   return gIn.wrap(`Sleep ${ms} ms ... `, enableLog, () => gT.u.promise.delayed(ms, true));
 };
 
@@ -225,13 +225,13 @@ const stupidSleep = 400;
  * This function creates function for stupid sleep.
  * It is stupid sleep instead of smart waiting for something.
  */
-exports.getStupidSleepFunc = function getStupidSleepFunc() {
+export function getStupidSleepFunc() {
   return function () {
-    return exports.sleep(stupidSleep, false);
+    return sleep(stupidSleep, false);
   };
 };
 
-exports.quit = function quit(enableLog) {
+export function quit(enableLog) {
   if (gT.cLParams.ejExplore) {
     gIn.tracer.msg3('quit: ejExplore, no quit');
     return Promise.resolve('ejExplore, no quit');
@@ -255,7 +255,7 @@ exports.quit = function quit(enableLog) {
   );
 };
 
-exports.quitIfInited = function quitIfInited() {
+export function quitIfInited() {
   if (gT.cLParams.ejExplore) {
     gIn.tracer.msg3('quitIfInited: ejExplore, no quit');
     return Promise.resolve('ejExplore, no quit');
@@ -271,7 +271,7 @@ exports.quitIfInited = function quitIfInited() {
   return Promise.resolve('No driver, no quit');
 };
 
-exports.printSelDriverLogs = function printSelDriverLogs(minLevel) {
+export function printSelDriverLogs(minLevel) {
   return gT.sOrig.logs.get(gT.sOrig.driverLogType).then((entries) => {
     gIn.tracer.msg3('Start of printSelDriverLogs');
     for (const entry of entries) {

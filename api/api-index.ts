@@ -15,7 +15,7 @@
  * Utilities for logging.
  * @type {{}}
  */
-require('./log/log-index');
+// require('./log/log-index');
 
 // ==================================================
 
@@ -23,7 +23,7 @@ require('./log/log-index');
  * Low level API for tests. It can be used for helpers writing.
  * @type {{}}
  */
-gT_.lL = require('./low-level');
+// gT_.lL = require('./low-level');
 
 // ==================================================
 
@@ -32,7 +32,7 @@ gT_.lL = require('./low-level');
  *
  * @type {{}}
  */
-gT_.t = require('./test');
+// gT_.t = require('./test');
 
 // ==================================================
 
@@ -45,7 +45,7 @@ gIn.wrap = require('./../engine/wrap');
  *
  * @type {{}}
  */
-gT_.a = require('./assertions');
+// gT_.a = require('./assertions');
 
 // ==================================================
 

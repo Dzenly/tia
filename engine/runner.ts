@@ -49,7 +49,7 @@ async function runTestFile(file) {
     if (typeof testObject === 'function') {
       const funcRes = await testObject(gT, gIn, gT.a); // TIA :) Test Inner Assertions.
       if (isIterator(funcRes)) {
-        await gT.u.iterateSafe(funcRes);
+        await gT.u.misc.iterateSafe(funcRes);
       }
     } else {
       await testObject;
@@ -66,7 +66,7 @@ async function runTestFile(file) {
 async function handleTestFile(file, dirConfig) {
   // Restore the state which could be damaged by previous test and any other initialization.
   gIn.tInfo.isPassCountingEnabled = gT.engineConsts.defIsPassCountingEnabled;
-  gIn.loggerCfg.defLLLogAction = gT.engineConsts.defLLLogAction;
+  gIn.loggerCfg.setDefLLLogAction(gT.engineConsts.defLLLogAction);
 
   gT.config = _.cloneDeep(dirConfig); // Config for current test, can be changed by test.
   // It is not safe to create such structure in the test and return it from test,
@@ -528,7 +528,7 @@ function extractDiffedPaths(testOrDirInfo, result, suiteRoot) {
 }
 
 // Returns subject for email.
-exports.runTestSuites = async function runTestSuites() {
+export async function runTestSuites() {
   fileUtils.safeUnlink(gT.rootLog);
 
   if (gT.cLParams.stopRemoteDriver) {

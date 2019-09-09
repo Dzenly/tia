@@ -1,228 +1,169 @@
 'use strict';
 
-const _ = require('lodash');
+import * as _ from 'lodash';
 
-const {
-  queryCmpInput, queryCmpInputId, queryCmpId, queryAndAction,
-} = require('../tia-extjs-query');
+import { queryCmpInput, queryCmpInputId, queryCmpId, queryAndAction } from '../tia-extjs-query';
 
-const { getCIS, getCISRVal } = require('../../extjs-utils');
+import { getCIS, getCISRVal } from '../../extjs-utils';
 
 const compName = 'Component';
 
-const actions = {
-  compName,
-  async click(tEQ, idForLog = '', enableLog) {
+export class ComponentActions {
+  static compName = compName;
+
+  static async click(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Click Cmp ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpId(tEQ, idForLog, false);
         await gT.s.uA.clickById(id, false);
       },
     });
-  },
-  async rClick(tEQ, idForLog = '', enableLog) {
+  }
+  static async rClick(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Right Click Cmp ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpId(tEQ, idForLog, false);
         await gT.s.uA.rClickById(id, false);
       },
     });
-  },
-  async dblClick(tEQ, idForLog = '', enableLog) {
+  }
+
+  static async dblClick(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Dbl Click Cmp ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpId(tEQ, idForLog, false);
         await gT.s.uA.dblClickById(id, false);
       },
     });
-  },
-  async clickInput(tEQ, idForLog = '', enableLog) {
+  }
+
+  static async clickInput(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Click Cmp Input ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInput(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInput(tEQ, idForLog, false);
         await gT.s.uA.clickById(id, false);
       },
     });
-  },
-  async rClickInput(tEQ, idForLog = '', enableLog) {
+  }
+  static async rClickInput(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Right Click Cmp Input ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInput(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInput(tEQ, idForLog, false);
         await gT.s.uA.rClickById(id, false);
       },
     });
-  },
-  async dblClickInput(tEQ, idForLog = '', enableLog) {
+  }
+  static async dblClickInput(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Dbl Click Cmp Input ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInput(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInput(tEQ, idForLog, false);
         await gT.s.uA.dblClickById(id, false);
       },
     });
-  },
-  async moveMouse(tEQ, idForLog = '', enableLog) {
+  }
+  static async moveMouse(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Move mouse to Cmp ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpId(tEQ, idForLog, false);
         await gT.s.uA.moveMouseById(id, false);
       },
     });
-  },
-  async moveMouseToInput(tEQ, idForLog = '', enableLog) {
+  }
+  static async moveMouseToInput(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Move mouse to Cmp Input ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInput(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInput(tEQ, idForLog, false);
         await gT.s.uA.moveMouseById(id, false);
       },
     });
-  },
-  async sendEsc(tEQ, idForLog = '', enableLog) {
+  }
+  static async sendEsc(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send ESC ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInputId(tEQ, idForLog, false);
         await gT.s.uA.sendEscById(id, false);
       },
     });
-  },
-  async sendDown(tEQ, idForLog = '', enableLog) {
+  }
+  static async sendDown(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send DOWN ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInputId(tEQ, idForLog, false);
         await gT.s.uA.sendDownById(id, false);
       },
     });
-  },
-  async sendUp(tEQ, idForLog = '', enableLog) {
+  }
+  static async sendUp(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send UP ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInputId(tEQ, idForLog, false);
         await gT.s.uA.sendUpById(id, false);
       },
     });
-  },
-  async sendEnter(tEQ, idForLog = '', enableLog) {
+  }
+  static async sendEnter(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send ENTER ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInputId(tEQ, idForLog, false);
         await gT.s.uA.sendEnterById(id, false);
       },
     });
-  },
-  async sendTab(tEQ, idForLog = '', enableLog) {
+  }
+  static async sendTab(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send TAB ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInputId(tEQ, idForLog, false);
         await gT.s.uA.sendTabById(id, false);
       },
     });
-  },
-  async sendPgDown(tEQ, idForLog = '', enableLog) {
+  }
+  static async sendPgDown(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send PAGE_DOWN ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInputId(tEQ, idForLog, false);
         await gT.s.uA.sendPgDownById(id, false);
       },
     });
-  },
-  async sendPgUp(tEQ, idForLog = '', enableLog) {
+  }
+  static async sendPgUp(tEQ, idForLog = '', enableLog) {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send PAGE_UP ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInputId(tEQ, idForLog, false);
         await gT.s.uA.sendPgUpById(id, false);
       },
     });
-  },
-  async sendKeys(tEQ, keys, idForLog = '', enableLog) {
+  }
+  static async sendKeys(tEQ, keys, idForLog = '', enableLog) {
     let keysArg = _.clone(keys);
     const realKeys = gT.e.utils.locKeyToStrAndEscapeSlashes(keysArg);
 
@@ -234,16 +175,12 @@ const actions = {
       msg: `${getCIS(tEQ, this.compName, idForLog)} sendKeys: '${keysArg}' ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInputId(tEQ, idForLog, false);
         await gT.s.uA.sendKeysById(id, realKeys, false);
       },
     });
-  },
-  async sendCtrlAAndKeys(tEQ, keys, idForLog = '', enableLog) {
+  }
+  static async sendCtrlAAndKeys(tEQ, keys, idForLog = '', enableLog) {
     let keysArg = _.clone(keys);
     const realKeys = gT.e.utils.locKeyToStrAndEscapeSlashes(keysArg);
 
@@ -255,16 +192,12 @@ const actions = {
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send Ctrl + A and keys: '${keysArg}' ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInputId(tEQ, idForLog, false);
         await gT.s.uA.sendCtrlAAndKeysById(id, realKeys, false);
       },
     });
-  },
-  async sendCtrlAKeysEnter(tEQ, keys, idForLog = '', enableLog) {
+  }
+  static async sendCtrlAKeysEnter(tEQ, keys, idForLog = '', enableLog) {
     let keysArg = _.clone(keys);
     const realKeys = gT.e.utils.locKeyToStrAndEscapeSlashes(keysArg);
 
@@ -276,47 +209,44 @@ const actions = {
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send Ctrl + A, keys, ENTER: '${keysArg}' ... `,
       enableLog,
       act: async () => {
-        const id = await queryCmpInputId(
-          tEQ,
-          idForLog,
-          false
-        );
+        const id = await queryCmpInputId(tEQ, idForLog, false);
         await gT.s.uA.sendCtrlAKeysEnterById(id, realKeys, false);
       },
     });
-  },
+  }
 
-  async waitForEnabledAndNotMasked(tEQ, timeout = gT.engineConsts.timeoutForEnabledByTEQ, idForLog, enableLog) {
+  static async waitForEnabledAndNotMasked(
+    tEQ,
+    timeout = gT.engineConsts.timeoutForEnabledByTEQ,
+    idForLog,
+    enableLog
+  ) {
     const realId = await queryCmpId(tEQ, idForLog, enableLog);
 
     return gIn.wrap({
-      msg: `${getCIS(tEQ, this.compName, idForLog)} Wait for component to become enabled and non masked: ... `,
+      msg: `${getCIS(
+        tEQ,
+        this.compName,
+        idForLog
+      )} Wait for component to become enabled and non masked: ... `,
       enableLog,
-      act: () => gT.sOrig.driver.wait(
-        async () => {
+      act: () =>
+        gT.sOrig.driver.wait(async () => {
           const res = await gT.s.browser.executeScriptWrapper(
             `return !(Ext.getCmp('${realId}').isDisabled()) && !(Ext.getCmp('${realId}').isMasked(true));`
           );
 
           // console.log(`HERE: ${realId} ${res}`);
           return res;
-        },
-        timeout
-      ),
+        }, timeout),
     });
-  },
-};
+  }
+}
 
-const checks = {
-  compName,
-};
+export class ComponentChecks {
+  static compName = compName;
+}
 
-const logs = {
-  compName,
-};
-
-module.exports = {
-  actions,
-  checks,
-  logs,
-};
+export class ComponentLogs {
+  static compName = compName;
+}

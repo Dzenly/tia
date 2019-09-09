@@ -1,17 +1,17 @@
 'use strict';
 
-const {
-  queryAndAction,
-} = require('../tia-extjs-query');
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+
+const { queryAndAction } = require('../tia-extjs-query');
 
 const { actions: cmpActions } = require('./component');
 
 const compName = 'GridColumn';
 
-const actions = {
-  compName,
+export class GridColumnActions extends ComponentActions {
+  static compName = compName;
 
-  async clickTrigger(tEQ, idForLog, enableLog) {
+  static async clickTrigger(tEQ, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -19,17 +19,21 @@ const actions = {
       act: async () => {
         const { el, trigger } = await queryAndAction({
           tEQ,
-          action: 'return { el: cmpInfo.constProps.domEl, trigger: cmpInfo.constProps.triggerEl } ;',
+          action:
+            'return { el: cmpInfo.constProps.domEl, trigger: cmpInfo.constProps.triggerEl } ;',
           idForLog,
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true }).move({
-          origin: el,
-          x: 1,
-          y: 1,
-          duration: 0,
-        }).perform();
+        await gT.sOrig.driver
+          .actions({ bridge: true })
+          .move({
+            origin: el,
+            x: 1,
+            y: 1,
+            duration: 0,
+          })
+          .perform();
 
         await gT.sOrig.driver.wait(gT.sOrig.until.elementIsVisible(trigger));
 
@@ -38,19 +42,13 @@ const actions = {
       actionDesc: 'Click trigger',
       enableLog,
     });
-  },
-};
+  }
+}
 
-const checks = {
-  compName,
-};
+export class GridColumnChecks extends ComponentChecks {
+  static compName = compName;
+}
 
-const logs = {
-  compName,
-};
-
-module.exports = {
-  actions,
-  checks,
-  logs,
-};
+export class GridColumnLogs extends ComponentLogs {
+  static compName = compName;
+}

@@ -2,17 +2,22 @@
 
 /* global gIn */
 
-const path = require('path');
-const semver = require('semver');
-const { inspect } = require('util');
-const _ = require('lodash');
-const { engines } = require('../package');
+import {gT} from '../tia-types';
+
+import * as path from 'path';
+import {inspect} from 'util';
+
+import {engines} from '../package';
+
+import * as semver from 'semver';
+
+import * as _ from 'lodash';
 
 /**
  * Clears 'require' cache for specified node module.
  * @param {String} resolvedModulePath
  */
-exports.clearRequireCache = function clearRequireCache(resolvedModulePath) {
+export function clearRequireCache(resolvedModulePath) {
   delete require.cache[resolvedModulePath];
 };
 
@@ -24,7 +29,7 @@ exports.clearRequireCache = function clearRequireCache(resolvedModulePath) {
  * @returns {{res: *, resolvedModPath: String}}
  * @throws {*} - Exceptions from 'require' calls.
  */
-exports.requireEx = function requireEx(modPath, clearCache) {
+export function requireEx(modPath, clearCache) {
   const absFilePath = path.resolve(modPath);
   const res = {
     result: require(absFilePath),
@@ -32,7 +37,7 @@ exports.requireEx = function requireEx(modPath, clearCache) {
   };
 
   if (clearCache) {
-    exports.clearRequireCache(res.resolvedModPath);
+    clearRequireCache(res.resolvedModPath);
   }
 
   return res;
@@ -43,7 +48,7 @@ exports.requireEx = function requireEx(modPath, clearCache) {
  * @param modPath - path to module.
  * @return {*} - exports from existing module or empty object if module is absent.
  */
-exports.requireIfExists = function requireIfExists(modPath) {
+export function requireIfExists(modPath) {
   try {
     return require(modPath);
   } catch (e) {
@@ -61,7 +66,7 @@ function toMs(val) {
   return (val / 1000).toFixed(3);
 }
 
-exports.getResourcesUsage = function getResourcesUsage(isTestLog) {
+export function getResourcesUsage(isTestLog) {
   // gT.config.rssUsageThreshold
 
   const mem = process.memoryUsage();
@@ -83,7 +88,7 @@ exports.getResourcesUsage = function getResourcesUsage(isTestLog) {
   return str;
 };
 
-exports.getProcInfo = function getProcInfo() {
+export function getProcInfo() {
   // Env: ${inspect(process.env)}
   const str = `
 Arch: ${process.arch}
@@ -96,16 +101,16 @@ Proc Title: ${process.title}
 Proc Uptime: ${process.uptime()}
 Node release info: ${inspect(process.release)}
 Node version info: ${inspect(process.versions)}
-${exports.getResourcesUsage()}`;
+${getResourcesUsage()}`;
   return str;
 };
 
-exports.isPromise = function isPromise(p) {
+export function isPromise(p) {
   return _.isObject(p) && _.isFunction(p.then);
 
 };
 
-exports.checkNodeJsVersion = function checkNodeJsVersion() {
+export function checkNodeJsVersion() {
   const version = engines.node;
   if (!semver.satisfies(process.version, version)) {
     console.error(`Required node version ${version}, current version ${process.version}.`);
@@ -113,7 +118,7 @@ exports.checkNodeJsVersion = function checkNodeJsVersion() {
   }
 };
 
-exports.requireArray = function requireArray(modules) {
+export function requireArray(modules) {
   modules.forEach((modulePath) => {
     const modPath = path.resolve(gT.cLParams.rootDir, modulePath);
     gIn.tracer.msg1(`Requiring module: ${modPath}`);

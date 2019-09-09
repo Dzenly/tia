@@ -7,7 +7,7 @@ const fs = require('fs');
 
 const fileUtils = require('./file-utils');
 
-exports.containsSuite = function containsTiaTest(dir) {
+export function containsSuite(dir) {
   const suiteDir = path.join(
     dir,
     gT.engineConsts.suiteDirName
@@ -17,7 +17,7 @@ exports.containsSuite = function containsTiaTest(dir) {
 };
 
 
-exports.isRootDirInited = function isRootDirInited(rootDir) {
+export function isRootDirInited(rootDir) {
   const rootResultsDir = path.join(
     rootDir,
     gT.engineConsts.suiteDirName,
@@ -27,7 +27,7 @@ exports.isRootDirInited = function isRootDirInited(rootDir) {
   return fileUtils.isDirectory(rootResultsDir);
 };
 
-exports.isSuiteDirInited = function isSuiteDirInited(dir) {
+export function isSuiteDirInited(dir) {
   const suiteResultsDir = path.join(
     dir,
     gT.engineConsts.suiteDirName,
@@ -37,7 +37,7 @@ exports.isSuiteDirInited = function isSuiteDirInited(dir) {
   return fileUtils.isDirectory(suiteResultsDir);
 };
 
-exports.resolveRootDirFromArgsAndEnv = function resolveRootDir(argsTiaRootDir) {
+export function resolveRootDirFromArgsAndEnv(argsTiaRootDir) {
   let tiaRootDir = argsTiaRootDir || process.env[gT.engineConsts.rootDirEnvVarName];
 
   if (tiaRootDir && !path.isAbsolute(tiaRootDir)) {
@@ -54,12 +54,12 @@ exports.resolveRootDirFromArgsAndEnv = function resolveRootDir(argsTiaRootDir) {
   return null;
 };
 
-exports.findTiaRootInParents = function findTiaRootInParents(dir) {
+export function findTiaRootInParents(dir) {
   const systemRoot = path.parse(dir).root;
   let notFound = false;
 
   try {
-    while (!exports.isRootDirInited(dir)) {
+    while (!isRootDirInited(dir)) {
       if (dir === systemRoot) {
         notFound = true;
         break;
@@ -77,14 +77,14 @@ exports.findTiaRootInParents = function findTiaRootInParents(dir) {
   return dir;
 };
 
-// exports.findTiaSuiteResInParents = function findTiaSuiteResInParents(dir) {
+// export function findTiaSuiteResInParents(dir) {
 //
 //   const systemRoot = path.parse(dir).root;
 //   let notFound = false;
 //
 //   try {
-//     while (!exports.isSuiteDirInited(dir)) {
-//       if (dir === systemRoot || exports.isRootDirInited(dir)) {
+//     while (!isSuiteDirInited(dir)) {
+//       if (dir === systemRoot || isRootDirInited(dir)) {
 //         notFound = true;
 //         break;
 //       }
@@ -101,7 +101,7 @@ exports.findTiaRootInParents = function findTiaRootInParents(dir) {
 //   return dir;
 // };
 
-exports.getTiaSuiteFromParents = function getTiaSuiteFromParents(dir) {
+export function getTiaSuiteFromParents(dir) {
   const startIndex = dir.indexOf(gT.engineConsts.suiteDirName);
   if (startIndex === -1) {
     throw new Error(`No suite found for directory: ${dir}`);
@@ -111,12 +111,12 @@ exports.getTiaSuiteFromParents = function getTiaSuiteFromParents(dir) {
   return result;
 };
 
-exports.isTiaSuiteInParents = function isTiaSuiteInParents(dir) {
+export function isTiaSuiteInParents(dir) {
   const dirArr = dir.split(path.sep);
   return dirArr.includes(gT.engineConsts.suiteDirName);
 };
 
-exports.findTiaRootInChildren = function findTiaSuiteInChildren(dir) {
+export function findTiaRootInChildren(dir) {
   return fileUtils.whichDirContain(
     dir,
     [gT.engineConsts.rootResDirName],
@@ -130,15 +130,15 @@ exports.findTiaRootInChildren = function findTiaSuiteInChildren(dir) {
  * Relative paths resolved relative to CWD.
  * @return {String} - resolved path.
  */
-exports.resolveRootDirEx = function resolveRootDirEx(argsTiaRootDir) {
-  let tiaRootDir = exports.resolveRootDirFromArgsAndEnv(argsTiaRootDir);
+export function resolveRootDirEx(argsTiaRootDir) {
+  let tiaRootDir = resolveRootDirFromArgsAndEnv(argsTiaRootDir);
   if (tiaRootDir) {
     return tiaRootDir;
   }
 
   gIn.tracer.msg0('Root dir is not specified by cmd line or env var.');
 
-  tiaRootDir = exports.findTiaRootInParents(process.cwd());
+  tiaRootDir = findTiaRootInParents(process.cwd());
 
   if (!tiaRootDir) {
     gIn.tracer.err('You have not initialized any directories. See tia -h for init command');
@@ -147,24 +147,24 @@ exports.resolveRootDirEx = function resolveRootDirEx(argsTiaRootDir) {
   return tiaRootDir;
 };
 
-exports.initTiaSuite = function initTiaSuite() {
+export function initTiaSuite() {
   // eslint-disable-next-line no-param-reassign
   const dir = process.cwd();
 
-  if (exports.isTiaSuiteInParents(dir)) {
+  if (isTiaSuiteInParents(dir)) {
     gIn.tracer.err(`TIA suite is existed in parent dirs here: ${dir}`);
     gIn.tracer.err('You can not create suite inside suite');
     process.exit(1);
   }
 
-  const existedTiaRootInChildren = exports.findTiaRootInChildren(dir);
+  const existedTiaRootInChildren = findTiaRootInChildren(dir);
   if (existedTiaRootInChildren) {
     gIn.tracer.err(`TIA root is existed in children dirs here: ${existedTiaRootInChildren}`);
     gIn.tracer.err('You can not have TIA root inside TIA suite');
     process.exit(1);
   }
 
-  const tiaRootInParents = exports.findTiaRootInParents(dir);
+  const tiaRootInParents = findTiaRootInParents(dir);
   if (!tiaRootInParents) {
     gIn.tracer.err(`TIA root is not found for : ${dir}`);
     gIn.tracer.err('You must have TIA root, before suite creation, see tia -h for initRoot mode');
@@ -188,24 +188,24 @@ exports.initTiaSuite = function initTiaSuite() {
   process.exit(0);
 };
 
-exports.initTiaRoot = function initTiaRoot(argsTiaRootDir) {
-  const tiaRootCandidate = exports.resolveRootDirFromArgsAndEnv(argsTiaRootDir)
+export function initTiaRoot(argsTiaRootDir) {
+  const tiaRootCandidate = resolveRootDirFromArgsAndEnv(argsTiaRootDir)
   || process.cwd();
 
-  if (exports.isTiaSuiteInParents(tiaRootCandidate)) {
+  if (isTiaSuiteInParents(tiaRootCandidate)) {
     gIn.tracer.err(`TIA suite is existed in parent dirs here: ${tiaRootCandidate}`);
     gIn.tracer.err('You can not create root inside suite');
     process.exit(1);
   }
 
-  const existedTiaRootInChildren = exports.findTiaRootInChildren(tiaRootCandidate);
+  const existedTiaRootInChildren = findTiaRootInChildren(tiaRootCandidate);
   if (existedTiaRootInChildren) {
     gIn.tracer.err(`TIA root is existed in children dirs here: ${existedTiaRootInChildren}`);
     gIn.tracer.err('You can not have TIA root inside TIA root');
     process.exit(1);
   }
 
-  const tiaRootInParents = exports.findTiaRootInParents(tiaRootCandidate);
+  const tiaRootInParents = findTiaRootInParents(tiaRootCandidate);
   if (tiaRootInParents) {
     gIn.tracer.err(`TIA root is found here : ${tiaRootInParents}`);
     gIn.tracer.err('You can not have TIA root inside TIA root');
@@ -228,7 +228,7 @@ exports.initTiaRoot = function initTiaRoot(argsTiaRootDir) {
  * @param {Object} argsObj
  * @return {String} - resolved path or empty string.
  */
-exports.resolvePathOptionRelativeToRootDir = function resolvePathOptionRelativeToRootDir(argsObj) {
+export function resolvePathOptionRelativeToRootDir(argsObj) {
   const {
     cmdLineArgsPath, envVarName, description, cutLastDirSep, mandatory,
   } = argsObj;

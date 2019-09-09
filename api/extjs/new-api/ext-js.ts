@@ -1,7 +1,7 @@
 'use strict';
 
-const query = require('./tia-extjs-query');
-const components = require('./components/extjs-components');
+import * as query from './tia-extjs-query';
+import * as components from './components/extjs-components';
 
 gT_.eC = components;
 

@@ -1,10 +1,10 @@
 'use strict';
 
-exports.delayed = function delayed(ms, value) {
+export function delayed(ms, value) {
   return new Promise(resolve => setTimeout(() => resolve(value), ms));
 };
 
-exports.timeoutError = 'timeoutError';
+export const timeoutError = 'timeoutError';
 
 /**
  * Waits a promise for specified timeout.
@@ -14,7 +14,7 @@ exports.timeoutError = 'timeoutError';
  * @returns {Promise} - promise which can be rejected with timeout or with error from promiseToWait.
  * or resolved with result of promiseToWait.
  */
-exports.wait = function wait(promiseToWait, ms) {
+export function wait(promiseToWait, ms) {
   let rejectBecauseTimeout = true;
   return new Promise((resolve, reject) => {
 
@@ -36,7 +36,7 @@ exports.wait = function wait(promiseToWait, ms) {
 
     timeoutId = setTimeout(() => {
       if (rejectBecauseTimeout) {
-        reject(exports.timeoutError);
+        reject(timeoutError);
       }
     }, ms);
 

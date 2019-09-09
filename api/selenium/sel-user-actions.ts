@@ -16,7 +16,7 @@ const wdKey = gT.sOrig.key;
  * @param enableLog -  enable/disable logging for this action.
  * @returns {Promise.<TResult>}
  */
-exports.clickById = function clickById(id, enableLog) {
+export function clickById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Click on element ${id.logStr} ... `,
@@ -39,7 +39,7 @@ exports.clickById = function clickById(id, enableLog) {
  * @param enableLog -  enable/disable logging for this action.
  * @returns {Promise.<TResult>}
  */
-exports.rClickById = function rClickById(id, enableLog) {
+export function rClickById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Right Click on element ${id.logStr} ... `,
@@ -66,7 +66,7 @@ exports.rClickById = function rClickById(id, enableLog) {
  * @param enableLog -  enable/disable logging for this action.
  * @returns {Promise.<TResult>}
  */
-exports.dblClickById = function dblClickById(id, enableLog) {
+export function dblClickById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Double Click on element ${id.logStr} ... `,
@@ -85,7 +85,7 @@ exports.dblClickById = function dblClickById(id, enableLog) {
   );
 };
 
-exports.sendEscById = function sendDownById(id, enableLog) {
+export function sendEscById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Send Esc to element ${id.logStr} ... `,
@@ -94,7 +94,7 @@ exports.sendEscById = function sendDownById(id, enableLog) {
       .sendKeys(wdKey.ESCAPE));
 };
 
-exports.sendDownById = function sendDownById(id, enableLog) {
+export function sendDownById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Send DOWN to element ${id.logStr} ... `,
@@ -103,7 +103,7 @@ exports.sendDownById = function sendDownById(id, enableLog) {
       .sendKeys(wdKey.DOWN));
 };
 
-exports.sendEnterById = function sendEnterById(id, enableLog) {
+export function sendEnterById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Send ENTER to element ${id.logStr} ... `,
@@ -112,7 +112,7 @@ exports.sendEnterById = function sendEnterById(id, enableLog) {
       .sendKeys(wdKey.ENTER));
 };
 
-exports.sendTabById = function sendTabById(id, enableLog) {
+export function sendTabById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Send TAB to element ${id.logStr} ... `,
@@ -121,7 +121,7 @@ exports.sendTabById = function sendTabById(id, enableLog) {
       .sendKeys(wdKey.TAB));
 };
 
-exports.sendPgDownById = function sendPgDownById(id, enableLog) {
+export function sendPgDownById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Send PAGE_DOWN to element ${id.logStr} ... `,
@@ -130,7 +130,7 @@ exports.sendPgDownById = function sendPgDownById(id, enableLog) {
       .sendKeys(wdKey.PAGE_DOWN));
 };
 
-exports.sendPgUpById = function sendPgUpById(id, enableLog) {
+export function sendPgUpById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Send PAGE_UP to element ${id.logStr} ... `,
@@ -139,7 +139,7 @@ exports.sendPgUpById = function sendPgUpById(id, enableLog) {
       .sendKeys(wdKey.PAGE_UP));
 };
 
-exports.sendUpById = function sendUpById(id, enableLog) {
+export function sendUpById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Send UP to element ${id.logStr} ... `,
@@ -156,7 +156,7 @@ exports.sendUpById = function sendUpById(id, enableLog) {
  * @param enableLog
  * @returns {Promise.<TResult>}
  */
-exports.sendKeysById = function sendKeysById(id, keys, enableLog) {
+export function sendKeysById(id, keys, enableLog) {
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
@@ -168,7 +168,7 @@ exports.sendKeysById = function sendKeysById(id, keys, enableLog) {
   );
 };
 
-exports.sendCtrlAAndKeysById = function sendCtrlAAndKeysById(id, keys, enableLog) {
+export function sendCtrlAAndKeysById(id, keys, enableLog) {
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
@@ -180,7 +180,7 @@ exports.sendCtrlAAndKeysById = function sendCtrlAAndKeysById(id, keys, enableLog
       .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, ...keys));
 };
 
-exports.sendCtrlAKeysEnterById = function sendCtrlAKeysEnterById(id, keys, enableLog) {
+export function sendCtrlAKeysEnterById(id, keys, enableLog) {
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
@@ -192,7 +192,7 @@ exports.sendCtrlAKeysEnterById = function sendCtrlAKeysEnterById(id, keys, enabl
       .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, ...keys, wdKey.ENTER));
 };
 
-exports.sendCtrlAAndDeleteById = function sendCtrlAAndDeleteById(id, enableLog) {
+export function sendCtrlAAndDeleteById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Send Ctrl + a and press DELETE for element ${id.logStr} ... `,
@@ -201,7 +201,7 @@ exports.sendCtrlAAndDeleteById = function sendCtrlAAndDeleteById(id, enableLog) 
       .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, wdKey.DELETE, wdKey.NULL));
 };
 
-exports.clearById = function clearById(id, enableLog) {
+export function clearById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Clear element ${id.logStr} ... `,
@@ -211,7 +211,7 @@ exports.clearById = function clearById(id, enableLog) {
   );
 };
 
-exports.sendKeysToBody = function sendKeysToBody(keys, enableLog) {
+export function sendKeysToBody(keys, enableLog) {
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
@@ -222,7 +222,7 @@ exports.sendKeysToBody = function sendKeysToBody(keys, enableLog) {
   );
 };
 
-exports.moveMouse = function moveMouse(webElement, enableLog) {
+export function moveMouse(webElement, enableLog) {
   return gIn.wrap(
     `Move mouse to element with id "${webElement.getId()}" ... `,
     enableLog,
@@ -239,7 +239,7 @@ exports.moveMouse = function moveMouse(webElement, enableLog) {
   );
 };
 
-exports.moveMouseById = function moveMouseById(id, enableLog) {
+export function moveMouseById(id, enableLog) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Move mouse to element with id "${id.logStr}" ... `,

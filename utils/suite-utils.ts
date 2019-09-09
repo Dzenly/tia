@@ -4,7 +4,7 @@ const path = require('path');
 const { appendFileSync } = require('fs');
 const fileUtils = require('./file-utils');
 
-exports.getNoEtalonTestsInfoPath = function getNoEtalonTestsInfoPath() {
+export function getNoEtalonTestsInfoPath() {
   const noEtalonTestsPath = path.join(
     gIn.suite.root,
     gT.engineConsts.suiteResDirName,
@@ -13,11 +13,11 @@ exports.getNoEtalonTestsInfoPath = function getNoEtalonTestsInfoPath() {
   return noEtalonTestsPath;
 };
 
-exports.saveNewTestInfo = function saveNewTestInfo(testPath) {
+export function saveNewTestInfo(testPath) {
   const pathToAdd = path.relative(gIn.suite.root, testPath);
-  appendFileSync(exports.getNoEtalonTestsInfoPath(), `${pathToAdd}\n`, 'utf8')
+  appendFileSync(getNoEtalonTestsInfoPath(), `${pathToAdd}\n`, 'utf8')
 };
 
-exports.rmNewTestsInfo = function rmNewTestsInfo() {
-  fileUtils.safeUnlink(exports.getNoEtalonTestsInfoPath());
+export function rmNewTestsInfo() {
+  fileUtils.safeUnlink(getNoEtalonTestsInfoPath());
 };

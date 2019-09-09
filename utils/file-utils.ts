@@ -1,10 +1,10 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const childProcess = require('child_process');
-const textUtils = require('./text-utils');
+import * as fs from 'fs';
+import * as path from 'path';
 
+import * as textUtils from './text-utils';
+import * as childProcess from 'child_process';
 /* globals gT, gIn */
 
 // TODO: сделать так, чтобы тесты работали под правами специально заведеного юзера.
@@ -22,16 +22,16 @@ const textUtils = require('./text-utils');
  * @param fileOrDirPath
  * @returns {boolean}
  */
-exports.isAbsent = function isAbsent(fileOrDirPath) {
+export function isAbsent(fileOrDirPath) {
   try {
     fs.statSync(fileOrDirPath);
   } catch (e) {
     return true;
   }
   return false;
-};
+}
 
-exports.isEtalonAbsent = function isEtalonAbsent(jsPath) {
+export function isEtalonAbsent(jsPath) {
   const etPath = textUtils.jsToEt(jsPath);
   try {
     fs.statSync(etPath);
@@ -39,17 +39,17 @@ exports.isEtalonAbsent = function isEtalonAbsent(jsPath) {
     return true;
   }
   return false;
-};
+}
 
-exports.safeUnlink = function safeUnlink(fileOrDirPath) {
+export function safeUnlink(fileOrDirPath) {
   try {
     fs.unlinkSync(fileOrDirPath);
   } catch (e) {
     // No handling intentionaly.
   }
-};
+}
 
-exports.safeReadFile = function safeReadFile(fileOrDirPath) {
+export function safeReadFile(fileOrDirPath) {
   let res = '';
   try {
     res = fs.readFileSync(fileOrDirPath, gT.engineConsts.logEncoding);
@@ -59,31 +59,29 @@ exports.safeReadFile = function safeReadFile(fileOrDirPath) {
     // No handling intentionaly.
   }
   return res;
-};
+}
 
-exports.backupDif = function backupDif(fileOrDirPath) {
+export function backupDif(fileOrDirPath) {
   try {
     fs.renameSync(fileOrDirPath, `${fileOrDirPath}.old`);
   } catch (e) {
     // No handling intentionaly.
   }
-};
+}
 
-exports.rmPngs = function rmPngs(jsPath) {
+export function rmPngs(jsPath) {
   const dir = path.dirname(jsPath);
   const start = path.basename(textUtils.changeExt(jsPath, ''));
 
-  fs.readdirSync(dir).forEach((fileName) => {
+  fs.readdirSync(dir).forEach(fileName => {
     const filePath = path.join(dir, fileName);
-    if (!exports.isDirectory(filePath)
-      && filePath.endsWith('.png')
-      && fileName.startsWith(start)) {
-      exports.safeUnlink(filePath);
+    if (!isDirectory(filePath) && filePath.endsWith('.png') && fileName.startsWith(start)) {
+      safeUnlink(filePath);
     }
   });
-};
+}
 
-exports.rmDir = function rmDir(dir, removeSelf) {
+export function rmDir(dir, removeSelf) {
   let files;
   try {
     files = fs.readdirSync(dir);
@@ -105,50 +103,50 @@ exports.rmDir = function rmDir(dir, removeSelf) {
         gIn.tracer.err(`rmDir: ${gIn.textUtils.excToStr(e)}`);
       }
       if (fdata.isDirectory()) {
-        exports.rmDir(filePath, true);
+        rmDir(filePath, true);
       }
     }
   }
   if (removeSelf) {
     fs.rmdirSync(dir);
   }
-};
+}
 
-exports.emptyDir = function emptyDir(dir) {
-  exports.rmDir(dir);
-};
+export function emptyDir(dir) {
+  rmDir(dir);
+}
 
-exports.safeRename = function safeRename(oldPath, newPath) {
-  exports.safeUnlink(newPath);
+export function safeRename(oldPath, newPath) {
+  safeUnlink(newPath);
   try {
     fs.renameSync(oldPath, newPath);
   } catch (e) {
     // No handling intentionaly.
   }
-};
+}
 
 // Removes file, if exists.
-exports.createEmptyFileSync = function createEmptyFileSync(fileOrDirPath) {
+export function createEmptyFileSync(fileOrDirPath) {
   fs.closeSync(fs.openSync(fileOrDirPath, 'w'));
-};
+}
 
-exports.createEmptyLog = function createEmptyLog(fileOrDirPath) {
+export function createEmptyLog(fileOrDirPath) {
   gIn.logger.logFile = gIn.textUtils.jsToLog(fileOrDirPath);
-  exports.createEmptyFileSync(gIn.logger.logFile);
-};
+  createEmptyFileSync(gIn.logger.logFile);
+}
 
-exports.fileToStdout = function fileToStdout(file) {
+export function fileToStdout(file) {
   console.log(fs.readFileSync(file, { encoding: gT.engineConsts.logEncoding }));
-};
+}
 
-exports.fileToStderr = function fileToStderr(file) {
+export function fileToStderr(file) {
   // console.error(fs.readFileSync(file, {encoding: gT.engineConsts.logEncoding}));
   gIn.cLogger.errln(fs.readFileSync(file, { encoding: gT.engineConsts.logEncoding }));
-};
+}
 
-exports.saveJson = function saveJson(obj, file) {
+export function saveJson(obj, file) {
   fs.writeFileSync(file, JSON.stringify(obj, null, 2), { encoding: gT.engineConsts.logEncoding });
-};
+}
 
 function collectArcPaths(dirInfo, arcPaths) {
   if (!dirInfo.diffed) {
@@ -157,7 +155,8 @@ function collectArcPaths(dirInfo, arcPaths) {
 
   // Absense of 'children' property says that it is test and not directory,
   // we should not allow to use this function for not directory.
-  for (const curInfo of dirInfo.children) { // eslint-disable-line no-restricted-syntax
+  for (const curInfo of dirInfo.children) {
+    // eslint-disable-line no-restricted-syntax
     if (Object.prototype.hasOwnProperty.call(curInfo, 'children')) {
       collectArcPaths(curInfo, arcPaths);
     } else if (curInfo.diffed) {
@@ -166,7 +165,7 @@ function collectArcPaths(dirInfo, arcPaths) {
   }
 }
 
-exports.getDirectoryAlias = function getDirectoryAlias(dirPath) {
+export function getDirectoryAlias(dirPath) {
   const pathArr = dirPath.split(path.sep);
   const last = pathArr.pop();
   if (last !== gT.engineConsts.suiteDirName) {
@@ -177,16 +176,23 @@ exports.getDirectoryAlias = function getDirectoryAlias(dirPath) {
     throw new Error(`getDirectoryAlias: Incorrect path format: ${dirPath}`);
   }
   return alias;
-};
+}
 
-exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
-  if (!gT.cLParams.enableEmail || !gT.suiteConfig.attachArchiveToMail || !gT.suiteConfig.mailRecipientList) {
+export function archiveSuiteDir(dirInfo) {
+  if (
+    !gT.cLParams.enableEmail ||
+    !gT.suiteConfig.attachArchiveToMail ||
+    !gT.suiteConfig.mailRecipientList
+  ) {
     return null;
   }
 
-  const alias = exports.getDirectoryAlias(dirInfo.path);
+  const alias = getDirectoryAlias(dirInfo.path);
 
-  const arcName = `${alias}_${new Date().toISOString().slice(0, 19).replace(/:/g, '_')}.zip`;
+  const arcName = `${alias}_${new Date()
+    .toISOString()
+    .slice(0, 19)
+    .replace(/:/g, '_')}.zip`;
 
   const suitePathWOSuiteDirName = path.resolve(gT.cLParams.rootDir, dirInfo.path, '..');
   const wholeSuiteArcRelPath = path.relative(suitePathWOSuiteDirName, dirInfo.path);
@@ -204,7 +210,7 @@ exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
     } catch (e) {
       gIn.tracer.err(`zip stderr: ${e.stderr.toString()}`);
       gIn.tracer.err(`zip stdout: ${e.stdout.toString()}`);
-      throw (new Error('Error with zip (whole)'));
+      throw new Error('Error with zip (whole)');
     }
     return resultArchivePath;
   }
@@ -219,7 +225,7 @@ exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
     return null;
   }
 
-  const diffedRelativePathsToArc = diffedPathsToArc.map((diffedArcPath) => {
+  const diffedRelativePathsToArc = diffedPathsToArc.map(diffedArcPath => {
     const relativePath = `"${path.relative(suitePathWOSuiteDirName, diffedArcPath)}"*`;
     return relativePath;
   });
@@ -232,13 +238,13 @@ exports.archiveSuiteDir = function archiveSuiteDir(dirInfo) {
   } catch (e) {
     gIn.tracer.err(`zip stderr: ${e.stderr.toString()}`);
     gIn.tracer.err(`zip stdout: ${e.stdout.toString()}`);
-    throw (new Error('Error with zip (diffs only)'));
+    throw new Error('Error with zip (diffs only)');
   }
 
   return resultArchivePath;
-};
+}
 
-exports.isDirectory = function isDirectory(fileOrDirPath) {
+export function isDirectory(fileOrDirPath) {
   let stat;
   try {
     stat = fs.statSync(fileOrDirPath);
@@ -247,33 +253,31 @@ exports.isDirectory = function isDirectory(fileOrDirPath) {
   }
 
   return stat.isDirectory();
-};
+}
 
-exports.mkdir = function mkdir(dirPath) {
+export function mkdir(dirPath) {
   try {
     fs.mkdirSync(dirPath, { recursive: true });
-  } catch (e) {
+  } catch (e) {}
+}
 
-  }
-};
-
-exports.mkDirRecursive = function mkDirRecursive(targetDir, subDirsArr) {
+export function mkDirRecursive(targetDir, subDirsArr) {
   let curPath = targetDir;
-  subDirsArr.forEach((dir) => {
+  subDirsArr.forEach(dir => {
     curPath = path.join(curPath, dir);
-    exports.mkdir(curPath);
+    mkdir(curPath);
   });
-};
+}
 
-exports.rmLastDirSep = function rmLastDirSep(dir) {
+export function rmLastDirSep(dir) {
   if (dir[dir.length - 1] === path.sep) {
     return dir.slice(0, -1);
   }
   return dir;
-};
+}
 
 // One of filenames.
-exports.whichDirContain = function whichDirContain(base, fileNames, excludeThisBase) {
+export function whichDirContain(base, fileNames, excludeThisBase) {
   const dirList = fs.readdirSync(base);
 
   for (const name of dirList) {
@@ -292,7 +296,7 @@ exports.whichDirContain = function whichDirContain(base, fileNames, excludeThisB
     }
 
     if (fs.statSync(newBase).isDirectory()) {
-      const dir = exports.whichDirContain(newBase, fileNames, excludeThisBase);
+      const dir = whichDirContain(newBase, fileNames, excludeThisBase);
       if (dir) {
         return dir;
       }
@@ -300,4 +304,4 @@ exports.whichDirContain = function whichDirContain(base, fileNames, excludeThisB
   }
 
   return null;
-};
+}

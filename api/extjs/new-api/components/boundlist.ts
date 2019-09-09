@@ -4,6 +4,8 @@
 
 'use strict';
 
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+
 const _ = require('lodash');
 
 const { queryAndAction } = require('../tia-extjs-query');
@@ -11,10 +13,10 @@ const { getCISContent } = require('../../extjs-utils');
 
 const compName = 'BoundList';
 
-const actions = {
-  compName,
+export class BoundListActions extends ComponentActions {
+  static compName = compName;
 
-  async clickRow(tEQ, text, idForLog, enableLog) {
+  static async clickRow(tEQ, text, idForLog, enableLog) {
     // Дождаться idle?
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
@@ -34,9 +36,9 @@ const actions = {
       actionDesc: `Click Row (${text})`,
       enableLog,
     });
-  },
+  }
 
-  async ctrlClickRows(tEQ, texts, idForLog, enableLog) {
+  static async ctrlClickRows(tEQ, texts, idForLog, enableLog) {
     // Дождаться idle?
     let textsArg = _.cloneDeep(texts);
     textsArg = textsArg.map(text => gT.e.utils.locKeyToStrAndEscapeSlashes(text));
@@ -53,31 +55,35 @@ const actions = {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true })
-          .keyDown(gT.sOrig.key.CONTROL).perform();
+        await gT.sOrig.driver
+          .actions({ bridge: true })
+          .keyDown(gT.sOrig.key.CONTROL)
+          .perform();
 
         for (const row of rows) {
           await row.click();
         }
 
-        await gT.sOrig.driver.actions({ bridge: true })
-          .keyUp(gT.sOrig.key.CONTROL).perform();
+        await gT.sOrig.driver
+          .actions({ bridge: true })
+          .keyUp(gT.sOrig.key.CONTROL)
+          .perform();
       },
       actionDesc: `Ctrl Click Rows (${gIn.textUtils.v2s(texts)})`,
       enableLog,
     });
-  },
-};
+  }
+}
 
-const checks = {
-  compName,
-};
+export class BoundListChecks extends ComponentChecks {
+  static compName = compName;
+}
 
-const logs = {
-  compName,
+export class BoundListLogs extends ComponentLogs {
+  static compName = compName;
 
   // TODO: доделать.
-  async contentByStore(tEQ, idForLog) {
+  static async contentByStore(tEQ, idForLog) {
     let result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getBoundListByStore(cmp);',
@@ -88,9 +94,9 @@ const logs = {
     result = result.join('\n');
 
     gIn.logger.logln(getCISContent('Content by store', tEQ, this.compName, idForLog, result));
-  },
+  }
 
-  async contentByInnerText(tEQ, idForLog) {
+  static async contentByInnerText(tEQ, idForLog) {
     let result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getBoundListByInnerText(cmp);',
@@ -101,9 +107,9 @@ const logs = {
     result = result.join('\n');
 
     gIn.logger.logln(getCISContent('Content by inner text', tEQ, this.compName, idForLog, result));
-  },
+  }
 
-  async selectedContentByInnerText(tEQ, idForLog) {
+  static async selectedContentByInnerText(tEQ, idForLog) {
     let result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getBoundListSelectedItemsByInnerText(cmp);',
@@ -113,12 +119,8 @@ const logs = {
 
     result = result.join('\n');
 
-    gIn.logger.logln(getCISContent('Selected content by inner text', tEQ, this.compName, idForLog, result));
-  },
-};
-
-module.exports = {
-  actions,
-  checks,
-  logs,
-};
+    gIn.logger.logln(
+      getCISContent('Selected content by inner text', tEQ, this.compName, idForLog, result)
+    );
+  }
+}

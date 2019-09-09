@@ -1,10 +1,8 @@
-'use strict';
-
 /**
  * Redirects stream to the current test log.
  * @param stream
  */
-module.exports = function rStreamToLog(stream) {
+export function rStreamToLog(stream) {
   stream.on('data', (chunk) => {
     const str = gIn.textUtils.valToStr(chunk);
     gT.l.println(str);

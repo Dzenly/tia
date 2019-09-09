@@ -1,5 +1,7 @@
 'use strict';
 
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+
 const { queryAndAction } = require('../tia-extjs-query');
 const { actions: cmpActions, checks: anyChecks, logs: anyLogs } = require('./component');
 const { getCISRVal } = require('../../extjs-utils');
@@ -8,17 +10,17 @@ const compName = 'Button';
 
 // TODO: задействовать везде idForLog.
 
-const actions = {
-  compName,
-};
+export class ButtonActions extends ComponentActions {
+  static compName = compName;
+}
 
-const checks = {
-  compName,
-};
+export class ButtonChecks extends ComponentChecks {
+  static compName = compName;
+}
 
-const logs = {
-  compName,
-  async info(tEQ, idForLog) {
+export class ButtonLogs extends ComponentLogs {
+  static compName = compName;
+  static async info(tEQ, idForLog) {
     const result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getCompDispIdProps(cmp);',
@@ -27,11 +29,5 @@ const logs = {
     });
 
     gIn.logger.logln(getCISRVal(tEQ, compName, idForLog, result));
-  },
-};
-
-module.exports = {
-  actions,
-  checks,
-  logs,
-};
+  };
+}

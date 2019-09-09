@@ -1,5 +1,7 @@
 'use strict';
 
+import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs } from './form-field-base';
+
 const { getCISRVal } = require('../../extjs-utils');
 
 const { queryAndAction } = require('../tia-extjs-query');
@@ -7,9 +9,9 @@ const { actions: cmpActions, checks: anyChecks, logs: anyLogs } = require('./com
 
 const compName = 'CheckBox';
 
-const actions = {
-  compName,
-  async check(tEQ, idForLog, enableLog) {
+export class CheckBoxActions extends FormFieldBaseActions {
+  static compName = compName;
+  static async check(tEQ, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -28,8 +30,8 @@ const actions = {
       actionDesc: 'Check',
       enableLog,
     });
-  },
-  async uncheck(tEQ, idForLog, enableLog) {
+  }
+  static async uncheck(tEQ, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -48,8 +50,8 @@ const actions = {
       actionDesc: 'Uncheck',
       enableLog,
     });
-  },
-  async checkByEJ(tEQ, idForLog, enableLog) {
+  }
+  static async checkByEJ(tEQ, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -65,8 +67,8 @@ const actions = {
       actionDesc: 'Check by EJ',
       enableLog,
     });
-  },
-  async uncheckByEJ(tEQ, idForLog, enableLog) {
+  }
+  static async uncheckByEJ(tEQ, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -82,22 +84,16 @@ const actions = {
       actionDesc: 'Uncheck by EJ',
       enableLog,
     });
-  },
-};
+  }
+}
 
-const checks = {
-  compName,
-};
+export class CheckBoxChecks extends FormFieldBaseChecks {
+  static compName = compName;
+}
 
-const logs = {
-  compName,
-  async rawValue(tEQ, idForLog) {
+export class CheckBoxLogs extends FormFieldBaseLogs {
+  static compName = compName;
+  static async rawValue(tEQ, idForLog) {
     await gT.eC.component.l.rawValue(tEQ, idForLog, val => `${val ? 'checked' : 'unchecked'}`);
-  },
-};
-
-module.exports = {
-  actions,
-  checks,
-  logs,
-};
+  }
+}

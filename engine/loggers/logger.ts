@@ -13,7 +13,7 @@ const nodeUtils = require('../../utils/nodejs-utils');
 
 function logToFile(msg) {
   // TODO: check how diff work for unicode.
-  fs.appendFileSync(exports.logFile, msg, { encoding: gT.engineConsts.logEncoding });
+  fs.appendFileSync(logFile, msg, { encoding: gT.engineConsts.logEncoding });
 }
 
 // function logToFileLn(msg) {
@@ -25,7 +25,7 @@ function logToFile(msg) {
  * @param msg
  * @param noConsole
  */
-exports.log = function log(msg, dontWriteToFile) {
+export function log(msg, dontWriteToFile) {
   // We use append here, to don't lost some strings if something will break the test engine.
   gIn.cLogger.logIfEnabled(msg);
   if (!dontWriteToFile) {
@@ -33,27 +33,27 @@ exports.log = function log(msg, dontWriteToFile) {
   }
 };
 
-exports.logln = function logln(msg) {
-  exports.log(`${msg}\n`);
+export function logln(msg) {
+  log(`${msg}\n`);
 };
 
-exports.logResourcesUsage = function logResourcesUsage(prefix = '') {
+export function logResourcesUsage(prefix = '') {
   if (gT.config.resUsagePrintAtErrors) {
-    exports.logln(prefix + nodeUtils.getResourcesUsage(true));
+    logln(prefix + nodeUtils.getResourcesUsage(true));
   }
 };
 
-exports.logBold = function logBold(msg) {
+export function logBold(msg) {
   gIn.cLogger.logBold(msg);
   logToFile(msg);
 };
 
-exports.fail = function fail(msg) {
+export function fail(msg) {
   gIn.cLogger.failIfEnabled(msg);
   logToFile(msg);
 };
 
-exports.pass = function pass(msg) {
+export function pass(msg) {
   gIn.cLogger.passIfEnabled(msg);
   logToFile(msg);
 };
@@ -62,14 +62,14 @@ exports.pass = function pass(msg) {
  * Report about some error.
  * @param msg
  */
-exports.error = function error(msg) {
+export function error(msg) {
   const msgNew = gIn.loggerCfg.errPrefix + msg;
   gIn.cLogger.errIfEnabled(msgNew);
   logToFile(msgNew);
 };
 
-exports.errorln = function errorln(msg) {
-  return exports.error(`${msg}\n`);
+export function errorln(msg) {
+  return error(`${msg}\n`);
 };
 
 /**
@@ -77,7 +77,7 @@ exports.errorln = function errorln(msg) {
  * @param msg
  * @param e
  */
-exports.exception = function exception(msg, e) {
+export function exception(msg, e) {
   const msgNew = gIn.loggerCfg.excPrefix + msg;
   gIn.cLogger.errIfEnabled(`${msgNew} ${gIn.textUtils.excToStr(e)}\n`);
   logToFile(`${msgNew} ${gIn.textUtils.excToStr(e, !gT.cLParams.stackToLog)}\n`);
@@ -88,13 +88,13 @@ exports.exception = function exception(msg, e) {
  * @param msg - A message to be logged.
  * @param {Boolean}[enable]. If true log is enabled, othwerwise log is disabled.
  */
-exports.logIfEnabled = function logIfEnabled(msg, enable) {
+export function logIfEnabled(msg, enable) {
   let dontWriteToFile = false;
   if (!enable && gT.cLParams.forceLogActions) {
     dontWriteToFile = true;
   }
   if (gT.cLParams.forceLogActions || enable) {
-    exports.log(msg, dontWriteToFile);
+    log(msg, dontWriteToFile);
   }
 };
 
@@ -104,18 +104,21 @@ exports.logIfEnabled = function logIfEnabled(msg, enable) {
  * @param {Boolean} [enable = gIn.loggerCfg.defLLLogAction] - If false - log is disabled,
  * otherwise - log is enabled.
  */
-exports.logIfNotDisabled = function logIfNotDisabled(msg, enable = gIn.loggerCfg.defLLLogAction) {
+export function logIfNotDisabled(msg, enable = null) {
+  if (enable === null) {
+    enable = gIn.loggerCfg.getDefLLLogAction();
+  }
   let dontWriteToFile = false;
   if (!enable && gT.cLParams.forceLogActions) {
     dontWriteToFile = true;
   }
   if (gT.cLParams.forceLogActions || enable) {
-    exports.log(msg, dontWriteToFile);
+    log(msg, dontWriteToFile);
   }
 };
 
 function writeStrToFile(str/* , diffed, isDif*/) {
-  fs.writeSync(exports.fd, str, null, gT.engineConsts.logEncoding);
+  fs.writeSync(fd, str, null, gT.engineConsts.logEncoding);
 }
 
 function writeStrToStdout(str, diffed, isDif) {
@@ -136,9 +139,9 @@ function writeToSuiteLog(str, diffed, isDif) {
   writeLogStr(str, diffed, isDif);
 }
 
-exports.testSummary = function testSummary() {
-  exports.log('=================\n');
-  exports.log(`Pass: ${gIn.tInfo.data.passed}, Fail: ${gIn.tInfo.data.failed}\n`);
+export function testSummary() {
+  log('=================\n');
+  log(`Pass: ${gIn.tInfo.data.passed}, Fail: ${gIn.tInfo.data.failed}\n`);
 };
 
 function saveDirInfoToSuiteLog(parameters) {
@@ -223,29 +226,29 @@ function saveSuiteLogPart({
  * @parem noTime
  * @returns {string} - Verbose info for the root test directory.
  */
-exports.saveSuiteLog = function saveSuiteLog({
+export function saveSuiteLog({
   dirInfo,
   log,
   noTime,
   noTestDifs,
 }) {
   writeLogStr = writeStrToFile;
-  exports.fd = fs.openSync(log, 'w');
+  fd = fs.openSync(log, 'w');
   saveSuiteLogPart({
     verbose: false, dirInfo, noTime, noTestDifs,
   });
-  fs.writeSync(exports.fd, '\n', null, gT.engineConsts.logEncoding);
+  fs.writeSync(fd, '\n', null, gT.engineConsts.logEncoding);
   saveSuiteLogPart({
     verbose: true, dirInfo, noTime, noTestDifs,
   });
-  fs.closeSync(exports.fd);
+  fs.closeSync(fd);
   return gIn.tInfo.testInfoToString({
     curInfo: dirInfo, isDir: true, verbose: true, noTime, noTitle: true, noEol: true,
   });
 };
 
 /* Prints expected tests results to stdout and unexpected to stderr */
-exports.printSuiteLog = function printSuiteLog(dirInfo, noTestDifs) {
+export function printSuiteLog(dirInfo, noTestDifs) {
   writeLogStr = writeStrToStdout;
   saveSuiteLogPart({ verbose: false, dirInfo, noTime: false, noTestDifs });
   writeToSuiteLog('\n');

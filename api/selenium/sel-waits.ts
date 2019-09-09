@@ -1,8 +1,5 @@
 'use strict';
 
-/* globals gT: true */
-/* globals gIn: true */
-
 /**
  * Waits for element with specified id.
  *
@@ -12,7 +9,7 @@
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-exports.waitForElementById = function waitForElementById(id, timeout, enableLog) {
+export function waitForElementById(id, timeout, enableLog) {
 
   // eslint-disable-next-line no-param-reassign
   id = gT.s.idToIdObj(id);
@@ -23,7 +20,7 @@ exports.waitForElementById = function waitForElementById(id, timeout, enableLog)
   );
 };
 
-exports.waitForElementEnabledAndVisibleById = function waitForElementEnabledAndVisibleById(
+export function waitForElementEnabledAndVisibleById(
   id,
   timeout,
   enableLog
@@ -50,7 +47,7 @@ exports.waitForElementEnabledAndVisibleById = function waitForElementEnabledAndV
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-exports.waitForElementByClassName = function waitForElementByClassName(className, timeout, enableLog) {
+export function waitForElementByClassName(className, timeout, enableLog) {
   return gIn.wrap(
     `Waiting for element by class name : "${className}" ... `,
     enableLog,
@@ -67,7 +64,7 @@ exports.waitForElementByClassName = function waitForElementByClassName(className
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-exports.waitForElementByCssSelector = function waitForElementByCssSelector(selector, timeout, enableLog) {
+export function waitForElementByCssSelector(selector, timeout, enableLog) {
   return gIn.wrap(
     `Waiting for element by css selector : "${selector}" ... `,
     enableLog,
@@ -84,7 +81,7 @@ exports.waitForElementByCssSelector = function waitForElementByCssSelector(selec
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-exports.waitForTitle = function waitForTitle(title, timeout, enableLog) {
+export function waitForTitle(title, timeout, enableLog) {
   return gIn.wrap(
     `Waiting for windows title: "${title}" ... `,
     enableLog,
@@ -100,7 +97,7 @@ exports.waitForTitle = function waitForTitle(title, timeout, enableLog) {
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-exports.waitForUrl = function waitForUrl(url, timeout, enableLog) {
+export function waitForUrl(url, timeout, enableLog) {
   return gIn.wrap(
     `Waiting for URL: "${url}" ... `,
     enableLog,
@@ -121,7 +118,7 @@ exports.waitForUrl = function waitForUrl(url, timeout, enableLog) {
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-exports.waitForUrlPrefix = function waitForUrlPrefix(urlPrefix, timeout, enableLog) {
+export function waitForUrlPrefix(urlPrefix, timeout, enableLog) {
   return gIn.wrap(
     `Waiting for URL prefix: "${urlPrefix}" ... `,
     enableLog,

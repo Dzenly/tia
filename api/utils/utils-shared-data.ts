@@ -13,7 +13,7 @@ let shared = {};
  * @param {String} key
  * @param {} value
  */
-exports.save = function save(key, value) {
+export function save(key, value) {
   // TODO: move it to some gT.u ? (utils)
   shared[key] = value;
 };
@@ -24,7 +24,7 @@ exports.save = function save(key, value) {
  * @param {String} key
  * @returns {*}
  */
-exports.load = function load(key) {
+export function load(key) {
   return shared[key];
 };
 
@@ -32,13 +32,15 @@ exports.load = function load(key) {
  * Deletes previously shared object.
  * @param key
  */
-exports.delete = function delete1(key) { // TODO: change.
+function deleteData(key) { // TODO: change.
   delete shared[key];
 };
+
+export { deleteData as delete };
 
 /**
  * Deletes all shared data.
  */
-exports.clear = function clear() {
+export function clear() {
   shared = {};
 };

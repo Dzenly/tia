@@ -175,7 +175,7 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
  * @throws - Various errors.
  */
 // eslint-disable-next-line max-params
-module.exports = async function wrap(msg, enableLog, act, noConsoleAndExceptions) {
+export default async function wrap(msg, enableLog, act, noConsoleAndExceptions) {
   if (typeof msg === 'object') {
     // esling-disable-next-line no-param-reassign
     ({

@@ -4,7 +4,7 @@
 
 /* globals gIn: true */
 
-const path = require('path');
+import * as path from 'path';
 
 /**
  * Safely runs generator.
@@ -24,7 +24,7 @@ const path = require('path');
 // }
 
 // Return promise from generator is not supported, i.e. will not be waited.
-gT_.u.iterate = function iterate1(iterator) {
+function iterateIterator(iterator) {
   return new Promise((resolve, reject) => {
     let obj;
 
@@ -57,8 +57,10 @@ gT_.u.iterate = function iterate1(iterator) {
   });
 };
 
-gT_.u.iterateSafe = function iterateSafe(iterator) {
-  return gT.u.iterate(iterator).catch(e => {
+export {iterateIterator as iterate};
+
+export function iterateSafe(iterator) {
+  return gT.u.misc.iterate(iterator).catch(e => {
     const strErr = `Safe Iterator caught error: ${gIn.textUtils.excToStr(e)}`;
     if (gT.cLParams.errToConsole) {
       gIn.tracer.err(strErr);
@@ -67,8 +69,8 @@ gT_.u.iterateSafe = function iterateSafe(iterator) {
   });
 };
 
-gT_.u.execGenSafe = function execGenSafe(gen, ...params) {
-  return gT.u.iterate(gen(...params)).catch(e => {
+export function execGenSafe(gen, ...params) {
+  return gT.u.misc.iterate(gen(...params)).catch(e => {
     const strErr = `Safe Generator runner caught error: ${gIn.textUtils.excToStr(e)}`;
     if (gT.cLParams.errToConsole) {
       gIn.tracer.err(strErr);
@@ -84,17 +86,17 @@ gT_.u.execGenSafe = function execGenSafe(gen, ...params) {
  * @param gen - function - generator.
  * @returns {Promise}
  */
-gT_.u.execGen = function execGen(gen, param1, param2) {
-  return gT.u.iterate(gen(param1, param2));
+export function execGen(gen, param1, param2) {
+  return gT.u.misc.iterate(gen(param1, param2));
 };
 
-gT_.u.setHangTimeout = function setHangTimeout(newTimeout) {
+export function setHangTimeout(newTimeout) {
   const oldTimeout = gT.cLParams.hangTimeout;
   gT.cLParams.hangTimeout = newTimeout;
   return oldTimeout;
 };
 
-gT_.u.isWindows = function isWindows() {
+export function isWindows() {
   return path.sep === '\\';
 };
 

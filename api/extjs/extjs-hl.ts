@@ -3,6 +3,7 @@
 /* globals gT: true */
 /* globals gIn: true */
 
+// TODO: Move to checkbox api.
 
 /**
  * Checks that checkbox enables/disables corresponding form fields.
@@ -11,7 +12,7 @@
  * @param directFields - Fields which are enabled when the checkbox is set.
  * @param reverseFields - Fields which are enabled when the checkbox is reset.
  */
-exports.checkCheckboxAffects = function* checkCheckboxAffects(formId, checkBoxName, directFields, reverseFields, logActions) {
+export function* checkCheckboxAffects(formId, checkBoxName, directFields, reverseFields, logActions) {
   formId = gT.s.idToIdObj(formId);
 
   function * checkCBAffects() {

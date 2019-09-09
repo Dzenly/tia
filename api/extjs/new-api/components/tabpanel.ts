@@ -1,35 +1,34 @@
 'use strict';
 
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+
 const { queryAndAction } = require('../tia-extjs-query');
 
 const compName = 'TabPanel';
 
-const actions = {
-  compName,
+export class TabPanelActions extends ComponentActions {
+  static compName = compName;
 
-  async setActiveTabByCardId(tEQ, cardId, idForLog, enableLog) {
+  static async setActiveTabByCardId(tEQ, cardId, idForLog, enableLog) {
     return gIn.wrap({
-      msg: `${compName} ${idForLog ? `${idForLog} ` : ''}"${tEQ}": select tab by cardId: "${cardId}" ... `,
+      msg: `${compName} ${
+        idForLog ? `${idForLog} ` : ''
+      }"${tEQ}": select tab by cardId: "${cardId}" ... `,
       enableLog,
-      act: () => queryAndAction({
-        tEQ,
-        action: `cmp.setActiveTab('${cardId}');`,
-        enableLog: false,
-      }),
+      act: () =>
+        queryAndAction({
+          tEQ,
+          action: `cmp.setActiveTab('${cardId}');`,
+          enableLog: false,
+        }),
     });
-  },
-};
+  }
+}
 
-const checks = {
-  compName,
-};
+export class TabPanelChecks extends ComponentChecks {
+  static compName = compName;
+}
 
-const logs = {
-  compName,
-};
-
-module.exports = {
-  actions,
-  checks,
-  logs,
-};
+export class TabPanelLogs extends ComponentLogs {
+  static compName = compName;
+}

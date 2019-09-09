@@ -16,7 +16,7 @@ const fileUtils = require('./file-utils');
 /* globals gT: true */
 /* globals gIn: true */
 // ansi, html.
-exports.getStructuredPatch = function getStructuredPatch({
+export function getStructuredPatch({
   dir,
   oldFile,
   newFile,
@@ -108,14 +108,14 @@ exports.getStructuredPatch = function getStructuredPatch({
  * @param oldFile - basename for file 1
  * @param newFile - basename for file 2
  */
-exports.getDiff = function getDiff({
+export function getDiff({
   dir,
   oldFile,
   newFile,
   highlight = '',
   htmlWrap = false,
 }) {
-  const structPath = exports.getStructuredPatch({
+  const structPath = getStructuredPatch({
     dir,
     oldFile,
     newFile,
@@ -179,14 +179,14 @@ ${strArr.join(eol)}
  * @param jsTest - path to js file, for which just created *.log
  * to be diffed with *.et.
  */
-exports.diff = function diff({
+export function diff({
   jsTest,
   highlight,
   htmlWrap,
 }) {
   const dir = path.dirname(jsTest);
   const base = path.basename(jsTest.slice(0, -3));
-  let out = exports.getDiff({
+  let out = getDiff({
     dir,
     oldFile: `${base}.log`,
     newFile: `${base}.et`,
@@ -207,7 +207,7 @@ exports.diff = function diff({
   // let oldOut = out;
 
   // Check for expected diff.
-  out = exports.getDiff({
+  out = getDiff({
     dir,
     oldFile: `${base}.dif`,
     newFile: `${base}.edif`,
@@ -215,7 +215,7 @@ exports.diff = function diff({
   if (out) {
     // gIn.tracer.trace1(`${base} DIFF: \n ${oldOut}`);
     gIn.tInfo.data.diffed = 1;
-    out = exports.getDiff({
+    out = getDiff({
       dir,
       oldFile: `${base}.dif`,
       newFile: `${base}.dif.old`,

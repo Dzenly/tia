@@ -5,8 +5,10 @@
 const mPath = require('path');
 const fileUtils = require('../utils/file-utils');
 
-exports.isPassCountingEnabled = true;
-exports.isPassPrintingEnabled = true;
+export const isPassCountingEnabled = true;
+export const isPassPrintingEnabled = true;
+
+export let data = null;
 
 // TODO: Unclear logic.
 function formLogPart(str, count) {
@@ -28,10 +30,8 @@ function formLogPart(str, count) {
  * @param parameters.noTitle
  * @returns {String}
  */
-exports.testInfoToString = function testInfoToString(parameters) {
-  const {
-    curInfo, isDir, verbose, noTime, noTitle, noEol,
-  } = parameters;
+export function testInfoToString(parameters) {
+  const { curInfo, isDir, verbose, noTime, noTitle, noEol } = parameters;
   let diffed;
   let ediffed;
   let skipped;
@@ -64,13 +64,15 @@ exports.testInfoToString = function testInfoToString(parameters) {
   }
 
   const title = noTitle ? '' : `"${curInfo.title}"`;
-  const passed = ((curInfo.isSuiteRoot && gT.cLParams.slogSubj.includes('pass')) || !isDir)
-    ? formLogPart('Pass', curInfo.passed)
-    : null;
+  const passed =
+    (curInfo.isSuiteRoot && gT.cLParams.slogSubj.includes('pass')) || !isDir
+      ? formLogPart('Pass', curInfo.passed)
+      : null;
   const failed = formLogPart('Fail', curInfo.failed);
   const time = noTime ? '' : `${curInfo.time.toFixed(2)} ms`;
 
-  const arr = verbose ? [filePath, diffed, failed, ediffed, skipped, passed, run, time, title]
+  const arr = verbose
+    ? [filePath, diffed, failed, ediffed, skipped, passed, run, time, title]
     : [filePath, diffed, failed];
 
   let res = `${arr.filter(Boolean).join(', ')}`; // join only non-empty strings.
@@ -80,13 +82,13 @@ exports.testInfoToString = function testInfoToString(parameters) {
   }
 
   return res;
-};
+}
 
 /**
  *
  * @param isDir - true - directory, false - file.
  */
-exports.createTestInfo = function createTestInfo(isDir, title, path) {
+export function createTestInfo(isDir, title, path) {
   const info = {
     path: gIn.textUtils.winToUnixSep(path), // For uniform logging.
     title,
@@ -105,22 +107,22 @@ exports.createTestInfo = function createTestInfo(isDir, title, path) {
     info.children = [];
   }
   return info;
-};
+}
 
-exports.addFail = function addFail() {
+export function addFail() {
   if (gT.config.ignorePassAndFailCounters) {
     return;
   }
-  exports.data.failed++; // From global sandbox.
-};
+  data.failed++; // From global sandbox.
+}
 
-exports.addPassForce = function addPassForce() {
-  exports.data.passed++;
-};
+export function addPassForce() {
+  data.passed++;
+}
 
-exports.addPass = function addPass() {
-  if (!exports.isPassCountingEnabled || gT.config.ignorePassAndFailCounters) {
+export function addPass() {
+  if (!isPassCountingEnabled || gT.config.ignorePassAndFailCounters) {
     return;
   }
-  exports.data.passed++; // From global sandbox.
-};
+  data.passed++; // From global sandbox.
+}

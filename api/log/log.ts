@@ -12,28 +12,28 @@ const FAIL = 'FAIL: ';
 /**
  * Logs the specified msg.
  */
-exports.print = function print(msg) {
+export function print(msg) {
   gIn.logger.log(msg);
 };
 
 /**
  * Logs the msg and EOL.
  */
-exports.println = function println(msg) {
+export function println(msg) {
   gIn.logger.logln(msg);
 };
 
 /**
  * Logs separator.
  */
-exports.sep = function sep() {
+export function sep() {
   gIn.logger.logln('==========');
 };
 
 /**
  * Logs End of Line.
  */
-exports.eol = function eol() {
+export function eol() {
   gIn.logger.log('\n');
 };
 
@@ -42,7 +42,7 @@ exports.eol = function eol() {
  * Increases fails count.
  * @param [msg] - message to print.
  */
-exports.fail = function fail(msg) {
+export function fail(msg) {
   if (typeof msg !== 'undefined') {
     gIn.logger.fail(`${FAIL + msg}\n`);
   }
@@ -57,7 +57,7 @@ exports.fail = function fail(msg) {
  * @param {Boolean} [mode.passSilently] - do not show message.
  * @param {Boolean} [mode.noPassIncrement] - do not increment pass counter.
  */
-exports.pass = function pass(msg, mode = { passSilently: false, noPassIncrement: false }) {
+export function pass(msg, mode = { passSilently: false, noPassIncrement: false }) {
   if (typeof msg !== 'undefined' && !mode.passSilently) {
     if (gIn.tInfo.isPassPrintingEnabled) {
       gIn.logger.pass(`${ok + msg}\n`);

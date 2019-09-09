@@ -1,5 +1,7 @@
 'use strict';
 
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+
 const _ = require('lodash');
 
 // const { queryCmpInputId } = require('../tia-extjs-query');
@@ -9,17 +11,17 @@ const { getCISRVal, getCISContent } = require('../../extjs-utils');
 
 const compName = 'Form';
 
-const actions = {
-  compName,
-};
+export class FormActions extends ComponentActions {
+  static compName = compName;
+}
 
-const checks = {
-  compName,
-};
+export class FormChecks extends ComponentChecks {
+  static compName = compName;
+}
 
-const logs = {
-  compName,
-  async content(tEQ, includingStores, idForLog) {
+export class FormLogs extends ComponentLogs {
+  static compName = compName;
+  static async content(tEQ, includingStores, idForLog) {
     const result = await queryAndAction({
       tEQ,
       action: `return tiaEJ.ctByObj.getForm(cmp, ${includingStores});`,
@@ -27,11 +29,5 @@ const logs = {
       enableLog: false,
     });
     gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result, true));
-  },
-};
-
-module.exports = {
-  actions,
-  checks,
-  logs,
-};
+  }
+}

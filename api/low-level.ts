@@ -10,7 +10,7 @@
  * Sets passes count for current test.
  * Can be used for debug.
  */
-exports.setPassed = function setPassed(newCount) {
+export function setPassed(newCount) {
   gIn.tracer.msg3(`Changing passed tests count to ${newCount}`);
   gIn.tInfo.data.passed = newCount;
 };
@@ -19,7 +19,7 @@ exports.setPassed = function setPassed(newCount) {
  * Sets fails count for current test.
  * Can be used for debug.
  */
-exports.setFailed = function setFailed(newCount) {
+export function setFailed(newCount) {
   gIn.tracer.msg3(`Changing failed tests count to ${newCount}`);
   gIn.tInfo.data.failed = newCount;
 };
@@ -29,7 +29,7 @@ exports.setFailed = function setFailed(newCount) {
  *
  * @returns {number}
  */
-exports.getPassed = function getPassed() {
+export function getPassed() {
   return gIn.tInfo.data.passed;
 };
 
@@ -37,7 +37,7 @@ exports.getPassed = function getPassed() {
  * Gets fails count for current test.
  * @returns {number}
  */
-exports.getFailed = function getFailed() {
+export function getFailed() {
   return gIn.tInfo.data.failed;
 };
 
@@ -48,13 +48,13 @@ exports.getFailed = function getFailed() {
  * @param {boolean} enable - new value for pass counting.
  * @returns {boolean} - old pass counting value.
  */
-exports.setLlPassCounting = function setLlPassCounting(enable) {
+export function setLlPassCounting(enable) {
   const old = gIn.tInfo.isPassCountingEnabled;
   gIn.tInfo.isPassCountingEnabled = enable;
   return old;
 };
 
-exports.setLlPassPrinting = function setLlPassPrinting(enable) {
+export function setLlPassPrinting(enable) {
   const old = gIn.tInfo.isPassPrintingEnabled;
   gIn.tInfo.isPassPrintingEnabled = enable;
   return old;
@@ -67,8 +67,8 @@ exports.setLlPassPrinting = function setLlPassPrinting(enable) {
  * @param {boolean} enable - new Log Action value.
  * @returns {boolean} - old Log Action value.
  */
-exports.setDefaultLlLogAction = function setDefaultLlLogAction(enable) {
-  const old = gIn.loggerCfg.defLLLogAction;
-  gIn.loggerCfg.defLLLogAction = enable;
+export function setDefaultLlLogAction(enable) {
+  const old = gIn.loggerCfg.getDefLLLogAction();
+  gIn.loggerCfg.setDefLLLogAction(enable);
   return old;
 };

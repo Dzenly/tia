@@ -22,14 +22,20 @@ const path = require('path');
  *
  * @returns a promise which will be resolved with script return value.
  */
-exports.init = function init(enableLog) {
-  return gIn.wrap('Initialization of TIA ExtJs Exp helpers ... ', enableLog, () => {
-    const scriptStr = fs.readFileSync(path.join(gT.tiaDir, 'api', 'extjs', 'browser-part', 'e-br-explore.js'), 'utf8');
+export function init(enableLog) {
+  return (
+    gIn
+      .wrap('Initialization of TIA ExtJs Exp helpers ... ', enableLog, () => {
+        const scriptStr = fs.readFileSync(
+          path.join(gT.tiaDir, 'api', 'extjs', 'browser-part', 'e-br-explore.js'),
+          'utf8'
+        );
 
-    // gIn.tracer.msg3('init: script: ' + scriptStr);
-    return gT.s.browser.executeScriptWrapper(scriptStr);
-  }).then(() => {
-    const scriptStr = `
+        // gIn.tracer.msg3('init: script: ' + scriptStr);
+        return gT.s.browser.executeScriptWrapper(scriptStr);
+      })
+      .then(() => {
+        const scriptStr = `
     try {
       document.removeEventListener('click', tiaEJOnMouseDown);
       document.removeEventListener('keydown', tiaEJOnKeyDown);
@@ -52,9 +58,10 @@ exports.init = function init(enableLog) {
     document.addEventListener('click', tiaEJOnMouseDown);
     document.addEventListener('keydown', tiaEJOnKeyDown);
     `;
-    return gT.s.browser.executeScriptWrapper(scriptStr);
-  })
+        return gT.s.browser.executeScriptWrapper(scriptStr);
+      })
 
-  // .then(() => gT.s.browser.setDebugMode())
-    .then(() => gT.s.browser.setBodyClicker());
-};
+      // .then(() => gT.s.browser.setDebugMode())
+      .then(() => gT.s.browser.setBodyClicker())
+  );
+}

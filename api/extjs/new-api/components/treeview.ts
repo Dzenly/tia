@@ -4,15 +4,17 @@
 
 'use strict';
 
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+
 const { queryAndAction } = require('../tia-extjs-query');
 const { getCISContent } = require('../../extjs-utils');
 
 const compName = 'TreeView';
 
-const actions = {
-  compName,
+export class TreeViewActions extends ComponentActions {
+  static compName = compName;
 
-  async clickItem(tEQ, text, idForLog, enableLog) {
+  static async clickItem(tEQ, text, idForLog, enableLog) {
     // Дождаться idle?
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
@@ -32,9 +34,9 @@ const actions = {
       actionDesc: `Click Item (${text})`,
       enableLog,
     });
-  },
+  }
 
-  async rClickItem(tEQ, text, idForLog, enableLog) {
+  static async rClickItem(tEQ, text, idForLog, enableLog) {
     // Дождаться idle?
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
@@ -49,16 +51,17 @@ const actions = {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true })
+        await gT.sOrig.driver
+          .actions({ bridge: true })
           .contextClick(item)
           .perform();
       },
       actionDesc: `Right Click Item (${text})`,
       enableLog,
     });
-  },
+  }
 
-  async doubleClickItem(tEQ, text, idForLog, enableLog) {
+  static async doubleClickItem(tEQ, text, idForLog, enableLog) {
     // Дождаться idle?
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
@@ -73,24 +76,25 @@ const actions = {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true })
+        await gT.sOrig.driver
+          .actions({ bridge: true })
           .doubleClick(item)
           .perform();
       },
       actionDesc: `Double Click Item (${text})`,
       enableLog,
     });
-  },
-};
+  }
+}
 
-const checks = {
-  compName,
-};
+export class TreeViewChecks extends ComponentChecks {
+  static compName = compName;
+}
 
-const logs = {
-  compName,
+export class TreeViewLogs extends ComponentLogs {
+  static compName = compName;
 
-  async content(tEQ, idForLog) {
+  static async content(tEQ, idForLog) {
     const result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getTree(cmp);',
@@ -98,11 +102,5 @@ const logs = {
       enableLog: false,
     });
     gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result, true));
-  },
-};
-
-module.exports = {
-  actions,
-  checks,
-  logs,
-};
+  }
+}

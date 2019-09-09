@@ -81,7 +81,7 @@ export function chalkWrap(chalkProps: string | string[], message: string) {
  * @param message
  */
 export function msgDifStr(message: string) {
-  process.stdout.write(exports.chalkWrap(['yellow', 'bold'], message));
+  process.stdout.write(chalkWrap(['yellow', 'bold'], message));
   trackEOL(message);
 }
 
@@ -90,7 +90,7 @@ export function msgDifStr(message: string) {
  * @param message
  */
 export function msgDbg(message: string) {
-  process.stdout.write(`${exports.chalkWrap(['cyan', 'bold'], message)}\n`);
+  process.stdout.write(`${chalkWrap(['cyan', 'bold'], message)}\n`);
   trackEOL(true);
 }
 

@@ -1,23 +1,19 @@
 'use strict';
 
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+
 const { queryCmpId } = require('../tia-extjs-query');
 
 const compName = 'Tab';
 
-const actions = {
-  compName,
-};
+export class TabActions extends ComponentActions {
+  static compName = compName;
+}
 
-const checks = {
-  compName,
-};
+export class TabChecks extends ComponentChecks {
+  static compName = compName;
+}
 
-const logs = {
-  compName,
-};
-
-module.exports = {
-  actions,
-  checks,
-  logs,
-};
+export class TabLogs extends ComponentLogs {
+  static compName = compName;
+}
