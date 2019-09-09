@@ -2,8 +2,8 @@
 
 /* globals gIn */
 
-const mPath = require('path');
-const fileUtils = require('../utils/file-utils');
+import * as mPath from 'path';
+import * as fileUtils from '../utils/file-utils';
 
 export const isPassCountingEnabled = true;
 export const isPassPrintingEnabled = true;

@@ -1,8 +1,8 @@
 'use strict';
 
-const path = require('path');
-const fs = require('fs');
-const { inspect } = require('util');
+import * as path from 'path';
+import * as fs from 'fs';
+import { inspect } from 'util';
 
 /* globals gT: true, gIn */
 

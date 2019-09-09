@@ -1,9 +1,6 @@
 'use strict';
 
-/* globals gT: true */
-/* globals gIn: true */
-
-const path = require('path');
+import * as path from 'path';
 
 const chromeDriverPath = require('chromedriver').path;
 

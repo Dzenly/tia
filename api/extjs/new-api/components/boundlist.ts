@@ -6,10 +6,10 @@
 
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 
-const _ = require('lodash');
+import * as _ from 'lodash';
 
-const { queryAndAction } = require('../tia-extjs-query');
-const { getCISContent } = require('../../extjs-utils');
+import { queryAndAction } from '../tia-extjs-query';
+import { getCISContent } from '../../extjs-utils';
 
 const compName = 'BoundList';
 

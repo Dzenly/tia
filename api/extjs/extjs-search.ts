@@ -1,6 +1,6 @@
 'use strict';
 
-const { inspect } = require('util');
+import { inspect } from 'util';
 
 export function byIdRef(id, ref, enableLog) {
   id = gT.s.idToIdObj(id);

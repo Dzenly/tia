@@ -2,8 +2,8 @@
 
 /* globals gT, gIn */
 
-const fs = require('fs');
-const path = require('path');
+import * as fs from 'fs';
+import * as path from 'path';
 
 /**
  * Initializes TIA ExtJs exploration helpers.

@@ -2,15 +2,12 @@
 
 /* global gIn */
 
-import {gT} from '../tia-types';
+import { gT } from '../tia-types';
 
 import * as path from 'path';
-import {inspect} from 'util';
-
-import {engines} from '../package';
-
+import { inspect } from 'util';
+import { engines } from '../package';
 import * as semver from 'semver';
-
 import * as _ from 'lodash';
 
 /**
@@ -19,7 +16,7 @@ import * as _ from 'lodash';
  */
 export function clearRequireCache(resolvedModulePath) {
   delete require.cache[resolvedModulePath];
-};
+}
 
 /**
  * Wrapper for 'require'. Allows to clean cache.
@@ -41,7 +38,7 @@ export function requireEx(modPath, clearCache) {
   }
 
   return res;
-};
+}
 
 /**
  * Wrapper for require,  do not generate exception if path is absent.
@@ -55,7 +52,7 @@ export function requireIfExists(modPath) {
     gIn.tracer.msg3(`requireIfExists: There is no module: ${modPath}.`);
     return {};
   }
-};
+}
 
 function toMb(val) {
   const mb = 1024 * 1024;
@@ -71,7 +68,7 @@ export function getResourcesUsage(isTestLog) {
 
   const mem = process.memoryUsage();
 
-  if (isTestLog && mem.rss < (gT.config.rssUsageThreshold * 1e6)) {
+  if (isTestLog && mem.rss < gT.config.rssUsageThreshold * 1e6) {
     return '';
   }
 
@@ -86,7 +83,7 @@ export function getResourcesUsage(isTestLog) {
     str += `\nCPU ms: ${inspect(cpuU)}`;
   }
   return str;
-};
+}
 
 export function getProcInfo() {
   // Env: ${inspect(process.env)}
@@ -103,12 +100,11 @@ Node release info: ${inspect(process.release)}
 Node version info: ${inspect(process.versions)}
 ${getResourcesUsage()}`;
   return str;
-};
+}
 
 export function isPromise(p) {
   return _.isObject(p) && _.isFunction(p.then);
-
-};
+}
 
 export function checkNodeJsVersion() {
   const version = engines.node;
@@ -116,12 +112,12 @@ export function checkNodeJsVersion() {
     console.error(`Required node version ${version}, current version ${process.version}.`);
     process.exit(1);
   }
-};
+}
 
 export function requireArray(modules) {
-  modules.forEach((modulePath) => {
+  modules.forEach(modulePath => {
     const modPath = path.resolve(gT.cLParams.rootDir, modulePath);
     gIn.tracer.msg1(`Requiring module: ${modPath}`);
     require(modPath);
   });
-};
+}

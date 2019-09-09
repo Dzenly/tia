@@ -8,8 +8,8 @@
  */
 let isVerbose;
 
-const fs = require('fs');
-const nodeUtils = require('../../utils/nodejs-utils');
+import * as fs from 'fs';
+import * as nodeUtils from '../../utils/nodejs-utils';
 
 function logToFile(msg) {
   // TODO: check how diff work for unicode.

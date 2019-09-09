@@ -1,8 +1,8 @@
 'use strict';
 
-const path = require('path');
-const { appendFileSync } = require('fs');
-const fileUtils = require('./file-utils');
+import * as path from 'path';
+import * as fileUtils from './file-utils';
+import { appendFileSync } from 'fs';
 
 export function getNoEtalonTestsInfoPath() {
   const noEtalonTestsPath = path.join(

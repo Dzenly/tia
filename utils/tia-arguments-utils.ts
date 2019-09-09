@@ -2,10 +2,10 @@
 
 /* global gIn */
 
-const path = require('path');
-const fs = require('fs');
+import * as path from 'path';
+import * as fs from 'fs';
 
-const fileUtils = require('./file-utils');
+import * as fileUtils from './file-utils';
 
 export function containsSuite(dir) {
   const suiteDir = path.join(

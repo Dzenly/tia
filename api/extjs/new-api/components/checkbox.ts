@@ -1,11 +1,7 @@
 'use strict';
 
 import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs } from './form-field-base';
-
-const { getCISRVal } = require('../../extjs-utils');
-
-const { queryAndAction } = require('../tia-extjs-query');
-const { actions: cmpActions, checks: anyChecks, logs: anyLogs } = require('./component');
+import { queryAndAction } from '../tia-extjs-query';
 
 const compName = 'CheckBox';
 

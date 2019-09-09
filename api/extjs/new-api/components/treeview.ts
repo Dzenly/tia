@@ -5,9 +5,8 @@
 'use strict';
 
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
-
-const { queryAndAction } = require('../tia-extjs-query');
-const { getCISContent } = require('../../extjs-utils');
+import { queryAndAction } from '../tia-extjs-query';
+import { getCISContent } from '../../extjs-utils';
 
 const compName = 'TreeView';
 

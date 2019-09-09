@@ -2,8 +2,6 @@
 
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 
-const { queryCmpId } = require('../tia-extjs-query');
-
 const compName = 'Tab';
 
 export class TabActions extends ComponentActions {

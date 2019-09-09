@@ -1,6 +1,6 @@
 'use strict';
 
-const argConsts = require('./arg-consts');
+import * as argConsts from './arg-consts';
 
 /* global gT */
 

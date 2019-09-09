@@ -3,8 +3,7 @@
 /* globals gT: true */
 /* globals gIn: true */
 
-// const mpath = require('path');
-const util = require('util');
+import * as util from 'util';
 const fileUtils = require('../../utils/file-utils');
 
 // TODO: does not driver creates profile dir itself ?

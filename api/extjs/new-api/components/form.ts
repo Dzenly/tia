@@ -1,13 +1,8 @@
 'use strict';
 
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
-
-const _ = require('lodash');
-
-// const { queryCmpInputId } = require('../tia-extjs-query');
-// const { actions: cmpActions } = require('./component');
-const { queryAndAction } = require('../tia-extjs-query');
-const { getCISRVal, getCISContent } = require('../../extjs-utils');
+import { queryAndAction } from '../tia-extjs-query';
+import { getCISContent } from '../../extjs-utils';
 
 const compName = 'Form';
 

@@ -2,7 +2,7 @@
 
 /* globals gT, gIn */
 
-const util = require('util');
+import * as util from 'util';
 
 export function rawValue(id, name, enableLog) {
   id = gT.s.idToIdObj(id);

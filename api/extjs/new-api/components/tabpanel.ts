@@ -1,8 +1,7 @@
 'use strict';
 
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
-
-const { queryAndAction } = require('../tia-extjs-query');
+import { queryAndAction } from '../tia-extjs-query';
 
 const compName = 'TabPanel';
 

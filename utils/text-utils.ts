@@ -1,31 +1,28 @@
 'use strict';
 
-const util = require('util');
-
-const { dirSep } = require('path');
-
-/* globals gIn */
+import * as util from 'util';
+import { dirSep } from 'path';
 
 export function removeSelSid(str) {
   const re = /\?_dc=\d+/g;
   return str.replace(re, '');
-};
+}
 
 export function filterStack(strStack) {
   const stArr = strStack.split('\n');
-  const newArr = stArr.filter((el) => {
+  const newArr = stArr.filter(el => {
     const startingFrom = el.indexOf('/tia/');
     return el.indexOf(`${dirSep}node_modules${dirSep}`, startingFrom) === -1;
   });
   return newArr.join('\n');
-};
+}
 
 export function excToStr(err, noStack) {
   if (typeof err === 'undefined') {
     return '\nNo Exception info\n';
   }
-  let errStr = err.toString();// (typeof err.message === 'undefined') ? err : err.message;
-  if (/* gT.cLParams.stackToLog || */!noStack) {
+  let errStr = err.toString(); // (typeof err.message === 'undefined') ? err : err.message;
+  if (/* gT.cLParams.stackToLog || */ !noStack) {
     if (typeof err.stack !== 'undefined') {
       errStr += `\n${filterStack(err.stack)}`;
     } else {
@@ -33,23 +30,23 @@ export function excToStr(err, noStack) {
     }
   }
   return errStr;
-};
+}
 
 export function winToUnixSep(path) {
   return path.replace(/\\\\/g, '/');
-};
+}
 
 export function changeExt(jsPath, newExt) {
   return jsPath.substr(0, jsPath.length - 3) + newExt;
-};
+}
 
 export function jsToEt(jsPath) {
   return changeExt(jsPath, '.et');
-};
+}
 
 export function jsToTs(jsPath) {
   return changeExt(jsPath, '.ts');
-};
+}
 
 /**
  * Creates log path knowing js file path.
@@ -58,19 +55,19 @@ export function jsToTs(jsPath) {
  */
 export function jsToLog(jsPath) {
   return changeExt(jsPath, '.log');
-};
+}
 
 export function jsToDif(jsPath) {
   return changeExt(jsPath, '.dif');
-};
+}
 
 export function expandHost(str) {
   return str.replace('$(host)', gT.config.selHost);
-};
+}
 
 export function collapseHost(str) {
   return str.replace(gT.config.selHost, '$(host)');
-};
+}
 
 export function valToStr(value) {
   if (Buffer.isBuffer(value)) {
@@ -82,7 +79,7 @@ export function valToStr(value) {
   }
 
   return util.inspect(value, { compact: false, sorted: true, depth: Infinity });
-};
+}
 
 export function v2s(value) {
   if (Buffer.isBuffer(value)) {
@@ -94,9 +91,12 @@ export function v2s(value) {
   }
 
   return util.inspect(value, {
-    compact: true, sorted: true, depth: Infinity, breakLength: 200,
+    compact: true,
+    sorted: true,
+    depth: Infinity,
+    breakLength: 200,
   });
-};
+}
 
 // function escapeRegExp(string) {
 //   return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");

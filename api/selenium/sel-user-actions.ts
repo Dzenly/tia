@@ -2,9 +2,6 @@
 
 /* eslint-disable no-param-reassign */
 
-/* globals gT: true */
-/* globals gIn: true */
-
 // http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_Key.html
 
 const wdKey = gT.sOrig.key;

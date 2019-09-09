@@ -1,8 +1,5 @@
 'use strict';
 
-/* globals gT: true */
-/* globals gIn: true */
-
 export function expandAllGroupsById(id, tableName, enableLog) {
   return gIn.wrap('Expanding table: "' + tableName + '" ... ', enableLog, function() {
     return gT.s.browser.executeScriptWrapper(`return tiaEJ.ctById.expandAllGroups('${id}')`);

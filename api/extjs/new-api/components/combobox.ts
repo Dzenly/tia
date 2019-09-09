@@ -5,11 +5,8 @@
 'use strict';
 
 import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs } from './form-field-base';
-
-const { queryAndAction } = require('../tia-extjs-query');
-const { getCISRVal, getCISContent } = require('../../extjs-utils');
-
-// const { inspect } = require('util');
+import { queryAndAction } from '../tia-extjs-query';
+import { getCISContent, getCISRVal } from '../../extjs-utils';
 
 const compName = 'ComboBox';
 

@@ -3,8 +3,8 @@
 // This intermediate process is needed because WebStorm closes detached child processes
 // when stops debugging.
 
-const fs = require('fs');
-const { spawn } = require('child_process');
+import * as fs from 'fs';
+import { spawn } from 'child_process';
 
 const errorReportFilePath = '/home/alexey/projects/work/tia-tests/fname';
 

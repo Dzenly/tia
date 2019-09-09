@@ -1,7 +1,5 @@
 'use strict';
 
-/* globals gT: true */
-
 gT_.s.idToIdObj = function idToIdObj(id) {
   let res;
   if (typeof id === 'object') {

@@ -1,10 +1,7 @@
 'use strict';
 
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
-
-const { queryAndAction } = require('../tia-extjs-query');
-
-const { actions: cmpActions } = require('./component');
+import { queryAndAction } from '../tia-extjs-query';
 
 const compName = 'GridColumn';
 

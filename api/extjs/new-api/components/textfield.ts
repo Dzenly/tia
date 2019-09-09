@@ -2,10 +2,6 @@
 
 import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs } from './form-field-base';
 
-const { queryCmpInputId, queryAndAction } = require('../tia-extjs-query');
-const { actions: cmpActions, checks: anyChecks, logs: anyLogs } = require('./component');
-const { getCISRVal } = require('../../extjs-utils');
-
 const compName = 'TextField';
 
 // TODO: задействовать везде idForLog.

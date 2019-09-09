@@ -1,15 +1,10 @@
 'use strict';
 
 import {gT} from '../../../../tia-types';
-import {Component} from '../../../../tia-types/ext-js/ext-js-components/component';
 import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
-
-const _ = require('lodash');
-
-// const { queryCmpInputId } = require('../tia-extjs-query');
-// const { actions: cmpActions } = require('./component');
-const { queryAndAction } = require('../tia-extjs-query');
-const { getCISRVal, getCISContent } = require('../../extjs-utils');
+import * as _ from 'lodash';
+import { queryAndAction } from '../tia-extjs-query';
+import { getCISContent } from '../../extjs-utils';
 
 const compName = 'TableView';
 

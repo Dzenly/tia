@@ -1,10 +1,14 @@
 'use strict';
 
-import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+import {
+  ComponentActions,
+  ComponentChecks,
+  ComponentLogs,
+} from './component';
 
-const { queryAndAction } = require('../tia-extjs-query');
-const { actions: cmpActions, checks: anyChecks, logs: anyLogs } = require('./component');
-const { getCISRVal } = require('../../extjs-utils');
+import { queryAndAction } from '../tia-extjs-query';
+
+import { getCISRVal } from '../../extjs-utils';
 
 const compName = 'Button';
 
@@ -29,5 +33,5 @@ export class ButtonLogs extends ComponentLogs {
     });
 
     gIn.logger.logln(getCISRVal(tEQ, compName, idForLog, result));
-  };
+  }
 }

@@ -2,7 +2,7 @@
 
 /* globals gT, gIn */
 
-const util = require('util');
+import * as util from 'util';
 
 // TODO: support different range options.
 // TODO: function for convertation object to its text representation (smth, like JSON).
