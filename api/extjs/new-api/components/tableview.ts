@@ -323,7 +323,7 @@ export class TableViewActions extends ComponentActions {
       actionDesc: `Ctrl + Click cell by Col Texts: ${gIn.tU.v2s(cellData)}`,
       enableLog,
     });
-  },
+  }
 
   /* eslint-disable-next-line max-params */
   static async ctrlClickCellsByColTexts(tEQ, column, values, idForLog, enableLog) {

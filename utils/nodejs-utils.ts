@@ -2,8 +2,6 @@
 
 /* global gIn */
 
-import { gT } from '../tia-types';
-
 import * as path from 'path';
 import { inspect } from 'util';
 import { engines } from '../package';
