@@ -1,14 +1,25 @@
 'use strict';
 
+import { ElementIdForLog, EnableLog, Teq } from '../types/ej-types';
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 import { queryAndAction } from '../tia-extjs-query';
 
 const compName = 'GridColumn';
 
+/**
+ * gT.eC.gridcolumn.a or gT.eC.gridcolumn.actions
+ */
 export class GridColumnActions extends ComponentActions {
   static compName = compName;
 
-  static async clickTrigger(tEQ, idForLog, enableLog) {
+  /**
+   * Left mouse click on GridColumn trigger element.
+   */
+  static async clickTrigger(
+    tEQ: Teq,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -42,10 +53,16 @@ export class GridColumnActions extends ComponentActions {
   }
 }
 
+/**
+ * gT.eC.gridcolumn.c or gT.eC.gridcolumn.checks
+ */
 export class GridColumnChecks extends ComponentChecks {
   static compName = compName;
 }
 
+/**
+ * gT.eC.gridcolumn.l or gT.eC.gridcolumn.logs
+ */
 export class GridColumnLogs extends ComponentLogs {
   static compName = compName;
 }

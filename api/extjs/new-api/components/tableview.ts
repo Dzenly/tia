@@ -1,7 +1,13 @@
 'use strict';
 
-import {gT} from '../../../../tia-types';
-import {ComponentActions, ComponentChecks, ComponentLogs} from './component';
+import {
+  ElementIdForLog,
+  EnableLog,
+  TableCellByColumns,
+  TableCellByModelFields,
+  Teq,
+} from '../types/ej-types';
+import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 import * as _ from 'lodash';
 import { queryAndAction } from '../tia-extjs-query';
 import { getCISContent } from '../../extjs-utils';
@@ -10,12 +16,10 @@ const compName = 'TableView';
 
 function prepareCellData(cellData) {
   // eslint-disable-next-line no-param-reassign
-  cellData.row = cellData.row.map(
-    item => [
-      gT.e.utils.locKeyToStr(item[0]),
-      gT.e.utils.locKeyToStr(item[1]),
-    ]
-  );
+  cellData.row = cellData.row.map(item => [
+    gT.e.utils.locKeyToStr(item[0]),
+    gT.e.utils.locKeyToStr(item[1]),
+  ]);
 
   if (cellData.column) {
     // eslint-disable-next-line no-param-reassign
@@ -29,14 +33,24 @@ function prepareCellData(cellData) {
   return cellData;
 }
 
+/**
+ * gT.eC.tableview.a or gT.eC.tableview.actions
+ */
 export class TableViewActions extends ComponentActions {
-
   static compName = compName;
 
   // No, setSelection or setSelectionModel work unstable.
   // async selectRowByEJ(tEQ, rowData, idForLog, enableLog) {},
 
-  static async clickGroupRoot(tEQ, groupName, idForLog, enableLog) {
+  /**
+   * Left mouse button click on the specified group name.
+   */
+  static async clickGroupRoot(
+    tEQ: Teq,
+    groupName: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(groupName);
     return gT.e.q.wrap({
       tEQ,
@@ -57,7 +71,15 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async clickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
+  /**
+   * Left mouse button click on the specified table cell.
+   */
+  static async clickCellByColTexts(
+    tEQ: Teq,
+    cellData: TableCellByColumns,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -79,7 +101,15 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async rClickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
+  /**
+   * Right mouse button click on the specified table cell.
+   */
+  static async rClickCellByColTexts(
+    tEQ: Teq,
+    cellData: TableCellByColumns,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -94,7 +124,8 @@ export class TableViewActions extends ComponentActions {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true })
+        await gT.sOrig.driver
+          .actions({ bridge: true })
           .contextClick(cell)
           .perform();
       },
@@ -103,7 +134,16 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async clickFirstRowCellByColText(tEQ, colText, idForLog, enableLog) {
+  /**
+   * Left mouse button click on the specified column in the first table row.
+   * @colText - the column header text or tooltip.
+   */
+  static async clickFirstRowCellByColText(
+    tEQ: Teq,
+    colText: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const colTextArg = gT.e.utils.locKeyToStr(colText);
     return gT.e.q.wrap({
       tEQ,
@@ -124,7 +164,16 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async rClickFirstRowCellByColText(tEQ, colText, idForLog, enableLog) {
+  /**
+   * Right mouse button click on the specified column in the first table row.
+   * @colText - the column header text or tooltip.
+   */
+  static async rClickFirstRowCellByColText(
+    tEQ: Teq,
+    colText: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const colTextArg = gT.e.utils.locKeyToStr(colText);
     return gT.e.q.wrap({
       tEQ,
@@ -138,7 +187,8 @@ export class TableViewActions extends ComponentActions {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true })
+        await gT.sOrig.driver
+          .actions({ bridge: true })
           .contextClick(cell)
           .perform();
       },
@@ -147,7 +197,16 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async clickLastRowCellByColText(tEQ, colText, idForLog, enableLog) {
+  /**
+   * Left mouse button click on the specified column in the last table row.
+   * @colText - the column header text or tooltip.
+   */
+  static async clickLastRowCellByColText(
+    tEQ: Teq,
+    colText: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const colTextArg = gT.e.utils.locKeyToStr(colText);
     return gT.e.q.wrap({
       tEQ,
@@ -168,7 +227,16 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async rClickLastRowCellByColText(tEQ, colText, idForLog, enableLog) {
+  /**
+   * Right mouse button click on the specified column in the last table row.
+   * @colText - the column header text or tooltip.
+   */
+  static async rClickLastRowCellByColText(
+    tEQ: Teq,
+    colText: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const colTextArg = gT.e.utils.locKeyToStr(colText);
     return gT.e.q.wrap({
       tEQ,
@@ -182,7 +250,8 @@ export class TableViewActions extends ComponentActions {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true })
+        await gT.sOrig.driver
+          .actions({ bridge: true })
           .contextClick(cell)
           .perform();
       },
@@ -191,7 +260,16 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async clickFirstRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
+  /**
+   * Left mouse button click on the specified column in the first table row.
+   * The cell column is specified by the model field name.
+   */
+  static async clickFirstRowCellByModelField(
+    tEQ: Teq,
+    fieldName: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -211,6 +289,10 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
+  /**
+   * Right mouse button click on the specified column in the first table row.
+   * The cell column is specified by the model field name.
+   */
   static async rClickFirstRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
     return gT.e.q.wrap({
       tEQ,
@@ -224,7 +306,8 @@ export class TableViewActions extends ComponentActions {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true })
+        await gT.sOrig.driver
+          .actions({ bridge: true })
           .contextClick(cell)
           .perform();
       },
@@ -233,7 +316,16 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async clickLastRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
+  /**
+   * Left mouse button click on the specified column in the last table row.
+   * The cell column is specified by the model field name.
+   */
+  static async clickLastRowCellByModelField(
+    tEQ: Teq,
+    fieldName: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -253,7 +345,16 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async rClickLastRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
+  /**
+   * Right mouse button click on the specified column in the last table row.
+   * The cell column is specified by the model field name.
+   */
+  static async rClickLastRowCellByModelField(
+    tEQ: Teq,
+    fieldName: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -266,7 +367,8 @@ export class TableViewActions extends ComponentActions {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true })
+        await gT.sOrig.driver
+          .actions({ bridge: true })
           .contextClick(cell)
           .perform();
       },
@@ -275,7 +377,15 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async doubleClickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
+  /**
+   * Left mouse button double click on the specified table cell.
+   */
+  static async doubleClickCellByColTexts(
+    tEQ: Teq,
+    cellData: TableCellByColumns,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -290,7 +400,8 @@ export class TableViewActions extends ComponentActions {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true })
+        await gT.sOrig.driver
+          .actions({ bridge: true })
           .doubleClick(cell)
           .perform();
       },
@@ -299,7 +410,15 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async ctrlClickCellByColTexts(tEQ, cellData, idForLog, enableLog) {
+  /**
+   * Ctrl + Left mouse button click on the specified table cell.
+   */
+  static async ctrlClickCellByColTexts(
+    tEQ: Teq,
+    cellData: TableCellByColumns,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -314,7 +433,8 @@ export class TableViewActions extends ComponentActions {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true })
+        await gT.sOrig.driver
+          .actions({ bridge: true })
           .keyDown(gT.sOrig.key.CONTROL)
           .click(cell)
           .keyUp(gT.sOrig.key.CONTROL)
@@ -325,21 +445,43 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
+  /**
+   * Multi-selection by Ctrl + Left mouse button click on the specified table cell on several rows.
+   *
+   * @param column - Column header text or tooltip, specifying column to click
+   * @param values - array of values for cells in the specified column.
+   */
   /* eslint-disable-next-line max-params */
-  static async ctrlClickCellsByColTexts(tEQ, column, values, idForLog, enableLog) {
+  static async ctrlClickCellsByColTexts(
+    tEQ: Teq,
+    column: string,
+    values: string[],
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     for (const value of values) {
       await this.ctrlClickCellByColTexts(
-        tEQ, {
+        tEQ,
+        {
           row: [[column, value]],
           column,
         },
         idForLog,
         enableLog
       );
+      return undefined;
     }
   }
 
-  static async clickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
+  /**
+   * Left mouse button click on the specified table cell.
+   */
+  static async clickCellByModelFields(
+    tEQ: Teq,
+    cellData: TableCellByModelFields,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -361,7 +503,15 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async rClickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
+  /**
+   * Right mouse button click on the specified table cell.
+   */
+  static async rClickCellByModelFields(
+    tEQ: Teq,
+    cellData: TableCellByModelFields,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -376,7 +526,8 @@ export class TableViewActions extends ComponentActions {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true })
+        await gT.sOrig.driver
+          .actions({ bridge: true })
           .doubleClick(cell)
           .perform();
       },
@@ -385,7 +536,15 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async doubleClickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
+  /**
+   * Left mouse button double click on the specified table cell.
+   */
+  static async doubleClickCellByModelFields(
+    tEQ: Teq,
+    cellData: TableCellByModelFields,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -400,7 +559,8 @@ export class TableViewActions extends ComponentActions {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true })
+        await gT.sOrig.driver
+          .actions({ bridge: true })
           .doubleClick(cell)
           .perform();
       },
@@ -409,7 +569,15 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
-  static async ctrlClickCellByModelFields(tEQ, cellData, idForLog, enableLog) {
+  /**
+   * Ctrl + Left mouse button click on the specified table cell.
+   */
+  static async ctrlClickCellByModelFields(
+    tEQ: Teq,
+    cellData: TableCellByModelFields,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -424,7 +592,8 @@ export class TableViewActions extends ComponentActions {
           enableLog: false,
         });
 
-        await gT.sOrig.driver.actions({ bridge: true })
+        await gT.sOrig.driver
+          .actions({ bridge: true })
           .keyDown(gT.sOrig.key.CONTROL)
           .click(cell)
           .keyUp(gT.sOrig.key.CONTROL)
@@ -435,11 +604,24 @@ export class TableViewActions extends ComponentActions {
     });
   }
 
+  /**
+   * Multi-selection by Ctrl + Left mouse button click on the specified table cell on several rows.
+   *
+   * @param fieldName - field name.
+   * @param values - array of values for cells in the column corresponding to the field name.
+   */
   /* eslint-disable-next-line max-params */
-  static async ctrlClickCellsByModelFields(tEQ, fieldName, values, idForLog, enableLog) {
+  static async ctrlClickCellsByModelFields(
+    tEQ: Teq,
+    fieldName: string,
+    values: string[],
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     for (const value of values) {
       await this.ctrlClickCellByModelFields(
-        tEQ, {
+        tEQ,
+        {
           row: [[fieldName, value]],
           field: fieldName,
           useRowIfCellAbsent: true,
@@ -448,18 +630,27 @@ export class TableViewActions extends ComponentActions {
         enableLog
       );
     }
+    return undefined;
   }
+}
 
-};
-
+/**
+ * gT.eC.tableview.c or gT.eC.tableview.checks
+ */
 export class TableViewChecks extends ComponentChecks {
   static compName = compName;
-};
+}
 
+/**
+ * gT.eC.tableview.l or gT.eC.tableview.logs
+ */
 export class TableViewLogs extends ComponentLogs {
   static compName = compName;
 
-  static async content(tEQ, idForLog) {
+  /**
+   * Prints the table content to the test log.
+   */
+  static async content(tEQ: Teq, idForLog?: ElementIdForLog) {
     const result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getTable(cmp);',
@@ -507,4 +698,4 @@ export class TableViewLogs extends ComponentLogs {
   //
   //   gIn.logger.logln(getCISContent('Selected content by inner text', tEQ, this.compName, idForLog, result));
   // }
-};
+}

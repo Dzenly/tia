@@ -4,16 +4,29 @@
 
 'use strict';
 
+import { ElementIdForLog, EnableLog, Teq } from '../types/ej-types';
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 import { queryAndAction } from '../tia-extjs-query';
 import { getCISContent } from '../../extjs-utils';
 
 const compName = 'TreeView';
 
+/**
+ * gT.eC.treeview.a or gT.eC.treeview.actions
+ */
 export class TreeViewActions extends ComponentActions {
   static compName = compName;
 
-  static async clickItem(tEQ, text, idForLog, enableLog) {
+  /**
+   * Left mouse button click on the item containing the given text.
+   * @param text - Text for the item to click.
+   */
+  static async clickItem(
+    tEQ: Teq,
+    text: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     // Дождаться idle?
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
@@ -35,8 +48,17 @@ export class TreeViewActions extends ComponentActions {
     });
   }
 
-  static async rClickItem(tEQ, text, idForLog, enableLog) {
-    // Дождаться idle?
+  /**
+   * Right mouse button click on the item containing the given text.
+   * @param text - Text for the item to click.
+   */
+  static async rClickItem(
+    tEQ: Teq,
+    text: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
+    // TODO: wait for idle ?
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
       tEQ,
@@ -60,7 +82,16 @@ export class TreeViewActions extends ComponentActions {
     });
   }
 
-  static async doubleClickItem(tEQ, text, idForLog, enableLog) {
+  /**
+   * Left mouse button double click on the item containing the given text.
+   * @param text - Text for the item to click.
+   */
+  static async doubleClickItem(
+    tEQ: Teq,
+    text: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     // Дождаться idle?
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
@@ -86,14 +117,23 @@ export class TreeViewActions extends ComponentActions {
   }
 }
 
+/**
+ * gT.eC.treeview.c or gT.eC.treeview.checks
+ */
 export class TreeViewChecks extends ComponentChecks {
   static compName = compName;
 }
 
+/**
+ * gT.eC.treeview.l or gT.eC.treeview.logs
+ */
 export class TreeViewLogs extends ComponentLogs {
   static compName = compName;
 
-  static async content(tEQ, idForLog) {
+  /**
+   * Prints the tree content to the test log.
+   */
+  static async content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined> {
     const result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getTree(cmp);',
@@ -101,5 +141,7 @@ export class TreeViewLogs extends ComponentLogs {
       enableLog: false,
     });
     gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result, true));
+
+    return undefined;
   }
 }

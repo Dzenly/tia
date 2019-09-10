@@ -4,20 +4,42 @@
 
 'use strict';
 
+import { ElementIdForLog, EnableLog, Teq } from '../types/ej-types';
 import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs } from './form-field-base';
 import { queryAndAction } from '../tia-extjs-query';
 import { getCISContent, getCISRVal } from '../../extjs-utils';
 
 const compName = 'ComboBox';
 
+/**
+ * gT.eC.combobox.a or gT.eC.combobox.actions
+ */
 export class ComboBoxActions extends FormFieldBaseActions {
   static compName = compName;
 
-  static async setByKbd(tEQ, text, idForLog, enableLog) {
-    // Унаследована от Component.
+  /**
+   * Ctrl + a, Send text by keys, and ENTER to the component.
+   */
+  static async setByKbd(
+    tEQ: Teq,
+    text: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
+    // Inherited from Component.
     return this.sendCtrlAKeysEnter(tEQ, text, idForLog, enableLog);
   }
-  static async setByMouse(tEQ, text, idForLog, enableLog) {
+
+  /**
+   * Set the text using expand() ExtJs API + mouse click in BoundList.
+   * Note, that for tagfield setting already selected tag will reset this tag.
+   */
+  static async setByMouse(
+    tEQ: Teq,
+    text: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
 
     let actionDesc = `Set by mouse: '${text}'`;
@@ -59,8 +81,14 @@ export class ComboBoxActions extends FormFieldBaseActions {
       enableLog,
     });
   }
-
-  static async clearByEJ(tEQ, idForLog, enableLog) {
+  /**
+   * Clears the combobox selection using ExtJs API.
+   */
+  static async clearByEJ(
+    tEQ: Teq,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -79,13 +107,22 @@ export class ComboBoxActions extends FormFieldBaseActions {
   }
 }
 
+/**
+ * gT.eC.combobox.c or gT.eC.combobox.checks
+ */
 export class ComboBoxChecks extends FormFieldBaseChecks {
   static compName = compName;
 }
 
+/**
+ * gT.eC.combobox.l or gT.eC.combobox.logs
+ */
 export class ComboBoxLogs extends FormFieldBaseLogs {
   static compName = compName;
-  static async rawValue(tEQ, idForLog) {
+  /**
+   * Prints the selected value or values to the test log.
+   */
+  static async rawValue(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined> {
     const result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getCBSelectedVals(cmp);',
@@ -94,9 +131,14 @@ export class ComboBoxLogs extends FormFieldBaseLogs {
     });
 
     gIn.logger.logln(getCISRVal(tEQ, this.compName, idForLog, result));
+
+    return undefined;
   }
 
-  static async content(tEQ, idForLog) {
+  /**
+   * Prints the entire content to the test log.
+   */
+  static async content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined> {
     const result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getCB(cmp);',
@@ -105,5 +147,7 @@ export class ComboBoxLogs extends FormFieldBaseLogs {
     });
 
     gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result));
+
+    return undefined;
   }
 }

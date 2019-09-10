@@ -30,7 +30,7 @@ export interface ComponentActions {
    * Default actionDesc is 'Click Cmp'.
    * * Note: if it does not work, try dblClickInput().
    */
-  doubleClick(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
+  dblClick(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>;
 
   /**
    * Left mouse button click on Component's input element by WebElement.

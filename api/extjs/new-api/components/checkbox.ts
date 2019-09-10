@@ -1,13 +1,25 @@
 'use strict';
 
+import { ElementIdForLog, EnableLog, Teq } from '../types/ej-types';
 import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs } from './form-field-base';
 import { queryAndAction } from '../tia-extjs-query';
 
 const compName = 'CheckBox';
 
+/**
+ * gT.eC.checkbox.a or gT.eC.checkbox.actions
+ */
 export class CheckBoxActions extends FormFieldBaseActions {
   static compName = compName;
-  static async check(tEQ, idForLog, enableLog) {
+
+  /**
+   * Clicks on input checkbox element if checkbox is not checked.
+   */
+  static async check(
+    tEQ: Teq,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -27,7 +39,14 @@ export class CheckBoxActions extends FormFieldBaseActions {
       enableLog,
     });
   }
-  static async uncheck(tEQ, idForLog, enableLog) {
+  /**
+   * Clicks on input checkbox element if checkbox is checked.
+   */
+  static async uncheck(
+    tEQ: Teq,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -47,7 +66,14 @@ export class CheckBoxActions extends FormFieldBaseActions {
       enableLog,
     });
   }
-  static async checkByEJ(tEQ, idForLog, enableLog) {
+  /**
+   * Sets checkbox to checked state using ExtJs API.
+   */
+  static async checkByEJ(
+    tEQ: Teq,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -64,7 +90,14 @@ export class CheckBoxActions extends FormFieldBaseActions {
       enableLog,
     });
   }
-  static async uncheckByEJ(tEQ, idForLog, enableLog) {
+  /**
+   * Sets checkbox to unchecked state using ExtJs API.
+   */
+  static async uncheckByEJ(
+    tEQ: Teq,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -83,13 +116,23 @@ export class CheckBoxActions extends FormFieldBaseActions {
   }
 }
 
+/**
+ * gT.eC.checkbox.c or gT.eC.checkbox.checks
+ */
 export class CheckBoxChecks extends FormFieldBaseChecks {
   static compName = compName;
 }
 
+/**
+ * gT.eC.checkbox.l or gT.eC.checkbox.logs
+ */
 export class CheckBoxLogs extends FormFieldBaseLogs {
   static compName = compName;
-  static async rawValue(tEQ, idForLog) {
+  /**
+   * Prints 'checked' or 'unchecked'.
+   */
+  static async rawValue(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined> {
     await gT.eC.component.l.rawValue(tEQ, idForLog, val => `${val ? 'checked' : 'unchecked'}`);
+    return undefined;
   }
 }

@@ -1,10 +1,13 @@
 'use strict';
 
 import { inspect } from 'util';
+import { ElementIdForLog, EnableLog, Teq } from './new-api/types/ej-types';
 
 gT_.e.locale = {};
 gT_.e.invertedLocaleFirstKey = {};
 gT_.e.invertedLocaleAllKeys = {};
+
+export let debugLocale = false;
 
 /**
  * Sets locale object. Locale object is key-value object for localization.
@@ -14,7 +17,7 @@ gT_.e.invertedLocaleAllKeys = {};
  * @param {boolean} [enableLog=true] - is logging needed for this action.
  * @returns a promise which will be resolved with script return value.
  */
-export function setLocaleObject(objExpression, enableLog) {
+export function setLocaleObject(objExpression, enableLog?: EnableLog) {
   return gIn.wrap('setLocaleObject ... ', enableLog, () => {
     const scriptStr = `return tiaEJ.setLocale(${objExpression});`;
     return gT.s.browser.executeScriptWrapper(scriptStr).then(res => {
@@ -40,7 +43,7 @@ function setExtraLocale(extraLocale) {
   gT_.e.invertedExtraLocaleAllKeys = invertedExtraObject.invertedMapAllKeys;
 }
 
-export function setExtraLocaleObject(localeObj, enableLog) {
+export function setExtraLocaleObject(localeObj, enableLog?: EnableLog) {
   setExtraLocale(localeObj);
 
   const objStr = inspect(localeObj, { compact: true, breakLength: 200 });
@@ -134,7 +137,14 @@ export function getCISRVal(tEQ, compName, idForLog = '', val) {
 }
 
 // eslint-disable-next-line max-params
-export function getCISContent(prefix, tEQ, compName, idForLog = '', val, noWrap) {
+export function getCISContent(
+  prefix: string,
+  tEQ: Teq,
+  compName: string,
+  idForLog: ElementIdForLog = '',
+  val: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+  noWrap = false
+) {
   const valArg = noWrap ? val : gT.cC.content.wrap(val);
   return `${prefix}: ${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}":\n${valArg}`;
 }
@@ -156,8 +166,6 @@ export function getCISContent(prefix, tEQ, compName, idForLog = '', val, noWrap)
 //   }
 //   return res.join(', ');
 // };
-
-export let debugLocale = false;
 
 /**
  * The mode in which native language text is added after locale keys.

@@ -315,7 +315,7 @@ module.exports = {
         '@typescript-eslint/member-ordering': 1,
         '@typescript-eslint/require-await': 0,
         '@typescript-eslint/no-empty-interface': 0,
-        'sort-keys': 1,
+        'sort-keys': 0,
         'prettier/prettier': ['error'],
       },
       globals: {

@@ -10,14 +10,27 @@ import * as _ from 'lodash';
 
 import { queryAndAction } from '../tia-extjs-query';
 import { getCISContent } from '../../extjs-utils';
+import { ElementIdForLog, EnableLog, Teq } from '../types/ej-types';
 
 const compName = 'BoundList';
 
+/**
+ * gT.eC.boundlist.a or gT.eC.boundlist.actions
+ */
 export class BoundListActions extends ComponentActions {
   static compName = compName;
 
-  static async clickRow(tEQ, text, idForLog, enableLog) {
-    // Дождаться idle?
+  /**
+   * Left mouse button click on the item containing the given text.
+   * @param text - text for row to click.
+   */
+  static async clickRow(
+    tEQ: Teq,
+    text: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
+    // TODO: wait for idle?
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
       tEQ,
@@ -38,7 +51,17 @@ export class BoundListActions extends ComponentActions {
     });
   }
 
-  static async ctrlClickRows(tEQ, texts, idForLog, enableLog) {
+  /**
+   * Ctrl + Left mouse button click on the items containing the given texts.
+   * So it selects given string.
+   * @param texts - texts for rows to click.
+   */
+  static async ctrlClickRows(
+    tEQ: Teq,
+    texts: string[],
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<undefined> {
     // Дождаться idle?
     let textsArg = _.cloneDeep(texts);
     textsArg = textsArg.map(text => gT.e.utils.locKeyToStrAndEscapeSlashes(text));
@@ -75,15 +98,24 @@ export class BoundListActions extends ComponentActions {
   }
 }
 
+/**
+ * gT.eC.boundlist.c or gT.eC.boundlist.checks
+ */
 export class BoundListChecks extends ComponentChecks {
   static compName = compName;
 }
 
+/**
+ * gT.eC.boundlist.l or gT.eC.boundlist.logs
+ */
 export class BoundListLogs extends ComponentLogs {
   static compName = compName;
 
-  // TODO: доделать.
-  static async contentByStore(tEQ, idForLog) {
+  /**
+   * Prints all displayField values from the store.
+   * TODO: Incompleted?
+   */
+  static async contentByStore(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined> {
     let result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getBoundListByStore(cmp);',
@@ -94,9 +126,14 @@ export class BoundListLogs extends ComponentLogs {
     result = result.join('\n');
 
     gIn.logger.logln(getCISContent('Content by store', tEQ, this.compName, idForLog, result));
+
+    return undefined;
   }
 
-  static async contentByInnerText(tEQ, idForLog) {
+  /**
+   * Prints all innerText DOM element properties for items.
+   */
+  static async contentByInnerText(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined> {
     let result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getBoundListByInnerText(cmp);',
@@ -107,9 +144,17 @@ export class BoundListLogs extends ComponentLogs {
     result = result.join('\n');
 
     gIn.logger.logln(getCISContent('Content by inner text', tEQ, this.compName, idForLog, result));
+
+    return undefined;
   }
 
-  static async selectedContentByInnerText(tEQ, idForLog) {
+  /**
+   * Prints innerText DOM element properties for selected items.
+   */
+  static async selectedContentByInnerText(
+    tEQ: Teq,
+    idForLog?: ElementIdForLog
+  ): Promise<undefined> {
     let result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getBoundListSelectedItemsByInnerText(cmp);',
@@ -122,5 +167,7 @@ export class BoundListLogs extends ComponentLogs {
     gIn.logger.logln(
       getCISContent('Selected content by inner text', tEQ, this.compName, idForLog, result)
     );
+
+    return undefined;
   }
 }
