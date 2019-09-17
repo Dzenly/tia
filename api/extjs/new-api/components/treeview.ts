@@ -26,7 +26,7 @@ export class TreeViewActions extends ComponentActions {
     text: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     // Дождаться idle?
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
@@ -57,7 +57,7 @@ export class TreeViewActions extends ComponentActions {
     text: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     // TODO: wait for idle ?
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
@@ -91,7 +91,7 @@ export class TreeViewActions extends ComponentActions {
     text: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     // Дождаться idle?
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
@@ -133,7 +133,7 @@ export class TreeViewLogs extends ComponentLogs {
   /**
    * Prints the tree content to the test log.
    */
-  static async content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined> {
+  static async content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
     const result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getTree(cmp);',
@@ -142,6 +142,6 @@ export class TreeViewLogs extends ComponentLogs {
     });
     gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result, true));
 
-    return undefined;
+
   }
 }

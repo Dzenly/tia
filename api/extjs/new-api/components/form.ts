@@ -33,7 +33,7 @@ export class FormLogs extends ComponentLogs {
    * 1 - to print only displayField, name and text fields (if exist)
    * and 2 to force store printing all fields.
    */
-  static async content(tEQ: Teq, includingStores: boolean | number, idForLog?: ElementIdForLog): Promise<undefined>{
+  static async content(tEQ: Teq, includingStores: boolean | number, idForLog?: ElementIdForLog): Promise<void>{
     const result = await queryAndAction({
       tEQ,
       action: `return tiaEJ.ctByObj.getForm(cmp, ${includingStores});`,
@@ -42,6 +42,6 @@ export class FormLogs extends ComponentLogs {
     });
     gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result, true));
 
-    return undefined;
+
   }
 }

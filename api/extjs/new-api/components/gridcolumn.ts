@@ -19,7 +19,7 @@ export class GridColumnActions extends ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gT.e.q.wrap({
       tEQ,
       compName,

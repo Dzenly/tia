@@ -24,7 +24,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Click Cmp ... `,
       enableLog,
@@ -44,7 +44,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Right Click Cmp ... `,
       enableLog,
@@ -64,7 +64,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Dbl Click Cmp ... `,
       enableLog,
@@ -84,7 +84,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Click Cmp Input ... `,
       enableLog,
@@ -104,7 +104,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Right Click Cmp Input ... `,
       enableLog,
@@ -124,7 +124,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Dbl Click Cmp Input ... `,
       enableLog,
@@ -144,7 +144,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Move mouse to Cmp ... `,
       enableLog,
@@ -164,7 +164,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Move mouse to Cmp Input ... `,
       enableLog,
@@ -183,7 +183,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send ESC ... `,
       enableLog,
@@ -203,7 +203,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send DOWN ... `,
       enableLog,
@@ -222,7 +222,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send UP ... `,
       enableLog,
@@ -241,7 +241,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send ENTER ... `,
       enableLog,
@@ -260,7 +260,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send TAB ... `,
       enableLog,
@@ -279,7 +279,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send PAGE_DOWN ... `,
       enableLog,
@@ -298,7 +298,7 @@ export class ComponentActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send PAGE_UP ... `,
       enableLog,
@@ -318,7 +318,7 @@ export class ComponentActions {
     keys: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     let keysArg = _.clone(keys);
     const realKeys = gT.e.utils.locKeyToStrAndEscapeSlashes(keysArg);
 
@@ -345,7 +345,7 @@ export class ComponentActions {
     keys: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     let keysArg = _.clone(keys);
     const realKeys = gT.e.utils.locKeyToStrAndEscapeSlashes(keysArg);
 
@@ -372,7 +372,7 @@ export class ComponentActions {
     keys: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     let keysArg = _.clone(keys);
     const realKeys = gT.e.utils.locKeyToStrAndEscapeSlashes(keysArg);
 
@@ -401,7 +401,7 @@ export class ComponentActions {
     timeout = gT.engineConsts.timeoutForEnabledByTEQ,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const realId = await queryCmpId({ tEQ, idForLog, enableLog });
 
     return gIn.wrap({

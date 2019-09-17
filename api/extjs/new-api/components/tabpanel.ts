@@ -1,6 +1,6 @@
 'use strict';
 
-import { ElementIdForLog, EnableLog } from '../types/ej-types';
+import { ElementIdForLog, EnableLog, Teq } from '../types/ej-types';
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 import { queryAndAction } from '../tia-extjs-query';
 
@@ -20,7 +20,7 @@ export class TabPanelActions extends ComponentActions {
    * Use EJ Explorer to get component and TEQ for click.
    * @param cardId - id of the card to set.
    */
-  static async setActiveTabByCardId(tEQ: Teq, cardId: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<undefined>{
+  static async setActiveTabByCardId(tEQ: Teq, cardId: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<void>{
     return gIn.wrap({
       msg: `${compName} ${
         idForLog ? `${idForLog} ` : ''

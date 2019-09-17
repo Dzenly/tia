@@ -14,7 +14,7 @@ export const timeoutError = 'timeoutError';
  * @returns {Promise} - promise which can be rejected with timeout or with error from promiseToWait.
  * or resolved with result of promiseToWait.
  */
-export function wait(promiseToWait, ms) {
+export function wait(promiseToWait: Promise<unknown>, ms) {
   let rejectBecauseTimeout = true;
   return new Promise((resolve, reject) => {
 

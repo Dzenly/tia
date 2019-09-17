@@ -29,7 +29,7 @@ export class BoundListActions extends ComponentActions {
     text: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     // TODO: wait for idle?
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
     return gT.e.q.wrap({
@@ -61,7 +61,7 @@ export class BoundListActions extends ComponentActions {
     texts: string[],
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     // Дождаться idle?
     let textsArg = _.cloneDeep(texts);
     textsArg = textsArg.map(text => gT.e.utils.locKeyToStrAndEscapeSlashes(text));
@@ -105,9 +105,6 @@ export class BoundListChecks extends ComponentChecks {
   static compName = compName;
 }
 
-/**
- * gT.eC.boundlist.l or gT.eC.boundlist.logs
- */
 export class BoundListLogs extends ComponentLogs {
   static compName = compName;
 
@@ -115,7 +112,7 @@ export class BoundListLogs extends ComponentLogs {
    * Prints all displayField values from the store.
    * TODO: Incompleted?
    */
-  static async contentByStore(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined> {
+  static async contentByStore(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
     let result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getBoundListByStore(cmp);',
@@ -127,13 +124,13 @@ export class BoundListLogs extends ComponentLogs {
 
     gIn.logger.logln(getCISContent('Content by store', tEQ, this.compName, idForLog, result));
 
-    return undefined;
+
   }
 
   /**
    * Prints all innerText DOM element properties for items.
    */
-  static async contentByInnerText(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined> {
+  static async contentByInnerText(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
     let result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getBoundListByInnerText(cmp);',
@@ -145,7 +142,7 @@ export class BoundListLogs extends ComponentLogs {
 
     gIn.logger.logln(getCISContent('Content by inner text', tEQ, this.compName, idForLog, result));
 
-    return undefined;
+
   }
 
   /**
@@ -154,7 +151,7 @@ export class BoundListLogs extends ComponentLogs {
   static async selectedContentByInnerText(
     tEQ: Teq,
     idForLog?: ElementIdForLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     let result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getBoundListSelectedItemsByInnerText(cmp);',
@@ -168,6 +165,6 @@ export class BoundListLogs extends ComponentLogs {
       getCISContent('Selected content by inner text', tEQ, this.compName, idForLog, result)
     );
 
-    return undefined;
+
   }
 }

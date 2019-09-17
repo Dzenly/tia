@@ -50,7 +50,7 @@ export class TableViewActions extends ComponentActions {
     groupName: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(groupName);
     return gT.e.q.wrap({
       tEQ,
@@ -79,7 +79,7 @@ export class TableViewActions extends ComponentActions {
     cellData: TableCellByColumns,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -109,7 +109,7 @@ export class TableViewActions extends ComponentActions {
     cellData: TableCellByColumns,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -143,7 +143,7 @@ export class TableViewActions extends ComponentActions {
     colText: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const colTextArg = gT.e.utils.locKeyToStr(colText);
     return gT.e.q.wrap({
       tEQ,
@@ -173,7 +173,7 @@ export class TableViewActions extends ComponentActions {
     colText: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const colTextArg = gT.e.utils.locKeyToStr(colText);
     return gT.e.q.wrap({
       tEQ,
@@ -206,7 +206,7 @@ export class TableViewActions extends ComponentActions {
     colText: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const colTextArg = gT.e.utils.locKeyToStr(colText);
     return gT.e.q.wrap({
       tEQ,
@@ -236,7 +236,7 @@ export class TableViewActions extends ComponentActions {
     colText: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const colTextArg = gT.e.utils.locKeyToStr(colText);
     return gT.e.q.wrap({
       tEQ,
@@ -269,7 +269,7 @@ export class TableViewActions extends ComponentActions {
     fieldName: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -325,7 +325,7 @@ export class TableViewActions extends ComponentActions {
     fieldName: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -354,7 +354,7 @@ export class TableViewActions extends ComponentActions {
     fieldName: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -385,7 +385,7 @@ export class TableViewActions extends ComponentActions {
     cellData: TableCellByColumns,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -418,7 +418,7 @@ export class TableViewActions extends ComponentActions {
     cellData: TableCellByColumns,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -458,7 +458,7 @@ export class TableViewActions extends ComponentActions {
     values: string[],
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     for (const value of values) {
       await this.ctrlClickCellByColTexts(
         tEQ,
@@ -469,7 +469,7 @@ export class TableViewActions extends ComponentActions {
         idForLog,
         enableLog
       );
-      return undefined;
+
     }
   }
 
@@ -481,7 +481,7 @@ export class TableViewActions extends ComponentActions {
     cellData: TableCellByModelFields,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -511,7 +511,7 @@ export class TableViewActions extends ComponentActions {
     cellData: TableCellByModelFields,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -544,7 +544,7 @@ export class TableViewActions extends ComponentActions {
     cellData: TableCellByModelFields,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -577,7 +577,7 @@ export class TableViewActions extends ComponentActions {
     cellData: TableCellByModelFields,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const cellDataArg = prepareCellData(_.cloneDeep(cellData));
 
     return gT.e.q.wrap({
@@ -617,7 +617,7 @@ export class TableViewActions extends ComponentActions {
     values: string[],
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     for (const value of values) {
       await this.ctrlClickCellByModelFields(
         tEQ,
@@ -630,7 +630,7 @@ export class TableViewActions extends ComponentActions {
         enableLog
       );
     }
-    return undefined;
+
   }
 }
 

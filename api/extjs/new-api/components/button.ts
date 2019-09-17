@@ -33,7 +33,7 @@ export class ButtonLogs extends ComponentLogs {
   /**
    * Prints info about the button which user can see on the display.
    */
-  static async info(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined> {
+  static async info(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
     const result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getCompDispIdProps(cmp);',
@@ -43,6 +43,6 @@ export class ButtonLogs extends ComponentLogs {
 
     gIn.logger.logln(getCISRVal(tEQ, compName, idForLog, result));
 
-    return undefined;
+
   }
 }

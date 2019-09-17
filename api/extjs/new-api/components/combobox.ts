@@ -25,7 +25,7 @@ export class ComboBoxActions extends FormFieldBaseActions {
     text: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     // Inherited from Component.
     return this.sendCtrlAKeysEnter(tEQ, text, idForLog, enableLog);
   }
@@ -39,7 +39,7 @@ export class ComboBoxActions extends FormFieldBaseActions {
     text: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     const valueStr = gT.e.utils.locKeyToStrAndEscapeSlashes(text);
 
     let actionDesc = `Set by mouse: '${text}'`;
@@ -88,7 +88,7 @@ export class ComboBoxActions extends FormFieldBaseActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -122,7 +122,7 @@ export class ComboBoxLogs extends FormFieldBaseLogs {
   /**
    * Prints the selected value or values to the test log.
    */
-  static async rawValue(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined> {
+  static async rawValue(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
     const result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getCBSelectedVals(cmp);',
@@ -132,13 +132,13 @@ export class ComboBoxLogs extends FormFieldBaseLogs {
 
     gIn.logger.logln(getCISRVal(tEQ, this.compName, idForLog, result));
 
-    return undefined;
+
   }
 
   /**
    * Prints the entire content to the test log.
    */
-  static async content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined> {
+  static async content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
     const result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getCB(cmp);',
@@ -148,6 +148,6 @@ export class ComboBoxLogs extends FormFieldBaseLogs {
 
     gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result));
 
-    return undefined;
+
   }
 }

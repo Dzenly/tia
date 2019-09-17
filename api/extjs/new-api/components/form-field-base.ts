@@ -26,7 +26,7 @@ export class FormFieldBaseActions extends ComponentActions {
     strValue: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined>{
+  ): Promise<void>{
     let realValue = gT.e.utils.locKeyToStrAndEscapeSlashes(strValue);
 
     if (realValue !== strValue && gT.e.utils.debugLocale) {
@@ -63,7 +63,7 @@ export class FormFieldBaseActions extends ComponentActions {
     strValue: string,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined>{
+  ): Promise<void>{
     let realValue = gT.e.utils.locKeyToStrAndEscapeSlashes(strValue);
 
     if (realValue !== strValue && gT.e.utils.debugLocale) {
@@ -109,7 +109,7 @@ export class FormFieldBaseLogs extends ComponentLogs {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     mapperCallback?: (val: string) => string
-  ): Promise<undefined>{
+  ): Promise<void>{
     const { val, disp } = await queryAndAction({
       tEQ,
       action: 'return { val: cmp.getRawValue(), disp: tiaEJ.ctByObj.getCompDispIdProps(cmp)};',
@@ -122,6 +122,6 @@ export class FormFieldBaseLogs extends ComponentLogs {
       getCISRVal(tEQ, this.compName, `${idForLog ? `${idForLog} ` : ''}${disp}:`, result)
     );
 
-    return undefined;
+
   }
 }

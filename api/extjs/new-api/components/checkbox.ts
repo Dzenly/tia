@@ -19,7 +19,7 @@ export class CheckBoxActions extends FormFieldBaseActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -46,7 +46,7 @@ export class CheckBoxActions extends FormFieldBaseActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -73,7 +73,7 @@ export class CheckBoxActions extends FormFieldBaseActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -97,7 +97,7 @@ export class CheckBoxActions extends FormFieldBaseActions {
     tEQ: Teq,
     idForLog?: ElementIdForLog,
     enableLog?: EnableLog
-  ): Promise<undefined> {
+  ): Promise<void> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -131,8 +131,8 @@ export class CheckBoxLogs extends FormFieldBaseLogs {
   /**
    * Prints 'checked' or 'unchecked'.
    */
-  static async rawValue(tEQ: Teq, idForLog?: ElementIdForLog): Promise<undefined> {
+  static async rawValue(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
     await gT.eC.component.l.rawValue(tEQ, idForLog, val => `${val ? 'checked' : 'unchecked'}`);
-    return undefined;
+
   }
 }
