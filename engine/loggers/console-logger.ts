@@ -1,7 +1,10 @@
-'use strict';
+/**
+ * Inner utilities for logging into console.
+ * gIn.cLogger.
+ */
 
-declare const gT: import('tia-types').GlobalTiaObjects;
-declare const gIn: import('tia-types').GlobalTiaInnerObjects;
+declare const gT: typeof import('../global-objects').GlobalTiaObjects;
+declare const gIn: typeof import('../global-objects').GlobalTiaInnerObjects;
 
 let chalk: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 let isChalkEnabled = false; // Just to speed up checking boolean instead of Boolean(object).

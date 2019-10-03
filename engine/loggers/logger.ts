@@ -1,4 +1,7 @@
-'use strict';
+/**
+ * Inner utilities for logging.
+ * **gIn.logger**.
+ */
 
 /* globals gT: true */
 /* globals gIn: true */
@@ -6,12 +9,22 @@
 /*
  Inner utils for logging.
  */
-let isVerbose;
+let isVerbose = false;
+
+let logFile = '';
+
+export function setLogFile(newLogFile: string) {
+  logFile = newLogFile;
+}
+
+export function getLogFile() {
+  return logFile;
+}
 
 import * as fs from 'fs';
 import * as nodeUtils from '../../utils/nodejs-utils';
 
-function logToFile(msg) {
+function logToFile(msg: string) {
   // TODO: check how diff work for unicode.
   fs.appendFileSync(logFile, msg, { encoding: gT.engineConsts.logEncoding });
 }
@@ -31,32 +44,32 @@ export function log(msg, dontWriteToFile) {
   if (!dontWriteToFile) {
     logToFile(msg);
   }
-};
+}
 
 export function logln(msg) {
   log(`${msg}\n`);
-};
+}
 
 export function logResourcesUsage(prefix = '') {
   if (gT.config.resUsagePrintAtErrors) {
     logln(prefix + nodeUtils.getResourcesUsage(true));
   }
-};
+}
 
 export function logBold(msg) {
   gIn.cLogger.logBold(msg);
   logToFile(msg);
-};
+}
 
 export function fail(msg) {
   gIn.cLogger.failIfEnabled(msg);
   logToFile(msg);
-};
+}
 
 export function pass(msg) {
   gIn.cLogger.passIfEnabled(msg);
   logToFile(msg);
-};
+}
 
 /**
  * Report about some error.
@@ -66,11 +79,11 @@ export function error(msg) {
   const msgNew = gIn.loggerCfg.errPrefix + msg;
   gIn.cLogger.errIfEnabled(msgNew);
   logToFile(msgNew);
-};
+}
 
 export function errorln(msg) {
   return error(`${msg}\n`);
-};
+}
 
 /**
  * Report about some exception.
@@ -81,7 +94,7 @@ export function exception(msg, e) {
   const msgNew = gIn.loggerCfg.excPrefix + msg;
   gIn.cLogger.errIfEnabled(`${msgNew} ${gIn.textUtils.excToStr(e)}\n`);
   logToFile(`${msgNew} ${gIn.textUtils.excToStr(e, !gT.cLParams.stackToLog)}\n`);
-};
+}
 
 /**
  * Logs a message.
@@ -96,7 +109,7 @@ export function logIfEnabled(msg, enable) {
   if (gT.cLParams.forceLogActions || enable) {
     log(msg, dontWriteToFile);
   }
-};
+}
 
 /**
  * Logs a message.
@@ -115,9 +128,9 @@ export function logIfNotDisabled(msg, enable = null) {
   if (gT.cLParams.forceLogActions || enable) {
     log(msg, dontWriteToFile);
   }
-};
+}
 
-function writeStrToFile(str/* , diffed, isDif*/) {
+function writeStrToFile(str /* , diffed, isDif*/) {
   fs.writeSync(fd, str, null, gT.engineConsts.logEncoding);
 }
 
@@ -142,25 +155,26 @@ function writeToSuiteLog(str, diffed, isDif) {
 export function testSummary() {
   log('=================\n');
   log(`Pass: ${gIn.tInfo.data.passed}, Fail: ${gIn.tInfo.data.failed}\n`);
-};
+}
 
 function saveDirInfoToSuiteLog(parameters) {
   let { indent } = parameters;
   const { noTestDifs } = parameters;
-  const {
-    dirInfo, verbose, noTime,
-  } = parameters;
+  const { dirInfo, verbose, noTime } = parameters;
   gIn.tracer.msg3(`${dirInfo.path}, dirInfo.run: ${dirInfo.run}`);
   if (!dirInfo.run && !gT.suiteConfig.emptyDirToSuiteLog) {
     return;
   }
   writeToSuiteLog(indent);
-  writeToSuiteLog(gIn.tInfo.testInfoToString({
-    curInfo: dirInfo,
-    isDir: true,
-    verbose,
-    noTime,
-  }), dirInfo.diffed);
+  writeToSuiteLog(
+    gIn.tInfo.testInfoToString({
+      curInfo: dirInfo,
+      isDir: true,
+      verbose,
+      noTime,
+    }),
+    dirInfo.diffed
+  );
   indent = gIn.loggerCfg.indentation + indent;
 
   // If directory is empty there will be empty array.
@@ -180,15 +194,21 @@ function saveDirInfoToSuiteLog(parameters) {
         });
       } else {
         writeToSuiteLog(indent);
-        writeToSuiteLog(gIn.tInfo.testInfoToString({
-          curInfo, isDir: false, verbose, noTime,
-        }), curInfo.diffed);
+        writeToSuiteLog(
+          gIn.tInfo.testInfoToString({
+            curInfo,
+            isDir: false,
+            verbose,
+            noTime,
+          }),
+          curInfo.diffed
+        );
         if (curInfo.diffed && gT.cLParams.difsToSlog && !isVerbose && !noTestDifs) {
           const difPath = gIn.textUtils.jsToDif(curInfo.path);
           const dif = fs.readFileSync(difPath, gT.engineConsts.logEncoding);
           writeToSuiteLog(`${indent}============== DIF ============== \n`);
           const diffStrs = dif.split('\n');
-          diffStrs.forEach((str) => {
+          diffStrs.forEach(str => {
             writeToSuiteLog(indent);
             writeToSuiteLog(`${str}\n`, false, true);
           });
@@ -199,12 +219,7 @@ function saveDirInfoToSuiteLog(parameters) {
   }
 }
 
-function saveSuiteLogPart({
-  verbose,
-  dirInfo,
-  noTime,
-  noTestDifs,
-}) {
+function saveSuiteLogPart({ verbose, dirInfo, noTime, noTestDifs }) {
   isVerbose = verbose;
   const title = verbose ? 'Verbose' : 'Short';
   const decor = '====================';
@@ -226,26 +241,32 @@ function saveSuiteLogPart({
  * @parem noTime
  * @returns {string} - Verbose info for the root test directory.
  */
-export function saveSuiteLog({
-  dirInfo,
-  log,
-  noTime,
-  noTestDifs,
-}) {
+export function saveSuiteLog({ dirInfo, log, noTime, noTestDifs }) {
   writeLogStr = writeStrToFile;
   fd = fs.openSync(log, 'w');
   saveSuiteLogPart({
-    verbose: false, dirInfo, noTime, noTestDifs,
+    verbose: false,
+    dirInfo,
+    noTime,
+    noTestDifs,
   });
   fs.writeSync(fd, '\n', null, gT.engineConsts.logEncoding);
   saveSuiteLogPart({
-    verbose: true, dirInfo, noTime, noTestDifs,
+    verbose: true,
+    dirInfo,
+    noTime,
+    noTestDifs,
   });
   fs.closeSync(fd);
   return gIn.tInfo.testInfoToString({
-    curInfo: dirInfo, isDir: true, verbose: true, noTime, noTitle: true, noEol: true,
+    curInfo: dirInfo,
+    isDir: true,
+    verbose: true,
+    noTime,
+    noTitle: true,
+    noEol: true,
   });
-};
+}
 
 /* Prints expected tests results to stdout and unexpected to stderr */
 export function printSuiteLog(dirInfo, noTestDifs) {
@@ -253,4 +274,4 @@ export function printSuiteLog(dirInfo, noTestDifs) {
   saveSuiteLogPart({ verbose: false, dirInfo, noTime: false, noTestDifs });
   writeToSuiteLog('\n');
   saveSuiteLogPart({ verbose: true, dirInfo, noTime: false, noTestDifs });
-};
+}

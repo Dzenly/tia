@@ -437,3 +437,12 @@ export class ComponentChecks {
 export class ComponentLogs {
   static compName = compName;
 }
+
+export class ComponentAPI {
+  static a = ComponentActions;
+  static actions = ComponentActions;
+  static c = ComponentChecks;
+  static checks = ComponentChecks;
+  static l = ComponentLogs;
+  static logs = ComponentLogs;
+}

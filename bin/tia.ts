@@ -6,9 +6,9 @@
 // Don't allow eslint to set semicolon after ':' above.
 // http://sambal.org/2014/02/passing-options-node-shebang-line/
 
-declare const gT: import('tia-types').GlobalTiaObjects;
-declare const gT_: import('tia-types').GlobalTiaObjects;
-declare const gIn: import('tia-types').GlobalTiaInnerObjects;
+// declare const gT: import('tia-types').GlobalTiaObjects;
+// declare const gT_: import('tia-types').GlobalTiaObjects;
+// declare const gIn: import('tia-types').GlobalTiaInnerObjects;
 
 process.env.SELENIUM_PROMISE_MANAGER = '0';
 
@@ -51,7 +51,7 @@ console.log(`TIA version: ${version}`);
 
 nodeUtils.checkNodeJsVersion();
 
-require('../engine/init-global-objects');
+import * as globalObjects from '../engine/global-objects';
 
 gT_.tiaDir = tiaDir;
 

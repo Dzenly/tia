@@ -24,3 +24,12 @@ export class TabChecks extends ComponentChecks {
 export class TabLogs extends ComponentLogs {
   static compName = compName;
 }
+
+export class TabAPI {
+  static a = TabActions;
+  static actions = TabActions;
+  static c = TabChecks;
+  static checks = TabChecks;
+  static l = TabLogs;
+  static logs = TabLogs;
+}

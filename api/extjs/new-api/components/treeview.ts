@@ -141,7 +141,14 @@ export class TreeViewLogs extends ComponentLogs {
       enableLog: false,
     });
     gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result, true));
-
-
   }
+}
+
+export class TreeViewAPI {
+  static a = TreeViewActions;
+  static actions = TreeViewActions;
+  static c = TreeViewChecks;
+  static checks = TreeViewChecks;
+  static l = TreeViewLogs;
+  static logs = TreeViewLogs;
 }

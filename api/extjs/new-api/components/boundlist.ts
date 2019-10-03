@@ -123,8 +123,6 @@ export class BoundListLogs extends ComponentLogs {
     result = result.join('\n');
 
     gIn.logger.logln(getCISContent('Content by store', tEQ, this.compName, idForLog, result));
-
-
   }
 
   /**
@@ -141,17 +139,12 @@ export class BoundListLogs extends ComponentLogs {
     result = result.join('\n');
 
     gIn.logger.logln(getCISContent('Content by inner text', tEQ, this.compName, idForLog, result));
-
-
   }
 
   /**
    * Prints innerText DOM element properties for selected items.
    */
-  static async selectedContentByInnerText(
-    tEQ: Teq,
-    idForLog?: ElementIdForLog
-  ): Promise<void> {
+  static async selectedContentByInnerText(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
     let result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getBoundListSelectedItemsByInnerText(cmp);',
@@ -164,7 +157,14 @@ export class BoundListLogs extends ComponentLogs {
     gIn.logger.logln(
       getCISContent('Selected content by inner text', tEQ, this.compName, idForLog, result)
     );
-
-
   }
+}
+
+export class BoundListAPI {
+  static a = BoundListActions;
+  static actions = BoundListActions;
+  static c = BoundListChecks;
+  static checks = BoundListChecks;
+  static l = BoundListLogs;
+  static logs = BoundListLogs;
 }

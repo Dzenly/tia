@@ -131,8 +131,8 @@ export function createEmptyFileSync(fileOrDirPath) {
 }
 
 export function createEmptyLog(fileOrDirPath) {
-  gIn.logger.logFile = gIn.textUtils.jsToLog(fileOrDirPath);
-  createEmptyFileSync(gIn.logger.logFile);
+  gIn.logger.setLogFile(gIn.textUtils.jsToLog(fileOrDirPath));
+  createEmptyFileSync(gIn.logger.getLogFile());
 }
 
 export function fileToStdout(file) {

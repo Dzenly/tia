@@ -1,7 +1,5 @@
 'use strict';
 
-/* globals gT: true */
-
 export const consoleLogPrefix = ''; // LOG:
 export const errPrefix = 'ERR: ';
 export const excPrefix = 'EXC: ';

@@ -66,3 +66,12 @@ export class GridColumnChecks extends ComponentChecks {
 export class GridColumnLogs extends ComponentLogs {
   static compName = compName;
 }
+
+export class GridColumnAPI {
+  static a = GridColumnActions;
+  static actions = GridColumnActions;
+  static c = GridColumnChecks;
+  static checks = GridColumnChecks;
+  static l = GridColumnLogs;
+  static logs = GridColumnLogs;
+}

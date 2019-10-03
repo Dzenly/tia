@@ -15,11 +15,7 @@ export class CheckBoxActions extends FormFieldBaseActions {
   /**
    * Clicks on input checkbox element if checkbox is not checked.
    */
-  static async check(
-    tEQ: Teq,
-    idForLog?: ElementIdForLog,
-    enableLog?: EnableLog
-  ): Promise<void> {
+  static async check(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<void> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -42,11 +38,7 @@ export class CheckBoxActions extends FormFieldBaseActions {
   /**
    * Clicks on input checkbox element if checkbox is checked.
    */
-  static async uncheck(
-    tEQ: Teq,
-    idForLog?: ElementIdForLog,
-    enableLog?: EnableLog
-  ): Promise<void> {
+  static async uncheck(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<void> {
     return gT.e.q.wrap({
       tEQ,
       compName,
@@ -133,6 +125,14 @@ export class CheckBoxLogs extends FormFieldBaseLogs {
    */
   static async rawValue(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
     await gT.eC.component.l.rawValue(tEQ, idForLog, val => `${val ? 'checked' : 'unchecked'}`);
-
   }
+}
+
+export class CheckBoxAPI {
+  static a = CheckBoxActions;
+  static actions = CheckBoxActions;
+  static c = CheckBoxChecks;
+  static checks = CheckBoxChecks;
+  static l = CheckBoxLogs;
+  static logs = CheckBoxLogs;
 }

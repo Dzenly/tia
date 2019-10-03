@@ -469,7 +469,6 @@ export class TableViewActions extends ComponentActions {
         idForLog,
         enableLog
       );
-
     }
   }
 
@@ -630,7 +629,6 @@ export class TableViewActions extends ComponentActions {
         enableLog
       );
     }
-
   }
 }
 
@@ -698,4 +696,13 @@ export class TableViewLogs extends ComponentLogs {
   //
   //   gIn.logger.logln(getCISContent('Selected content by inner text', tEQ, this.compName, idForLog, result));
   // }
+}
+
+export class TableViewAPI {
+  static a = TableViewActions;
+  static actions = TableViewActions;
+  static c = TableViewChecks;
+  static checks = TableViewChecks;
+  static l = TableViewLogs;
+  static logs = TableViewLogs;
 }

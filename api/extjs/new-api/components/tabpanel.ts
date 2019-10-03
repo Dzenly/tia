@@ -20,7 +20,12 @@ export class TabPanelActions extends ComponentActions {
    * Use EJ Explorer to get component and TEQ for click.
    * @param cardId - id of the card to set.
    */
-  static async setActiveTabByCardId(tEQ: Teq, cardId: string, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<void>{
+  static async setActiveTabByCardId(
+    tEQ: Teq,
+    cardId: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ): Promise<void> {
     return gIn.wrap({
       msg: `${compName} ${
         idForLog ? `${idForLog} ` : ''
@@ -48,4 +53,13 @@ export class TabPanelChecks extends ComponentChecks {
  */
 export class TabPanelLogs extends ComponentLogs {
   static compName = compName;
+}
+
+export class TabPanelAPI {
+  static a = TabPanelActions;
+  static actions = TabPanelActions;
+  static c = TabPanelChecks;
+  static checks = TabPanelChecks;
+  static l = TabPanelLogs;
+  static logs = TabPanelLogs;
 }

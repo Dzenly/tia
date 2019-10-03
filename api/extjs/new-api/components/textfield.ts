@@ -26,3 +26,12 @@ export class TextFieldChecks extends FormFieldBaseChecks {
 export class TextFieldLogs extends FormFieldBaseLogs {
   static compName = compName;
 }
+
+export class TextFieldAPI {
+  static a = TextFieldActions;
+  static actions = TextFieldActions;
+  static c = TextFieldChecks;
+  static checks = TextFieldChecks;
+  static l = TextFieldLogs;
+  static logs = TextFieldLogs;
+}

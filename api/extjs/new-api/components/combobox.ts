@@ -131,8 +131,6 @@ export class ComboBoxLogs extends FormFieldBaseLogs {
     });
 
     gIn.logger.logln(getCISRVal(tEQ, this.compName, idForLog, result));
-
-
   }
 
   /**
@@ -147,7 +145,14 @@ export class ComboBoxLogs extends FormFieldBaseLogs {
     });
 
     gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result));
-
-
   }
+}
+
+export class ComboBoxAPI {
+  static a = ComboBoxActions;
+  static actions = ComboBoxActions;
+  static c = ComboBoxChecks;
+  static checks = ComboBoxChecks;
+  static l = ComboBoxLogs;
+  static logs = ComboBoxLogs;
 }

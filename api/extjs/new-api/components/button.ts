@@ -46,3 +46,12 @@ export class ButtonLogs extends ComponentLogs {
 
   }
 }
+
+export class ButtonAPI {
+  static a = ButtonActions;
+  static actions = ButtonActions;
+  static c = ButtonChecks;
+  static checks = ButtonChecks;
+  static l = ButtonLogs;
+  static logs = ButtonLogs;
+}
