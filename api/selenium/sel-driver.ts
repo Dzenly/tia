@@ -1,8 +1,5 @@
 'use strict';
 
-/* globals gT: true */
-/* globals gIn: true */
-
 import * as util from 'util';
 import * as fileUtils from '../../utils/file-utils';
 
@@ -38,181 +35,185 @@ export async function init(cleanProfile: boolean, enableLog?: boolean) {
     profileInfo = '(with default profile)';
   }
 
-  return gIn.wrap(`Initialization ${profileInfo} ... `, enableLog, async () => {
-    if (cleanProfile) {
-      gT.s.browser.cleanProfile(false);
-    } else if (
-      gT.cLParams.clearProfiles &&
-      !cleanedProfilePaths.includes(gT.config.browserProfilePath)
-    ) {
-      gT.s.browser.cleanProfile(true);
-      cleanedProfilePaths.push(gT.config.browserProfilePath);
-    }
+  return gIn.wrap({
+    msg: `Initialization ${profileInfo} ... `,
+    enableLog,
+    act: async () => {
+      if (cleanProfile) {
+        gT.s.browser.cleanProfile(false);
+      } else if (
+        gT.cLParams.clearProfiles &&
+        !cleanedProfilePaths.includes(gT.config.browserProfilePath)
+      ) {
+        gT.s.browser.cleanProfile(true);
+        cleanedProfilePaths.push(gT.config.browserProfilePath);
+      }
 
-    // createBrowserProfile();
+      // createBrowserProfile();
 
-    let options;
+      let options;
 
-    switch (gT.cLParams.browser) {
-      case 'chrome':
-        options = new gT.sOrig.chrome.Options();
-        options.addArguments('--dns-prefetch-disable');
-        options.addArguments('--no-sandbox'); // Without this there is a fail with xvfb on Ubuntu 16.
-        options.addArguments('--disable-infobars');
-
-        if (gT.cLParams.headless) {
-          options.addArguments('--headless');
-          options.addArguments('--window-size=2560,1024');
-          if (gT.u.misc.isWindows()) {
-            options.addArguments('--disable-gpu'); // Temporary fix for Windows.
-          }
-        }
-
-        // options.addArguments('--start-maximized');
-
-        // if (gT.config.browserProfileDir) {
-        options.addArguments(`--user-data-dir=${gT.config.browserProfilePath}`);
-
-        // }
-
-        // options.excludeSwitches();
-
-        options.setUserPreferences({
-          credentials_enable_service: false,
-          'profile.password_manager_enabled': false,
-        });
-
-        break;
-      case 'firefox':
-        {
-          options = new gT.sOrig.firefox.Options();
-          const binary = new gT.sOrig.firefox.Binary();
-
-          // if (gT.config.browserProfileDir) {
-          // Profile name should be alphanumeric only.
-          // Checked on linux. It does set -profile option.
-          // binary.addArguments('-profile "' + gT.config.browserProfilePath + '"');
-          options.setProfile(gT.config.browserProfilePath); // Checked on linux. Does NOT set -profile option.
-
-          // http://selenium.googlecode.com/git/docs/api/javascript/module_selenium-webdriver_firefox.html
-          // "The FirefoxDriver will never modify a pre-existing profile; instead it will create
-          // a copy for it to modify."
-
-          // http://stackoverflow.com/questions/6787095/how-to-stop-selenium-from-creating-temporary-firefox-profiles-using-web-driver
-          // webdriver.firefox.profile (name of the profile).
-
-          // Also there is info that gT.sOrig.driver.quit() deletes tmp profile, butgT.sOrig.driver.close()
-          // - does not.
-
-          // profile.setPreference ?
-
-          // browser.sessionstore.resume_from_crash
-
-          // writeToDisk ?
-          // }
+      switch (gT.cLParams.browser) {
+        case 'chrome':
+          options = new gT.sOrig.chrome.Options();
+          options.addArguments('--dns-prefetch-disable');
+          options.addArguments('--no-sandbox'); // Without this there is a fail with xvfb on Ubuntu 16.
+          options.addArguments('--disable-infobars');
 
           if (gT.cLParams.headless) {
-            options.addArguments('-headless');
+            options.addArguments('--headless');
+            options.addArguments('--window-size=2560,1024');
+            if (gT.u.misc.isWindows()) {
+              options.addArguments('--disable-gpu'); // Temporary fix for Windows.
+            }
           }
-          options.setBinary(binary);
 
-          // gT.sOrig.wdModule.Capabilities.firefox();
-          // capabilities = new gT.sOrig.wdModule.Capabilities();
+          // options.addArguments('--start-maximized');
+
+          // if (gT.config.browserProfileDir) {
+          options.addArguments(`--user-data-dir=${gT.config.browserProfilePath}`);
+
+          // }
+
+          // options.excludeSwitches();
+
+          options.setUserPreferences({
+            credentials_enable_service: false,
+            'profile.password_manager_enabled': false,
+          });
+
+          break;
+        case 'firefox':
+          {
+            options = new gT.sOrig.firefox.Options();
+            const binary = new gT.sOrig.firefox.Binary();
+
+            // if (gT.config.browserProfileDir) {
+            // Profile name should be alphanumeric only.
+            // Checked on linux. It does set -profile option.
+            // binary.addArguments('-profile "' + gT.config.browserProfilePath + '"');
+            options.setProfile(gT.config.browserProfilePath); // Checked on linux. Does NOT set -profile option.
+
+            // http://selenium.googlecode.com/git/docs/api/javascript/module_selenium-webdriver_firefox.html
+            // "The FirefoxDriver will never modify a pre-existing profile; instead it will create
+            // a copy for it to modify."
+
+            // http://stackoverflow.com/questions/6787095/how-to-stop-selenium-from-creating-temporary-firefox-profiles-using-web-driver
+            // webdriver.firefox.profile (name of the profile).
+
+            // Also there is info that gT.sOrig.driver.quit() deletes tmp profile, butgT.sOrig.driver.close()
+            // - does not.
+
+            // profile.setPreference ?
+
+            // browser.sessionstore.resume_from_crash
+
+            // writeToDisk ?
+            // }
+
+            if (gT.cLParams.headless) {
+              options.addArguments('-headless');
+            }
+            options.setBinary(binary);
+
+            // gT.sOrig.wdModule.Capabilities.firefox();
+            // capabilities = new gT.sOrig.wdModule.Capabilities();
+          }
+          break;
+      }
+
+      const prefs = new gT.sOrig.wdModule.logging.Preferences();
+
+      // TODO: this parameter correctly works only for chrome.
+      // phantomjs gets all messages, independent on choosen level.
+      // Mozilla gets no messages.
+      prefs.setLevel(gT.sOrig.browserLogType, gT.cLParams.browserLogLevel);
+      prefs.setLevel(gT.sOrig.driverLogType, gT.cLParams.driverLogLevel);
+
+      const capabilities = new gT.sOrig.wdModule.Capabilities();
+      capabilities.setBrowserName(gT.cLParams.browser);
+      capabilities.setLoggingPrefs(prefs);
+
+      gIn.tracer.msg3(util.inspect(capabilities, { depth: 4 }));
+
+      if (gT.cLParams.useRemoteDriver) {
+        const sid = gIn.remoteDriverUtils.getSid();
+
+        const remoteDriverConnectionStr = `${gT.globalConfig.remoteDriverUrl}:${gT.globalConfig.remoteDriverPort}`;
+
+        if (sid) {
+          gIn.tracer.msg3('There is current SID');
+          gT.firstRunWithRemoteDriver = false;
+
+          const client = new gT.sOrig.Client(remoteDriverConnectionStr);
+          const executor = new gT.sOrig.Executor(client);
+          executor.w3c = true;
+
+          gT.sOrig.driver = new gT.sOrig.wdModule.WebDriver(sid, executor);
+        } else {
+          gIn.tracer.msg3('There is not current SID');
+          gT.firstRunWithRemoteDriver = true;
+          gT.sOrig.driver = new gT.sOrig.wdModule.Builder()
+            .forBrowser(gT.cLParams.browser)
+            .setChromeOptions(options)
+            .setFirefoxOptions(options)
+            .withCapabilities(capabilities)
+
+            // As an alternative to this method, you may also set the SELENIUM_REMOTE_URL environment variable.
+            // TODO: magic constant.
+            .usingServer(remoteDriverConnectionStr)
+            .build();
+
+          gT.sOrig.driver
+            .getSession()
+            .then(res => {
+              const sid = gIn.remoteDriverUtils.saveSid(res.getId());
+              gIn.tracer.msg3(`Saved session id: ${sid}`);
+            })
+            .catch(e => {
+              gIn.logger.exception('Error at getSession: ', e);
+            });
         }
-        break;
-    }
 
-    const prefs = new gT.sOrig.wdModule.logging.Preferences();
-
-    // TODO: this parameter correctly works only for chrome.
-    // phantomjs gets all messages, independent on choosen level.
-    // Mozilla gets no messages.
-    prefs.setLevel(gT.sOrig.browserLogType, gT.cLParams.browserLogLevel);
-    prefs.setLevel(gT.sOrig.driverLogType, gT.cLParams.driverLogLevel);
-
-    const capabilities = new gT.sOrig.wdModule.Capabilities();
-    capabilities.setBrowserName(gT.cLParams.browser);
-    capabilities.setLoggingPrefs(prefs);
-
-    gIn.tracer.msg3(util.inspect(capabilities, { depth: 4 }));
-
-    if (gT.cLParams.useRemoteDriver) {
-      const sid = gIn.remoteDriverUtils.getSid();
-
-      const remoteDriverConnectionStr = `${gT.globalConfig.remoteDriverUrl}:${gT.globalConfig.remoteDriverPort}`;
-
-      if (sid) {
-        gIn.tracer.msg3('There is current SID');
-        gT.firstRunWithRemoteDriver = false;
-
-        const client = new gT.sOrig.Client(remoteDriverConnectionStr);
-        const executor = new gT.sOrig.Executor(client);
-        executor.w3c = true;
-
-        gT.sOrig.driver = new gT.sOrig.wdModule.WebDriver(sid, executor);
+        // ==============================
+        // TODO:
+        // Using undocumented property to trace all selenium commands.
+        // let executorRef = gT.sOrig.driver.executor_;
+        // executorRef.executeOrig = executorRef.execute;
+        // executorRef.execute = function (command) {
+        //   gIn.tracer.trace3('COMMAND: ' + command.getName());
+        //   // TODO: tracing, let params = command.getParameters();
+        //   return executorRef.executeOrig(command)
+        //     .then(function (res) {
+        //       // TODO: tracing, command result.
+        //       return res;
+        //     })
+        //     .catch(function (e) {
+        //       // TODO: tracing, command fail.
+        //       throw e;
+        //     });
+        // };
+        // ==============================
       } else {
-        gIn.tracer.msg3('There is not current SID');
-        gT.firstRunWithRemoteDriver = true;
+        // Temporary driver
         gT.sOrig.driver = new gT.sOrig.wdModule.Builder()
           .forBrowser(gT.cLParams.browser)
           .setChromeOptions(options)
           .setFirefoxOptions(options)
           .withCapabilities(capabilities)
-
-          // As an alternative to this method, you may also set the SELENIUM_REMOTE_URL environment variable.
-          // TODO: magic constant.
-          .usingServer(remoteDriverConnectionStr)
           .build();
-
-        gT.sOrig.driver
-          .getSession()
-          .then(res => {
-            const sid = gIn.remoteDriverUtils.saveSid(res.getId());
-            gIn.tracer.msg3(`Saved session id: ${sid}`);
-          })
-          .catch(e => {
-            gIn.logger.exception('Error at getSession: ', e);
-          });
       }
 
-      // ==============================
-      // TODO:
-      // Using undocumented property to trace all selenium commands.
-      // let executorRef = gT.sOrig.driver.executor_;
-      // executorRef.executeOrig = executorRef.execute;
-      // executorRef.execute = function (command) {
-      //   gIn.tracer.trace3('COMMAND: ' + command.getName());
-      //   // TODO: tracing, let params = command.getParameters();
-      //   return executorRef.executeOrig(command)
-      //     .then(function (res) {
-      //       // TODO: tracing, command result.
-      //       return res;
-      //     })
-      //     .catch(function (e) {
-      //       // TODO: tracing, command fail.
-      //       throw e;
-      //     });
-      // };
-      // ==============================
-    } else {
-      // Temporary driver
-      gT.sOrig.driver = new gT.sOrig.wdModule.Builder()
-        .forBrowser(gT.cLParams.browser)
-        .setChromeOptions(options)
-        .setFirefoxOptions(options)
-        .withCapabilities(capabilities)
-        .build();
-    }
+      gT.sOrig.logs = gT.sOrig.driver.manage().logs();
 
-    gT.sOrig.logs = gT.sOrig.driver.manage().logs();
+      if (gT.cLParams.useRemoteDriver) {
+        return;
+      }
 
-    if (gT.cLParams.useRemoteDriver) {
-      return;
-    }
-
-    // Trying to fix chromedriver issue 817 by delay.
-    // https://bugs.chromium.org/p/chromedriver/issues/detail?id=817#c21
-    return gT.u.promise.delayed(gT.engineConsts.defaultDelayAfterDriverCreate);
+      // Trying to fix chromedriver issue 817 by delay.
+      // https://bugs.chromium.org/p/chromedriver/issues/detail?id=817#c21
+      return gT.u.promise.delayed(gT.engineConsts.defaultDelayAfterDriverCreate);
+    },
   });
 }
 

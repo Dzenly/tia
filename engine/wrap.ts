@@ -181,22 +181,27 @@ export type actFunc = () => Promise<any>;
  * @throws - Various errors.
  */
 // eslint-disable-next-line max-params
-export default async function wrap(
-  msg: any,
-  enableLog: boolean,
-  act: actFunc,
-  noConsoleAndExceptions?: boolean
-) {
-  if (typeof msg === 'object') {
-    // esling-disable-next-line no-param-reassign
-    ({
-      // eslint-disable-next-line no-param-reassign
-      msg,
-      enableLog,
-      act,
-      noConsoleAndExceptions,
-    } = msg);
-  }
+export default async function wrap({
+  msg,
+  enableLog,
+  act,
+  noConsoleAndExceptions,
+}: {
+  msg: string;
+  enableLog?: boolean;
+  act: actFunc;
+  noConsoleAndExceptions?: boolean;
+}) {
+  // if (typeof msg === 'object') {
+  //   // esling-disable-next-line no-param-reassign
+  //   ({
+  //     // eslint-disable-next-line no-param-reassign
+  //     msg,
+  //     enableLog,
+  //     act,
+  //     noConsoleAndExceptions,
+  //   } = msg);
+  // }
 
   gIn.tracer.msg3(`Inside wrapper, before start timer,  msg: ${msg}`);
 

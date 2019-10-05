@@ -23,14 +23,17 @@ gT.e = {};
 
 async function setEJSelectors(enableLog?: boolean) {
   const objStr = inspect(gT.globalConfig.ejSelectors, { compact: true, breakLength: 200 });
-  return gIn.wrap('setEJSelectors ... ', enableLog, () => {
-    const scriptStr = `return tiaEJ.setSelectors(${objStr});`;
-    return gT.s.browser.executeScriptWrapper(scriptStr)
-      .then((res) => {
+  return gIn.wrap({
+    msg: 'setEJSelectors ... ',
+    enableLog,
+    act: () => {
+      const scriptStr = `return tiaEJ.setSelectors(${objStr});`;
+      return gT.s.browser.executeScriptWrapper(scriptStr).then(res => {
         if (res !== true) {
           throw new Error('setEJSelectors: Unexpected return value');
         }
       });
+    },
   });
 }
 
@@ -56,12 +59,16 @@ const brHelpers = [
  * @returns {Promise}.
  */
 gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(enableLog?: boolean) {
-  return gIn.wrap(
-    'Initialization of TIA ExtJs helpers ... ',
+  return gIn.wrap({
+    msg: 'Initialization of TIA ExtJs helpers ... ',
     enableLog,
-    async () => {
-      for (const fName of brHelpers) { // eslint-disable-line no-restricted-syntax
-        const scriptStr = fs.readFileSync(path.join(gT.tiaDir, 'api', 'extjs', 'browser-part', fName), 'utf8');
+    act: async () => {
+      for (const fName of brHelpers) {
+        // eslint-disable-line no-restricted-syntax
+        const scriptStr = fs.readFileSync(
+          path.join(gT.tiaDir, 'api', 'extjs', 'browser-part', fName),
+          'utf8'
+        );
         await gT.s.browser.executeScriptWrapper(scriptStr);
       }
 
@@ -70,8 +77,8 @@ gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(enableLog?: boolean)
       if (gT.cLParams.debugLocale) {
         await gT.e.utils.setDebugLocaleMode(true);
       }
-    }
-  );
+    },
+  });
 };
 
 gT.e.utils = require('./extjs-utils');

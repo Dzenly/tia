@@ -1,6 +1,6 @@
 'use strict';
 
-gT.s.idToIdObj = function idToIdObj(id: any) {
+export function idToIdObj(id: any) {
   let res;
   if (typeof id === 'object') {
     if (id.logStr) {
@@ -25,7 +25,7 @@ gT.s.idToIdObj = function idToIdObj(id: any) {
   //   return this.logStr;
   // };
   return res;
-};
+}
 
 // Dummy functions for tests for test engine.
 // Msg - is just message to identify the place in test.

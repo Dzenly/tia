@@ -319,6 +319,7 @@ module.exports = {
         'prettier/prettier': ['error'],
         '@typescript-eslint/no-non-null-assertion': 0,
         'require-atomic-updates': 0,
+        '@typescript-eslint/no-explicit-any': 0,
       },
       globals: {
         gT: true,

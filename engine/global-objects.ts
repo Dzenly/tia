@@ -10,7 +10,7 @@ import * as testInfo from './test-info';
 import * as diffUtils from '../utils/diff-utils';
 import * as mailUtils from '../utils/mail-utils';
 import * as remoteDriverUtils from '../utils/remote-driver-utils';
-import * as wrap from './wrap';
+import wrap from './wrap';
 
 import * as engineConsts from '../config/engine-constants';
 import * as configUtils from '../utils/config-utils';
@@ -79,7 +79,7 @@ export class OriginalSeleniumAPI {
   /**
    * Assigned at driver initialization.
    */
-  static driver: typeof wdModule.WebDriver;
+  static driver: wdModule.WebDriver;
 }
 
 export class CommandLineParams {
@@ -107,6 +107,10 @@ export class CommandLineParams {
   static useRemoteDriver: boolean;
   static forceLogActions: boolean;
   static shareBrowser: boolean;
+  static clearProfiles: boolean;
+  static browser: string;
+  static headless: boolean;
+  static debugLocale: boolean;
 }
 
 export interface Suite {
@@ -141,18 +145,21 @@ export class GlobalTiaInnerObjects {
   static cancelSuite: boolean;
   static sharedBrowserInitiated: boolean;
   static screenShotScheduled: boolean;
+  static brHelpersInitiated: boolean;
 }
 
 import * as driver from '../api/selenium/sel-driver';
 import * as wait from '../api/selenium/sel-waits';
 import * as uA from '../api/selenium/sel-user-actions';
 import * as browser from '../api/selenium/sel-browser';
+import { idToIdObj } from '../api/selenium/sel-misc';
 
 export class SeleniumAPI {
   static driver = driver;
   static wait = wait;
   static uA = uA;
   static browser = browser;
+  static idToIdObj = idToIdObj;
 }
 
 export class GlobalTiaObjects {

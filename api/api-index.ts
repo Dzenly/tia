@@ -1,11 +1,5 @@
 'use strict';
 
-/**
- * Selenium utils.
- * @type {{}}
- */
-gT.s = {};
-
 require('./selenium/sel-index');
 
 // ==================================================
