@@ -7,17 +7,13 @@ import * as fs from 'fs';
 
 import * as fileUtils from './file-utils';
 
-export function containsSuite(dir) {
-  const suiteDir = path.join(
-    dir,
-    gT.engineConsts.suiteDirName
-  );
+export function containsSuite(dir: string) {
+  const suiteDir = path.join(dir, gT.engineConsts.suiteDirName);
 
   return fileUtils.isDirectory(suiteDir);
-};
+}
 
-
-export function isRootDirInited(rootDir) {
+export function isRootDirInited(rootDir: string) {
   const rootResultsDir = path.join(
     rootDir,
     gT.engineConsts.suiteDirName,
@@ -25,9 +21,9 @@ export function isRootDirInited(rootDir) {
   );
 
   return fileUtils.isDirectory(rootResultsDir);
-};
+}
 
-export function isSuiteDirInited(dir) {
+export function isSuiteDirInited(dir: string) {
   const suiteResultsDir = path.join(
     dir,
     gT.engineConsts.suiteDirName,
@@ -35,9 +31,9 @@ export function isSuiteDirInited(dir) {
   );
 
   return fileUtils.isDirectory(suiteResultsDir);
-};
+}
 
-export function resolveRootDirFromArgsAndEnv(argsTiaRootDir) {
+export function resolveRootDirFromArgsAndEnv(argsTiaRootDir: string) {
   let tiaRootDir = argsTiaRootDir || process.env[gT.engineConsts.rootDirEnvVarName];
 
   if (tiaRootDir && !path.isAbsolute(tiaRootDir)) {
@@ -52,9 +48,9 @@ export function resolveRootDirFromArgsAndEnv(argsTiaRootDir) {
   }
 
   return null;
-};
+}
 
-export function findTiaRootInParents(dir) {
+export function findTiaRootInParents(dir: string) {
   const systemRoot = path.parse(dir).root;
   let notFound = false;
 
@@ -75,7 +71,7 @@ export function findTiaRootInParents(dir) {
 
   if (notFound) return null;
   return dir;
-};
+}
 
 // export function findTiaSuiteResInParents(dir) {
 //
@@ -101,7 +97,7 @@ export function findTiaRootInParents(dir) {
 //   return dir;
 // };
 
-export function getTiaSuiteFromParents(dir) {
+export function getTiaSuiteFromParents(dir: string) {
   const startIndex = dir.indexOf(gT.engineConsts.suiteDirName);
   if (startIndex === -1) {
     throw new Error(`No suite found for directory: ${dir}`);
@@ -109,20 +105,20 @@ export function getTiaSuiteFromParents(dir) {
 
   const result = dir.slice(0, startIndex + gT.engineConsts.suiteDirName.length);
   return result;
-};
+}
 
-export function isTiaSuiteInParents(dir) {
+export function isTiaSuiteInParents(dir: string) {
   const dirArr = dir.split(path.sep);
   return dirArr.includes(gT.engineConsts.suiteDirName);
-};
+}
 
-export function findTiaRootInChildren(dir) {
+export function findTiaRootInChildren(dir: string) {
   return fileUtils.whichDirContain(
     dir,
     [gT.engineConsts.rootResDirName],
     path.join(dir, gT.engineConsts.suiteDirName)
   );
-};
+}
 
 /**
  * Resolves path specified by cmd line option or environment variable.
@@ -130,7 +126,7 @@ export function findTiaRootInChildren(dir) {
  * Relative paths resolved relative to CWD.
  * @return {String} - resolved path.
  */
-export function resolveRootDirEx(argsTiaRootDir) {
+export function resolveRootDirEx(argsTiaRootDir: string) {
   let tiaRootDir = resolveRootDirFromArgsAndEnv(argsTiaRootDir);
   if (tiaRootDir) {
     return tiaRootDir;
@@ -145,7 +141,7 @@ export function resolveRootDirEx(argsTiaRootDir) {
     process.exit(1);
   }
   return tiaRootDir;
-};
+}
 
 export function initTiaSuite() {
   // eslint-disable-next-line no-param-reassign
@@ -174,10 +170,7 @@ export function initTiaSuite() {
   gIn.cLogger.msgln(`Root dir "${tiaRootInParents}" is found.`);
   gIn.cLogger.msgln(`Suite dir "${dir}" is created successfully.`);
 
-  fileUtils.mkDirRecursive(dir, [
-    gT.engineConsts.suiteDirName,
-    gT.engineConsts.suiteResDirName,
-  ]);
+  fileUtils.mkDirRecursive(dir, [gT.engineConsts.suiteDirName, gT.engineConsts.suiteResDirName]);
 
   fs.writeFileSync(
     path.join(dir, gT.engineConsts.suiteDirName, gT.engineConsts.suiteResDirName, '.gitkeep'),
@@ -186,11 +179,10 @@ export function initTiaSuite() {
   );
 
   process.exit(0);
-};
+}
 
-export function initTiaRoot(argsTiaRootDir) {
-  const tiaRootCandidate = resolveRootDirFromArgsAndEnv(argsTiaRootDir)
-  || process.cwd();
+export function initTiaRoot(argsTiaRootDir: string) {
+  const tiaRootCandidate = resolveRootDirFromArgsAndEnv(argsTiaRootDir) || process.cwd();
 
   if (isTiaSuiteInParents(tiaRootCandidate)) {
     gIn.tracer.err(`TIA suite is existed in parent dirs here: ${tiaRootCandidate}`);
@@ -220,7 +212,7 @@ export function initTiaRoot(argsTiaRootDir) {
   gIn.cLogger.msgln(`Root results is created successfully in "${tiaRootCandidate}"`);
 
   process.exit(0);
-};
+}
 
 /**
  * Resolves path specified by cmd line option or environment variable.
@@ -228,11 +220,19 @@ export function initTiaRoot(argsTiaRootDir) {
  * @param {Object} argsObj
  * @return {String} - resolved path or empty string.
  */
-export function resolvePathOptionRelativeToRootDir(argsObj) {
-  const {
-    cmdLineArgsPath, envVarName, description, cutLastDirSep, mandatory,
-  } = argsObj;
-
+export function resolvePathOptionRelativeToRootDir({
+  cmdLineArgsPath,
+  envVarName,
+  description,
+  cutLastDirSep,
+  mandatory,
+}: {
+  cmdLineArgsPath: string;
+  envVarName: string;
+  description: string;
+  cutLastDirSep: string;
+  mandatory: boolean;
+}) {
   let myPath = cmdLineArgsPath || process.env[envVarName];
   if (!myPath) {
     if (mandatory) {
@@ -246,7 +246,7 @@ export function resolvePathOptionRelativeToRootDir(argsObj) {
   if (!path.isAbsolute(myPath)) {
     myPath = path.resolve(gT.cLParams.rootDir, myPath);
 
-    if (cutLastDirSep && myPath[myPath.length - 1] === path.sep) {
+    if (cutLastDirSep && myPath.endsWith(path.sep)) {
       myPath = myPath.slice(0, -1);
     }
   }
@@ -254,4 +254,4 @@ export function resolvePathOptionRelativeToRootDir(argsObj) {
   gIn.tracer.msg3(`${description}: ${myPath}`);
 
   return myPath;
-};
+}

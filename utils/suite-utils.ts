@@ -13,7 +13,7 @@ export function getNoEtalonTestsInfoPath() {
   return noEtalonTestsPath;
 };
 
-export function saveNewTestInfo(testPath) {
+export function saveNewTestInfo(testPath: string) {
   const pathToAdd = path.relative(gIn.suite.root, testPath);
   appendFileSync(getNoEtalonTestsInfoPath(), `${pathToAdd}\n`, 'utf8')
 };

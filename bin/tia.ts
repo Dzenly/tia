@@ -7,7 +7,7 @@
 // http://sambal.org/2014/02/passing-options-node-shebang-line/
 
 // declare const gT: import('tia-types').GlobalTiaObjects;
-// declare const gT_: import('tia-types').GlobalTiaObjects;
+// declare const gT: import('tia-types').GlobalTiaObjects;
 // declare const gIn: import('tia-types').GlobalTiaInnerObjects;
 
 process.env.SELENIUM_PROMISE_MANAGER = '0';
@@ -51,16 +51,11 @@ console.log(`TIA version: ${version}`);
 
 nodeUtils.checkNodeJsVersion();
 
-import * as globalObjects from '../engine/global-objects';
+import '../engine/global-objects';
 
-gT_.tiaDir = tiaDir;
+gT.tiaDir = tiaDir;
 
-gT_.version = version;
-
-gT_.browsers = [
-  'chrome', // First browser is default.
-  'firefox',
-];
+gT.version = version;
 
 function unknownOption(option: string) {
   if (option && option.substr(0, 1) === '-') {
@@ -219,30 +214,30 @@ if (!args.requireModules) {
   args.requireModules = process.env[gT.engineConsts.requireModulesEnvVarName];
 }
 
-gT_.rootTestsDirPath = path.join(gT.cLParams.rootDir, gT.engineConsts.suiteDirName);
+gT.rootTestsDirPath = path.join(gT.cLParams.rootDir, gT.engineConsts.suiteDirName);
 
 // =====================
-gT_.rootResultsDir = path.join(gT.rootTestsDirPath, gT.engineConsts.rootResDirName);
+gT.rootResultsDir = path.join(gT.rootTestsDirPath, gT.engineConsts.rootResDirName);
 
 // =====================
 const rootSuiteConfig = nodeUtils.requireIfExists(
   path.join(gT.rootResultsDir, gT.engineConsts.suiteRootConfigName)
 );
-gT_.rootSuiteConfig = _.merge(_.cloneDeep(gT.suiteConfigDefault), rootSuiteConfig);
+gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.suiteConfigDefault), rootSuiteConfig);
 
 // =====================
 const globalConfig = nodeUtils.requireIfExists(
   path.join(gT.rootResultsDir, gT.engineConsts.globalConfigName)
 );
-gT_.globalConfig = _.merge(_.cloneDeep(gT.globalConfigDefault), globalConfig);
+gT.globalConfig = _.merge(_.cloneDeep(gT.globalConfigDefault), globalConfig);
 
 if (!gT.globalConfig.rootDirAlias) {
-  gT_.globalConfig.rootDirAlias = path.basename(gT.cLParams.rootDir);
+  gT.globalConfig.rootDirAlias = path.basename(gT.cLParams.rootDir);
 }
 
 // =====================
 
-gT_.defaultRootProfile = path.join(
+gT.defaultRootProfile = path.join(
   gT.rootResultsDir,
   gT.engineConsts.browserProfilesRootDirName,
   gT.engineConsts.defaultBrowserProfileName
@@ -255,7 +250,7 @@ if (gT.cLParams.suite && gT.cLParams.dir) {
   process.exit(1);
 }
 
-if (gT.cLParams.suite || gT.cLParams.dir) {
+if (args.suite || args.dir) {
   gT.cLParams.suite = tiaArgsUtils.getTiaSuiteFromParents(process.cwd());
 }
 
@@ -268,10 +263,10 @@ if (gT.cLParams.dir) {
 const rootDirConfig = nodeUtils.requireIfExists(
   path.join(gT.rootResultsDir, gT.engineConsts.dirRootConfigName)
 );
-gT_.rootDirConfig = _.merge(_.cloneDeep(gT.dirConfigDefault), rootDirConfig);
+gT.rootDirConfig = _.merge(_.cloneDeep(gT.dirConfigDefault), rootDirConfig);
 
 // =====================
-gT_.rootLog = path.join(
+gT.rootLog = path.join(
   gT.rootResultsDir,
   gT.engineConsts.rootLogName + gT.engineConsts.logExtension
 );
@@ -287,7 +282,7 @@ gT.cLParams.emailCfgPath = tiaArgsUtils.resolvePathOptionRelativeToRootDir({
 
 if (gT.cLParams.emailCfgPath) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  gT_.rootSuiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), require(gT.cLParams.emailCfgPath));
+  gT.rootSuiteConfig = _.merge(_.cloneDeep(gT.rootSuiteConfig), require(gT.cLParams.emailCfgPath));
 }
 
 // =====================
@@ -303,9 +298,9 @@ if (gT.cLParams.extLog) {
 }
 
 // =====================
-if (gT.cLParams.slogSubj) {
-  gT.cLParams.slogSubj = gT.cLParams.slogSubj.split(',');
-  for (const subjItem of gT.cLParams.slogSubj) {
+if (args.slogSubj) {
+  gT.cLParams.slogSubj = args.slogSubj.split(',');
+  for (const subjItem of gT.cLParams.slogSubj!) {
     if (!argConsts.allowedSlogSubj.includes(subjItem)) {
       gIn.cLogger.errln(`Not supported subject item: ${subjItem}`);
       gIn.cLogger.errln(`Supported items: ${argConsts.allowedSlogSubj.join(',')}`);
@@ -337,7 +332,7 @@ if (args.requireModules) {
 }
 
 if (gT.cLParams.defHost) {
-  gT_.rootDirConfig.selHost = gT.cLParams.defHost;
+  gT.rootDirConfig.selHost = gT.cLParams.defHost;
 }
 
 // process.on('uncaughtException', (err) => {

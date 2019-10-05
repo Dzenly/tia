@@ -38,7 +38,7 @@ function logToFile(msg: string) {
  * @param msg
  * @param noConsole
  */
-export function log(msg, dontWriteToFile) {
+export function log(msg: string, dontWriteToFile?: boolean) {
   // We use append here, to don't lost some strings if something will break the test engine.
   gIn.cLogger.logIfEnabled(msg);
   if (!dontWriteToFile) {
@@ -46,7 +46,7 @@ export function log(msg, dontWriteToFile) {
   }
 }
 
-export function logln(msg) {
+export function logln(msg: string) {
   log(`${msg}\n`);
 }
 
@@ -56,17 +56,17 @@ export function logResourcesUsage(prefix = '') {
   }
 }
 
-export function logBold(msg) {
+export function logBold(msg: string) {
   gIn.cLogger.logBold(msg);
   logToFile(msg);
 }
 
-export function fail(msg) {
+export function fail(msg: string) {
   gIn.cLogger.failIfEnabled(msg);
   logToFile(msg);
 }
 
-export function pass(msg) {
+export function pass(msg: string) {
   gIn.cLogger.passIfEnabled(msg);
   logToFile(msg);
 }
@@ -75,13 +75,13 @@ export function pass(msg) {
  * Report about some error.
  * @param msg
  */
-export function error(msg) {
+export function error(msg: string) {
   const msgNew = gIn.loggerCfg.errPrefix + msg;
   gIn.cLogger.errIfEnabled(msgNew);
   logToFile(msgNew);
 }
 
-export function errorln(msg) {
+export function errorln(msg: string) {
   return error(`${msg}\n`);
 }
 
@@ -90,7 +90,7 @@ export function errorln(msg) {
  * @param msg
  * @param e
  */
-export function exception(msg, e) {
+export function exception(msg: string, e) {
   const msgNew = gIn.loggerCfg.excPrefix + msg;
   gIn.cLogger.errIfEnabled(`${msgNew} ${gIn.textUtils.excToStr(e)}\n`);
   logToFile(`${msgNew} ${gIn.textUtils.excToStr(e, !gT.cLParams.stackToLog)}\n`);
@@ -101,7 +101,7 @@ export function exception(msg, e) {
  * @param msg - A message to be logged.
  * @param {Boolean}[enable]. If true log is enabled, othwerwise log is disabled.
  */
-export function logIfEnabled(msg, enable) {
+export function logIfEnabled(msg: string, enable) {
   let dontWriteToFile = false;
   if (!enable && gT.cLParams.forceLogActions) {
     dontWriteToFile = true;
@@ -117,8 +117,8 @@ export function logIfEnabled(msg, enable) {
  * @param {Boolean} [enable = gIn.loggerCfg.defLLLogAction] - If false - log is disabled,
  * otherwise - log is enabled.
  */
-export function logIfNotDisabled(msg, enable = null) {
-  if (enable === null) {
+export function logIfNotDisabled(msg: string, enable?: boolean) {
+  if (enable === undefined) {
     enable = gIn.loggerCfg.getDefLLLogAction();
   }
   let dontWriteToFile = false;

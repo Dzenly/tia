@@ -1,11 +1,7 @@
-'use strict';
-
 import * as argConsts from './arg-consts';
 
-/* global gT */
-
-function dedent(callSite, ...params) {
-  function format(str) {
+function dedent(callSite: any, ...params: any[]) {
+  function format(str: string) {
     return str.replace(/\n {4}/g, '\n');
   }
 
@@ -14,12 +10,12 @@ function dedent(callSite, ...params) {
   }
 
   if (typeof callSite === 'function') {
-    return (...args) => format(callSite(...args));
+    return (...args: any[]) => format(callSite(...args));
   }
 
   const output = callSite
     .slice(0, params.length + 1)
-    .map((text, i) => (i === 0 ? '' : params[i - 1]) + text)
+    .map((text: string, i: number) => (i === 0 ? '' : params[i - 1]) + text)
     .join('');
 
   return format(output);
@@ -92,7 +88,9 @@ export function usage() {
       See tia/config/default-suite-config.js for more details.
       Options from your email config will be merged into tia-root-suite-config.js, and so,
       merged into all tia-suite-config.js. But tia-suite-config.js can override these options.
-      Note: ${gT.engineConsts.emailCfgPathEnvVarName} environment variable can be used for the same purpose.
+      Note: ${
+        gT.engineConsts.emailCfgPathEnvVarName
+      } environment variable can be used for the same purpose.
 
       --enable-email - enables email.
 
@@ -109,7 +107,9 @@ export function usage() {
       -h, --help - Print this help.
 
       --hang-timeout <timeout> - timeout in milliseconds after which some action considered as hanged one,
-      a screenshot is saved and an error is generated. ${gT.engineConsts.hangTimeout} milliseconds by default.
+      a screenshot is saved and an error is generated. ${
+        gT.engineConsts.hangTimeout
+      } milliseconds by default.
 
       --headless, - use headless browser (chrome and firefox only).
 
@@ -166,7 +166,9 @@ export function usage() {
 
       --root-dir <Root Directory to find tests> - root directory to test
       (can be relative to the current working dir).
-      It there is no --root-dir, tia will check ${gT.engineConsts.rootDirEnvVarName} environment variable.
+      It there is no --root-dir, tia will check ${
+        gT.engineConsts.rootDirEnvVarName
+      } environment variable.
       If there is no such env variable, current working directory will be used as root.
       Actually TIA will search for xxx/__tia-tests__/_tia-root subdir starting with <root dir>,
       and will start tests from this xxx directory.
@@ -210,4 +212,4 @@ export function usage() {
 
     See readme.md for more details.`
   );
-};
+}

@@ -3,9 +3,9 @@
 import { inspect } from 'util';
 import { ElementIdForLog, EnableLog, Teq } from './new-api/types/ej-types';
 
-gT_.e.locale = {};
-gT_.e.invertedLocaleFirstKey = {};
-gT_.e.invertedLocaleAllKeys = {};
+gT.e.locale = {};
+gT.e.invertedLocaleFirstKey = {};
+gT.e.invertedLocaleAllKeys = {};
 
 export let debugLocale = false;
 
@@ -21,9 +21,9 @@ export function setLocaleObject(objExpression, enableLog?: EnableLog) {
   return gIn.wrap('setLocaleObject ... ', enableLog, () => {
     const scriptStr = `return tiaEJ.setLocale(${objExpression});`;
     return gT.s.browser.executeScriptWrapper(scriptStr).then(res => {
-      gT_.e.locale = res.locale;
-      gT_.e.invertedLocaleFirstKey = res.invertedLocaleFirstKey;
-      gT_.e.invertedLocaleAllKeys = res.invertedLocaleAllKeys;
+      gT.e.locale = res.locale;
+      gT.e.invertedLocaleFirstKey = res.invertedLocaleFirstKey;
+      gT.e.invertedLocaleAllKeys = res.invertedLocaleAllKeys;
     });
   });
 }
@@ -31,16 +31,16 @@ export function setLocaleObject(objExpression, enableLog?: EnableLog) {
 // TODO:
 // export setImagesMap
 
-gT_.e.extraLocale = {};
-gT_.e.invertedExtraLocaleFirstKey = {};
-gT_.e.invertedExtraLocaleAllKeys = {};
+gT.e.extraLocale = {};
+gT.e.invertedExtraLocaleFirstKey = {};
+gT.e.invertedExtraLocaleAllKeys = {};
 
 function setExtraLocale(extraLocale) {
-  gT_.e.extraLocale = extraLocale;
+  gT.e.extraLocale = extraLocale;
   const invertedExtraObject = gT.commonMiscUtils.invertMapObj(extraLocale);
 
-  gT_.e.invertedExtraLocaleFirstKey = invertedExtraObject.invertedMapFirstKey;
-  gT_.e.invertedExtraLocaleAllKeys = invertedExtraObject.invertedMapAllKeys;
+  gT.e.invertedExtraLocaleFirstKey = invertedExtraObject.invertedMapFirstKey;
+  gT.e.invertedExtraLocaleAllKeys = invertedExtraObject.invertedMapAllKeys;
 }
 
 export function setExtraLocaleObject(localeObj, enableLog?: EnableLog) {

@@ -11,7 +11,7 @@ import { inspect } from 'util';
  *
  * @type {{}}
  */
-gT_.e = {};
+gT.e = {};
 
 // Find.
 // Wait.
@@ -55,7 +55,7 @@ const brHelpers = [
  *
  * @returns {Promise}.
  */
-gT_.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(enableLog) {
+gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(enableLog) {
   return gIn.wrap(
     'Initialization of TIA ExtJs helpers ... ',
     enableLog,
@@ -74,21 +74,21 @@ gT_.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(enableLog) {
   );
 };
 
-gT_.e.utils = require('./extjs-utils');
-gT_.e.api = require('./extjs-api-actions');
-gT_.e.explore = require('./extjs-exploration');
-gT_.e.search = require('./extjs-search');
-gT_.e.logCtById = require('./extjs-log-by-id');
-gT_.e.logCtByFormIdName = require('./extjs-log-by-formIdName');
-gT_.e.logUtils = require('./extjs-log-utils');
-gT_.e.getByFormIdName = require('./extjs-get-by-formIdName');
-gT_.e.msgBox = require('./extjs-msgbox');
+gT.e.utils = require('./extjs-utils');
+gT.e.api = require('./extjs-api-actions');
+gT.e.explore = require('./extjs-exploration');
+gT.e.search = require('./extjs-search');
+gT.e.logCtById = require('./extjs-log-by-id');
+gT.e.logCtByFormIdName = require('./extjs-log-by-formIdName');
+gT.e.logUtils = require('./extjs-log-utils');
+gT.e.getByFormIdName = require('./extjs-get-by-formIdName');
+gT.e.msgBox = require('./extjs-msgbox');
 
-gT_.e.hL = require('./extjs-hl');
+gT.e.hL = require('./extjs-hl');
 
-gT_.e.lClick = require('./extjs-l-clicks');
-gT_.e.lClick.cb = require('./extjs-l-clicks-cb');
+gT.e.lClick = require('./extjs-l-clicks');
+gT.e.lClick.cb = require('./extjs-l-clicks-cb');
 
-gT_.e.wait = require('./extjs-waits');
+gT.e.wait = require('./extjs-waits');
 
 require('./new-api/ext-js');

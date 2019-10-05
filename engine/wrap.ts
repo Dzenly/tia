@@ -22,7 +22,7 @@ function startTimer() {
  * @returns {*} - time dif in milliseconds
  * @private
  */
-function stopTimer(startTime) {
+function stopTimer(startTime: [number, number]) {
   if (gT.config.enableTimings) {
     const dif = process.hrtime(startTime);
     return ` (${dif[0] * 1000 + dif[1] / 1e6} ms)`;
@@ -45,7 +45,11 @@ async function pause() {
  * @param startTime
  * @param noConsoleAndExceptions
  */
-async function pauseAndLogOk(enableLog, startTime, noConsoleAndExceptions) {
+async function pauseAndLogOk(
+  enableLog: boolean,
+  startTime: [number, number],
+  noConsoleAndExceptions: boolean
+) {
   const timeDiff = stopTimer(startTime);
   await pause();
   await gIn.logger.logIfNotDisabled(`OK${timeDiff}\n`, enableLog);
@@ -64,7 +68,7 @@ async function pauseAndLogOk(enableLog, startTime, noConsoleAndExceptions) {
   await gT.s.driver.printSelDriverLogs(900);
 }
 
-function handleErrAtErrorHandling(msg) {
+function handleErrAtErrorHandling(msg: string) {
   gIn.logger.errorln(`${msg} at error handling. The test will be canceled.`);
   gIn.cancelThisTest = true;
   if (gIn.errRecursionCount > gT.engineConsts.maxRecursiveErrCountForTest) {
@@ -99,7 +103,7 @@ function quitDriver() {
           // await will generate exception with this object.
           throw new Error('A.W.: Force throw error (sel. driver was existed)');
         })
-        .catch((err) => {
+        .catch(err => {
           gIn.logger.errorln(`A.W.: catch for driver quit or deletion: ${err}`);
           return handleErrAtErrorHandling('Error at quit');
         });
@@ -175,12 +179,20 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
  * @throws - Various errors.
  */
 // eslint-disable-next-line max-params
-export default async function wrap(msg, enableLog, act, noConsoleAndExceptions) {
+export default async function wrap(
+  msg: any,
+  enableLog: boolean,
+  act: any,
+  noConsoleAndExceptions?: boolean
+) {
   if (typeof msg === 'object') {
     // esling-disable-next-line no-param-reassign
     ({
       // eslint-disable-next-line no-param-reassign
-      msg, enableLog, act, noConsoleAndExceptions,
+      msg,
+      enableLog,
+      act,
+      noConsoleAndExceptions,
     } = msg);
   }
 
@@ -258,8 +270,10 @@ export default async function wrap(msg, enableLog, act, noConsoleAndExceptions) 
 
     await quitDriver();
 
-    throw new Error(`Error in action. Sel. driver existed: ${Boolean(driverExisted)}`
-    + `, Error recursion count at error handling: ${gIn.errRecursionCount}`);
+    throw new Error(
+      `Error in action. Sel. driver existed: ${Boolean(driverExisted)}` +
+        `, Error recursion count at error handling: ${gIn.errRecursionCount}`
+    );
   }
 
   gIn.tracer.msg3(`A.W.: after action execute, msg: ${msg}`);
@@ -267,4 +281,4 @@ export default async function wrap(msg, enableLog, act, noConsoleAndExceptions) 
   gIn.tracer.msg3(`A.W.: after action execute, act: ${act}`);
   await pauseAndLogOk(enableLog, startTime, noConsoleAndExceptions);
   return result;
-};
+}

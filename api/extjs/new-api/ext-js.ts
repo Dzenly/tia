@@ -3,11 +3,11 @@
 import * as query from './tia-extjs-query';
 import * as components from './components/extjs-components';
 
-gT_.eC = components;
+gT.eC = components;
 
-gT_.e.query = query;
-gT_.e.q = query;
+gT.e.query = query;
+gT.e.q = query;
 
-// gT_.e.query.search = require('./new-api/selenium-search');
-// gT_.e.query.actions = require('./new-api/selenium-actions');
+// gT.e.query.search = require('./new-api/selenium-search');
+// gT.e.query.actions = require('./new-api/selenium-actions');
 

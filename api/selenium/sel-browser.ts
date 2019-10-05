@@ -287,8 +287,8 @@ export function getScreenResolution(enableLog) {
   return gIn.wrap('Get screen resolution ... ', enableLog, () =>
     executeScriptWrapper('return tia.getScreenResolution()').then(res => {
       // Save resolution to emulate maximize.
-      gT_.s.browser.screenWidth = res.width;
-      gT_.s.browser.screenHeight = res.height;
+      gT.s.browser.screenWidth = res.width;
+      gT.s.browser.screenHeight = res.height;
       return res;
     })
   );

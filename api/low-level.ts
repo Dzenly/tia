@@ -48,15 +48,15 @@ export function getFailed() {
  * @param {boolean} enable - new value for pass counting.
  * @returns {boolean} - old pass counting value.
  */
-export function setLlPassCounting(enable) {
+export function setLlPassCounting(enable: boolean) {
   const old = gIn.tInfo.isPassCountingEnabled;
-  gIn.tInfo.isPassCountingEnabled = enable;
+  gIn.tInfo.setPassCountingEnabled(enable);
   return old;
 };
 
-export function setLlPassPrinting(enable) {
+export function setLlPassPrinting(enable: boolean) {
   const old = gIn.tInfo.isPassPrintingEnabled;
-  gIn.tInfo.isPassPrintingEnabled = enable;
+  gIn.tInfo.setPassPrintingEnabled(enable);
   return old;
 };
 

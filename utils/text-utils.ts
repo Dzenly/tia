@@ -1,23 +1,23 @@
 'use strict';
 
 import * as util from 'util';
-import { dirSep } from 'path';
+import { sep } from 'path';
 
-export function removeSelSid(str) {
+export function removeSelSid(str: string) {
   const re = /\?_dc=\d+/g;
   return str.replace(re, '');
 }
 
-export function filterStack(strStack) {
+export function filterStack(strStack: string) {
   const stArr = strStack.split('\n');
   const newArr = stArr.filter(el => {
     const startingFrom = el.indexOf('/tia/');
-    return el.indexOf(`${dirSep}node_modules${dirSep}`, startingFrom) === -1;
+    return !el.includes(`${sep}node_modules${sep}`, startingFrom);
   });
   return newArr.join('\n');
 }
 
-export function excToStr(err, noStack) {
+export function excToStr(err: Error, noStack: boolean) {
   if (typeof err === 'undefined') {
     return '\nNo Exception info\n';
   }
@@ -32,19 +32,19 @@ export function excToStr(err, noStack) {
   return errStr;
 }
 
-export function winToUnixSep(path) {
+export function winToUnixSep(path: string) {
   return path.replace(/\\\\/g, '/');
 }
 
-export function changeExt(jsPath, newExt) {
+export function changeExt(jsPath: string, newExt: string) {
   return jsPath.substr(0, jsPath.length - 3) + newExt;
 }
 
-export function jsToEt(jsPath) {
+export function jsToEt(jsPath: string) {
   return changeExt(jsPath, '.et');
 }
 
-export function jsToTs(jsPath) {
+export function jsToTs(jsPath: string) {
   return changeExt(jsPath, '.ts');
 }
 
@@ -53,23 +53,23 @@ export function jsToTs(jsPath) {
  * Just replaces two last symbols by 'log' at the end of string.
  * @param jsPath - path to js file.
  */
-export function jsToLog(jsPath) {
+export function jsToLog(jsPath: string) {
   return changeExt(jsPath, '.log');
 }
 
-export function jsToDif(jsPath) {
+export function jsToDif(jsPath: string) {
   return changeExt(jsPath, '.dif');
 }
 
-export function expandHost(str) {
+export function expandHost(str: string) {
   return str.replace('$(host)', gT.config.selHost);
 }
 
-export function collapseHost(str) {
+export function collapseHost(str: string) {
   return str.replace(gT.config.selHost, '$(host)');
 }
 
-export function valToStr(value) {
+export function valToStr(value: any) {
   if (Buffer.isBuffer(value)) {
     return value.toString('utf8');
   }
@@ -81,7 +81,7 @@ export function valToStr(value) {
   return util.inspect(value, { compact: false, sorted: true, depth: Infinity });
 }
 
-export function v2s(value) {
+export function v2s(value: any) {
   if (Buffer.isBuffer(value)) {
     return value.toString('utf8');
   }

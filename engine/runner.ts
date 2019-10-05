@@ -7,35 +7,31 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 import * as nodeUtils from '../utils/nodejs-utils';
-import *  as fileUtils from '../utils/file-utils';
+import * as fileUtils from '../utils/file-utils';
 import * as suiteUtils from '../utils/suite-utils';
+import * as os from 'os';
 
 function getOs() {
-  const os = require('os');
   return `${os.platform()}_${os.release()}`;
 }
 
-function isIterator(result) {
+function isIterator(result: any) {
   if (!result) {
     return false;
   }
-  const funcs = [
-    'next',
-    'return',
-    'throw',
-  ];
+  const funcs = ['next', 'return', 'throw'];
 
   return funcs.every(func => typeof result[func] === 'function');
 }
 
-function exceptionHandler(e) {
-// TODO: why did I disable exceptions to console here?
+function exceptionHandler(e: Error) {
+  // TODO: why did I disable exceptions to console here?
   gIn.logger.exception('Exception in runner: ', e);
   gIn.logger.logResourcesUsage();
   gIn.tInfo.addFail();
 }
 
-async function runTestFile(file) {
+async function runTestFile(file: string) {
   gIn.tracer.msg2(`Starting new test: ${file}`);
 
   gIn.errRecursionCount = 0;
@@ -63,9 +59,9 @@ async function runTestFile(file) {
 }
 
 // return null - means skipped by --pattern or --new or due to etalon absence.
-async function handleTestFile(file, dirConfig) {
+async function handleTestFile(file: string, dirConfig) {
   // Restore the state which could be damaged by previous test and any other initialization.
-  gIn.tInfo.isPassCountingEnabled = gT.engineConsts.defIsPassCountingEnabled;
+  gIn.tInfo.setPassCountingEnabled(gT.engineConsts.defIsPassCountingEnabled);
   gIn.loggerCfg.setDefLLLogAction(gT.engineConsts.defLLLogAction);
 
   gT.config = _.cloneDeep(dirConfig); // Config for current test, can be changed by test.
@@ -73,7 +69,10 @@ async function handleTestFile(file, dirConfig) {
   // because test can be terminated with exception.
 
   // console.log('File: ' + file);
-  if (gT.cLParams.pattern && file.lastIndexOf(gT.cLParams.pattern) < gT.cLParams.minPathSearchIndex) {
+  if (
+    gT.cLParams.pattern &&
+    file.lastIndexOf(gT.cLParams.pattern) < gT.cLParams.minPathSearchIndex
+  ) {
     return null;
   }
 
@@ -120,10 +119,9 @@ async function handleTestFile(file, dirConfig) {
   const startTime = gT.timeUtils.startTimer();
 
   // gIn.tInfo.data
-  await runTestFile(file)
-    .catch((e) => {
-      const asdf = 5;
-    }); // Can be sync.
+  await runTestFile(file).catch(e => {
+    const asdf = 5;
+  }); // Can be sync.
 
   gIn.logger.testSummary();
 
@@ -199,14 +197,18 @@ function handleDirConfig(dir, files, parentDirConfig) {
 async function handleTestDir(dir, parentDirConfig) {
   gIn.tracer.msg3(`handleDir Dir: ${dir}`);
 
-  let filesOrDirs = fs.readdirSync(dir).filter((fileName) => {
-    for (const pattern of gT.engineConsts.patternsToIgnore) { // eslint-disable-line no-restricted-syntax
-      if (pattern.test(fileName)) {
-        return false;
+  let filesOrDirs = fs
+    .readdirSync(dir)
+    .filter(fileName => {
+      for (const pattern of gT.engineConsts.patternsToIgnore) {
+        // eslint-disable-line no-restricted-syntax
+        if (pattern.test(fileName)) {
+          return false;
+        }
       }
-    }
-    return true;
-  }).sort();
+      return true;
+    })
+    .sort();
 
   const dirConfig = handleDirConfig(dir, filesOrDirs, parentDirConfig);
 
@@ -217,7 +219,8 @@ async function handleTestDir(dir, parentDirConfig) {
   const dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
   const startTime = gT.timeUtils.startTimer();
 
-  for (const fileOrDir of filesOrDirs) { // eslint-disable-line no-restricted-syntax
+  for (const fileOrDir of filesOrDirs) {
+    // eslint-disable-line no-restricted-syntax
     const fileOrDirPath = path.join(dir, fileOrDir);
     let stat;
     try {
@@ -229,7 +232,9 @@ async function handleTestDir(dir, parentDirConfig) {
     if (stat.isFile() && fileOrDirPath.endsWith(gT.engineConsts.tiaJsSuffix)) {
       const tsFile = gIn.textUtils.jsToTs(fileOrDirPath);
       if (fs.existsSync(tsFile)) {
-        throw new Error(`You must use either TS or JS file for test, but not both: ${fileOrDirPath}`);
+        throw new Error(
+          `You must use either TS or JS file for test, but not both: ${fileOrDirPath}`
+        );
       }
       innerCurInfo = await handleTestFile(fileOrDirPath, dirConfig);
     } else if (stat.isFile() && fileOrDirPath.endsWith(gT.engineConsts.tiaTsSuffix)) {
@@ -339,11 +344,9 @@ async function runTestSuite(suiteData) {
   });
   const suiteEqualToEtalon = !suiteLogEtDifResStr;
   if (!suiteEqualToEtalon) {
-    fs.writeFileSync(
-      etDifHtmlFName,
-      suiteLogEtDifResStr,
-      { encoding: gT.engineConsts.logEncoding }
-    );
+    fs.writeFileSync(etDifHtmlFName, suiteLogEtDifResStr, {
+      encoding: gT.engineConsts.logEncoding,
+    });
 
     etDifTxt = gIn.diffUtils.getDiff({
       dir: '.',
@@ -351,20 +354,19 @@ async function runTestSuite(suiteData) {
       newFile: gIn.suite.etLog,
       highlight: 'ansi',
     });
-    fs.writeFileSync(
-      etDifTxtFName,
-      etDifTxt,
-      { encoding: gT.engineConsts.logEncoding }
-    );
+    fs.writeFileSync(etDifTxtFName, etDifTxt, { encoding: gT.engineConsts.logEncoding });
   }
   gIn.tracer.msg3(`equalToEtalon: ${suiteEqualToEtalon}`);
   const etSLogInfoEmail = suiteEqualToEtalon ? 'ET_SLOG, ' : 'DIF_SLOG, ';
-  const etSLogInfoConsole = suiteEqualToEtalon ? `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, `
+  const etSLogInfoConsole = suiteEqualToEtalon
+    ? `${gIn.cLogger.chalkWrap('green', 'ET_SLOG')}, `
     : `${gIn.cLogger.chalkWrap('red', 'DIF_SLOG')}, `;
 
   const subjTimeMark = dirInfo.time > gT.cLParams.tooLongTime ? ', TOO_LONG' : '';
 
-  const changedEDiffsStr = gIn.suite.changedEDiffs ? `(${gIn.suite.changedEDiffs} dif(s) changed)` : '';
+  const changedEDiffsStr = gIn.suite.changedEDiffs
+    ? `(${gIn.suite.changedEDiffs} dif(s) changed)`
+    : '';
 
   let emailSubj;
   if (noPrevSLog) {
@@ -374,7 +376,10 @@ async function runTestSuite(suiteData) {
   } else {
     emailSubj = `AS PREV${changedEDiffsStr}`;
   }
-  emailSubj = `${emailSubj}${subjTimeMark},${gIn.logger.saveSuiteLog({ dirInfo, log: suiteLog })}, ${getOs()}`;
+  emailSubj = `${emailSubj}${subjTimeMark},${gIn.logger.saveSuiteLog({
+    dirInfo,
+    log: suiteLog,
+  })}, ${getOs()}`;
 
   const emailSubjConsole = etSLogInfoConsole + emailSubj;
   emailSubj = etSLogInfoEmail + emailSubj;
@@ -460,31 +465,30 @@ async function prepareAndRunTestSuite(root) {
 
   gT.configUtils.handleSuiteConfig();
 
-  const suiteResult = await runTestSuite(suite)
-    .catch((err) => {
-      gIn.tracer.err(`Runner ERR: ${gIn.textUtils.excToStr(err)}`);
-      return {
-        err,
-      };
-    });
+  const suiteResult = await runTestSuite(suite).catch(err => {
+    gIn.tracer.err(`Runner ERR: ${gIn.textUtils.excToStr(err)}`);
+    return {
+      err,
+    };
+  });
 
   suiteResult.path = path.relative(gT.cLParams.rootDir, root);
 
   return suiteResult;
 }
 
-
 function getTestSuitePaths() {
-  const suitePaths = [];
+  const suitePaths: string[] = [];
 
   function walkSubDirs(parentDir) {
-    const dirs = fs.readdirSync(parentDir).filter((childDir) => {
+    const dirs = fs.readdirSync(parentDir).filter(childDir => {
       const fullPath = path.join(parentDir, childDir);
       if (!fileUtils.isDirectory(fullPath)) {
         return false;
       }
 
-      for (const pattern of gT.engineConsts.patternsToIgnore) { // eslint-disable-line no-restricted-syntax
+      for (const pattern of gT.engineConsts.patternsToIgnore) {
+        // eslint-disable-line no-restricted-syntax
         if (pattern.test(childDir)) {
           return false;
         }
@@ -504,7 +508,7 @@ function getTestSuitePaths() {
       return childDir !== gT.engineConsts.suiteResDirName;
     });
 
-    dirs.forEach((subDir) => {
+    dirs.forEach(subDir => {
       const fullPath = path.join(parentDir, subDir);
       walkSubDirs(fullPath);
     });
@@ -550,7 +554,8 @@ export async function runTestSuites() {
 
   const results = [];
 
-  for (const suitePath of suitePaths) { // eslint-disable-line no-restricted-syntax
+  for (const suitePath of suitePaths) {
+    // eslint-disable-line no-restricted-syntax
     results.push(await prepareAndRunTestSuite(suitePath));
   }
 
@@ -600,7 +605,7 @@ export async function runTestSuites() {
   fs.appendFileSync(gT.rootLog, `${resumeFileStr}\n`);
   gIn.cLogger.msgln(resumeConsoleStr);
 
-  results.forEach((result) => {
+  results.forEach(result => {
     if (result.err) {
       fs.appendFileSync(gT.rootLog, `${result.err}\n`);
       gIn.cLogger.errln(result.err);
@@ -614,4 +619,4 @@ export async function runTestSuites() {
   const tail = '<<<< ===================== >>>>';
   fs.appendFileSync(gT.rootLog, `${tail} \n`);
   gIn.cLogger.msgln(tail);
-};
+}

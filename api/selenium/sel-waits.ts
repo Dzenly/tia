@@ -9,21 +9,18 @@
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-export function waitForElementById(id, timeout, enableLog) {
-
+export function waitForElementById(id: any, timeout: number, enableLog: boolean) {
   // eslint-disable-next-line no-param-reassign
   id = gT.s.idToIdObj(id);
-  return gIn.wrap(
-    `Waiting for element by id ${id.logStr} ... `,
-    enableLog,
-    () => gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.id(id.id)), timeout)
+  return gIn.wrap(`Waiting for element by id ${id.logStr} ... `, enableLog, () =>
+    gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.id(id.id)), timeout)
   );
-};
+}
 
 export function waitForElementEnabledAndVisibleById(
-  id,
-  timeout,
-  enableLog
+  id: string,
+  timeout: number,
+  enableLog: boolean
 ) {
   // eslint-disable-next-line no-param-reassign
   id = gT.s.idToIdObj(id);
@@ -31,12 +28,15 @@ export function waitForElementEnabledAndVisibleById(
     `Waiting for element enabled and visible by id ${id.logStr} ... `,
     enableLog,
     async () => {
-      const el = await gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.id(id.id)), timeout);
+      const el = await gT.sOrig.driver.wait(
+        gT.sOrig.until.elementLocated(gT.sOrig.by.id(id.id)),
+        timeout
+      );
       await gT.sOrig.driver.wait(gT.sOrig.until.elementIsVisible(el, timeout));
       await gT.sOrig.driver.wait(gT.sOrig.until.elementIsEnabled(el, timeout));
     }
   );
-};
+}
 
 /**
  * Waits for element with specified CSS class.
@@ -47,13 +47,11 @@ export function waitForElementEnabledAndVisibleById(
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-export function waitForElementByClassName(className, timeout, enableLog) {
-  return gIn.wrap(
-    `Waiting for element by class name : "${className}" ... `,
-    enableLog,
-    () => gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.className(className)), timeout)
+export function waitForElementByClassName(className, timeout: number, enableLog: boolean) {
+  return gIn.wrap(`Waiting for element by class name : "${className}" ... `, enableLog, () =>
+    gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.className(className)), timeout)
   );
-};
+}
 
 /**
  * Waits for element with specified CSS selector.
@@ -64,13 +62,11 @@ export function waitForElementByClassName(className, timeout, enableLog) {
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-export function waitForElementByCssSelector(selector, timeout, enableLog) {
-  return gIn.wrap(
-    `Waiting for element by css selector : "${selector}" ... `,
-    enableLog,
-    () => gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.css(selector)), timeout)
+export function waitForElementByCssSelector(selector, timeout: number, enableLog: boolean) {
+  return gIn.wrap(`Waiting for element by css selector : "${selector}" ... `, enableLog, () =>
+    gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.css(selector)), timeout)
   );
-};
+}
 
 /**
  * Waits for specified page title.
@@ -81,13 +77,11 @@ export function waitForElementByCssSelector(selector, timeout, enableLog) {
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-export function waitForTitle(title, timeout, enableLog) {
-  return gIn.wrap(
-    `Waiting for windows title: "${title}" ... `,
-    enableLog,
-    () => gT.sOrig.driver.wait(gT.sOrig.until.titleIs(title), timeout)
+export function waitForTitle(title, timeout: number, enableLog: boolean) {
+  return gIn.wrap(`Waiting for windows title: "${title}" ... `, enableLog, () =>
+    gT.sOrig.driver.wait(gT.sOrig.until.titleIs(title), timeout)
   );
-};
+}
 
 /**
  * Waits for specified URL.
@@ -97,17 +91,15 @@ export function waitForTitle(title, timeout, enableLog) {
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-export function waitForUrl(url, timeout, enableLog) {
-  return gIn.wrap(
-    `Waiting for URL: "${url}" ... `,
-    enableLog,
-    () => gT.sOrig.driver.wait(
-      () => gT.sOrig.driver.getCurrentUrl()
-        .then(actUrl => url === gIn.textUtils.collapseHost(actUrl)),
+export function waitForUrl(url, timeout: number, enableLog: boolean) {
+  return gIn.wrap(`Waiting for URL: "${url}" ... `, enableLog, () =>
+    gT.sOrig.driver.wait(
+      () =>
+        gT.sOrig.driver.getCurrentUrl().then(actUrl => url === gIn.textUtils.collapseHost(actUrl)),
       timeout
     )
   );
-};
+}
 
 /**
  * Waits for some URL which starts with specified urlPrefix.
@@ -118,14 +110,14 @@ export function waitForUrl(url, timeout, enableLog) {
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-export function waitForUrlPrefix(urlPrefix, timeout, enableLog) {
-  return gIn.wrap(
-    `Waiting for URL prefix: "${urlPrefix}" ... `,
-    enableLog,
-    () => gT.sOrig.driver.wait(
-      () => gT.sOrig.driver.getCurrentUrl()
-        .then(actUrl => gIn.textUtils.collapseHost(actUrl).indexOf(urlPrefix) === 0),
+export function waitForUrlPrefix(urlPrefix, timeout: number, enableLog: boolean) {
+  return gIn.wrap(`Waiting for URL prefix: "${urlPrefix}" ... `, enableLog, () =>
+    gT.sOrig.driver.wait(
+      () =>
+        gT.sOrig.driver
+          .getCurrentUrl()
+          .then(actUrl => gIn.textUtils.collapseHost(actUrl).startsWith(urlPrefix)),
       timeout
     )
   );
-};
+}

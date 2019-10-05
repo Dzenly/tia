@@ -1,17 +1,68 @@
 'use strict';
 
-/* globals gIn */
-
 import * as mPath from 'path';
 import * as fileUtils from '../utils/file-utils';
 
-export const isPassCountingEnabled = true;
-export const isPassPrintingEnabled = true;
+let isPassCountingEnabled = true;
+let isPassPrintingEnabled = true;
 
-export let data = null;
+export function getPassCountingEnabled() {
+  return isPassCountingEnabled;
+}
+
+export function setPassCountingEnabled(enable: boolean) {
+  isPassCountingEnabled = enable;
+}
+
+export function getPassPrintingEnabled() {
+  return isPassPrintingEnabled;
+}
+
+export function setPassPrintingEnabled(enable: boolean) {
+  isPassPrintingEnabled = enable;
+}
+
+export class TestInfo {
+  path: string;
+  title: string;
+
+  run = 0;
+  passed = 0;
+  failed = 0;
+  diffed = 0; // For dir this can be > 1, for file it can be 0 or 1.
+  expDiffed = 0; // expectedly diffed (e.g. for purpose of testing).
+  skipped = 0;
+  screenShotCounter = 0;
+  children: null | TestInfo[] = null;
+  time = 0; // Execution time in milliseconds.
+  // TODO: To investigate the need for throws count.
+
+  constructor(isDir: boolean, title: string, path: string) {
+    this.title = title;
+    this.path = path;
+    if (isDir) {
+      this.children = [];
+    }
+  }
+}
+
+// Singleton.
+let data: TestInfo | null = null;
+
+export function getData() {
+  return data;
+}
+
+export function setData(newData: TestInfo) {
+  data = newData;
+}
+
+export function setTitle(title: string) {
+  data!.title = title;
+}
 
 // TODO: Unclear logic.
-function formLogPart(str, count) {
+function formLogPart(str: string, count: number) {
   let strNew = str;
   if (!count) {
     strNew = strNew.toLowerCase();
@@ -40,7 +91,7 @@ export function testInfoToString(parameters) {
     diffed = formLogPart('Dif', curInfo.diffed);
     ediffed = formLogPart('EDif', curInfo.expDiffed);
     skipped = formLogPart('Skip', curInfo.skipped);
-    if (curInfo.isSuiteRoot && gT.cLParams.slogSubj.includes('run')) {
+    if (curInfo.isSuiteRoot && gT.cLParams.slogSubj!.includes('run')) {
       run = formLogPart('Run', curInfo.run);
     }
   } else {
@@ -65,7 +116,7 @@ export function testInfoToString(parameters) {
 
   const title = noTitle ? '' : `"${curInfo.title}"`;
   const passed =
-    (curInfo.isSuiteRoot && gT.cLParams.slogSubj.includes('pass')) || !isDir
+    (curInfo.isSuiteRoot && gT.cLParams.slogSubj!.includes('pass')) || !isDir
       ? formLogPart('Pass', curInfo.passed)
       : null;
   const failed = formLogPart('Fail', curInfo.failed);
@@ -88,41 +139,24 @@ export function testInfoToString(parameters) {
  *
  * @param isDir - true - directory, false - file.
  */
-export function createTestInfo(isDir, title, path) {
-  const info = {
-    path: gIn.textUtils.winToUnixSep(path), // For uniform logging.
-    title,
-    run: 0,
-    passed: 0,
-    failed: 0,
-    diffed: 0, // For dir this can be > 1, for file it can be 0 or 1.
-    expDiffed: 0, // expectedly diffed (e.g. for purpose of testing).
-    time: 0, // Execution time in milliseconds.
-    skipped: 0,
-    screenShotCounter: 0,
-
-    // TODO: To investigate the need for throws count.
-  };
-  if (isDir) {
-    info.children = [];
-  }
-  return info;
+export function createTestInfo(isDir: boolean, title: string, path: string) {
+  return new TestInfo(isDir, title, path);
 }
 
 export function addFail() {
   if (gT.config.ignorePassAndFailCounters) {
     return;
   }
-  data.failed++; // From global sandbox.
+  data!.failed++; // From global sandbox.
 }
 
 export function addPassForce() {
-  data.passed++;
+  data!.passed++;
 }
 
 export function addPass() {
   if (!isPassCountingEnabled || gT.config.ignorePassAndFailCounters) {
     return;
   }
-  data.passed++; // From global sandbox.
+  data!.passed++; // From global sandbox.
 }

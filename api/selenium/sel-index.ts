@@ -2,28 +2,11 @@
 
 import * as path from 'path';
 
-const chromeDriverPath = require('chromedriver').path;
-
-process.env.PATH = chromeDriverPath + path.delimiter + process.env.PATH;
-gIn.chromeDriverPath = chromeDriverPath;
-
-gT_.sOrig.chrome = require('selenium-webdriver/chrome');
-gT_.sOrig.Executor = require('selenium-webdriver/http').Executor;
-gT_.sOrig.Client = require('selenium-webdriver/http').HttpClient;
-gT_.sOrig.firefox = require('selenium-webdriver/firefox');
-
-gT_.sOrig.by = gT.sOrig.wdModule.By;
-gT_.sOrig.until = gT.sOrig.wdModule.until;
-
-gT_.sOrig.input = require('selenium-webdriver/lib/input');
-
-gT_.sOrig.key = gT.sOrig.wdModule.Key;
-
 // gT.sOrig.driver is set by gT.sOrig.driver.init.
 
 // gIn.s = {};
-gT_.s.driver = require('./sel-driver');
+gT.s.driver = require('./sel-driver');
 require('./sel-misc');
-gT_.s.wait = require('./sel-waits');
-gT_.s.uA = require('./sel-user-actions');
-gT_.s.browser = require('./sel-browser');
+gT.s.wait = require('./sel-waits');
+gT.s.uA = require('./sel-user-actions');
+gT.s.browser = require('./sel-browser');

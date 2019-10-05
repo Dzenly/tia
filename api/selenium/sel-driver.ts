@@ -141,17 +141,17 @@ export async function init(cleanProfile, enableLog) {
 
       if (sid) {
         gIn.tracer.msg3('There is current SID');
-        gT_.firstRunWithRemoteDriver = false;
+        gT.firstRunWithRemoteDriver = false;
 
         const client = new gT.sOrig.Client(remoteDriverConnectionStr);
         const executor = new gT.sOrig.Executor(client);
         executor.w3c = true;
 
-        gT_.sOrig.driver = new gT.sOrig.wdModule.WebDriver(sid, executor);
+        gT.sOrig.driver = new gT.sOrig.wdModule.WebDriver(sid, executor);
       } else {
         gIn.tracer.msg3('There is not current SID');
-        gT_.firstRunWithRemoteDriver = true;
-        gT_.sOrig.driver = new gT.sOrig.wdModule.Builder()
+        gT.firstRunWithRemoteDriver = true;
+        gT.sOrig.driver = new gT.sOrig.wdModule.Builder()
           .forBrowser(gT.cLParams.browser)
           .setChromeOptions(options)
           .setFirefoxOptions(options)
@@ -162,7 +162,7 @@ export async function init(cleanProfile, enableLog) {
           .usingServer(remoteDriverConnectionStr)
           .build();
 
-        gT_.sOrig.driver
+        gT.sOrig.driver
           .getSession()
           .then((res) => {
             const sid = gIn.remoteDriverUtils.saveSid(res.getId());
@@ -194,7 +194,7 @@ export async function init(cleanProfile, enableLog) {
       // ==============================
     } else {
       // Temporary driver
-      gT_.sOrig.driver = new gT.sOrig.wdModule.Builder()
+      gT.sOrig.driver = new gT.sOrig.wdModule.Builder()
         .forBrowser(gT.cLParams.browser)
         .setChromeOptions(options)
         .setFirefoxOptions(options)
@@ -202,7 +202,7 @@ export async function init(cleanProfile, enableLog) {
         .build();
     }
 
-    gT_.sOrig.logs = gT.sOrig.driver.manage().logs();
+    gT.sOrig.logs = gT.sOrig.driver.manage().logs();
 
     if (gT.cLParams.useRemoteDriver) {
       return;

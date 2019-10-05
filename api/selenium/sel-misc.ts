@@ -1,6 +1,6 @@
 'use strict';
 
-gT_.s.idToIdObj = function idToIdObj(id) {
+gT.s.idToIdObj = function idToIdObj(id: any) {
   let res;
   if (typeof id === 'object') {
     if (id.logStr) {
@@ -30,32 +30,32 @@ gT_.s.idToIdObj = function idToIdObj(id) {
 // Dummy functions for tests for test engine.
 // Msg - is just message to identify the place in test.
 
-// gT_.s.dummyPromiseFulfilled = function (msg) {
+// gT.s.dummyPromiseFulfilled = function (msg) {
 //   return gIn.wrap('Dummy promise fulfilled: "' + msg, enableLog, function () {
 //     return Promise.resolve('Fulfilled');
 //   });
 // };
 //
-// gT_.s.dummyPromiseRejected = function (msg) {
+// gT.s.dummyPromiseRejected = function (msg) {
 //   return gIn.wrap('Dummy promise rejected: "' + msg, enableLog, function () {
 //     return Promise.reject('Rejected');
 //   });
 // };
 //
-// gT_.s.dummyPromiseThrowed = function (msg) {
+// gT.s.dummyPromiseThrowed = function (msg) {
 //   return gIn.wrap('Dummy promise rejected: "' + msg, enableLog, function () {
 //     return Promise.reject('Rejected');
 //   });
 // };
 
-// gT_.s.dummyThrowErr = function (msg) {
+// gT.s.dummyThrowErr = function (msg) {
 //
 // };
 //
-// gT_.s.dummyThrowStr = function (msg) {
+// gT.s.dummyThrowStr = function (msg) {
 //
 // };
 //
-// gT_.s.dummySyntaxError = function (msg) {
+// gT.s.dummySyntaxError = function (msg) {
 //
 // };

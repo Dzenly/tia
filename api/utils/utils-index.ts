@@ -1,17 +1,13 @@
 /**
- * Utils test description.
+ * **gT.u**
  */
 import * as sharedData from './utils-shared-data';
 import * as misc from './utils-misc';
 import * as promise from './promise-utils';
 
-/**
- * Utils test description 2.
- */
-export class UtilsIndex {
+export default class UtilsAPI {
   static sharedData = sharedData;
   static misc = misc;
   static promise = promise;
 };
 
-// export default utils;

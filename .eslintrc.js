@@ -317,6 +317,7 @@ module.exports = {
         '@typescript-eslint/no-empty-interface': 0,
         'sort-keys': 0,
         'prettier/prettier': ['error'],
+        '@typescript-eslint/no-non-null-assertion': 0,
       },
       globals: {
         gT: true,
