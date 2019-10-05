@@ -7,7 +7,7 @@ import * as util from 'util';
 // TODO: support different range options.
 // TODO: function for convertation object to its text representation (smth, like JSON).
 
-// export function comboBox (id, enableLog) {
+// export function comboBox (id, enableLog?: boolean) {
 //   return gIn.wrap('Logging content of combobox ... ', enableLog, function () {
 //     return gT.s.browser.executeScriptWrapper(
 //       `return tiaEJ.ctById.getCB('${id}');`
@@ -18,7 +18,7 @@ import * as util from 'util';
 //   });
 // };
 
-export function field(id, name, includingStores, enableLog) {
+export function field(id, name, includingStores, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Logging content of form ${id.logStr} field (name: ${name}) ... `,
@@ -35,7 +35,7 @@ export function field(id, name, includingStores, enableLog) {
   );
 }
 
-export function fields(id, names, includingStores, enableLog) {
+export function fields(id, names, includingStores, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Logging choosen fields of form ${id.logStr} fields ... `, enableLog, () => {
     const namesJson = JSON.stringify(names);
@@ -50,7 +50,7 @@ export function fields(id, names, includingStores, enableLog) {
   });
 }
 
-export function fieldEnabledDisabledInfo(id, name, enableLog) {
+export function fieldEnabledDisabledInfo(id, name, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Enabled/Disabled info of form ${id.logStr} field: name: ${name}`,
@@ -67,7 +67,7 @@ export function fieldEnabledDisabledInfo(id, name, enableLog) {
   );
 }
 
-export function fieldShortInfo(id, name, enableLog) {
+export function fieldShortInfo(id, name, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Info of form ${id.logStr} field: name: ${name}`, enableLog, () => {
     return gT.s.browser
@@ -78,7 +78,7 @@ export function fieldShortInfo(id, name, enableLog) {
   });
 }
 
-export function fieldError(id, name, enableLog) {
+export function fieldError(id, name, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Error of form ${id.logStr} field (name: ${name}):`, enableLog, () => {
     return gT.s.browser

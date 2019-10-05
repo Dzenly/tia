@@ -4,16 +4,16 @@
 /* globals gIn: true */
 
 import * as util from 'util';
-const fileUtils = require('../../utils/file-utils');
+import * as fileUtils from '../../utils/file-utils';
 
 // TODO: does not driver creates profile dir itself ?
 function createBrowserProfile() {
   fileUtils.mkdir(gT.config.browserProfilePath);
 }
 
-const cleanedProfilePaths = [];
+const cleanedProfilePaths: string[] = [];
 
-export async function init(cleanProfile, enableLog) {
+export async function init(cleanProfile: boolean, enableLog?: boolean) {
   // if (typeof enableLog === 'undefined' && !gT.config.browserProfileDir) {
   //   enableLog = false;
   // }
@@ -41,7 +41,10 @@ export async function init(cleanProfile, enableLog) {
   return gIn.wrap(`Initialization ${profileInfo} ... `, enableLog, async () => {
     if (cleanProfile) {
       gT.s.browser.cleanProfile(false);
-    } else if (gT.cLParams.clearProfiles && !cleanedProfilePaths.includes(gT.config.browserProfilePath)) {
+    } else if (
+      gT.cLParams.clearProfiles &&
+      !cleanedProfilePaths.includes(gT.config.browserProfilePath)
+    ) {
       gT.s.browser.cleanProfile(true);
       cleanedProfilePaths.push(gT.config.browserProfilePath);
     }
@@ -80,41 +83,42 @@ export async function init(cleanProfile, enableLog) {
         });
 
         break;
-      case 'firefox': {
-        options = new gT.sOrig.firefox.Options();
-        const binary = new gT.sOrig.firefox.Binary();
+      case 'firefox':
+        {
+          options = new gT.sOrig.firefox.Options();
+          const binary = new gT.sOrig.firefox.Binary();
 
-        // if (gT.config.browserProfileDir) {
-        // Profile name should be alphanumeric only.
-        // Checked on linux. It does set -profile option.
-        // binary.addArguments('-profile "' + gT.config.browserProfilePath + '"');
-        options.setProfile(gT.config.browserProfilePath); // Checked on linux. Does NOT set -profile option.
+          // if (gT.config.browserProfileDir) {
+          // Profile name should be alphanumeric only.
+          // Checked on linux. It does set -profile option.
+          // binary.addArguments('-profile "' + gT.config.browserProfilePath + '"');
+          options.setProfile(gT.config.browserProfilePath); // Checked on linux. Does NOT set -profile option.
 
-        // http://selenium.googlecode.com/git/docs/api/javascript/module_selenium-webdriver_firefox.html
-        // "The FirefoxDriver will never modify a pre-existing profile; instead it will create
-        // a copy for it to modify."
+          // http://selenium.googlecode.com/git/docs/api/javascript/module_selenium-webdriver_firefox.html
+          // "The FirefoxDriver will never modify a pre-existing profile; instead it will create
+          // a copy for it to modify."
 
-        // http://stackoverflow.com/questions/6787095/how-to-stop-selenium-from-creating-temporary-firefox-profiles-using-web-driver
-        // webdriver.firefox.profile (name of the profile).
+          // http://stackoverflow.com/questions/6787095/how-to-stop-selenium-from-creating-temporary-firefox-profiles-using-web-driver
+          // webdriver.firefox.profile (name of the profile).
 
-        // Also there is info that gT.sOrig.driver.quit() deletes tmp profile, butgT.sOrig.driver.close()
-        // - does not.
+          // Also there is info that gT.sOrig.driver.quit() deletes tmp profile, butgT.sOrig.driver.close()
+          // - does not.
 
-        // profile.setPreference ?
+          // profile.setPreference ?
 
-        // browser.sessionstore.resume_from_crash
+          // browser.sessionstore.resume_from_crash
 
-        // writeToDisk ?
-        // }
+          // writeToDisk ?
+          // }
 
-        if (gT.cLParams.headless) {
-          options.addArguments('-headless');
+          if (gT.cLParams.headless) {
+            options.addArguments('-headless');
+          }
+          options.setBinary(binary);
+
+          // gT.sOrig.wdModule.Capabilities.firefox();
+          // capabilities = new gT.sOrig.wdModule.Capabilities();
         }
-        options.setBinary(binary);
-
-        // gT.sOrig.wdModule.Capabilities.firefox();
-        // capabilities = new gT.sOrig.wdModule.Capabilities();
-      }
         break;
     }
 
@@ -135,9 +139,7 @@ export async function init(cleanProfile, enableLog) {
     if (gT.cLParams.useRemoteDriver) {
       const sid = gIn.remoteDriverUtils.getSid();
 
-      const remoteDriverConnectionStr = `${gT.globalConfig.remoteDriverUrl}:${
-        gT.globalConfig.remoteDriverPort
-      }`;
+      const remoteDriverConnectionStr = `${gT.globalConfig.remoteDriverUrl}:${gT.globalConfig.remoteDriverPort}`;
 
       if (sid) {
         gIn.tracer.msg3('There is current SID');
@@ -164,11 +166,11 @@ export async function init(cleanProfile, enableLog) {
 
         gT.sOrig.driver
           .getSession()
-          .then((res) => {
+          .then(res => {
             const sid = gIn.remoteDriverUtils.saveSid(res.getId());
             gIn.tracer.msg3(`Saved session id: ${sid}`);
           })
-          .catch((e) => {
+          .catch(e => {
             gIn.logger.exception('Error at getSession: ', e);
           });
       }
@@ -212,11 +214,11 @@ export async function init(cleanProfile, enableLog) {
     // https://bugs.chromium.org/p/chromedriver/issues/detail?id=817#c21
     return gT.u.promise.delayed(gT.engineConsts.defaultDelayAfterDriverCreate);
   });
-};
+}
 
-export function sleep(ms, enableLog) {
+export function sleep(ms, enableLog?: boolean) {
   return gIn.wrap(`Sleep ${ms} ms ... `, enableLog, () => gT.u.promise.delayed(ms, true));
-};
+}
 
 const stupidSleep = 400;
 
@@ -225,12 +227,12 @@ const stupidSleep = 400;
  * It is stupid sleep instead of smart waiting for something.
  */
 export function getStupidSleepFunc() {
-  return function () {
+  return function() {
     return sleep(stupidSleep, false);
   };
-};
+}
 
-export function quit(enableLog) {
+export function quit(enableLog?: boolean) {
   if (gT.cLParams.ejExplore) {
     gIn.tracer.msg3('quit: ejExplore, no quit');
     return Promise.resolve('ejExplore, no quit');
@@ -246,13 +248,14 @@ export function quit(enableLog) {
   return gIn.wrap(
     'Quiting ... ',
     enableLog,
-    () => gT.sOrig.driver.quit().then(() => {
-      gIn.tracer.msg3('Quit: Driver is deleted');
-      delete gT.sOrig.driver;
-    }),
+    () =>
+      gT.sOrig.driver.quit().then(() => {
+        gIn.tracer.msg3('Quit: Driver is deleted');
+        delete gT.sOrig.driver;
+      }),
     true
   );
-};
+}
 
 export function quitIfInited() {
   if (gT.cLParams.ejExplore) {
@@ -268,19 +271,17 @@ export function quitIfInited() {
   }
   gIn.tracer.msg3('quitIfInited: no driver, no quit');
   return Promise.resolve('No driver, no quit');
-};
+}
 
 export function printSelDriverLogs(minLevel) {
-  return gT.sOrig.logs.get(gT.sOrig.driverLogType).then((entries) => {
+  return gT.sOrig.logs.get(gT.sOrig.driverLogType).then(entries => {
     gIn.tracer.msg3('Start of printSelDriverLogs');
     for (const entry of entries) {
       if (entry.level.value >= minLevel) {
-        const logStr = `SEL.DR.LOG: ${entry.level.name} (${entry.level.value}), Message:\n ${
-          entry.message
-        }`;
+        const logStr = `SEL.DR.LOG: ${entry.level.name} (${entry.level.value}), Message:\n ${entry.message}`;
         gIn.logger.logln(logStr);
       }
     }
     gIn.tracer.msg3('End of printSelDriverLogs');
   });
-};
+}

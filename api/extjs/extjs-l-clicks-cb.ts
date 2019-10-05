@@ -2,7 +2,7 @@
 
 // TODO: Deprecated, remove.
 
-function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, enableLog) {
+function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, enableLog?: boolean) {
   return function clickCb(inputEl, noPrint) {
     return inputEl
       .sendKeys(gT.sOrig.key.ARROW_DOWN)
@@ -29,7 +29,7 @@ function createFuncClickCbByInputEl(jsWaitBoundList, jsGetListItem, isDblClick, 
   };
 }
 
-function createFuncClickCbByInputEl1(jsWaitBoundList, jsGetListItem, isDblClick, enableLog) {
+function createFuncClickCbByInputEl1(jsWaitBoundList, jsGetListItem, isDblClick, enableLog?: boolean) {
   return function clickCb1(inputEl, count, noPrint) {
     let cancel = false;
     count = count || 0;
@@ -113,7 +113,7 @@ function createFuncClickCbByJsToGetInputEl(
   };
 }
 
-function clickCb(logText, jsGetInputEl, jsWaitBoundList, jsGetListItem, isDblClick, enableLog) {
+function clickCb(logText, jsGetInputEl, jsWaitBoundList, jsGetListItem, isDblClick, enableLog?: boolean) {
   return gIn.wrap(logText, enableLog, () =>
     gT.s.browser
       .executeScript(jsGetInputEl, false)
@@ -121,7 +121,7 @@ function clickCb(logText, jsGetInputEl, jsWaitBoundList, jsGetListItem, isDblCli
   );
 }
 
-export function idIndex(cbId, itemIndex, enableLog) {
+export function idIndex(cbId, itemIndex, enableLog?: boolean) {
   return gIn.wrap('', enableLog, () =>
     gT.s.browser
       .executeScript(`return tiaEJ.hEById.getNameAndLabels('${cbId}');`, false)
@@ -143,7 +143,7 @@ export function idIndex(cbId, itemIndex, enableLog) {
   );
 }
 
-export function idField(cbId, fieldValue, fieldName, enableLog) {
+export function idField(cbId, fieldValue, fieldName, enableLog?: boolean) {
   return gIn.wrap('', enableLog, () =>
     gT.s.browser
       .executeScript(`return tiaEJ.hEById.getNameAndLabels('${cbId}');`, false)
@@ -167,7 +167,7 @@ export function idField(cbId, fieldValue, fieldName, enableLog) {
   );
 }
 
-export function formIdNameIndex(formId, name, index, enableLog) {
+export function formIdNameIndex(formId, name, index, enableLog?: boolean) {
   return clickCb(
     // logText
     `Double Click combobox item by formId: ${formId}, name: ${name}, index: ${index}`,
@@ -189,7 +189,7 @@ export function formIdNameIndex(formId, name, index, enableLog) {
   );
 }
 
-export function dblFormIdNameIndex(formId, name, index, enableLog) {
+export function dblFormIdNameIndex(formId, name, index, enableLog?: boolean) {
   return clickCb(
     // logText
     `Double Click combobox item by formId: ${formId}, name: ${name}, index: ${index}`,
@@ -211,7 +211,7 @@ export function dblFormIdNameIndex(formId, name, index, enableLog) {
   );
 }
 
-export function formIdNameField(formId, name, fieldValue, fieldName, enableLog) {
+export function formIdNameField(formId, name, fieldValue, fieldName, enableLog?: boolean) {
   return clickCb(
     // logText
     `Click combobox item by formId: ${formId}, name: ${name}, fieldName: ${fieldName}, fieldValue: ${fieldValue}`,

@@ -34,11 +34,11 @@ function getSidPath() {
 
 export function saveSid(sid) {
   fs.writeFileSync(getSidPath(), sid, 'utf8');
-};
+}
 
 export function removeSid() {
   gIn.fileUtils.safeUnlink(getSidPath());
-};
+}
 
 export function getSid() {
   try {
@@ -46,19 +46,18 @@ export function getSid() {
   } catch (e) {
     return null;
   }
-};
+}
 
 const ALREADY_STARTED = 'Remote driver is already started';
 const SHOULD_BE_ONLINE = 'Remote driver should be online';
 
 export async function start() {
-
   if (getPid()) {
     gIn.tracer.msg3(ALREADY_STARTED);
     return ALREADY_STARTED;
   }
 
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     gIn.tracer.msg3('Starting remote driver');
 
     const data = {
@@ -75,7 +74,7 @@ export async function start() {
 
       child.send(data);
 
-      child.on('message', (msg) => {
+      child.on('message', msg => {
         gIn.tracer.msg3(`Message from child proc: ${msg}`);
         gIn.tracer.msg3(SHOULD_BE_ONLINE);
 
@@ -85,9 +84,7 @@ export async function start() {
       console.log(e);
     }
   });
-};
-
-
+}
 
 // TODO: The same problem still here.
 // https://stackoverflow.com/questions/38207590/nodejs-detached-child-process-killed-when-parent-process-is-killed
@@ -144,4 +141,4 @@ export function stop() {
   }
   removePid();
   removeSid();
-};
+}

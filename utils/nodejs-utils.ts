@@ -4,7 +4,7 @@
 
 import * as path from 'path';
 import { inspect } from 'util';
-import { engines } from '../package';
+import { engines } from '../package.json';
 import * as semver from 'semver';
 import * as _ from 'lodash';
 
@@ -12,7 +12,7 @@ import * as _ from 'lodash';
  * Clears 'require' cache for specified node module.
  * @param {String} resolvedModulePath
  */
-export function clearRequireCache(resolvedModulePath) {
+export function clearRequireCache(resolvedModulePath: string) {
   delete require.cache[resolvedModulePath];
 }
 
@@ -24,7 +24,7 @@ export function clearRequireCache(resolvedModulePath) {
  * @returns {{res: *, resolvedModPath: String}}
  * @throws {*} - Exceptions from 'require' calls.
  */
-export function requireEx(modPath, clearCache) {
+export function requireEx(modPath: string, clearCache?: boolean) {
   const absFilePath = path.resolve(modPath);
   const res = {
     result: require(absFilePath),
@@ -43,7 +43,7 @@ export function requireEx(modPath, clearCache) {
  * @param modPath - path to module.
  * @return {*} - exports from existing module or empty object if module is absent.
  */
-export function requireIfExists(modPath) {
+export function requireIfExists(modPath: string) {
   try {
     return require(modPath);
   } catch (e) {
@@ -52,16 +52,16 @@ export function requireIfExists(modPath) {
   }
 }
 
-function toMb(val) {
+function toMb(val: number): string {
   const mb = 1024 * 1024;
   return (val / mb).toFixed(3);
 }
 
-function toMs(val) {
+function toMs(val: number): string {
   return (val / 1000).toFixed(3);
 }
 
-export function getResourcesUsage(isTestLog) {
+export function getResourcesUsage(isTestLog?: boolean) {
   // gT.config.rssUsageThreshold
 
   const mem = process.memoryUsage();
@@ -70,15 +70,17 @@ export function getResourcesUsage(isTestLog) {
     return '';
   }
 
-  mem.rss = toMb(mem.rss);
-  mem.heapTotal = toMb(mem.heapTotal);
-  mem.heapUsed = toMb(mem.heapUsed);
-  let str = `Memory MB: ${inspect(mem)}`;
+  let str = `Memory MB: ${inspect({
+    rss: toMb(mem.rss),
+    heapTotal: toMb(mem.heapTotal),
+    heapUsed: toMb(mem.heapUsed),
+  })}`;
   if (process.cpuUsage) {
     const cpuU = process.cpuUsage();
-    cpuU.user = toMs(cpuU.user);
-    cpuU.system = toMs(cpuU.system);
-    str += `\nCPU ms: ${inspect(cpuU)}`;
+    str += `\nCPU ms: ${inspect({
+      user: toMs(cpuU.user),
+      system: toMs(cpuU.system),
+    })}`;
   }
   return str;
 }
@@ -100,7 +102,10 @@ ${getResourcesUsage()}`;
   return str;
 }
 
-export function isPromise(p) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isPromise(p: any) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
   return _.isObject(p) && _.isFunction(p.then);
 }
 
@@ -112,8 +117,8 @@ export function checkNodeJsVersion() {
   }
 }
 
-export function requireArray(modules) {
-  modules.forEach(modulePath => {
+export function requireArray(modules: string[]) {
+  modules.forEach((modulePath: string) => {
     const modPath = path.resolve(gT.cLParams.rootDir, modulePath);
     gIn.tracer.msg1(`Requiring module: ${modPath}`);
     require(modPath);

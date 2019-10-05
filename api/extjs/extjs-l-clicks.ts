@@ -23,7 +23,7 @@ export function delayClickAndWaitForAjaxFinish(webEl, isDblClick) {
   });
 }
 
-export function createFuncPrintTextDelayClick(isDblClick, noPrint, enableLog) {
+export function createFuncPrintTextDelayClick(isDblClick, noPrint, enableLog?: boolean) {
   if (noPrint) {
     return function delayClickAndWaitForAjaxFinishWrapper(webEl) {
       return delayClickAndWaitForAjaxFinish(webEl, isDblClick);
@@ -46,7 +46,7 @@ export function createFuncPrintTextDelayClick(isDblClick, noPrint, enableLog) {
   };
 }
 
-function createFuncPrintTextAndClickTableRow(enableLog) {
+function createFuncPrintTextAndClickTableRow(enableLog?: boolean) {
   return function(webEl) {
     return webEl.findElement(gT.sOrig.by.css('.x-tree-node-text')).then(el =>
       el.getText().then(text => {
@@ -59,7 +59,7 @@ function createFuncPrintTextAndClickTableRow(enableLog) {
 }
 
 // Note that for tree only expanded nodes are taking into account.
-export function tableItemByIndex(tableId, tableName, itemIndex, enableLog) {
+export function tableItemByIndex(tableId, tableName, itemIndex, enableLog?: boolean) {
   return gIn.wrap(
     `Click table '${tableName}' item by index '${itemIndex}'`,
     enableLog,
@@ -74,7 +74,7 @@ export function tableItemByIndex(tableId, tableName, itemIndex, enableLog) {
   );
 }
 
-export function tableItemByField(tableId, tableName, fieldValue, fieldName, enableLog) {
+export function tableItemByField(tableId, tableName, fieldValue, fieldName, enableLog?: boolean) {
   fieldName = fieldName || 'name';
   return gIn.wrap(
     `Click table '${tableName}' item, fieldValue: ${gT.s.browser.valueToParameter(
@@ -94,7 +94,7 @@ export function tableItemByField(tableId, tableName, fieldValue, fieldName, enab
   );
 }
 
-export function tableItemByFieldLocKey(tableId, tableName, fieldValueKey, fieldName, enableLog) {
+export function tableItemByFieldLocKey(tableId, tableName, fieldValueKey, fieldName, enableLog?: boolean) {
   fieldName = fieldName || 'name';
   return gIn.wrap(
     `Click table '${tableName}' item, fieldValue: '${fieldValueKey}', fieldName: '${fieldName}'`,
@@ -111,7 +111,7 @@ export function tableItemByFieldLocKey(tableId, tableName, fieldValueKey, fieldN
 }
 
 // TODO: probably it is safe now to print tableId.
-export function tableItemByFieldId(tableId, tableName, id, enableLog) {
+export function tableItemByFieldId(tableId, tableName, id, enableLog?: boolean) {
   return gIn.wrap(
     `Click table '${tableName}' item, with id: '${id}'`,
     enableLog,
@@ -128,7 +128,7 @@ export function tableItemByFieldId(tableId, tableName, id, enableLog) {
   );
 }
 
-export function fieldByFormIdName(formId, name, enableLog) {
+export function fieldByFormIdName(formId, name, enableLog?: boolean) {
   return gIn.wrap(`Click form field item by formId: ${formId}, name: ${name} ... `, enableLog, () =>
     gT.s.browser
       .executeScript(`return tiaEJ.hEById.getInputElByFormName('${formId}', '${name}');`, false)
@@ -136,7 +136,7 @@ export function fieldByFormIdName(formId, name, enableLog) {
   );
 }
 
-export function checkBoxByFormIdName(formId, name, enableLog) {
+export function checkBoxByFormIdName(formId, name, enableLog?: boolean) {
   formId = gT.s.idToIdObj(formId);
   return gIn.wrap(`Click checkBox (name: ${name}) on form ${formId.logStr} ... `, enableLog, () =>
     gT.s.browser
@@ -159,7 +159,7 @@ function createFuncDelayAndClickById(callerName) {
  * @param enableLog - enable/disalbe logging for this action.
  * @returns {*}
  */
-export function tabByIdItemId(id, itemId, enableLog) {
+export function tabByIdItemId(id, itemId, enableLog?: boolean) {
   return gIn.wrap(`Click on tab ${itemId} of component ${id} ... `, enableLog, () =>
     gT.s.browser
       .executeScriptWrapper(`return tiaEJ.searchId.tabByIdItemId('${id}', '${itemId}')`)
@@ -176,7 +176,7 @@ export function tabByIdItemId(id, itemId, enableLog) {
  * TODO: Not sure for unicode text for logs (text value can be utf-8 encoded).
  * Object: str for search, str for log.
  */
-export function tabByIdText(id, text, enableLog) {
+export function tabByIdText(id, text, enableLog?: boolean) {
   return gIn.wrap(`Click on tab with text ${text} of component ${id} ... `, enableLog, () =>
     gT.s.browser
       .executeScriptWrapper(`return tiaEJ.searchId.tabByIdText ('${id}', '${text}')`)
@@ -193,7 +193,7 @@ export function tabByIdText(id, text, enableLog) {
  * TODO: Not sure for unicode text for logs (text value can be utf-8 encoded).
  * Object: str for search, str for log.
  */
-export function tabByIdLocKey(id, locKey, enableLog) {
+export function tabByIdLocKey(id, locKey, enableLog?: boolean) {
   return gIn.wrap(`Click on tab with locale key ${locKey} of component ${id} ... `, enableLog, () =>
     gT.s.browser
       .executeScriptWrapper(`return tiaEJ.searchId.tabByIdLocKey('${id}', '${locKey}')`)
@@ -210,7 +210,7 @@ export function tabByIdLocKey(id, locKey, enableLog) {
  * @returns {*}
  * Object: str for search, str for log.
  */
-export function compByIdRefKey(id, ref, key, enableLog) {
+export function compByIdRefKey(id, ref, key, enableLog?: boolean) {
   return gIn.wrap(
     `Click component by id (${id}), reference (${ref}), key ${key} ... `,
     enableLog,

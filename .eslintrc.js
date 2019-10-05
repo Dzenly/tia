@@ -318,6 +318,7 @@ module.exports = {
         'sort-keys': 0,
         'prettier/prettier': ['error'],
         '@typescript-eslint/no-non-null-assertion': 0,
+        'require-atomic-updates': 0,
       },
       globals: {
         gT: true,

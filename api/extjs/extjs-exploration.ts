@@ -22,7 +22,7 @@ import * as path from 'path';
  *
  * @returns a promise which will be resolved with script return value.
  */
-export function init(enableLog) {
+export function init(enableLog?: boolean) {
   return (
     gIn
       .wrap('Initialization of TIA ExtJs Exp helpers ... ', enableLog, () => {

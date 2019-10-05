@@ -4,7 +4,7 @@
 
 import * as util from 'util';
 
-export function rawValue(id, name, enableLog) {
+export function rawValue(id, name, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Getting raw value of form ${id.logStr} field: name: ${name} ... `,
@@ -16,7 +16,7 @@ export function rawValue(id, name, enableLog) {
   );
 }
 
-export function isDisabled(id, name, enableLog) {
+export function isDisabled(id, name, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Getting isDisabled() for form ${id.logStr} field (name: ${name}) ... `,

@@ -17,7 +17,7 @@ export let debugLocale = false;
  * @param {boolean} [enableLog=true] - is logging needed for this action.
  * @returns a promise which will be resolved with script return value.
  */
-export function setLocaleObject(objExpression, enableLog?: EnableLog) {
+export function setLocaleObject(objExpression, enableLog?: boolean) {
   return gIn.wrap('setLocaleObject ... ', enableLog, () => {
     const scriptStr = `return tiaEJ.setLocale(${objExpression});`;
     return gT.s.browser.executeScriptWrapper(scriptStr).then(res => {
@@ -43,7 +43,7 @@ function setExtraLocale(extraLocale) {
   gT.e.invertedExtraLocaleAllKeys = invertedExtraObject.invertedMapAllKeys;
 }
 
-export function setExtraLocaleObject(localeObj, enableLog?: EnableLog) {
+export function setExtraLocaleObject(localeObj, enableLog?: boolean) {
   setExtraLocale(localeObj);
 
   const objStr = inspect(localeObj, { compact: true, breakLength: 200 });
@@ -173,7 +173,7 @@ export function getCISContent(
  * @param enableLog
  * @return {*}
  */
-export function setDebugLocaleMode(newMode, enableLog) {
+export function setDebugLocaleMode(newMode, enableLog?: boolean) {
   debugLocale = newMode;
 
   return gIn.wrap(`Set debugLocale mode to '${newMode} ... '`, enableLog, () =>
@@ -187,7 +187,7 @@ export function setDebugLocaleMode(newMode, enableLog) {
  * @param enableLog
  * @return {*}
  */
-// export function setParentContainer(cmp, enableLog) {
+// export function setParentContainer(cmp, enableLog?: boolean) {
 //   return gIn.wrap(
 //     `Set container '${cmp.getLogInfo()}' as the parent for further search`,
 //     enableLog,
@@ -198,7 +198,7 @@ export function setDebugLocaleMode(newMode, enableLog) {
 //   );
 // };
 
-// export function addFakeId(fakeId, realId, enableLog) {
+// export function addFakeId(fakeId, realId, enableLog?: boolean) {
 //   return gIn.wrap(
 //     `Add fake id '${fakeId}' to idMap`,
 //     enableLog,

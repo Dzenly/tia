@@ -8,7 +8,7 @@ import * as util from 'util';
 // TODO: function for convertation object to its text representation (smth, like JSON).
 
 // Use -1 as stop index to show only table header.
-export function table(id, options, enableLog) {
+export function table(id, options, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Logging content of table ${id.logStr} ... `, enableLog, () => {
     return gT.s.browser
@@ -21,7 +21,7 @@ export function table(id, options, enableLog) {
   });
 }
 
-export function tree(id, options, enableLog) {
+export function tree(id, options, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Logging content of tree ${id.logStr} ... `, enableLog, () => {
     return gT.s.browser
@@ -34,7 +34,7 @@ export function tree(id, options, enableLog) {
   });
 }
 
-export function comboBox(id, enableLog) {
+export function comboBox(id, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Logging content of combobox ${id.logStr} ... `, enableLog, () => {
     return gT.s.browser
@@ -45,7 +45,7 @@ export function comboBox(id, enableLog) {
   });
 }
 
-export function selectedItemTexts(id, viewName, enableLog) {
+export function selectedItemTexts(id, viewName, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Logging selected items for view ${id.logStr} ... `, enableLog, () => {
     return gT.s.browser
@@ -56,7 +56,7 @@ export function selectedItemTexts(id, viewName, enableLog) {
   });
 }
 
-export function selectedItemFields(id, fieldsToPrint, printFieldName, enableLog) {
+export function selectedItemFields(id, fieldsToPrint, printFieldName, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Logging selected items for view ${id.logStr} ... `, enableLog, () => {
     if (fieldsToPrint) {
@@ -72,7 +72,7 @@ export function selectedItemFields(id, fieldsToPrint, printFieldName, enableLog)
   });
 }
 
-export function formSubmitValues(id, enableLog) {
+export function formSubmitValues(id, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Logging submit values for form ${id.logStr} ... `, enableLog, () => {
     return gT.s.browser
@@ -90,7 +90,7 @@ export function formSubmitValues(id, enableLog) {
  * @param enableLog
  * @return {*}
  */
-export function form(id, includingStores, enableLog) {
+export function form(id, includingStores, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Logging content of form ${id.logStr} ... `, enableLog, () => {
     return gT.s.browser
@@ -101,7 +101,7 @@ export function form(id, includingStores, enableLog) {
   });
 }
 
-export function formField(id, includingStores, enableLog) {
+export function formField(id, includingStores, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Logging content of form field ${id.logStr} ... `, enableLog, () => {
     return gT.s.browser

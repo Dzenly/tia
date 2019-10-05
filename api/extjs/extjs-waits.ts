@@ -49,7 +49,7 @@ export function idle(timeout?: number, enableLog?: EnableLog): Promise<void> {
 
 // TODO: Describe and test.
 // TODO: redundant call to webdriver ?
-function logFormFieldInfo(formId, name, enableLog) {
+function logFormFieldInfo(formId, name, enableLog?: boolean) {
   return function() {
     return gT.s.browser
       .executeScriptWrapper(
@@ -62,7 +62,7 @@ function logFormFieldInfo(formId, name, enableLog) {
 }
 
 // TODO: Describe and test.
-export function formFieldEnabled(formId, name, timeout, enableLog) {
+export function formFieldEnabled(formId, name, timeout, enableLog?: boolean) {
   formId = gT.s.idToIdObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap(
@@ -82,7 +82,7 @@ export function formFieldEnabled(formId, name, timeout, enableLog) {
 }
 
 // TODO: Describe and test.
-export function formFieldDisabled(formId, name, timeout, enableLog) {
+export function formFieldDisabled(formId, name, timeout, enableLog?: boolean) {
   formId = gT.s.idToIdObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap(
@@ -102,7 +102,7 @@ export function formFieldDisabled(formId, name, timeout, enableLog) {
 }
 
 // TODO: Describe and test.
-export function isReady(timeout, enableLog) {
+export function isReady(timeout, enableLog?: boolean) {
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap('Waiting for Ext.isReady ... ', enableLog, () =>
     gT.sOrig.driver.wait(() => gT.s.browser.executeScriptWrapper('return Ext.isReady;'), timeout)
@@ -110,7 +110,7 @@ export function isReady(timeout, enableLog) {
 }
 
 // TODO: Describe and test.
-export function isCmpRendered(id, timeout, enableLog) {
+export function isCmpRendered(id, timeout, enableLog?: boolean) {
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap(`Waiting for cmp (id: ${id}) rendered ... `, enableLog, () =>
     gT.sOrig.driver.wait(

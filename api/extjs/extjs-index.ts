@@ -21,7 +21,7 @@ gT.e = {};
 // ua - User Actions.
 // sa - script Actions.
 
-async function setEJSelectors(enableLog) {
+async function setEJSelectors(enableLog?: boolean) {
   const objStr = inspect(gT.globalConfig.ejSelectors, { compact: true, breakLength: 200 });
   return gIn.wrap('setEJSelectors ... ', enableLog, () => {
     const scriptStr = `return tiaEJ.setSelectors(${objStr});`;
@@ -55,7 +55,7 @@ const brHelpers = [
  *
  * @returns {Promise}.
  */
-gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(enableLog) {
+gT.e.initTiaExtJsBrHelpers = function initTiaExtJsBrHelpers(enableLog?: boolean) {
   return gIn.wrap(
     'Initialization of TIA ExtJs helpers ... ',
     enableLog,

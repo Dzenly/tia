@@ -2,7 +2,7 @@
 
 import { inspect } from 'util';
 
-export function byIdRef(id, ref, enableLog) {
+export function byIdRef(id, ref, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Searching id by container ${id.logStr}, reference: ${ref} ... `, enableLog, () =>
     gT.s.browser
@@ -16,7 +16,7 @@ export function byIdRef(id, ref, enableLog) {
 
 // ============================
 
-export function byIdCompQuery(id, compQuery, enableLog) {
+export function byIdCompQuery(id, compQuery, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching id by container ${id.logStr}, compQuery: ${compQuery} ... `,
@@ -31,7 +31,7 @@ export function byIdCompQuery(id, compQuery, enableLog) {
   );
 }
 
-export function byFormIdName(id, name, enableLog) {
+export function byFormIdName(id, name, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Searching id by form ${id.logStr}, name: ${name} ... `, enableLog, () =>
     gT.s.browser
@@ -43,7 +43,7 @@ export function byFormIdName(id, name, enableLog) {
   );
 }
 
-export function inputByIdCompQuery(id, compQuery, enableLog) {
+export function inputByIdCompQuery(id, compQuery, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching input id by container ${id.logStr}, compQuery: ${compQuery} ... `,
@@ -60,7 +60,7 @@ export function inputByIdCompQuery(id, compQuery, enableLog) {
   );
 }
 
-export function inputByFormIdName(id, name, enableLog) {
+export function inputByFormIdName(id, name, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Searching input id by form ${id.logStr}, name: ${name} ... `, enableLog, () =>
     gT.s.browser
@@ -72,7 +72,7 @@ export function inputByFormIdName(id, name, enableLog) {
   );
 }
 
-export function inputByIdRef(id, ref, enableLog) {
+export function inputByIdRef(id, ref, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching input id by container ${id.logStr}, reference: ${ref} ... `,
@@ -87,7 +87,7 @@ export function inputByIdRef(id, ref, enableLog) {
   );
 }
 
-export function fieldByIdCompQuery(id, compQuery, enableLog) {
+export function fieldByIdCompQuery(id, compQuery, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching field id by container ${id.logStr}, compQuery: ${compQuery} ... `,
@@ -104,7 +104,7 @@ export function fieldByIdCompQuery(id, compQuery, enableLog) {
   );
 }
 
-export function fieldByFormIdName(id, name, enableLog) {
+export function fieldByFormIdName(id, name, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(`Searching field id by form ${id.logStr}, name: ${name} ... `, enableLog, () =>
     gT.s.browser
@@ -116,7 +116,7 @@ export function fieldByFormIdName(id, name, enableLog) {
   );
 }
 
-export function fieldByIdRef(id, ref, enableLog) {
+export function fieldByIdRef(id, ref, enableLog?: boolean) {
   id = gT.s.idToIdObj(id);
   return gIn.wrap(
     `Searching field id by container ${id.logStr}, reference: ${ref} ... `,

@@ -74,6 +74,7 @@ export class OriginalSeleniumAPI {
   static firefox = firefox;
   static Executor = Executor;
   static Client = Client;
+  static logs: any;
 
   /**
    * Assigned at driver initialization.
@@ -105,6 +106,7 @@ export class CommandLineParams {
   static stopRemoteDriver: boolean;
   static useRemoteDriver: boolean;
   static forceLogActions: boolean;
+  static shareBrowser: boolean;
 }
 
 export interface Suite {
@@ -137,6 +139,8 @@ export class GlobalTiaInnerObjects {
   static cancelThisTest: boolean;
   static suiteErrRecursionCount: number;
   static cancelSuite: boolean;
+  static sharedBrowserInitiated: boolean;
+  static screenShotScheduled: boolean;
 }
 
 import * as driver from '../api/selenium/sel-driver';

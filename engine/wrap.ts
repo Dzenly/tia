@@ -165,6 +165,8 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
   throw new Error(gT.engineConsts.CANCELLING_THE_TEST);
 }
 
+export type actFunc = () => Promise<any>;
+
 /**
  * Wraps Selenium actions for:
  * logging
@@ -182,7 +184,7 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
 export default async function wrap(
   msg: any,
   enableLog: boolean,
-  act: any,
+  act: actFunc,
   noConsoleAndExceptions?: boolean
 ) {
   if (typeof msg === 'object') {

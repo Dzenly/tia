@@ -40,7 +40,7 @@ export class TableViewActions extends ComponentActions {
   static compName = compName;
 
   // No, setSelection or setSelectionModel work unstable.
-  // async selectRowByEJ(tEQ, rowData, idForLog, enableLog) {},
+  // async selectRowByEJ(tEQ, rowData, idForLog, enableLog?: boolean) {},
 
   /**
    * Left mouse button click on the specified group name.
@@ -293,7 +293,7 @@ export class TableViewActions extends ComponentActions {
    * Right mouse button click on the specified column in the first table row.
    * The cell column is specified by the model field name.
    */
-  static async rClickFirstRowCellByModelField(tEQ, fieldName, idForLog, enableLog) {
+  static async rClickFirstRowCellByModelField(tEQ, fieldName, idForLog, enableLog?: boolean) {
     return gT.e.q.wrap({
       tEQ,
       compName,

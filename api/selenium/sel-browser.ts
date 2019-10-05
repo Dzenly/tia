@@ -32,11 +32,11 @@ export function executeScriptWrapper(scriptStr) {
   return gT.sOrig.driver.executeScript(newScriptStr);
 }
 
-export function executeScript(scriptStr, enableLog) {
+export function executeScript(scriptStr, enableLog?: boolean) {
   return gIn.wrap('Script execution ... ', enableLog, () => executeScriptWrapper(scriptStr));
 }
 
-export function executeScriptFromFile(fPath, enableLog) {
+export function executeScriptFromFile(fPath, enableLog?: boolean) {
   return gIn.wrap(`Execute script from file ${fPath} ... `, enableLog, () => {
     gIn.tracer.msg3(`executeScriptFromFile: ${fPath}`);
     const scriptStr = fs.readFileSync(fPath, 'utf8');
@@ -46,7 +46,7 @@ export function executeScriptFromFile(fPath, enableLog) {
   });
 }
 
-export function initTiaBrHelpers(enableLog) {
+export function initTiaBrHelpers(enableLog?: boolean) {
   return gIn.wrap('Initialization of TIA helpers ... ', enableLog, async () => {
     for (const fName of brHelpers) {
       const fPath = mPath.join(gT.tiaDir, 'api', 'selenium', 'browser-part', fName);
@@ -87,7 +87,7 @@ export function valueToParameter(val) {
   }
 }
 
-export function loadPage(url, enableLog) {
+export function loadPage(url, enableLog?: boolean) {
   return gIn.wrap(`Loading a page with URL: "${url}" ... `, enableLog, () => {
     // eslint-disable-next-line no-param-reassign
     url = gIn.textUtils.expandHost(url);
@@ -95,7 +95,7 @@ export function loadPage(url, enableLog) {
   });
 }
 
-export function close(enableLog) {
+export function close(enableLog?: boolean) {
   // gT.s.browser.logSelLogs();
   return gIn.wrap('Closing the browser (tab) ... ', enableLog, () => gT.sOrig.driver.close(), true);
 }
@@ -105,7 +105,7 @@ export function close(enableLog) {
  * @param enableLog
  * @returns {*}
  */
-export function setBodyClicker(enableLog) {
+export function setBodyClicker(enableLog?: boolean) {
   return gIn.wrap('Set body clicker to keep session active ... ', enableLog, () =>
     executeScriptWrapper(`
     setInterval(function() {
@@ -121,7 +121,7 @@ export function setBodyClicker(enableLog) {
  * Removes previous tiaOnClick handler (if exists).
  * @param funcBody
  */
-export function setCtrlAltLClickHandler(funcBody, enableLog) {
+export function setCtrlAltLClickHandler(funcBody, enableLog?: boolean) {
   return gIn.wrap('Setup debug hotkey handler ... ', enableLog, () => {
     const scriptStr = `
     try {
@@ -145,7 +145,7 @@ export function setCtrlAltLClickHandler(funcBody, enableLog) {
  * Sets debug mode for browser scripts.
  * More info is showed for elements (including ExtJs ones).
  */
-export function setDebugMode(enableLog) {
+export function setDebugMode(enableLog?: boolean) {
   return gIn.wrap('Set debug mode ... ', enableLog, () =>
     executeScriptWrapper('tia.debugMode = true;')
   );
@@ -155,13 +155,13 @@ export function setDebugMode(enableLog) {
  * Resets debug mode for browser scripts.
  * Less info is showed for elements (including ExtJs ones).
  */
-export function resetDebugMode(enableLog) {
+export function resetDebugMode(enableLog?: boolean) {
   return gIn.wrap('Reset debug mode ... ', enableLog, () =>
     executeScriptWrapper('tia.debugMode = false;')
   );
 }
 
-export function getDebugMode(enableLog) {
+export function getDebugMode(enableLog?: boolean) {
   return gIn.wrap('Get debug mode ... ', enableLog, () =>
     executeScriptWrapper('return tia.debugMode;').then(res => {
       gIn.logger.logIfNotDisabled(`${res} ... `, enableLog);
@@ -299,7 +299,7 @@ export function getScreenResolution(enableLog) {
  */
 /* Known issue: Xvfb has bad support for maximize, but does support setWindowSize. */
 /* To correctly work use this function after complete page load */
-export function maximize(enableLog) {
+export function maximize(enableLog?: boolean) {
   return gIn.wrap('Maximize ... ', enableLog, () => {
     if (typeof gT.s.browser.screenWidth !== 'undefined') {
       return gT.sOrig.driver
@@ -314,7 +314,7 @@ export function maximize(enableLog) {
   });
 }
 
-export function screenshot(enableLog) {
+export function screenshot(enableLog?: boolean) {
   gIn.tracer.msg2('Inside screenshot function 1.');
   return gIn.wrap('Screenshot: ', enableLog, () => {
     gIn.tracer.msg2('Inside screenshot function 2.');
