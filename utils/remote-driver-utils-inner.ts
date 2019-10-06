@@ -4,21 +4,18 @@
 // when stops debugging.
 
 import * as fs from 'fs';
-import { spawn } from 'child_process';
+import { ChildProcess, spawn } from 'child_process';
 
 const errorReportFilePath = '/home/alexey/projects/work/tia-tests/fname';
 
-process.on('message', (data) => {
-  let child;
+process.on('message', data => {
+  let child: ChildProcess;
 
   try {
-    child = spawn(
-      data.chromeDriverPath,
-      [`--port=${data.port}`],
-      {
-        detached: true,
-        stdio: ['ignore', 'ignore', 'ignore'],
-      });
+    child = spawn(data.chromeDriverPath, [`--port=${data.port}`], {
+      detached: true,
+      stdio: ['ignore', 'ignore', 'ignore'],
+    });
 
     // Save the pid.
     fs.writeFileSync(data.pidPath, child.pid, 'utf8');
@@ -29,6 +26,8 @@ process.on('message', (data) => {
   setTimeout(() => {
     try {
       child.unref();
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
       process.send('chromedriver started');
       process.disconnect();
       process.exit(0);

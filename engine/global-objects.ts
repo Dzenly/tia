@@ -112,6 +112,7 @@ export class CommandLineParams {
   static headless: boolean;
   static debugLocale: boolean;
   static hangTimeout: number;
+  static enableEmail: boolean;
 }
 
 export interface Suite {

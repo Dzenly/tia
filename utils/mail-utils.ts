@@ -1,7 +1,5 @@
 'use strict';
 
-/* globals gIn: true */
-
 import * as nodemailer from 'nodemailer';
 import * as smtpTransport from 'nodemailer-smtp-transport';
 import * as fileUtils from './file-utils';
@@ -35,7 +33,7 @@ function getSmtpTransporter() {
 
 // All text fields (e-mail addresses, plaintext body, html body) use UTF-8 as the encoding.
 // Attachments are streamed as binary.
-const mailOptions = {
+const mailOptions: any = {
   // from: '',
   // to: '', // list of receivers
   // subject: '',
@@ -56,7 +54,13 @@ const mailOptions = {
  * @param {Array of Strings} [zipAttachments]
  * @returns {Promise<T>}
  */
-export function send(subj, htmlDif, txtDif, txtAttachments, zipAttachments) {
+export function send(
+  subj: string,
+  htmlDif: string,
+  txtDif: string,
+  txtAttachments: string[],
+  zipAttachments?: string[]
+) {
   if (!gT.cLParams.enableEmail) {
     gIn.tracer.msg2('Mail is disabled.');
     return;
@@ -82,21 +86,24 @@ export function send(subj, htmlDif, txtDif, txtAttachments, zipAttachments) {
 
   mailOptions.to = gT.suiteConfig.mailRecipientList;
   mailOptions.attachments = txtAttachments
-    .filter(val => Boolean(val)).map(val => ({ path: val, contentType: 'text/plain' }));
+    .filter(val => Boolean(val))
+    .map(val => ({ path: val, contentType: 'text/plain' }));
 
   /* {path: gT.engineConsts.gitPullLog}, */
 
   if (zipAttachments) {
     mailOptions.attachments = mailOptions.attachments.concat(
-      zipAttachments.filter(val => Boolean(val)).map(val => ({ path: val, contentType: 'application/zip' }))
+      zipAttachments
+        .filter(val => Boolean(val))
+        .map(val => ({ path: val, contentType: 'application/zip' }))
     );
   }
 
-  return new Promise(((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     let attemptCounter = gT.engineConsts.mailAttemptsCount;
 
     function sendMail() {
-      getSmtpTransporter().sendMail(mailOptions, (err, info) => {
+      getSmtpTransporter().sendMail(mailOptions, (err: Error, info: any) => {
         if (err) {
           gIn.tracer.err(`sendMail ERR: ${err}`);
           if (attemptCounter) {
@@ -114,5 +121,5 @@ export function send(subj, htmlDif, txtDif, txtAttachments, zipAttachments) {
       });
     }
     sendMail();
-  }));
-};
+  });
+}

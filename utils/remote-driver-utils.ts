@@ -12,7 +12,7 @@ function getPidPath() {
   return path.join(gT.rootResultsDir, gT.engineConsts.remoteChromeDriverPid);
 }
 
-function savePid(pid) {
+function savePid(pid: string) {
   fs.writeFileSync(getPidPath(), pid, 'utf8');
 }
 
@@ -32,7 +32,7 @@ function getSidPath() {
   return path.join(gT.rootResultsDir, gT.engineConsts.remoteChromeDriverSid);
 }
 
-export function saveSid(sid) {
+export function saveSid(sid: string) {
   fs.writeFileSync(getSidPath(), sid, 'utf8');
 }
 
