@@ -16,9 +16,9 @@ const wdKey = gT.sOrig.key;
  * @returns {Promise.<TResult>}
  */
 export function clickById(id: IdForLog, enableLog?: EnableLog) {
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Click on element ${id.logStr} ... `,
+    msg: `Click on element ${idObj.logStr} ... `,
     enableLog,
     act: async () => {
       // await gT.s.wait.waitForElementEnabledAndVisibleById(
@@ -26,7 +26,7 @@ export function clickById(id: IdForLog, enableLog?: EnableLog) {
       //   gT.engineConsts.defaultWaitTimeout,
       //   false,
       // );
-      await gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).click();
+      await gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).click();
     },
   });
 }
@@ -39,9 +39,9 @@ export function clickById(id: IdForLog, enableLog?: EnableLog) {
  * @returns {Promise.<TResult>}
  */
 export function rClickById(id: IdForLog, enableLog?: EnableLog) {
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Right Click on element ${id.logStr} ... `,
+    msg: `Right Click on element ${idObj.logStr} ... `,
     enableLog,
     act: async () => {
       // await gT.s.wait.waitForElementEnabledAndVisibleById(
@@ -49,7 +49,7 @@ export function rClickById(id: IdForLog, enableLog?: EnableLog) {
       //   gT.engineConsts.defaultWaitTimeout,
       //   false,
       // );
-      const el = await gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id));
+      const el = await gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id));
 
       await gT.sOrig.driver
         .actions({ bridge: true })
@@ -67,9 +67,9 @@ export function rClickById(id: IdForLog, enableLog?: EnableLog) {
  * @returns {Promise.<TResult>}
  */
 export function dblClickById(id: IdForLog, enableLog?: EnableLog) {
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Double Click on element ${id.logStr} ... `,
+    msg: `Double Click on element ${idObj.logStr} ... `,
     enableLog,
     act: async () => {
       // await gT.s.wait.waitForElementEnabledAndVisibleById(
@@ -77,7 +77,7 @@ export function dblClickById(id: IdForLog, enableLog?: EnableLog) {
       //   gT.engineConsts.defaultWaitTimeout,
       //   false,
       // );
-      const el = await gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id));
+      const el = await gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id));
       await gT.sOrig.driver
         .actions({ bridge: true })
         .doubleClick(el)
@@ -87,65 +87,65 @@ export function dblClickById(id: IdForLog, enableLog?: EnableLog) {
 }
 
 export function sendEscById(id: IdForLog, enableLog?: EnableLog) {
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Send Esc to element ${id.logStr} ... `,
+    msg: `Send Esc to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).sendKeys(wdKey.ESCAPE),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.ESCAPE),
   });
 }
 
 export function sendDownById(id: IdForLog, enableLog?: EnableLog) {
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Send DOWN to element ${id.logStr} ... `,
+    msg: `Send DOWN to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).sendKeys(wdKey.DOWN),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.DOWN),
   });
 }
 
 export function sendEnterById(id: IdForLog, enableLog?: EnableLog) {
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Send ENTER to element ${id.logStr} ... `,
+    msg: `Send ENTER to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).sendKeys(wdKey.ENTER),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.ENTER),
   });
 }
 
 export function sendTabById(id: IdForLog, enableLog?: EnableLog) {
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Send TAB to element ${id.logStr} ... `,
+    msg: `Send TAB to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).sendKeys(wdKey.TAB),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.TAB),
   });
 }
 
 export function sendPgDownById(id: IdForLog, enableLog?: EnableLog) {
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Send PAGE_DOWN to element ${id.logStr} ... `,
+    msg: `Send PAGE_DOWN to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).sendKeys(wdKey.PAGE_DOWN),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.PAGE_DOWN),
   });
 }
 
 export function sendPgUpById(id: IdForLog, enableLog?: EnableLog) {
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Send PAGE_UP to element ${id.logStr} ... `,
+    msg: `Send PAGE_UP to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).sendKeys(wdKey.PAGE_UP),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.PAGE_UP),
   });
 }
 
 export function sendUpById(id: IdForLog, enableLog?: EnableLog) {
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Send UP to element ${id.logStr} ... `,
+    msg: `Send UP to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).sendKeys(wdKey.UP),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.UP),
   });
 }
 
@@ -157,66 +157,66 @@ export function sendUpById(id: IdForLog, enableLog?: EnableLog) {
  * @param enableLog
  * @returns {Promise.<TResult>}
  */
-export function sendKeysById(id, keys, enableLog?: EnableLog) {
+export function sendKeysById(id: IdForLog, keys, enableLog?: EnableLog) {
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Send keys: "${keys}", to element ${id.logStr} ... `,
+    msg: `Send keys: "${keys}", to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).sendKeys(...keys),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(...keys),
   });
 }
 
-export function sendCtrlAAndKeysById(id, keys, enableLog?: EnableLog) {
+export function sendCtrlAAndKeysById(id: IdForLog, keys, enableLog?: EnableLog) {
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Send Ctrl + a and keys: "${keys}", to element ${id.logStr} ... `,
+    msg: `Send Ctrl + a and keys: "${keys}", to element ${idObj.logStr} ... `,
     enableLog,
     act: () =>
       gT.sOrig.driver
-        .findElement(gT.sOrig.by.id(id.id))
+        .findElement(gT.sOrig.by.id(idObj.id))
         .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, ...keys),
   });
 }
 
-export function sendCtrlAKeysEnterById(id, keys, enableLog?: EnableLog) {
+export function sendCtrlAKeysEnterById(id: IdForLog, keys, enableLog?: EnableLog) {
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Send Ctrl + A, keys, ENTER: "${keys}", to element ${id.logStr} ... `,
+    msg: `Send Ctrl + A, keys, ENTER: "${keys}", to element ${idObj.logStr} ... `,
     enableLog,
     act: () =>
       gT.sOrig.driver
-        .findElement(gT.sOrig.by.id(id.id))
+        .findElement(gT.sOrig.by.id(idObj.id))
         .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, ...keys, wdKey.ENTER),
   });
 }
 
 export function sendCtrlAAndDeleteById(id: IdForLog, enableLog?: EnableLog) {
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Send Ctrl + a and press DELETE for element ${id.logStr} ... `,
+    msg: `Send Ctrl + a and press DELETE for element ${idObj.logStr} ... `,
     enableLog,
     act: () =>
       gT.sOrig.driver
-        .findElement(gT.sOrig.by.id(id.id))
+        .findElement(gT.sOrig.by.id(idObj.id))
         .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, wdKey.DELETE, wdKey.NULL),
   });
 }
 
 export function clearById(id: IdForLog, enableLog?: EnableLog) {
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Clear element ${id.logStr} ... `,
+    msg: `Clear element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)).clear(),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).clear(),
   });
 }
 
@@ -250,16 +250,16 @@ export function moveMouse(webElement, enableLog?: EnableLog) {
 }
 
 export function moveMouseById(id: IdForLog, enableLog?: EnableLog) {
-  id = gT.s.idToIdForLogObj(id);
+  const idObj = gT.s.idToIdForLogObj(id);
   return gIn.wrap({
-    msg: `Move mouse to element with id "${id.logStr}" ... `,
+    msg: `Move mouse to element with id "${idObj.logStr}" ... `,
     enableLog,
     act: async () => {
       await gT.sOrig.driver
         .actions({ bridge: true })
         .move({
           duration: gT.engineConsts.moveDuration,
-          origin: gT.sOrig.driver.findElement(gT.sOrig.by.id(id.id)),
+          origin: gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)),
           x: 0,
           y: 0,
         })

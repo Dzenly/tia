@@ -1,8 +1,8 @@
 'use strict';
 
-import { IdForLog } from '../extjs/new-api/types/ej-types';
+import { IdForLog, IdForLogObj } from '../extjs/new-api/types/ej-types';
 
-export function idToIdForLogObj(id: IdForLog) {
+export function idToIdForLogObj(id: IdForLog): IdForLogObj {
   let res;
   if (typeof id === 'object') {
     if (id.logStr) {

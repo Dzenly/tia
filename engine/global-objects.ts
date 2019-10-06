@@ -228,6 +228,8 @@ export class GlobalTiaObjects {
   static config: any;
 
   static suiteConfig: any;
+
+  static firstRunWithRemoteDriver?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-namespace

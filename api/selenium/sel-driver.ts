@@ -5,9 +5,9 @@ import * as fileUtils from '../../utils/file-utils';
 import { EnableLog } from '../extjs/new-api/types/ej-types';
 
 // TODO: does not driver creates profile dir itself ?
-function createBrowserProfile() {
-  fileUtils.mkdir(gT.config.browserProfilePath);
-}
+// function createBrowserProfile() {
+//   fileUtils.mkdir(gT.config.browserProfilePath);
+// }
 
 const cleanedProfilePaths: string[] = [];
 
@@ -218,8 +218,12 @@ export async function init(cleanProfile: boolean, enableLog?: EnableLog) {
   });
 }
 
-export function sleep(ms, enableLog?: EnableLog) {
-  return gIn.wrap(`Sleep ${ms} ms ... `, enableLog, () => gT.u.promise.delayed(ms, true));
+export function sleep(ms: number, enableLog?: EnableLog) {
+  return gIn.wrap({
+    msg: `Sleep ${ms} ms ... `,
+    enableLog,
+    act: () => gT.u.promise.delayed(ms, true),
+  });
 }
 
 const stupidSleep = 400;
@@ -247,16 +251,16 @@ export function quit(enableLog?: EnableLog) {
     gIn.tracer.msg3('quit: Shared browser, no quit');
     return Promise.resolve('Shared browser, no quit');
   }
-  return gIn.wrap(
-    'Quiting ... ',
+  return gIn.wrap({
+    msg: 'Quiting ... ',
     enableLog,
-    () =>
+    act: () =>
       gT.sOrig.driver.quit().then(() => {
         gIn.tracer.msg3('Quit: Driver is deleted');
         delete gT.sOrig.driver;
       }),
-    true
-  );
+    noConsoleAndExceptions: true,
+  });
 }
 
 export function quitIfInited() {

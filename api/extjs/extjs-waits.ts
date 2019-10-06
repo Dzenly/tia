@@ -14,15 +14,18 @@ import { EnableLog } from './new-api/types/ej-types';
 export function ajaxRequestsFinish(timeout?: number, enableLog?: EnableLog): Promise<void> {
   // eslint-disable-next-line no-param-reassign
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
-  return gIn.wrap('Waiting for AJAX requests finish ... ', enableLog, () =>
-    gT.sOrig.driver.wait(
-      () =>
-        gT.s.browser
-          .executeScriptWrapper('return tiaEJ.isThereActiveAjaxCalls();')
-          .then(res => !res),
-      timeout
-    )
-  );
+  return gIn.wrap({
+    msg: 'Waiting for AJAX requests finish ... ',
+    enableLog,
+    act: () =>
+      gT.sOrig.driver.wait(
+        () =>
+          gT.s.browser
+            .executeScriptWrapper('return tiaEJ.isThereActiveAjaxCalls();')
+            .then(res => !res),
+        timeout
+      ),
+  });
 }
 
 /**
@@ -38,12 +41,16 @@ export function idle(timeout?: number, enableLog?: EnableLog): Promise<void> {
     return ajaxRequestsFinish(timeout, enableLog);
   }
 
-  return gIn.wrap('Waiting for idle ... ', enableLog, async () => {
-    await gT.s.browser.executeScriptWrapper('tia.resetIdle();tiaEJ.resetExtJsIdle();');
-    await gT.sOrig.driver.wait(
-      () => gT.s.browser.executeScriptWrapper('return tiaEJ.isExtJsIdle();'),
-      timeout
-    );
+  return gIn.wrap({
+    msg: 'Waiting for idle ... ',
+    enableLog,
+    act: async () => {
+      await gT.s.browser.executeScriptWrapper('tia.resetIdle();tiaEJ.resetExtJsIdle();');
+      await gT.sOrig.driver.wait(
+        () => gT.s.browser.executeScriptWrapper('return tiaEJ.isExtJsIdle();'),
+        timeout
+      );
+    },
   });
 }
 
@@ -65,10 +72,10 @@ function logFormFieldInfo(formId, name, enableLog?: EnableLog) {
 export function formFieldEnabled(formId, name, timeout, enableLog?: EnableLog) {
   formId = gT.s.idToIdForLogObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
-  return gIn.wrap(
-    `Waiting for enabling field (name: ${name}) on form ${formId.logStr}`,
+  return gIn.wrap({
+    msg: `Waiting for enabling field (name: ${name}) on form ${formId.logStr}`,
     enableLog,
-    () =>
+    act: () =>
       gT.sOrig.driver
         .wait(
           () =>
@@ -77,18 +84,23 @@ export function formFieldEnabled(formId, name, timeout, enableLog?: EnableLog) {
             ),
           timeout
         )
-        .then(logFormFieldInfo(formId, name, enableLog))
-  );
+        .then(logFormFieldInfo(formId, name, enableLog)),
+  });
 }
 
 // TODO: Describe and test.
-export function formFieldDisabled(formId, name, timeout, enableLog?: EnableLog) {
+export function formFieldDisabled(
+  formId: string,
+  name: string,
+  timeout?: number,
+  enableLog?: EnableLog
+) {
   formId = gT.s.idToIdForLogObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
-  return gIn.wrap(
-    `Waiting for disabling field (name: ${name}) onform ${formId.logStr}`,
+  return gIn.wrap({
+    msg: `Waiting for disabling field (name: ${name}) onform ${formId.logStr}`,
     enableLog,
-    () =>
+    act: () =>
       gT.sOrig.driver
         .wait(
           () =>
@@ -97,33 +109,39 @@ export function formFieldDisabled(formId, name, timeout, enableLog?: EnableLog) 
             ),
           timeout
         )
-        .then(logFormFieldInfo(formId, name, enableLog))
-  );
+        .then(logFormFieldInfo(formId, name, enableLog)),
+  });
 }
 
 // TODO: Describe and test.
-export function isReady(timeout, enableLog?: EnableLog) {
+export function isReady(timeout?: number, enableLog?: EnableLog) {
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
-  return gIn.wrap('Waiting for Ext.isReady ... ', enableLog, () =>
-    gT.sOrig.driver.wait(() => gT.s.browser.executeScriptWrapper('return Ext.isReady;'), timeout)
-  );
+  return gIn.wrap({
+    msg: 'Waiting for Ext.isReady ... ',
+    enableLog,
+    act: () =>
+      gT.sOrig.driver.wait(() => gT.s.browser.executeScriptWrapper('return Ext.isReady;'), timeout),
+  });
 }
 
 // TODO: Describe and test.
-export function isCmpRendered(id, timeout, enableLog?: EnableLog) {
+export function isCmpRendered(id: string, timeout?: number, enableLog?: EnableLog) {
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
-  return gIn.wrap(`Waiting for cmp (id: ${id}) rendered ... `, enableLog, () =>
-    gT.sOrig.driver.wait(
-      () =>
-        gT.s.browser.executeScriptWrapper(
-          `return Ext.getCmp('${id}') && Ext.getCmp('${id}').rendered;`
-        ),
+  return gIn.wrap({
+    msg: `Waiting for cmp (id: ${id}) rendered ... `,
+    enableLog,
+    act: () =>
+      gT.sOrig.driver.wait(
+        () =>
+          gT.s.browser.executeScriptWrapper(
+            `return Ext.getCmp('${id}') && Ext.getCmp('${id}').rendered;`
+          ),
 
-      // .then(function (res) {
-      //   console.log('IS RENDERED: ' + res);
-      //   return res;
-      // });
-      timeout
-    )
-  );
+        // .then(function (res) {
+        //   console.log('IS RENDERED: ' + res);
+        //   return res;
+        // });
+        timeout
+      ),
+  });
 }

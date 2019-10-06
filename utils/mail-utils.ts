@@ -1,6 +1,8 @@
 'use strict';
 
+// @ts-ignore
 import * as nodemailer from 'nodemailer';
+// @ts-ignore
 import * as smtpTransport from 'nodemailer-smtp-transport';
 import * as fileUtils from './file-utils';
 
