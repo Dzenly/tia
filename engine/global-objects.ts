@@ -36,7 +36,7 @@ import commonMiscUtils = require('../common-utils/common-misc-utils');
 
 import '../api/api-index';
 
-import { ExtJsAPI } from '../api/extjs/new-api/components/extjs-components';
+import { ExtJsCmpAPI } from '../api/extjs/new-api/components/extjs-components';
 
 import UtilsAPI from '../api/utils/utils-index';
 
@@ -111,6 +111,7 @@ export class CommandLineParams {
   static browser: string;
   static headless: boolean;
   static debugLocale: boolean;
+  static hangTimeout: number;
 }
 
 export interface Suite {
@@ -152,14 +153,14 @@ import * as driver from '../api/selenium/sel-driver';
 import * as wait from '../api/selenium/sel-waits';
 import * as uA from '../api/selenium/sel-user-actions';
 import * as browser from '../api/selenium/sel-browser';
-import { idToIdObj } from '../api/selenium/sel-misc';
+import { idToIdForLogObj } from '../api/selenium/sel-misc';
 
 export class SeleniumAPI {
   static driver = driver;
   static wait = wait;
   static uA = uA;
   static browser = browser;
-  static idToIdObj = idToIdObj;
+  static idToIdForLogObj = idToIdForLogObj;
 }
 
 export class GlobalTiaObjects {
@@ -196,7 +197,7 @@ export class GlobalTiaObjects {
   static commonMiscUtils = commonMiscUtils;
 
   static sOrig = OriginalSeleniumAPI; // TODO: change type.
-  static eC = ExtJsAPI;
+  static eC = ExtJsCmpAPI;
 
   static nodeUtils = nodeUtils;
   static timeUtils = timeUtils;

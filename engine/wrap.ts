@@ -4,6 +4,8 @@
 
 /* globals gIn, gT: true */
 
+import { EnableLog } from '../api/extjs/new-api/types/ej-types';
+
 /**
  * Starts the timer to track action time.
  *
@@ -22,7 +24,7 @@ function startTimer() {
  * @returns {*} - time dif in milliseconds
  * @private
  */
-function stopTimer(startTime: [number, number]) {
+function stopTimer(startTime?: [number, number]) {
   if (gT.config.enableTimings) {
     const dif = process.hrtime(startTime);
     return ` (${dif[0] * 1000 + dif[1] / 1e6} ms)`;
@@ -46,9 +48,9 @@ async function pause() {
  * @param noConsoleAndExceptions
  */
 async function pauseAndLogOk(
-  enableLog: boolean,
-  startTime: [number, number],
-  noConsoleAndExceptions: boolean
+  enableLog: boolean | undefined,
+  startTime: [number, number] | undefined,
+  noConsoleAndExceptions: boolean | undefined
 ) {
   const timeDiff = stopTimer(startTime);
   await pause();
@@ -103,7 +105,7 @@ function quitDriver() {
           // await will generate exception with this object.
           throw new Error('A.W.: Force throw error (sel. driver was existed)');
         })
-        .catch(err => {
+        .catch((err: Error) => {
           gIn.logger.errorln(`A.W.: catch for driver quit or deletion: ${err}`);
           return handleErrAtErrorHandling('Error at quit');
         });
@@ -165,6 +167,9 @@ async function handleErrorWhenDriverExistsAndRecCountZero() {
   throw new Error(gT.engineConsts.CANCELLING_THE_TEST);
 }
 
+/**
+ * Function to be wrapped.
+ */
 export type actFunc = () => Promise<any>;
 
 /**
@@ -188,10 +193,10 @@ export default async function wrap({
   noConsoleAndExceptions,
 }: {
   msg: string;
-  enableLog?: boolean;
+  enableLog?: EnableLog;
   act: actFunc;
   noConsoleAndExceptions?: boolean;
-}) {
+}): Promise<any> {
   // if (typeof msg === 'object') {
   //   // esling-disable-next-line no-param-reassign
   //   ({
@@ -218,7 +223,7 @@ export default async function wrap({
     gIn.tracer.msg1('Cancelling suite action due to gIn.cancelSuite flag');
 
     // No process.exit(1), we need to create suitelog, send e-mails, etc..
-    throw new Error(gT.engineConsts.gT.engineConsts.CANCELLING_THE_SUITE);
+    throw new Error(gT.engineConsts.CANCELLING_THE_SUITE);
   }
 
   gIn.tracer.msg3(`Inside wrapper, before act() call,  msg: ${msg}`);

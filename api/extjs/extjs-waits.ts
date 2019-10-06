@@ -49,7 +49,7 @@ export function idle(timeout?: number, enableLog?: EnableLog): Promise<void> {
 
 // TODO: Describe and test.
 // TODO: redundant call to webdriver ?
-function logFormFieldInfo(formId, name, enableLog?: boolean) {
+function logFormFieldInfo(formId, name, enableLog?: EnableLog) {
   return function() {
     return gT.s.browser
       .executeScriptWrapper(
@@ -62,8 +62,8 @@ function logFormFieldInfo(formId, name, enableLog?: boolean) {
 }
 
 // TODO: Describe and test.
-export function formFieldEnabled(formId, name, timeout, enableLog?: boolean) {
-  formId = gT.s.idToIdObj(formId);
+export function formFieldEnabled(formId, name, timeout, enableLog?: EnableLog) {
+  formId = gT.s.idToIdForLogObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap(
     `Waiting for enabling field (name: ${name}) on form ${formId.logStr}`,
@@ -82,8 +82,8 @@ export function formFieldEnabled(formId, name, timeout, enableLog?: boolean) {
 }
 
 // TODO: Describe and test.
-export function formFieldDisabled(formId, name, timeout, enableLog?: boolean) {
-  formId = gT.s.idToIdObj(formId);
+export function formFieldDisabled(formId, name, timeout, enableLog?: EnableLog) {
+  formId = gT.s.idToIdForLogObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap(
     `Waiting for disabling field (name: ${name}) onform ${formId.logStr}`,
@@ -102,7 +102,7 @@ export function formFieldDisabled(formId, name, timeout, enableLog?: boolean) {
 }
 
 // TODO: Describe and test.
-export function isReady(timeout, enableLog?: boolean) {
+export function isReady(timeout, enableLog?: EnableLog) {
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap('Waiting for Ext.isReady ... ', enableLog, () =>
     gT.sOrig.driver.wait(() => gT.s.browser.executeScriptWrapper('return Ext.isReady;'), timeout)
@@ -110,7 +110,7 @@ export function isReady(timeout, enableLog?: boolean) {
 }
 
 // TODO: Describe and test.
-export function isCmpRendered(id, timeout, enableLog?: boolean) {
+export function isCmpRendered(id, timeout, enableLog?: EnableLog) {
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap(`Waiting for cmp (id: ${id}) rendered ... `, enableLog, () =>
     gT.sOrig.driver.wait(

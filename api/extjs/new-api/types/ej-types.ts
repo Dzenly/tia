@@ -1,3 +1,5 @@
+// TODO: Move undependent types to another file.
+
 /**
  * The TEQ (Tia ExtJs Query) search string.
  * The TEQ is a mix of following two abilities:
@@ -131,3 +133,25 @@ export interface TableCellByColumns {
    */
   one?: boolean;
 }
+
+/**
+ * Used in logging of actions with an HTML element.
+ */
+export interface IdForLogObj {
+  /**
+   * HTML element id.
+   */
+  id: string;
+
+  /**
+   * More human readable Id to be logged.
+   */
+  nameForLog?: string;
+
+  /**
+   * String to be logged.
+   */
+  logStr?: string;
+}
+
+export type IdForLog = IdForLogObj | string;

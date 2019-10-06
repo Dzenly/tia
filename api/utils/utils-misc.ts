@@ -100,7 +100,7 @@ export function isWindows() {
   return path.sep === '\\';
 };
 
-// gT.s.fail = function (url, enableLog?: boolean) {
+// gT.s.fail = function (url, enableLog?: EnableLog) {
 //   return gIn.wrap('Intentional fail for debug: ... ', enableLog, function () {
 //     return Promise.reject('Intentional fail');
 //   });

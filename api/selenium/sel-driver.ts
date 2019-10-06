@@ -2,6 +2,7 @@
 
 import * as util from 'util';
 import * as fileUtils from '../../utils/file-utils';
+import { EnableLog } from '../extjs/new-api/types/ej-types';
 
 // TODO: does not driver creates profile dir itself ?
 function createBrowserProfile() {
@@ -10,7 +11,7 @@ function createBrowserProfile() {
 
 const cleanedProfilePaths: string[] = [];
 
-export async function init(cleanProfile: boolean, enableLog?: boolean) {
+export async function init(cleanProfile: boolean, enableLog?: EnableLog) {
   // if (typeof enableLog === 'undefined' && !gT.config.browserProfileDir) {
   //   enableLog = false;
   // }
@@ -217,7 +218,7 @@ export async function init(cleanProfile: boolean, enableLog?: boolean) {
   });
 }
 
-export function sleep(ms, enableLog?: boolean) {
+export function sleep(ms, enableLog?: EnableLog) {
   return gIn.wrap(`Sleep ${ms} ms ... `, enableLog, () => gT.u.promise.delayed(ms, true));
 }
 
@@ -233,7 +234,7 @@ export function getStupidSleepFunc() {
   };
 }
 
-export function quit(enableLog?: boolean) {
+export function quit(enableLog?: EnableLog) {
   if (gT.cLParams.ejExplore) {
     gIn.tracer.msg3('quit: ejExplore, no quit');
     return Promise.resolve('ejExplore, no quit');

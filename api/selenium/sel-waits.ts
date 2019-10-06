@@ -11,7 +11,7 @@
  */
 export function waitForElementById(id: any, timeout: number, enableLog: boolean) {
   // eslint-disable-next-line no-param-reassign
-  id = gT.s.idToIdObj(id);
+  id = gT.s.idToIdForLogObj(id);
   return gIn.wrap(`Waiting for element by id ${id.logStr} ... `, enableLog, () =>
     gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.id(id.id)), timeout)
   );
@@ -23,7 +23,7 @@ export function waitForElementEnabledAndVisibleById(
   enableLog: boolean
 ) {
   // eslint-disable-next-line no-param-reassign
-  id = gT.s.idToIdObj(id);
+  id = gT.s.idToIdForLogObj(id);
   return gIn.wrap(
     `Waiting for element enabled and visible by id ${id.logStr} ... `,
     enableLog,

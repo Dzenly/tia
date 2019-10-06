@@ -4,6 +4,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { EnableLog } from './new-api/types/ej-types';
 
 /**
  * Initializes TIA ExtJs exploration helpers.
@@ -22,17 +23,21 @@ import * as path from 'path';
  *
  * @returns a promise which will be resolved with script return value.
  */
-export function init(enableLog?: boolean) {
+export function init(enableLog?: EnableLog) {
   return (
     gIn
-      .wrap('Initialization of TIA ExtJs Exp helpers ... ', enableLog, () => {
-        const scriptStr = fs.readFileSync(
-          path.join(gT.tiaDir, 'api', 'extjs', 'browser-part', 'e-br-explore.js'),
-          'utf8'
-        );
+      .wrap({
+        msg: 'Initialization of TIA ExtJs Exp helpers ... ',
+        enableLog,
+        act: () => {
+          const scriptStr = fs.readFileSync(
+            path.join(gT.tiaDir, 'api', 'extjs', 'browser-part', 'e-br-explore.js'),
+            'utf8'
+          );
 
-        // gIn.tracer.msg3('init: script: ' + scriptStr);
-        return gT.s.browser.executeScriptWrapper(scriptStr);
+          // gIn.tracer.msg3('init: script: ' + scriptStr);
+          return gT.s.browser.executeScriptWrapper(scriptStr);
+        },
       })
       .then(() => {
         const scriptStr = `

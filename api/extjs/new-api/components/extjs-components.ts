@@ -18,7 +18,7 @@ import { TabPanelAPI } from './tabpanel';
 import { TextFieldAPI } from './textfield';
 import { TreeViewAPI } from './treeview';
 
-export class ExtJsAPI {
+export class ExtJsCmpAPI {
   static component = ComponentAPI;
   static formFieldBase = FormFieldBaseAPI;
   static boundlist = BoundListAPI;

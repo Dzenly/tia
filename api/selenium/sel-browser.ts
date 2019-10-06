@@ -6,6 +6,7 @@
 import * as fs from 'fs';
 import * as mPath from 'path';
 import { IWebDriverOptionsCookie } from 'selenium-webdriver';
+import { EnableLog } from '../extjs/new-api/types/ej-types';
 // import wrap from '../../engine/wrap';
 
 function nextScreenShotPath() {
@@ -22,7 +23,7 @@ const brHelpers = ['tia-br-helpers.js'];
 
 const commonUtils = ['common-constants.js', 'common-misc-utils.js'];
 
-export function executeScriptWrapper(scriptStr: string) {
+export function executeScriptWrapper(scriptStr: string): Promise<any> {
   // gIn.tracer.trace3('executeScriptWrapper');
   // TODO: tmpFunc in debug mode only, to increase performance in non-debug mode.
   let newScriptStr = 'window.tiaTmpFunc = function () { ';
@@ -34,7 +35,7 @@ export function executeScriptWrapper(scriptStr: string) {
   return gT.sOrig.driver.executeScript(newScriptStr);
 }
 
-export function executeScript(scriptStr: string, enableLog?: boolean) {
+export function executeScript(scriptStr: string, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Script execution ... ',
     enableLog,
@@ -42,7 +43,7 @@ export function executeScript(scriptStr: string, enableLog?: boolean) {
   });
 }
 
-export function executeScriptFromFile(fPath: string, enableLog?: boolean) {
+export function executeScriptFromFile(fPath: string, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Execute script from file ${fPath} ... `,
     enableLog,
@@ -56,7 +57,7 @@ export function executeScriptFromFile(fPath: string, enableLog?: boolean) {
   });
 }
 
-export function initTiaBrHelpers(enableLog?: boolean) {
+export function initTiaBrHelpers(enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Initialization of TIA helpers ... ',
     enableLog,
@@ -101,7 +102,7 @@ export function valueToParameter(val: any) {
   }
 }
 
-export function loadPage(url: string, enableLog?: boolean) {
+export function loadPage(url: string, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Loading a page with URL: "${url}" ... `,
     enableLog,
@@ -113,7 +114,7 @@ export function loadPage(url: string, enableLog?: boolean) {
   });
 }
 
-export function close(enableLog?: boolean) {
+export function close(enableLog?: EnableLog) {
   // gT.s.browser.logSelLogs();
   return gIn.wrap({
     msg: 'Closing the browser (tab) ... ',
@@ -128,7 +129,7 @@ export function close(enableLog?: boolean) {
  * @param enableLog
  * @returns {*}
  */
-export function setBodyClicker(enableLog?: boolean) {
+export function setBodyClicker(enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Set body clicker to keep session active ... ',
     enableLog,
@@ -147,7 +148,7 @@ export function setBodyClicker(enableLog?: boolean) {
  * Removes previous tiaOnClick handler (if exists).
  * @param funcBody
  */
-export function setCtrlAltLClickHandler(funcBody: string, enableLog?: boolean) {
+export function setCtrlAltLClickHandler(funcBody: string, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Setup debug hotkey handler ... ',
     enableLog,
@@ -175,7 +176,7 @@ export function setCtrlAltLClickHandler(funcBody: string, enableLog?: boolean) {
  * Sets debug mode for browser scripts.
  * More info is showed for elements (including ExtJs ones).
  */
-export function setDebugMode(enableLog?: boolean) {
+export function setDebugMode(enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Set debug mode ... ',
     enableLog,
@@ -187,7 +188,7 @@ export function setDebugMode(enableLog?: boolean) {
  * Resets debug mode for browser scripts.
  * Less info is showed for elements (including ExtJs ones).
  */
-export function resetDebugMode(enableLog?: boolean) {
+export function resetDebugMode(enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Reset debug mode ... ',
     enableLog,
@@ -195,7 +196,7 @@ export function resetDebugMode(enableLog?: boolean) {
   });
 }
 
-export function getDebugMode(enableLog?: boolean) {
+export function getDebugMode(enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Get debug mode ... ',
     enableLog,
@@ -207,7 +208,7 @@ export function getDebugMode(enableLog?: boolean) {
   });
 }
 
-export function getCurUrl(enableLog?: boolean) {
+export function getCurUrl(enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Getting URL ... ',
     enableLog,
@@ -220,7 +221,7 @@ export function getCurUrl(enableLog?: boolean) {
  * @param enableLog
  * @returns {*}
  */
-export function getTitle(enableLog?: boolean) {
+export function getTitle(enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Getting title ... ',
     enableLog,
@@ -277,7 +278,7 @@ export function printCaughtExceptions(includeExtAjaxFailures?: boolean): Promise
  * @returns {Promise.<TResult>}
  */
 // No log action intentionaly.
-export function cleanExceptions(includingExtJsAjaxFailures, enableLog?: boolean) {
+export function cleanExceptions(includingExtJsAjaxFailures, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Cleaning client exceptions: ... ',
     enableLog,
@@ -295,7 +296,7 @@ export function cleanExceptions(includingExtJsAjaxFailures, enableLog?: boolean)
  *
  * @return {Promise}
  */
-export function setWindowPosition(x, y, enableLog?: boolean) {
+export function setWindowPosition(x, y, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Set Window Position: (${x}, ${y}) ... `,
     enableLog,
@@ -315,7 +316,7 @@ export function setWindowPosition(x, y, enableLog?: boolean) {
  *
  * @return {Promise}
  */
-export function setWindowSize(width, height, enableLog?: boolean) {
+export function setWindowSize(width, height, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Set Window Size: (${width}, ${height}) ... `,
     enableLog,
@@ -332,7 +333,7 @@ export function setWindowSize(width, height, enableLog?: boolean) {
  * @param enableLog
  * @returns {*}
  */
-export function getScreenResolution(enableLog?: boolean) {
+export function getScreenResolution(enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Get screen resolution ... ',
     enableLog,
@@ -351,7 +352,7 @@ export function getScreenResolution(enableLog?: boolean) {
  */
 /* Known issue: Xvfb has bad support for maximize, but does support setWindowSize. */
 /* To correctly work use this function after complete page load */
-export function maximize(enableLog?: boolean) {
+export function maximize(enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Maximize ... ',
     enableLog,
@@ -370,7 +371,7 @@ export function maximize(enableLog?: boolean) {
   });
 }
 
-export function screenshot(enableLog?: boolean) {
+export function screenshot(enableLog?: EnableLog) {
   gIn.tracer.msg2('Inside screenshot function 1.');
   return gIn.wrap({
     msg: 'Screenshot: ',
@@ -398,7 +399,7 @@ export function screenshot(enableLog?: boolean) {
  * @param enableLog -  enable/disable logging for this action.
  * @returns {Promise.<TResult>}
  */
-export function addCookie(name: string, value, enableLog?: boolean) {
+export function addCookie(name: string, value, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Add cookie: "${name}": "${value}" ... `,
     enableLog,
@@ -406,7 +407,7 @@ export function addCookie(name: string, value, enableLog?: boolean) {
   });
 }
 
-export function addCookieEx(args: IWebDriverOptionsCookie, enableLog?: boolean) {
+export function addCookieEx(args: IWebDriverOptionsCookie, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Add cookie ex: name: "${args.name}", value: "${args.value}, path: "${args.path}", domain: "${args.domain}" ... `,
     enableLog,
@@ -420,7 +421,7 @@ export function addCookieEx(args: IWebDriverOptionsCookie, enableLog?: boolean) 
  * @param enableLog -  enable/disable logging for this action.
  * @returns {Promise.<TResult>}
  */
-export function deleteCookie(name: string, enableLog?: boolean) {
+export function deleteCookie(name: string, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Delete cookie: "${name}" ... `,
     enableLog,
@@ -434,7 +435,7 @@ export function deleteCookie(name: string, enableLog?: boolean) {
  * @param enableLog
  * @returns {Object} - JSON object.
  */
-export function getCookie(name: string, enableLog?: boolean) {
+export function getCookie(name: string, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Get cookie: "${name}" ... `,
     enableLog,
@@ -447,7 +448,7 @@ export function getCookie(name: string, enableLog?: boolean) {
  * @param enableLog
  * @returns {Promise.<TResult>}
  */
-export function cleanProfile(enableLog?: boolean) {
+export function cleanProfile(enableLog?: EnableLog) {
   const relPath = mPath.relative(gT.cLParams.rootDir, gT.config.browserProfilePath);
   return gIn.wrap({
     msg: `Cleaning profile: "${relPath}" ... `,

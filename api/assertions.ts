@@ -10,28 +10,28 @@
 
 const resultAccumulators = {};
 
-function checkAccName(name) {
+function checkAccName(name: string) {
   if (typeof name !== 'string') {
     throw new Error('Use string type for accumulator name');
   }
 }
 
-export function initResultsAccumulator(name) {
+export function initResultsAccumulator(name: string) {
   checkAccName(name);
   resultAccumulators[name] = true;
 }
 
-export function getResultFromAccumulator(name) {
+export function getResultFromAccumulator(name: string) {
   checkAccName(name);
   return resultAccumulators[name];
 }
 
-export function deleteResultAccumulator(name) {
+export function deleteResultAccumulator(name: string) {
   checkAccName(name);
   delete resultAccumulators[name];
 }
 
-export function mergeResultToAccumulator(res, name) {
+export function mergeResultToAccumulator(res, name: string) {
   checkAccName(name);
   resultAccumulators[name] = resultAccumulators[name] && res;
 }
@@ -42,7 +42,7 @@ export function mergeResultToAccumulator(res, name) {
  * @param msg
  * @param mode
  */
-function failWrapper(msg, mode) {
+function failWrapper(msg: string, mode) {
   gT.l.fail(msg);
   if (mode && mode.accName) {
     mode.accName = false; // eslint-disable-line no-param-reassign
@@ -63,7 +63,7 @@ function failWrapper(msg, mode) {
  * @param condition
  * @param msg - message to describe the entity which you expect.
  */
-function checkIfTrue(condition, msg, mode) {
+function checkIfTrue(condition, msg: string, mode) {
   if (condition) {
     gT.l.pass(msg, mode);
     return true;
@@ -80,7 +80,7 @@ export { checkIfTrue as true };
  * @param msg - message to describe the entity which you expect.
  * param {Object} mode - see 'true' assertion description.
  */
-function checkIfFalse(condition, msg, mode) {
+function checkIfFalse(condition, msg: string, mode) {
   return checkIfTrue(!condition, msg, mode);
 }
 
@@ -93,7 +93,7 @@ export { checkIfFalse as false };
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-export function value(actVal, expVal, msg, mode) {
+export function value(actVal, expVal, msg: string, mode) {
   if (typeof msg !== 'undefined') {
     if (actVal === expVal) {
       gT.l.pass(`${msg}: ${actVal}`, mode);
@@ -122,7 +122,7 @@ export function value(actVal, expVal, msg, mode) {
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-export function valueStr(actVal, expVal, msg, mode) {
+export function valueStr(actVal: any, expVal: any, msg: string, mode) {
   actVal = String(actVal);
   expVal = String(expVal);
   return value(actVal, expVal, msg, mode);
@@ -135,7 +135,7 @@ export function valueStr(actVal, expVal, msg, mode) {
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-export function valueNumber(actVal, expVal, msg, mode) {
+export function valueNumber(actVal, expVal, msg: string, mode) {
   actVal = Number(actVal);
   expVal = Number(expVal);
   return value(actVal, expVal, msg, mode);
@@ -148,7 +148,7 @@ export function valueNumber(actVal, expVal, msg, mode) {
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-export function valueBool(actVal, expVal, msg, mode) {
+export function valueBool(actVal, expVal, msg: string, mode) {
   actVal = Boolean(actVal);
   expVal = Boolean(expVal);
   return value(actVal, expVal, msg, mode);
@@ -162,7 +162,7 @@ export function valueBool(actVal, expVal, msg, mode) {
  * @param msg - message to describe the entity which you expect.
  * @returns {boolean}
  */
-export function valueDeep(actVal, expVal, msg, mode) {
+export function valueDeep(actVal, expVal, msg: string, mode) {
   function handleVals(actualValue, expectedValue, path) {
     const actType = typeof actualValue;
     const expType = typeof expectedValue;
@@ -223,7 +223,7 @@ export function valueDeep(actVal, expVal, msg, mode) {
  * @param mode
  * @return {boolean}
  */
-export function exception(func, expExc, mode) {
+export function exception(func: Function, expExc?: string, mode?: any) {
   try {
     func();
     let msg;
@@ -260,7 +260,7 @@ export function exception(func, expExc, mode) {
  * @param mode
  * @return {Promise}
  */
-export function exceptionAsync(asyncFunc, expExc, mode) {
+export function exceptionAsync(asyncFunc: Function, expExc?: string, mode?: any) {
   return asyncFunc().then(
     () => {
       let msg;

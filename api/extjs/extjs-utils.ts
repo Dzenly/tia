@@ -3,11 +3,15 @@
 import { inspect } from 'util';
 import { ElementIdForLog, EnableLog, Teq } from './new-api/types/ej-types';
 
-gT.e.locale = {};
-gT.e.invertedLocaleFirstKey = {};
-gT.e.invertedLocaleAllKeys = {};
-
 export let debugLocale = false;
+
+export interface LocaleEntries {
+  [key: string]: string;
+}
+
+let locale: LocaleEntries = {};
+let invertedLocaleFirstKey: LocaleEntries = {};
+let invertedLocaleAllKeys: LocaleEntries = {};
 
 /**
  * Sets locale object. Locale object is key-value object for localization.
@@ -17,90 +21,98 @@ export let debugLocale = false;
  * @param {boolean} [enableLog=true] - is logging needed for this action.
  * @returns a promise which will be resolved with script return value.
  */
-export function setLocaleObject(objExpression, enableLog?: boolean) {
-  return gIn.wrap('setLocaleObject ... ', enableLog, () => {
-    const scriptStr = `return tiaEJ.setLocale(${objExpression});`;
-    return gT.s.browser.executeScriptWrapper(scriptStr).then(res => {
-      gT.e.locale = res.locale;
-      gT.e.invertedLocaleFirstKey = res.invertedLocaleFirstKey;
-      gT.e.invertedLocaleAllKeys = res.invertedLocaleAllKeys;
-    });
+export function setLocaleObject(objExpression: string, enableLog: EnableLog) {
+  return gIn.wrap({
+    msg: 'setLocaleObject ... ',
+    enableLog,
+    act: () => {
+      const scriptStr = `return tiaEJ.setLocale(${objExpression});`;
+      return gT.s.browser.executeScriptWrapper(scriptStr).then(res => {
+        locale = res.locale;
+        invertedLocaleFirstKey = res.invertedLocaleFirstKey;
+        invertedLocaleAllKeys = res.invertedLocaleAllKeys;
+      });
+    },
   });
 }
 
 // TODO:
 // export setImagesMap
 
-gT.e.extraLocale = {};
-gT.e.invertedExtraLocaleFirstKey = {};
-gT.e.invertedExtraLocaleAllKeys = {};
+let extraLocale: LocaleEntries = {};
+let invertedExtraLocaleFirstKey: LocaleEntries = {};
+let invertedExtraLocaleAllKeys: LocaleEntries = {};
 
-function setExtraLocale(extraLocale) {
-  gT.e.extraLocale = extraLocale;
-  const invertedExtraObject = gT.commonMiscUtils.invertMapObj(extraLocale);
+function setExtraLocale(newExtraLocale: LocaleEntries) {
+  extraLocale = newExtraLocale;
+  const invertedExtraObject = gT.commonMiscUtils.invertMapObj(newExtraLocale);
 
-  gT.e.invertedExtraLocaleFirstKey = invertedExtraObject.invertedMapFirstKey;
-  gT.e.invertedExtraLocaleAllKeys = invertedExtraObject.invertedMapAllKeys;
+  invertedExtraLocaleFirstKey = invertedExtraObject.invertedMapFirstKey;
+  invertedExtraLocaleAllKeys = invertedExtraObject.invertedMapAllKeys;
 }
 
-export function setExtraLocaleObject(localeObj, enableLog?: boolean) {
+export function setExtraLocaleObject(localeObj: LocaleEntries, enableLog: EnableLog) {
   setExtraLocale(localeObj);
 
   const objStr = inspect(localeObj, { compact: true, breakLength: 200 });
-  return gIn.wrap('setExtraLocaleObject ... ', enableLog, () => {
-    const scriptStr = `return tiaEJ.setExtraLocale(${objStr});`;
-    return gT.s.browser.executeScriptWrapper(scriptStr).then(res => {
-      if (res !== true) {
-        throw new Error('setExtraLocaleObject: Unexpected return value');
-      }
-    });
+  return gIn.wrap({
+    msg: 'setExtraLocaleObject ... ',
+    enableLog,
+    act: () => {
+      const scriptStr = `return tiaEJ.setExtraLocale(${objStr});`;
+      return gT.s.browser.executeScriptWrapper(scriptStr).then(res => {
+        if (res !== true) {
+          throw new Error('setExtraLocaleObject: Unexpected return value');
+        }
+      });
+    },
   });
 }
 
-export function getLocStr(key) {
-  const str = gT.e.locale[key];
+export function getLocStr(key: string) {
+  const str = locale[key];
   if (!str) {
     throw new Error(`Key: "${key} is not found in locale`);
   }
   return str;
 }
 
-export function getExtraLocStr(key) {
-  const str = gT.e.extraLocale[key];
+export function getExtraLocStr(key: string): string {
+  const str = extraLocale[key];
   if (!str) {
     throw new Error(`Key: "${key} is not found in extra locale`);
   }
   return str;
 }
 
-export function locKeyToStr(str) {
+export function locKeyToStr(str: string) {
   const reExtra = /el"(.*?)"/g;
   const result = str.replace(reExtra, (m, key) => getExtraLocStr(key));
   const re = /l"(.*?)"/g;
   return result.replace(re, (m, key) => getLocStr(key));
 }
 
-export function locKeyToStrAndEscapeSlashes(str) {
+export function locKeyToStrAndEscapeSlashes(str: string) {
   let result = locKeyToStr(str);
   result = result.replace(/\\/g, '\\\\');
   return result;
 }
 
-export function getFirstLocaleKey(value, extra) {
+export function getFirstLocaleKey(value: string, extra?: boolean) {
   if (extra) {
-    return gT.e.invertedExtraLocaleFirstKey[value];
+    return invertedExtraLocaleFirstKey[value];
   }
-  return gT.e.invertedLocaleFirstKey[value];
+  return invertedLocaleFirstKey[value];
 }
 
-export function getAllLocaleKeys(value, extra) {
+export function getAllLocaleKeys(value: string, extra?: boolean) {
   if (extra) {
-    return gT.e.invertedExtraLocaleAllKeys[value];
+    return invertedExtraLocaleAllKeys[value];
   }
-  return gT.e.invertedLocaleAllKeys[value];
+  return invertedLocaleAllKeys[value];
 }
 
-export function convertTextToFirstLocKey(text) {
+export function convertTextToFirstLocKey(text: string) {
   let locKey = getFirstLocaleKey(text);
   let result;
 
@@ -127,12 +139,12 @@ export function convertTextToFirstLocKey(text) {
 }
 
 // Component info string.
-export function getCIS(tEQ, compName, idForLog = '') {
+export function getCIS(tEQ: Teq, compName: string, idForLog = '') {
   return `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}":`;
 }
 
 // CIS + Raw val.
-export function getCISRVal(tEQ, compName, idForLog = '', val) {
+export function getCISRVal(tEQ: Teq, compName: string, idForLog = '', val: string) {
   return `${compName}${idForLog ? ` ${idForLog}` : ''} "${tEQ}": Raw val: '${val}'`;
 }
 
@@ -157,9 +169,9 @@ export function getCISContent(
  */
 // export function getLocKeysByText(text) {
 //   const res = [];
-//   for (const key of gT.e.locale) {
-//     if (gT.e.locale.hasOwnProperty(key)) {
-//       if (text === gT.e.locale[key]) {
+//   for (const key of locale) {
+//     if (locale.hasOwnProperty(key)) {
+//       if (text === locale[key]) {
 //         res.push(key);
 //       }
 //     }
@@ -173,12 +185,14 @@ export function getCISContent(
  * @param enableLog
  * @return {*}
  */
-export function setDebugLocaleMode(newMode, enableLog?: boolean) {
+export function setDebugLocaleMode(newMode: boolean, enableLog: EnableLog) {
   debugLocale = newMode;
 
-  return gIn.wrap(`Set debugLocale mode to '${newMode} ... '`, enableLog, () =>
-    gT.s.browser.executeScript(`return tiaEJ.setDebugLocaleMode(${newMode});`, false)
-  );
+  return gIn.wrap({
+    msg: `Set debugLocale mode to '${newMode} ... '`,
+    enableLog,
+    act: () => gT.s.browser.executeScript(`return tiaEJ.setDebugLocaleMode(${newMode});`, false),
+  });
 }
 
 /**
@@ -187,7 +201,7 @@ export function setDebugLocaleMode(newMode, enableLog?: boolean) {
  * @param enableLog
  * @return {*}
  */
-// export function setParentContainer(cmp, enableLog?: boolean) {
+// export function setParentContainer(cmp, enableLog: EnableLog) {
 //   return gIn.wrap(
 //     `Set container '${cmp.getLogInfo()}' as the parent for further search`,
 //     enableLog,
@@ -198,7 +212,7 @@ export function setDebugLocaleMode(newMode, enableLog?: boolean) {
 //   );
 // };
 
-// export function addFakeId(fakeId, realId, enableLog?: boolean) {
+// export function addFakeId(fakeId, realId, enableLog: EnableLog) {
 //   return gIn.wrap(
 //     `Add fake id '${fakeId}' to idMap`,
 //     enableLog,

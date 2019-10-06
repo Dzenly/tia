@@ -146,7 +146,7 @@ export async function setFakeId(args: SetFakeIdParams) {
   });
 }
 
-export async function removeAllFakeIds(enableLog?: boolean) {
+export async function removeAllFakeIds(enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Removing fake Ids ... ',
     enableLog,
