@@ -1,5 +1,7 @@
 'use strict';
 
+import { IdForLog } from '../extjs/new-api/types/ej-types';
+
 /**
  * Waits for element with specified id.
  *
@@ -9,33 +11,36 @@
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-export function waitForElementById(id: any, timeout: number, enableLog: boolean) {
+export function waitForElementById(id: IdForLog, timeout: number, enableLog: boolean) {
   // eslint-disable-next-line no-param-reassign
-  id = gT.s.idToIdForLogObj(id);
-  return gIn.wrap(`Waiting for element by id ${id.logStr} ... `, enableLog, () =>
-    gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.id(id.id)), timeout)
-  );
+  const idObj = gT.s.idToIdForLogObj(id);
+  return gIn.wrap({
+    msg: `Waiting for element by id ${idObj.logStr} ... `,
+    enableLog,
+    act: () =>
+      gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.id(idObj.id)), timeout),
+  });
 }
 
 export function waitForElementEnabledAndVisibleById(
-  id: string,
+  id: IdForLog,
   timeout: number,
   enableLog: boolean
 ) {
   // eslint-disable-next-line no-param-reassign
-  id = gT.s.idToIdForLogObj(id);
-  return gIn.wrap(
-    `Waiting for element enabled and visible by id ${id.logStr} ... `,
+  const idObj = gT.s.idToIdForLogObj(id);
+  return gIn.wrap({
+    msg: `Waiting for element enabled and visible by id ${idObj.logStr} ... `,
     enableLog,
-    async () => {
+    act: async () => {
       const el = await gT.sOrig.driver.wait(
-        gT.sOrig.until.elementLocated(gT.sOrig.by.id(id.id)),
+        gT.sOrig.until.elementLocated(gT.sOrig.by.id(idObj.id)),
         timeout
       );
-      await gT.sOrig.driver.wait(gT.sOrig.until.elementIsVisible(el, timeout));
-      await gT.sOrig.driver.wait(gT.sOrig.until.elementIsEnabled(el, timeout));
-    }
-  );
+      await gT.sOrig.driver.wait(gT.sOrig.until.elementIsVisible(el), timeout);
+      await gT.sOrig.driver.wait(gT.sOrig.until.elementIsEnabled(el), timeout);
+    },
+  });
 }
 
 /**
@@ -47,10 +52,16 @@ export function waitForElementEnabledAndVisibleById(
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-export function waitForElementByClassName(className, timeout: number, enableLog: boolean) {
-  return gIn.wrap(`Waiting for element by class name : "${className}" ... `, enableLog, () =>
-    gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.className(className)), timeout)
-  );
+export function waitForElementByClassName(className: string, timeout: number, enableLog: boolean) {
+  return gIn.wrap({
+    msg: `Waiting for element by class name : "${className}" ... `,
+    enableLog,
+    act: () =>
+      gT.sOrig.driver.wait(
+        gT.sOrig.until.elementLocated(gT.sOrig.by.className(className)),
+        timeout
+      ),
+  });
 }
 
 /**
@@ -62,10 +73,13 @@ export function waitForElementByClassName(className, timeout: number, enableLog:
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-export function waitForElementByCssSelector(selector, timeout: number, enableLog: boolean) {
-  return gIn.wrap(`Waiting for element by css selector : "${selector}" ... `, enableLog, () =>
-    gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.css(selector)), timeout)
-  );
+export function waitForElementByCssSelector(selector: string, timeout: number, enableLog: boolean) {
+  return gIn.wrap({
+    msg: `Waiting for element by css selector : "${selector}" ... `,
+    enableLog,
+    act: () =>
+      gT.sOrig.driver.wait(gT.sOrig.until.elementLocated(gT.sOrig.by.css(selector)), timeout),
+  });
 }
 
 /**
@@ -77,10 +91,12 @@ export function waitForElementByCssSelector(selector, timeout: number, enableLog
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-export function waitForTitle(title, timeout: number, enableLog: boolean) {
-  return gIn.wrap(`Waiting for windows title: "${title}" ... `, enableLog, () =>
-    gT.sOrig.driver.wait(gT.sOrig.until.titleIs(title), timeout)
-  );
+export function waitForTitle(title: string, timeout: number, enableLog: boolean) {
+  return gIn.wrap({
+    msg: `Waiting for windows title: "${title}" ... `,
+    enableLog,
+    act: () => gT.sOrig.driver.wait(gT.sOrig.until.titleIs(title), timeout),
+  });
 }
 
 /**
@@ -91,14 +107,19 @@ export function waitForTitle(title, timeout: number, enableLog: boolean) {
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-export function waitForUrl(url, timeout: number, enableLog: boolean) {
-  return gIn.wrap(`Waiting for URL: "${url}" ... `, enableLog, () =>
-    gT.sOrig.driver.wait(
-      () =>
-        gT.sOrig.driver.getCurrentUrl().then(actUrl => url === gIn.textUtils.collapseHost(actUrl)),
-      timeout
-    )
-  );
+export function waitForUrl(url: string, timeout: number, enableLog: boolean) {
+  return gIn.wrap({
+    msg: `Waiting for URL: "${url}" ... `,
+    enableLog,
+    act: () =>
+      gT.sOrig.driver.wait(
+        () =>
+          gT.sOrig.driver
+            .getCurrentUrl()
+            .then(actUrl => url === gIn.textUtils.collapseHost(actUrl)),
+        timeout
+      ),
+  });
 }
 
 /**
@@ -110,14 +131,17 @@ export function waitForUrl(url, timeout: number, enableLog: boolean) {
  *
  * @returns {Promise} - Promise resolved to waiting result.
  */
-export function waitForUrlPrefix(urlPrefix, timeout: number, enableLog: boolean) {
-  return gIn.wrap(`Waiting for URL prefix: "${urlPrefix}" ... `, enableLog, () =>
-    gT.sOrig.driver.wait(
-      () =>
-        gT.sOrig.driver
-          .getCurrentUrl()
-          .then(actUrl => gIn.textUtils.collapseHost(actUrl).startsWith(urlPrefix)),
-      timeout
-    )
-  );
+export function waitForUrlPrefix(urlPrefix: string, timeout: number, enableLog: boolean) {
+  return gIn.wrap({
+    msg: `Waiting for URL prefix: "${urlPrefix}" ... `,
+    enableLog,
+    act: () =>
+      gT.sOrig.driver.wait(
+        () =>
+          gT.sOrig.driver
+            .getCurrentUrl()
+            .then(actUrl => gIn.textUtils.collapseHost(actUrl).startsWith(urlPrefix)),
+        timeout
+      ),
+  });
 }
