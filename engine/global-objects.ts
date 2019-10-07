@@ -34,8 +34,6 @@ import commonConsts = require('../common-utils/common-constants');
 // @ts-ignore
 import commonMiscUtils = require('../common-utils/common-misc-utils');
 
-import '../api/api-index';
-
 import { ExtJsCmpAPI } from '../api/extjs/new-api/components/extjs-components';
 
 import UtilsAPI from '../api/utils/utils-index';

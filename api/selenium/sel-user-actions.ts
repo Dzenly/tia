@@ -6,8 +6,6 @@
 
 import { EnableLog, IdForLog } from '../common-types';
 
-const wdKey = gT.sOrig.key;
-
 /**
  * Clicks to element specified by id.
  *
@@ -91,7 +89,7 @@ export function sendEscById(id: IdForLog, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Send Esc to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.ESCAPE),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(gT.sOrig.key.ESCAPE),
   });
 }
 
@@ -100,7 +98,7 @@ export function sendDownById(id: IdForLog, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Send DOWN to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.DOWN),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(gT.sOrig.key.DOWN),
   });
 }
 
@@ -109,7 +107,7 @@ export function sendEnterById(id: IdForLog, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Send ENTER to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.ENTER),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(gT.sOrig.key.ENTER),
   });
 }
 
@@ -118,7 +116,7 @@ export function sendTabById(id: IdForLog, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Send TAB to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.TAB),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(gT.sOrig.key.TAB),
   });
 }
 
@@ -127,7 +125,7 @@ export function sendPgDownById(id: IdForLog, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Send PAGE_DOWN to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.PAGE_DOWN),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(gT.sOrig.key.PAGE_DOWN),
   });
 }
 
@@ -136,7 +134,7 @@ export function sendPgUpById(id: IdForLog, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Send PAGE_UP to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.PAGE_UP),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(gT.sOrig.key.PAGE_UP),
   });
 }
 
@@ -145,7 +143,7 @@ export function sendUpById(id: IdForLog, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Send UP to element ${idObj.logStr} ... `,
     enableLog,
-    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(wdKey.UP),
+    act: () => gT.sOrig.driver.findElement(gT.sOrig.by.id(idObj.id)).sendKeys(gT.sOrig.key.UP),
   });
 }
 
@@ -180,7 +178,7 @@ export function sendCtrlAAndKeysById(id: IdForLog, keys, enableLog?: EnableLog) 
     act: () =>
       gT.sOrig.driver
         .findElement(gT.sOrig.by.id(idObj.id))
-        .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, ...keys),
+        .sendKeys(gT.sOrig.key.CONTROL, 'a', gT.sOrig.key.NULL, ...keys),
   });
 }
 
@@ -195,7 +193,7 @@ export function sendCtrlAKeysEnterById(id: IdForLog, keys, enableLog?: EnableLog
     act: () =>
       gT.sOrig.driver
         .findElement(gT.sOrig.by.id(idObj.id))
-        .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, ...keys, wdKey.ENTER),
+        .sendKeys(gT.sOrig.key.CONTROL, 'a', gT.sOrig.key.NULL, ...keys, gT.sOrig.key.ENTER),
   });
 }
 
@@ -207,7 +205,7 @@ export function sendCtrlAAndDeleteById(id: IdForLog, enableLog?: EnableLog) {
     act: () =>
       gT.sOrig.driver
         .findElement(gT.sOrig.by.id(idObj.id))
-        .sendKeys(wdKey.CONTROL, 'a', wdKey.NULL, wdKey.DELETE, wdKey.NULL),
+        .sendKeys(gT.sOrig.key.CONTROL, 'a', gT.sOrig.key.NULL, gT.sOrig.key.DELETE, gT.sOrig.key.NULL),
   });
 }
 

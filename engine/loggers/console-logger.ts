@@ -3,9 +3,6 @@
  * gIn.cLogger.
  */
 
-declare const gT: typeof import('../global-objects').GlobalTiaObjects;
-declare const gIn: typeof import('../global-objects').GlobalTiaInnerObjects;
-
 let chalk: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 let isChalkEnabled = false; // Just to speed up checking boolean instead of Boolean(object).
 
@@ -14,8 +11,6 @@ if (!process.env.TIA_NO_COLORS) {
   chalk = require('chalk');
   isChalkEnabled = true;
 }
-
-gIn.tracePrefix = '';
 
 /**
  * Tracks EOL of last message printed to console.
