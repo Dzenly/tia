@@ -124,7 +124,7 @@ export class CheckBoxLogs extends FormFieldBaseLogs {
    * Prints 'checked' or 'unchecked'.
    */
   static async rawValue(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
-    await gT.eC.component.l.rawValue(tEQ, idForLog, val => `${val ? 'checked' : 'unchecked'}`);
+    await gT.eC.formFieldBase.l.rawValue(tEQ, idForLog, val => `${val ? 'checked' : 'unchecked'}`);
   }
 }
 

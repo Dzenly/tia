@@ -14,22 +14,27 @@ import { getCISContent } from '../../extjs-utils';
 
 const compName = 'TableView';
 
-function prepareCellData(cellData) {
+function isByColumns(
+  data: TableCellByColumns | TableCellByModelFields
+): data is TableCellByColumns {
+  return (data as TableCellByColumns).column !== undefined;
+}
+
+function prepareCellData(cellData: TableCellByColumns | TableCellByModelFields) {
   // eslint-disable-next-line no-param-reassign
   cellData.row = cellData.row.map(item => [
     gT.e.utils.locKeyToStr(item[0]),
     gT.e.utils.locKeyToStr(item[1]),
   ]);
 
-  if (cellData.column) {
+  if (isByColumns(cellData)) {
     // eslint-disable-next-line no-param-reassign
     cellData.column = gT.e.utils.locKeyToStr(cellData.column);
-  }
-
-  if (cellData.field) {
+  } else {
     // eslint-disable-next-line no-param-reassign
     cellData.field = gT.e.utils.locKeyToStr(cellData.field);
   }
+
   return cellData;
 }
 
@@ -293,7 +298,12 @@ export class TableViewActions extends ComponentActions {
    * Right mouse button click on the specified column in the first table row.
    * The cell column is specified by the model field name.
    */
-  static async rClickFirstRowCellByModelField(tEQ, fieldName, idForLog, enableLog?: EnableLog) {
+  static async rClickFirstRowCellByModelField(
+    tEQ: Teq,
+    fieldName: string,
+    idForLog?: ElementIdForLog,
+    enableLog?: EnableLog
+  ) {
     return gT.e.q.wrap({
       tEQ,
       compName,

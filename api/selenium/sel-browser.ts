@@ -9,6 +9,9 @@ import { IWebDriverOptionsCookie } from 'selenium-webdriver';
 import { EnableLog } from '../extjs/new-api/types/ej-types';
 // import wrap from '../../engine/wrap';
 
+let screenWidth: number;
+let screenHeight: number;
+
 function nextScreenShotPath() {
   const jsPath = gIn.tInfo.getData()!.path;
   let index = String(gIn.tInfo.getData()!.screenShotCounter++);
@@ -340,8 +343,8 @@ export function getScreenResolution(enableLog?: EnableLog) {
     act: () =>
       executeScriptWrapper('return tia.getScreenResolution()').then(res => {
         // Save resolution to emulate maximize.
-        gT.s.browser.screenWidth = res.width;
-        gT.s.browser.screenHeight = res.height;
+        screenWidth = res.width;
+        screenHeight = res.height;
         return res;
       }),
   });
@@ -357,11 +360,11 @@ export function maximize(enableLog?: EnableLog) {
     msg: 'Maximize ... ',
     enableLog,
     act: () => {
-      if (typeof gT.s.browser.screenWidth !== 'undefined') {
+      if (typeof screenWidth !== 'undefined') {
         return gT.sOrig.driver
           .manage()
           .window()
-          .setSize(gT.s.browser.screenWidth, gT.s.browser.screenHeight);
+          .setSize(screenWidth, screenHeight);
       }
       return gT.sOrig.driver
         .manage()

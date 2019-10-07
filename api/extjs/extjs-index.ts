@@ -7,21 +7,12 @@ import { inspect } from 'util';
 import * as utils from './extjs-utils';
 import * as api from './extjs-api-actions';
 import * as explore from './extjs-exploration';
-import * as search from './extjs-search';
+import * as query from './new-api/tia-extjs-query';
+
 import { EnableLog } from './new-api/types/ej-types';
 
-gT.e.msgBox = require('./extjs-msgbox');
-gT.e.wait = require('./extjs-waits');
-
-require('./new-api/ext-js');
-
-// Find.
-// Wait.
-// Read some data from ExtJs objects: both GUI and non-GUI.
-// Set some data by scripts.
-
-// ua - User Actions.
-// sa - script Actions.
+import * as msgBox from './extjs-msgbox';
+import * as wait from './extjs-waits';
 
 async function setEJSelectors(enableLog?: EnableLog) {
   const objStr = inspect(gT.globalConfig.ejSelectors, { compact: true, breakLength: 200 });
@@ -53,6 +44,12 @@ const brHelpers = [
 
 export class ExtJsAPI {
   static utils = utils;
+
+  static explore = explore;
+  static msgBox = msgBox;
+  static wait = wait;
+  static query = query;
+  static q = query;
 
   /**
    * Initializes TIA ExtJs Browser helpers.

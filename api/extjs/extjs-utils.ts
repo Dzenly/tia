@@ -21,7 +21,7 @@ let invertedLocaleAllKeys: LocaleEntries = {};
  * @param {boolean} [enableLog=true] - is logging needed for this action.
  * @returns a promise which will be resolved with script return value.
  */
-export function setLocaleObject(objExpression: string, enableLog: EnableLog) {
+export function setLocaleObject(objExpression: string, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'setLocaleObject ... ',
     enableLog,
@@ -51,7 +51,7 @@ function setExtraLocale(newExtraLocale: LocaleEntries) {
   invertedExtraLocaleAllKeys = invertedExtraObject.invertedMapAllKeys;
 }
 
-export function setExtraLocaleObject(localeObj: LocaleEntries, enableLog: EnableLog) {
+export function setExtraLocaleObject(localeObj: LocaleEntries, enableLog?: EnableLog) {
   setExtraLocale(localeObj);
 
   const objStr = inspect(localeObj, { compact: true, breakLength: 200 });
@@ -185,7 +185,7 @@ export function getCISContent(
  * @param enableLog
  * @return {*}
  */
-export function setDebugLocaleMode(newMode: boolean, enableLog: EnableLog) {
+export function setDebugLocaleMode(newMode: boolean, enableLog?: EnableLog) {
   debugLocale = newMode;
 
   return gIn.wrap({

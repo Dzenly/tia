@@ -4,7 +4,7 @@
 
 import { EnableLog } from './new-api/types/ej-types';
 
-export function logTitle(enableLog: EnableLog) {
+export function logTitle(enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Log title of message box: ',
     enableLog,

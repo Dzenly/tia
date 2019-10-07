@@ -48,6 +48,8 @@ export class LogUtils {
   static rStreamToLog = rStreamToLog;
 }
 
+import { ExtJsAPI } from '../api/extjs/extjs-index';
+
 // Chromedriver needs nodejs.
 process.env.PATH = process.env.PATH + path.delimiter + path.dirname(process.execPath);
 process.env.SELENIUM_PROMISE_MANAGER = '0';
@@ -196,6 +198,8 @@ export class GlobalTiaObjects {
   static a = a;
 
   static u = UtilsAPI;
+
+  static e = ExtJsAPI;
 
   static commonConsts = commonConsts;
   static cC = commonConsts;

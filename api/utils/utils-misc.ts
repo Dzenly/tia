@@ -28,7 +28,7 @@ function iterateIterator(iterator) {
   return new Promise((resolve, reject) => {
     let obj;
 
-    function iterate(ret) {
+    function iterate(ret?: any) {
       obj = iterator.next(ret);
 
       // TODO: check if obj.value is Promise. Improve test for generators.
@@ -55,9 +55,9 @@ function iterateIterator(iterator) {
 
     iterate();
   });
-};
+}
 
-export {iterateIterator as iterate};
+export { iterateIterator as iterate };
 
 export function iterateSafe(iterator) {
   return gT.u.misc.iterate(iterator).catch(e => {
@@ -67,7 +67,7 @@ export function iterateSafe(iterator) {
     }
     gT.l.println(strErr);
   });
-};
+}
 
 export function execGenSafe(gen, ...params) {
   return gT.u.misc.iterate(gen(...params)).catch(e => {
@@ -77,7 +77,7 @@ export function execGenSafe(gen, ...params) {
     }
     gT.l.println(strErr);
   });
-};
+}
 
 /**
  * Runs function - generator.
@@ -88,17 +88,17 @@ export function execGenSafe(gen, ...params) {
  */
 export function execGen(gen, param1, param2) {
   return gT.u.misc.iterate(gen(param1, param2));
-};
+}
 
 export function setHangTimeout(newTimeout) {
   const oldTimeout = gT.cLParams.hangTimeout;
   gT.cLParams.hangTimeout = newTimeout;
   return oldTimeout;
-};
+}
 
 export function isWindows() {
   return path.sep === '\\';
-};
+}
 
 // gT.s.fail = function (url, enableLog?: EnableLog) {
 //   return gIn.wrap('Intentional fail for debug: ... ', enableLog, function () {
