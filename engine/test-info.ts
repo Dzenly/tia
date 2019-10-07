@@ -35,6 +35,9 @@ export class TestInfo {
   screenShotCounter = 0;
   children: null | TestInfo[] = null;
   time = 0; // Execution time in milliseconds.
+  isSuiteRoot = false;
+  suiteLogDiff?: boolean;
+  os?: string;
   // TODO: To investigate the need for throws count.
 
   constructor(isDir: boolean, title: string, path: string) {

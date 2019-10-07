@@ -10,6 +10,7 @@ import * as nodeUtils from '../utils/nodejs-utils';
 import * as fileUtils from '../utils/file-utils';
 import * as suiteUtils from '../utils/suite-utils';
 import * as os from 'os';
+import { TestInfo } from './test-info';
 
 function getOs() {
   return `${os.platform()}_${os.release()}`;
@@ -266,7 +267,17 @@ async function handleTestDir(dir: string, parentDirConfig: any) {
   return dirInfo;
 }
 
-async function runTestSuite(suiteData: any) {
+interface SuiteResult {
+  dirInfo?: any;
+  path?: string; // TODO: path is just for TS.
+  suiteEqualToEtalon?: boolean;
+  diffed?: number;
+  emailSubj?: string;
+  emailSubjConsole?: string;
+  err?: any;
+}
+
+async function runTestSuite(suiteData: any): Promise<SuiteResult> {
   const { root, log: suiteLog } = suiteData;
 
   // console.log('runAsync Dir: ' + dir);
@@ -300,11 +311,11 @@ async function runTestSuite(suiteData: any) {
   }
 
   if (gT.cLParams.new) {
-    return {};
+    return { path: '' }; // TODO: path is just for TS.
   }
 
   if (gT.cLParams.pattern || gT.cLParams.dir) {
-    return { dirInfo };
+    return { dirInfo, path: '' }; // TODO: path is just for TS.
   }
 
   // dirInfo.title = path.basename(dir);
@@ -395,7 +406,13 @@ async function runTestSuite(suiteData: any) {
 
   txtAttachments.push(suiteUtils.getNoEtalonTestsInfoPath());
 
-  await gIn.mailUtils.send(emailSubj, suiteLogEtDifResStr, etDifTxt, txtAttachments, [arcPath]);
+  await gIn.mailUtils.send(
+    emailSubj,
+    suiteLogEtDifResStr,
+    etDifTxt,
+    txtAttachments,
+    arcPath ? [arcPath] : undefined
+  );
 
   const suiteNotEmpty = dirInfo.run + dirInfo.skipped;
 
@@ -414,11 +431,12 @@ async function runTestSuite(suiteData: any) {
     gIn.cLogger.msgln(procInfo);
   }
 
-  if (gT.suiteConfig.removeZipAfterSend) {
+  if (gT.suiteConfig.removeZipAfterSend && arcPath) {
     fileUtils.safeUnlink(arcPath);
   }
 
   return {
+    path: '', // TODO: path is just for TS.
     suiteEqualToEtalon,
     diffed,
     emailSubj,
@@ -426,7 +444,7 @@ async function runTestSuite(suiteData: any) {
   };
 }
 
-async function prepareAndRunTestSuite(root) {
+async function prepareAndRunTestSuite(root: string) {
   const browserProfilesPath = path.resolve(
     root,
     gT.engineConsts.suiteResDirName,
@@ -468,7 +486,7 @@ async function prepareAndRunTestSuite(root) {
     gIn.tracer.err(`Runner ERR: ${gIn.textUtils.excToStr(err)}`);
     return {
       err,
-    };
+    } as SuiteResult;
   });
 
   suiteResult.path = path.relative(gT.cLParams.rootDir, root);
@@ -479,7 +497,7 @@ async function prepareAndRunTestSuite(root) {
 function getTestSuitePaths() {
   const suitePaths: string[] = [];
 
-  function walkSubDirs(parentDir) {
+  function walkSubDirs(parentDir: string) {
     const dirs = fs.readdirSync(parentDir).filter(childDir => {
       const fullPath = path.join(parentDir, childDir);
       if (!fileUtils.isDirectory(fullPath)) {
@@ -518,7 +536,7 @@ function getTestSuitePaths() {
   return suitePaths;
 }
 
-function extractDiffedPaths(testOrDirInfo, result, suiteRoot) {
+function extractDiffedPaths(testOrDirInfo: TestInfo, result: string[], suiteRoot: string) {
   if (testOrDirInfo.children) {
     for (const child of testOrDirInfo.children) {
       if (child.diffed) {
@@ -578,7 +596,7 @@ export async function runTestSuites() {
       if (dirInfo.diffed) {
         isDiffed = true;
         gIn.cLogger.msg(`Following tests are diffed in suite: ${dirInfo.path}:\n- `);
-        const result = [];
+        const result: string[] = [];
         extractDiffedPaths(dirInfo, result, dirInfo.path);
         gIn.cLogger.msgln(`${result.join('\n- ')}\n`);
       }
@@ -612,7 +630,7 @@ export async function runTestSuites() {
     }
 
     fs.appendFileSync(gT.rootLog, `${result.emailSubj}\n`);
-    gIn.cLogger.msgln(result.emailSubjConsole);
+    gIn.cLogger.msgln(result.emailSubjConsole!);
   });
 
   const tail = '<<<< ===================== >>>>';

@@ -114,6 +114,9 @@ export class CommandLineParams {
   static hangTimeout: number;
   static enableEmail: boolean;
   static xvfb: boolean;
+  static tooLongTime = engineConsts.tooLongTime;
+  static showEmptySuites: boolean;
+  static printProcInfo: boolean;
 }
 
 export interface Suite {

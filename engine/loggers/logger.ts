@@ -26,6 +26,7 @@ export function getLogFile() {
 
 import * as fs from 'fs';
 import * as nodeUtils from '../../utils/nodejs-utils';
+import { TestInfo } from '../test-info';
 
 function logToFile(msg: string) {
   // TODO: check how diff work for unicode.
@@ -244,7 +245,17 @@ function saveSuiteLogPart({ verbose, dirInfo, noTime, noTestDifs }) {
  * @parem noTime
  * @returns {string} - Verbose info for the root test directory.
  */
-export function saveSuiteLog({ dirInfo, log, noTime, noTestDifs }) {
+export function saveSuiteLog({
+  dirInfo,
+  log,
+  noTime,
+  noTestDifs,
+}: {
+  dirInfo: TestInfo;
+  log: string;
+  noTime?: boolean;
+  noTestDifs?: boolean;
+}) {
   writeLogStr = writeStrToFile;
   fd = fs.openSync(log, 'w');
   saveSuiteLogPart({
