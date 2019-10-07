@@ -120,7 +120,7 @@ function formLogPart(str: string, count: number) {
  * @param parameters.noTitle
  * @returns {String}
  */
-export function testInfoToString(parameters) {
+export function testInfoToString(parameters: any) {
   const { curInfo, isDir, verbose, noTime, noTitle, noEol } = parameters;
   let diffed;
   let ediffed;

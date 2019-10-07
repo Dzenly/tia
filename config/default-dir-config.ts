@@ -1,5 +1,3 @@
-
-
 // The default config for test directories.
 // Options can be overloaded in directory configs.
 
@@ -33,16 +31,16 @@ export const ignoreNames = ['tia-ignore-me', 'node_modules', '.idea', '.vscode',
 
 // Array of absolute paths or paths relative to root dir.
 // They will be required before all dir tests.
-export const require = [];
+export const requireMods = [];
 
 // If some test is failed, info about memory usage will be printed to its log.
 // But if RSS is less then this threshold in MegaBytes, then info will not be printed.
-export const rssUsageThreshold: 500;
+export const rssUsageThreshold = 500;
 
 // If overridden in tia-dir-config.js, all tests from according directory will be skipped.
 // To skip one test - just rename it to don't have `.tia.js` extension.
 // Skipped tests are calculated in suite log.
-export const skip: false;
+export const skip = false;
 
 // Print Browser exceptions which occurred during low level function calls.
 export const selPrintClExcAfterEachCommand = false;
