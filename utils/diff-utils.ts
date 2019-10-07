@@ -197,7 +197,7 @@ export function diff({
   const diffed = out ? 1 : 0;
   if (!diffed) {
     gIn.fileUtils.safeUnlink(diffPath);
-    return; // No gIn.tInfo.data changes. gIn.tInfo.data.diffed and gIn.tInfo.data.expDiffed are zeroes.
+    return; // No data changes. data.diffed and data.expDiffed are zeroes.
   }
 
   gIn.fileUtils.backupDif(diffPath);
@@ -214,7 +214,7 @@ export function diff({
   });
   if (out) {
     // gIn.tracer.trace1(`${base} DIFF: \n ${oldOut}`);
-    gIn.tInfo.data.diffed = 1;
+    gIn.tInfo.setDiffed(1);
     out = getDiff({
       dir,
       oldFile: `${base}.dif`,
@@ -224,7 +224,7 @@ export function diff({
       gIn.suite.changedEDiffs++;
     }
   } else {
-    gIn.tInfo.data.expDiffed = 1;
+    gIn.tInfo.setExpDiffed(1);
   }
 
   gIn.fileUtils.safeUnlink(`${diffPath}.old`);

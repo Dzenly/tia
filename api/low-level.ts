@@ -10,18 +10,18 @@
  * Sets passes count for current test.
  * Can be used for debug.
  */
-export function setPassed(newCount) {
+export function setPassed(newCount: number) {
   gIn.tracer.msg3(`Changing passed tests count to ${newCount}`);
-  gIn.tInfo.data.passed = newCount;
+  gIn.tInfo.setPassed(newCount);
 };
 
 /**
  * Sets fails count for current test.
  * Can be used for debug.
  */
-export function setFailed(newCount) {
+export function setFailed(newCount: number) {
   gIn.tracer.msg3(`Changing failed tests count to ${newCount}`);
-  gIn.tInfo.data.failed = newCount;
+  gIn.tInfo.setFailed(newCount);
 };
 
 /**
@@ -30,7 +30,7 @@ export function setFailed(newCount) {
  * @returns {number}
  */
 export function getPassed() {
-  return gIn.tInfo.data.passed;
+  return gIn.tInfo.getPassed();
 };
 
 /**
@@ -38,7 +38,7 @@ export function getPassed() {
  * @returns {number}
  */
 export function getFailed() {
-  return gIn.tInfo.data.failed;
+  return gIn.tInfo.getFailed();
 };
 
 /**
@@ -49,13 +49,13 @@ export function getFailed() {
  * @returns {boolean} - old pass counting value.
  */
 export function setLlPassCounting(enable: boolean) {
-  const old = gIn.tInfo.isPassCountingEnabled;
+  const old = gIn.tInfo.getPassCountingEnabled();
   gIn.tInfo.setPassCountingEnabled(enable);
   return old;
 };
 
 export function setLlPassPrinting(enable: boolean) {
-  const old = gIn.tInfo.isPassPrintingEnabled;
+  const old = gIn.tInfo.getPassPrintingEnabled();
   gIn.tInfo.setPassPrintingEnabled(enable);
   return old;
 };
@@ -67,7 +67,7 @@ export function setLlPassPrinting(enable: boolean) {
  * @param {boolean} enable - new Log Action value.
  * @returns {boolean} - old Log Action value.
  */
-export function setDefaultLlLogAction(enable) {
+export function setDefaultLlLogAction(enable: boolean) {
   const old = gIn.loggerCfg.getDefLLLogAction();
   gIn.loggerCfg.setDefLLLogAction(enable);
   return old;

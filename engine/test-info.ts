@@ -57,6 +57,42 @@ export function setData(newData: TestInfo) {
   data = newData;
 }
 
+export function setPassed(newCount: number) {
+  data!.passed = newCount;
+}
+
+export function setFailed(newCount: number) {
+  data!.failed = newCount;
+}
+
+export function getPassed() {
+  return data!.passed;
+}
+
+export function getFailed() {
+  return data!.failed;
+}
+
+export function setSkipped(newCount: number) {
+  data!.skipped = newCount;
+}
+
+export function setRun(newCount: number) {
+  data!.run = newCount;
+}
+
+export function setDiffed(newCount: number) {
+  data!.diffed = newCount;
+}
+
+export function setExpDiffed(newCount: number) {
+  data!.expDiffed = newCount;
+}
+
+export function setTime(newTime: number) {
+  data!.time = newTime;
+}
+
 export function setTitle(title: string) {
   data!.title = title;
 }

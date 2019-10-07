@@ -94,14 +94,14 @@ async function handleTestFile(file: string, dirConfig) {
     }
   }
 
-  gIn.tInfo.data = gIn.tInfo.createTestInfo(false, '', file); // Test should change this title.
+  gIn.tInfo.setData(gIn.tInfo.createTestInfo(false, '', file)); // Test should change this title.
 
   if (skippedDir) {
-    gIn.tInfo.data.skipped = 1;
-    return gIn.tInfo.data;
+    gIn.tInfo.setSkipped(1);
+    return gIn.tInfo.getData();
   }
 
-  gIn.tInfo.data.run = 1;
+  gIn.tInfo.setRun(1);
 
   if (gT.config.DISPLAY && gT.cLParams.xvfb) {
     process.env.DISPLAY = gT.config.DISPLAY;
@@ -118,7 +118,6 @@ async function handleTestFile(file: string, dirConfig) {
 
   const startTime = gT.timeUtils.startTimer();
 
-  // gIn.tInfo.data
   await runTestFile(file).catch(e => {
     const asdf = 5;
   }); // Can be sync.
@@ -130,14 +129,14 @@ async function handleTestFile(file: string, dirConfig) {
     gIn.logger.log(extLog);
   }
 
-  gIn.tInfo.data.time = gT.timeUtils.stopTimer(startTime);
+  gIn.tInfo.setTime(gT.timeUtils.stopTimer(startTime));
   if (!gT.cLParams.new) {
     gIn.diffUtils.diff({
       jsTest: file,
     });
   }
 
-  return gIn.tInfo.data; // Return value to be uniform in handleDir.
+  return gIn.tInfo.getData(); // Return value to be uniform in handleDir.
 }
 
 /**

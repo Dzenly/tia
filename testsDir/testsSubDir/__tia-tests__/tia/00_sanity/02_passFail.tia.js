@@ -20,7 +20,7 @@ a.value(lL.getPassed(), 6, 'Passed tests count');
 
 l.println('Freshly inited test info, real title, verbose:');
 l.println(gIn.tInfo.testInfoToString({
-  curInfo: gIn.tInfo.data,
+  curInfo: gIn.tInfo.getData(),
   isDir: false,
   verbose: true,
   noTime: false,

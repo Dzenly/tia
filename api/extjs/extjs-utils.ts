@@ -194,31 +194,3 @@ export function setDebugLocaleMode(newMode: boolean, enableLog: EnableLog) {
     act: () => gT.s.browser.executeScript(`return tiaEJ.setDebugLocaleMode(${newMode});`, false),
   });
 }
-
-/**
- *
- * @param parentCmp
- * @param enableLog
- * @return {*}
- */
-// export function setParentContainer(cmp, enableLog: EnableLog) {
-//   return gIn.wrap(
-//     `Set container '${cmp.getLogInfo()}' as the parent for further search`,
-//     enableLog,
-//     () => gT.s.browser.executeScript(
-//       `return tiaEJ.search.settings.setParentContainer('${cmp.getId()}');`,
-//       false
-//     )
-//   );
-// };
-
-// export function addFakeId(fakeId, realId, enableLog: EnableLog) {
-//   return gIn.wrap(
-//     `Add fake id '${fakeId}' to idMap`,
-//     enableLog,
-//     () => gT.s.browser.executeScript(
-//       `return tiaEJ.idMap.add('${fakeId}', '${realId}');`,
-//       false
-//     )
-//   );
-// };

@@ -10,8 +10,8 @@ import { EnableLog } from '../extjs/new-api/types/ej-types';
 // import wrap from '../../engine/wrap';
 
 function nextScreenShotPath() {
-  const jsPath = gIn.tInfo.data.path;
-  let index = String(gIn.tInfo.data.screenShotCounter++);
+  const jsPath = gIn.tInfo.getData()!.path;
+  let index = String(gIn.tInfo.getData()!.screenShotCounter++);
   if (index.length < 2) {
     index = `0${index}`;
   }
@@ -278,7 +278,7 @@ export function printCaughtExceptions(includeExtAjaxFailures?: boolean): Promise
  * @returns {Promise.<TResult>}
  */
 // No log action intentionaly.
-export function cleanExceptions(includingExtJsAjaxFailures, enableLog?: EnableLog) {
+export function cleanExceptions(includingExtJsAjaxFailures: boolean, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: 'Cleaning client exceptions: ... ',
     enableLog,
@@ -296,7 +296,7 @@ export function cleanExceptions(includingExtJsAjaxFailures, enableLog?: EnableLo
  *
  * @return {Promise}
  */
-export function setWindowPosition(x, y, enableLog?: EnableLog) {
+export function setWindowPosition(x: number, y: number, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Set Window Position: (${x}, ${y}) ... `,
     enableLog,
@@ -316,7 +316,7 @@ export function setWindowPosition(x, y, enableLog?: EnableLog) {
  *
  * @return {Promise}
  */
-export function setWindowSize(width, height, enableLog?: EnableLog) {
+export function setWindowSize(width: number, height: number, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Set Window Size: (${width}, ${height}) ... `,
     enableLog,
@@ -380,7 +380,7 @@ export function screenshot(enableLog?: EnableLog) {
       gIn.tracer.msg2('Inside screenshot function 2.');
       return gT.sOrig.driver.takeScreenshot().then(str => {
         gIn.tracer.msg2('Inside screenshot function 3.');
-        if (gIn.tInfo.data.screenShotCounter > 99) {
+        if (gIn.tInfo.getData()!.screenShotCounter > 99) {
           // TODO: place the constant to config (but code must be changed also)?
           throw new Error('Too many screenshoots');
         }
@@ -399,7 +399,7 @@ export function screenshot(enableLog?: EnableLog) {
  * @param enableLog -  enable/disable logging for this action.
  * @returns {Promise.<TResult>}
  */
-export function addCookie(name: string, value, enableLog?: EnableLog) {
+export function addCookie(name: string, value: string, enableLog?: EnableLog) {
   return gIn.wrap({
     msg: `Add cookie: "${name}": "${value}" ... `,
     enableLog,

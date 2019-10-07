@@ -3,7 +3,7 @@
 /* globals gT: true */
 /* globals gIn: true */
 
-import { EnableLog } from './new-api/types/ej-types';
+import { EnableLog, IdForLog, IdForLogObj } from './new-api/types/ej-types';
 
 /**
  * Waits until all ajax requests will be completed.
@@ -56,7 +56,7 @@ export function idle(timeout?: number, enableLog?: EnableLog): Promise<void> {
 
 // TODO: Describe and test.
 // TODO: redundant call to webdriver ?
-function logFormFieldInfo(formId, name, enableLog?: EnableLog) {
+function logFormFieldInfo(formId: IdForLogObj, name: string, enableLog?: EnableLog) {
   return function() {
     return gT.s.browser
       .executeScriptWrapper(
@@ -69,47 +69,52 @@ function logFormFieldInfo(formId, name, enableLog?: EnableLog) {
 }
 
 // TODO: Describe and test.
-export function formFieldEnabled(formId, name, timeout, enableLog?: EnableLog) {
-  formId = gT.s.idToIdForLogObj(formId);
+export function formFieldEnabled(
+  formId: IdForLog,
+  name: string,
+  timeout?: number,
+  enableLog?: EnableLog
+) {
+  const formIdObj = gT.s.idToIdForLogObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap({
-    msg: `Waiting for enabling field (name: ${name}) on form ${formId.logStr}`,
+    msg: `Waiting for enabling field (name: ${name}) on form ${formIdObj.logStr}`,
     enableLog,
     act: () =>
       gT.sOrig.driver
         .wait(
           () =>
             gT.s.browser.executeScriptWrapper(
-              `return tiaEJ.check.formFieldEnabled('${formId.id}', '${name}');`
+              `return tiaEJ.check.formFieldEnabled('${formIdObj.id}', '${name}');`
             ),
           timeout
         )
-        .then(logFormFieldInfo(formId, name, enableLog)),
+        .then(logFormFieldInfo(formIdObj, name, enableLog)),
   });
 }
 
 // TODO: Describe and test.
 export function formFieldDisabled(
-  formId: string,
+  formId: IdForLog,
   name: string,
   timeout?: number,
   enableLog?: EnableLog
 ) {
-  formId = gT.s.idToIdForLogObj(formId);
+  const formIdObj = gT.s.idToIdForLogObj(formId);
   timeout = timeout || gT.engineConsts.defaultWaitTimeout;
   return gIn.wrap({
-    msg: `Waiting for disabling field (name: ${name}) onform ${formId.logStr}`,
+    msg: `Waiting for disabling field (name: ${name}) onform ${formIdObj.logStr}`,
     enableLog,
     act: () =>
       gT.sOrig.driver
         .wait(
           () =>
             gT.s.browser.executeScriptWrapper(
-              `return tiaEJ.check.formFieldDisabled('${formId.id}', '${name}');`
+              `return tiaEJ.check.formFieldDisabled('${formIdObj.id}', '${name}');`
             ),
           timeout
         )
-        .then(logFormFieldInfo(formId, name, enableLog)),
+        .then(logFormFieldInfo(formIdObj, name, enableLog)),
   });
 }
 

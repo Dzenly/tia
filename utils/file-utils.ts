@@ -2,6 +2,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { TestInfo } from '../engine/test-info';
 
 import * as textUtils from './text-utils';
 import * as childProcess from 'child_process';
@@ -69,6 +70,17 @@ export function backupDif(fileOrDirPath: string) {
   }
 }
 
+export function isDirectory(fileOrDirPath: string) {
+  let stat;
+  try {
+    stat = fs.statSync(fileOrDirPath);
+  } catch (e) {
+    return false;
+  }
+
+  return stat.isDirectory();
+}
+
 export function rmPngs(jsPath: string) {
   const dir = path.dirname(jsPath);
   const start = path.basename(textUtils.changeExt(jsPath, ''));
@@ -81,7 +93,7 @@ export function rmPngs(jsPath: string) {
   });
 }
 
-export function rmDir(dir: string, removeSelf?: string) {
+export function rmDir(dir: string, removeSelf?: boolean) {
   let files;
   try {
     files = fs.readdirSync(dir);
@@ -148,14 +160,14 @@ export function saveJson(obj: any, file: string) {
   fs.writeFileSync(file, JSON.stringify(obj, null, 2), { encoding: gT.engineConsts.logEncoding });
 }
 
-function collectArcPaths(dirInfo, arcPaths: string[]) {
+function collectArcPaths(dirInfo: TestInfo, arcPaths: string[]) {
   if (!dirInfo.diffed) {
     return;
   }
 
   // Absense of 'children' property says that it is test and not directory,
   // we should not allow to use this function for not directory.
-  for (const curInfo of dirInfo.children) {
+  for (const curInfo of dirInfo.children!) {
     // eslint-disable-line no-restricted-syntax
     if (Object.prototype.hasOwnProperty.call(curInfo, 'children')) {
       collectArcPaths(curInfo, arcPaths);
@@ -178,7 +190,7 @@ export function getDirectoryAlias(dirPath: string) {
   return alias;
 }
 
-export function archiveSuiteDir(dirInfo) {
+export function archiveSuiteDir(dirInfo: TestInfo) {
   if (
     !gT.cLParams.enableEmail ||
     !gT.suiteConfig.attachArchiveToMail ||
@@ -216,7 +228,7 @@ export function archiveSuiteDir(dirInfo) {
   }
 
   // Only diffs handling.
-  const diffedPathsToArc = [];
+  const diffedPathsToArc: string[] = [];
 
   collectArcPaths(dirInfo, diffedPathsToArc);
 
@@ -244,21 +256,12 @@ export function archiveSuiteDir(dirInfo) {
   return resultArchivePath;
 }
 
-export function isDirectory(fileOrDirPath: string) {
-  let stat;
-  try {
-    stat = fs.statSync(fileOrDirPath);
-  } catch (e) {
-    return false;
-  }
-
-  return stat.isDirectory();
-}
-
 export function mkdir(dirPath: string) {
   try {
     fs.mkdirSync(dirPath, { recursive: true });
-  } catch (e) {}
+  } catch (e) {
+    gIn.tracer.msg3(e.toString());
+  }
 }
 
 export function mkDirRecursive(targetDir: string, subDirsArr: string[]) {
@@ -270,7 +273,7 @@ export function mkDirRecursive(targetDir: string, subDirsArr: string[]) {
 }
 
 export function rmLastDirSep(dir: string) {
-  if (dir[dir.length - 1] === path.sep) {
+  if (dir.endsWith(path.sep)) {
     return dir.slice(0, -1);
   }
   return dir;

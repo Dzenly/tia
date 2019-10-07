@@ -2,7 +2,7 @@ const { t, a, l } = gT;
 
 l.println('Freshly inited test info, empty title, verbose:');
 l.println(gIn.tInfo.testInfoToString({
-  curInfo: gIn.tInfo.data,
+  curInfo: gIn.tInfo.getData(),
   isDir: false,
   verbose: true,
   noTime: false,
@@ -13,7 +13,7 @@ t.setTitle('Test for testInfo init');
 
 l.println('Freshly inited test info, real title, verbose:');
 l.println(gIn.tInfo.testInfoToString({
-  curInfo: gIn.tInfo.data,
+  curInfo: gIn.tInfo.getData(),
   isDir: false,
   verbose: true,
   noTime: false,
@@ -24,7 +24,7 @@ l.eol();
 
 l.println('Freshly inited test info, no time, no title, short:');
 l.println(gIn.tInfo.testInfoToString({
-  curInfo: gIn.tInfo.data,
+  curInfo: gIn.tInfo.getData(),
   isDir: false,
   verbose: false,
   noTime: true,

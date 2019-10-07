@@ -1,4 +1,1 @@
-export const allowedSlogSubj = [
-  'run',
-  'pass',
-];
+export const allowedSlogSubj = ['run', 'pass'];

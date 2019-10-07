@@ -154,7 +154,7 @@ function writeToSuiteLog(str, diffed, isDif) {
 
 export function testSummary() {
   log('=================\n');
-  log(`Pass: ${gIn.tInfo.data.passed}, Fail: ${gIn.tInfo.data.failed}\n`);
+  log(`Pass: ${gIn.tInfo.getPassed()}, Fail: ${gIn.tInfo.getFailed()}\n`);
 }
 
 function saveDirInfoToSuiteLog(parameters) {

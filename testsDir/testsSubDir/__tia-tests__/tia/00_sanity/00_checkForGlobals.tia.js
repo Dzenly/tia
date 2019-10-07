@@ -6,4 +6,4 @@ a.true(typeof gT !== 'undefined', 'gT exists');
 a.true(typeof gIn !== 'undefined', 'gIn exists');
 a.true('config' in gT, 'gT.config exists');
 a.true('tInfo' in gIn, 'gIn.tInfo exists');
-a.true('data' in gIn.tInfo, 'gIn.tInfo.data exists');
+a.true('data' in gIn.tInfo.getData(), 'gIn.tInfo.getData()');

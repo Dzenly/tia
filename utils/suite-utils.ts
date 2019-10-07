@@ -11,13 +11,13 @@ export function getNoEtalonTestsInfoPath() {
     gT.engineConsts.noEtalonTests
   );
   return noEtalonTestsPath;
-};
+}
 
 export function saveNewTestInfo(testPath: string) {
   const pathToAdd = path.relative(gIn.suite.root, testPath);
-  appendFileSync(getNoEtalonTestsInfoPath(), `${pathToAdd}\n`, 'utf8')
-};
+  appendFileSync(getNoEtalonTestsInfoPath(), `${pathToAdd}\n`, 'utf8');
+}
 
 export function rmNewTestsInfo() {
   fileUtils.safeUnlink(getNoEtalonTestsInfoPath());
-};
+}

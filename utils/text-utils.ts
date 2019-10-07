@@ -17,7 +17,7 @@ export function filterStack(strStack: string) {
   return newArr.join('\n');
 }
 
-export function excToStr(err: Error, noStack: boolean) {
+export function excToStr(err: Error, noStack?: boolean) {
   if (typeof err === 'undefined') {
     return '\nNo Exception info\n';
   }

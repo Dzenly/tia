@@ -126,7 +126,7 @@ export function findTiaRootInChildren(dir: string) {
  * Relative paths resolved relative to CWD.
  * @return {String} - resolved path.
  */
-export function resolveRootDirEx(argsTiaRootDir: string) {
+export function resolveRootDirEx(argsTiaRootDir: string): string {
   let tiaRootDir = resolveRootDirFromArgsAndEnv(argsTiaRootDir);
   if (tiaRootDir) {
     return tiaRootDir;
@@ -140,7 +140,7 @@ export function resolveRootDirEx(argsTiaRootDir: string) {
     gIn.tracer.err('You have not initialized any directories. See tia -h for init command');
     process.exit(1);
   }
-  return tiaRootDir;
+  return tiaRootDir || '';
 }
 
 export function initTiaSuite() {
@@ -230,7 +230,7 @@ export function resolvePathOptionRelativeToRootDir({
   cmdLineArgsPath: string;
   envVarName: string;
   description: string;
-  cutLastDirSep: string;
+  cutLastDirSep: boolean;
   mandatory: boolean;
 }) {
   let myPath = cmdLineArgsPath || process.env[envVarName];

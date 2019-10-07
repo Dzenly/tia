@@ -113,6 +113,7 @@ export class CommandLineParams {
   static debugLocale: boolean;
   static hangTimeout: number;
   static enableEmail: boolean;
+  static xvfb: boolean;
 }
 
 export interface Suite {
