@@ -1,4 +1,4 @@
-'use strict';
+
 
 export const consoleLogPrefix = ''; // LOG:
 export const errPrefix = 'ERR: ';

@@ -1,6 +1,5 @@
-'use strict';
-
-import { ElementIdForLog, Teq } from '../types/ej-types';
+import { Teq } from '../types/ej-types';
+import { ElementIdForLog } from '../../../common-types';
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 
 import { queryAndAction } from '../tia-extjs-query';
@@ -42,8 +41,6 @@ export class ButtonLogs extends ComponentLogs {
     });
 
     gIn.logger.logln(getCISRVal(tEQ, compName, idForLog, result));
-
-
   }
 }
 

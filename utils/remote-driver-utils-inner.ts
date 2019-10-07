@@ -1,4 +1,4 @@
-'use strict';
+
 
 // This intermediate process is needed because WebStorm closes detached child processes
 // when stops debugging.

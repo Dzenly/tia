@@ -1,4 +1,4 @@
-'use strict';
+
 
 declare const gT: import('tia-types').GlobalTiaObjects;
 declare const gIn: import('tia-types').GlobalTiaInnerObjects;

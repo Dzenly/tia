@@ -1,4 +1,4 @@
-'use strict';
+
 
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 

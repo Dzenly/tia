@@ -1,8 +1,7 @@
-'use strict';
+
 
 import * as util from 'util';
-import * as fileUtils from '../../utils/file-utils';
-import { EnableLog } from '../extjs/new-api/types/ej-types';
+import { EnableLog } from '../common-types';
 
 // TODO: does not driver creates profile dir itself ?
 // function createBrowserProfile() {

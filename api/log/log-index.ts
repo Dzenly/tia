@@ -1,6 +1,6 @@
 // REMOVE ME.
 //
-// 'use strict';
+//
 //
 // gT.logUtils = {};
 //

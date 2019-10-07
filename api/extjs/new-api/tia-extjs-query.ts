@@ -1,8 +1,9 @@
-'use strict';
+
 
 // import {gT} from '../../../types';
 
-import { ElementIdForLog, EnableLog, Teq } from './types/ej-types';
+import { Teq } from './types/ej-types';
+import { ElementIdForLog, EnableLog } from '../../common-types';
 
 const tiaErrorPropName = 'TIA_ERR';
 

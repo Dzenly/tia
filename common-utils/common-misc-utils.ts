@@ -1,7 +1,7 @@
 // TODO: разделить на два куска.
 /* global window */
 (function runCommonMiscUtils() {
-  'use strict';
+
 
   var container;
 

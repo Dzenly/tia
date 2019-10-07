@@ -1,8 +1,8 @@
-'use strict';
+
 
 // https://stackoverflow.com/questions/11000087/how-to-select-a-combobox-value-in-extjs
 
-'use strict';
+
 
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 
@@ -10,7 +10,8 @@ import * as _ from 'lodash';
 
 import { queryAndAction } from '../tia-extjs-query';
 import { getCISContent } from '../../extjs-utils';
-import { ElementIdForLog, EnableLog, Teq } from '../types/ej-types';
+import { Teq } from '../types/ej-types';
+import { ElementIdForLog, EnableLog } from '../../../common-types';
 
 const compName = 'BoundList';
 

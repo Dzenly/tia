@@ -1,4 +1,4 @@
-'use strict';
+
 
 // Default suite config.
 // These options are not overrided by directories configs.

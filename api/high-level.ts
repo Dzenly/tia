@@ -1,4 +1,4 @@
-'use strict';
+
 
 // options for all high level API functions.
 function defaultOptions() {

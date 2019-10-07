@@ -1,4 +1,4 @@
-'use strict';
+
 
 // @ts-ignore
 import * as nodemailer from 'nodemailer';

@@ -1,12 +1,12 @@
-'use strict';
+
 
 import * as _ from 'lodash';
 
 import { queryCmpInput, queryCmpInputId, queryCmpId, queryAndAction } from '../tia-extjs-query';
 
 import { getCIS, getCISRVal } from '../../extjs-utils';
-import { ElementIdForLog, EnableLog, Teq } from '../types/ej-types';
-
+import { Teq } from '../types/ej-types';
+import { ElementIdForLog, EnableLog } from '../../../common-types';
 const compName = 'Component';
 
 /**

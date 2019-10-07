@@ -1,4 +1,4 @@
-'use strict';
+
 
 /* globals gT: true */
 /* globals gIn: true */
@@ -6,7 +6,7 @@
 import * as fs from 'fs';
 import * as mPath from 'path';
 import { IWebDriverOptionsCookie } from 'selenium-webdriver';
-import { EnableLog } from '../extjs/new-api/types/ej-types';
+import { EnableLog } from '../common-types';
 // import wrap from '../../engine/wrap';
 
 let screenWidth: number;

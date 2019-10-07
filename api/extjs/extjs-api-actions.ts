@@ -1,6 +1,6 @@
-'use strict';
 
-import { EnableLog } from './new-api/types/ej-types';
+
+import { EnableLog } from '../common-types';
 
 export function expandAllGroupsById(id: string, tableName: string, enableLog?: EnableLog) {
   return gIn.wrap({

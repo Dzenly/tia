@@ -1,4 +1,4 @@
-'use strict';
+
 
 import * as mPath from 'path';
 import * as fileUtils from '../utils/file-utils';

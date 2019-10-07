@@ -1,6 +1,4 @@
-'use strict';
-
-import { IdForLog } from '../extjs/new-api/types/ej-types';
+import { IdForLog } from '../common-types';
 
 /**
  * Waits for element with specified id.

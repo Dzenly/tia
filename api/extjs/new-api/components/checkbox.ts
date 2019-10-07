@@ -1,6 +1,7 @@
-'use strict';
 
-import { ElementIdForLog, EnableLog, Teq } from '../types/ej-types';
+
+import { Teq } from '../types/ej-types';
+import { ElementIdForLog, EnableLog } from '../../../common-types';
 import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs } from './form-field-base';
 import { queryAndAction } from '../tia-extjs-query';
 

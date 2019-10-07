@@ -1,4 +1,4 @@
-'use strict';
+
 
 import * as util from 'util';
 import { sep } from 'path';

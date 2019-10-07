@@ -94,7 +94,7 @@ export function errorln(msg: string) {
  * @param msg
  * @param e
  */
-export function exception(msg: string, e) {
+export function exception(msg: string, e: Error) {
   const msgNew = gIn.loggerCfg.excPrefix + msg;
   gIn.cLogger.errIfEnabled(`${msgNew} ${gIn.textUtils.excToStr(e)}\n`);
   logToFile(`${msgNew} ${gIn.textUtils.excToStr(e, !gT.cLParams.stackToLog)}\n`);
@@ -105,7 +105,7 @@ export function exception(msg: string, e) {
  * @param msg - A message to be logged.
  * @param {Boolean}[enable]. If true log is enabled, othwerwise log is disabled.
  */
-export function logIfEnabled(msg: string, enable) {
+export function logIfEnabled(msg: string, enable?: boolean) {
   let dontWriteToFile = false;
   if (!enable && gT.cLParams.forceLogActions) {
     dontWriteToFile = true;
@@ -150,6 +150,7 @@ function writeStrToStdout(str: string, diffed?: boolean, isDif?: boolean) {
   }
 }
 
+// TODO: убрать этот говнокод.
 let writeLogStr = writeStrToFile;
 
 function writeToSuiteLog(str: string, diffed?: boolean, isDif?: boolean) {
@@ -161,7 +162,7 @@ export function testSummary() {
   log(`Pass: ${gIn.tInfo.getPassed()}, Fail: ${gIn.tInfo.getFailed()}\n`);
 }
 
-function saveDirInfoToSuiteLog(parameters) {
+function saveDirInfoToSuiteLog(parameters: any) {
   let { indent } = parameters;
   const { noTestDifs } = parameters;
   const { dirInfo, verbose, noTime } = parameters;
@@ -223,7 +224,17 @@ function saveDirInfoToSuiteLog(parameters) {
   }
 }
 
-function saveSuiteLogPart({ verbose, dirInfo, noTime, noTestDifs }) {
+function saveSuiteLogPart({
+  verbose,
+  dirInfo,
+  noTime,
+  noTestDifs,
+}: {
+  verbose: boolean;
+  dirInfo: TestInfo;
+  noTime?: boolean;
+  noTestDifs?: boolean;
+}) {
   isVerbose = verbose;
   const title = verbose ? 'Verbose' : 'Short';
   const decor = '====================';

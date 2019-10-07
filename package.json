@@ -48,6 +48,8 @@
   },
   "homepage": "https://github.com/Dzenly/tia#readme",
   "dependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/diff": "^4.0.2",
     "camelcase-keys": "^5.2.0",
     "chalk": "^2.4.1",
     "chromedriver": "^76.0.0",

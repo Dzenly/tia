@@ -1,4 +1,4 @@
-'use strict';
+
 
 export function delayed(ms: number, value?: any) {
   return new Promise(resolve => setTimeout(() => resolve(value), ms));

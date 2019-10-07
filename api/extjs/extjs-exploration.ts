@@ -1,10 +1,10 @@
-'use strict';
+
 
 /* globals gT, gIn */
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { EnableLog } from './new-api/types/ej-types';
+import { EnableLog } from '../common-types';
 
 /**
  * Initializes TIA ExtJs exploration helpers.

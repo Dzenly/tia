@@ -1,10 +1,7 @@
-'use strict';
-
 // https://stackoverflow.com/questions/11000087/how-to-select-a-combobox-value-in-extjs
 
-'use strict';
-
-import { ElementIdForLog, EnableLog, Teq } from '../types/ej-types';
+import { Teq } from '../types/ej-types';
+import { ElementIdForLog, EnableLog } from '../../../common-types';
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 import { queryAndAction } from '../tia-extjs-query';
 import { getCISContent } from '../../extjs-utils';

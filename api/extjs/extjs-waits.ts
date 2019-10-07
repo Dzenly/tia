@@ -1,9 +1,9 @@
-'use strict';
+
 
 /* globals gT: true */
 /* globals gIn: true */
 
-import { EnableLog, IdForLog, IdForLogObj } from './new-api/types/ej-types';
+import { EnableLog, IdForLog, IdForLogObj } from '../common-types';
 
 /**
  * Waits until all ajax requests will be completed.

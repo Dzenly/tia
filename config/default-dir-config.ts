@@ -1,4 +1,4 @@
-'use strict';
+
 
 // The default config for test directories.
 // Options can be overloaded in directory configs.

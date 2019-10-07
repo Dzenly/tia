@@ -1,8 +1,8 @@
-'use strict';
+
 
 // TODO: вытащить в components.
 
-import { EnableLog } from './new-api/types/ej-types';
+import { EnableLog } from '../common-types';
 
 export function logTitle(enableLog?: EnableLog) {
   return gIn.wrap({

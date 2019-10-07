@@ -1,4 +1,4 @@
-'use strict';
+
 
 export function startTimer() {
   return process.hrtime();

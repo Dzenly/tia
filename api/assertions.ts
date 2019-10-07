@@ -1,4 +1,4 @@
-'use strict';
+
 
 /* globals gT: true */
 /* eslint-disable max-params, no-param-reassign */

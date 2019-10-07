@@ -1,6 +1,6 @@
 /* global window */
 (function injectCommonConstants() {
-  'use strict';
+
 
   var container;
 

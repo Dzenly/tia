@@ -1,12 +1,7 @@
-'use strict';
 
-import {
-  ElementIdForLog,
-  EnableLog,
-  TableCellByColumns,
-  TableCellByModelFields,
-  Teq,
-} from '../types/ej-types';
+
+import { TableCellByColumns, TableCellByModelFields, Teq } from '../types/ej-types';
+import { ElementIdForLog, EnableLog } from '../../../common-types';
 import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
 import * as _ from 'lodash';
 import { queryAndAction } from '../tia-extjs-query';

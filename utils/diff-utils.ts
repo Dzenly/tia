@@ -1,12 +1,10 @@
-'use strict';
+
 
 import * as path from 'path';
 import * as fs from 'fs';
 
-// @ts-ignore
 import * as diffJs from 'diff';
 
-// const colors = require('colors/safe');
 import * as chalk from 'chalk';
 
 // const ansiToHtml = require('ansi-to-html')
@@ -16,7 +14,17 @@ import * as fileUtils from './file-utils';
 /* globals gT: true */
 /* globals gIn: true */
 // ansi, html.
-export function getStructuredPatch({ dir, oldFile, newFile, highlight = '' }) {
+export function getStructuredPatch({
+  dir,
+  oldFile,
+  newFile,
+  highlight = '',
+}: {
+  dir: string;
+  oldFile: string;
+  newFile: string;
+  highlight?: string;
+}) {
   const oldPath = path.resolve(dir, oldFile);
   const newPath = path.resolve(dir, newFile);
 
@@ -32,7 +40,7 @@ export function getStructuredPatch({ dir, oldFile, newFile, highlight = '' }) {
     return structPath;
   }
 
-  let eol;
+  let eol: string;
 
   if (highlight === 'ansi') {
     eol = '\n';
@@ -48,9 +56,9 @@ export function getStructuredPatch({ dir, oldFile, newFile, highlight = '' }) {
 
     for (let i = 0; i < hunk.lines.length; i++) {
       const line = hunk.lines[i];
-      if (line[0] === '-') {
+      if (line.startsWith('-')) {
         oldArr.push(line.slice(1) + eol);
-      } else if (line[0] === '+') {
+      } else if (line.startsWith('+')) {
         newArr.push(line.slice(1) + eol);
       } else {
         // TODO: if there is not file, the same error.
@@ -63,9 +71,9 @@ export function getStructuredPatch({ dir, oldFile, newFile, highlight = '' }) {
 
     const wordResult = diffJs.diffWordsWithSpace(oldStr, newStr);
 
-    const lineArr = [];
+    const lineArr: string[] = [];
 
-    wordResult.forEach(word => {
+    wordResult.forEach((word: any) => {
       if (highlight === 'ansi') {
         if (word.added) {
           lineArr.push(chalk.green(word.value));
@@ -98,7 +106,19 @@ export function getStructuredPatch({ dir, oldFile, newFile, highlight = '' }) {
  * @param oldFile - basename for file 1
  * @param newFile - basename for file 2
  */
-export function getDiff({ dir, oldFile, newFile, highlight = '', htmlWrap = false }) {
+export function getDiff({
+  dir,
+  oldFile,
+  newFile,
+  highlight = '',
+  htmlWrap = false,
+}: {
+  dir: string;
+  oldFile: string;
+  newFile: string;
+  highlight?: string;
+  htmlWrap?: boolean;
+}) {
   const structPath = getStructuredPatch({
     dir,
     oldFile,
@@ -112,9 +132,9 @@ export function getDiff({ dir, oldFile, newFile, highlight = '', htmlWrap = fals
 
   const strArr: string[] = [];
 
-  structPath.hunks.forEach(hunk => {
+  structPath.hunks.forEach((hunk: any) => {
     strArr.push(`@@ -${hunk.oldStart},${hunk.oldLines} +${hunk.newStart},${hunk.newLines} @@`);
-    hunk.lines.forEach(line => {
+    hunk.lines.forEach((line: string) => {
       strArr.push(line);
     });
   });

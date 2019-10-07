@@ -119,6 +119,7 @@ export class CommandLineParams {
   static tooLongTime = engineConsts.tooLongTime;
   static showEmptySuites: boolean;
   static printProcInfo: boolean;
+  static stackToLog: boolean;
 }
 
 export interface Suite {

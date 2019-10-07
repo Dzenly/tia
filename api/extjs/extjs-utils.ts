@@ -1,7 +1,8 @@
-'use strict';
+
 
 import { inspect } from 'util';
-import { ElementIdForLog, EnableLog, Teq } from './new-api/types/ej-types';
+import { ElementIdForLog, EnableLog } from '../common-types';
+import { Teq } from './new-api/types/ej-types';
 
 export let debugLocale = false;
 

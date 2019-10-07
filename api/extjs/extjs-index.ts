@@ -1,4 +1,4 @@
-'use strict';
+
 
 import * as path from 'path';
 import * as fs from 'fs';
@@ -9,7 +9,7 @@ import * as api from './extjs-api-actions';
 import * as explore from './extjs-exploration';
 import * as query from './new-api/tia-extjs-query';
 
-import { EnableLog } from './new-api/types/ej-types';
+import { EnableLog } from '../common-types';
 
 import * as msgBox from './extjs-msgbox';
 import * as wait from './extjs-waits';

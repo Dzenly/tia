@@ -1,10 +1,10 @@
-'use strict';
+
 
 /* eslint-disable no-param-reassign */
 
 // http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index_exports_Key.html
 
-import { EnableLog, IdForLog } from '../extjs/new-api/types/ej-types';
+import { EnableLog, IdForLog } from '../common-types';
 
 const wdKey = gT.sOrig.key;
 

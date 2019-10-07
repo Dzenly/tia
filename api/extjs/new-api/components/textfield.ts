@@ -1,4 +1,4 @@
-'use strict';
+
 
 import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs } from './form-field-base';
 

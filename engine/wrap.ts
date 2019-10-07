@@ -1,10 +1,10 @@
-'use strict';
+
 
 // const { inspect } = require('util');
 
 /* globals gIn, gT: true */
 
-import { EnableLog } from '../api/extjs/new-api/types/ej-types';
+import { EnableLog } from '../api/common-types';
 
 /**
  * Starts the timer to track action time.

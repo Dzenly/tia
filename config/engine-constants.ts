@@ -1,4 +1,4 @@
-'use strict';
+
 
 // This config is used by all Test suites. They are not overloaded.
 export const rootDirEnvVarName = 'TIA_ROOT_DIR';
