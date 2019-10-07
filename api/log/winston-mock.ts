@@ -1,22 +1,15 @@
-import * as  _ from 'lodash';
+import * as _ from 'lodash';
 
-const funcs = [
-  'error',
-  'warn',
-  'info',
-  'verbose',
-  'debug',
-  'silly',
-];
+const funcs = ['error', 'warn', 'info', 'verbose', 'debug', 'silly'];
 
 /**
  *
  * @param prefix - to add to the first argument.
  */
-export function winstonMock(prefix) {
-  let allowedLevel;
+export function winstonMock(prefix: string) {
+  let allowedLevel: number;
 
-  const logger = {};
+  const logger: any = {};
 
   const userStrLevel = process.env.LOG_LEVEL;
 
@@ -32,7 +25,7 @@ export function winstonMock(prefix) {
   for (let curLevel = 0; curLevel < funcs.length; curLevel++) {
     const func = funcs[curLevel];
 
-    logger[func] = (...args) => {
+    logger[func] = (...args: any) => {
       const localArgs = _.cloneDeep(args);
       if (curLevel <= allowedLevel && localArgs) {
         localArgs[0] = prefix + `${func}: ` + localArgs[0];
@@ -48,4 +41,4 @@ export function winstonMock(prefix) {
   }
 
   return logger;
-};
+}

@@ -3,7 +3,7 @@
  * @param stream
  */
 export function rStreamToLog(stream) {
-  stream.on('data', (chunk) => {
+  stream.on('data', (chunk: any) => {
     const str = gIn.textUtils.valToStr(chunk);
     gT.l.println(str);
   });

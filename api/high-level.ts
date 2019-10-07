@@ -17,7 +17,7 @@ function defaultOptions() {
  * @param msg
  * @param options
  */
-export function* wrapGenerator(gen, msg, options) {
+export function* wrapGenerator(gen, msg: string, options: any) {
   const opts = gT.commonMiscUtils.mergeOptions(options, defaultOptions);
 
   if (opts.logHl) {
