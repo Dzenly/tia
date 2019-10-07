@@ -59,7 +59,7 @@ async function runTestFile(file: string) {
 }
 
 // return null - means skipped by --pattern or --new or due to etalon absence.
-async function handleTestFile(file: string, dirConfig) {
+async function handleTestFile(file: string, dirConfig: any) {
   // Restore the state which could be damaged by previous test and any other initialization.
   gIn.tInfo.setPassCountingEnabled(gT.engineConsts.defIsPassCountingEnabled);
   gIn.loggerCfg.setDefLLLogAction(gT.engineConsts.defLLLogAction);
@@ -147,7 +147,7 @@ async function handleTestFile(file: string, dirConfig) {
  * @param {Object} parentDirConfig
  * @return {Object} directory config.
  */
-function handleDirConfig(dir, files, parentDirConfig) {
+function handleDirConfig(dir: string, files: string[], parentDirConfig: any) {
   let config;
   if (files.includes(gT.engineConsts.dirConfigName)) {
     config = nodeUtils.requireEx(path.join(dir, gT.engineConsts.dirConfigName), true).result;
@@ -193,7 +193,7 @@ function handleDirConfig(dir, files, parentDirConfig) {
  * @param dir
  * @param parentDirConfig
  */
-async function handleTestDir(dir, parentDirConfig) {
+async function handleTestDir(dir: string, parentDirConfig: any) {
   gIn.tracer.msg3(`handleDir Dir: ${dir}`);
 
   let filesOrDirs = fs
@@ -212,7 +212,7 @@ async function handleTestDir(dir, parentDirConfig) {
   const dirConfig = handleDirConfig(dir, filesOrDirs, parentDirConfig);
 
   if (gIn.dirArr && gIn.dirArr.length > 0) {
-    filesOrDirs = [gIn.dirArr.shift()];
+    filesOrDirs = [gIn.dirArr.shift()!];
   }
 
   const dirInfo = gIn.tInfo.createTestInfo(true, dirConfig.sectionTitle, dir);
@@ -258,7 +258,7 @@ async function handleTestDir(dir, parentDirConfig) {
       dirInfo.diffed += innerCurInfo.diffed;
       dirInfo.expDiffed += innerCurInfo.expDiffed;
       dirInfo.skipped += innerCurInfo.skipped;
-      dirInfo.children.push(innerCurInfo);
+      dirInfo.children!.push(innerCurInfo);
     }
   }
 
@@ -266,7 +266,7 @@ async function handleTestDir(dir, parentDirConfig) {
   return dirInfo;
 }
 
-async function runTestSuite(suiteData) {
+async function runTestSuite(suiteData: any) {
   const { root, log: suiteLog } = suiteData;
 
   // console.log('runAsync Dir: ' + dir);

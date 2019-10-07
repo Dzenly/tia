@@ -3,39 +3,30 @@
 import * as path from 'path';
 import * as fs from 'fs';
 
-const diffJs = require('diff');
+// @ts-ignore
+import * as diffJs from 'diff';
 
 // const colors = require('colors/safe');
-const chalk = require('chalk');
+import * as chalk from 'chalk';
 
 // const ansiToHtml = require('ansi-to-html')
 
-const fileUtils = require('./file-utils');
-
+import * as fileUtils from './file-utils';
 
 /* globals gT: true */
 /* globals gIn: true */
 // ansi, html.
-export function getStructuredPatch({
-  dir,
-  oldFile,
-  newFile,
-  highlight = '',
-}) {
+export function getStructuredPatch({ dir, oldFile, newFile, highlight = '' }) {
   const oldPath = path.resolve(dir, oldFile);
   const newPath = path.resolve(dir, newFile);
 
   const oldText = fileUtils.safeReadFile(oldPath);
   const newText = fileUtils.safeReadFile(newPath);
 
-  const structPath = diffJs.structuredPatch(
-    oldFile,
-    newFile,
-    oldText,
-    newText,
-    '',
-    '',
-    { context: 0, newlineIsToken: false });
+  const structPath = diffJs.structuredPatch(oldFile, newFile, oldText, newText, '', '', {
+    context: 0,
+    newlineIsToken: false,
+  });
 
   if (!highlight) {
     return structPath;
@@ -51,7 +42,7 @@ export function getStructuredPatch({
     throw new Error(`Incorrect highlight: ${highlight}`);
   }
 
-  structPath.hunks.forEach((hunk) => {
+  structPath.hunks.forEach(hunk => {
     const oldArr = [];
     const newArr = [];
 
@@ -74,7 +65,7 @@ export function getStructuredPatch({
 
     const lineArr = [];
 
-    wordResult.forEach((word) => {
+    wordResult.forEach(word => {
       if (highlight === 'ansi') {
         if (word.added) {
           lineArr.push(chalk.green(word.value));
@@ -95,8 +86,7 @@ export function getStructuredPatch({
   });
 
   return structPath;
-};
-
+}
 
 /**
  * Returns result of running external dif utility, i.e. stdout + stderr.
@@ -108,13 +98,7 @@ export function getStructuredPatch({
  * @param oldFile - basename for file 1
  * @param newFile - basename for file 2
  */
-export function getDiff({
-  dir,
-  oldFile,
-  newFile,
-  highlight = '',
-  htmlWrap = false,
-}) {
+export function getDiff({ dir, oldFile, newFile, highlight = '', htmlWrap = false }) {
   const structPath = getStructuredPatch({
     dir,
     oldFile,
@@ -126,12 +110,11 @@ export function getDiff({
     return '';
   }
 
-  const strArr = [];
+  const strArr: string[] = [];
 
-  structPath.hunks.forEach((hunk) => {
-    strArr.push(
-      `@@ -${hunk.oldStart},${hunk.oldLines} +${hunk.newStart},${hunk.newLines} @@`);
-    hunk.lines.forEach((line) => {
+  structPath.hunks.forEach(hunk => {
+    strArr.push(`@@ -${hunk.oldStart},${hunk.oldLines} +${hunk.newStart},${hunk.newLines} @@`);
+    hunk.lines.forEach(line => {
       strArr.push(line);
     });
   });
@@ -164,7 +147,7 @@ ${strArr.join(eol)}
     throw new Error(`Incorrect highlight: ${highlight}`);
   }
   return result;
-};
+}
 
 /**
  * Diffs current log (*.log) and etalon log (*.et) files.
@@ -183,6 +166,10 @@ export function diff({
   jsTest,
   highlight,
   htmlWrap,
+}: {
+  jsTest: string;
+  highlight?: string;
+  htmlWrap?: boolean;
 }) {
   const dir = path.dirname(jsTest);
   const base = path.basename(jsTest.slice(0, -3));
@@ -228,4 +215,4 @@ export function diff({
   }
 
   gIn.fileUtils.safeUnlink(`${diffPath}.old`);
-};
+}

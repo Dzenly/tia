@@ -92,7 +92,7 @@ export class CommandLineParams {
   static slogSubj?: string[];
   static testsParentDir: string;
   static traceLevel: number;
-  static minPathSearchIndex?: number;
+  static minPathSearchIndex: number;
   static defHost: string;
   static ejExplore: boolean;
   static keepBrowserAtError: boolean;

@@ -13,6 +13,9 @@ let isVerbose = false;
 
 let logFile = '';
 
+// TODO: bad design.
+let fd: number;
+
 export function setLogFile(newLogFile: string) {
   logFile = newLogFile;
 }
@@ -130,11 +133,11 @@ export function logIfNotDisabled(msg: string, enable?: boolean) {
   }
 }
 
-function writeStrToFile(str /* , diffed, isDif*/) {
+function writeStrToFile(str: string /* , diffed, isDif*/) {
   fs.writeSync(fd, str, null, gT.engineConsts.logEncoding);
 }
 
-function writeStrToStdout(str, diffed, isDif) {
+function writeStrToStdout(str: string, diffed?: boolean, isDif?: boolean) {
   // str = str.replace(/\s+$/g, '');
   // str += '\n';
   if (diffed) {
@@ -148,7 +151,7 @@ function writeStrToStdout(str, diffed, isDif) {
 
 let writeLogStr = writeStrToFile;
 
-function writeToSuiteLog(str, diffed, isDif) {
+function writeToSuiteLog(str: string, diffed?: boolean, isDif?: boolean) {
   writeLogStr(str, diffed, isDif);
 }
 
@@ -269,7 +272,7 @@ export function saveSuiteLog({ dirInfo, log, noTime, noTestDifs }) {
 }
 
 /* Prints expected tests results to stdout and unexpected to stderr */
-export function printSuiteLog(dirInfo, noTestDifs) {
+export function printSuiteLog(dirInfo: any, noTestDifs?: boolean) {
   writeLogStr = writeStrToStdout;
   saveSuiteLogPart({ verbose: false, dirInfo, noTime: false, noTestDifs });
   writeToSuiteLog('\n');
