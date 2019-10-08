@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { Logs } from 'selenium-webdriver';
 
 import * as loggerCfg from './loggers/logger-cfg';
 import * as cLogger from './loggers/console-logger';
@@ -74,7 +75,7 @@ export class OriginalSeleniumAPI {
   static firefox = firefox;
   static Executor = Executor;
   static Client = Client;
-  static logs: any;
+  static logs: Logs;
 
   /**
    * Assigned at driver initialization.
@@ -118,6 +119,8 @@ export class CommandLineParams {
   static showEmptySuites: boolean;
   static printProcInfo: boolean;
   static stackToLog: boolean;
+  static browserLogLevel: number;
+  static driverLogLevel: number;
 }
 
 export interface Suite {

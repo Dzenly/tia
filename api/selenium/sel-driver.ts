@@ -1,5 +1,5 @@
-
-
+import { Options as ChromeOptions } from 'selenium-webdriver/chrome';
+import { Options as FirefoxOptions } from 'selenium-webdriver/firefox';
 import * as util from 'util';
 import { EnableLog } from '../common-types';
 
@@ -51,7 +51,7 @@ export async function init(cleanProfile: boolean, enableLog?: EnableLog) {
 
       // createBrowserProfile();
 
-      let options;
+      let options: ChromeOptions | FirefoxOptions;
 
       switch (gT.cLParams.browser) {
         case 'chrome':
@@ -86,7 +86,7 @@ export async function init(cleanProfile: boolean, enableLog?: EnableLog) {
         case 'firefox':
           {
             options = new gT.sOrig.firefox.Options();
-            const binary = new gT.sOrig.firefox.Binary();
+            // const binary = new gT.sOrig.firefox.Binary();
 
             // if (gT.config.browserProfileDir) {
             // Profile name should be alphanumeric only.
@@ -112,9 +112,9 @@ export async function init(cleanProfile: boolean, enableLog?: EnableLog) {
             // }
 
             if (gT.cLParams.headless) {
-              options.addArguments('-headless');
+              options.headless();
             }
-            options.setBinary(binary);
+            // options.setBinary(binary);
 
             // gT.sOrig.wdModule.Capabilities.firefox();
             // capabilities = new gT.sOrig.wdModule.Capabilities();
@@ -131,6 +131,9 @@ export async function init(cleanProfile: boolean, enableLog?: EnableLog) {
       prefs.setLevel(gT.sOrig.driverLogType, gT.cLParams.driverLogLevel);
 
       const capabilities = new gT.sOrig.wdModule.Capabilities();
+
+      // Waiting to my PR approve for DefenitelyTyped.
+      // @ts-ignore
       capabilities.setBrowserName(gT.cLParams.browser);
       capabilities.setLoggingPrefs(prefs);
 
@@ -147,16 +150,22 @@ export async function init(cleanProfile: boolean, enableLog?: EnableLog) {
 
           const client = new gT.sOrig.Client(remoteDriverConnectionStr);
           const executor = new gT.sOrig.Executor(client);
+
+          // @ts-ignore
           executor.w3c = true;
 
-          gT.sOrig.driver = new gT.sOrig.wdModule.WebDriver(sid, executor);
+          // gT.sOrig.driver = new gT.sOrig.wdModule.WebDriver(sid, executor);
+
+          const session = new gT.sOrig.wdModule.Session(sid, {});
+          gT.sOrig.driver = new gT.sOrig.wdModule.WebDriver(session, executor);
+          const asdf = 5;
         } else {
           gIn.tracer.msg3('There is not current SID');
           gT.firstRunWithRemoteDriver = true;
           gT.sOrig.driver = new gT.sOrig.wdModule.Builder()
             .forBrowser(gT.cLParams.browser)
-            .setChromeOptions(options)
-            .setFirefoxOptions(options)
+            .setChromeOptions(options! as ChromeOptions)
+            .setFirefoxOptions(options! as FirefoxOptions)
             .withCapabilities(capabilities)
 
             // As an alternative to this method, you may also set the SELENIUM_REMOTE_URL environment variable.
@@ -198,8 +207,8 @@ export async function init(cleanProfile: boolean, enableLog?: EnableLog) {
         // Temporary driver
         gT.sOrig.driver = new gT.sOrig.wdModule.Builder()
           .forBrowser(gT.cLParams.browser)
-          .setChromeOptions(options)
-          .setFirefoxOptions(options)
+          .setChromeOptions(options! as ChromeOptions)
+          .setFirefoxOptions(options! as FirefoxOptions)
           .withCapabilities(capabilities)
           .build();
       }
@@ -278,7 +287,7 @@ export function quitIfInited() {
   return Promise.resolve('No driver, no quit');
 }
 
-export function printSelDriverLogs(minLevel) {
+export function printSelDriverLogs(minLevel: number) {
   return gT.sOrig.logs.get(gT.sOrig.driverLogType).then(entries => {
     gIn.tracer.msg3('Start of printSelDriverLogs');
     for (const entry of entries) {
