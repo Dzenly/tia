@@ -1,6 +1,6 @@
-
-
 /* globals gIn: true */
+
+import { AssertionMode } from '../common-types';
 
 const ok = 'OK: ';
 
@@ -57,7 +57,10 @@ export function fail(msg: string) {
  * @param {Boolean} [mode.passSilently] - do not show message.
  * @param {Boolean} [mode.noPassIncrement] - do not increment pass counter.
  */
-export function pass(msg: string, mode = { passSilently: false, noPassIncrement: false }) {
+export function pass(
+  msg: string,
+  mode: AssertionMode = { passSilently: false, noPassIncrement: false }
+) {
   if (typeof msg !== 'undefined' && !mode.passSilently) {
     if (gIn.tInfo.getPassPrintingEnabled()) {
       gIn.logger.pass(`${ok + msg}\n`);

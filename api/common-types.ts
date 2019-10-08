@@ -52,3 +52,22 @@ export interface IdForLogObj {
 }
 
 export type IdForLog = IdForLogObj | string;
+
+/**
+ * Result accumulator mode.
+ */
+export interface AssertionMode {
+  /**
+   * do not show message.
+   */
+  passSilently?: boolean;
+  /**
+   * do not increment pass counter
+   */
+  noPassIncrement?: boolean;
+  /**
+   * The name for result accumulator which will be falsed
+   * if some assertion is failed.
+   */
+  accName?: string;
+}

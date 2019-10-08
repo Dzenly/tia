@@ -1,6 +1,3 @@
-
-
-/* globals gT: true */
 /* eslint-disable max-params, no-param-reassign */
 
 /*
@@ -8,7 +5,13 @@
  I.e. the map which remembers if there was some error for current name.
  */
 
-const resultAccumulators = {};
+import { AssertionMode } from './common-types';
+
+interface StrBoolMap {
+  [key: string]: boolean;
+}
+
+const resultAccumulators: StrBoolMap = {};
 
 function checkAccName(name: string) {
   if (typeof name !== 'string') {
@@ -31,7 +34,7 @@ export function deleteResultAccumulator(name: string) {
   delete resultAccumulators[name];
 }
 
-export function mergeResultToAccumulator(res, name: string) {
+export function mergeResultToAccumulator(res: boolean, name: string) {
   checkAccName(name);
   resultAccumulators[name] = resultAccumulators[name] && res;
 }
@@ -40,12 +43,12 @@ export function mergeResultToAccumulator(res, name: string) {
  * For shortening the code.
  * Adds result accumulators usage to fail call.
  * @param msg
- * @param mode
  */
-function failWrapper(msg: string, mode) {
+function failWrapper(msg: string, mode: AssertionMode) {
   gT.l.fail(msg);
   if (mode && mode.accName) {
-    mode.accName = false; // eslint-disable-line no-param-reassign
+    checkAccName(mode.accName);
+    resultAccumulators[mode.accName] = false;
   }
 }
 
@@ -63,7 +66,7 @@ function failWrapper(msg: string, mode) {
  * @param condition
  * @param msg - message to describe the entity which you expect.
  */
-function checkIfTrue(condition, msg: string, mode) {
+function checkIfTrue(condition: boolean, msg: string, mode: AssertionMode) {
   if (condition) {
     gT.l.pass(msg, mode);
     return true;
@@ -80,7 +83,7 @@ export { checkIfTrue as true };
  * @param msg - message to describe the entity which you expect.
  * param {Object} mode - see 'true' assertion description.
  */
-function checkIfFalse(condition, msg: string, mode) {
+function checkIfFalse(condition: boolean, msg: string, mode: AssertionMode) {
   return checkIfTrue(!condition, msg, mode);
 }
 
@@ -93,7 +96,7 @@ export { checkIfFalse as false };
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-export function value(actVal, expVal, msg: string, mode) {
+export function value(actVal: any, expVal: any, msg: string, mode: AssertionMode) {
   if (typeof msg !== 'undefined') {
     if (actVal === expVal) {
       gT.l.pass(`${msg}: ${actVal}`, mode);
@@ -122,7 +125,7 @@ export function value(actVal, expVal, msg: string, mode) {
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-export function valueStr(actVal: any, expVal: any, msg: string, mode) {
+export function valueStr(actVal: any, expVal: any, msg: string, mode: AssertionMode) {
   actVal = String(actVal);
   expVal = String(expVal);
   return value(actVal, expVal, msg, mode);
@@ -135,7 +138,7 @@ export function valueStr(actVal: any, expVal: any, msg: string, mode) {
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-export function valueNumber(actVal, expVal, msg: string, mode) {
+export function valueNumber(actVal: any, expVal: any, msg: string, mode: AssertionMode) {
   actVal = Number(actVal);
   expVal = Number(expVal);
   return value(actVal, expVal, msg, mode);
@@ -148,7 +151,7 @@ export function valueNumber(actVal, expVal, msg: string, mode) {
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-export function valueBool(actVal, expVal, msg: string, mode) {
+export function valueBool(actVal: any, expVal: any, msg: string, mode: AssertionMode) {
   actVal = Boolean(actVal);
   expVal = Boolean(expVal);
   return value(actVal, expVal, msg, mode);
@@ -162,13 +165,13 @@ export function valueBool(actVal, expVal, msg: string, mode) {
  * @param msg - message to describe the entity which you expect.
  * @returns {boolean}
  */
-export function valueDeep(actVal, expVal, msg: string, mode) {
-  function handleVals(actualValue, expectedValue, path) {
+export function valueDeep(actVal: any, expVal: any, msg: string, mode: AssertionMode) {
+  function handleVals(actualValue: any, expectedValue: any, propPath: string) {
     const actType = typeof actualValue;
     const expType = typeof expectedValue;
 
     if (actType !== expType) {
-      msg += `\nPath: '${path}', Act type: ${actType}, 'Exp type: ${expType}`;
+      msg += `\nPath: '${propPath}', Act type: ${actType}, 'Exp type: ${expType}`;
       failWrapper(msg, mode);
       return false;
     }
@@ -179,7 +182,7 @@ export function valueDeep(actVal, expVal, msg: string, mode) {
 
       if (actProps.length !== expProps.length) {
         // eslint-disable-next-line max-len
-        msg += `\nDifferent property counts, \nPath: '${path}', \nAct props: ${actProps}\nExp props: ${expProps}`;
+        msg += `\nDifferent property counts, \nPath: '${propPath}', \nAct props: ${actProps}\nExp props: ${expProps}`;
         failWrapper(msg, mode);
         return false;
       }
@@ -189,19 +192,23 @@ export function valueDeep(actVal, expVal, msg: string, mode) {
         const expSubProp = expProps[i];
 
         if (actSubProp !== expSubProp) {
-          msg += `\nPath: '${path}', Property names are different: Act : ${actSubProp}, Exp : ${expSubProp}`;
+          msg += `\nPath: '${propPath}', Property names are different: Act : ${actSubProp}, Exp : ${expSubProp}`;
           failWrapper(msg, mode);
           return false;
         }
 
         if (
-          !handleVals(actualValue[actSubProp], expectedValue[expSubProp], `${path}/${actSubProp}`)
+          !handleVals(
+            actualValue[actSubProp],
+            expectedValue[expSubProp],
+            `${propPath}/${actSubProp}`
+          )
         ) {
           return false;
         }
       }
     } else if (actualValue !== expectedValue) {
-      msg += `\nPath: ${path}, \nAct val: ${actualValue}\nExp val: ${expectedValue}`;
+      msg += `\nPath: ${propPath}, \nAct val: ${actualValue}\nExp val: ${expectedValue}`;
       failWrapper(msg, mode);
       return false;
     }
@@ -272,7 +279,7 @@ export function exceptionAsync(asyncFunc: Function, expExc?: string, mode?: any)
       failWrapper(msg, mode);
       return false;
     },
-    e => {
+    (e: Error) => {
       const str = e.toString();
       if (typeof expExc === 'undefined') {
         gT.l.pass(`Expected any exception: '${str}'`, mode);
@@ -288,7 +295,14 @@ export function exceptionAsync(asyncFunc: Function, expExc?: string, mode?: any)
   );
 }
 
-export function equal(val1, val2, msg1, msg2, doNotShowValues, mode) {
+export function equal(
+  val1: any,
+  val2: any,
+  msg1: string,
+  msg2: string,
+  doNotShowValues: boolean,
+  mode: AssertionMode
+) {
   if (val1 === val2) {
     if (doNotShowValues) {
       gT.l.pass(`${msg1} === ${msg2}`, mode);
@@ -301,7 +315,14 @@ export function equal(val1, val2, msg1, msg2, doNotShowValues, mode) {
   return false;
 }
 
-export function equalBool(val1, val2, msg1, msg2, doNotShowValues, mode) {
+export function equalBool(
+  val1: any,
+  val2: any,
+  msg1: string,
+  msg2: string,
+  doNotShowValues: boolean,
+  mode: AssertionMode
+) {
   val1 = Boolean(val1);
   val2 = Boolean(val2);
   if (val1 === val2) {
@@ -316,7 +337,14 @@ export function equalBool(val1, val2, msg1, msg2, doNotShowValues, mode) {
   return false;
 }
 
-export function notEqualBool(val1, val2, msg1, msg2, doNotShowValues, mode) {
+export function notEqualBool(
+  val1: any,
+  val2: any,
+  msg1: string,
+  msg2: string,
+  doNotShowValues: boolean,
+  mode: AssertionMode
+) {
   val1 = Boolean(val1);
   val2 = Boolean(val2);
   if (val1 !== val2) {
