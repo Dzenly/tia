@@ -134,7 +134,7 @@ export function logIfNotDisabled(msg: string, enable?: boolean) {
   }
 }
 
-function writeStrToFile(str: string, fd /* , diffed, isDif*/) {
+function writeStrToFile(str: string, fd: number /* , diffed, isDif*/) {
   fs.writeSync(fd, str, null, gT.engineConsts.logEncoding);
 }
 
