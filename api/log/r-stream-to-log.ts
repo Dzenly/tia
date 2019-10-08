@@ -2,7 +2,7 @@
  * Redirects stream to the current test log.
  * @param stream
  */
-export function rStreamToLog(stream) {
+export default function rStreamToLog(stream) {
   stream.on('data', (chunk: any) => {
     const str = gIn.textUtils.valToStr(chunk);
     gT.l.println(str);

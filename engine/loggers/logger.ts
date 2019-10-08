@@ -189,7 +189,7 @@ function saveDirInfoToSuiteLog(parameters: any) {
   for (let i = 0; i < len; i++) {
     const curInfo = dirInfo.children[i];
     if (curInfo.diffed || verbose) {
-      if (Object.prototype.hasOwnProperty.call(curInfo, 'children')) {
+      if (curInfo.children) {
         saveDirInfoToSuiteLog({
           dirInfo: curInfo,
           indent,

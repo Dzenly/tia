@@ -12,4 +12,4 @@ function* generator1(a, b, c, d) {
   yield 'Test done';
 }
 
-module.exports = u.execGenSafe(generator1, 'a', 'b', 'c', 'd');
+module.exports = u.misc.execGenSafe(generator1, 'a', 'b', 'c', 'd');

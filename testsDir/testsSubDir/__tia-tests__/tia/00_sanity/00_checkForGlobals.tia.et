@@ -4,6 +4,6 @@ OK: gT exists
 OK: gIn exists
 OK: gT.config exists
 OK: gIn.tInfo exists
-OK: gIn.tInfo.data exists
+OK: gIn.tInfo.getData()
 =================
 Pass: 5, Fail: 0

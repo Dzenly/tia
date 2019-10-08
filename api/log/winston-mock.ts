@@ -6,7 +6,7 @@ const funcs = ['error', 'warn', 'info', 'verbose', 'debug', 'silly'];
  *
  * @param prefix - to add to the first argument.
  */
-export function winstonMock(prefix: string) {
+export default function winstonMock(prefix: string) {
   let allowedLevel: number;
 
   const logger: any = {};

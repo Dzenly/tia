@@ -38,8 +38,8 @@ import { ExtJsCmpAPI } from '../api/extjs/new-api/components/extjs-components';
 
 import UtilsAPI from '../api/utils/utils-index';
 
-import * as winstonMock from '../api/log/winston-mock';
-import * as rStreamToLog from '../api/log/r-stream-to-log';
+import winstonMock from '../api/log/winston-mock';
+import rStreamToLog from '../api/log/r-stream-to-log';
 
 export class LogUtils {
   static winstonMock = winstonMock;
@@ -209,7 +209,7 @@ export class GlobalTiaObjects {
 
   static nodeUtils = nodeUtils;
   static timeUtils = timeUtils;
-  static LogUtils = LogUtils;
+  static logUtils = LogUtils;
 
   static tiaDir: string;
   static version: string;

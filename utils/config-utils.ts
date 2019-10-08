@@ -1,5 +1,3 @@
-
-
 import * as _ from 'lodash';
 import * as nodeUtils from '../utils/nodejs-utils';
 

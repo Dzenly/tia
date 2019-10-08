@@ -5,7 +5,7 @@ import * as fs from 'fs';
 
 import * as diffJs from 'diff';
 
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 // const ansiToHtml = require('ansi-to-html')
 
