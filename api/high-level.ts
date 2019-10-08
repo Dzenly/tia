@@ -1,5 +1,3 @@
-
-
 // options for all high level API functions.
 function defaultOptions() {
   return {
@@ -17,7 +15,7 @@ function defaultOptions() {
  * @param msg
  * @param options
  */
-export function* wrapGenerator(gen, msg: string, options: any) {
+export function* wrapGenerator(gen: Function, msg: string, options: any) {
   const opts = gT.commonMiscUtils.mergeOptions(options, defaultOptions);
 
   if (opts.logHl) {
@@ -44,9 +42,9 @@ export function* wrapGenerator(gen, msg: string, options: any) {
   }
 
   return res;
-};
+}
 
-export async function wrapAsync(func, msg, options) {
+export async function wrapAsync(func: Function, msg: string, options: any) {
   const opts = gT.commonMiscUtils.mergeOptions(options, defaultOptions);
 
   if (opts.logHl) {
@@ -73,5 +71,4 @@ export async function wrapAsync(func, msg, options) {
   }
 
   return res;
-};
-
+}
