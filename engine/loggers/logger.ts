@@ -134,7 +134,7 @@ export function logIfNotDisabled(msg: string, enable?: boolean) {
   }
 }
 
-function writeStrToFile(str: string /* , diffed, isDif*/) {
+function writeStrToFile(str: string, fd /* , diffed, isDif*/) {
   fs.writeSync(fd, str, null, gT.engineConsts.logEncoding);
 }
 
@@ -150,11 +150,21 @@ function writeStrToStdout(str: string, diffed?: boolean, isDif?: boolean) {
   }
 }
 
-// TODO: убрать этот говнокод.
-let writeLogStr = writeStrToFile;
-
-function writeToSuiteLog(str: string, diffed?: boolean, isDif?: boolean) {
-  writeLogStr(str, diffed, isDif);
+function writeToSuiteLog({
+  str,
+  diffed,
+  isDif,
+  fd,
+}: {
+  str: string;
+  diffed?: boolean;
+  isDif?: boolean;
+  fd?: number;
+}) {
+  if (typeof fd !== 'undefined') {
+    return writeStrToFile(str, fd);
+  }
+  writeStrToStdout(str, diffed, isDif);
 }
 
 export function testSummary() {
@@ -162,32 +172,44 @@ export function testSummary() {
   log(`Pass: ${gIn.tInfo.getPassed()}, Fail: ${gIn.tInfo.getFailed()}\n`);
 }
 
-function saveDirInfoToSuiteLog(parameters: any) {
-  let { indent } = parameters;
-  const { noTestDifs } = parameters;
-  const { dirInfo, verbose, noTime } = parameters;
+function saveDirInfoToSuiteLog({
+  dirInfo,
+  indent,
+  verbose,
+  noTime,
+  noTestDifs,
+  fd,
+}: {
+  dirInfo: TestInfo;
+  indent: string;
+  verbose?: boolean;
+  noTime?: boolean;
+  noTestDifs?: boolean;
+  fd?: number;
+}) {
   gIn.tracer.msg3(`${dirInfo.path}, dirInfo.run: ${dirInfo.run}`);
   if (!dirInfo.run && !gT.suiteConfig.emptyDirToSuiteLog) {
     return;
   }
-  writeToSuiteLog(indent);
-  writeToSuiteLog(
-    gIn.tInfo.testInfoToString({
+  writeToSuiteLog({ str: indent, fd });
+  writeToSuiteLog({
+    str: gIn.tInfo.testInfoToString({
       curInfo: dirInfo,
       isDir: true,
       verbose,
       noTime,
     }),
-    dirInfo.diffed
-  );
+    diffed: Boolean(dirInfo.diffed),
+    fd,
+  });
   indent = gIn.loggerCfg.indentation + indent;
 
   // If directory is empty there will be empty array.
   // Absense of 'children' property says that it is test and not directory,
   // we should not allow to use this function for not directory.
-  const len = dirInfo.children.length;
+  const len = dirInfo.children!.length;
   for (let i = 0; i < len; i++) {
-    const curInfo = dirInfo.children[i];
+    const curInfo = dirInfo.children![i];
     if (curInfo.diffed || verbose) {
       if (curInfo.children) {
         saveDirInfoToSuiteLog({
@@ -196,28 +218,30 @@ function saveDirInfoToSuiteLog(parameters: any) {
           verbose,
           noTime,
           noTestDifs,
+          fd,
         });
       } else {
-        writeToSuiteLog(indent);
-        writeToSuiteLog(
-          gIn.tInfo.testInfoToString({
+        writeToSuiteLog({ str: indent, fd });
+        writeToSuiteLog({
+          str: gIn.tInfo.testInfoToString({
             curInfo,
             isDir: false,
             verbose,
             noTime,
           }),
-          curInfo.diffed
-        );
+          diffed: Boolean(curInfo.diffed),
+          fd,
+        });
         if (curInfo.diffed && gT.cLParams.difsToSlog && !isVerbose && !noTestDifs) {
           const difPath = gIn.textUtils.jsToDif(curInfo.path);
           const dif = fs.readFileSync(difPath, gT.engineConsts.logEncoding);
-          writeToSuiteLog(`${indent}============== DIF ============== \n`);
+          writeToSuiteLog({ str: `${indent}============== DIF ============== \n`, fd });
           const diffStrs = dif.split('\n');
           diffStrs.forEach(str => {
-            writeToSuiteLog(indent);
-            writeToSuiteLog(`${str}\n`, false, true);
+            writeToSuiteLog({ str: indent, fd });
+            writeToSuiteLog({ str: `${str}\n`, diffed: false, isDif: true, fd });
           });
-          writeToSuiteLog(`${indent}========== END OF DIF  ========== \n`);
+          writeToSuiteLog({ str: `${indent}========== END OF DIF  ========== \n`, fd });
         }
       }
     }
@@ -229,24 +253,27 @@ function saveSuiteLogPart({
   dirInfo,
   noTime,
   noTestDifs,
+  fd,
 }: {
   verbose: boolean;
   dirInfo: TestInfo;
   noTime?: boolean;
   noTestDifs?: boolean;
+  fd?: number;
 }) {
   isVerbose = verbose;
   const title = verbose ? 'Verbose' : 'Short';
   const decor = '====================';
-  writeToSuiteLog(`${decor}    ${title} Log BEGIN:    ${decor}\n`);
+  writeToSuiteLog({ str: `${decor}    ${title} Log BEGIN:    ${decor}\n`, fd });
   saveDirInfoToSuiteLog({
     dirInfo,
     indent: '',
     verbose,
     noTime,
     noTestDifs,
+    fd,
   });
-  writeToSuiteLog(`${decor}    ${title} Log END.    ${decor}\n`);
+  writeToSuiteLog({ str: `${decor}    ${title} Log END.    ${decor}\n`, fd });
 }
 
 /**
@@ -267,13 +294,13 @@ export function saveSuiteLog({
   noTime?: boolean;
   noTestDifs?: boolean;
 }) {
-  writeLogStr = writeStrToFile;
   fd = fs.openSync(log, 'w');
   saveSuiteLogPart({
     verbose: false,
     dirInfo,
     noTime,
     noTestDifs,
+    fd,
   });
   fs.writeSync(fd, '\n', null, gT.engineConsts.logEncoding);
   saveSuiteLogPart({
@@ -281,6 +308,7 @@ export function saveSuiteLog({
     dirInfo,
     noTime,
     noTestDifs,
+    fd,
   });
   fs.closeSync(fd);
   return gIn.tInfo.testInfoToString({
@@ -295,8 +323,7 @@ export function saveSuiteLog({
 
 /* Prints expected tests results to stdout and unexpected to stderr */
 export function printSuiteLog(dirInfo: any, noTestDifs?: boolean) {
-  writeLogStr = writeStrToStdout;
   saveSuiteLogPart({ verbose: false, dirInfo, noTime: false, noTestDifs });
-  writeToSuiteLog('\n');
+  writeToSuiteLog({ str: '\n' });
   saveSuiteLogPart({ verbose: true, dirInfo, noTime: false, noTestDifs });
 }
