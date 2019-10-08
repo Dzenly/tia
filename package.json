@@ -62,22 +62,22 @@
     "selenium-webdriver": "^4.0.0-alpha.5",
     "semver": "^6.3.0",
     "ts-node": "^8.4.1",
-    "typescript": "^3.5.3"
+    "typescript": "^3.6.3"
   },
   "devDependencies": {
     "@types/chromedriver": "^2.38.0",
     "@types/lodash": "^4.14.142",
     "@types/minimist": "^1.2.0",
-    "@types/node": "^12.6.1",
+    "@types/node": "^12.7.11",
     "@types/selenium-webdriver": "^4.0.3",
     "@types/semver": "^6.0.2",
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
-    "eslint": "^6.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.3.3",
+    "@typescript-eslint/parser": "^2.3.3",
+    "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-config-prettier": "^6.1.0",
+    "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "prettier": "^1.18.2"
   }
 }
