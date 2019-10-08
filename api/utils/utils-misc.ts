@@ -1,5 +1,3 @@
-
-
 /* globals gT: true */
 
 /* globals gIn: true */
@@ -24,9 +22,9 @@ import * as path from 'path';
 // }
 
 // Return promise from generator is not supported, i.e. will not be waited.
-function iterateIterator(iterator) {
+function iterateIterator(iterator: Iterator<any>) {
   return new Promise((resolve, reject) => {
-    let obj;
+    let obj: IteratorResult<any>;
 
     function iterate(ret?: any) {
       obj = iterator.next(ret);
@@ -39,10 +37,10 @@ function iterateIterator(iterator) {
 
       if (gT.nodeUtils.isPromise(obj.value)) {
         obj.value
-          .then(res => {
+          .then((res: any) => {
             iterate(res);
           })
-          .catch(err => {
+          .catch((err: Error) => {
             gIn.tracer.err(`Iterate error: ${err}`);
             reject(err);
           });
@@ -59,7 +57,7 @@ function iterateIterator(iterator) {
 
 export { iterateIterator as iterate };
 
-export function iterateSafe(iterator) {
+export function iterateSafe(iterator: Iterator<any>) {
   return gT.u.misc.iterate(iterator).catch(e => {
     const strErr = `Safe Iterator caught error: ${gIn.textUtils.excToStr(e)}`;
     if (gT.cLParams.errToConsole) {
@@ -69,7 +67,7 @@ export function iterateSafe(iterator) {
   });
 }
 
-export function execGenSafe(gen, ...params) {
+export function execGenSafe(gen: Function, ...params: any) {
   return gT.u.misc.iterate(gen(...params)).catch(e => {
     const strErr = `Safe Generator runner caught error: ${gIn.textUtils.excToStr(e)}`;
     if (gT.cLParams.errToConsole) {
@@ -86,11 +84,11 @@ export function execGenSafe(gen, ...params) {
  * @param gen - function - generator.
  * @returns {Promise}
  */
-export function execGen(gen, param1, param2) {
+export function execGen(gen: Function, param1: any, param2: any) {
   return gT.u.misc.iterate(gen(param1, param2));
 }
 
-export function setHangTimeout(newTimeout) {
+export function setHangTimeout(newTimeout: number) {
   const oldTimeout = gT.cLParams.hangTimeout;
   gT.cLParams.hangTimeout = newTimeout;
   return oldTimeout;
