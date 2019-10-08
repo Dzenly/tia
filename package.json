@@ -50,12 +50,12 @@
   "dependencies": {
     "@types/chalk": "^2.2.0",
     "@types/diff": "^4.0.2",
-    "camelcase-keys": "^5.2.0",
+    "camelcase-keys": "^6.0.1",
     "chalk": "^2.4.1",
     "chromedriver": "^77.0.0",
     "debug-assert": "^0.2.3",
     "diff": "^4.0.1",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.15",
     "minimist": "^1.2.0",
     "nodemailer": "^5.1.1",
     "nodemailer-smtp-transport": "^2.7.4",
@@ -66,7 +66,7 @@
   },
   "devDependencies": {
     "@types/chromedriver": "^2.38.0",
-    "@types/lodash": "^4.14.138",
+    "@types/lodash": "^4.14.142",
     "@types/minimist": "^1.2.0",
     "@types/node": "^12.6.1",
     "@types/selenium-webdriver": "^4.0.3",
