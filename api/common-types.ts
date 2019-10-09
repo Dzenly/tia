@@ -71,3 +71,5 @@ export interface AssertionMode {
    */
   accName?: string;
 }
+
+export type SeleniumKeys = string | number | Array<string | number>;

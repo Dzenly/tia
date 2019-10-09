@@ -1,5 +1,3 @@
-
-
 import * as _ from 'lodash';
 
 import { queryCmpInput, queryCmpInputId, queryCmpId, queryAndAction } from '../tia-extjs-query';
@@ -20,11 +18,7 @@ export class ComponentActions {
    * Default actionDesc is 'Click Cmp'.
    * Note: if it does not work, try clickInput().
    */
-  static async click(
-    tEQ: Teq,
-    idForLog?: ElementIdForLog,
-    enableLog?: EnableLog
-  ): Promise<void> {
+  static async click(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Click Cmp ... `,
       enableLog,
@@ -40,11 +34,7 @@ export class ComponentActions {
    * Default actionDesc is 'Right Click Cmp'.
    * Note: if it does not work, try clickInput().
    */
-  static async rClick(
-    tEQ: Teq,
-    idForLog?: ElementIdForLog,
-    enableLog?: EnableLog
-  ): Promise<void> {
+  static async rClick(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Right Click Cmp ... `,
       enableLog,
@@ -179,11 +169,7 @@ export class ComponentActions {
    * Sends ESC key to the component.
    * Can be used, e.g. to close boundlist in combobox.
    */
-  static async sendEsc(
-    tEQ: Teq,
-    idForLog?: ElementIdForLog,
-    enableLog?: EnableLog
-  ): Promise<void> {
+  static async sendEsc(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send ESC ... `,
       enableLog,
@@ -218,11 +204,7 @@ export class ComponentActions {
    * Sends UP key to the component.
    * Can be used e.g. to move selection in a table.
    */
-  static async sendUp(
-    tEQ: Teq,
-    idForLog?: ElementIdForLog,
-    enableLog?: EnableLog
-  ): Promise<void> {
+  static async sendUp(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send UP ... `,
       enableLog,
@@ -256,11 +238,7 @@ export class ComponentActions {
    * Sends TAB key to the component.
    * E.g. to move to next form field.
    */
-  static async sendTab(
-    tEQ: Teq,
-    idForLog?: ElementIdForLog,
-    enableLog?: EnableLog
-  ): Promise<void> {
+  static async sendTab(tEQ: Teq, idForLog?: ElementIdForLog, enableLog?: EnableLog): Promise<void> {
     return gIn.wrap({
       msg: `${getCIS(tEQ, this.compName, idForLog)} Send TAB ... `,
       enableLog,
