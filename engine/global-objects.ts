@@ -41,6 +41,9 @@ import UtilsAPI from '../api/utils/utils-index';
 import winstonMock from '../api/log/winston-mock';
 import rStreamToLog from '../api/log/r-stream-to-log';
 
+/**
+ * **[[GlobalTiaObjects|gT]].logUtils**
+ */
 export class LogUtils {
   static winstonMock = winstonMock;
   static rStreamToLog = rStreamToLog;
@@ -62,6 +65,9 @@ import { Executor, HttpClient as Client } from 'selenium-webdriver/http';
 import * as firefox from 'selenium-webdriver/firefox';
 import * as input from 'selenium-webdriver/lib/input';
 
+/**
+ * **[[GlobalTiaObjects|gT]].sOrig**
+ */
 export class OriginalSeleniumAPI {
   static wdModule = wdModule;
   static by = wdModule.By;
@@ -82,6 +88,9 @@ export class OriginalSeleniumAPI {
   static driver: wdModule.WebDriver;
 }
 
+/**
+ * **[[GlobalTiaObjects|gT]].cLParams**
+ */
 export class CommandLineParams {
   static rootDir: string;
   static extLog?: string;
@@ -122,6 +131,9 @@ export class CommandLineParams {
   static driverLogLevel: number;
 }
 
+/**
+ * **[[GlobalTiaInnerObjects|gIn]].suite**
+ */
 export interface Suite {
   root: string;
   browserProfilesPath: string;
@@ -166,6 +178,9 @@ import * as uA from '../api/selenium/sel-user-actions';
 import * as browser from '../api/selenium/sel-browser';
 import { idToIdForLogObj } from '../api/selenium/sel-misc';
 
+/**
+ * **[[GlobalTiaObjects|gT]].s**
+ */
 export class SeleniumAPI {
   static driver = driver;
   static wait = wait;
@@ -274,6 +289,9 @@ export class GlobalTiaObjects {
   static firstRunWithRemoteDriver?: boolean;
 }
 
+/**
+ * Global namespace.
+ */
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

@@ -1,20 +1,24 @@
 /**
- * **gT.a**
- * Assertions.
+ * Test description.
+ * **[[GlobalTiaObjects|gT]].a**
  */
 
-/* eslint-disable max-params, no-param-reassign */
-
-/*
- Assertions can use results accumulators.
- I.e. the map which remembers if there was some error for current name.
+/**
+ * for typedoc.
  */
 
 import { AssertionMode } from './common-types';
 
+/* eslint-disable max-params, no-param-reassign */
+
 interface StrBoolMap {
   [key: string]: boolean;
 }
+
+/**
+ * Assertions can use results accumulators.
+ * I.e. the map which remembers if there was some error for current name.
+ */
 
 const resultAccumulators: StrBoolMap = {};
 

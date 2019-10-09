@@ -1,8 +1,10 @@
-/* globals gT: true */
-
-/* globals gIn: true */
+/**
+ * **Test description**.
+ */
 
 import * as path from 'path';
+
+/* eslint-disable max-params, no-param-reassign */
 
 /**
  * Safely runs generator.

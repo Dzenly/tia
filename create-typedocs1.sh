@@ -4,7 +4,7 @@ rm -rf docs1
 mkdir docs1
 
 #mv readme.md readme.md.bak
-typedoc ./gen-types --out docs1 --includeDeclarations --excludeExternals --excludeNotExported --exclude ./readme.md --readme none
+typedoc ./gen-types --out docs1 --includeDeclarations --excludeExternals --excludeNotExported --readme typedoc-readme.md
 #mv readme.md.bak readme.md
 touch docs1/.nojekyll
 
