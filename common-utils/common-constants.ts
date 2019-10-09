@@ -1,40 +1,34 @@
-/* global window */
-(function injectCommonConstants() {
+export const errPrefix = 'TIAERR: ';
 
-
-  var container;
-
-  if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    container = exports;
-  } else {
-    console.log('TIA: injectCommonConstants');
-    container = window.tia.cC;
-  }
-
-  container.errPrefix = 'TIAERR: ';
-
-  container.content = {
-    colSep: ' | ', // column texts separator
-    rowSep: '= = = = = = =',
-    rowSep1: '-------------------',
-    contentStart: '    /~~~~~~~~\\\n',
-    contentFinish: '\n    \\________/\n',
-    indent: ' | ',
-    title: 'Title: ',
-    header: 'Header: ',
-    visible: '(Visible)',
-    notVisible: '(Not visible)',
-    rowBody: '  Row body: ',
-    defEmptyCellText: '&#160;',
-    qTipAttr: 'data-qtip',
-    getVisibility: function getVisibility(cond) {
-      return cond ? this.visible : this.notVisible;
-    },
-    wrap: function wrap(str) {
-      return this.contentStart + str + this.contentFinish;
-    },
-    wrapEx: function wrapEx(indent, str) {
-      return indent + this.contentStart + str + indent + this.contentFinish;
-    },
+export class CommonConstantsContent {
+  static colSep = ' | '; // column texts separator
+  static rowSep = '= = = = = = =';
+  static rowSep1 = '-------------------';
+  static contentStart = '    /~~~~~~~~\\\n';
+  static contentFinish = '\n    \\________/\n';
+  static indent = ' | ';
+  static title = 'Title: ';
+  static header = 'Header: ';
+  static visible = '(Visible)';
+  static notVisible = '(Not visible)';
+  static rowBody = '  Row body: ';
+  static defEmptyCellText = '&#160;';
+  static qTipAttr = 'data-qtip';
+  static getVisibility = function getVisibility(cond: string) {
+    return cond ? CommonConstantsContent.visible : CommonConstantsContent.notVisible;
   };
-}());
+  static wrap = function wrap(str: string) {
+    return CommonConstantsContent.contentStart + str + CommonConstantsContent.contentFinish;
+  };
+  static wrapEx = function wrapEx(indent: string, str: string) {
+    return (
+      indent +
+      CommonConstantsContent.contentStart +
+      str +
+      indent +
+      CommonConstantsContent.contentFinish
+    );
+  };
+}
+
+export const content = CommonConstantsContent;

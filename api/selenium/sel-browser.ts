@@ -1,5 +1,3 @@
-
-
 /* globals gT: true */
 /* globals gIn: true */
 
@@ -24,7 +22,7 @@ function nextScreenShotPath() {
 // for gT.e.initTiaExtJsBrHelpers
 const brHelpers = ['tia-br-helpers.js'];
 
-const commonUtils = ['common-constants.js', 'common-misc-utils.js'];
+const commonUtils = ['br-common-constants.js', 'br-common-misc-utils.js'];
 
 export function executeScriptWrapper(scriptStr: string): Promise<any> {
   // gIn.tracer.trace3('executeScriptWrapper');
@@ -70,7 +68,7 @@ export function initTiaBrHelpers(enableLog?: EnableLog) {
         await executeScriptFromFile(fPath);
       }
       for (const fName of commonUtils) {
-        const fPath = mPath.join(__dirname, '..', '..', 'common-utils', fName);
+        const fPath = mPath.join(gT.tiaDir, 'common-utils', 'browser-part', fName);
         await executeScriptFromFile(fPath);
       }
       gIn.brHelpersInitiated = true;
