@@ -279,8 +279,8 @@ export function invertMapObj(map: CUMap) {
   });
 
   const invertedMapAllKeys: { [index: string]: string } = Object.create(null);
-  const invertedMapEntries: [string, string[]][] = Object.entries(invertedMapArrAllKeys);
-  invertedMapEntries.forEach(([key, value]: [string, string[]]) => {
+  const invertedMapEntries = Object.entries(invertedMapArrAllKeys);
+  invertedMapEntries.forEach(([key, value]) => {
     invertedMapAllKeys[key] = value.join(', ');
   });
 
