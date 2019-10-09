@@ -5,7 +5,7 @@ export const getDebugMode = function() {
 };
 
 export function copyObject(obj: any) {
-  const result = {};
+  const result: { [index: string]: any; [index: number]: any } = {};
   for (const prop in obj) {
     result[prop] = obj[prop];
   }
@@ -70,45 +70,61 @@ export function mergeOptions(src: any, def: any) {
 }
 
 // Behaviour for access to property of undefined object.
-export const dumpObjErrMode = {
-  exception: 0, // Generate exception.
-  showNA: 1, // Show N/A for erroneous path.
-  omitString: 2, // Omit the string.
-  omitStringIfUndefined: 3, // Omit the string if object exists but property is undefined.
-};
+export enum dumpObjErrMode {
+  exception = 0, // Generate exception.
+  showNA = 1, // Show N/A for erroneous path.
+  omitString = 2, // Omit the string.
+  omitStringIfUndefined = 3, // Omit the string if object exists but property is undefined.
+}
+
+export interface PathsForDump {
+  path: string;
+
+  /**
+   * Note - only arrays are supported.
+   *   when function is met in path, next argument from args array is used.
+   */
+  args?: any[][];
+
+  /**
+   * name to log, instead of funcName.
+   */
+  alias?: string;
+
+  /**
+   * if true - values will be wrapped in double quotes.
+   */
+  quotes?: boolean;
+}
 
 /**
- * Prints given object properies to string.
+ * Prints given object properties to string.
  * @param obj - Object which properties to print.
  * @param {Array} propPaths - Names for properties to print.
- * This can be array of strings or array with objects, like
- * {
- *   path: <path>,
- *   args: <array of arrays of arguments> Note - only arrays are supported.
- *   when function is met in path, next argument from args array is used.
- *   alias: name to log, instead of funtName().
- *   quotes: if true - values will be wrapped in double quotes.
- *
- * }
  * @param dstArr - Destination array to place strings to.
- * @param [errMode] - see dumpObjErrMode
+ * @param [errMode] - dumpObjErrMode
  */
-export function dumpObj(obj: any, propPaths, dstArr, errMode) {
+export function dumpObj(
+  obj: any,
+  propPaths: Array<string | PathsForDump>,
+  dstArr: string[],
+  errMode: dumpObjErrMode
+) {
   if (typeof errMode === 'undefined') {
     errMode = dumpObjErrMode.showNA;
   }
   if (typeof dstArr === 'undefined' || dstArr === null) {
     dstArr = [];
   }
-  let actualPropPathArr;
+  let actualPropPathArr = [];
   let actPropPathStr;
   try {
     outerLoop: for (let i = 0, len1 = propPaths.length; i < len1; i++) {
       let propPath = propPaths[i];
 
-      let argsArr = void 0;
-      let alias = void 0;
-      let quotes = void 0;
+      let argsArr: any[][] | undefined;
+      let alias: string | undefined;
+      let quotes: boolean | undefined;
 
       if (typeof propPath === 'object') {
         argsArr = propPath.args;
@@ -153,7 +169,7 @@ export function dumpObj(obj: any, propPaths, dstArr, errMode) {
               }
             }
 
-            let args = void 0;
+            let args: any[] | undefined;
             if (argsArr) {
               args = argsArr[argsIndex];
               argsIndex++;
@@ -201,7 +217,7 @@ export function dumpObj(obj: any, propPaths, dstArr, errMode) {
 
 // Gets object property by path.
 // If some property is function - it will be called without arguments.
-export function result(origVal, path, defaultValue) {
+export function result(origVal: any, path: string, defaultValue: any) {
   let val = origVal;
 
   try {
@@ -232,6 +248,10 @@ export function result(origVal, path, defaultValue) {
   }
 }
 
+export interface CUMap {
+  [index: string]: string;
+}
+
 /**
  * Inverted object {'key': 'value'} -> {'value': 'key'}
  * @param {Object} map
@@ -243,16 +263,13 @@ export function result(origVal, path, defaultValue) {
  *   all keys, separated by comma, will be used as a value.
  * }
  */
-export function invertMapObj(map) {
-  const invertedMapFirstKey = Object.create(null);
-  const invertedMapArrAllKeys = Object.create(null); // temporary.
+export function invertMapObj(map: CUMap) {
+  const invertedMapFirstKey: { [index: string]: string } = Object.create(null);
+  const invertedMapArrAllKeys: { [index: string]: string[] } = Object.create(null);
 
   const mapEntries = Object.entries(map);
 
-  mapEntries.forEach(function(entry) {
-    const key = entry[0];
-    const value = entry[1];
-
+  mapEntries.forEach(([key, value]) => {
     if (typeof invertedMapFirstKey[value] === 'undefined') {
       invertedMapFirstKey[value] = key;
       invertedMapArrAllKeys[value] = [key];
@@ -261,11 +278,9 @@ export function invertMapObj(map) {
     }
   });
 
-  const invertedMapAllKeys = Object.create(null);
-  const invertedMapEntries = Object.entries(invertedMapArrAllKeys);
-  invertedMapEntries.forEach(function(entry) {
-    const key = entry[0];
-    const value = entry[1];
+  const invertedMapAllKeys: { [index: string]: string } = Object.create(null);
+  const invertedMapEntries: [string, string[]][] = Object.entries(invertedMapArrAllKeys);
+  invertedMapEntries.forEach(([key, value]: [string, string[]]) => {
     invertedMapAllKeys[key] = value.join(', ');
   });
 
