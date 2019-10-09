@@ -14,7 +14,6 @@ import * as remoteDriverUtils from '../utils/remote-driver-utils';
 import wrap from './wrap';
 
 import * as engineConsts from '../config/engine-constants';
-import * as configUtils from '../utils/config-utils';
 import * as suiteConfigDefault from '../config/default-suite-config';
 import * as globalConfigDefault from '../config/default-global-config';
 import * as dirConfigDefault from '../config/default-dir-config';
@@ -132,6 +131,9 @@ export interface Suite {
   changedEDiffs: number;
 }
 
+/**
+ * **gIn**
+ */
 export class GlobalTiaInnerObjects {
   static suite: Suite;
   static loggerCfg = loggerCfg;
@@ -172,13 +174,22 @@ export class SeleniumAPI {
   static idToIdForLogObj = idToIdForLogObj;
 }
 
+/**
+ * **gT**
+ */
 export class GlobalTiaObjects {
+  /**
+   * Tia engine constants.
+   */
   static engineConsts = engineConsts;
-  static configUtils = configUtils;
+
   static suiteConfigDefault = suiteConfigDefault;
   static globalConfigDefault = globalConfigDefault;
   static dirConfigDefault = dirConfigDefault;
 
+  /**
+   * Selenium API.
+   */
   static s = SeleniumAPI;
 
   /**
@@ -199,8 +210,14 @@ export class GlobalTiaObjects {
    */
   static a = a;
 
+  /**
+   * Utilities.
+   */
   static u = UtilsAPI;
 
+  /**
+   * ExtJs common API
+   */
   static e = ExtJsAPI;
 
   static commonConsts = commonConsts;
@@ -208,14 +225,29 @@ export class GlobalTiaObjects {
   static commonMiscUtils = commonMiscUtils;
 
   static sOrig = OriginalSeleniumAPI; // TODO: change type.
+
+  /**
+   * ExtJs Components API.
+   */
   static eC = ExtJsCmpAPI;
 
+  /**
+   *
+   */
   static nodeUtils = nodeUtils;
+
   static timeUtils = timeUtils;
   static logUtils = LogUtils;
 
   static tiaDir: string;
+
+  /**
+   * Tia version.
+   */
   static version: string;
+  /**
+   * Supported browsers.
+   */
   static browsers = [
     'chrome', // First browser is default.
     'firefox',

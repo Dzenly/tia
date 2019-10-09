@@ -11,6 +11,7 @@ import * as fileUtils from '../utils/file-utils';
 import * as suiteUtils from '../utils/suite-utils';
 import * as os from 'os';
 import { TestInfo } from './test-info';
+import { handleSuiteConfig } from '../utils/config-utils';
 
 function getOs() {
   return `${os.platform()}_${os.release()}`;
@@ -480,7 +481,7 @@ async function prepareAndRunTestSuite(root: string) {
 
   gIn.suite = suite;
 
-  gT.configUtils.handleSuiteConfig();
+  handleSuiteConfig();
 
   const suiteResult = await runTestSuite(suite).catch(err => {
     gIn.tracer.err(`Runner ERR: ${gIn.textUtils.excToStr(err)}`);
