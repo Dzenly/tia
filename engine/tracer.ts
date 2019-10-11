@@ -1,13 +1,8 @@
-
-
-declare const gT: import('tia-types').GlobalTiaObjects;
-declare const gIn: import('tia-types').GlobalTiaInnerObjects;
-
 export function err(msg: string) {
   gIn.cLogger.errln(`${gIn.tracePrefix}TRCERR: ${msg}`);
 }
 
-export function exc(err: string) {
+export function exc(err: Error) {
   gIn.cLogger.errln(`${gIn.tracePrefix}TRCEXC: ${gIn.textUtils.excToStr(err)}`);
 }
 
