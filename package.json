@@ -11,7 +11,7 @@
   "scripts": {
     "clean": "rm -rf build/* && rm -rf gen-types/*",
     "test": "node build/bin/tia.js --run-self-tests",
-    "postinstall": "node_modules/.bin/tsc || exit 0",
+    "postinstall": "node_modules/.bin/tsc",
     "a": "npm run clean && npm run postinstall && npm run test",
     "b": "npm run postinstall",
     "d": "npm run clean && npm run b && ./create-typedocs1.sh"
