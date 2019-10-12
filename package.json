@@ -16,7 +16,8 @@
     "licence.md",
     "package-lock.json",
     "package.json",
-    "readme.md"
+    "readme.md",
+    "tsconfig.json"
   ],
   "scripts": {
     "clean": "rm -rf build/* && rm -rf types/*",
