@@ -199,3 +199,5 @@ package-lock.json
 build/
 **/tia-browser-profiles/
 types/
+*.log
+*.tgz
