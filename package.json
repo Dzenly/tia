@@ -8,16 +8,27 @@
   "engines": {
     "node": ">=10.15.1"
   },
+  "files": [
+    "src",
+    "build",
+    "types",
+    "__tia-tests__",
+    "licence.md",
+    "package-lock.json",
+    "package.json",
+    "readme.md"
+  ],
   "scripts": {
-    "clean": "rm -rf build/* && rm -rf gen-types/*",
+    "clean": "rm -rf build/* && rm -rf types/*",
     "test": "node build/bin/tia.js --run-self-tests",
-    "postinstall": "node_modules/.bin/tsc",
+    "build": "node_modules/.bin/tsc",
+    "prepare": "npm run clean && node_modules/.bin/tsc",
     "a": "npm run clean && npm run postinstall && npm run test",
     "b": "npm run postinstall",
-    "d": "npm run clean && npm run b && ./create-typedocs1.sh"
+    "d": "npm run clean && npm run b && ./create-typedocs.sh"
   },
-  "types": "./gen-types/index.d.ts",
-  "typings": "./gen-types/index.d.ts",
+  "types": "./types/index.d.ts",
+  "typings": "./types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Dzenly/tia.git"
@@ -48,8 +59,6 @@
   },
   "homepage": "https://github.com/Dzenly/tia#readme",
   "dependencies": {
-    "@types/chalk": "^2.2.0",
-    "@types/diff": "^4.0.2",
     "camelcase-keys": "^6.0.1",
     "chalk": "^2.4.1",
     "chromedriver": "^77.0.0",
@@ -61,11 +70,12 @@
     "nodemailer-smtp-transport": "^2.7.4",
     "selenium-webdriver": "^4.0.0-alpha.5",
     "semver": "^6.3.0",
-    "ts-node": "^8.4.1",
-    "typescript": "^3.5.3"
+    "ts-node": "^8.4.1"
   },
   "devDependencies": {
+    "@types/chalk": "^2.2.0",
     "@types/chromedriver": "^2.38.0",
+    "@types/diff": "^4.0.2",
     "@types/lodash": "^4.14.142",
     "@types/minimist": "^1.2.0",
     "@types/node": "^12.7.11",
@@ -78,6 +88,7 @@
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "typescript": "^3.5.3"
   }
 }

@@ -1,0 +1,14 @@
+export declare const delayAfterTest = 0;
+export declare const enableTimings = false;
+export declare const sectionTitle = "";
+export declare const ignorePassAndFailCounters = false;
+export declare const ignoreNames: string[];
+export declare const requireMods: never[];
+export declare const rssUsageThreshold = 500;
+export declare const skip = false;
+export declare const selPrintClExcAfterEachCommand = false;
+export declare const selPrintClConsoleAfterEachCommand = false;
+export declare const DISPLAY = ":1.5";
+export declare const browserProfileDir = "";
+export declare const selHost = "http://10.4.3.214";
+export declare const resUsagePrintAtErrors = true;
