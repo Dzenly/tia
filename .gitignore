@@ -196,9 +196,6 @@ package-lock.json
 .vscode/
 
 # typescript.
-dist/
 build/
 **/tia-browser-profiles/
-gen-types/
-build-map/
-docs1/
+types/
