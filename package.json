@@ -25,8 +25,8 @@
     "build": "node_modules/.bin/tsc",
     "prepare": "npm run clean && node_modules/.bin/tsc",
     "a": "npm run clean && npm run postinstall && npm run test",
-    "b": "npm run postinstall",
-    "d": "npm run clean && npm run b && ./create-typedocs.sh"
+    "b": "npm run clean && npm run build",
+    "d": "npm run b && ./create-typedocs.sh"
   },
   "types": "./types/index.d.ts",
   "typings": "./types/index.d.ts",
