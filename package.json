@@ -22,8 +22,8 @@
   "scripts": {
     "clean": "rm -rf build/* && rm -rf types/*",
     "test": "node build/bin/tia.js --run-self-tests",
-    "build": "node_modules/.bin/tsc",
-    "prepare": "npm run clean && node_modules/.bin/tsc",
+    "build": "node_modules/.bin/tsc && cp src/globals.d.ts types",
+    "prepare": "npm run clean && npm run build",
     "a": "npm run clean && npm run postinstall && npm run test",
     "b": "npm run clean && npm run build",
     "d": "npm run b && ./create-typedocs.sh"
