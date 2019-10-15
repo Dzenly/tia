@@ -28,8 +28,7 @@
     "b": "npm run clean && npm run build",
     "d": "npm run b && ./create-typedocs.sh"
   },
-  "types": "./types/index.d.ts",
-  "typings": "./types/index.d.ts",
+  "types": "./types/bin/tia.d.ts",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Dzenly/tia.git"
