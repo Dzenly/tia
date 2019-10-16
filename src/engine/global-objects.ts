@@ -21,6 +21,7 @@ import * as dirConfigDefault from '../config/default-dir-config';
 import * as l from '../api/log/log';
 import * as t from '../api/test';
 import * as lL from '../api/low-level';
+import * as hL from '../api/high-level';
 import * as a from '../api/assertions';
 
 import * as timeUtils from '../utils/time-utils';
@@ -219,6 +220,11 @@ export class GlobalTiaObjects {
    * Low level API for tests. It can be used for helpers writing.
    */
   static lL = lL;
+
+  /**
+   * High level API for tests. It can be used for helpers writing.
+   */
+  static hL = hL;
 
   /**
    * Assertions
