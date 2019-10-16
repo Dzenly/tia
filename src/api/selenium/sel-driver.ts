@@ -10,7 +10,7 @@ import { EnableLog } from '../common-types';
 
 const cleanedProfilePaths: string[] = [];
 
-export async function init(cleanProfile: boolean, enableLog?: EnableLog) {
+export async function init(cleanProfile?: boolean, enableLog?: EnableLog) {
   // if (typeof enableLog === 'undefined' && !gT.config.browserProfileDir) {
   //   enableLog = false;
   // }
