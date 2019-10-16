@@ -71,7 +71,11 @@ export function waitForElementByClassName(className: string, timeout: number, en
  *
  * @returns {Promise} - Promise with WebElement (or rejected Promise).
  */
-export function waitForElementByCssSelector(selector: string, timeout: number, enableLog?: boolean) {
+export function waitForElementByCssSelector(
+  selector: string,
+  timeout: number,
+  enableLog?: boolean
+) {
   return gIn.wrap({
     msg: `Waiting for element by css selector : "${selector}" ... `,
     enableLog,
