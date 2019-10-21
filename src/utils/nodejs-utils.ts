@@ -26,6 +26,7 @@ export function clearRequireCache(resolvedModulePath: string) {
  */
 export function requireEx(modPath: string, clearCache?: boolean) {
   const absFilePath = path.resolve(modPath);
+  gIn.tracer.msg3(`requireEx: absFilePath: ${absFilePath}.`);
   const res = {
     result: require(absFilePath),
     resolvedModPath: require.resolve(absFilePath), // Can be used later for clear require cache.
@@ -46,6 +47,7 @@ export function requireEx(modPath: string, clearCache?: boolean) {
 export function requireIfExists(modPath: string) {
   try {
     return require(modPath);
+    gIn.tracer.msg3(`requireIfExists: Module found: ${modPath}.`);
   } catch (e) {
     gIn.tracer.msg3(`requireIfExists: There is no module: ${modPath}.`);
     return {};
@@ -120,7 +122,7 @@ export function checkNodeJsVersion() {
 export function requireArray(modules: string[]) {
   modules.forEach((modulePath: string) => {
     const modPath = path.resolve(gT.cLParams.rootDir, modulePath);
-    gIn.tracer.msg1(`Requiring module: ${modPath}`);
+    gIn.tracer.msg1(`requireArray: Requiring module: ${modPath}`);
     require(modPath);
   });
 }

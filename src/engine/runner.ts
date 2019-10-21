@@ -184,7 +184,7 @@ function handleDirConfig(dir: string, files: string[], parentDirConfig: any) {
     dirCfg.browserProfilePath = gT.defaultRootProfile;
   }
 
-  gIn.tracer.msg2(`Profile path: ${dirCfg.browserProfilePath}`);
+  gIn.tracer.msg3(`Profile path: ${dirCfg.browserProfilePath}`);
 
   return dirCfg;
 }

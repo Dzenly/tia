@@ -31,7 +31,7 @@ require('ts-node').register({
   compilerOptions: {
     allowJs: false,
     baseUrl: tiaDir,
-    moduleResolution: 'Classic',
+    moduleResolution: 'Node',
     resolveJsonModule: false,
     target: 'ES2018',
   },
