@@ -27,6 +27,10 @@ const tiaDir = path.resolve(path.join(__dirname, '..', '..'));
 
 process.env.TS_NODE_PROJECT = path.join(tiaDir, 'tsconfig.json');
 
+const transpileOnly = true;
+
+process.env.TS_NODE_TRANSPILE_ONLY = `${transpileOnly}`;
+
 require('ts-node').register({
   compilerOptions: {
     allowJs: false,
@@ -36,7 +40,7 @@ require('ts-node').register({
     target: 'ES2018',
   },
   ignore: [],
-  transpileOnly: true,
+  transpileOnly,
 });
 
 import nodeUtils = require('../utils/nodejs-utils');
