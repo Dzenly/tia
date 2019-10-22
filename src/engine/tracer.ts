@@ -49,3 +49,10 @@ export function msg3(msg: string) {
     gIn.cLogger.msgln(`${gIn.tracePrefix}TRC3: ${msg}`);
   }
 }
+
+// spam
+export function msg4(msg: string) {
+  if (gT.cLParams.traceLevel > 3) {
+    gIn.cLogger.msgln(`${gIn.tracePrefix}TRC4: ${msg}`);
+  }
+}

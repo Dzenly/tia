@@ -176,8 +176,8 @@ export function usage() {
       --too-long-time <duration>. If tests running exceeded the specified milliseconds amount.
       Email subject will have 'TOO_LONG' prefix.
 
-      --trace-level <level> enables tracing (1 | 2 | 3 )
-      (1 - less verbose, 3 - maximum verbosity, 0 - forbids tracing).
+      --trace-level <level> enables tracing (1 | 2 | 3 | 4 )
+      (1 - less verbose, 4 - maximum verbosity, 0 - forbids tracing).
 
       --use-remote-driver - (for chromedriver only).
       Starts the browser driver in a separate process (if it is not already started),
