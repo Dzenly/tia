@@ -4,6 +4,10 @@
  * @internal
  */
 
+/**
+ * Dummy comment.
+ */
+
 import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
@@ -550,9 +554,6 @@ function extractDiffedPaths(testOrDirInfo: TestInfo, result: string[], suiteRoot
   }
 }
 
-/**
- * @ignore
- */
 // Returns subject for email.
 export async function runTestSuites() {
   fileUtils.safeUnlink(gT.rootLog);

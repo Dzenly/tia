@@ -53,7 +53,7 @@ export function mergeResultToAccumulator(res: boolean, name: string) {
  * Adds result accumulators usage to fail call.
  * @param msg
  */
-function failWrapper(msg: string, mode: AssertionMode) {
+function failWrapper(msg: string, mode?: AssertionMode) {
   gT.l.fail(msg);
   if (mode && mode.accName) {
     checkAccName(mode.accName);
@@ -75,7 +75,7 @@ function failWrapper(msg: string, mode: AssertionMode) {
  * @param condition
  * @param msg - message to describe the entity which you expect.
  */
-function checkIfTrue(condition: boolean, msg: string, mode: AssertionMode) {
+function checkIfTrue(condition: boolean, msg: string, mode?: AssertionMode) {
   if (condition) {
     gT.l.pass(msg, mode);
     return true;
@@ -92,7 +92,7 @@ export { checkIfTrue as true };
  * @param msg - message to describe the entity which you expect.
  * param {Object} mode - see 'true' assertion description.
  */
-function checkIfFalse(condition: boolean, msg: string, mode: AssertionMode) {
+function checkIfFalse(condition: boolean, msg: string, mode?: AssertionMode) {
   return checkIfTrue(!condition, msg, mode);
 }
 
@@ -105,7 +105,7 @@ export { checkIfFalse as false };
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-export function value(actVal: any, expVal: any, msg: string, mode: AssertionMode) {
+export function value(actVal: any, expVal: any, msg: string, mode?: AssertionMode) {
   if (typeof msg !== 'undefined') {
     if (actVal === expVal) {
       gT.l.pass(`${msg}: ${actVal}`, mode);
@@ -134,7 +134,7 @@ export function value(actVal: any, expVal: any, msg: string, mode: AssertionMode
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-export function valueStr(actVal: any, expVal: any, msg: string, mode: AssertionMode) {
+export function valueStr(actVal: any, expVal: any, msg: string, mode?: AssertionMode) {
   actVal = String(actVal);
   expVal = String(expVal);
   return value(actVal, expVal, msg, mode);
@@ -147,7 +147,7 @@ export function valueStr(actVal: any, expVal: any, msg: string, mode: AssertionM
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-export function valueNumber(actVal: any, expVal: any, msg: string, mode: AssertionMode) {
+export function valueNumber(actVal: any, expVal: any, msg: string, mode?: AssertionMode) {
   actVal = Number(actVal);
   expVal = Number(expVal);
   return value(actVal, expVal, msg, mode);
@@ -160,7 +160,7 @@ export function valueNumber(actVal: any, expVal: any, msg: string, mode: Asserti
  * @param {String} [msg] - message to describe the entity which you expect.
  * @returns {Boolean} comparision result.
  */
-export function valueBool(actVal: any, expVal: any, msg: string, mode: AssertionMode) {
+export function valueBool(actVal: any, expVal: any, msg: string, mode?: AssertionMode) {
   actVal = Boolean(actVal);
   expVal = Boolean(expVal);
   return value(actVal, expVal, msg, mode);
@@ -174,7 +174,7 @@ export function valueBool(actVal: any, expVal: any, msg: string, mode: Assertion
  * @param msg - message to describe the entity which you expect.
  * @returns {boolean}
  */
-export function valueDeep(actVal: any, expVal: any, msg: string, mode: AssertionMode) {
+export function valueDeep(actVal: any, expVal: any, msg: string, mode?: AssertionMode) {
   function handleVals(actualValue: any, expectedValue: any, propPath: string) {
     const actType = typeof actualValue;
     const expType = typeof expectedValue;
@@ -239,7 +239,7 @@ export function valueDeep(actVal: any, expVal: any, msg: string, mode: Assertion
  * @param mode
  * @return {boolean}
  */
-export function exception(func: Function, expExc?: string, mode?: any) {
+export function exception(func: Function, expExc?: string, mode?: AssertionMode) {
   try {
     func();
     let msg;
@@ -276,7 +276,7 @@ export function exception(func: Function, expExc?: string, mode?: any) {
  * @param mode
  * @return {Promise}
  */
-export function exceptionAsync(asyncFunc: Function, expExc?: string, mode?: any) {
+export function exceptionAsync(asyncFunc: Function, expExc?: string, mode?: AssertionMode) {
   return asyncFunc().then(
     () => {
       let msg;
@@ -310,7 +310,7 @@ export function equal(
   msg1: string,
   msg2: string,
   doNotShowValues: boolean,
-  mode: AssertionMode
+  mode?: AssertionMode
 ) {
   if (val1 === val2) {
     if (doNotShowValues) {
@@ -330,7 +330,7 @@ export function equalBool(
   msg1: string,
   msg2: string,
   doNotShowValues: boolean,
-  mode: AssertionMode
+  mode?: AssertionMode
 ) {
   val1 = Boolean(val1);
   val2 = Boolean(val2);
@@ -352,7 +352,7 @@ export function notEqualBool(
   msg1: string,
   msg2: string,
   doNotShowValues: boolean,
-  mode: AssertionMode
+  mode?: AssertionMode
 ) {
   val1 = Boolean(val1);
   val2 = Boolean(val2);
