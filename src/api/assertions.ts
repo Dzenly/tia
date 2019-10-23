@@ -309,7 +309,7 @@ export function equal(
   val2: any,
   msg1: string,
   msg2: string,
-  doNotShowValues: boolean,
+  doNotShowValues?: boolean,
   mode?: AssertionMode
 ) {
   if (val1 === val2) {
