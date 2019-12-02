@@ -64,11 +64,11 @@ export function initTiaBrHelpers(enableLog?: EnableLog) {
     enableLog,
     act: async () => {
       for (const fName of brHelpers) {
-        const fPath = mPath.join(gT.tiaDir, 'api', 'selenium', 'browser-part', fName);
+        const fPath = mPath.join(gT.tiaDir, 'src', 'api', 'selenium', 'browser-part', fName);
         await executeScriptFromFile(fPath);
       }
       for (const fName of commonUtils) {
-        const fPath = mPath.join(gT.tiaDir, 'common-utils', 'browser-part', fName);
+        const fPath = mPath.join(gT.tiaDir, 'src', 'common-utils', 'browser-part', fName);
         await executeScriptFromFile(fPath);
       }
       gIn.brHelpersInitiated = true;

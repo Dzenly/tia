@@ -31,7 +31,7 @@ export function init(enableLog?: EnableLog) {
         enableLog,
         act: () => {
           const scriptStr = fs.readFileSync(
-            path.join(gT.tiaDir, 'api', 'extjs', 'browser-part', 'e-br-explore.js'),
+            path.join(gT.tiaDir, 'src', 'api', 'extjs', 'browser-part', 'e-br-explore.js'),
             'utf8'
           );
 

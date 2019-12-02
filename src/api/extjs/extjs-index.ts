@@ -68,7 +68,7 @@ export class ExtJsAPI {
         for (const fName of brHelpers) {
           // eslint-disable-line no-restricted-syntax
           const scriptStr = fs.readFileSync(
-            path.join(gT.tiaDir, 'api', 'extjs', 'browser-part', fName),
+            path.join(gT.tiaDir, 'src', 'api', 'extjs', 'browser-part', fName),
             'utf8'
           );
           await gT.s.browser.executeScriptWrapper(scriptStr);
