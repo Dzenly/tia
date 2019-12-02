@@ -1,7 +1,7 @@
 (function injectCommonConstants() {
   console.log('TIA: injectCommonConstants');
-  window.tia.cC.container.errPrefix = 'TIAERR: ';
-  window.tia.cC.container.content = {
+  window.tia.cC.errPrefix = 'TIAERR: ';
+  window.tia.cC.content = {
     colSep: ' | ', // column texts separator
     rowSep: '= = = = = = =',
     rowSep1: '-------------------',
