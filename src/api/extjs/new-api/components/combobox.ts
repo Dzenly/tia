@@ -28,6 +28,7 @@ export class ComboBoxActions extends FormFieldBaseActions {
     enableLog?: EnableLog
   ): Promise<void> {
     // Inherited from Component.
+    await this.click(tEQ, idForLog, false);
     return this.sendCtrlAKeysEnter(tEQ, text, idForLog, enableLog);
   }
 

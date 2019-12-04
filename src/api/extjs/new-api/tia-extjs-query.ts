@@ -50,8 +50,8 @@ export async function queryAndAction(args: QueryAndActionParams) {
   const { tEQ, action, idForLog, enableLog } = args;
 
   // Waiting for all ExtJs inner processes are finished and component is ready to work with.
-  // await gT.e.wait.idle(undefined, false);
   await gT.e.wait.ajaxRequestsFinish(undefined, false);
+  // await gT.e.wait.idle(undefined, false);
 
   return gIn.wrap({
     msg: `Searching ExtJs cmp ${idForLog ? `${idForLog} ` : ''}by TEQ: ${tEQ} ... `,
