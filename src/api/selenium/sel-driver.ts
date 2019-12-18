@@ -158,7 +158,6 @@ export async function init(cleanProfile?: boolean, enableLog?: EnableLog) {
 
           const session = new gT.sOrig.wdModule.Session(sid, {});
           gT.sOrig.driver = new gT.sOrig.wdModule.WebDriver(session, executor);
-          const asdf = 5;
         } else {
           gIn.tracer.msg3('There is not current SID');
           gT.firstRunWithRemoteDriver = true;
@@ -291,7 +290,12 @@ export function printSelDriverLogs(minLevel: number) {
   return gT.sOrig.logs.get(gT.sOrig.driverLogType).then(entries => {
     gIn.tracer.msg3('Start of printSelDriverLogs');
     for (const entry of entries) {
-      if (entry.level.value >= minLevel) {
+      if (
+        entry.level.value >= minLevel &&
+        !entry.message.includes(
+          'This version of ChromeDriver has not been tested with Chrome version'
+        )
+      ) {
         const logStr = `SEL.DR.LOG: ${entry.level.name} (${entry.level.value}), Message:\n ${entry.message}`;
         gIn.logger.logln(logStr);
       }

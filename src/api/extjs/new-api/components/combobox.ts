@@ -1,8 +1,4 @@
-
-
 // https://stackoverflow.com/questions/11000087/how-to-select-a-combobox-value-in-extjs
-
-
 
 import { Teq } from '../types/ej-types';
 import { ElementIdForLog, EnableLog } from '../../../common-types';

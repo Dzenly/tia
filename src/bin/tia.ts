@@ -345,6 +345,12 @@ if (gT.cLParams.defHost) {
 //   throw err;
 // });
 
+process.on('unhandledRejection', (reason: any, promise: Promise<any>) => {
+  console.error(`Unhandled Rejection: reason: ${reason.toString()}`);
+  console.error(`Unhandled Rejection: stack: ${reason.stack}`);
+  process.exit(1);
+});
+
 if (gT.cLParams.ejExplore) {
   gT.cLParams.keepBrowserAtError = true;
 }
