@@ -2,7 +2,7 @@
 
 import { Teq } from '../types/ej-types';
 import { ElementIdForLog, EnableLog } from '../../../common-types';
-import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+import { ComponentActions, ComponentChecks, ComponentGrabs, ComponentLogs } from './component';
 import { queryAndAction } from '../tia-extjs-query';
 
 const compName = 'TabPanel';
@@ -50,6 +50,13 @@ export class TabPanelChecks extends ComponentChecks {
 }
 
 /**
+ * gT.eC.tabpanel.g or gT.eC.tabpanel.grabs
+ */
+export class TabPanelGrabs extends ComponentGrabs {
+  static compName = compName;
+}
+
+/**
  * gT.eC.tabpanel.l or gT.eC.tabpanel.logs
  */
 export class TabPanelLogs extends ComponentLogs {
@@ -61,6 +68,8 @@ export class TabPanelAPI {
   static actions = TabPanelActions;
   static c = TabPanelChecks;
   static checks = TabPanelChecks;
+  static g = TabPanelGrabs;
+  static grabs = TabPanelGrabs;
   static l = TabPanelLogs;
   static logs = TabPanelLogs;
 }

@@ -1,6 +1,6 @@
 
 
-import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs } from './form-field-base';
+import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseGrabs, FormFieldBaseLogs } from './form-field-base';
 
 const compName = 'TextField';
 
@@ -21,6 +21,13 @@ export class TextFieldChecks extends FormFieldBaseChecks {
 }
 
 /**
+ * gT.eC.textfield.g or gT.eC.textfield.grabs
+ */
+export class TextFieldGrabs extends FormFieldBaseGrabs {
+  static compName = compName;
+}
+
+/**
  * gT.eC.textfield.l or gT.eC.textfield.logs
  */
 export class TextFieldLogs extends FormFieldBaseLogs {
@@ -32,6 +39,8 @@ export class TextFieldAPI {
   static actions = TextFieldActions;
   static c = TextFieldChecks;
   static checks = TextFieldChecks;
+  static g = TextFieldGrabs;
+  static grabs = TextFieldGrabs;
   static l = TextFieldLogs;
   static logs = TextFieldLogs;
 }

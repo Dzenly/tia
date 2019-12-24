@@ -1,8 +1,11 @@
-
-
 import { Teq } from '../types/ej-types';
 import { ElementIdForLog, EnableLog } from '../../../common-types';
-import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs } from './form-field-base';
+import {
+  FormFieldBaseActions,
+  FormFieldBaseChecks,
+  FormFieldBaseGrabs,
+  FormFieldBaseLogs,
+} from './form-field-base';
 import { queryAndAction } from '../tia-extjs-query';
 
 const compName = 'CheckBox';
@@ -117,6 +120,23 @@ export class CheckBoxChecks extends FormFieldBaseChecks {
 }
 
 /**
+ * gT.eC.checkbox.g or gT.eC.checkbox.grabs
+ */
+export class CheckBoxGrabs extends FormFieldBaseGrabs {
+  static compName = compName;
+  /**
+   * Returns 'checked' or 'unchecked'.
+   */
+  static async rawValue(tEQ: Teq, idForLog?: ElementIdForLog): Promise<string> {
+    return await gT.eC.formFieldBase.g.rawValue(
+      tEQ,
+      idForLog,
+      val => `${val ? 'checked' : 'unchecked'}`
+    );
+  }
+}
+
+/**
  * gT.eC.checkbox.l or gT.eC.checkbox.logs
  */
 export class CheckBoxLogs extends FormFieldBaseLogs {
@@ -134,6 +154,8 @@ export class CheckBoxAPI {
   static actions = CheckBoxActions;
   static c = CheckBoxChecks;
   static checks = CheckBoxChecks;
+  static g = CheckBoxGrabs;
+  static grabs = CheckBoxGrabs;
   static l = CheckBoxLogs;
   static logs = CheckBoxLogs;
 }

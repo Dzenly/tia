@@ -1,6 +1,6 @@
 
 
-import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+import { ComponentActions, ComponentChecks, ComponentGrabs, ComponentLogs } from './component';
 
 const compName = 'Tab';
 
@@ -19,6 +19,13 @@ export class TabChecks extends ComponentChecks {
 }
 
 /**
+ * gT.eC.tab.g or gT.eC.tab.grabs
+ */
+export class TabGrabs extends ComponentGrabs {
+  static compName = compName;
+}
+
+/**
  * gT.eC.tab.l or gT.eC.tab.logs
  */
 export class TabLogs extends ComponentLogs {
@@ -30,6 +37,8 @@ export class TabAPI {
   static actions = TabActions;
   static c = TabChecks;
   static checks = TabChecks;
+  static g = TabGrabs;
+  static grabs = TabGrabs;
   static l = TabLogs;
   static logs = TabLogs;
 }

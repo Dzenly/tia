@@ -2,7 +2,12 @@
 
 import { Teq } from '../types/ej-types';
 import { ElementIdForLog, EnableLog } from '../../../common-types';
-import { FormFieldBaseActions, FormFieldBaseChecks, FormFieldBaseLogs } from './form-field-base';
+import {
+  FormFieldBaseActions,
+  FormFieldBaseChecks,
+  FormFieldBaseGrabs,
+  FormFieldBaseLogs,
+} from './form-field-base';
 import { queryAndAction } from '../tia-extjs-query';
 import { getCISContent, getCISRVal } from '../../extjs-utils';
 
@@ -113,6 +118,40 @@ export class ComboBoxChecks extends FormFieldBaseChecks {
 }
 
 /**
+ * gT.eC.combobox.g or gT.eC.combobox.grabs
+ */
+export class ComboBoxGrabs extends FormFieldBaseGrabs {
+  static compName = compName;
+  /**
+   * Returns the selected value or values to the test log.
+   */
+  static async rawValue(tEQ: Teq, idForLog?: ElementIdForLog): Promise<string> {
+    const result = await queryAndAction({
+      tEQ,
+      action: 'return tiaEJ.ctByObj.getCBSelectedVals(cmp);',
+      idForLog,
+      enableLog: false,
+    });
+
+    return getCISRVal(tEQ, this.compName, idForLog, result);
+  }
+
+  /**
+   * Returns the entire content to the test log.
+   */
+  static async content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<string> {
+    const result = await queryAndAction({
+      tEQ,
+      action: 'return tiaEJ.ctByObj.getCB(cmp);',
+      idForLog,
+      enableLog: false,
+    });
+
+    return getCISContent('Content', tEQ, this.compName, idForLog, result);
+  }
+}
+
+/**
  * gT.eC.combobox.l or gT.eC.combobox.logs
  */
 export class ComboBoxLogs extends FormFieldBaseLogs {
@@ -121,28 +160,16 @@ export class ComboBoxLogs extends FormFieldBaseLogs {
    * Prints the selected value or values to the test log.
    */
   static async rawValue(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
-    const result = await queryAndAction({
-      tEQ,
-      action: 'return tiaEJ.ctByObj.getCBSelectedVals(cmp);',
-      idForLog,
-      enableLog: false,
-    });
-
-    gIn.logger.logln(getCISRVal(tEQ, this.compName, idForLog, result));
+    const str = await ComboBoxGrabs.rawValue(tEQ, idForLog);
+    gIn.logger.logln(str);
   }
 
   /**
    * Prints the entire content to the test log.
    */
   static async content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
-    const result = await queryAndAction({
-      tEQ,
-      action: 'return tiaEJ.ctByObj.getCB(cmp);',
-      idForLog,
-      enableLog: false,
-    });
-
-    gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result));
+    const str = await ComboBoxGrabs.content(tEQ, idForLog);
+    gIn.logger.logln(str);
   }
 }
 
@@ -151,6 +178,8 @@ export class ComboBoxAPI {
   static actions = ComboBoxActions;
   static c = ComboBoxChecks;
   static checks = ComboBoxChecks;
+  static g = ComboBoxGrabs;
+  static grabs = ComboBoxGrabs;
   static l = ComboBoxLogs;
   static logs = ComboBoxLogs;
 }

@@ -2,7 +2,7 @@
 
 import { Teq } from '../types/ej-types';
 import { ElementIdForLog, EnableLog } from '../../../common-types';
-import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+import { ComponentActions, ComponentChecks, ComponentGrabs, ComponentLogs } from './component';
 import { queryAndAction } from '../tia-extjs-query';
 
 const compName = 'GridColumn';
@@ -62,6 +62,13 @@ export class GridColumnChecks extends ComponentChecks {
 }
 
 /**
+ * gT.eC.gridcolumn.g or gT.eC.gridcolumn.grabs
+ */
+export class GridColumnGrabs extends ComponentGrabs {
+  static compName = compName;
+}
+
+/**
  * gT.eC.gridcolumn.l or gT.eC.gridcolumn.logs
  */
 export class GridColumnLogs extends ComponentLogs {
@@ -73,6 +80,8 @@ export class GridColumnAPI {
   static actions = GridColumnActions;
   static c = GridColumnChecks;
   static checks = GridColumnChecks;
+  static g = GridColumnGrabs;
+  static grabs = GridColumnGrabs;
   static l = GridColumnLogs;
   static logs = GridColumnLogs;
 }

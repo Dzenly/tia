@@ -2,7 +2,7 @@
 
 import { Teq } from '../types/ej-types';
 import { ElementIdForLog, EnableLog } from '../../../common-types';
-import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+import { ComponentActions, ComponentChecks, ComponentGrabs, ComponentLogs } from './component';
 import { queryAndAction } from '../tia-extjs-query';
 import { getCISContent } from '../../extjs-utils';
 
@@ -122,6 +122,26 @@ export class TreeViewChecks extends ComponentChecks {
 }
 
 /**
+ * gT.eC.treeview.g or gT.eC.treeview.grabs
+ */
+export class TreeViewGrabs extends ComponentGrabs {
+  static compName = compName;
+
+  /**
+   * Returns the tree content to the test log.
+   */
+  static async content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<string> {
+    const result = await queryAndAction({
+      tEQ,
+      action: 'return tiaEJ.ctByObj.getTree(cmp);',
+      idForLog,
+      enableLog: false,
+    });
+    return getCISContent('Content', tEQ, this.compName, idForLog, result, true);
+  }
+}
+
+/**
  * gT.eC.treeview.l or gT.eC.treeview.logs
  */
 export class TreeViewLogs extends ComponentLogs {
@@ -131,13 +151,8 @@ export class TreeViewLogs extends ComponentLogs {
    * Prints the tree content to the test log.
    */
   static async content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
-    const result = await queryAndAction({
-      tEQ,
-      action: 'return tiaEJ.ctByObj.getTree(cmp);',
-      idForLog,
-      enableLog: false,
-    });
-    gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result, true));
+    const str = await TreeViewGrabs.content(tEQ, idForLog);
+    gIn.logger.logln(str);
   }
 }
 

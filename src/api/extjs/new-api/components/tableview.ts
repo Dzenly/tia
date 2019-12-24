@@ -2,7 +2,7 @@
 
 import { TableCellByColumns, TableCellByModelFields, Teq } from '../types/ej-types';
 import { ElementIdForLog, EnableLog } from '../../../common-types';
-import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+import { ComponentActions, ComponentChecks, ComponentGrabs, ComponentLogs } from './component';
 import * as _ from 'lodash';
 import { queryAndAction } from '../tia-extjs-query';
 import { getCISContent } from '../../extjs-utils';
@@ -645,6 +645,26 @@ export class TableViewChecks extends ComponentChecks {
 }
 
 /**
+ * gT.eC.tableview.g or gT.eC.tableview.grabs
+ */
+export class TableViewGrabs extends ComponentGrabs {
+  static compName = compName;
+
+  /**
+   * Returns the table content to the test log.
+   */
+  static async content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<string> {
+    const result = await queryAndAction({
+      tEQ,
+      action: 'return tiaEJ.ctByObj.getTable(cmp);',
+      idForLog,
+      enableLog: false,
+    });
+    return getCISContent('Content', tEQ, this.compName, idForLog, result, true);
+  }
+}
+
+/**
  * gT.eC.tableview.l or gT.eC.tableview.logs
  */
 export class TableViewLogs extends ComponentLogs {
@@ -653,14 +673,9 @@ export class TableViewLogs extends ComponentLogs {
   /**
    * Prints the table content to the test log.
    */
-  static async content(tEQ: Teq, idForLog?: ElementIdForLog) {
-    const result = await queryAndAction({
-      tEQ,
-      action: 'return tiaEJ.ctByObj.getTable(cmp);',
-      idForLog,
-      enableLog: false,
-    });
-    gIn.logger.logln(getCISContent('Content', tEQ, this.compName, idForLog, result, true));
+  static async content(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
+    const str = await TableViewGrabs.content(tEQ, idForLog);
+    gIn.logger.logln(str);
   }
 
   // static async contentByStore(tEQ, idForLog) {
@@ -708,6 +723,8 @@ export class TableViewAPI {
   static actions = TableViewActions;
   static c = TableViewChecks;
   static checks = TableViewChecks;
+  static g = TableViewGrabs;
+  static grabs = TableViewGrabs;
   static l = TableViewLogs;
   static logs = TableViewLogs;
 }

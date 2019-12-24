@@ -1,10 +1,6 @@
-
-
 // https://stackoverflow.com/questions/11000087/how-to-select-a-combobox-value-in-extjs
 
-
-
-import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+import { ComponentActions, ComponentChecks, ComponentGrabs, ComponentLogs } from './component';
 
 import * as _ from 'lodash';
 
@@ -106,14 +102,17 @@ export class BoundListChecks extends ComponentChecks {
   static compName = compName;
 }
 
-export class BoundListLogs extends ComponentLogs {
+/**
+ * gT.eC.boundlist.g or gT.eC.boundlist.grabs
+ */
+export class BoundListGrabs extends ComponentGrabs {
   static compName = compName;
 
   /**
-   * Prints all displayField values from the store.
+   * Returns all displayField values from the store.
    * TODO: Incompleted?
    */
-  static async contentByStore(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
+  static async contentByStore(tEQ: Teq, idForLog?: ElementIdForLog): Promise<string> {
     let result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getBoundListByStore(cmp);',
@@ -123,13 +122,13 @@ export class BoundListLogs extends ComponentLogs {
 
     result = result.join('\n');
 
-    gIn.logger.logln(getCISContent('Content by store', tEQ, this.compName, idForLog, result));
+    return getCISContent('Content by store', tEQ, this.compName, idForLog, result);
   }
 
   /**
-   * Prints all innerText DOM element properties for items.
+   * Returns all innerText DOM element properties for items.
    */
-  static async contentByInnerText(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
+  static async contentByInnerText(tEQ: Teq, idForLog?: ElementIdForLog): Promise<string> {
     let result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getBoundListByInnerText(cmp);',
@@ -139,13 +138,13 @@ export class BoundListLogs extends ComponentLogs {
 
     result = result.join('\n');
 
-    gIn.logger.logln(getCISContent('Content by inner text', tEQ, this.compName, idForLog, result));
+    return getCISContent('Content by inner text', tEQ, this.compName, idForLog, result);
   }
 
   /**
-   * Prints innerText DOM element properties for selected items.
+   * Returns innerText DOM element properties for selected items.
    */
-  static async selectedContentByInnerText(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
+  static async selectedContentByInnerText(tEQ: Teq, idForLog?: ElementIdForLog): Promise<string> {
     let result = await queryAndAction({
       tEQ,
       action: 'return tiaEJ.ctByObj.getBoundListSelectedItemsByInnerText(cmp);',
@@ -155,9 +154,36 @@ export class BoundListLogs extends ComponentLogs {
 
     result = result.join('\n');
 
-    gIn.logger.logln(
-      getCISContent('Selected content by inner text', tEQ, this.compName, idForLog, result)
-    );
+    return getCISContent('Selected content by inner text', tEQ, this.compName, idForLog, result);
+  }
+}
+
+export class BoundListLogs extends ComponentLogs {
+  static compName = compName;
+
+  /**
+   * Prints all displayField values from the store.
+   * TODO: Incompleted?
+   */
+  static async contentByStore(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
+    const str = await BoundListGrabs.contentByStore(tEQ, idForLog);
+    gIn.logger.logln(str);
+  }
+
+  /**
+   * Prints all innerText DOM element properties for items.
+   */
+  static async contentByInnerText(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
+    const str = await BoundListGrabs.contentByInnerText(tEQ, idForLog);
+    gIn.logger.logln(str);
+  }
+
+  /**
+   * Prints innerText DOM element properties for selected items.
+   */
+  static async selectedContentByInnerText(tEQ: Teq, idForLog?: ElementIdForLog): Promise<void> {
+    const str = await BoundListGrabs.selectedContentByInnerText(tEQ, idForLog);
+    gIn.logger.logln(str);
   }
 }
 
@@ -166,6 +192,8 @@ export class BoundListAPI {
   static actions = BoundListActions;
   static c = BoundListChecks;
   static checks = BoundListChecks;
+  static g = BoundListGrabs;
+  static grabs = BoundListGrabs;
   static l = BoundListLogs;
   static logs = BoundListLogs;
 }

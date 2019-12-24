@@ -410,6 +410,13 @@ export class ComponentChecks {
 }
 
 /**
+ * gT.eC.component.g or gT.eC.component.grabs
+ */
+export class ComponentGrabs {
+  static compName = compName;
+}
+
+/**
  * gT.eC.component.l or gT.eC.component.logs
  */
 export class ComponentLogs {

@@ -1,8 +1,6 @@
-
-
 import { Teq } from '../types/ej-types';
 import { ElementIdForLog, EnableLog } from '../../../common-types';
-import { ComponentActions, ComponentChecks, ComponentLogs } from './component';
+import { ComponentActions, ComponentChecks, ComponentGrabs, ComponentLogs } from './component';
 
 import { queryAndAction } from '../tia-extjs-query';
 import { getCISRVal } from '../../extjs-utils';
@@ -97,6 +95,33 @@ export class FormFieldBaseChecks extends ComponentChecks {
 }
 
 /**
+ * gT.eC.formFieldBase.g or gT.eC.formFieldBase.grabs
+ */
+export class FormFieldBaseGrabs extends ComponentGrabs {
+  static compName = compName;
+  /**
+   * Returns raw form field value to the log.
+   * See ExtJs docs on getRawValue for the corresponding Component.
+   * @param mapperCallback - callback to map a raw value to string. if omitted - val is used as is.
+   */
+  static async rawValue(
+    tEQ: Teq,
+    idForLog?: ElementIdForLog,
+    mapperCallback?: (val: string) => string
+  ): Promise<string> {
+    const { val, disp } = await queryAndAction({
+      tEQ,
+      action: 'return { val: cmp.getRawValue(), disp: tiaEJ.ctByObj.getCompDispIdProps(cmp)};',
+      idForLog,
+      enableLog: false,
+    });
+
+    const result = mapperCallback ? mapperCallback(val) : val;
+    return getCISRVal(tEQ, this.compName, `${idForLog ? `${idForLog} ` : ''}${disp}:`, result);
+  }
+}
+
+/**
  * gT.eC.formFieldBase.l or gT.eC.formFieldBase.logs
  */
 export class FormFieldBaseLogs extends ComponentLogs {
@@ -111,17 +136,8 @@ export class FormFieldBaseLogs extends ComponentLogs {
     idForLog?: ElementIdForLog,
     mapperCallback?: (val: string) => string
   ): Promise<void> {
-    const { val, disp } = await queryAndAction({
-      tEQ,
-      action: 'return { val: cmp.getRawValue(), disp: tiaEJ.ctByObj.getCompDispIdProps(cmp)};',
-      idForLog,
-      enableLog: false,
-    });
-
-    const result = mapperCallback ? mapperCallback(val) : val;
-    gIn.logger.logln(
-      getCISRVal(tEQ, this.compName, `${idForLog ? `${idForLog} ` : ''}${disp}:`, result)
-    );
+    const str = await FormFieldBaseGrabs.rawValue(tEQ, idForLog, mapperCallback);
+    gIn.logger.logln(str);
   }
 }
 
@@ -130,6 +146,8 @@ export class FormFieldBaseAPI {
   static actions = FormFieldBaseActions;
   static c = FormFieldBaseChecks;
   static checks = FormFieldBaseChecks;
+  static g = FormFieldBaseGrabs;
+  static grabs = FormFieldBaseGrabs;
   static l = FormFieldBaseLogs;
   static logs = FormFieldBaseLogs;
 }
