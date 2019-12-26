@@ -66,8 +66,8 @@
     "diff": "^4.0.1",
     "lodash": "^4.17.15",
     "minimist": "^1.2.0",
-    "nodemailer": "^5.1.1",
-    "nodemailer-smtp-transport": "^2.7.4",
+    "nodemailer": "5.1.1",
+    "nodemailer-smtp-transport": "2.7.4",
     "selenium-webdriver": "^4.0.0-alpha.5",
     "semver": "^6.3.0",
     "ts-node": "^8.4.1"
