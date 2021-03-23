@@ -18,7 +18,7 @@ I.e. hierarchy from a leaf to the root component.
 
 ### Terms
 
-[TEQ](http://dzenly.github.io/tia/modules/_ext_js_common_d_.html#teq)
+[TEQ](http://dzenly.github.io/tia/modules/_api_extjs_new_api_types_ej_types_.html#teq)
 
 ### Format:
 ```
